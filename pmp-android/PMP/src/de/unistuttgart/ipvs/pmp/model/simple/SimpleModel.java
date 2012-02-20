@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
@@ -16,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * @see ISimpleModel
@@ -73,7 +75,12 @@ public class SimpleModel implements ISimpleModel {
                 
                 // assign all previously active SF to this one preset
                 for (IServiceFeature sf : a.getValue()) {
-                    p.assignServiceFeature(sf);
+                    try {
+                        p.assignServiceFeature(sf);
+                    } catch (PrivacySettingValueException e) {
+                        // Ignore, but log
+                        Log.w(this, "Converting Model with suddenly invalid PS request in SF (" + sf.getName() + ")", e);
+                    }
                 }
             }
             
@@ -148,7 +155,8 @@ public class SimpleModel implements ISimpleModel {
     
     
     @Override
-    public boolean setServiceFeatureActive(IModel model, IServiceFeature serviceFeature, boolean active) {
+    public boolean setServiceFeatureActive(IModel model, IServiceFeature serviceFeature, boolean active)
+            throws PrivacySettingValueException {
         Assert.nonNull(model, ModelMisuseError.class, Assert.ILLEGAL_NULL, "model", model);
         Assert.nonNull(serviceFeature, ModelMisuseError.class, Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature);
         

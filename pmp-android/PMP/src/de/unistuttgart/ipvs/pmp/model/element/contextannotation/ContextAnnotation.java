@@ -6,6 +6,8 @@ import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
+import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -84,9 +86,41 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     @Override
+    public void setContext(IContext context, String condition) throws InvalidConditionException {
+        checkCached();
+        
+        Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
+        Assert.nonNull(condition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "condition", condition);
+        
+        // check validity
+        context.makeHumanReadable(condition);
+        
+        this.context = context;
+        this.condition = condition;
+        
+        persist();
+    }
+    
+    
+    @Override
     public String getContextCondition() {
         checkCached();
         return this.condition;
+    }
+    
+    
+    @Override
+    public void setContextCondition(String condition) throws InvalidConditionException {
+        checkCached();
+        
+        Assert.nonNull(condition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "condition", condition);
+        
+        // check validity
+        this.context.makeHumanReadable(condition);
+        
+        this.condition = condition;
+        
+        persist();
     }
     
     
@@ -101,6 +135,19 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     public String getOverridePrivacySettingValue() {
         checkCached();
         return this.overrideValue;
+    }
+    
+    
+    @Override
+    public void setOverridePrivacySettingValue(String value) throws PrivacySettingValueException {
+        checkCached();
+        
+        Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
+        
+        // check validity
+        this.privacySetting.getHumanReadableValue(value);
+        
+        persist();
     }
     
     
@@ -128,6 +175,8 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     @Override
     public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset) {
+        Assert.nonNull(preset, ModelMisuseError.class, Assert.ILLEGAL_NULL, "preset", preset);
+        
         boolean hasSameAppsAssigned = false;
         for (IApp app : this.preset.getAssignedApps()) {
             if (preset.isAppAssigned(app)) {
@@ -146,6 +195,8 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     @Override
     public boolean isPrivacySettingConflicting(IPreset preset) {
+        Assert.nonNull(preset, ModelMisuseError.class, Assert.ILLEGAL_NULL, "preset", preset);
+        
         boolean hasSameAppsAssigned = false;
         for (IApp app : this.preset.getAssignedApps()) {
             if (preset.isAppAssigned(app)) {

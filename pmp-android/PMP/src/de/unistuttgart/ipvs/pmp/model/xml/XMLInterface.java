@@ -11,6 +11,8 @@ import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotati
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
@@ -100,7 +102,7 @@ public class XMLInterface implements IXMLInterface {
             for (IPresetAssignedApp paa : preset.getAssignedApps()) {
                 IApp app = m.getApp(paa.getIdentifier());
                 if (app == null) {
-                    throw new InvalidPresetSetException();
+                    throw new InvalidPresetSetException("App not found: " + paa.getIdentifier());
                 }
                 toWrite.assignApp(app);
             }
@@ -109,25 +111,22 @@ public class XMLInterface implements IXMLInterface {
             for (IPresetAssignedPrivacySetting pasp : preset.getAssignedPrivacySettings()) {
                 IResourceGroup rg = m.getResourceGroup(pasp.getRgIdentifier());
                 if (rg == null) {
-                    throw new InvalidPresetSetException();
+                    throw new InvalidPresetSetException("RG not found: " + pasp.getRgIdentifier());
                 }
                 IPrivacySetting ps = rg.getPrivacySetting(pasp.getPsIdentifier());
                 if (ps == null) {
-                    throw new InvalidPresetSetException();
+                    throw new InvalidPresetSetException("PS not found: " + pasp.getPsIdentifier() + " in "
+                            + pasp.getRgIdentifier());
                 }
-                toWrite.assignPrivacySetting(ps, pasp.getValue());
+                try {
+                    toWrite.assignPrivacySetting(ps, pasp.getValue());
+                } catch (PrivacySettingValueException psve) {
+                    throw new InvalidPresetSetException("PS value was invalid: " + pasp.getValue(), psve);
+                }
                 
                 // each ca
                 for (IPresetPSContext ppsc : pasp.getContexts()) {
                     
-                    IResourceGroup rgc = m.getResourceGroup(pasp.getRgIdentifier());
-                    if (rgc == null) {
-                        throw new InvalidPresetSetException();
-                    }
-                    IPrivacySetting psc = rgc.getPrivacySetting(pasp.getPsIdentifier());
-                    if (psc == null) {
-                        throw new InvalidPresetSetException();
-                    }
                     IContext c = null;
                     for (IContext c2 : m.getContexts()) {
                         if (c2.getIdentifier().equals(ppsc.getType())) {
@@ -135,10 +134,17 @@ public class XMLInterface implements IXMLInterface {
                         }
                     }
                     if (c == null) {
-                        throw new InvalidPresetSetException();
+                        throw new InvalidPresetSetException("Context not found: " + ppsc.getType());
                     }
                     
-                    toWrite.assignContextAnnotation(psc, c, ppsc.getCondition(), ppsc.getOverrideValue());
+                    try {
+                        toWrite.assignContextAnnotation(ps, c, ppsc.getCondition(), ppsc.getOverrideValue());
+                    } catch (InvalidConditionException e) {
+                        throw new InvalidPresetSetException("Context condition was invalid: " + ppsc.getCondition(), e);
+                    } catch (PrivacySettingValueException e) {
+                        throw new InvalidPresetSetException("Context PS value was invalid: " + ppsc.getOverrideValue(),
+                                e);
+                    }
                 }
             }
             

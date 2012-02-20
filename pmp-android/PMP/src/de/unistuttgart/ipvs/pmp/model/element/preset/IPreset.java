@@ -32,6 +32,8 @@ import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * {@link IPreset} is the chain link between the {@link IResourceGroup}, its {@link IPrivacySetting}s and the
@@ -113,7 +115,8 @@ public interface IPreset extends IModelElement {
     /**
      * @param privacySetting
      *            the privacy setting in question
-     * @return the granted minimum value of the {@link IPrivacySetting} for this service feature or null if none set
+     * @return the granted minimum value (assuming no context is active) of the {@link IPrivacySetting} for this service
+     *         feature or null if none set
      */
     public String getGrantedPrivacySettingValue(IPrivacySetting privacySetting);
     
@@ -175,8 +178,10 @@ public interface IPreset extends IModelElement {
      *            The {@link IPrivacySetting} which should be set.
      * @param value
      *            the value of the privacy setting
+     * @throws PrivacySettingValueException
+     *             if the privacy setting is not compatible with the value
      */
-    public void assignPrivacySetting(IPrivacySetting privacySetting, String value);
+    public void assignPrivacySetting(IPrivacySetting privacySetting, String value) throws PrivacySettingValueException;
     
     
     /**
@@ -200,8 +205,10 @@ public interface IPreset extends IModelElement {
      * 
      * @param serviceFeature
      *            the service feature that shall be enabled by using this plugin
+     * @throws PrivacySettingValueException
+     *             if the privacy setting is not compatible with the value
      */
-    public void assignServiceFeature(IServiceFeature serviceFeature);
+    public void assignServiceFeature(IServiceFeature serviceFeature) throws PrivacySettingValueException;
     
     
     /**
@@ -285,9 +292,11 @@ public interface IPreset extends IModelElement {
      *            the condition for the context under which this annotation shall be active
      * @param overrideValue
      *            the privacy setting value that should override the preset value, if this context is active
+     * @throws InvalidConditionException
+     * @throws {@link PrivacySettingValueException}
      */
     public void assignContextAnnotation(IPrivacySetting privacySetting, IContext context, String contextCondition,
-            String overrideValue);
+            String overrideValue) throws InvalidConditionException, PrivacySettingValueException;
     
     
     /**

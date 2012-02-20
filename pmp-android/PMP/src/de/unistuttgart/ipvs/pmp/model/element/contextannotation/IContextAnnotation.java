@@ -26,6 +26,7 @@ import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * {@link IContextAnnotation} is the chain link between the {@link IContext} and the {@link IPreset}. It can override
@@ -64,11 +65,29 @@ public interface IContextAnnotation extends IModelElement {
     
     
     /**
+     * Sets the context for this annotation.
+     * 
+     * @param context
+     * @throws InvalidConditionException
+     */
+    public void setContext(IContext context, String condition) throws InvalidConditionException;
+    
+    
+    /**
      * 
      * @return the condition of the {@link IContext} under which this {@link IContextAnnotation} shall be overriding the
      *         {@link IPrivacySetting} value
      */
     public String getContextCondition();
+    
+    
+    /**
+     * Sets the condition of the context under which this annotation shall be overriding the ps value
+     * 
+     * @param condition
+     * @throws InvalidConditionException
+     */
+    public void setContextCondition(String condition) throws InvalidConditionException;
     
     
     /**
@@ -84,6 +103,14 @@ public interface IContextAnnotation extends IModelElement {
      *         condition is true in the assigned {@link IContext}
      */
     public String getOverridePrivacySettingValue();
+    
+    
+    /**
+     * Sets the value of the {@link IPrivacySetting} that is overridden by in the annotated preset
+     * 
+     * @throws PrivacySettingValueException
+     */
+    public void setOverridePrivacySettingValue(String value) throws PrivacySettingValueException;
     
     
     /**

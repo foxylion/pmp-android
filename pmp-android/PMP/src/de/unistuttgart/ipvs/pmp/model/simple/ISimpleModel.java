@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.model.simple;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The {@link ISimpleModel} is a contract for the model's "Simple Mode Addon" which helps simplify the UI's access to
@@ -42,7 +43,10 @@ public interface ISimpleModel {
      * @param active
      *            whether the serviceFeature shall be active
      * @return true, if and only if the model was configured for simple mode and the service feature could be changed
+     * @throws PrivacySettingValueException
+     *             , if the serviceFeature has value requests that seem illegal to the underlying privacy setting
      */
-    public boolean setServiceFeatureActive(IModel model, IServiceFeature serviceFeature, boolean active);
+    public boolean setServiceFeatureActive(IModel model, IServiceFeature serviceFeature, boolean active)
+            throws PrivacySettingValueException;
     
 }

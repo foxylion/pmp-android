@@ -24,7 +24,9 @@ import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.util.BootReceiver;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 
@@ -206,10 +208,13 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public void assignPrivacySetting(IPrivacySetting privacySetting, String value) {
+    public void assignPrivacySetting(IPrivacySetting privacySetting, String value) throws PrivacySettingValueException {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
+        
+        // check validity
+        privacySetting.getHumanReadableValue(value);
         
         FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
                 "Requested to assign privacy setting '%s' (value '%s') to preset '%s'.", privacySetting.getName(),
@@ -229,6 +234,10 @@ public class Preset extends ModelElement implements IPreset {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         
+        for (IContextAnnotation ca : getContextAnnotations(privacySetting)) {
+            removeContextAnnotation(privacySetting, ca);
+        }
+        
         if (this.persistenceProvider != null) {
             ((PresetPersistenceProvider) this.persistenceProvider).removePrivacySetting(privacySetting);
         }
@@ -239,7 +248,7 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public void assignServiceFeature(IServiceFeature serviceFeature) {
+    public void assignServiceFeature(IServiceFeature serviceFeature) throws PrivacySettingValueException {
         checkCached();
         Assert.nonNull(serviceFeature, ModelMisuseError.class, Assert.ILLEGAL_NULL, "serviceFeature", serviceFeature);
         
@@ -340,13 +349,18 @@ public class Preset extends ModelElement implements IPreset {
     
     @Override
     public void assignContextAnnotation(IPrivacySetting privacySetting, IContext context, String contextCondition,
-            String overrideValue) {
+            String overrideValue) throws InvalidConditionException, PrivacySettingValueException {
         checkCached();
         Assert.nonNull(privacySetting, ModelMisuseError.class, Assert.ILLEGAL_NULL, "privacySetting", privacySetting);
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
         Assert.nonNull(contextCondition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "contextCondition",
                 contextCondition);
         Assert.nonNull(overrideValue, ModelMisuseError.class, Assert.ILLEGAL_NULL, "overrideValue", overrideValue);
+        
+        // test ps-value
+        privacySetting.getHumanReadableValue(overrideValue);
+        // test context-condition
+        context.makeHumanReadable(contextCondition);
         
         FileLog.get()
                 .logWithForward(
