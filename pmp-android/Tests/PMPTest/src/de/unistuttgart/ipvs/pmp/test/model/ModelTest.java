@@ -68,14 +68,15 @@ public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
     public void testInstallApp() throws Exception {
         Model.getInstance().registerApp(SIMPLE_APP);
         Thread.sleep(1000L);
-        assertEquals(1, Model.getInstance().getApps().length);
+        assertEquals(1, Model.getInstance().getApps().size());
         assertNotNull(Model.getInstance().getApp(SIMPLE_APP));
     }
     
     
     public void testInstallRG() throws Exception {
         assertTrue(Model.getInstance().installResourceGroup(SWITCHES_RG, false));
-        assertEquals(1, Model.getInstance().getResourceGroups().length);
+        assertEquals(1, Model.getInstance().getResourceGroups().size());
         assertNotNull(Model.getInstance().getResourceGroup(SWITCHES_RG));
     }
+    
 }
