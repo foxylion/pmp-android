@@ -9,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPrivacySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -186,7 +188,15 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                     @Override
                     public void result(boolean changed, String newValue) {
                         if (changed) {
-                            preset.assignPrivacySetting(privacySetting, newValue);
+                            try {
+                                preset.assignPrivacySetting(privacySetting, newValue);
+                            } catch (PrivacySettingValueException e) {
+                                Log.e(ViewPrivacySettingPreset.this, "Couldn't set new value for PrivacySetting, PSVE",
+                                        e);
+                                GUITools.showToast(getContext(),
+                                        getContext().getString(R.string.failure_invalid_ps_value), Toast.LENGTH_LONG);
+                            }
+                            
                             refresh();
                         }
                     }

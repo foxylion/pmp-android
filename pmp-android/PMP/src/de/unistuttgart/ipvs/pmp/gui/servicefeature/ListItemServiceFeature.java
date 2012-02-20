@@ -9,13 +9,17 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.dialog.DialogLongRunningTask;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * Displays the some Basic informations (name, description, state) about a Service Feature.
@@ -159,8 +163,14 @@ public class ListItemServiceFeature extends LinearLayout {
             
             @Override
             public void run() {
-                SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(),
-                        ListItemServiceFeature.this.serviceFeature, newState);
+                try {
+                    SimpleModel.getInstance().setServiceFeatureActive(ModelProxy.get(),
+                            ListItemServiceFeature.this.serviceFeature, newState);
+                } catch (PrivacySettingValueException e) {
+                    Log.e(ListItemServiceFeature.this, "Couldn't set Service Feature as active, PSVE", e);
+                    GUITools.showToast(getContext(), getContext().getString(R.string.failure_active_sf),
+                            Toast.LENGTH_LONG);
+                }
                 
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     

@@ -11,11 +11,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPresets;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 public class DialogAddSFtoPreset extends Dialog {
     
@@ -47,12 +51,18 @@ public class DialogAddSFtoPreset extends Dialog {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 /* Update the selected Preset */
-                IPreset preset = presets.get(position);
-                IServiceFeature serviceFeature = dialog.getServiceFeature();
-                preset.startUpdate();
-                preset.assignApp(serviceFeature.getApp());
-                preset.assignServiceFeature(serviceFeature);
-                preset.endUpdate();
+                try {
+                    IPreset preset = presets.get(position);
+                    IServiceFeature serviceFeature = dialog.getServiceFeature();
+                    preset.startUpdate();
+                    preset.assignApp(serviceFeature.getApp());
+                    preset.assignServiceFeature(serviceFeature);
+                    preset.endUpdate();
+                } catch (PrivacySettingValueException e) {
+                    Log.e(DialogAddSFtoPreset.this, "Couldn't add Service Feature to Preset, PSVE", e);
+                    GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_in_sf),
+                            Toast.LENGTH_LONG);
+                }
                 
                 /* Close the Dialog and close the underlying one as well */
                 dismiss();

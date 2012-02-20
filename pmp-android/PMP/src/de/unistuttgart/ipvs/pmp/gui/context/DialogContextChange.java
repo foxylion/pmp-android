@@ -14,6 +14,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.view.AlwaysClickableButton;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
@@ -22,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotati
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 public class DialogContextChange extends Dialog {
     
@@ -159,10 +161,24 @@ public class DialogContextChange extends Dialog {
                             Toast.LENGTH_LONG).show();
                 } else {
                     contextCondition = usedView.getViewCondition();
-                    if (contextAnnotation != null) {
-                        preset.removeContextAnnotation(privacySetting, contextAnnotation);
+                    
+                    try {
+                        /* First add, then delete, 'cause if something went wrong during assign the old value will still be set. */
+                        preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
+                        
+                        if (contextAnnotation != null) {
+                            preset.removeContextAnnotation(privacySetting, contextAnnotation);
+                        }
+                    } catch (InvalidConditionException e) {
+                        Log.e(DialogContextChange.this, "Couldn't set new value for ContextAnnotaion, ICE", e);
+                        GUITools.showToast(getContext(),
+                                getContext().getString(R.string.failure_invalid_context_value), Toast.LENGTH_LONG);
+                    } catch (PrivacySettingValueException e) {
+                        Log.e(DialogContextChange.this, "Couldn't set new value for PrivacySetting, PSVE", e);
+                        GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_value),
+                                Toast.LENGTH_LONG);
                     }
-                    preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
+                    
                     dismiss();
                 }
             }

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
@@ -18,6 +20,7 @@ import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The {@link DialogServiceFeature} displays details about a {@link IServiceFeature}.
@@ -227,13 +230,19 @@ public class DialogServiceFeature extends Dialog {
             
             @Override
             public void onClick(View v) {
-                IPreset preset = ModelProxy.get().addUserPreset(
-                        DialogServiceFeature.this.serviceFeature.getApp().getName() + " - "
-                                + DialogServiceFeature.this.serviceFeature.getName(), "");
-                preset.startUpdate();
-                preset.assignApp(DialogServiceFeature.this.serviceFeature.getApp());
-                preset.assignServiceFeature(DialogServiceFeature.this.serviceFeature);
-                preset.endUpdate();
+                try {
+                    IPreset preset = ModelProxy.get().addUserPreset(
+                            DialogServiceFeature.this.serviceFeature.getApp().getName() + " - "
+                                    + DialogServiceFeature.this.serviceFeature.getName(), "");
+                    preset.startUpdate();
+                    preset.assignApp(DialogServiceFeature.this.serviceFeature.getApp());
+                    preset.assignServiceFeature(DialogServiceFeature.this.serviceFeature);
+                    preset.endUpdate();
+                } catch (PrivacySettingValueException e) {
+                    Log.e(DialogServiceFeature.this, "Couldn't add Service Feature to Preset, PSVE", e);
+                    GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_in_sf),
+                            Toast.LENGTH_LONG);
+                }
                 
                 refresh();
                 
