@@ -20,7 +20,7 @@
 		</activity>
 		<activity android:name=".gui.main.ActivityAbout"
 			android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name=".gui.settings.ActivitySettings"
+		<activity android:name=".gui.setting.ActivitySettings"
 			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />
 		<activity android:name=".gui.app.ActivityApps"
 			android:configChanges="keyboardHidden|orientation" android:theme="@android:style/Theme.NoTitleBar" />

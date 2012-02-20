@@ -86,26 +86,12 @@
                 </Button>
             </LinearLayout>
 
-            <LinearLayout
+            <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact
+                pmp:name="@string/statistics"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:contentDescription="@string/statistics"
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
-                    android:layout_marginRight="3dp"
-                    android:src="@drawable/icon_statistics" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="-3dp"
-                    android:text="@string/statistics" />
-            </LinearLayout>
-
-            <include layout="@layout/view_divider_strong" >
-            </include>
+                android:layout_height="wrap_content"
+                pmp:icon="@drawable/icon_statistics" >
+            </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleViewCompact>
 
             <TextView
                 android:id="@+id/TextView_Apps"

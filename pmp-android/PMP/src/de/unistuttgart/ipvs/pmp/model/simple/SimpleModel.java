@@ -187,7 +187,7 @@ public class SimpleModel implements ISimpleModel {
             actives.remove(serviceFeature);
         }
         
-        p.startUpdate();
+        p.getTransaction().start();
         try {
             
             // remove all previously assigned PS
@@ -201,7 +201,7 @@ public class SimpleModel implements ISimpleModel {
             }
             
         } finally {
-            p.endUpdate();
+            p.getTransaction().commit();
         }
         
         return true;

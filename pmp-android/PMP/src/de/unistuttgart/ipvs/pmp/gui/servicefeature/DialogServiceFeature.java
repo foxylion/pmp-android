@@ -234,10 +234,10 @@ public class DialogServiceFeature extends Dialog {
                     IPreset preset = ModelProxy.get().addUserPreset(
                             DialogServiceFeature.this.serviceFeature.getApp().getName() + " - "
                                     + DialogServiceFeature.this.serviceFeature.getName(), "");
-                    preset.startUpdate();
+                    preset.getTransaction().start();
                     preset.assignApp(DialogServiceFeature.this.serviceFeature.getApp());
                     preset.assignServiceFeature(DialogServiceFeature.this.serviceFeature);
-                    preset.endUpdate();
+                    preset.getTransaction().commit();
                 } catch (PrivacySettingValueException e) {
                     Log.e(DialogServiceFeature.this, "Couldn't add Service Feature to Preset, PSVE", e);
                     GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_in_sf),
