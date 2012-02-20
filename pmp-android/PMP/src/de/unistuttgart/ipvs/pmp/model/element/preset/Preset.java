@@ -60,6 +60,8 @@ public class Preset extends ModelElement implements IPreset {
     protected List<MissingApp> missingApps;
     protected boolean deleted;
     
+    protected PresetTransaction transaction;
+    
     
     /* organizational */
     
@@ -289,12 +291,14 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
+    @Deprecated
     public void startUpdate() {
         IPCProvider.getInstance().startUpdate();
     }
     
     
     @Override
+    @Deprecated
     public void endUpdate() {
         IPCProvider.getInstance().endUpdate();
     }
@@ -444,6 +448,16 @@ public class Preset extends ModelElement implements IPreset {
     }
     
     
+    @Override
+    public PresetTransaction getTransaction() {
+        checkCached();
+        if (this.transaction == null) {
+            this.transaction = new PresetTransaction(this);
+        }
+        return this.transaction;
+    }
+    
+    
     /* inter-model communication */
     
     /**
@@ -464,6 +478,12 @@ public class Preset extends ModelElement implements IPreset {
     public void removeDeletedApp(App a) {
         Assert.nonNull(a, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "a", a);
         this.assignedApps.remove(a);
+    }
+    
+    
+    public void persistAndRollout() {
+        persist();
+        rollout();
     }
     
 }
