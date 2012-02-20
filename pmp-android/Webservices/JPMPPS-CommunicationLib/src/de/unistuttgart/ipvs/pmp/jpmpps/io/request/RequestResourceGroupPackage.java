@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
+
 /**
  * Message should be submitted when a {@link ResourceGroupPackage} is requested.
  * 
@@ -19,11 +20,10 @@ public class RequestResourceGroupPackage extends AbstractRequest {
      *            Name of the package which should be returned.
      */
     public RequestResourceGroupPackage(String packageName) {
-        this.packageName = packageName;
-    }
-    
-    
-    public void setPackageName(String packageName) {
+        if (packageName == null) {
+            throw new IllegalArgumentException("packageName should never be null.");
+        }
+        
         this.packageName = packageName;
     }
     

@@ -18,21 +18,28 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// Check argument length
-		if (args.length != 1) {
+		if (args.length != 2) {
 			System.out
-					.println("[E] Sorry, needs one argument with path to resource groups. [-> Exit]");
+					.println("[E] Sorry, needs two arguments. \"jpmpps.jar <pathPackages> <pathToPresetSetDatastore>\". [-> Exit]");
 			System.exit(1);
 		}
 
 		// Check if folder exists
 		if (!new File(args[0]).isDirectory()) {
 			System.out
-					.println("[E] Path needs to reference a valid directory. [-> Exit]");
+					.println("[E] Path to packages needs to reference a valid directory. [-> Exit]");
 			System.exit(2);
 		}
+		
+		// Check if folder exists
+        if (!new File(args[1]).isDirectory()) {
+            System.out
+                    .println("[E] Path to preset set datastore needs to reference a valid directory. [-> Exit]");
+            System.exit(2);
+        }
 
 		// Start the server
-		JPMPPS.get(new File(args[0])).initialize();
+		JPMPPS.get(new File(args[0]), new File(args[1])).initialize();
 		JPMPPS.get().startServer();
 	}
 }

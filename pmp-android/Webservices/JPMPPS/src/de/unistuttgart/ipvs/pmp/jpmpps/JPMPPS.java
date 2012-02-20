@@ -1,19 +1,31 @@
 package de.unistuttgart.ipvs.pmp.jpmpps;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Pattern;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.TCPServer;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
@@ -30,16 +42,17 @@ public class JPMPPS {
     /**
      * Creates a new instance of the service.
      * 
-     * @param path
+     * @param packagesPath
      */
-    private JPMPPS(File path) {
-        this.path = path;
+    private JPMPPS(File packagesPath, File presetSetDatastorePath) {
+        this.packagesPath = packagesPath;
+        this.presetSetDatastorePath = presetSetDatastorePath;
     }
     
     
-    public static JPMPPS get(File path) {
+    public static JPMPPS get(File packagesPath, File presetSetDatastorePath) {
         if (instance == null) {
-            instance = new JPMPPS(path);
+            instance = new JPMPPS(packagesPath, presetSetDatastorePath);
         }
         return instance;
     }
@@ -56,14 +69,21 @@ public class JPMPPS {
     public static final boolean DEBUG = true;
     
     public static final int LIMIT = 10;
-
+    
     private static final int UPDATE_DELAY = 10 * 60 * 1000;
     
-    private File path;
+    private File packagesPath;
+    
+    private File presetSetDatastorePath;
     
     private TCPServer server = null;
     
     private Timer timer = new Timer();
+    
+    private static final char[] CHAR_SYMBOLS = { '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+            'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+    
+    private static final Pattern CHAR_PATTERN = Pattern.compile("^[a-z0-9]{1,20}$");
     
     
     /**
@@ -71,17 +91,17 @@ public class JPMPPS {
      * files.
      */
     public void initialize() {
-		refreshPackages();
-		
-		/* Updates the ResoruceGroups every UPDATE_DELAY milliseconds. */
-		timer.schedule(new TimerTask() {
+        refreshPackages();
+        
+        /* Updates the ResoruceGroups every UPDATE_DELAY milliseconds. */
+        timer.schedule(new TimerTask() {
             
             @Override
             public void run() {
                 refreshPackages();
             }
         }, UPDATE_DELAY, UPDATE_DELAY);
-	}
+    }
     
     
     /**
@@ -142,6 +162,7 @@ public class JPMPPS {
         return list.toArray(new LocalizedResourceGroup[list.size()]);
     }
     
+    
     /**
      * Updates the available {@link ResourceGroup}s.
      */
@@ -149,7 +170,7 @@ public class JPMPPS {
         /* All during the refresh algorithm found {@link ResourceGroup}s are cached here. */
         Map<String, ResourceGroup> resourceGroups = new HashMap<String, ResourceGroup>();
         
-        for (File pack : path.listFiles()) {
+        for (File pack : packagesPath.listFiles()) {
             try {
                 ResourceGroup rg = new ResourceGroup(pack);
                 IRGIS rgis = rg.getRGIS();
@@ -165,5 +186,64 @@ public class JPMPPS {
         }
         
         Model.get().replaceResourceGroups(resourceGroups);
+    }
+    
+    
+    public synchronized String savePresetSet(IPresetSet presetSet) {
+        String id = generateRandomId();
+        
+        try {
+            InputStream is = XMLUtilityProxy.getPresetUtil().compile(presetSet);
+            
+            OutputStream out = new FileOutputStream(presetSetDatastorePath + "/" + id);
+            byte buf[] = new byte[1024];
+            int len;
+            while ((len = is.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.close();
+            is.close();
+            
+            return id;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    
+    public IPresetSet getPresetSet(String id) {
+        id = id.toLowerCase();
+        if(!isIdValid(id)) {
+            return null;
+        }
+        
+        try {
+            InputStream is = new FileInputStream(presetSetDatastorePath + "/" + id);
+            return XMLUtilityProxy.getPresetUtil().parse(is);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    
+    private String generateRandomId() {
+        StringBuilder sb = new StringBuilder();
+        
+        do {
+            for (int i = 0; i < 6; i++) {
+                sb.append(CHAR_SYMBOLS[new Random().nextInt(CHAR_SYMBOLS.length)]);
+            }
+        } while (new File(presetSetDatastorePath + "/" + sb.toString()).isFile());
+        
+        return sb.toString();
+    }
+    
+    
+    private boolean isIdValid(String id) {
+        return CHAR_PATTERN.matcher(id).matches();
     }
 }
