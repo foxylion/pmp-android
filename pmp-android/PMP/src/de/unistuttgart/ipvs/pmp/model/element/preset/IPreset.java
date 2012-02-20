@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.model.element.preset;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
+import de.unistuttgart.ipvs.pmp.model.element.IAtomicTransaction;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
@@ -33,6 +34,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -215,13 +217,19 @@ public interface IPreset extends IModelElement {
      * Starts a cumulative update session. This means, the IPC provider of the {@link IPreset} will start buffering IPC
      * messages instead of directly delivering them directly. Be sure to always call {@link IPreset#endUpdate()}
      * afterwards.
+     * 
+     * @deprecated Call {@link IPCProvider#startUpdate()} instead or better yet use {@link IPreset#getTransaction()}.
      */
+    @Deprecated
     public void startUpdate();
     
     
     /**
      * Ends a cumulative update session started by {@link IPreset#startUpdate()}.
+     * 
+     * @deprecated Call {@link IPCProvider#endUpdate()} instead or better yet use {@link IPreset#getTransaction()}.
      */
+    @Deprecated
     public void endUpdate();
     
     
@@ -326,4 +334,12 @@ public interface IPreset extends IModelElement {
      *         could possibly override this preset's context annotations' values.
      */
     public List<IPrivacySetting> getConflictingPrivacySettings(IPreset preset);
+    
+    
+    /**
+     * 
+     * @return a {@link PresetTransaction} that is capable of executing all the {@link IPreset} functionality in an
+     *         atomic transaction context, implementing {@link IAtomicTransaction}.
+     */
+    public PresetTransaction getTransaction();
 }
