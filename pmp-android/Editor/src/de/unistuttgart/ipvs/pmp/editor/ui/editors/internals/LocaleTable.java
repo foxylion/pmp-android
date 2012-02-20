@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -35,10 +36,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 public class LocaleTable {
 
@@ -47,7 +51,7 @@ public class LocaleTable {
 	private final Type type;
 	private final TableViewer tableViewer;
 	private boolean dirty = false;
-	private final ISetDirtyAction dirtyAction;
+	private final ILocaleTableAction tableAction;
 
 	public enum Type {
 		NAME, DESCRIPTION, CHANGE_DESCRIPTION
@@ -58,12 +62,12 @@ public class LocaleTable {
 			FormToolkit toolkit)}
 	 * @param parent
 	 * @param type
-	 * @param dirtyAction
+	 * @param tableAction
 	 * @param toolkit
 	 */
-	public LocaleTable(Composite parent, Type type, ISetDirtyAction dirtyAction,
+	public LocaleTable(Composite parent, Type type, ILocaleTableAction tableAction,
 			FormToolkit toolkit) {
-		this(parent, null, type, dirtyAction, toolkit);
+		this(parent, null, type, tableAction, toolkit);
 	}
 	
 	/**
@@ -75,14 +79,14 @@ public class LocaleTable {
 	 * 					<b>Warning:</b> If type is set to {@code CHANGE_DESCRIPTION}, {@code data} has
 	 * 					to of type {@code RGISPrivacySetting}. Otherwise this table will
 	 *					throw {@code ClassCastException}s while user interaction!
-	 * @param dirtyAction	Action, that will be initated when the data in this table was changed by the user
+	 * @param tableAction	Action, that will be initated when the data in this table was changed by the user
 	 * @param toolkit	SWT-Toolkit
 	 */
-	public LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
+	public LocaleTable(Composite parent, IBasicIS data, Type type, ILocaleTableAction tableAction,
 			FormToolkit toolkit) {
 		this.data = data;
 		this.type = type;
-		this.dirtyAction = dirtyAction;
+		this.tableAction = tableAction;
 
 		// Create grid for storing the table and buttons
 		outerCompo = toolkit.createComposite(parent);
@@ -188,6 +192,7 @@ public class LocaleTable {
 				}
 				
 				setDirty(true);
+				tableAction.doValidate();
 				refresh();
 
 			}
@@ -213,6 +218,7 @@ public class LocaleTable {
 						break;
 				}
 				setDirty(true);
+				tableAction.doValidate();
 				refresh();
 
 			}
@@ -236,7 +242,45 @@ public class LocaleTable {
 	 * @param columnLayout
 	 */
 	private void createColumns(TableColumnLayout columnLayout) {
-
+		// Error column
+		ColumnLabelProvider errorLabel = new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				LocalizedString ls = (LocalizedString) element;
+				
+				if (ls.getIssues().isEmpty()) {
+					return "";
+				} else {
+					StringBuilder errorString = new StringBuilder(" (");
+					boolean first = true;
+					for (IIssue i : ls.getIssues()) {
+						if (!first) {
+							errorString.append(", ");
+						} else {
+							first = false;
+						}
+						errorString.append(i.getType());
+					}
+					errorString.append(")");
+					return errorString.toString();
+				}
+			}
+			
+			@Override
+			public Image getImage(Object element) {
+				LocalizedString ls = (LocalizedString) element;
+				if (ls.getIssues().isEmpty()) {
+					return Images.FILE16;
+				} else {
+					return Images.ERROR16;
+				}
+			}
+		};
+		
+		TableViewerColumn errorColumn = buildColumn("", 30,
+				errorLabel, null, columnLayout);
+		
+		// Locale column
 		ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -266,7 +310,7 @@ public class LocaleTable {
 			@Override
 			protected void setValue(Object element, Object value) {
 				LocalizedString ls = (LocalizedString) element;
-				String input = ((String) value).toUpperCase();
+				String input = (String) value;
 				
 				// Save input when input has changed
 				if (ls.getLocale() == null && !input.isEmpty() ||
@@ -275,6 +319,7 @@ public class LocaleTable {
 					Locale locale = new Locale(input);
 					ls.setLocale(locale);
 					setDirty(true);
+					tableAction.doValidate();
 					tableViewer.update(element, null);
 				}
 			}
@@ -334,6 +379,7 @@ public class LocaleTable {
 				if (!ls.getString().equals(input)) {
 					ls.setString(input);
 					setDirty(true);
+					tableAction.doValidate();
 					tableViewer.update(element, null);
 				}
 			}
@@ -423,7 +469,7 @@ public class LocaleTable {
 	
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
-		dirtyAction.doSetDirty(dirty);
+		tableAction.doSetDirty(dirty);
 	}
 
 	public boolean isDirty() {

@@ -34,7 +34,7 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActiv
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
@@ -141,11 +141,17 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 
 	IAIS ais = Model.getInstance().getAis();
 	// TODO hab das mal eingefuegt, damits Compiliert - musst halt ggf noch anpassen
-	ISetDirtyAction dirtyAction = new ISetDirtyAction() {
+	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 		
 		@Override
 		public void doSetDirty(boolean dirty) {
 			Model.getInstance().setAISDirty(true);
+		}
+
+		@Override
+		public void doValidate() {
+			// TODO Auto-generated method stub
+			
 		}
 	};
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);

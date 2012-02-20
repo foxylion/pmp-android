@@ -21,7 +21,7 @@ public abstract class LocaleEditingSupport extends EditingSupport {
 	
 	public LocaleEditingSupport(TableViewer viewer) {
 		super(viewer);
-		editor = new AutocompleteTextCellEditor(viewer.getTable(), Locale.getISOCountries());
+		editor = new AutocompleteTextCellEditor(viewer.getTable(), Locale.getISOLanguages());
 	}
 
 	@Override

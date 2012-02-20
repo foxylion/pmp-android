@@ -14,9 +14,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
+import de.unistuttgart.ipvs.pmp.editor.xml.ValidatorWrapperHelper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
@@ -112,11 +114,17 @@ public class GeneralPage extends FormPage {
 		section.setLayoutData(layoutData);
 
 		// Defines action that should be done when tables are dirty
-		ISetDirtyAction dirtyAction = new ISetDirtyAction() {
+		ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 			
 			@Override
 			public void doSetDirty(boolean dirty) {
 				setDirty(true);
+			}
+
+			@Override
+			public void doValidate() {
+				RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
+				validator.validateRGIS(Model.getInstance().getRgis(), true);
 			}
 		};
 		IRGIS rgis = Model.getInstance().getRgis();

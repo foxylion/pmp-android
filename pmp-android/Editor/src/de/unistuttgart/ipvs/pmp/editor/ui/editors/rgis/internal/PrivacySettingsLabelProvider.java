@@ -20,6 +20,11 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
 		if (element instanceof EncapsulatedString) {
 			EncapsulatedString es = (EncapsulatedString)element;
 			String string = es.getString();
+			
+			if (string == null) {
+				string = "Undefined";
+			}
+			
 			// Trim the string
 			if (string.length() > 50) {
 				string = string.substring(0,50) + "...";
