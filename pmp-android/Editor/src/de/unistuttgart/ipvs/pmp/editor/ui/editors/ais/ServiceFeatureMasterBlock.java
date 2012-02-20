@@ -42,6 +42,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyVal
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredResourceGroupsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.labelprovider.ServiceFeatureTreeLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
@@ -60,7 +61,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     /**
      * The {@link TreeViewer} of this block
      */
-    private TreeViewer treeViewer;
+    private static TreeViewer treeViewer;
 
     /**
      * {@link Shell} of the parent composite
@@ -241,6 +242,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			// Change the service feature and set the dirty flag
 			Model.getInstance().setAISDirty(true);
 			sf.setIdentifier(result);
+			AISValidatorWrapper.getInstance()
+				.validateServiceFeature(sf, true);
 			treeViewer.refresh();
 		    }
 		}
@@ -263,6 +266,12 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			// Change the service feature and set the dirty flag
 			Model.getInstance().setAISDirty(true);
 			rg.setMinRevision(result);
+
+			AISValidatorWrapper.getInstance()
+				.validateServiceFeatures(
+					Model.getInstance().getAis(), true);
+			AISValidatorWrapper.getInstance()
+				.validateRequiredResourceGroup(rg, true);
 			treeViewer.refresh();
 		    }
 		}
@@ -309,6 +318,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    String result = dialog.getValue();
 		    Model.getInstance().getAis()
 			    .addServiceFeature(new AISServiceFeature(result));
+		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+			    Model.getInstance().getAis(), true);
 		    treeViewer.refresh();
 		}
 	    }
@@ -382,9 +393,15 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
 				AISRequiredResourceGroup required = (AISRequiredResourceGroup) object;
+				AISValidatorWrapper.getInstance()
+					.validateRequiredResourceGroup(
+						required, true);
 				sf.addRequiredResourceGroup(required);
 			    }
 			    Model.getInstance().setAISDirty(true);
+			    AISValidatorWrapper.getInstance()
+				    .validateServiceFeatures(
+					    Model.getInstance().getAis(), true);
 			    treeViewer.refresh();
 			}
 		    }
@@ -433,6 +450,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		if (deleted) {
 		    detailsPart.selectionChanged(null, null);
 		    treeViewer.refresh();
+		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+			    Model.getInstance().getAis(), true);
 		    Model.getInstance().setAISDirty(true);
 
 		}
@@ -449,5 +468,9 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
+    }
+    
+    public static void refreshTree(){
+	treeViewer.refresh();
     }
 }

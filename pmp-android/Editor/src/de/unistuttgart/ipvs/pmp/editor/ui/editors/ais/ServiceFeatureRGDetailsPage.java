@@ -46,6 +46,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.RequiredPSContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredPrivacySettingsDialog;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
@@ -188,11 +189,6 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    public String getText(Object element) {
 		return ((AISRequiredPrivacySetting) element).getValue();
 	    }
-
-	    @Override
-	    public Image getImage(Object element) {
-		return null;
-	    }
 	});
 
 	valueColumn = valueViewerColumn.getColumn();
@@ -334,8 +330,20 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    for (Object object : dialog.getResult()) {
 				AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) object;
 				displayed.addRequiredPrivacySetting(rps);
+				
+				AISValidatorWrapper.getInstance()
+					.validateRequiredPrivacySetting(rps,
+						true);
 			    }
 
+			    AISValidatorWrapper.getInstance()
+				    .validateRequiredResourceGroup(displayed,
+					    true);
+			    AISValidatorWrapper.getInstance()
+				    .validateServiceFeatures(
+					    Model.getInstance().getAis(), true);
+
+			    ServiceFeatureMasterBlock.refreshTree();
 			    // Update the view
 			    psTableViewer.refresh();
 			    psTableViewer.getTable().setRedraw(false);
@@ -370,6 +378,14 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    .getData();
 		    displayed.removeRequiredPrivacySetting(ps);
 		}
+
+		AISValidatorWrapper.getInstance()
+			.validateRequiredResourceGroup(displayed, true);
+		AISValidatorWrapper.getInstance().validateServiceFeatures(
+			Model.getInstance().getAis(), true);
+
+		ServiceFeatureMasterBlock.refreshTree();
+		
 		// Update the view
 		psTableViewer.refresh();
 		psTableViewer.getTable().setRedraw(false);
@@ -463,6 +479,15 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		if (!result.equals(selected.getValue())) {
 		    selected.setValue(result);
 
+		    AISValidatorWrapper.getInstance()
+			    .validateRequiredPrivacySetting(selected, true);
+		    AISValidatorWrapper.getInstance()
+			    .validateRequiredResourceGroup(displayed, true);
+		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+			    Model.getInstance().getAis(), true);
+
+		    ServiceFeatureMasterBlock.refreshTree();
+		    
 		    // Update the view
 		    psTableViewer.refresh();
 		    psTableViewer.getTable().setRedraw(false);
