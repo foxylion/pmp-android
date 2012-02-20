@@ -60,6 +60,10 @@ public enum TimeContextIntervalType {
     public List<Integer> makeDays(String list) {
         List<Integer> result = new ArrayList<Integer>();
         
+        if (!list.contains(DAY_SEPARATOR)) {
+            return result;
+        }
+        
         for (String day : list.split(DAY_SEPARATOR)) {
             result.add(Integer.parseInt(day), 0);
         }
