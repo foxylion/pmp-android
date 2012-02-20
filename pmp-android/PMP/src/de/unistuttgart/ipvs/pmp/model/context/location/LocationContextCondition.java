@@ -59,6 +59,26 @@ public class LocationContextCondition {
         return result;
     }
     
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof LocationContextCondition)) {
+            return false;
+        }
+        
+        LocationContextCondition lcc = (LocationContextCondition) o;
+        return this.polygon.equals(lcc.polygon) && this.uncertainty == lcc.uncertainty
+                && this.hysteresis == lcc.hysteresis && this.negate == lcc.negate && this.lastCheck == lcc.lastCheck;
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return this.polygon.hashCode() ^ Double.valueOf(this.uncertainty).hashCode()
+                ^ Double.valueOf(this.hysteresis).hashCode() ^ Boolean.valueOf(this.negate).hashCode()
+                ^ (Boolean.valueOf(this.negate).hashCode() << 8);
+    }
+    
     /**
      * The polygon that defines the area to select. The space which is selected is inside the order of the points. CW
      * mean the outside, CCW the inside.

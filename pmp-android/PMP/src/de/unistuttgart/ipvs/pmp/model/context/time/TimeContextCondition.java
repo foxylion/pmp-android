@@ -44,14 +44,14 @@ public class TimeContextCondition {
             }
             
             boolean utc = match.group(1).length() > 0;
-            int beginHour = Integer.parseInt(match.group(2));
-            int beginMin = Integer.parseInt(match.group(3));
-            int beginSec = Integer.parseInt(match.group(4));
-            int endHour = Integer.parseInt(match.group(5));
-            int endMin = Integer.parseInt(match.group(6));
-            int endSec = Integer.parseInt(match.group(7));
-            TimeContextIntervalType tccit = TimeContextIntervalType.getForIdentifier(match.group(8).charAt(0));
-            List<Integer> tccdList = tccit.makeDays(match.group(9));
+            int beginHour = Integer.parseInt(match.group(3));
+            int beginMin = Integer.parseInt(match.group(4));
+            int beginSec = Integer.parseInt(match.group(5));
+            int endHour = Integer.parseInt(match.group(6));
+            int endMin = Integer.parseInt(match.group(7));
+            int endSec = Integer.parseInt(match.group(8));
+            TimeContextIntervalType tccit = TimeContextIntervalType.getForIdentifier(match.group(9).charAt(0));
+            List<Integer> tccdList = tccit.makeDays(match.group(10));
             
             result = new TimeContextCondition(utc, new TimeContextTime(beginHour, beginMin, beginSec),
                     new TimeContextTime(endHour, endMin, endSec), tccit, tccdList);
@@ -99,6 +99,26 @@ public class TimeContextCondition {
         return String.format("%s%02d:%02d:%02d-%02d:%02d:%02d-%s%s", this.isUTC ? "utc" : "", this.begin.getHour(),
                 this.begin.getMinute(), this.begin.getSecond(), this.end.getHour(), this.end.getMinute(),
                 this.end.getSecond(), this.interval.getIdentifier(), this.interval.makeList(this.days));
+    }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof TimeContextCondition)) {
+            return false;
+        }
+        
+        TimeContextCondition tcc = (TimeContextCondition) o;
+        
+        return this.isUTC == tcc.isUTC && this.begin.equals(tcc.begin) && this.end.equals(tcc.end)
+                && this.interval.equals(tcc.interval) && this.days.equals(tcc.days);
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return Boolean.valueOf(this.isUTC).hashCode() ^ this.begin.hashCode() ^ this.end.hashCode()
+                ^ this.interval.hashCode() ^ this.days.hashCode();
     }
     
     
