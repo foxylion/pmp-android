@@ -28,8 +28,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * This is an information set of the app. It contains all basic informations
- * (names and descriptions in different locals) and all provided service
- * features.
+ * (names and descriptions in different locals) and all provided {@link IAISServiceFeature}s.
  * 
  * @author Marcus Vetter
  */
@@ -41,50 +40,29 @@ public class AIS extends BasicIS implements IAIS {
     private static final long serialVersionUID = -6652355069031983384L;
     
     /**
-     * This list contains all service features of the app.
+     * This list contains all {@link IAISServiceFeature}s of the app.
      */
-    private List<IAISServiceFeature> serviceFeatures;
+    private List<IAISServiceFeature> serviceFeatures = new ArrayList<IAISServiceFeature>();
     
     
-    /**
-     * Constructor is used to instantiate the data structures.
-     */
-    public AIS() {
-        super();
-        this.serviceFeatures = new ArrayList<IAISServiceFeature>();
-    }
-    
-    
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#addServiceFeature(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature)
-     */
     @Override
     public void addServiceFeature(IAISServiceFeature sf) {
         this.serviceFeatures.add(sf);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#removeServiceFeature(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature)
-     */
     @Override
     public void removeServiceFeature(IAISServiceFeature sf) {
         this.serviceFeatures.remove(sf);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#getServiceFeatures()
-     */
     @Override
     public List<IAISServiceFeature> getServiceFeatures() {
         return this.serviceFeatures;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#getServiceFeatureForIdentifier(java.lang.String)
-     */
     @Override
     public IAISServiceFeature getServiceFeatureForIdentifier(String identifier) {
         for (IAISServiceFeature sf : this.serviceFeatures) {
@@ -103,9 +81,6 @@ public class AIS extends BasicIS implements IAIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#clearAppInformationIssuesAndPropagate()
-     */
     @Override
     public void clearAppInformationIssues() {
         clearNameIssues();
@@ -124,9 +99,6 @@ public class AIS extends BasicIS implements IAIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS#clearServiceFeaturesIssuesAndPropagate()
-     */
     @Override
     public void clearServiceFeaturesIssues() {
         List<IIssue> removeList = new ArrayList<IIssue>();

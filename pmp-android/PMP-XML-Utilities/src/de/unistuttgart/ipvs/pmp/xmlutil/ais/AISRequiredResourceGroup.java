@@ -25,8 +25,8 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IdentifierIS;
 
 /**
- * This is a representation of a resource group, which is required for a
- * specific service feature. It contains a list of required privacy settings.
+ * This is a required resource group, which is required for a specific {@link IAISServiceFeature}. It contains a list of
+ * {@link IAISRequiredPrivacySetting}s.
  * 
  * @author Marcus Vetter
  * 
@@ -44,8 +44,7 @@ public class AISRequiredResourceGroup extends IdentifierIS implements IAISRequir
     private String minRevision = "";
     
     /**
-     * This list contains all required privacy settings of the required resource
-     * group.
+     * This list contains all {@link IAISRequiredPrivacySetting}s of the {@link AISRequiredResourceGroup}
      */
     private List<IAISRequiredPrivacySetting> requiredPrivacySettings = new ArrayList<IAISRequiredPrivacySetting>();
     
@@ -61,9 +60,9 @@ public class AISRequiredResourceGroup extends IdentifierIS implements IAISRequir
      * Constructor to set the identifier and minRevision
      * 
      * @param identifier
-     *            identifier to set
+     *            the identifier of the {@link AISRequiredResourceGroup}
      * @param minRevision
-     *            the min revision of the rrg
+     *            the minimal revision of the {@link AISRequiredResourceGroup}
      */
     public AISRequiredResourceGroup(String identifier, String minRevision) {
         setIdentifier(identifier);
@@ -71,54 +70,36 @@ public class AISRequiredResourceGroup extends IdentifierIS implements IAISRequir
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#getMinRevision()
-     */
     @Override
     public String getMinRevision() {
         return this.minRevision;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#setMinRevision(java.lang.String)
-     */
     @Override
     public void setMinRevision(String minRevision) {
         this.minRevision = minRevision;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#getRequiredPrivacySettings()
-     */
     @Override
     public List<IAISRequiredPrivacySetting> getRequiredPrivacySettings() {
         return this.requiredPrivacySettings;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#addRequiredPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting)
-     */
     @Override
     public void addRequiredPrivacySetting(IAISRequiredPrivacySetting privacySetting) {
         this.requiredPrivacySettings.add(privacySetting);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#removeRequiredPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting)
-     */
     @Override
     public void removeRequiredPrivacySetting(IAISRequiredPrivacySetting privacySetting) {
         this.requiredPrivacySettings.remove(privacySetting);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup#getRequiredPrivacySettingForIdentifier(java.lang.String)
-     */
     @Override
     public IAISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(String identifier) {
         for (IAISRequiredPrivacySetting rps : this.requiredPrivacySettings) {
