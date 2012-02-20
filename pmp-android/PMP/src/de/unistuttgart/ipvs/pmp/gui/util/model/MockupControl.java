@@ -19,6 +19,7 @@ import de.unistuttgart.ipvs.pmp.model.activity.LongTaskProgressDialog;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
@@ -67,7 +68,11 @@ public class MockupControl {
             public Void run(Void... params) {
                 initRGs(activityContext);
                 initApps(activityContext);
-                initPresets();
+                try {
+                    initPresets();
+                } catch (PrivacySettingValueException psve) {
+                    youreDoingItWrong.add(psve);
+                }
                 return null;
             }
             
@@ -102,7 +107,7 @@ public class MockupControl {
     /**
      * 
      */
-    private static void initPresets() {
+    private static void initPresets() throws PrivacySettingValueException {
         String ident;
         String name;
         String description;
