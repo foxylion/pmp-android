@@ -1,25 +1,9 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
-import java.io.Serializable;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.AbstractIO;
 
-/**
- * AbstactClass for all requests.
- * 
- * @author Jakob Jarosch
- */
-public abstract class AbstractRequest implements Serializable {
+public class AbstractRequest extends AbstractIO {
     
     private static final long serialVersionUID = 1L;
     
-    private byte[] cacheHash;
-    
-    
-    public void setCacheHash(byte[] hash) {
-        this.cacheHash = hash;
-    }
-    
-    
-    public byte[] getCacheHash() {
-        return this.cacheHash;
-    }
 }

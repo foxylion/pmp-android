@@ -21,10 +21,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.ChangeDescriptionString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.DescriptionString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.NameString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.PrivacySettingsContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.PrivacySettingsLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
@@ -144,6 +146,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	}
 
 	protected void refresh() {
+		RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
+		validator.validatePrivacySettings(Model.getInstance().getRgis(), true);
 		treeViewer.refresh();
 	}
 
@@ -155,6 +159,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 				new LocalizationDetailsPage(this, LocaleTable.Type.NAME));
 		detailsPart.registerPage(DescriptionString.class,
 				new LocalizationDetailsPage(this, LocaleTable.Type.DESCRIPTION));
+		detailsPart.registerPage(ChangeDescriptionString.class, 
+				new LocalizationDetailsPage(this, LocaleTable.Type.CHANGE_DESCRIPTION));
 
 	}
 

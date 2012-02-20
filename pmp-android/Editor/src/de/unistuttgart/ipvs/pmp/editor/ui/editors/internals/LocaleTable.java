@@ -34,13 +34,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.part.EditorPart;
-
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 public class LocaleTable {
 
@@ -52,13 +50,34 @@ public class LocaleTable {
 	private final ISetDirtyAction dirtyAction;
 
 	public enum Type {
-		NAME, DESCRIPTION
+		NAME, DESCRIPTION, CHANGE_DESCRIPTION
 	};
 
+	/**
+	 * See information and warning in description of {@link LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
+			FormToolkit toolkit)}
+	 * @param parent
+	 * @param type
+	 * @param dirtyAction
+	 * @param toolkit
+	 */
 	public LocaleTable(Composite parent, Type type, ISetDirtyAction dirtyAction,
 			FormToolkit toolkit) {
 		this(parent, null, type, dirtyAction, toolkit);
 	}
+	
+	/**
+	 * Creates a new locale table.
+	 * This table shows all available names, descriptions or change descriptions and their locale.
+	 * @param parent	Parent widget, to which this table should be added
+	 * @param data		Data, from which the information will be loaded and written into
+	 * @param type		Type of data, that should be shown.<br />
+	 * 					<b>Warning:</b> If type is set to {@code CHANGE_DESCRIPTION}, {@code data} has
+	 * 					to of type {@code RGISPrivacySetting}. Otherwise this table will
+	 *					throw {@code ClassCastException}s while user interaction!
+	 * @param dirtyAction	Action, that will be initated when the data in this table was changed by the user
+	 * @param toolkit	SWT-Toolkit
+	 */
 	public LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
 			FormToolkit toolkit) {
 		this.data = data;
@@ -156,11 +175,18 @@ public class LocaleTable {
 
 				LocalizedString ls = new LocalizedString();
 				
-				if (type == Type.NAME) {
-					data.addName(ls);
-				} else {
-					data.addDescription(ls);
+				switch (type) {
+					case NAME:
+						data.addName(ls);
+						break;
+					case DESCRIPTION:
+						data.addDescription(ls);
+						break;
+					case CHANGE_DESCRIPTION:
+						((IRGISPrivacySetting)data).addChangeDescription(ls);
+						break;
 				}
+				
 				setDirty(true);
 				refresh();
 
@@ -172,12 +198,19 @@ public class LocaleTable {
 			public void widgetSelected(SelectionEvent e) {
 				StructuredSelection sl = (StructuredSelection) tableViewer
 						.getSelection();
+				
+				LocalizedString selection = (LocalizedString) sl.getFirstElement();
 
-				if (type == Type.NAME) {
-					data.removeName((LocalizedString) sl.getFirstElement());
-				} else {
-					data.removeDescription((LocalizedString) sl
-							.getFirstElement());
+				switch (type) {
+					case NAME:
+						data.removeName(selection);
+						break;
+					case DESCRIPTION:
+						data.removeDescription(selection);
+						break;
+					case CHANGE_DESCRIPTION:
+						((IRGISPrivacySetting)data).removeChangeDescription(selection);
+						break;
 				}
 				setDirty(true);
 				refresh();
@@ -308,10 +341,18 @@ public class LocaleTable {
 		};
 
 		String valueTitle;
-		if (type == Type.NAME) {
-			valueTitle = "Name";
-		} else {
-			valueTitle = "Description";
+		switch (type) {
+			case NAME:
+				valueTitle = "Name";
+				break;
+			case DESCRIPTION:
+				valueTitle = "Description";
+				break;
+			case CHANGE_DESCRIPTION:
+				valueTitle = "Change Description";
+				break;
+			default:
+				valueTitle = "Undefined";
 		}
 
 		TableViewerColumn valueColumn = buildColumn(valueTitle, 0, valueLabel,
@@ -366,10 +407,16 @@ public class LocaleTable {
 	public void setData(IBasicIS data) {
 		this.data = data;
 		if (data != null) {
-			if (type == Type.NAME) {
-				tableViewer.setInput(data.getNames());
-			} else {
-				tableViewer.setInput(data.getDescriptions());
+			switch (type) {
+				case NAME:
+					tableViewer.setInput(data.getNames());
+					break;
+				case DESCRIPTION:
+					tableViewer.setInput(data.getDescriptions());
+					break;
+				case CHANGE_DESCRIPTION:
+					tableViewer.setInput(((RGISPrivacySetting)data).getChangeDescriptions());
+					break;
 			}
 		}
 	}
