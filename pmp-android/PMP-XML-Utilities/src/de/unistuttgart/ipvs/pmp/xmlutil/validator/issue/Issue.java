@@ -62,7 +62,7 @@ public class Issue implements IIssue {
      */
     @Override
     public IIssueLocation getLocation() {
-        return location;
+        return this.location;
     }
     
     
@@ -80,7 +80,7 @@ public class Issue implements IIssue {
      */
     @Override
     public IssueType getType() {
-        return type;
+        return this.type;
     }
     
     
@@ -98,7 +98,7 @@ public class Issue implements IIssue {
      */
     @Override
     public List<String> getParameters() {
-        return parameters;
+        return this.parameters;
     }
     
     

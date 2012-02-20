@@ -58,8 +58,9 @@ public class AISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             ais.clearIssues();
+        }
         
         /*
          * Validate the app information and the service features 
@@ -84,8 +85,9 @@ public class AISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             ais.clearAppInformationIssues();
+        }
         
         /*
          * Validate names and descriptions
@@ -113,8 +115,9 @@ public class AISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             ais.clearServiceFeaturesIssues();
+        }
         
         /*
          * Validate the occurrences of identifier of service features
@@ -172,8 +175,9 @@ public class AISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             sf.clearIssues();
+        }
         
         /*
          * Validate names and descriptions
@@ -184,14 +188,16 @@ public class AISValidator extends AbstractValidator {
         /*
          * Validate, if the identifier is set
          */
-        if (!checkValueSet(sf.getIdentifier()))
+        if (!checkValueSet(sf.getIdentifier())) {
             issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, sf));
+        }
         
         /*
          * Validate, if any required resource group is available 
          */
-        if (sf.getRequiredResourceGroups().size() == 0)
+        if (sf.getRequiredResourceGroups().size() == 0) {
             issueList.add(new Issue(IssueType.NO_RRG_EXISTS, sf));
+        }
         
         /*
          * Validate the occurrences of identifier of required resource groups
@@ -235,20 +241,23 @@ public class AISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             rrg.clearIssues();
+        }
         
         /*
          * Validate, if the identifier is set
          */
-        if (!checkValueSet(rrg.getIdentifier()))
+        if (!checkValueSet(rrg.getIdentifier())) {
             issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, rrg));
+        }
         
         /*
          * Validate, if any required privacy setting is available
          */
-        if (rrg.getRequiredPrivacySettings().size() == 0)
+        if (rrg.getRequiredPrivacySettings().size() == 0) {
             issueList.add(new Issue(IssueType.NO_RPS_EXISTS, rrg));
+        }
         
         /*
          * Validate the occurrences of identifier of required privacy settings
@@ -310,20 +319,23 @@ public class AISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             rps.clearIssues();
+        }
         
         /*
          * Validate, if the identifier is set
          */
-        if (!checkValueSet(rps.getIdentifier()))
+        if (!checkValueSet(rps.getIdentifier())) {
             issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, rps));
+        }
         
         /*
          * Validate, if the value is set
          */
-        if (!checkValueSet(rps.getValue()))
+        if (!checkValueSet(rps.getValue())) {
             issueList.add(new Issue(IssueType.EMPTY_VALUE, rps));
+        }
         
         // Attach data
         attachData(issueList, attachData);
@@ -366,8 +378,9 @@ public class AISValidator extends AbstractValidator {
         // Compare the maps
         for (Entry<IAISServiceFeature, Set<String>> entry : sfSetMap.entrySet()) {
             for (Entry<IAISServiceFeature, Set<String>> entryCompare : sfSetMap.entrySet()) {
-                if (entry.equals(entryCompare))
+                if (entry.equals(entryCompare)) {
                     continue;
+                }
                 
                 if (entry.getValue().equals(entryCompare.getValue())) {
                     Set<IAISServiceFeature> set = new HashSet<IAISServiceFeature>();
@@ -381,12 +394,14 @@ public class AISValidator extends AbstractValidator {
         // Build union sets, if sets contain the same service feature
         for (Set<IAISServiceFeature> set : invalidSFSets) {
             for (Set<IAISServiceFeature> setCompare : invalidSFSets) {
-                if (set.equals(setCompare))
+                if (set.equals(setCompare)) {
                     continue;
+                }
                 
                 for (IAISServiceFeature sf : setCompare) {
-                    if (set.contains(sf))
+                    if (set.contains(sf)) {
                         set.addAll(setCompare);
+                    }
                 }
             }
         }
@@ -394,8 +409,9 @@ public class AISValidator extends AbstractValidator {
         // Adjust the sets of invalid sfs
         List<Set<IAISServiceFeature>> adjustedInvalidSFSets = new ArrayList<Set<IAISServiceFeature>>();
         for (Set<IAISServiceFeature> set : invalidSFSets) {
-            if (!adjustedInvalidSFSets.contains(set))
+            if (!adjustedInvalidSFSets.contains(set)) {
                 adjustedInvalidSFSets.add(set);
+            }
         }
         
         // Instantiate the issues

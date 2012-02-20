@@ -70,8 +70,9 @@ public class Printer {
                 sb.append(" (Parameter: ");
                 for (int itr = 0; itr < issue.getParameters().size(); itr++) {
                     sb.append(issue.getParameters().get(itr));
-                    if (itr < issue.getParameters().size() - 1)
+                    if (itr < issue.getParameters().size() - 1) {
                         sb.append(", ");
+                    }
                 }
                 sb.append(")");
             }
