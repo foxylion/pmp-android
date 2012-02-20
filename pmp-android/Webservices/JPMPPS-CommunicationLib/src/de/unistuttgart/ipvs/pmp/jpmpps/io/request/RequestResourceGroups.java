@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
+
 /**
  * Message should be submitted when a list of available {@link ResourceGroup}s
  * is requested.<br/>
@@ -42,19 +43,13 @@ public class RequestResourceGroups extends AbstractRequest {
     public RequestResourceGroups(String locale, String filter) {
         this.locale = locale;
         
+        if (locale == null) {
+            throw new IllegalArgumentException("locale should never be null");
+        }
+        
         if (filter == null) {
             filter = "";
         }
-        this.filter = filter;
-    }
-    
-    
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-    
-    
-    public void setFilter(String filter) {
         this.filter = filter;
     }
     

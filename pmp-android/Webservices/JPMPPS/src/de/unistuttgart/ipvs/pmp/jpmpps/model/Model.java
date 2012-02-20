@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.jpmpps.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
+
 /**
  * Very simple model for the {@link ResourceGroup}s.
  * 
@@ -11,6 +13,8 @@ import java.util.Map;
 public class Model {
     
     private static Model instance = null;
+
+    
     
     
     private Model() {

@@ -125,7 +125,7 @@ public class PresetSetParser extends AbstractParser {
         checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET).item(0));
         
         // Add preset to Preset Set
-        presetSet.addPreset(preset);
+        this.presetSet.addPreset(preset);
     }
     
     

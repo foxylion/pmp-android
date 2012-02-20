@@ -126,8 +126,9 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     @Override
     public String getChangeDescriptionForLocale(Locale locale) {
         for (ILocalizedString changeDescr : this.changeDescriptions) {
-            if (changeDescr.getLocale() == null)
+            if (changeDescr.getLocale() == null) {
                 continue;
+            }
             if (changeDescr.getLocale().getLanguage().equals(locale.getLanguage())) {
                 return changeDescr.getString();
             }
