@@ -16,7 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/contexts_time_begin_time" />
+            android:text="@string/contexts_time_begin_time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TimePicker
             android:id="@+id/beginPicker"
@@ -28,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp"
-            android:text="@string/contexts_time_end_time" />
+            android:text="@string/contexts_time_end_time"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TimePicker
             android:id="@+id/endPicker"
