@@ -8,5 +8,5 @@ package de.unistuttgart.ipvs.pmp.model.server;
  */
 public enum CommunicationType {
     REQUEST_RESOURCE_GROUP_APK,
-    REQUEST_SEARCH_RESULTS
+    REQUEST_SEARCH_RESULTS,
 }

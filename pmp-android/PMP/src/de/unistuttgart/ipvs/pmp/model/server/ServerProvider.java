@@ -16,16 +16,21 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPSConstants;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.AbstractRequest;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestPresetSetLoad;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestPresetSetSave;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroupPackage;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.AbstractResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.CachedRequestResponse;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.response.PresetSetLoadResponse;
+import de.unistuttgart.ipvs.pmp.jpmpps.io.response.PresetSetSaveResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupPackageResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 
 /**
  * @see IServerProvider
@@ -342,5 +347,33 @@ public class ServerProvider implements IServerProvider {
         } else {
             return new Date(cacheFile.lastModified());
         }
+    }
+    
+    
+    @Override
+    public String storePresetSet(PresetSet presetSet) {
+        try {
+            PresetSetSaveResponse rpss = ((PresetSetSaveResponse) handleRequest(new RequestPresetSetSave(presetSet)));
+            return rpss.isSuccess() ? rpss.getId() : rpss.getMessage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
+    @Override
+    public PresetSet loadPresetSet(String name) {
+        Assert.nonNull(name, ModelMisuseError.class, Assert.ILLEGAL_NULL, "name", name);
+        try {
+            return (PresetSet) ((PresetSetLoadResponse) handleRequest(new RequestPresetSetLoad(name))).getPresetSet();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

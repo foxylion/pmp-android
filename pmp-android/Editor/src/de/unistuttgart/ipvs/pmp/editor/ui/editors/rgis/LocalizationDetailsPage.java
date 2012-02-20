@@ -12,8 +12,9 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -60,11 +61,18 @@ public class LocalizationDetailsPage implements IDetailsPage {
 		section.setLayoutData(parentLayout);
 
 		// Build localization table
-		ISetDirtyAction dirtyAction = new ISetDirtyAction() {
+		ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 
 			@Override
 			public void doSetDirty(boolean dirty) {
 				Model.getInstance().setRgisDirty(true);
+				
+			}
+
+			@Override
+			public void doValidate() {
+				RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
+				validator.validatePrivacySettings(Model.getInstance().getRgis(), true);
 				
 			}
 			
