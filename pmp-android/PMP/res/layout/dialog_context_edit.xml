@@ -22,7 +22,7 @@
             android:id="@+id/Button_ChangePS"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Change\nValue" />
+            android:text="@string/change_newline_value" />
     </LinearLayout>
 
     <ScrollView
@@ -60,14 +60,14 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Save" />
+            android:text="@string/save" />
 
         <Button
             android:id="@+id/Button_Delete"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Delete" />
+            android:text="@string/remove" />
 
         <Button
             android:id="@+id/Button_Cancel"

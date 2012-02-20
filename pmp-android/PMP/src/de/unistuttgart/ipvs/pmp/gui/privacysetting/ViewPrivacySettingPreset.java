@@ -260,8 +260,9 @@ public class ViewPrivacySettingPreset extends LinearLayout {
          * Load correct texts into the view elements.
          */
         ((TextView) v.findViewById(R.id.TextView_Context_Name)).setText(context.getContext().getName());
-        ((TextView) v.findViewById(R.id.TextView_Context_Value)).setText("Value wehen active: "
-                + context.getOverridePrivacySettingValue());
+        ((TextView) v.findViewById(R.id.TextView_Context_Value)).setText(getContext().getString(
+                R.string.context_value_when_active)
+                + ": " + context.getOverridePrivacySettingValue());
         ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context.getContextCondition());
         ((ImageView) v.findViewById(R.id.ImageView_Context_State)).setVisibility(context.isActive() ? View.GONE
                 : View.VISIBLE);

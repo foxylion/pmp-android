@@ -24,21 +24,18 @@
                 android:id="@+id/TextView_Context_Name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Name of Context"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/TextView_Context_Value"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Value of context: true"
                 android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/TextView_Context_Description"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Constraints: 10km around Stuttgart, Germany"
                 android:textSize="12dp" />
         </LinearLayout>
 

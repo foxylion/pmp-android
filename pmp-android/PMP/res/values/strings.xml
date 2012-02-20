@@ -18,6 +18,7 @@
     <string name="cancel">Cancel</string>
     <string name="change">Change</string>
     <string name="change_value">Change value</string>
+    <string name="change_newline_value">Change\nvalue</string>
     <string name="choose_your_action">Choose your action</string>
     <string name="close">Close</string>
     <string name="clear_trash_bin">Clear trash bin</string>
@@ -59,6 +60,7 @@
     <string name="resource_group">Resource</string>
     <string name="resource_groups">Resource groups</string>
     <string name="restore_preset">Restore preset</string>
+    <string name="save">Save</string>
     <string name="service_features">Service features</string>
     <string name="settings">Settings</string>
     <string name="set_value">Set value</string>
@@ -176,6 +178,7 @@
 
     <!-- Context Dialog -->
 	<string name="context_select_context_type">Select a context type</string>
+	<string name="context_value_when_active">Value when active</string>
 
     <!-- About the app -->
     <string name="about_text">The Privacy Management Platform is developed as a research project at the University Stuttgart.</string>
