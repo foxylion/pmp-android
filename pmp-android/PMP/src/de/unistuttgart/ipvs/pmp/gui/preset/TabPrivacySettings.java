@@ -18,16 +18,19 @@ import android.view.View.OnCreateContextMenuListener;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingInformation;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.dialog.DialogConfirmDelete;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * The "Assigned Privacy Settings" tab of a Preset
@@ -154,7 +157,15 @@ public class TabPrivacySettings extends Activity {
                             @Override
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
-                                    preset.assignPrivacySetting(ps, newValue);
+                                    try {
+                                        preset.assignPrivacySetting(ps, newValue);
+                                    } catch (PrivacySettingValueException e) {
+                                        Log.e(TabPrivacySettings.this,
+                                                "Couldn't set new value for PrivacySetting, PSVE", e);
+                                        GUITools.showToast(TabPrivacySettings.this,
+                                                TabPrivacySettings.this.getString(R.string.failure_invalid_ps_value),
+                                                Toast.LENGTH_LONG);
+                                    }
                                     updateList();
                                 }
                             }

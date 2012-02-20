@@ -1,7 +1,11 @@
 package de.unistuttgart.ipvs.pmp.gui.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApp;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
@@ -135,5 +139,25 @@ public class GUITools {
     public static void startIntent(Intent intent) {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PMPApplication.getContext().startActivity(intent);
+    }
+    
+    
+    /**
+     * Creates a new {@link Toast} in the main looper (gui).
+     * 
+     * @param context
+     *            {@link Context} which is required for {@link Toast} creation.
+     * @param message
+     *            Message which should be displayed.
+     * @param duration
+     */
+    public static void showToast(final Context context, final String message, final int duration) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            
+            @Override
+            public void run() {
+                Toast.makeText(context, message, duration).show();
+            }
+        });
     }
 }

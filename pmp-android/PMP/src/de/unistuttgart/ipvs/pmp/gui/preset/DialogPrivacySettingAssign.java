@@ -11,12 +11,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
  * Dialog for assigning Privacy Settings to the Preset
@@ -148,7 +152,16 @@ public class DialogPrivacySettingAssign extends Dialog {
                             @Override
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
-                                    preset.assignPrivacySetting(privacySetting, newValue);
+                                    try {
+                                        preset.assignPrivacySetting(privacySetting, newValue);
+                                    } catch (PrivacySettingValueException e) {
+                                        Log.e(DialogPrivacySettingAssign.this,
+                                                "Couldn't set new value for PrivacySetting, PSVE", e);
+                                        GUITools.showToast(getContext(),
+                                                getContext().getString(R.string.failure_invalid_ps_value),
+                                                Toast.LENGTH_LONG);
+                                    }
+                                    
                                 }
                                 DialogPrivacySettingAssign.this.presetPSsTab.updateList();
                             }
