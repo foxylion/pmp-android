@@ -51,14 +51,15 @@ public class DialogAddSFtoPreset extends Dialog {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 /* Update the selected Preset */
+                IPreset preset = presets.get(position);
+                preset.getTransaction().start();
+                IServiceFeature serviceFeature = dialog.getServiceFeature();
+                preset.assignApp(serviceFeature.getApp());
                 try {
-                    IPreset preset = presets.get(position);
-                    IServiceFeature serviceFeature = dialog.getServiceFeature();
-                    preset.startUpdate();
-                    preset.assignApp(serviceFeature.getApp());
                     preset.assignServiceFeature(serviceFeature);
-                    preset.endUpdate();
+                    preset.getTransaction().commit();
                 } catch (PrivacySettingValueException e) {
+                    preset.getTransaction().abort();
                     Log.e(DialogAddSFtoPreset.this, "Couldn't add Service Feature to Preset, PSVE", e);
                     GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_in_sf),
                             Toast.LENGTH_LONG);

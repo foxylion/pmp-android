@@ -32,7 +32,6 @@ public class DialogConfirmDelete extends android.app.Dialog {
         public void callback(boolean confirmed);
     }
     
-    private int iconResource;
     private String title;
     private String description;
     private ICallback callback;
