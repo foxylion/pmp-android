@@ -25,8 +25,7 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.BasicIS;
 
 /**
- * This is a service feature, which is assigned to an app and contains all
- * required resource groups of the app.
+ * This is a service feature, which is assigned to an {@link IAIS} and contains all {@link IAISRequiredResourceGroup}s.
  * 
  * @author Marcus Vetter
  * 
@@ -44,7 +43,7 @@ public class AISServiceFeature extends BasicIS implements IAISServiceFeature {
     private String identifier = "";
     
     /**
-     * This list contains all required resource groups of the service feature.
+     * This list contains all {@link IAISRequiredResourceGroup} of the {@link AISServiceFeature}
      */
     private List<IAISRequiredResourceGroup> requiredResourceGroups = new ArrayList<IAISRequiredResourceGroup>();
     
@@ -67,36 +66,24 @@ public class AISServiceFeature extends BasicIS implements IAISServiceFeature {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#getRequiredResourceGroups()
-     */
     @Override
     public List<IAISRequiredResourceGroup> getRequiredResourceGroups() {
         return this.requiredResourceGroups;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#addRequiredResourceGroup(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup)
-     */
     @Override
     public void addRequiredResourceGroup(IAISRequiredResourceGroup rrg) {
         this.requiredResourceGroups.add(rrg);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#removeRequiredResourceGroup(de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup)
-     */
     @Override
     public void removeRequiredResourceGroup(IAISRequiredResourceGroup rrg) {
         this.requiredResourceGroups.remove(rrg);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature#getRequiredResourceGroupForIdentifier(java.lang.String)
-     */
     @Override
     public IAISRequiredResourceGroup getRequiredResourceGroupForIdentifier(String identifier) {
         for (IAISRequiredResourceGroup rrg : this.requiredResourceGroups) {

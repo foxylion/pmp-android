@@ -22,6 +22,8 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IdentifierIS;
 
 /**
+ * This is the required privacy setting of a {@link IAISRequiredResourceGroup}, which is assigned to a specific
+ * {@link IAISServiceFeature}
  * 
  * @author Marcus Vetter
  * 
@@ -34,7 +36,7 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
     private static final long serialVersionUID = -2494745855919623707L;
     
     /**
-     * The value of the Privacy Setting
+     * The value of the {@link AISRequiredPrivacySetting}
      */
     private String value = "";
     
@@ -43,9 +45,9 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
      * Constructor to set the attributes
      * 
      * @param identifier
-     *            identifier of the Privacy Setting
+     *            identifier of the {@link AISRequiredPrivacySetting}
      * @param value
-     *            value of the Privacy Setting
+     *            value of the {@link AISRequiredPrivacySetting}
      */
     public AISRequiredPrivacySetting(String identifier, String value) {
         setIdentifier(identifier);
@@ -53,18 +55,12 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting#getValue()
-     */
     @Override
     public String getValue() {
         return this.value;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting#setValue(java.lang.String)
-     */
     @Override
     public void setValue(String value) {
         this.value = value;

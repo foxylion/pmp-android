@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.ais;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 
 /**
+ * This is the interface of the {@link AISRequiredPrivacySetting}
  * 
  * @author Marcus Vetter
  * 

@@ -24,6 +24,7 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 
 /**
+ * This is the interface of the {@link AIS}
  * 
  * @author Marcus Vetter
  * 
@@ -31,38 +32,38 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 public interface IAIS extends IBasicIS {
     
     /**
-     * Add a service feature to the app
+     * Add a {@link IAISServiceFeature} to the {@link IAIS}
      * 
      * @param sf
-     *            service feature
+     *            {@link IAISServiceFeature} to add
      */
     public abstract void addServiceFeature(IAISServiceFeature sf);
     
     
     /**
-     * Remove a service feature of the app
+     * Remove a {@link IAISServiceFeature} from the {@link IAIS}
      * 
      * @param sf
-     *            service feature
+     *            {@link IAISServiceFeature} to remove
      */
     public abstract void removeServiceFeature(IAISServiceFeature sf);
     
     
     /**
-     * Get the list which contains all service features
+     * Get the list which contains all {@link IAISServiceFeature}s.
      * 
-     * @return list with service features
+     * @return list with {@link IAISServiceFeature}s
      */
     public abstract List<IAISServiceFeature> getServiceFeatures();
     
     
     /**
-     * Get a service feature for a given identifier. Null, if no service feature
-     * exists for the given identifier.
+     * Get a {@link IAISServiceFeature} for a given identifier. Null, if no {@link IAISServiceFeature} exists for the
+     * given identifier.
      * 
      * @param identifier
-     *            identifier of the service feature
-     * @return service feature with given identifier, null if none exists.
+     *            identifier of the {@link IAISServiceFeature}
+     * @return {@link IAISServiceFeature} with given identifier, null if none exists.
      */
     public abstract IAISServiceFeature getServiceFeatureForIdentifier(String identifier);
     

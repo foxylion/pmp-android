@@ -24,6 +24,7 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 
 /**
+ * This is the interface of the {@link AISRequiredResourceGroup}
  * 
  * @author Marcus Vetter
  * 
@@ -48,38 +49,38 @@ public interface IAISRequiredResourceGroup extends IIdentifierIS {
     
     
     /**
-     * Get all privacy settings of the required resource group
+     * Get all {@link IAISRequiredPrivacySetting}s of the {@link IAISRequiredResourceGroup}
      * 
-     * @return list of privacy settings
+     * @return list of {@link IAISRequiredPrivacySetting}s
      */
     public abstract List<IAISRequiredPrivacySetting> getRequiredPrivacySettings();
     
     
     /**
-     * Add a privacy setting to the required resource group
+     * Add a {@link IAISRequiredPrivacySetting} to the {@link IAISRequiredResourceGroup}
      * 
      * @param privacySetting
-     *            privacySetting to add
+     *            {@link IAISRequiredPrivacySetting} to add
      */
     public abstract void addRequiredPrivacySetting(IAISRequiredPrivacySetting privacySetting);
     
     
     /**
-     * Remove a privacy setting from the required resource group
+     * Remove a {@link IAISRequiredPrivacySetting} from the {@link IAISRequiredResourceGroup}
      * 
      * @param privacySetting
-     *            privacySetting to remove
+     *            {@link IAISRequiredPrivacySetting} to remove
      */
     public abstract void removeRequiredPrivacySetting(IAISRequiredPrivacySetting privacySetting);
     
     
     /**
-     * Get a required privacy setting for a given identifier. Null, if no
-     * required privacy setting exists for the given identifier.
+     * Get a {@link IAISRequiredPrivacySetting} for a given identifier. Null, if no {@link IAISRequiredPrivacySetting}
+     * exists for the given identifier.
      * 
      * @param identifier
-     *            identifier of the required privacy setting
-     * @return required privacy setting with given identifier, null if none
+     *            identifier of the {@link IAISRequiredPrivacySetting}
+     * @return {@link IAISRequiredPrivacySetting} with given identifier, null if none
      *         exists.
      */
     public abstract IAISRequiredPrivacySetting getRequiredPrivacySettingForIdentifier(String identifier);

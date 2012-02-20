@@ -25,6 +25,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 
 /**
+ * This is the interface of the {@link AISServiceFeature}
  * 
  * @author Marcus Vetter
  * 
@@ -32,24 +33,24 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 public interface IAISServiceFeature extends IBasicIS, IIdentifierIS {
     
     /**
-     * Get all required resource groups of the service feature
+     * Get all {@link IAISRequiredResourceGroup}s of the {@link IAISServiceFeature}
      * 
-     * @return list with required resource groups
+     * @return list with {@link IAISRequiredResourceGroup}s
      */
     public abstract List<IAISRequiredResourceGroup> getRequiredResourceGroups();
     
     
     /**
-     * Add a required resource group to the service feature
+     * Add a {@link IAISRequiredResourceGroup} to the {@link IAISServiceFeature}
      * 
      * @param rrg
-     *            the required Resourcegroup to add
+     *            the {@link IAISRequiredResourceGroup} to add
      */
     public abstract void addRequiredResourceGroup(IAISRequiredResourceGroup rrg);
     
     
     /**
-     * Remove a required resource group from the service feature
+     * Remove a {@link IAISRequiredResourceGroup} from the {@link IAISServiceFeature}
      * 
      * @param rrg
      *            required resource group to remove
@@ -58,12 +59,12 @@ public interface IAISServiceFeature extends IBasicIS, IIdentifierIS {
     
     
     /**
-     * Get a required resource group for a given identifier. Null, if no
-     * required resource group exists for the given identifier.
+     * Get a {@link IAISRequiredResourceGroup} for a given identifier. Null, if no {@link IAISRequiredResourceGroup}
+     * exists for the given identifier.
      * 
      * @param identifier
-     *            identifier of the required resource group
-     * @return required resource group with given identifier, null if none
+     *            identifier of the {@link IAISRequiredResourceGroup}
+     * @return {@link IAISRequiredResourceGroup} with given identifier, null if none
      *         exists.
      */
     public abstract IAISRequiredResourceGroup getRequiredResourceGroupForIdentifier(String identifier);
