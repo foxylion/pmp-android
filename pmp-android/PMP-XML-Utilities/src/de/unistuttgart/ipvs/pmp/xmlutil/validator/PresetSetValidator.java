@@ -52,33 +52,38 @@ public class PresetSetValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear all issues
-        if (attachData)
+        if (attachData) {
             clearIssuesAndPropagate(presetSet);
+        }
         
         // Validate all preset
         for (IPreset preset : presetSet.getPresets()) {
             
             // Clear the attached issues, if the issues should be attached
-            if (attachData)
+            if (attachData) {
                 preset.clearIssues();
+            }
             
             /*
              * Validate, if the identifier is set
              */
-            if (!checkValueSet(preset.getIdentifier()))
+            if (!checkValueSet(preset.getIdentifier())) {
                 issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, preset));
+            }
             
             /*
              * Validate, if the creator is set
              */
-            if (!checkValueSet(preset.getCreator()))
+            if (!checkValueSet(preset.getCreator())) {
                 issueList.add(new Issue(IssueType.CREATOR_MISSING, preset));
+            }
             
             /*
              * Validate, if the name is set
              */
-            if (!checkValueSet(preset.getName()))
+            if (!checkValueSet(preset.getName())) {
                 issueList.add(new Issue(IssueType.NAME_MISSING, preset));
+            }
             
             // Validate all assigned apps
             issueList.addAll(validateAssignedApps(preset, attachData));
@@ -110,12 +115,14 @@ public class PresetSetValidator extends AbstractValidator {
         // Validate all assigned apps
         for (IPresetAssignedApp app : preset.getAssignedApps()) {
             // Clear the attached issues, if the issues should be attached
-            if (attachData)
+            if (attachData) {
                 app.clearIssues();
+            }
             
             // Validate, if the identifier is set
-            if (!checkValueSet(app.getIdentifier()))
+            if (!checkValueSet(app.getIdentifier())) {
                 issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, app));
+            }
         }
         
         return issueList;
@@ -140,8 +147,9 @@ public class PresetSetValidator extends AbstractValidator {
             /*
              * Validate, if the rgIdentifier is set
              */
-            if (!checkValueSet(assignedPS.getRgIdentifier()))
+            if (!checkValueSet(assignedPS.getRgIdentifier())) {
                 issueList.add(new Issue(IssueType.RG_IDENTIFIER_MISSING, assignedPS));
+            }
             
             /*
              * Validate, if the rgMinRevision is set
@@ -164,14 +172,16 @@ public class PresetSetValidator extends AbstractValidator {
             /*
              * Validate, if the psIdentifier is set
              */
-            if (!checkValueSet(assignedPS.getPsIdentifier()))
+            if (!checkValueSet(assignedPS.getPsIdentifier())) {
                 issueList.add(new Issue(IssueType.PS_IDENTIFIER_MISSING, assignedPS));
+            }
             
             /*
              * Validate, if the value is set
              */
-            if (!checkValueSet(assignedPS.getValue()))
+            if (!checkValueSet(assignedPS.getValue())) {
                 issueList.add(new Issue(IssueType.VALUE_MISSING, assignedPS));
+            }
             
             // Validate all contexts
             issueList.addAll(validatePSContexts(assignedPS, attachData));
@@ -198,20 +208,23 @@ public class PresetSetValidator extends AbstractValidator {
             /*
              * Validate, if the type is set
              */
-            if (!checkValueSet(context.getType()))
+            if (!checkValueSet(context.getType())) {
                 issueList.add(new Issue(IssueType.TYPE_MISSING, context));
+            }
             
             /*
              * Validate, if the condition is set
              */
-            if (!checkValueSet(context.getCondition()))
+            if (!checkValueSet(context.getCondition())) {
                 issueList.add(new Issue(IssueType.CONDITION_MISSING, context));
+            }
             
             /*
              * Validate, if the override value is set
              */
-            if (!checkValueSet(context.getOverrideValue()))
+            if (!checkValueSet(context.getOverrideValue())) {
                 issueList.add(new Issue(IssueType.OVERRIDE_VALUE_MISSING, context));
+            }
             
         }
         

@@ -146,7 +146,7 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
      */
     @Override
     public List<IPresetAssignedApp> getAssignedApps() {
-        return assignedApps;
+        return this.assignedApps;
     }
     
     
@@ -155,7 +155,7 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
      */
     @Override
     public void addAssignedApp(IPresetAssignedApp assignedApp) {
-        assignedApps.add(assignedApp);
+        this.assignedApps.add(assignedApp);
     }
     
     
@@ -164,7 +164,7 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
      */
     @Override
     public void removeAssignedApp(IPresetAssignedApp assignedApp) {
-        assignedApps.remove(assignedApp);
+        this.assignedApps.remove(assignedApp);
     }
     
     
@@ -173,7 +173,7 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
      */
     @Override
     public List<IPresetAssignedPrivacySetting> getAssignedPrivacySettings() {
-        return assignedPrivacySettings;
+        return this.assignedPrivacySettings;
     }
     
     
@@ -182,7 +182,7 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
      */
     @Override
     public void addAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting) {
-        assignedPrivacySettings.add(assignedPrivacySetting);
+        this.assignedPrivacySettings.add(assignedPrivacySetting);
     }
     
     
@@ -191,7 +191,7 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
      */
     @Override
     public void removeAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting) {
-        assignedPrivacySettings.remove(assignedPrivacySetting);
+        this.assignedPrivacySettings.remove(assignedPrivacySetting);
     }
     
 }
