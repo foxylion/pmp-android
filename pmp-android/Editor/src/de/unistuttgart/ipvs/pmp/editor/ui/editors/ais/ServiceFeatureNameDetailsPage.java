@@ -39,6 +39,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.NameContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTableListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
@@ -180,6 +181,17 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		| SWT.FULL_SELECTION | SWT.MULTI);
 	nameTableViewer.setContentProvider(new NameContentProvider());
 
+	// Disable the default tool tips
+	nameTableViewer.getTable().setToolTipText("");
+
+	TooltipTableListener tooltipListener = new TooltipTableListener(
+		nameTableViewer, parentShell);
+
+	nameTableViewer.getTable().addListener(SWT.Dispose, tooltipListener);
+	nameTableViewer.getTable().addListener(SWT.KeyDown, tooltipListener);
+	nameTableViewer.getTable().addListener(SWT.MouseMove, tooltipListener);
+	nameTableViewer.getTable().addListener(SWT.MouseHover, tooltipListener);
+
 	// The locale column with the LabelProvider
 	TableViewerColumn localeColumn = new TableViewerColumn(nameTableViewer,
 		SWT.NULL);
@@ -287,6 +299,22 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	descriptionTableViewer = new TableViewer(parent, SWT.BORDER
 		| SWT.FULL_SELECTION | SWT.MULTI);
+
+	TooltipTableListener descTooltipListener = new TooltipTableListener(
+		descriptionTableViewer, parentShell);
+
+	// Disable the default tool tips
+	descriptionTableViewer.getTable().setToolTipText("");
+
+	descriptionTableViewer.getTable().addListener(SWT.Dispose,
+		descTooltipListener);
+	descriptionTableViewer.getTable().addListener(SWT.KeyDown,
+		descTooltipListener);
+	descriptionTableViewer.getTable().addListener(SWT.MouseMove,
+		descTooltipListener);
+	descriptionTableViewer.getTable().addListener(SWT.MouseHover,
+		descTooltipListener);
+
 	descriptionTableViewer
 		.setContentProvider(new DescriptionContentProvider());
 
