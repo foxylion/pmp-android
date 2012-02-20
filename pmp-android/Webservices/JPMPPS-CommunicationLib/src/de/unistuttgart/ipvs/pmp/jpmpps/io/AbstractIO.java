@@ -32,7 +32,7 @@ public abstract class AbstractIO implements Serializable {
     /**
      * Sets a cacheHash for the response.
      */
-    protected void setCacheHash(byte[] cacheHash) {
+    public void setCacheHash(byte[] cacheHash) {
         this.cacheHash = cacheHash;
     }
     
