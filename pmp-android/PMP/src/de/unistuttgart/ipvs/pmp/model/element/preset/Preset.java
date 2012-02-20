@@ -214,7 +214,7 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
         
         // check validity
-        privacySetting.getHumanReadableValue(value);
+        privacySetting.valueValidOrThrow(value);
         
         FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
                 "Requested to assign privacy setting '%s' (value '%s') to preset '%s'.", privacySetting.getName(),
@@ -358,9 +358,9 @@ public class Preset extends ModelElement implements IPreset {
         Assert.nonNull(overrideValue, ModelMisuseError.class, Assert.ILLEGAL_NULL, "overrideValue", overrideValue);
         
         // test ps-value
-        privacySetting.getHumanReadableValue(overrideValue);
+        privacySetting.valueValidOrThrow(overrideValue);
         // test context-condition
-        context.makeHumanReadable(contextCondition);
+        context.conditionValidOrThrow(contextCondition);
         
         FileLog.get()
                 .logWithForward(

@@ -84,6 +84,17 @@ public interface IPrivacySetting extends IModelElement {
     
     
     /**
+     * Tests whether this privacy setting accepts this value for its internal processing.
+     * 
+     * @param value
+     *            the value to be checked
+     * @throws PrivacySettingValueException
+     *             if value is not valid
+     */
+    public void valueValidOrThrow(String value) throws PrivacySettingValueException;
+    
+    
+    /**
      * Returns an human readable representation of the a given value.
      * 
      * @param value

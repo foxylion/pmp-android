@@ -93,7 +93,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         Assert.nonNull(condition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "condition", condition);
         
         // check validity
-        context.makeHumanReadable(condition);
+        context.conditionValidOrThrow(condition);
         
         this.context = context;
         this.condition = condition;
@@ -116,7 +116,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         Assert.nonNull(condition, ModelMisuseError.class, Assert.ILLEGAL_NULL, "condition", condition);
         
         // check validity
-        this.context.makeHumanReadable(condition);
+        this.context.conditionValidOrThrow(condition);
         
         this.condition = condition;
         
@@ -145,7 +145,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         Assert.nonNull(value, ModelMisuseError.class, Assert.ILLEGAL_NULL, "value", value);
         
         // check validity
-        this.privacySetting.getHumanReadableValue(value);
+        this.privacySetting.valueValidOrThrow(value);
         
         persist();
     }

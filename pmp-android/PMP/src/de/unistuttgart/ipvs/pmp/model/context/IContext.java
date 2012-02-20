@@ -79,4 +79,15 @@ public interface IContext {
      */
     public String makeHumanReadable(String condition) throws InvalidConditionException;
     
+    
+    /**
+     * Checks whether condition is a valid condition for this context
+     * 
+     * @param condition
+     *            the condition to check
+     * @throws InvalidConditionException
+     *             if condition is not valid
+     */
+    public void conditionValidOrThrow(String condition) throws InvalidConditionException;
+    
 }

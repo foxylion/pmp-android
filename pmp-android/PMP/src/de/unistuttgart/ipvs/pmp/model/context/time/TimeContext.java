@@ -75,4 +75,10 @@ public class TimeContext implements IContext {
     public String makeHumanReadable(String condition) throws InvalidConditionException {
         return TimeContextCondition.parse(condition).getHumanReadable();
     }
+    
+    
+    @Override
+    public void conditionValidOrThrow(String condition) throws InvalidConditionException {
+        TimeContextCondition.parse(condition);
+    }
 }

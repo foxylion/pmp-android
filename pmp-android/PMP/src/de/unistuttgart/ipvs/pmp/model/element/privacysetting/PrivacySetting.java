@@ -103,12 +103,25 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         try {
             this.link.parseValue(value);
             return true;
-        } catch (PrivacySettingValueException plve) {
+        } catch (PrivacySettingValueException psve) {
             // don't care here, that's expected
         } catch (Throwable t) {
             this.resourceGroup.deactivate(t);
         }
         return false;
+    }
+    
+    
+    @Override
+    public void valueValidOrThrow(String value) throws PrivacySettingValueException {
+        checkCached();
+        try {
+            this.link.parseValue(value);
+        } catch (PrivacySettingValueException psve) {
+            throw new PrivacySettingValueException(psve);
+        } catch (Throwable t) {
+            this.resourceGroup.deactivate(t);
+        }
     }
     
     

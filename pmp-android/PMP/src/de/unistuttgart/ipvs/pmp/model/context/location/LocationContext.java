@@ -190,4 +190,10 @@ public class LocationContext implements IContext, LocationListener {
     public String makeHumanReadable(String condition) throws InvalidConditionException {
         return LocationContextCondition.parse(condition).toHumanReadable();
     }
+    
+    
+    @Override
+    public void conditionValidOrThrow(String condition) throws InvalidConditionException {
+        LocationContextCondition.parse(condition);
+    }
 }
