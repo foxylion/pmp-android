@@ -36,13 +36,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-
-import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 public class LocaleTable {
 
@@ -270,6 +267,25 @@ public class LocaleTable {
 		
 		TableViewerColumn errorColumn = buildColumn("", 30,
 				errorLabel, null, columnLayout);
+		new ColumnViewerSorter(tableViewer, errorColumn) {
+
+			@Override
+			public int doCompare(Viewer viewer, Object e1, Object e2) {
+				boolean empty1 = ((LocalizedString) e1).getIssues().isEmpty();
+				boolean empty2 = ((LocalizedString) e2).getIssues().isEmpty();
+				
+				if (empty1 == empty2) {
+					return 0;
+				}
+				
+				if (!empty1) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+
+		};
 		
 		// Locale column
 		ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
