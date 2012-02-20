@@ -66,17 +66,14 @@ public class TooltipTreeListener implements Listener {
 
 	    // Dispose the tool tip when the mouse is moved
 	    if (tip == null) {
-		System.out.println("null1");
 		break;
 	    }
-	    System.out.println("move");
 	    tip.dispose();
 	    tip = null;
 	    label = null;
 	    break;
 	}
 	case SWT.MouseHover: {
-	    System.out.println("hover");
 	    // Get the tree item where the mouse is
 	    TreeItem item = treeViewer.getTree().getItem(
 		    new Point(event.x, event.y));
