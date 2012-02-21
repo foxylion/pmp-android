@@ -13,5 +13,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.eclipse.ui.forms
 Bundle-ClassPath: .,
- lib/jpmpps-lib-latest.jar,
- lib/xml-util-latest.jar
+ lib/xml-util-latest.jar,
+ lib/jpmpps-lib-latest.jar

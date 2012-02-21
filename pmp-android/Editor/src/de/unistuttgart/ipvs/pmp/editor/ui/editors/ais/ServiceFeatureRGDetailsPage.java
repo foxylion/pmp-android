@@ -1,14 +1,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -276,28 +272,22 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	    @Override
 	    public void run() {
+		// Flag if an error happend while downloading
+		Boolean error = false;
 		RGIS resGroup = null;
 
-		// // Get the resource groups from the server
-		try {
-		    List<RGIS> rgList = Model.getInstance().getRgisList();
-		    if (rgList != null) {
-			for (RGIS rgis : rgList) {
-			    if (rgis.getIdentifier().equals(
-				    displayed.getIdentifier())) {
-				resGroup = rgis;
-			    }
+		// Get the resource groups from the server
+		List<RGIS> rgList = Model.getInstance()
+			.getRgisList(parentShell);
+		if (rgList != null) {
+		    for (RGIS rgis : rgList) {
+			if (rgis.getIdentifier().equals(
+				displayed.getIdentifier())) {
+			    resGroup = rgis;
 			}
 		    }
-		} catch (IOException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog
-			    .openError(
-				    parentShell,
-				    "Error",
-				    "A error happend while downloading the Resource Groups from the server.",
-				    status);
+		} else {
+		    error = true;
 		}
 
 		// Build a custom RGIS with the privacy settings that are
@@ -373,6 +363,20 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 					"No Privacy Settings to add",
 					"You already added all Privacy Settings of this Resource Group");
 		    }
+		} else {
+		    /*
+		     * The Resource group wasn't found at the server and no
+		     * error happen while downloading them, show the
+		     * corresponding message
+		     */
+		    if (!error) {
+			MessageDialog
+				.openInformation(
+					parentShell,
+					"Unknown Resource Group",
+					"This Resource Group was not found at the Resource Group server.\n"
+						+ "Therefore you can not add a Privacy Setting");
+		    }
 		}
 
 	    }
@@ -434,25 +438,15 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	    if (Model.getInstance().isRGListAvailable()) {
 		// Get the resource groups from the server
-		try {
-		    List<RGIS> rgList = Model.getInstance().getRgisList();
-		    if (rgList != null) {
-			for (RGIS rgis : rgList) {
-			    if (rgis.getIdentifier().equals(
-				    displayed.getIdentifier())) {
-				resGroup = rgis;
-			    }
+		List<RGIS> rgList = Model.getInstance()
+			.getRgisList(parentShell);
+		if (rgList != null) {
+		    for (RGIS rgis : rgList) {
+			if (rgis.getIdentifier().equals(
+				displayed.getIdentifier())) {
+			    resGroup = rgis;
 			}
 		    }
-		} catch (IOException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog
-			    .openError(
-				    parentShell,
-				    "Error",
-				    "A error happend while downloading the Resource Groups from the server.",
-				    status);
 		}
 	    }
 	    AISRequiredPrivacySetting selected = (AISRequiredPrivacySetting) psTableViewer

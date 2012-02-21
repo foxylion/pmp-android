@@ -1,14 +1,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
-import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -78,11 +74,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
      * The add {@link AISRequiredResourceGroup} action
      */
     private Action addRG;
-
-    /**
-     * Id of this component
-     */
-    private String ID = "service_feature_masterblock";
 
     /*
      * (non-Javadoc)
@@ -344,18 +335,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    @Override
 	    public void run() {
 		List<RGIS> rgisList = null;
-		try {
-		    rgisList = Model.getInstance().getRgisList();
-		} catch (IOException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog
-			    .openError(
-				    parentShell,
-				    "Error",
-				    "A error happend while downloading the Resource Groups from the server.",
-				    status);
-		}
+		rgisList = Model.getInstance().getRgisList(parentShell);
 
 		if (rgisList != null) {
 		    HashMap<String, RGIS> resGroups = new HashMap<String, RGIS>();
