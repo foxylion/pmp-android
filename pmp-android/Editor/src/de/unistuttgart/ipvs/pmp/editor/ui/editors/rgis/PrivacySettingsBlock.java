@@ -36,8 +36,10 @@ import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.SectionPart;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
@@ -66,7 +68,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	}
 
 	public void setDirty(boolean dirty) {
-		form.setDirty(dirty);
+		this.form.setDirty(dirty);
 	}
 
 	@Override
@@ -75,8 +77,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		FormToolkit toolkit = managedForm.getToolkit();
 
 		// Create section
-		Section section = toolkit.createSection(parent, Section.TWISTIE
-				| Section.TITLE_BAR);
+		Section section = toolkit.createSection(parent,
+				ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 		section.setText("Privacy Settings");
 		section.setExpanded(true);
 		section.marginWidth = 5;
@@ -86,25 +88,26 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		compo.setLayout(new GridLayout(2, false));
 
 		// Add tree
-		treeViewer = new TreeViewer(compo, SWT.BORDER);
-		treeViewer.setContentProvider(new PrivacySettingsContentProvider());
-		treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
-		treeViewer.setInput(Model.getInstance().getRgis());
-		
+		this.treeViewer = new TreeViewer(compo, SWT.BORDER);
+		this.treeViewer
+				.setContentProvider(new PrivacySettingsContentProvider());
+		this.treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
+		this.treeViewer.setInput(Model.getInstance().getRgis());
+
 		// Add tooltip listener
 		TooltipTreeListener tooltipListener = new TooltipTreeListener(
-				treeViewer, parent.getShell());
-		treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
-		treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
-		treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
-		treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
+				this.treeViewer, parent.getShell());
+		this.treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
+		this.treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
+		this.treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
+		this.treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
 
 		GridData treeLayout = new GridData();
 		treeLayout.verticalAlignment = GridData.FILL;
 		treeLayout.grabExcessVerticalSpace = true;
 		treeLayout.horizontalAlignment = GridData.FILL;
 		treeLayout.grabExcessHorizontalSpace = true;
-		treeViewer.getControl().setLayoutData(treeLayout);
+		this.treeViewer.getControl().setLayoutData(treeLayout);
 
 		// Create listener that handles selections of tree-items
 		final SectionPart spart = new SectionPart(section);
@@ -126,7 +129,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 				IRGIS rgis = Model.getInstance().getRgis();
 				RGISPrivacySetting ps = new RGISPrivacySetting();
 				rgis.addPrivacySetting(ps);
-				treeViewer.refresh();
+				PrivacySettingsBlock.this.treeViewer.refresh();
 			}
 
 		});
@@ -140,7 +143,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 			public void widgetSelected(SelectionEvent e) {
 				// Get selected element
 				RGISPrivacySetting ps = null;
-				TreeSelection sel = (TreeSelection) treeViewer.getSelection();
+				TreeSelection sel = (TreeSelection) PrivacySettingsBlock.this.treeViewer
+						.getSelection();
 				if (sel.getFirstElement() instanceof RGISPrivacySetting) {
 					ps = (RGISPrivacySetting) sel.getFirstElement();
 				} else {
@@ -155,19 +159,22 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 				// Remove selected entry for model
 				IRGIS rgis = Model.getInstance().getRgis();
 				rgis.removePrivacySetting(ps);
-				treeViewer.refresh();
+				PrivacySettingsBlock.this.treeViewer.refresh();
 			}
 
 		});
 
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		this.treeViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				managedForm.fireSelectionChanged(spart, event.getSelection());
-				removeButton.setEnabled(!event.getSelection().isEmpty());
-			}
-		});
+					@Override
+					public void selectionChanged(SelectionChangedEvent event) {
+						managedForm.fireSelectionChanged(spart,
+								event.getSelection());
+						removeButton
+								.setEnabled(!event.getSelection().isEmpty());
+					}
+				});
 
 		section.setClient(compo);
 	}
@@ -175,19 +182,22 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	protected void refresh() {
 		RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
 		validator.validatePrivacySettings(Model.getInstance().getRgis(), true);
-		treeViewer.refresh();
+		this.treeViewer.refresh();
 	}
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
 		detailsPart.registerPage(RGISPrivacySetting.class,
 				new PrivacySettingDetailsPage(this));
-		detailsPart.registerPage(NameString.class,
-				new LocalizationDetailsPage(this, LocaleTable.Type.NAME));
-		detailsPart.registerPage(DescriptionString.class,
-				new LocalizationDetailsPage(this, LocaleTable.Type.DESCRIPTION));
-		detailsPart.registerPage(ChangeDescriptionString.class, 
-				new LocalizationDetailsPage(this, LocaleTable.Type.CHANGE_DESCRIPTION));
+		detailsPart.registerPage(NameString.class, new LocalizationDetailsPage(
+				this, LocaleTable.Type.NAME));
+		detailsPart
+				.registerPage(DescriptionString.class,
+						new LocalizationDetailsPage(this,
+								LocaleTable.Type.DESCRIPTION));
+		detailsPart.registerPage(ChangeDescriptionString.class,
+				new LocalizationDetailsPage(this,
+						LocaleTable.Type.CHANGE_DESCRIPTION));
 
 	}
 

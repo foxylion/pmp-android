@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,8 +71,8 @@ public class DialogPrivacySettingInformation extends Dialog {
         /*
          * Updates the Title with the privacy name.
          */
-        ((BasicTitleView) findViewById(R.id.Title)).setTitle(privacySetting.getName());
-        Drawable icon = privacySetting.getResourceGroup().getIcon();
+        ((BasicTitleView) findViewById(R.id.Title)).setTitle(this.privacySetting.getName());
+        Drawable icon = this.privacySetting.getResourceGroup().getIcon();
         if (icon != null) {
             ((BasicTitleView) findViewById(R.id.Title)).setIcon(icon);
         }
@@ -80,9 +80,9 @@ public class DialogPrivacySettingInformation extends Dialog {
         /*
          * Update Description, Resource Group name and identifier.
          */
-        ((TextView) findViewById(R.id.TextView_Description)).setText(privacySetting.getDescription());
-        ((TextView) findViewById(R.id.TextView_RG_Name)).setText(privacySetting.getResourceGroup().getName());
-        ((TextView) findViewById(R.id.TextView_Identifier)).setText(privacySetting.getIdentifier());
+        ((TextView) findViewById(R.id.TextView_Description)).setText(this.privacySetting.getDescription());
+        ((TextView) findViewById(R.id.TextView_RG_Name)).setText(this.privacySetting.getResourceGroup().getName());
+        ((TextView) findViewById(R.id.TextView_Identifier)).setText(this.privacySetting.getIdentifier());
     }
     
     

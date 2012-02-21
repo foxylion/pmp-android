@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;  
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
 
 /**
  * This class provides access to all dialogs in vHike
@@ -61,19 +61,19 @@ public class vhikeDialogs {
      * @return login progress dialog
      */
     public ProgressDialog getLoginPD(Context context) {
-        if (dLogin == null) {
-            dLogin = new ProgressDialog(context);
+        if (this.dLogin == null) {
+            this.dLogin = new ProgressDialog(context);
         }
-        dLogin.setTitle("Login");
-        dLogin.setMessage("Logging in...");
-        dLogin.setIndeterminate(true);
-        dLogin.setCancelable(false);
-        return dLogin;
+        this.dLogin.setTitle("Login");
+        this.dLogin.setMessage("Logging in...");
+        this.dLogin.setIndeterminate(true);
+        this.dLogin.setCancelable(false);
+        return this.dLogin;
     }
     
     
     public void clearLoginPD() {
-        dLogin = null;
+        this.dLogin = null;
     }
     
     
@@ -85,20 +85,20 @@ public class vhikeDialogs {
      * @return announce progress dialog
      */
     public ProgressDialog getAnnouncePD(Context context) {
-        if (dAnnounce == null) {
-            dAnnounce = new ProgressDialog(context);
+        if (this.dAnnounce == null) {
+            this.dAnnounce = new ProgressDialog(context);
         }
-        dAnnounce.setTitle("Announcing trip");
-        dAnnounce.setMessage("Getting current location...\nAnnouncing trip...");
-        dAnnounce.setIndeterminate(true);
-        dAnnounce.setCancelable(false);
+        this.dAnnounce.setTitle("Announcing trip");
+        this.dAnnounce.setMessage("Getting current location...\nAnnouncing trip...");
+        this.dAnnounce.setIndeterminate(true);
+        this.dAnnounce.setCancelable(false);
         
-        return dAnnounce;
+        return this.dAnnounce;
     }
     
     
     public void clearAnnouncPD() {
-        dAnnounce = null;
+        this.dAnnounce = null;
     }
     
     
@@ -110,57 +110,57 @@ public class vhikeDialogs {
      * @return search progress dialog
      */
     public ProgressDialog getSearchPD(Context context) {
-        if (dSearch == null) {
-            dSearch = new ProgressDialog(context);
+        if (this.dSearch == null) {
+            this.dSearch = new ProgressDialog(context);
         }
-        dSearch.setTitle("Thumbs up");
-        dSearch.setMessage("Getting current location...\nHolding thumb up...");
-        dSearch.setIndeterminate(true);
-        dSearch.setCancelable(false);
+        this.dSearch.setTitle("Thumbs up");
+        this.dSearch.setMessage("Getting current location...\nHolding thumb up...");
+        this.dSearch.setIndeterminate(true);
+        this.dSearch.setCancelable(false);
         
-        return dSearch;
+        return this.dSearch;
     }
     
     
     public void clearSearchPD() {
-        dSearch = null;
+        this.dSearch = null;
     }
     
     
     public Dialog getUpdateDataDialog(Context mContext) {
-        dUpdateData = new UpdateData(mContext);
+        this.dUpdateData = new UpdateData(mContext);
         
-        return dUpdateData;
+        return this.dUpdateData;
     }
     
     
     public RideDate getRideDate(Context context) {
-        if (dRideDate == null) {
-            dRideDate = new RideDate(context);
+        if (this.dRideDate == null) {
+            this.dRideDate = new RideDate(context);
         }
-        return dRideDate;
+        return this.dRideDate;
     }
     
     
     public RideTime getRideTime(Context context) {
-        if (dRideTime == null) {
-            dRideTime = new RideTime(context);
+        if (this.dRideTime == null) {
+            this.dRideTime = new RideTime(context);
         }
-        return dRideTime;
+        return this.dRideTime;
     }
     
     
     public Wait4PickUp getW4PU(Context context) {
-        if (w4pu == null) {
-            w4pu = new Wait4PickUp(context);
+        if (this.w4pu == null) {
+            this.w4pu = new Wait4PickUp(context);
         }
-        return w4pu;
+        return this.w4pu;
     }
     
     
     public RateProfileConfirm getRateProfileConfirmation(Context context, int profileID, int rating, int tripID) {
-        rpc = new RateProfileConfirm(context, profileID, rating, tripID);
-        return rpc;
+        this.rpc = new RateProfileConfirm(context, profileID, rating, tripID);
+        return this.rpc;
     }
     
     

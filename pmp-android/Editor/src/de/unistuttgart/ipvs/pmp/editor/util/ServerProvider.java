@@ -39,7 +39,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 /**
  * Handles the access to the resource-group server to gather all available
  * resource-groups and represents them as a list of {@code RGIS}
- *  
+ * 
  * @author Patrick Strobel
  */
 public class ServerProvider implements IServerProvider {
@@ -47,7 +47,7 @@ public class ServerProvider implements IServerProvider {
 	/**
 	 * URL and port could be set using preferences
 	 */
-	private String serverUrl = /*"localhost";// */JPMPPSConstants.HOSTNAME;
+	private String serverUrl = /* "localhost";// */JPMPPSConstants.HOSTNAME;
 	private int serverPort = JPMPPSConstants.PORT;
 	private int serverTimeout = 10000;
 
@@ -56,11 +56,11 @@ public class ServerProvider implements IServerProvider {
 	@Override
 	public List<RGIS> getAvailableRessourceGroups() throws IOException {
 		// If this is the first access to the list, gather RGIS from server
-		if (rgisList == null) {
+		if (this.rgisList == null) {
 			updateResourceGroupList();
 		}
 
-		return rgisList;
+		return this.rgisList;
 	}
 
 	@Override
@@ -69,12 +69,11 @@ public class ServerProvider implements IServerProvider {
 		ObjectOutputStream out = null;
 		try {
 			// Establish a TCP-Connection to the server
-			server = new Socket(serverUrl, serverPort);
-			server.setSoTimeout(serverTimeout);
+			server = new Socket(this.serverUrl, this.serverPort);
+			server.setSoTimeout(this.serverTimeout);
 
 			// Request a list of all available RGs
-			out = new ObjectOutputStream(
-					server.getOutputStream());
+			out = new ObjectOutputStream(server.getOutputStream());
 
 			ObjectInputStream in = new ObjectInputStream(
 					server.getInputStream());
@@ -106,7 +105,7 @@ public class ServerProvider implements IServerProvider {
 					if (out != null) {
 						out.writeObject(new RequestCommunicationEnd());
 					}
-					
+
 					// Close connection
 					server.close();
 				} catch (IOException e) {
@@ -130,23 +129,23 @@ public class ServerProvider implements IServerProvider {
 	private void buildRGISList(LocalizedResourceGroup[] locRGArray,
 			ObjectInputStream in, ObjectOutputStream out) throws IOException,
 			ClassNotFoundException {
-		
+
 		// Clear-List
-		if (rgisList == null) {
-			rgisList = new ArrayList<RGIS>(locRGArray.length);
+		if (this.rgisList == null) {
+			this.rgisList = new ArrayList<RGIS>(locRGArray.length);
 		} else {
-			rgisList.clear();
+			this.rgisList.clear();
 		}
 
 		// Request RGIS from Server and add them to the list
 		for (LocalizedResourceGroup localizedRG : locRGArray) {
 			String packageName = localizedRG.getIdentifier();
 			out.writeObject(new RequestRGIS(packageName));
-			
+
 			Object response = in.readObject();
 			if (response instanceof RGISResponse) {
 				RGISResponse rgisRes = (RGISResponse) response;
-				rgisList.add((RGIS) rgisRes.getRGIS());
+				this.rgisList.add((RGIS) rgisRes.getRGIS());
 			} else {
 				throw new IOException("Unsupported response from server.");
 			}

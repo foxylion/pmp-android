@@ -33,45 +33,45 @@ import org.eclipse.swt.widgets.TableItem;
  * 
  */
 public class TooltipTableLabelListener implements
-	org.eclipse.swt.widgets.Listener {
+		org.eclipse.swt.widgets.Listener {
 
-    /**
-     * The {@link TableViewer} where the tool tips are placed
-     */
-    TableViewer tableViewer;
+	/**
+	 * The {@link TableViewer} where the tool tips are placed
+	 */
+	TableViewer tableViewer;
 
-    /**
-     * Creates a listener to display the labels
-     * 
-     * @param treeViewer
-     *            {@link TableViewer} where the tool tips are displayed
-     */
-    public TooltipTableLabelListener(TableViewer table) {
-	this.tableViewer = table;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
-     * Event)
-     */
-    @Override
-    public void handleEvent(Event event) {
-	Label label = (Label) event.widget;
-	Shell shell = label.getShell();
-	switch (event.type) {
-	case SWT.MouseDown:
-	    Event e = new Event();
-	    e.item = (TableItem) label.getData("_TABLEITEM");
-	    tableViewer.getTable().setSelection((TableItem) e.item);
-	    tableViewer.refresh();
-	case SWT.MouseExit:
-	    shell.dispose();
-	    break;
+	/**
+	 * Creates a listener to display the labels
+	 * 
+	 * @param treeViewer
+	 *            {@link TableViewer} where the tool tips are displayed
+	 */
+	public TooltipTableLabelListener(TableViewer table) {
+		this.tableViewer = table;
 	}
 
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
+	 */
+	@Override
+	public void handleEvent(Event event) {
+		Label label = (Label) event.widget;
+		Shell shell = label.getShell();
+		switch (event.type) {
+		case SWT.MouseDown:
+			Event e = new Event();
+			e.item = (TableItem) label.getData("_TABLEITEM");
+			this.tableViewer.getTable().setSelection((TableItem) e.item);
+			this.tableViewer.refresh();
+		case SWT.MouseExit:
+			shell.dispose();
+			break;
+		}
+
+	}
 
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,14 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
  * After editing the rating bar user has to confirm is rating through this dialog

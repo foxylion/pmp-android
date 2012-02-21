@@ -29,20 +29,20 @@ package de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser;
  */
 public class NoMainActivityException extends Exception {
 
-    /**
-     * Auto generated serial
-     */
-    private static final long serialVersionUID = 3621590944193678970L;
+	/**
+	 * Auto generated serial
+	 */
+	private static final long serialVersionUID = 3621590944193678970L;
 
-    /**
-     * Constructor to send a message
-     * 
-     * @param message
-     *            to display
-     */
-    public NoMainActivityException(String message) {
-	super(message);
-	// TODO Auto-generated constructor stub
-    }
+	/**
+	 * Constructor to send a message
+	 * 
+	 * @param message
+	 *            to display
+	 */
+	public NoMainActivityException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
 
 }

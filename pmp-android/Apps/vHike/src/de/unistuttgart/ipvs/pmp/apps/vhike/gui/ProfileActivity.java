@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,6 +28,11 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
  * Displays the profile of the current user, some other vHike-User to simply display users personal information or to
@@ -50,6 +50,7 @@ public class ProfileActivity extends Activity {
             "03.01.2011, Vaihingen", "..." };
     
     
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -73,33 +74,33 @@ public class ProfileActivity extends Activity {
         final int tripID = getIntent().getExtras().getInt("TRIP_ID");
         
         if (whoIsIt == 0) {
-            profile = Model.getInstance().getOwnProfile();
+            this.profile = Model.getInstance().getOwnProfile();
         } else {
             Controller ctrl = new Controller();
-            profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
+            this.profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
         }
         
         TextView tv_username = (TextView) findViewById(R.id.tv_username);
-        tv_username.setText(profile.getUsername());
+        tv_username.setText(this.profile.getUsername());
         
         EditText et_firstname = (EditText) findViewById(R.id.et_firstname);
-        et_firstname.setText(profile.getFirstname());
+        et_firstname.setText(this.profile.getFirstname());
         
         EditText et_lastname = (EditText) findViewById(R.id.et_lastname);
-        et_lastname.setText(profile.getLastname());
+        et_lastname.setText(this.profile.getLastname());
         
         EditText et_email = (EditText) findViewById(R.id.et_email);
-        et_email.setText(profile.getEmail());
+        et_email.setText(this.profile.getEmail());
         
         EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-        et_mobile.setText(profile.getTel());
+        et_mobile.setText(this.profile.getTel());
         
-        rb = (RatingBar) findViewById(R.id.ratingbar_profile);
-        rb.setRating((float) profile.getRating_avg());
+        this.rb = (RatingBar) findViewById(R.id.ratingbar_profile);
+        this.rb.setRating((float) this.profile.getRating_avg());
         
         if (ratingModus == 1) {
-            rb.setIsIndicator(false);
-            rb.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+            this.rb.setIsIndicator(false);
+            this.rb.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
                 
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -108,8 +109,8 @@ public class ProfileActivity extends Activity {
                 }
             });
         } else {
-            rb.setIsIndicator(true);
-            rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            this.rb.setIsIndicator(true);
+            this.rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -119,10 +120,10 @@ public class ProfileActivity extends Activity {
         }
         
         TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
-        tv_rating.setText(String.valueOf(profile.getRating_avg()));
+        tv_rating.setText(String.valueOf(this.profile.getRating_avg()));
         
         EditText et_desc = (EditText) findViewById(R.id.et_description_profile);
-        et_desc.setText(profile.getDescription());
+        et_desc.setText(this.profile.getDescription());
         // // car = "";
         // et_car.setText(car);
         

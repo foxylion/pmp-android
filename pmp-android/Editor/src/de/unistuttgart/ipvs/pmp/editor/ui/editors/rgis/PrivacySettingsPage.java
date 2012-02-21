@@ -31,32 +31,32 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  */
 public class PrivacySettingsPage extends FormPage {
 
-    public static final String ID = "rgis_ps";
-    private boolean dirty = false;
-    private PrivacySettingsBlock privacySettingsBlock = new PrivacySettingsBlock(
-	    this);
+	public static final String ID = "rgis_ps";
+	private boolean dirty = false;
+	private PrivacySettingsBlock privacySettingsBlock = new PrivacySettingsBlock(
+			this);
 
-    public PrivacySettingsPage(FormEditor parent) {
-	super(parent, ID, "Privacy Settings");
+	public PrivacySettingsPage(FormEditor parent) {
+		super(parent, ID, "Privacy Settings");
 
-    }
+	}
 
-    public void setDirty(boolean dirty) {
-	this.dirty = dirty;
-	System.out.println("PS-Page dirty = " + dirty);
-    }
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+		System.out.println("PS-Page dirty = " + dirty);
+	}
 
-    @Override
-    public boolean isDirty() {
-	return dirty;
-    }
+	@Override
+	public boolean isDirty() {
+		return this.dirty;
+	}
 
-    @Override
-    protected void createFormContent(IManagedForm managedForm) {
-	ScrolledForm form = managedForm.getForm();
-	form.setText("Defines the Privacy Setting");
+	@Override
+	protected void createFormContent(IManagedForm managedForm) {
+		ScrolledForm form = managedForm.getForm();
+		form.setText("Defines the Privacy Setting");
 
-	privacySettingsBlock.createContent(managedForm);
-    }
+		this.privacySettingsBlock.createContent(managedForm);
+	}
 
 }

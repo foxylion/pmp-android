@@ -32,42 +32,42 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class PrivacySettingsDialogContentProvider implements
-	IStructuredContentProvider {
+		IStructuredContentProvider {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-     */
-    @Override
-    public void dispose() {
-	// TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+	 */
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
-     * .viewers.Viewer, java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-	// TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
+	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
-     * .lang.Object)
-     */
-    @Override
-    public Object[] getElements(Object arg0) {
-	return ((RGIS) arg0).getPrivacySettings().toArray();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
+	 */
+	@Override
+	public Object[] getElements(Object arg0) {
+		return ((RGIS) arg0).getPrivacySettings().toArray();
+	}
 
 }

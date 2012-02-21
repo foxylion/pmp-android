@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
@@ -34,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  * 
  */
 public class Model {
-   
+    
     /**
      * Instance of the Object {@link Model}
      */
@@ -60,7 +58,7 @@ public class Model {
     
     
     public List<QueryObject> getQueryHolder() {
-        return queryHolder;
+        return this.queryHolder;
     }
     
     
@@ -72,7 +70,7 @@ public class Model {
     
     
     public List<HistoryRideObject> getHistoryObjHolder() {
-        return historyObjHolder;
+        return this.historyObjHolder;
     }
     
     
@@ -87,7 +85,7 @@ public class Model {
     
     
     public List<OfferObject> getOfferHolder() {
-        return offerHolder;
+        return this.offerHolder;
     }
     
     
@@ -97,7 +95,7 @@ public class Model {
     
     
     public int getQueryId() {
-        return queryId;
+        return this.queryId;
     }
     
     
@@ -107,7 +105,7 @@ public class Model {
     
     
     public int getTripId() {
-        return tripId;
+        return this.tripId;
     }
     
     
@@ -149,7 +147,7 @@ public class Model {
      * @return sid
      */
     public String getSid() {
-        return sid;
+        return this.sid;
     }
     
     
@@ -169,7 +167,7 @@ public class Model {
      * @return {@link Profile}
      */
     public Profile getOwnProfile() {
-        return ownProfile;
+        return this.ownProfile;
     }
     
     

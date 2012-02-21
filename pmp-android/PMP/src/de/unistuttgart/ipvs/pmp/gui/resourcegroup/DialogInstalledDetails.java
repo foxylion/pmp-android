@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,13 +97,14 @@ public class DialogInstalledDetails extends Dialog {
                     @Override
                     public void callback(boolean confirmed) {
                         if (confirmed) {
-                            ModelProxy.get().uninstallResourceGroup(resourcegroup.getIdentifier());
+                            ModelProxy.get().uninstallResourceGroup(
+                                    DialogInstalledDetails.this.resourcegroup.getIdentifier());
                             
                             Toast.makeText(getContext(), getContext().getString(R.string.rg_removed_success),
                                     Toast.LENGTH_LONG).show();
                             
                             dismiss();
-                            parent.refreshList();
+                            DialogInstalledDetails.this.parent.refreshList();
                             
                             /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
                             new Thread() {
@@ -114,7 +115,7 @@ public class DialogInstalledDetails extends Dialog {
                                         Thread.sleep(2000);
                                     } catch (InterruptedException e) {
                                     }
-                                    Restarter.killAppAndRestartActivity(parent.getParent());
+                                    Restarter.killAppAndRestartActivity(DialogInstalledDetails.this.parent.getParent());
                                 };
                             }.start();
                         }

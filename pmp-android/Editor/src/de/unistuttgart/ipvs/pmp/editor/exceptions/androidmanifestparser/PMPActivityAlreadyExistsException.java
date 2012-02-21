@@ -28,18 +28,18 @@ package de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser;
  */
 public class PMPActivityAlreadyExistsException extends Exception {
 
-    /**
-     * Auto generated serial
-     */
-    private static final long serialVersionUID = -5744810497729968292L;
+	/**
+	 * Auto generated serial
+	 */
+	private static final long serialVersionUID = -5744810497729968292L;
 
-    /**
-     * Constructor to send a message
-     * 
-     * @param msg
-     *            message to display
-     */
-    public PMPActivityAlreadyExistsException(String msg) {
-	super(msg);
-    }
+	/**
+	 * Constructor to send a message
+	 * 
+	 * @param msg
+	 *            message to display
+	 */
+	public PMPActivityAlreadyExistsException(String msg) {
+		super(msg);
+	}
 }

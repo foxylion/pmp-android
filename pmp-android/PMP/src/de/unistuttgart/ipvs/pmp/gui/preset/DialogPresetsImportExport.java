@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -102,7 +102,7 @@ public class DialogPresetsImportExport extends Dialog {
     public DialogPresetsImportExport(Context context, IPresetSet presets, ICallbackImport callback) {
         super(context);
         
-        isExport = false;
+        this.isExport = false;
         this.presetsNew = presets;
         this.callback = callback;
         
@@ -220,7 +220,7 @@ public class DialogPresetsImportExport extends Dialog {
             
             @Override
             public void onClick(View v) {
-                if (isExport) {
+                if (DialogPresetsImportExport.this.isExport) {
                     /* in export mode */
                     IPresetSet presetSet = exportPresets();
                     PresetSetTools.uploadPresetSet(getContext(), presetSet, new ICallbackUpload() {
@@ -258,8 +258,8 @@ public class DialogPresetsImportExport extends Dialog {
                         dismiss();
                     }
                     
-                    if (callback != null) {
-                        callback.ended(importSuccess);
+                    if (DialogPresetsImportExport.this.callback != null) {
+                        DialogPresetsImportExport.this.callback.ended(importSuccess);
                     }
                 }
             }
@@ -274,8 +274,8 @@ public class DialogPresetsImportExport extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                if (callback != null) {
-                    callback.ended(false);
+                if (DialogPresetsImportExport.this.callback != null) {
+                    DialogPresetsImportExport.this.callback.ended(false);
                 }
             }
         });

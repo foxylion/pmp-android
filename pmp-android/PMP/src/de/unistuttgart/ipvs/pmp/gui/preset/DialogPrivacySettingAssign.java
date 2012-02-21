@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -172,7 +172,8 @@ public class DialogPrivacySettingAssign extends Dialog {
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
                                     try {
-                                        preset.assignPrivacySetting(privacySetting, newValue);
+                                        DialogPrivacySettingAssign.this.preset.assignPrivacySetting(privacySetting,
+                                                newValue);
                                     } catch (PrivacySettingValueException e) {
                                         Log.e(DialogPrivacySettingAssign.this,
                                                 "Couldn't set new value for PrivacySetting, PSVE", e);

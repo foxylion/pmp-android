@@ -30,38 +30,38 @@ import org.eclipse.jface.dialogs.InputDialog;
  * 
  */
 public class InputNotEmptyValidator implements IInputValidator {
-    /**
-     * Name of the field
-     */
-    String field;
+	/**
+	 * Name of the field
+	 */
+	String field;
 
-    /**
-     * Constructs the validator
-     * 
-     * @param field
-     *            name of your field that could not be empty
-     */
-    public InputNotEmptyValidator(String field) {
-	this.field = field;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String)
-     */
-    @Override
-    public String isValid(String entered) {
-	if (entered == null) {
-	    return field + " could not be empty";
+	/**
+	 * Constructs the validator
+	 * 
+	 * @param field
+	 *            name of your field that could not be empty
+	 */
+	public InputNotEmptyValidator(String field) {
+		this.field = field;
 	}
 
-	if (entered.equals("")) {
-	    return field + " could not be empty";
-	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String)
+	 */
+	@Override
+	public String isValid(String entered) {
+		if (entered == null) {
+			return this.field + " could not be empty";
+		}
 
-	// Everthing ok
-	return null;
-    }
+		if (entered.equals("")) {
+			return this.field + " could not be empty";
+		}
+
+		// Everthing ok
+		return null;
+	}
 
 }

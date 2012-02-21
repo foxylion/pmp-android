@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,27 +19,26 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
-
 public class PositionObject {
- 
+    
     private double lat;
     private double lon;
+    
     
     public PositionObject(double lat, double lon) {
         super();
         this.lat = lat;
         this.lon = lon;
     }
-
+    
     
     public double getLat() {
-        return lat;
+        return this.lat;
     }
-
+    
     
     public double getLon() {
-        return lon;
+        return this.lon;
     }
-    
     
 }

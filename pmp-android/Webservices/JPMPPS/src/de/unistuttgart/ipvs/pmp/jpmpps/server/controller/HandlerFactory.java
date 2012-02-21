@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: JPMPPS
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,6 +63,7 @@ public class HandlerFactory {
      */
     private IRequestHandler defaultHander = new DefaultHandler();
     
+    
     /**
      * {@link HandlerFactory} constructor.
      */
@@ -75,6 +76,7 @@ public class HandlerFactory {
         this.handlerMap.put(RequestPresetSetSave.class, new PresetSetSaveHandler());
         this.handlerMap.put(RequestPresetSetLoad.class, new PresetSetLoadHandler());
     }
+    
     
     /**
      * @return Returns the instance of {@link HandlerFactory}.
@@ -91,8 +93,10 @@ public class HandlerFactory {
     /**
      * Handles a new incoming request.
      * 
-     * @param controller {@link ConnectionController} which is responsible for the request.
-     * @param request Request which should be handled.
+     * @param controller
+     *            {@link ConnectionController} which is responsible for the request.
+     * @param request
+     *            Request which should be handled.
      */
     public void handle(ConnectionController controller, AbstractRequest request) {
         IRequestHandler handler = null;

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,13 +42,14 @@ public class ViewObject {
     int status;
     ViewObject me;
     
+    
     public ViewObject(float lat, float lon, Profile profile) {
         super();
         this.status = Constants.V_OBJ_SATUS_FOUND;
         this.lat = lat;
         this.lon = lon;
         this.profile = profile;
-        me = this;
+        this.me = this;
     }
     
     
@@ -59,22 +60,22 @@ public class ViewObject {
     
     
     public float getLat() {
-        return lat;
+        return this.lat;
     }
     
     
     public float getLon() {
-        return lon;
+        return this.lon;
     }
     
     
     public Profile getProfile() {
-        return profile;
+        return this.profile;
     }
     
     
     public QueryObject getqObject() {
-        return qObject;
+        return this.qObject;
     }
     
     
@@ -84,7 +85,7 @@ public class ViewObject {
     
     
     public OfferObject getoObject() {
-        return oObject;
+        return this.oObject;
     }
     
     
@@ -94,7 +95,7 @@ public class ViewObject {
     
     
     public int getStatus() {
-        return status;
+        return this.status;
     }
     
     
@@ -111,47 +112,54 @@ public class ViewObject {
     }
     
     
-    public OnClickListener getDenieOfferClickListener(){
+    public OnClickListener getDenieOfferClickListener() {
         OnClickListener listener = null;
         
         listener = new OnClickListener() {
+            
             Controller ctrl = new Controller();
+            
+            
             @Override
             public void onClick(View v) {
-                ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), false);
-                status = Constants.V_OBJ_SATUS_BANNED;
-                ViewModel.getInstance().addToBanned(me);
+                this.ctrl.handleOffer(Model.getInstance().getSid(), ViewObject.this.oObject.getOffer_id(), false);
+                ViewObject.this.status = Constants.V_OBJ_SATUS_BANNED;
+                ViewModel.getInstance().addToBanned(ViewObject.this.me);
                 ViewModel.getInstance().updateView(1);
             }
         };
         
-        
         return listener;
     }
+    
     
     public OnClickListener getOnClickListener(int who) {
         OnClickListener listener = null;
         // 0 = driver , 1 = passenger
         final int whoAmI = who;
         
-        switch (status) {
+        switch (this.status) {
             case Constants.V_OBJ_SATUS_FOUND:
                 listener = new OnClickListener() {
+                    
                     Controller ctrl = new Controller();
+                    
+                    
                     @Override
                     public void onClick(View v) {
-                        if(whoAmI == 0){
+                        if (whoAmI == 0) {
                             listenerForDriver();
-                        }else{
+                        } else {
                             listenerForPassenger(v);
                         }
                     }
                     
-                    public void listenerForDriver(){
+                    
+                    public void listenerForDriver() {
                         
                         //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT
-                        int result = ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
-                                qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!");
+                        int result = this.ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
+                                ViewObject.this.qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!");
                         switch (result) {
                             case Constants.STATUS_INVALID_TRIP:
                                 Log.i(this, "Invalid trip_id in sendOffer()");
@@ -163,9 +171,9 @@ public class ViewObject {
                                 Log.i(this, "Already sent offer!");
                                 break;
                             default:
-                                status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
+                                ViewObject.this.status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
                                 // START TIMER HIER
-                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(getViewObjectToBann(),result);
+                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(getViewObjectToBann(), result);
                                 Timer timer = new Timer();
                                 timer.schedule(c4ao, 300, 10000);
                                 Log.i(this, "Offer sent.");
@@ -173,14 +181,17 @@ public class ViewObject {
                                 break;
                         }
                     }
-                    public void listenerForPassenger(View v){
-                        if(oObject== null){
+                    
+                    
+                    public void listenerForPassenger(View v) {
+                        if (ViewObject.this.oObject == null) {
                             Log.i(this, "oObject is Null");
                         }
-                        switch(ctrl.handleOffer(Model.getInstance().getSid(), oObject.getOffer_id(), true)){
-//                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
+                        switch (this.ctrl.handleOffer(Model.getInstance().getSid(),
+                                ViewObject.this.oObject.getOffer_id(), true)) {
+                        //                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
                             case Constants.STATUS_HANDLED:
-                                status = Constants.V_OBJ_SATUS_ACCEPTED;
+                                ViewObject.this.status = Constants.V_OBJ_SATUS_ACCEPTED;
                                 vhikeDialogs.getInstance().getW4PU(v.getContext()).show();
                                 Log.i(this, "OFFER HANDLED");
                                 break;
@@ -221,16 +232,16 @@ public class ViewObject {
                     @Override
                     public void onClick(View v) {
                         Controller ctrl = new Controller();
-                        if (ctrl.pick_up(Model.getInstance().getSid(), profile.getID())) {
-                            Log.i(this, "Picked up user: " + profile.getID());
-                            status = Constants.V_OBJ_SATUS_PICKED_UP;
+                        if (ctrl.pick_up(Model.getInstance().getSid(), ViewObject.this.profile.getID())) {
+                            Log.i(this, "Picked up user: " + ViewObject.this.profile.getID());
+                            ViewObject.this.status = Constants.V_OBJ_SATUS_PICKED_UP;
                             
                             // count down one available seats
                             ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats() - 1);
                             ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(),
                                     ViewModel.getInstance().getNumSeats());
                         } else {
-                            Log.i(this, "Not picked up user: " + profile.getID());
+                            Log.i(this, "Not picked up user: " + ViewObject.this.profile.getID());
                         }
                         ViewModel.getInstance().updateView(0);
                     }

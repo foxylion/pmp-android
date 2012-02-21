@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +22,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.stream.JsonReader;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
@@ -395,7 +393,7 @@ public class Controller {
                 return Constants.STATUS_INVALID_QUERY;
             } else if (status.equals("already_sent")) {
                 return Constants.STATUS_ALREADY_SENT;
-            }else{
+            } else {
                 return Integer.valueOf(status);
             }
         }
@@ -422,9 +420,9 @@ public class Controller {
                 return Constants.STATUS_INVALID_OFFER;
             } else if (status.equals("invalid_user")) {
                 return Constants.STATUS_INVALID_USER;
-            }else if(status.equals("denied")){
+            } else if (status.equals("denied")) {
                 return Constants.STATUS_ERROR;
-            }else if(status.equals("cannot_update")){
+            } else if (status.equals("cannot_update")) {
                 return Constants.STATUS_ERROR;
             }
         }

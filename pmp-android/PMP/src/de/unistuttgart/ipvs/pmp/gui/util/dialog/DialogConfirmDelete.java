@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -103,8 +103,8 @@ public class DialogConfirmDelete extends android.app.Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                if (callback != null) {
-                    callback.callback(true);
+                if (DialogConfirmDelete.this.callback != null) {
+                    DialogConfirmDelete.this.callback.callback(true);
                 }
             }
         });
@@ -114,8 +114,8 @@ public class DialogConfirmDelete extends android.app.Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-                if (callback != null) {
-                    callback.callback(false);
+                if (DialogConfirmDelete.this.callback != null) {
+                    DialogConfirmDelete.this.callback.callback(false);
                 }
             }
         });

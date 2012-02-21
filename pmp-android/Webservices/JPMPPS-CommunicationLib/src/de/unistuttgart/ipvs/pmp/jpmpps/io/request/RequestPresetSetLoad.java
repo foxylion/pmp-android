@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: JPMPPS-CommunicationLib
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@
  * limitations under the License.
  */
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
-
 
 /**
  * Request for a preset set saved on the server.
@@ -42,6 +41,6 @@ public class RequestPresetSetLoad extends AbstractRequest {
     
     
     public String getPresetSetId() {
-        return presetSetId;
+        return this.presetSetId;
     }
 }

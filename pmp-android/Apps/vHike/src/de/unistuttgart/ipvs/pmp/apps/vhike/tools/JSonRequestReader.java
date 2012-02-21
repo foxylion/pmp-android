@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,6 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -209,7 +208,6 @@ public class JSonRequestReader {
         String lastname = null;
         String tel = null;
         String description = null;
-        String regdate = null;
         boolean email_public = false;
         boolean firstname_public = false;
         boolean lastname_public = false;
@@ -227,7 +225,7 @@ public class JSonRequestReader {
             lastname = object.get("lastname").getAsString();
             tel = object.get("tel").getAsString();
             description = object.get("description").getAsString();
-            regdate = object.get("regdate").getAsString();
+            object.get("regdate").getAsString();
             rating_avg = object.get("rating_avg").getAsFloat();
             rating_num = object.get("rating_num").getAsInt();
             email_public = object.get("email_public").getAsBoolean();
@@ -281,7 +279,6 @@ public class JSonRequestReader {
         String lastname = "xxx";
         String tel = "xxx";
         String description = null;
-        String regdate = null;
         boolean email_public = false;
         boolean firstname_public = false;
         boolean lastname_public = false;
@@ -312,7 +309,7 @@ public class JSonRequestReader {
             username = object.get("username").getAsString();
             description = object.get("description").getAsString();
             Log.i(TAG, "GETPROFILE_: description:" + description);
-            regdate = object.get("regdate").getAsString();
+            object.get("regdate").getAsString();
             rating_avg = object.get("rating_avg").getAsFloat();
             rating_num = object.get("rating_num").getAsInt();
             
@@ -404,10 +401,9 @@ public class JSonRequestReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc = false;
         String status = null;
         if (object != null) {
-            suc = object.get("successful").getAsBoolean();
+            object.get("successful").getAsBoolean();
             status = object.get("status").getAsString();
             return status;
         }
@@ -445,6 +441,7 @@ public class JSonRequestReader {
         return status;
     }
     
+    
     public static PositionObject getUserPosition(String sid, int user_id) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
@@ -460,7 +457,6 @@ public class JSonRequestReader {
             e.printStackTrace();
         }
         boolean suc = false;
-        String status = "";
         JsonArray array;
         PositionObject posObj = null;
         if (object != null) {
@@ -500,10 +496,9 @@ public class JSonRequestReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc = false;
         String status = null;
         if (object != null) {
-            suc = object.get("successful").getAsBoolean();
+            object.get("successful").getAsBoolean();
             status = object.get("status").getAsString();
             return status;
         }
@@ -542,10 +537,9 @@ public class JSonRequestReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc = false;
         String status = null;
         if (object != null) {
-            suc = object.get("successful").getAsBoolean();
+            object.get("successful").getAsBoolean();
             status = object.get("status").getAsString();
             return status;
         }
@@ -702,14 +696,16 @@ public class JSonRequestReader {
                                 distance);
                         queryObjects.add(qObject);
                     }
-                    if(queryObjects!=null)
+                    if (queryObjects != null) {
                         Model.getInstance().setQueryHolder(queryObjects);
+                    }
                     return queryObjects;
                 }
             }
         }
-        if(queryObjects!=null)
+        if (queryObjects != null) {
             Model.getInstance().setQueryHolder(queryObjects);
+        }
         return queryObjects;
     }
     
@@ -811,12 +807,11 @@ public class JSonRequestReader {
         }
         boolean suc = false;
         String status = "";
-        String offer_id;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
-                if(status.equals("sent")){
+                if (status.equals("sent")) {
                     status = String.valueOf(object.get("offer_id").getAsInt());
                 }
                 return status;
@@ -849,8 +844,8 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 JsonArray array;
-                try{
-                    array = object.get("offers").getAsJsonArray();   
+                try {
+                    array = object.get("offers").getAsJsonArray();
                     offerObjects = new ArrayList<OfferObject>();
                     for (int i = 0; i < array.size(); i++) {
                         JsonObject Iobject = array.get(i).getAsJsonObject();
@@ -866,7 +861,7 @@ public class JSonRequestReader {
                         offerObjects.add(oObject);
                     }
                     Model.getInstance().setOfferHolder(offerObjects);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     offerObjects = new ArrayList<OfferObject>();
                 }
                 
@@ -907,11 +902,11 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
-                Log.i(null, "STATUS after handleOFFER: " +status);
+                Log.i(null, "STATUS after handleOFFER: " + status);
                 return status;
             }
         }
-        Log.i(null, "STATUS after handleOFFER: " +status );
+        Log.i(null, "STATUS after handleOFFER: " + status);
         return status;
     }
     
@@ -939,7 +934,6 @@ public class JSonRequestReader {
             e.printStackTrace();
         }
         boolean suc = false;
-        String status = "";
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
@@ -948,6 +942,7 @@ public class JSonRequestReader {
         }
         return false;
     }
+    
     
     public static boolean isPicked(String sid) {
         listToParse.clear();
@@ -963,7 +958,6 @@ public class JSonRequestReader {
             e.printStackTrace();
         }
         boolean suc = false;
-        String status = "";
         boolean picked = false;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
@@ -990,7 +984,7 @@ public class JSonRequestReader {
             e.printStackTrace();
         }
         boolean suc = false;
-        List<PassengerObject> objects = new ArrayList<PassengerObject>();
+        new ArrayList<PassengerObject>();
         String status = "";
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
@@ -1037,8 +1031,8 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 array_rides = object.get("rides").getAsJsonArray();
-                Log.i(TAG, "Array rides: "  + array_rides.toString());
-                Log.i(TAG, "Array rides: "  + array_rides.size());
+                Log.i(TAG, "Array rides: " + array_rides.toString());
+                Log.i(TAG, "Array rides: " + array_rides.size());
                 historyObjects = new ArrayList<HistoryRideObject>();
                 
                 for (int i = 0; i < array_rides.size(); i++) {
@@ -1105,7 +1099,7 @@ public class JSonRequestReader {
     }
     
     
-    public static String rateUser(String sid, int userid, int tripid, int rating){
+    public static String rateUser(String sid, int userid, int tripid, int rating) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
         listToParse.add(new ParamObject("recipient", String.valueOf(userid), true));
@@ -1121,16 +1115,17 @@ public class JSonRequestReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc=false;
-        String status="";
-        if(object!=null){
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
             suc = object.get("successful").getAsBoolean();
-            if(suc){
+            if (suc) {
                 status = object.get("status").getAsString();
             }
         }
         return status;
     }
+    
     
     /**
      * Dummy method don't touch it

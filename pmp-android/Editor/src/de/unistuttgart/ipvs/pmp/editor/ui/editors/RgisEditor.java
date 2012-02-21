@@ -24,6 +24,7 @@ import java.io.InputStream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
@@ -50,11 +51,11 @@ public class RgisEditor extends FormEditor {
 	@Override
 	protected void addPages() {
 		try {
-			model.setRgisEditor(this);
+			this.model.setRgisEditor(this);
 			RGUtil rgutil = XMLUtilityProxy.getRGUtil();
-			
+
 			// Parse XML-File
-			FileEditorInput input = (FileEditorInput) this.getEditorInput();
+			FileEditorInput input = (FileEditorInput) getEditorInput();
 			IRGIS rgis;
 			try {
 				// Synchronize if out of sync (better: show message)
@@ -62,13 +63,13 @@ public class RgisEditor extends FormEditor {
 					input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
 				}
 				rgis = rgutil.parse(input.getFile().getContents());
-				
+
 			} catch (ParserException e) {
 				rgis = rgutil.createBlankRGIS();
 			}
-			model.setRgis(rgis);
+			this.model.setRgis(rgis);
 			RGISValidatorWrapper.getInstance().validateRGIS(rgis, true);
-			
+
 			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
 		} catch (PartInitException e) {
@@ -81,22 +82,22 @@ public class RgisEditor extends FormEditor {
 	}
 
 	public void firePropertyChangedDirty() {
-		firePropertyChange(FormEditor.PROP_DIRTY);
+		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
-	
+
 	@Override
 	public boolean isDirty() {
-		return model.isRgisDirty();
+		return this.model.isRgisDirty();
 	}
-	
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		FileEditorInput input = (FileEditorInput)this.getEditorInput();
-		InputStream is = XMLUtilityProxy.getRGUtil().compile(model.getRgis());
+		FileEditorInput input = (FileEditorInput) getEditorInput();
+		InputStream is = XMLUtilityProxy.getRGUtil().compile(
+				this.model.getRgis());
 		try {
 			input.getFile().setContents(is, false, true, monitor);
-			model.setRgisDirty(false);
+			this.model.setRgisDirty(false);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

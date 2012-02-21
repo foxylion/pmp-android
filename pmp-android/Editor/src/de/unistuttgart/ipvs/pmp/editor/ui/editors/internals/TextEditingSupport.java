@@ -28,20 +28,20 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * 
  * @author Patrick Strobel
- *
+ * 
  */
 public abstract class TextEditingSupport extends EditingSupport {
-	
+
 	protected TextCellEditor editor;
-	
+
 	public TextEditingSupport(ColumnViewer viewer) {
 		super(viewer);
-		editor = new TextCellEditor((Composite) viewer.getControl());
+		this.editor = new TextCellEditor((Composite) viewer.getControl());
 	}
-	
+
 	@Override
 	protected CellEditor getCellEditor(Object element) {
-		return editor;
+		return this.editor;
 	}
 
 	@Override

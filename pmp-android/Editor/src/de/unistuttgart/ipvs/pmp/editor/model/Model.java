@@ -49,249 +49,250 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  */
 public class Model {
 
-    /**
-     * Instance of this class
-     */
-    private static Model instance = null;
+	/**
+	 * Instance of this class
+	 */
+	private static Model instance = null;
 
-    /**
-     * Indicates if the ais file has unsaved changes
-     */
-    private Boolean isAISDirty = false;
+	/**
+	 * Indicates if the ais file has unsaved changes
+	 */
+	private Boolean isAISDirty = false;
 
-    private boolean rgisDirty = false;
+	private boolean rgisDirty = false;
 
-    /**
-     * The stored {@link AIS}
-     */
-    private IAIS ais;
+	/**
+	 * The stored {@link AIS}
+	 */
+	private IAIS ais;
 
-    /**
-     * The stored {@link RGIS}
-     */
-    private IRGIS rgis;
+	/**
+	 * The stored {@link RGIS}
+	 */
+	private IRGIS rgis;
 
-    /**
-     * The stored {@link RGIS} list that was downloaded from the server
-     */
-    private List<RGIS> rgisList = null;
+	/**
+	 * The stored {@link RGIS} list that was downloaded from the server
+	 */
+	private List<RGIS> rgisList = null;
 
-    private AisEditor aisEditor;
+	private AisEditor aisEditor;
 
-    private RgisEditor rgisEditor;
+	private RgisEditor rgisEditor;
 
-    /**
-     * Private constructor because of singleton
-     */
-    private Model() {
-    }
-
-    /**
-     * Methode used to get the only instance of this class
-     * 
-     * @return only {@link Model} instance of this class
-     */
-    public static Model getInstance() {
-	if (instance == null) {
-	    instance = new Model();
+	/**
+	 * Private constructor because of singleton
+	 */
+	private Model() {
 	}
-	return instance;
-    }
 
-    /**
-     * Gets the stored {@link AIS}
-     * 
-     * @return the ais
-     */
-    public IAIS getAis() {
-	return ais;
-    }
-
-    /**
-     * Sets the {@link AIS} to store
-     * 
-     * @param ais
-     *            the ais to set
-     */
-    public void setAis(IAIS ais) {
-	this.ais = ais;
-    }
-
-    /**
-     * Get the stored {@link RGIS}
-     * 
-     * @return the rgis
-     */
-    public IRGIS getRgis() {
-	return rgis;
-    }
-
-    /**
-     * Set the {@link RGIS} to store
-     * 
-     * @param rgis
-     *            the rgis to set
-     */
-    public void setRgis(IRGIS rgis) {
-	this.rgis = rgis;
-    }
-
-    public void setRgisEditor(RgisEditor editor) {
-	rgisEditor = editor;
-
-    }
-
-    public void setRgisDirty(boolean dirty) {
-	rgisDirty = dirty;
-	rgisEditor.firePropertyChangedDirty();
-    }
-
-    public boolean isRgisDirty() {
-	return rgisDirty;
-    }
-
-    /**
-     * Gets the whole {@link RGIS} list from the server
-     * 
-     * @return the rgisList
-     * @throws IOException
-     */
-    public List<RGIS> getRgisList(Shell shell) {
-	if (rgisList == null) {
-	    updateServerList(shell);
+	/**
+	 * Methode used to get the only instance of this class
+	 * 
+	 * @return only {@link Model} instance of this class
+	 */
+	public static Model getInstance() {
+		if (instance == null) {
+			instance = new Model();
+		}
+		return instance;
 	}
-	return rgisList;
-    }
 
-    /**
-     * Updates the {@link RGIS} list from the server, while downloading a
-     * {@link ProgressMonitorDialog} is displayed
-     * 
-     * @param shell
-     *            {@link Shell} to display the {@link ProgressMonitorDialog}
-     */
-    public void updateServerList(final Shell shell) {
+	/**
+	 * Gets the stored {@link AIS}
+	 * 
+	 * @return the ais
+	 */
+	public IAIS getAis() {
+		return this.ais;
+	}
 
-	// Create the dialog
-	ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
-	try {
+	/**
+	 * Sets the {@link AIS} to store
+	 * 
+	 * @param ais
+	 *            the ais to set
+	 */
+	public void setAis(IAIS ais) {
+		this.ais = ais;
+	}
 
-	    // Run the dialog, not cancelable because the timeout is set to 1000
-	    dialog.run(false, false, new IRunnableWithProgress() {
+	/**
+	 * Get the stored {@link RGIS}
+	 * 
+	 * @return the rgis
+	 */
+	public IRGIS getRgis() {
+		return this.rgis;
+	}
 
-		@Override
-		public void run(IProgressMonitor monitor)
-			throws InvocationTargetException, InterruptedException {
+	/**
+	 * Set the {@link RGIS} to store
+	 * 
+	 * @param rgis
+	 *            the rgis to set
+	 */
+	public void setRgis(IRGIS rgis) {
+		this.rgis = rgis;
+	}
 
-		    // Start the task
-		    monitor.beginTask("Downloading Resource Groups...", 2);
-		    ServerProvider server = new ServerProvider();
-		    try {
+	public void setRgisEditor(RgisEditor editor) {
+		this.rgisEditor = editor;
 
-			// Refresh the list
-			server.updateResourceGroupList();
-			monitor.worked(1);
-			rgisList = server.getAvailableRessourceGroups();
-			monitor.done();
-		    } catch (final IOException e) {
+	}
 
-			// Show the error message in an asyncExectuable
-			Display.getDefault().asyncExec(
-				new Thread(new Runnable() {
+	public void setRgisDirty(boolean dirty) {
+		this.rgisDirty = dirty;
+		this.rgisEditor.firePropertyChangedDirty();
+	}
 
-				    @Override
-				    public void run() {
-					IStatus status = new Status(
-						IStatus.ERROR,
-						"PROGRESS_DIALOG",
-						"See details", e);
-					ErrorDialog
-						.openError(
+	public boolean isRgisDirty() {
+		return this.rgisDirty;
+	}
+
+	/**
+	 * Gets the whole {@link RGIS} list from the server
+	 * 
+	 * @return the rgisList
+	 * @throws IOException
+	 */
+	public List<RGIS> getRgisList(Shell shell) {
+		if (this.rgisList == null) {
+			updateServerList(shell);
+		}
+		return this.rgisList;
+	}
+
+	/**
+	 * Updates the {@link RGIS} list from the server, while downloading a
+	 * {@link ProgressMonitorDialog} is displayed
+	 * 
+	 * @param shell
+	 *            {@link Shell} to display the {@link ProgressMonitorDialog}
+	 */
+	public void updateServerList(final Shell shell) {
+
+		// Create the dialog
+		ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+		try {
+
+			// Run the dialog, not cancelable because the timeout is set to 1000
+			dialog.run(false, false, new IRunnableWithProgress() {
+
+				@Override
+				public void run(IProgressMonitor monitor)
+						throws InvocationTargetException, InterruptedException {
+
+					// Start the task
+					monitor.beginTask("Downloading Resource Groups...", 2);
+					ServerProvider server = new ServerProvider();
+					try {
+
+						// Refresh the list
+						server.updateResourceGroupList();
+						monitor.worked(1);
+						Model.this.rgisList = server
+								.getAvailableRessourceGroups();
+						monitor.done();
+					} catch (final IOException e) {
+
+						// Show the error message in an asyncExectuable
+						Display.getDefault().asyncExec(
+								new Thread(new Runnable() {
+
+									@Override
+									public void run() {
+										IStatus status = new Status(
+												IStatus.ERROR,
+												"PROGRESS_DIALOG",
+												"See details", e);
+										ErrorDialog
+												.openError(
+														shell,
+														"Error",
+														"A error happend while downloading the "
+																+ "Resource Groups from the server.",
+														status);
+									}
+								}));
+
+					}
+
+				}
+			});
+		} catch (InvocationTargetException e) {
+			IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
+					"See details", e);
+			ErrorDialog
+					.openError(
 							shell,
 							"Error",
-							"A error happend while downloading the "
-								+ "Resource Groups from the server.",
+							"A error happend while downloading the Resource Groups from the server.",
 							status);
-				    }
-				}));
-
-		    }
-
+		} catch (InterruptedException e) {
+			IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
+					"See details", e);
+			ErrorDialog
+					.openError(
+							shell,
+							"Error",
+							"A error happend while downloading the Resource Groups from the server.",
+							status);
 		}
-	    });
-	} catch (InvocationTargetException e) {
-	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
-		    "See details", e);
-	    ErrorDialog
-		    .openError(
-			    shell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server.",
-			    status);
-	} catch (InterruptedException e) {
-	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
-		    "See details", e);
-	    ErrorDialog
-		    .openError(
-			    shell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server.",
-			    status);
+
 	}
 
-    }
-
-    /**
-     * Checks if the {@link RGIS} list of the server is cached locally
-     * 
-     * @return true if available
-     */
-    public Boolean isRGListAvailable() {
-	if (rgisList == null) {
-	    return false;
-	} else {
-	    return true;
+	/**
+	 * Checks if the {@link RGIS} list of the server is cached locally
+	 * 
+	 * @return true if available
+	 */
+	public Boolean isRGListAvailable() {
+		if (this.rgisList == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
-    }
 
-    /**
-     * Sets the whole {@link RGIS} list from the server
-     * 
-     * @param rgisList
-     *            the rgisList to set
-     */
-    public void setRgisList(List<RGIS> rgisList) {
-	this.rgisList = rgisList;
-    }
+	/**
+	 * Sets the whole {@link RGIS} list from the server
+	 * 
+	 * @param rgisList
+	 *            the rgisList to set
+	 */
+	public void setRgisList(List<RGIS> rgisList) {
+		this.rgisList = rgisList;
+	}
 
-    /**
-     * True if it has unsaved changes, false if not
-     * 
-     * @return true if there are unsaved changes, false otherwise
-     */
-    public Boolean isAisDirty() {
-	return isAISDirty;
-    }
+	/**
+	 * True if it has unsaved changes, false if not
+	 * 
+	 * @return true if there are unsaved changes, false otherwise
+	 */
+	public Boolean isAisDirty() {
+		return this.isAISDirty;
+	}
 
-    /**
-     * Sets the dirty flag of the ais file
-     * 
-     * @param isAISDirty
-     *            false if it was just saved, true otherwise
-     */
-    public void setAISDirty(Boolean isAISDirty) {
-	this.isAISDirty = isAISDirty;
-	aisEditor.firePropertyChangedDirty();
-    }
+	/**
+	 * Sets the dirty flag of the ais file
+	 * 
+	 * @param isAISDirty
+	 *            false if it was just saved, true otherwise
+	 */
+	public void setAISDirty(Boolean isAISDirty) {
+		this.isAISDirty = isAISDirty;
+		this.aisEditor.firePropertyChangedDirty();
+	}
 
-    /**
-     * Instance of the {@link AisEditor} to call the
-     * {@link AisEditor#firePropertyChangedDirty()}
-     * 
-     * @param aisEditor
-     *            the aisEditor to set
-     */
-    public void setAisEditor(AisEditor aisEditor) {
-	this.aisEditor = aisEditor;
-    }
+	/**
+	 * Instance of the {@link AisEditor} to call the
+	 * {@link AisEditor#firePropertyChangedDirty()}
+	 * 
+	 * @param aisEditor
+	 *            the aisEditor to set
+	 */
+	public void setAisEditor(AisEditor aisEditor) {
+		this.aisEditor = aisEditor;
+	}
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,55 +19,61 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 
 /**
  * Set date of ride
  * 
  * @author Andre Nguyen
- *
+ * 
  */
 public class RideDate extends Dialog {
-
-	private Context mContext;
-	private Button btn_cancel;
-	private Button btn_next;
-
-	public RideDate(Context context) {
-		super(context);
-		mContext = context;
-	}
-
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ride_date);
-		setTitle("Pick date");
-
-		registerButtons();
-	}
-
-	private void registerButtons() {
-		btn_cancel = (Button) findViewById(R.id.dialog_date_cancel);
-		btn_cancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				cancel();
-			}
-		});
-
-		btn_next = (Button) findViewById(R.id.dialog_date_next);
-		btn_next.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				cancel();
-				vhikeDialogs.getInstance().getRideTime(mContext).show();
-			}
-		});
-	}
-
+    
+    private Context mContext;
+    private Button btn_cancel;
+    private Button btn_next;
+    
+    
+    public RideDate(Context context) {
+        super(context);
+        this.mContext = context;
+    }
+    
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.ride_date);
+        setTitle("Pick date");
+        
+        registerButtons();
+    }
+    
+    
+    private void registerButtons() {
+        this.btn_cancel = (Button) findViewById(R.id.dialog_date_cancel);
+        this.btn_cancel.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                cancel();
+            }
+        });
+        
+        this.btn_next = (Button) findViewById(R.id.dialog_date_next);
+        this.btn_next.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                cancel();
+                vhikeDialogs.getInstance().getRideTime(RideDate.this.mContext).show();
+            }
+        });
+    }
+    
 }

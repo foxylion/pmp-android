@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,18 +19,18 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
-
 public class SliderObject {
     
     private FoundProfilePos object;
+    
+    
     public SliderObject(FoundProfilePos object) {
         this.object = object;
     }
     
+    
     public FoundProfilePos getObject() {
-        return object;
+        return this.object;
     }
-    
-    
     
 }

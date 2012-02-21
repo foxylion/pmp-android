@@ -30,8 +30,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -71,9 +73,9 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 
 		// Build view
 		// System.out.println("Draw");
-		FormToolkit toolkit = form.getToolkit();
-		Section section = toolkit.createSection(parent, Section.TWISTIE
-				| Section.TITLE_BAR);
+		FormToolkit toolkit = this.form.getToolkit();
+		Section section = toolkit.createSection(parent,
+				ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 		section.setText("Privacy Setting");
 		section.setExpanded(true);
 		section.setLayoutData(parentLayout);
@@ -85,45 +87,49 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		textLayout.horizontalAlignment = GridData.FILL;
 		textLayout.grabExcessHorizontalSpace = true;
 		toolkit.createLabel(compo, "Identifier");
-		identifier = toolkit.createText(compo, "Value");
-		identifier.setLayoutData(textLayout);
-		identifier.addFocusListener(new FocusListener() {
+		this.identifier = toolkit.createText(compo, "Value");
+		this.identifier.setLayoutData(textLayout);
+		this.identifier.addFocusListener(new FocusListener() {
 
 			private String before;
 
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Mark as dirty and staled when text has been changed
-				if (!before.equals(identifier.getText())) {
-					dirty = true;
+				if (!this.before
+						.equals(PrivacySettingDetailsPage.this.identifier
+								.getText())) {
+					PrivacySettingDetailsPage.this.dirty = true;
 					// isStaled = true;
 				}
 			}
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				before = identifier.getText();
+				this.before = PrivacySettingDetailsPage.this.identifier
+						.getText();
 			}
 		});
 		toolkit.createLabel(compo, "Valid values");
-		values = toolkit.createText(compo, "True/False");
-		values.setLayoutData(textLayout);
-		values.addFocusListener(new FocusListener() {
+		this.values = toolkit.createText(compo, "True/False");
+		this.values.setLayoutData(textLayout);
+		this.values.addFocusListener(new FocusListener() {
 
 			private String before;
 
 			@Override
 			public void focusLost(FocusEvent e) {
 				// Mark as dirty and staled when text has been changed
-				if (!before.equals(values.getText())) {
-					dirty = true;
+				if (!this.before.equals(PrivacySettingDetailsPage.this.values
+						.getText())) {
+					PrivacySettingDetailsPage.this.dirty = true;
 					// isStaled = true;
 				}
 			}
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				before = values.getText();
+				this.before = PrivacySettingDetailsPage.this.values.getText();
 			}
 		});
 		section.setClient(compo);
@@ -138,20 +144,20 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 
 	@Override
 	public boolean isDirty() {
-		return dirty;
+		return this.dirty;
 	}
 
 	@Override
 	public void commit(boolean onSave) {
 
 		System.out.println("commit");
-		privacySetting.setIdentifier(identifier.getText());
-		privacySetting.setValidValueDescription(values.getText());
-		block.refresh();
-		dirty = false;
+		this.privacySetting.setIdentifier(this.identifier.getText());
+		this.privacySetting.setValidValueDescription(this.values.getText());
+		this.block.refresh();
+		this.dirty = false;
 
 		// Mark page as dirty
-		block.setDirty(true);
+		this.block.setDirty(true);
 
 	}
 
@@ -181,14 +187,14 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 
 	@Override
 	public void selectionChanged(IFormPart part, ISelection selection) {
-		privacySetting = (RGISPrivacySetting) ((TreeSelection) selection)
+		this.privacySetting = (RGISPrivacySetting) ((TreeSelection) selection)
 				.getFirstElement();
 		update();
 	}
 
 	private void update() {
-		identifier.setText(privacySetting.getIdentifier());
-		values.setText(privacySetting.getValidValueDescription());
+		this.identifier.setText(this.privacySetting.getIdentifier());
+		this.values.setText(this.privacySetting.getValidValueDescription());
 	}
 
 }

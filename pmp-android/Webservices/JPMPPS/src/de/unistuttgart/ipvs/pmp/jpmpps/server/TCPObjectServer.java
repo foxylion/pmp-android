@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: JPMPPS
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -132,10 +132,12 @@ public class TCPObjectServer {
          */
         private ConnectionController controller;
         
+        
         /**
          * Creates a new {@link SocketProcessingThread}.
          * 
-         * @param socket The {@link Socket} which is connnected to the client.
+         * @param socket
+         *            The {@link Socket} which is connnected to the client.
          */
         public SocketProcessingThread(Socket socket) {
             this.socket = socket;

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -146,7 +146,7 @@ public class DialogPrivacySettingEdit extends Dialog {
             
             @Override
             public void onClick(View v) {
-                callback.result(true, getViewValue());
+                DialogPrivacySettingEdit.this.callback.result(true, getViewValue());
                 dismiss();
             }
         });
@@ -158,7 +158,7 @@ public class DialogPrivacySettingEdit extends Dialog {
             
             @Override
             public void onClick(View v) {
-                callback.result(false, getViewValue());
+                DialogPrivacySettingEdit.this.callback.result(false, getViewValue());
                 dismiss();
             }
         });
@@ -170,7 +170,7 @@ public class DialogPrivacySettingEdit extends Dialog {
             
             @Override
             public void onCancel(DialogInterface dialog) {
-                callback.result(false, getViewValue());
+                DialogPrivacySettingEdit.this.callback.result(false, getViewValue());
                 dialog.dismiss();
             }
         });

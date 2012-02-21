@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: JPMPPS-CommunicationLib
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,7 +59,7 @@ public class RequestPresetSetSave extends AbstractRequest {
         }
         
         try {
-            return new ObjectInputStream(fromByteArray(presetSet)).readObject();
+            return new ObjectInputStream(fromByteArray(this.presetSet)).readObject();
         } catch (IOException e) {
             System.err.println("Failed to deserialize the preset set.");
             e.printStackTrace();

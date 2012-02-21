@@ -44,23 +44,25 @@ public class ContentProposalTextCellEditor extends TextCellEditor {
 	private void enableContentProposal(
 			IContentProposalProvider contentProposalProvider,
 			KeyStroke keyStroke, char[] autoActivationCharacters) {
-		contentProposalAdapter = new ContentProposalAdapter(this.getControl(),
+		this.contentProposalAdapter = new ContentProposalAdapter(getControl(),
 				new TextContentAdapter(), contentProposalProvider, keyStroke,
 				autoActivationCharacters);
 
 		// Listen for popup open/close events to be able to handle focus events
 		// correctly
-		contentProposalAdapter
+		this.contentProposalAdapter
 				.addContentProposalListener(new IContentProposalListener2() {
 
+					@Override
 					public void proposalPopupClosed(
 							ContentProposalAdapter adapter) {
-						popupOpen = false;
+						ContentProposalTextCellEditor.this.popupOpen = false;
 					}
 
+					@Override
 					public void proposalPopupOpened(
 							ContentProposalAdapter adapter) {
-						popupOpen = true;
+						ContentProposalTextCellEditor.this.popupOpen = true;
 					}
 				});
 	}
@@ -71,11 +73,12 @@ public class ContentProposalTextCellEditor extends TextCellEditor {
 	 * @return the {@link ContentProposalAdapter}
 	 */
 	public ContentProposalAdapter getContentProposalAdapter() {
-		return contentProposalAdapter;
+		return this.contentProposalAdapter;
 	}
 
+	@Override
 	protected void focusLost() {
-		if (!popupOpen) {
+		if (!this.popupOpen) {
 			// Focus lost deactivates the cell editor.
 			// This must not happen if focus lost was caused by activating
 			// the completion proposal popup.
@@ -83,6 +86,7 @@ public class ContentProposalTextCellEditor extends TextCellEditor {
 		}
 	}
 
+	@Override
 	protected boolean dependsOnExternalFocusListener() {
 		// Always return false;
 		// Otherwise, the ColumnViewerEditor will install an additional focus

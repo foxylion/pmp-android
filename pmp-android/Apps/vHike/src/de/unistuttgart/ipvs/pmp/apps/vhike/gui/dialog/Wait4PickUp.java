@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.R;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.R;
 
 /**
  * Dialog for a pontential passenger who accepted an offer is awaiting to be picked up and confirm that his query search

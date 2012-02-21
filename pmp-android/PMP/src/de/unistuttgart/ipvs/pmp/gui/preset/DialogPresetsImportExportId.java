@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -158,7 +158,7 @@ public class DialogPresetsImportExportId extends Dialog {
             @Override
             public void onClick(View v) {
                 String id = ((EditText) findViewById(R.id.EditText_ID)).getText().toString();
-                callback.ended(id);
+                DialogPresetsImportExportId.this.callback.ended(id);
                 dismiss();
             }
         });

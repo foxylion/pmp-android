@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,28 +21,28 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
 /**
  * @author Alexander Wassiljew
- *
+ * 
  */
 public class TripObject {
-	
-//	{
-//		   "successful": true,
-//		   "status": "result",
-//		   "driver": {
-//		      "id": 1,
-//		      "username": "demo",
-//		      "rating_avg": 4,
-//		      "rating_num": 2
-//		   }
-//		   "passengers": [
-//		      {
-//		          "passengerid":"1",
-//		          "username":"demo",
-//		          "rating_avg":"0",
-//		          "rating_num":"0",
-//		          "passenger_rated":"0",
-//		          "driver_rated":"0"
-//		       },
-
-	TripPersonObject driver;
+    
+    //	{
+    //		   "successful": true,
+    //		   "status": "result",
+    //		   "driver": {
+    //		      "id": 1,
+    //		      "username": "demo",
+    //		      "rating_avg": 4,
+    //		      "rating_num": 2
+    //		   }
+    //		   "passengers": [
+    //		      {
+    //		          "passengerid":"1",
+    //		          "username":"demo",
+    //		          "rating_avg":"0",
+    //		          "rating_num":"0",
+    //		          "passenger_rated":"0",
+    //		          "driver_rated":"0"
+    //		       },
+    
+    TripPersonObject driver;
 }

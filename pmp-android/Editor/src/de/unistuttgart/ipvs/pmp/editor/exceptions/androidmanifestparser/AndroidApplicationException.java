@@ -27,18 +27,18 @@ package de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser;
  */
 public class AndroidApplicationException extends Exception {
 
-    /**
-     * Auto generated serial
-     */
-    private static final long serialVersionUID = 3962159094569678970L;
+	/**
+	 * Auto generated serial
+	 */
+	private static final long serialVersionUID = 3962159094569678970L;
 
-    /**
-     *	Constructor to send a message
-     * 
-     * @param msg
-     *            message to display
-     */
-    public AndroidApplicationException(String msg) {
-	super(msg);
-    }
+	/**
+	 * Constructor to send a message
+	 * 
+	 * @param msg
+	 *            message to display
+	 */
+	public AndroidApplicationException(String msg) {
+		super(msg);
+	}
 }

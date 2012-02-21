@@ -20,8 +20,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
 import java.util.Locale;
+
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
@@ -62,9 +64,12 @@ public class PrivacySettingsContentProvider implements ITreeContentProvider {
 			RGISPrivacySetting ps = (RGISPrivacySetting) parentElement;
 
 			// Return default (English) name and description if set
-			NameString name = new NameString(ps.getNameForLocale(Locale.ENGLISH), ps);
-			DescriptionString desc = new DescriptionString(ps.getDescriptionForLocale(Locale.ENGLISH), ps);
-			ChangeDescriptionString changeDesc = new ChangeDescriptionString(ps.getChangeDescriptionForLocale(Locale.ENGLISH), ps);
+			NameString name = new NameString(
+					ps.getNameForLocale(Locale.ENGLISH), ps);
+			DescriptionString desc = new DescriptionString(
+					ps.getDescriptionForLocale(Locale.ENGLISH), ps);
+			ChangeDescriptionString changeDesc = new ChangeDescriptionString(
+					ps.getChangeDescriptionForLocale(Locale.ENGLISH), ps);
 			return new Object[] { name, desc, changeDesc };
 		}
 

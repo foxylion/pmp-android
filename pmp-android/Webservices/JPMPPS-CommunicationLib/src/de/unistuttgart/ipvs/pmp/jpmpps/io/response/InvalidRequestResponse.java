@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: JPMPPS-CommunicationLib
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,6 @@ public class InvalidRequestResponse extends AbstractResponse {
     
     
     public String getMessage() {
-        return message;
+        return this.message;
     }
 }

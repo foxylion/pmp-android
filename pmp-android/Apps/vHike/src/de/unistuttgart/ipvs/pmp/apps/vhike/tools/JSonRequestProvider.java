@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHike
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -129,7 +129,7 @@ public class JSonRequestProvider {
             
             BufferedReader r = new BufferedReader(new InputStreamReader(is));
             JsonParser parser = new JsonParser();
-            BufferedReader tempR = new BufferedReader(r);
+            new BufferedReader(r);
             
             if (debug) {
                 Log.w(TAG, "=====JSonRequestProvider DEBUG MODE===");

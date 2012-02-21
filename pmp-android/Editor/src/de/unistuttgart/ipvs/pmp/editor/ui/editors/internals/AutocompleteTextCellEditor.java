@@ -50,35 +50,45 @@ public class AutocompleteTextCellEditor extends TextCellEditor {
 		super(parent);
 
 		proposalProvider.setFiltering(true);
-		adapter = new ContentProposalAdapter(text, new TextContentAdapter(),
-				proposalProvider, keyStroke, autoActivationCharacters);
+		this.adapter = new ContentProposalAdapter(this.text,
+				new TextContentAdapter(), proposalProvider, keyStroke,
+				autoActivationCharacters);
 		// adapter.setPropagateKeys(true);
-		adapter.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+		this.adapter
+				.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 
 		// Listen for popup open/close events to be able to handle focus events
 		// correctly
-		adapter.addContentProposalListener(new IContentProposalListener2() {
+		this.adapter
+				.addContentProposalListener(new IContentProposalListener2() {
 
-			public void proposalPopupClosed(ContentProposalAdapter adapter) {
-				if (!text.isFocusControl()) {
-					focusLost();// fireApplyEditorValue();
-				}
-			}
+					@Override
+					public void proposalPopupClosed(
+							ContentProposalAdapter adapter) {
+						if (!AutocompleteTextCellEditor.this.text
+								.isFocusControl()) {
+							focusLost();// fireApplyEditorValue();
+						}
+					}
 
-			public void proposalPopupOpened(ContentProposalAdapter adapter) {
-			}
-		});
+					@Override
+					public void proposalPopupOpened(
+							ContentProposalAdapter adapter) {
+					}
+				});
 	}
 
+	@Override
 	protected void focusLost() {
 
-		if (!adapter.isProposalPopupOpen()) {
+		if (!this.adapter.isProposalPopupOpen()) {
 			// this.fireApplyEditorValue();
 			super.focusLost();
 		}
 
 	}
 
+	@Override
 	protected boolean dependsOnExternalFocusListener() {
 		return false;
 	}

@@ -57,7 +57,7 @@ public class SimpleAppActivity extends Activity {
 		this.wirelessToggleButton = (ToggleButton) findViewById(R.id.ToggleButton_Wifi);
 
 		PMP.get(getApplication());
-		
+
 		Model.getInstance().setActivity(this);
 
 		addListener();

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,8 +67,8 @@ public class ViewPrivacySettingBasicInformation extends LinearLayout {
      * Updates the UI.
      */
     private void refresh() {
-        ((TextView) findViewById(R.id.TextView_Title)).setText(privacySetting.getName());
-        ((TextView) findViewById(R.id.TextView_Description)).setText(privacySetting.getDescription());
+        ((TextView) findViewById(R.id.TextView_Title)).setText(this.privacySetting.getName());
+        ((TextView) findViewById(R.id.TextView_Description)).setText(this.privacySetting.getDescription());
     }
     
     

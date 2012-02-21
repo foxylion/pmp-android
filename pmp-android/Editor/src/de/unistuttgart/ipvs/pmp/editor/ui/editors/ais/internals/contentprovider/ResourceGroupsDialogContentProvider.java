@@ -35,39 +35,39 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ResourceGroupsDialogContentProvider implements IContentProvider,
-	IStructuredContentProvider {
+		IStructuredContentProvider {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
-     * .lang.Object)
-     */
-    @Override
-    public Object[] getElements(Object arg0) {
-	@SuppressWarnings("unchecked")
-	List<RGIS> list = (List<RGIS>) arg0;
-	return (RGIS[]) list.toArray(new RGIS[list.size()]);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java
+	 * .lang.Object)
+	 */
+	@Override
+	public Object[] getElements(Object arg0) {
+		@SuppressWarnings("unchecked")
+		List<RGIS> list = (List<RGIS>) arg0;
+		return list.toArray(new RGIS[list.size()]);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-     */
-    @Override
-    public void dispose() {
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+	 */
+	@Override
+	public void dispose() {
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
-     * .viewers.Viewer, java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface
+	 * .viewers.Viewer, java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
+	}
 }
