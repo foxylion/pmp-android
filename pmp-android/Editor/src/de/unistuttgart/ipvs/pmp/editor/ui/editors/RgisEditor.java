@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors;
 
+import java.io.InputStream;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -32,16 +34,19 @@ public class RgisEditor extends FormEditor {
 			
 			// Parse XML-File
 			FileEditorInput input = (FileEditorInput) this.getEditorInput();
+			IRGIS rgis;
 			try {
 				// Synchronize if out of sync (better: show message)
 				if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
 					input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
 				}
-				IRGIS rgis = rgutil.parse(input.getFile().getContents());
-				model.setRgis(rgis);
-
+				rgis = rgutil.parse(input.getFile().getContents());
+				
 			} catch (ParserException e) {
+				rgis = rgutil.createBlankRGIS();
 			}
+			model.setRgis(rgis);
+			
 			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
 		} catch (PartInitException e) {
@@ -64,16 +69,23 @@ public class RgisEditor extends FormEditor {
 	
 
 	@Override
-	public void doSave(IProgressMonitor arg0) {
-		// TODO Auto-generated method stub
-		model.setRgisDirty(false);
+	public void doSave(IProgressMonitor monitor) {
+		FileEditorInput input = (FileEditorInput)this.getEditorInput();
+		InputStream is = rgutil.compile(model.getRgis());
+		try {
+			input.getFile().setContents(is, false, true, monitor);
+			model.setRgisDirty(false);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void doSaveAs() {
 		// TODO Auto-generated method stub
-
+		System.out.println("saveas");
 	}
 
 	@Override
