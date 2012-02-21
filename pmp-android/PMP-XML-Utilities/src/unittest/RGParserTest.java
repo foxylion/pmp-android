@@ -419,6 +419,7 @@ public class RGParserTest extends TestCase implements TestConstants {
     }
     
     
+    @Test
     public void testCleanRGISIssues() throws Exception {
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -431,5 +432,33 @@ public class RGParserTest extends TestCase implements TestConstants {
         XMLUtilityProxy.getRGUtil().getValidator().clearIssuesAndPropagate(rgis);
         TestUtil.assertNoIssues(rgis);
         
+    }
+    
+    
+    @Test
+    public void testRGCompiler() throws Exception {
+        TestUtil.makeRG(RG_ID, RG_ICON, RG_CLASS_NAME, RG_REVISION, RG_NAME, RG_DESC);
+        XMLNode xmlPS1 = TestUtil.makePS(RG_PS1_ID, RG_PS1_NAME, RG_PS1_DESC, RG_PS_CD, RG_PS_VVD);
+        TestUtil.pss.addChild(xmlPS1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true);
+        TestUtil.assertNoIssues(rgis);
+        String compilation = TestUtil.inputStreamToString(XMLUtilityProxy.getRGUtil().compile(rgis));
+        
+        assertTrue(compilation.contains(RG_ID));
+        assertTrue(compilation.contains(RG_ICON));
+        assertTrue(compilation.contains(RG_CLASS_NAME));
+        assertTrue(compilation.contains(RG_REVISION));
+        assertTrue(compilation.contains(RG_NAME));
+        assertTrue(compilation.contains(RG_DESC));
+        assertTrue(compilation.contains(RG_PS1_ID));
+        assertTrue(compilation.contains(RG_PS1_NAME));
+        assertTrue(compilation.contains(RG_PS1_DESC));
+        assertTrue(compilation.contains(RG_PS_CD));
+        assertTrue(compilation.contains(RG_PS_VVD));
     }
 }

@@ -1,6 +1,8 @@
 package unittest;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Scanner;
 
 import junit.framework.Assert;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
@@ -339,5 +341,20 @@ public class TestUtil implements TestConstants {
                 Assert.assertEquals(0, ls.getIssues().size());
             }
         }
+    }
+    
+    
+    public static String inputStreamToString(InputStream is) {
+        StringBuilder sb = new StringBuilder();
+        Scanner sc = new Scanner(is);
+        try {
+            while (sc.hasNextLine()) {
+                sb.append(sc.nextLine());
+                sb.append(System.getProperty("line.separator"));
+            }
+        } finally {
+            sc.close();
+        }
+        return sb.toString();
     }
 }

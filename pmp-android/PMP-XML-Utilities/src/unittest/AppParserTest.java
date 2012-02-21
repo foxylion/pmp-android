@@ -576,4 +576,47 @@ public class AppParserTest extends TestCase implements TestConstants {
         
     }
     
+    
+    @Test
+    public void testAppCompiler() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        TestUtil.addLocale(TestUtil.app, APP_LOC_NAME_LOCALE.getLanguage(), APP_LOC_NAME, null);
+        TestUtil.addLocale(TestUtil.app, APP_LOC_DESC_LOCALE.getLanguage(), null, APP_LOC_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
+        TestUtil.addLocale(xmlSF1, APP_SF1_LOC_NAME_LOCALE.getLanguage(), APP_SF1_LOC_NAME, null);
+        TestUtil.addLocale(xmlSF1, "he", null, APP_SF1_LOC_DESC);
+        // we cannot use the Locale itself here,
+        // because Java has some severe problems with Hebrew compatibility mode
+        
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        XMLUtilityProxy.getAppUtil().getValidator().validateAIS(ais, true);
+        TestUtil.assertNoIssues(ais);
+        String compilation = TestUtil.inputStreamToString(XMLUtilityProxy.getAppUtil().compile(ais));
+        
+        assertTrue(compilation.contains(APP_DEF_NAME));
+        assertTrue(compilation.contains(APP_DEF_DESC));
+        assertTrue(compilation.contains(APP_LOC_NAME_LOCALE.getLanguage()));
+        assertTrue(compilation.contains(APP_LOC_DESC_LOCALE.getLanguage()));
+        assertTrue(compilation.contains(APP_LOC_NAME));
+        assertTrue(compilation.contains(APP_LOC_DESC));
+        assertTrue(compilation.contains(APP_SF1_ID));
+        assertTrue(compilation.contains(APP_SF1_DEF_NAME));
+        assertTrue(compilation.contains(APP_SF1_DEF_DESC));
+        assertTrue(compilation.contains(APP_SF1_REQ_RG1));
+        assertTrue(compilation.contains(APP_SF1_REQ_PS1_ID));
+        assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE));
+        assertTrue(compilation.contains(RG_REVISION));
+        assertTrue(compilation.contains(APP_SF1_LOC_NAME_LOCALE.getLanguage()));
+        assertTrue(compilation.contains(APP_SF1_LOC_NAME));
+        assertTrue(compilation.contains("he"));
+        assertTrue(compilation.contains(APP_SF1_LOC_DESC));
+    }
+    
 }
