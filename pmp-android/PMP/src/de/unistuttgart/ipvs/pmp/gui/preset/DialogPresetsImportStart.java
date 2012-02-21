@@ -53,7 +53,7 @@ public class DialogPresetsImportStart extends Dialog {
                                             Toast.LENGTH_LONG).show();
                                 } else {
                                     dismiss();
-                                    new DialogPresetsImportExport(getContext(), presetSet, callback);
+                                    new DialogPresetsImportExport(getContext(), presetSet, callback).show();
                                 }
                             }
                         });

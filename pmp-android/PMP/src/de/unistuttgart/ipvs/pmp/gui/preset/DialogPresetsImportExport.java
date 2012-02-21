@@ -175,17 +175,20 @@ public class DialogPresetsImportExport extends Dialog {
                             });
                         }
                     });
-                    
-                    // TODO Upload the item.
                 } else {
                     boolean override = ((CheckBox) findViewById(R.id.CheckBox_ImportOverride)).isChecked();
                     boolean importSuccess = importPresets(override);
                     if (importSuccess) {
                         Toast.makeText(getContext(), getContext().getString(R.string.presets_import_succeed),
                                 Toast.LENGTH_LONG).show();
+                        dismiss();
                     } else {
                         Toast.makeText(getContext(), getContext().getString(R.string.presets_import_failed),
                                 Toast.LENGTH_LONG).show();
+                        dismiss();
+                    }
+                    if (callback != null) {
+                        callback.ended(importSuccess);
                     }
                 }
             }
