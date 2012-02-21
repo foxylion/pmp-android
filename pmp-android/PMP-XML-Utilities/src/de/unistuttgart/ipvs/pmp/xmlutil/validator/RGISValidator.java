@@ -25,7 +25,6 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -220,7 +219,7 @@ public class RGISValidator extends AbstractValidator {
      * @param rgis
      *            the IRGIS
      */
-    public void clearIssuesAndPropagate(RGIS rgis) {
+    public void clearIssuesAndPropagate(IRGIS rgis) {
         rgis.clearIssues();
         for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             ps.clearIssues();

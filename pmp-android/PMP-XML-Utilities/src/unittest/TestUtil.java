@@ -2,18 +2,26 @@ package unittest;
 
 import java.util.List;
 
+import junit.framework.Assert;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 public class TestUtil implements TestConstants {
+    
+    private static final boolean debugInput = false;
     
     /*
     * statics used to access results of creation methods
@@ -102,12 +110,15 @@ public class TestUtil implements TestConstants {
     }
     
     
-    protected static void addRequiredRG(XMLNode sf, String rgId, String[] psId, String[] psValue) {
+    protected static void addRequiredRG(XMLNode sf, String rgId, String[] psId, String[] psValue, String minRevision) {
         XMLNode reqRG = new XMLNode(XML_REQUIRED_RESOURCE_GROUP);
         reqRG.addAttribute(new XMLAttribute(XML_IDENTIFIER, rgId));
-        reqRG.addAttribute(new XMLAttribute(XML_REQUIRED_RESOURCE_GROUP_REVISION, RG_REVISION));
+        reqRG.addAttribute(new XMLAttribute(XML_REQUIRED_RESOURCE_GROUP_REVISION, minRevision));
         
         for (int i = 0; i < Math.min(psId.length, psValue.length); i++) {
+            if (psId[i] == null) {
+                continue;
+            }
             XMLNode reqPS = new XMLNode(XML_REQUIRED_PRIVACY_SETTING);
             reqPS.addAttribute(new XMLAttribute(XML_IDENTIFIER, psId[i]));
             reqPS.setCDATAContent(psValue[i]);
@@ -239,10 +250,12 @@ public class TestUtil implements TestConstants {
     
     
     protected static void debug(String name) {
-        System.out.println("################################################################");
-        System.out.println("Input for " + name + " was:");
-        System.out.println(XMLCompiler.compile(main));
-        System.out.println("----------------------------------------------------------------");
+        if (debugInput) {
+            System.out.println("################################################################");
+            System.out.println("Input for " + name + " was:");
+            System.out.println(XMLCompiler.compile(main));
+            System.out.println("----------------------------------------------------------------");
+        }
     }
     
     
@@ -261,5 +274,70 @@ public class TestUtil implements TestConstants {
         sb.append(") @ ");
         sb.append(i.getLocation().getClass().getSimpleName());
         return sb.toString();
+    }
+    
+    
+    public static void assertNoIssues(IAIS ais) {
+        Assert.assertEquals(0, ais.getIssues().size());
+        
+        // App.name, desc
+        for (ILocalizedString ls : ais.getDescriptions()) {
+            Assert.assertEquals(0, ls.getIssues().size());
+        }
+        for (ILocalizedString ls : ais.getNames()) {
+            Assert.assertEquals(0, ls.getIssues().size());
+        }
+        
+        // SFs
+        for (IAISServiceFeature sf : ais.getServiceFeatures()) {
+            Assert.assertEquals(0, sf.getIssues().size());
+            
+            // SF.name, desc
+            for (ILocalizedString ls : sf.getDescriptions()) {
+                Assert.assertEquals(0, ls.getIssues().size());
+            }
+            for (ILocalizedString ls : sf.getNames()) {
+                Assert.assertEquals(0, ls.getIssues().size());
+            }
+            
+            // ReqRGs
+            for (IAISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+                Assert.assertEquals(0, rrg.getIssues().size());
+                
+                // ReqPSs
+                for (IAISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
+                    Assert.assertEquals(0, rps.getIssues().size());
+                }
+            }
+        }
+    }
+    
+    
+    public static void assertNoIssues(IRGIS rgis) {
+        Assert.assertEquals(0, rgis.getIssues().size());
+        
+        // App.name, desc
+        for (ILocalizedString ls : rgis.getDescriptions()) {
+            Assert.assertEquals(0, ls.getIssues().size());
+        }
+        for (ILocalizedString ls : rgis.getNames()) {
+            Assert.assertEquals(0, ls.getIssues().size());
+        }
+        
+        // SFs
+        for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+            Assert.assertEquals(0, ps.getIssues().size());
+            
+            // PS.name, desc, chngdesc
+            for (ILocalizedString ls : ps.getDescriptions()) {
+                Assert.assertEquals(0, ls.getIssues().size());
+            }
+            for (ILocalizedString ls : ps.getNames()) {
+                Assert.assertEquals(0, ls.getIssues().size());
+            }
+            for (ILocalizedString ls : ps.getChangeDescriptions()) {
+                Assert.assertEquals(0, ls.getIssues().size());
+            }
+        }
     }
 }

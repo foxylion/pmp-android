@@ -366,8 +366,8 @@ public class RGParserTest extends TestCase implements TestConstants {
         TestUtil.debug(ste.getMethodName());
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
-        assertTrue("Validator accepted RG with PS with empty valid value description.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+        assertTrue("Validator accepted RG with PS with empty valid value description.", TestUtil.assertRGISValidation(
+                rgis, IRGISPrivacySetting.class, RG_PS1_ID, IssueType.VALID_VALUE_DESCRIPTION_MISSING));
     }
     
     
@@ -416,5 +416,20 @@ public class RGParserTest extends TestCase implements TestConstants {
         } catch (ParserException xmlpe) {
             assertEquals(ParserException.Type.NULL_XML_STREAM, xmlpe.getType());
         }
+    }
+    
+    
+    public void testCleanRGISIssues() throws Exception {
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        TestUtil.assertNoIssues(rgis);
+        assertTrue("No issues in clean AIS issues test.",
+                XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true).size() > 0);
+        XMLUtilityProxy.getRGUtil().getValidator().clearIssuesAndPropagate(rgis);
+        TestUtil.assertNoIssues(rgis);
+        
     }
 }
