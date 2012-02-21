@@ -371,7 +371,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			MessageDialog
 				.openInformation(parentShell,
 					"No Resource Groups to add",
-					"You already added all Resource Groups of that are available.");
+					"You already added all Resource Groups that are available.");
 		    } else {
 			List<RGIS> list = new ArrayList<RGIS>(
 				resGroups.values());

@@ -19,6 +19,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -78,6 +80,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      * Required privacy setting {@link TableViewer}
      */
     private TableViewer psTableViewer;
+    
+    /**
+     * The remove actiond
+     */
+    private Action remove;
 
     /**
      * Columns of the table
@@ -166,6 +173,22 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	psTableViewer.getTable().addListener(SWT.KeyDown, tooltipListener);
 	psTableViewer.getTable().addListener(SWT.MouseMove, tooltipListener);
 	psTableViewer.getTable().addListener(SWT.MouseHover, tooltipListener);
+	
+	psTableViewer.getTable().addSelectionListener(new SelectionListener() {
+	    
+	    @Override
+	    public void widgetSelected(SelectionEvent arg0) {
+		if (psTableViewer.getTable().getSelectionCount() > 0){
+		    remove.setEnabled(true);
+		}else {
+		    remove.setEnabled(false);
+		}
+	    }
+	    
+	    @Override
+	    public void widgetDefaultSelected(SelectionEvent arg0) {
+	    }
+	});
 
 	// The identifier column with the LabelProvider
 	TableViewerColumn identifierViewerColumn = new TableViewerColumn(
@@ -229,6 +252,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	// Pack all columns
 	identifierColumn.pack();
 	valueColumn.pack();
+	
+	remove.setEnabled(false);
 
 	psTableViewer.getTable().setRedraw(true);
 	psTableViewer.getTable().redraw();
@@ -384,7 +409,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	add.setToolTipText("Add a new required Privacy Setting for the Service Feature");
 
 	// The remove action
-	Action remove = new Action("Remove") {
+	remove = new Action("Remove") {
 
 	    @Override
 	    public void run() {
@@ -414,6 +439,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    }
 	};
 	remove.setToolTipText("Remove the selected required Privacy Setting");
+	remove.setEnabled(false);
 
 	// Add the actions to the toolbar
 	toolBarManager.add(add);

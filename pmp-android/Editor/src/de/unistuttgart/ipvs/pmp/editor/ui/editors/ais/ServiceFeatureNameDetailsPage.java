@@ -17,6 +17,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -89,6 +91,16 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      */
     private TableColumn descColumn;
     private TableColumn localeDescColumn;
+
+    /**
+     * Action of the remove description
+     */
+    private Action removeDesc;
+
+    /**
+     * The remove name action
+     */
+    private Action removeName;
 
     /**
      * The displayed ServiceFeature
@@ -191,6 +203,23 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	nameTableViewer.getTable().addListener(SWT.KeyDown, tooltipListener);
 	nameTableViewer.getTable().addListener(SWT.MouseMove, tooltipListener);
 	nameTableViewer.getTable().addListener(SWT.MouseHover, tooltipListener);
+
+	nameTableViewer.getTable().addSelectionListener(
+		new SelectionListener() {
+
+		    @Override
+		    public void widgetSelected(SelectionEvent arg0) {
+			if (nameTableViewer.getTable().getSelectionCount() > 0) {
+			    removeName.setEnabled(true);
+			} else {
+			    removeName.setEnabled(false);
+			}
+		    }
+
+		    @Override
+		    public void widgetDefaultSelected(SelectionEvent arg0) {
+		    }
+		});
 
 	// The locale column with the LabelProvider
 	TableViewerColumn localeColumn = new TableViewerColumn(nameTableViewer,
@@ -350,6 +379,22 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descriptionTable.setHeaderVisible(true);
 	descriptionTable.setLinesVisible(true);
 
+	descriptionTable.addSelectionListener(new SelectionListener() {
+
+	    @Override
+	    public void widgetSelected(SelectionEvent arg0) {
+		if (descriptionTableViewer.getTable().getSelectionCount() > 0) {
+		    removeDesc.setEnabled(true);
+		} else {
+		    removeDesc.setEnabled(false);
+		}
+	    }
+
+	    @Override
+	    public void widgetDefaultSelected(SelectionEvent arg0) {
+	    }
+	});
+
 	// Add the double click listener
 	descriptionTableViewer
 		.addDoubleClickListener(new IDoubleClickListener() {
@@ -428,6 +473,13 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	localeNameColumn.pack();
 	nameColumn.pack();
 
+	/*
+	 * Disable the remove buttons because if the selection was changed no
+	 * line is selected
+	 */
+	removeName.setEnabled(false);
+	removeDesc.setEnabled(false);
+
 	// Set the description
 	descriptionTableViewer.setInput(displayed);
 	descColumn.pack();
@@ -502,7 +554,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	add.setToolTipText("Add a new name for the Service Feature");
 
 	// The remove action
-	Action remove = new Action("Remove") {
+	removeName = new Action("Remove") {
 
 	    @Override
 	    public void run() {
@@ -525,11 +577,12 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		Model.getInstance().setAISDirty(true);
 	    }
 	};
-	remove.setToolTipText("Remove the selected names");
+	removeName.setToolTipText("Remove the selected names");
+	removeName.setEnabled(false);
 
 	// Add the actions to the toolbar
 	toolBarManager.add(add);
-	toolBarManager.add(remove);
+	toolBarManager.add(removeName);
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
@@ -600,7 +653,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	add.setToolTipText("Add a new description for the Service Feature");
 
 	// The remove action
-	Action remove = new Action("Remove") {
+	removeDesc = new Action("Remove") {
 
 	    @Override
 	    public void run() {
@@ -626,11 +679,12 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		Model.getInstance().setAISDirty(true);
 	    }
 	};
-	remove.setToolTipText("Remove the selected descriptions");
+	removeDesc.setToolTipText("Remove the selected descriptions");
+	removeDesc.setEnabled(false);
 
 	// Add the actions to the toolbar
 	toolBarManager.add(add);
-	toolBarManager.add(remove);
+	toolBarManager.add(removeDesc);
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);

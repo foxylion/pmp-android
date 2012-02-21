@@ -30,7 +30,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallback;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallbackImport;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -154,7 +154,7 @@ public class ActivityPresets extends Activity {
                 /*
                  * Import a Preset
                  */
-                PresetSetTools.importPresets(ActivityPresets.this, new ICallback() {
+                PresetSetTools.importPresets(ActivityPresets.this, new ICallbackImport() {
                     
                     @Override
                     public void ended(boolean succcess) {
