@@ -427,7 +427,7 @@ public class AppParserTest extends TestCase implements TestConstants {
     
     
     @Test
-    public void testAppMssingReqRGValue() throws Exception {
+    public void testAppMissingReqRGValue() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] { null },
@@ -439,7 +439,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         
         IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted app with missing RG value.", TestUtil.assertAISValidation(ais,
-                IAISRequiredPrivacySetting.class, APP_SF1_REQ_RG1, IssueType.VALUE_MISSING));
+                IAISRequiredPrivacySetting.class, APP_SF1_REQ_PS1_ID, IssueType.EMPTY_VALUE));
     }
     
     
@@ -637,7 +637,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.addLocale(TestUtil.app, APP_LOC_DESC_LOCALE.getLanguage(), null, APP_LOC_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
+                new String[] { APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
         TestUtil.addLocale(xmlSF1, APP_SF1_LOC_NAME_LOCALE.getLanguage(), APP_SF1_LOC_NAME, null);
         TestUtil.addLocale(xmlSF1, "he", null, APP_SF1_LOC_DESC);
         // we cannot use the Locale itself here,
@@ -664,7 +664,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(APP_SF1_DEF_DESC));
         assertTrue(compilation.contains(APP_SF1_REQ_RG1));
         assertTrue(compilation.contains(APP_SF1_REQ_PS1_ID));
-        assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE));
+        assertTrue(compilation.contains(APP_SF1_REQ_PS2_VALUE));
         assertTrue(compilation.contains(RG_REVISION)
                 || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(APP_SF1_LOC_NAME_LOCALE.getLanguage()));

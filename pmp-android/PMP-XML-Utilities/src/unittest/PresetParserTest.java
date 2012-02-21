@@ -359,7 +359,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         IPresetSet pset = XMLUtilityProxy.getPresetUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted Preset with missing APS value.",
-                TestUtil.assertPSValidation(pset, IPreset.class, PRESET1_IDENTIFIER, IssueType.VALUE_MISSING));
+                TestUtil.assertPSValidation(pset, IPresetAssignedPrivacySetting.class, null, IssueType.VALUE_MISSING));
     }
     
     
