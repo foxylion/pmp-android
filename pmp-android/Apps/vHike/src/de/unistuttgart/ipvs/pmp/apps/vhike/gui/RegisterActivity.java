@@ -1,12 +1,28 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: vHike
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +32,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 
 /**
  * Users can register an account when register form is filled in correctly
@@ -46,18 +65,19 @@ public class RegisterActivity extends Activity {
     private final Pattern pw_pattern = Pattern.compile("(.{8,20})");
     
     
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         
-        et_username = (EditText) findViewById(R.id.et_username);
-        et_email = (EditText) findViewById(R.id.et_email);
-        et_password = (EditText) findViewById(R.id.et_pw);
-        et_pw_confirm = (EditText) findViewById(R.id.et_pw_confirm);
-        et_firstname = (EditText) findViewById(R.id.et_firstname);
-        et_lastname = (EditText) findViewById(R.id.et_lastname);
-        et_mobile = (EditText) findViewById(R.id.et_mobile);
-        et_desc = (EditText) findViewById(R.id.et_description);
+        this.et_username = (EditText) findViewById(R.id.et_username);
+        this.et_email = (EditText) findViewById(R.id.et_email);
+        this.et_password = (EditText) findViewById(R.id.et_pw);
+        this.et_pw_confirm = (EditText) findViewById(R.id.et_pw_confirm);
+        this.et_firstname = (EditText) findViewById(R.id.et_firstname);
+        this.et_lastname = (EditText) findViewById(R.id.et_lastname);
+        this.et_mobile = (EditText) findViewById(R.id.et_mobile);
+        this.et_desc = (EditText) findViewById(R.id.et_description);
         
         validator();
         register();
@@ -66,15 +86,16 @@ public class RegisterActivity extends Activity {
     
     
     private void validator() {
-        et_password.addTextChangedListener(new TextWatcher() {
+        this.et_password.addTextChangedListener(new TextWatcher() {
             
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (!pw_pattern.matcher(et_password.getText().toString()).matches()) {
-                    et_password.setError("Password length must be at least 8 characters");
-                    correctPw = false;
+                if (!RegisterActivity.this.pw_pattern.matcher(RegisterActivity.this.et_password.getText().toString())
+                        .matches()) {
+                    RegisterActivity.this.et_password.setError("Password length must be at least 8 characters");
+                    RegisterActivity.this.correctPw = false;
                 } else {
-                    correctPw = true;
+                    RegisterActivity.this.correctPw = true;
                 }
             }
             
@@ -90,15 +111,17 @@ public class RegisterActivity extends Activity {
             
         });
         
-        et_pw_confirm.addTextChangedListener(new TextWatcher() {
+        this.et_pw_confirm.addTextChangedListener(new TextWatcher() {
             
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (et_pw_confirm.getText().toString().equals(et_password.getText().toString()) && correctPw) {
-                    cPw = true;
+                if (RegisterActivity.this.et_pw_confirm.getText().toString()
+                        .equals(RegisterActivity.this.et_password.getText().toString())
+                        && RegisterActivity.this.correctPw) {
+                    RegisterActivity.this.cPw = true;
                 } else {
-                    cPw = false;
-                    et_pw_confirm.setError("Password wrong or do not match");
+                    RegisterActivity.this.cPw = false;
+                    RegisterActivity.this.et_pw_confirm.setError("Password wrong or do not match");
                 }
             }
             
@@ -114,15 +137,16 @@ public class RegisterActivity extends Activity {
             
         });
         
-        et_email.addTextChangedListener(new TextWatcher() {
+        this.et_email.addTextChangedListener(new TextWatcher() {
             
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (!email_pattern.matcher(et_email.getText().toString()).matches()) {
-                    et_email.setError("Invalid email");
-                    cEmail = false;
+                if (!RegisterActivity.this.email_pattern.matcher(RegisterActivity.this.et_email.getText().toString())
+                        .matches()) {
+                    RegisterActivity.this.et_email.setError("Invalid email");
+                    RegisterActivity.this.cEmail = false;
                 } else {
-                    cEmail = true;
+                    RegisterActivity.this.cEmail = true;
                 }
                 
             }
@@ -143,15 +167,16 @@ public class RegisterActivity extends Activity {
             
         });
         
-        et_mobile.addTextChangedListener(new TextWatcher() {
+        this.et_mobile.addTextChangedListener(new TextWatcher() {
             
             @Override
             public void afterTextChanged(Editable s) {
-                if (!mobile_pattern.matcher(et_mobile.getText().toString()).matches()) {
-                    et_mobile.setError("Invalid phone number");
-                    cMobile = false;
+                if (!RegisterActivity.this.mobile_pattern.matcher(RegisterActivity.this.et_mobile.getText().toString())
+                        .matches()) {
+                    RegisterActivity.this.et_mobile.setError("Invalid phone number");
+                    RegisterActivity.this.cMobile = false;
                 } else {
-                    cMobile = true;
+                    RegisterActivity.this.cMobile = true;
                 }
             }
             
@@ -185,21 +210,22 @@ public class RegisterActivity extends Activity {
                 
                 EditText et_username = (EditText) findViewById(R.id.et_username);
                 
-                et_email = (EditText) findViewById(R.id.et_email);
-                et_firstname = (EditText) findViewById(R.id.et_firstname);
-                et_lastname = (EditText) findViewById(R.id.et_lastname);
-                et_mobile = (EditText) findViewById(R.id.et_mobile);
-                et_desc = (EditText) findViewById(R.id.et_description);
+                RegisterActivity.this.et_email = (EditText) findViewById(R.id.et_email);
+                RegisterActivity.this.et_firstname = (EditText) findViewById(R.id.et_firstname);
+                RegisterActivity.this.et_lastname = (EditText) findViewById(R.id.et_lastname);
+                RegisterActivity.this.et_mobile = (EditText) findViewById(R.id.et_mobile);
+                RegisterActivity.this.et_desc = (EditText) findViewById(R.id.et_description);
                 
                 map.put("username", et_username.getText().toString());
-                map.put("password", et_password.getText().toString());
-                map.put("email", et_email.getText().toString());
-                map.put("firstname", et_firstname.getText().toString());
-                map.put("lastname", et_lastname.getText().toString());
-                map.put("tel", et_mobile.getText().toString());
-                map.put("description", et_desc.getText().toString());
+                map.put("password", RegisterActivity.this.et_password.getText().toString());
+                map.put("email", RegisterActivity.this.et_email.getText().toString());
+                map.put("firstname", RegisterActivity.this.et_firstname.getText().toString());
+                map.put("lastname", RegisterActivity.this.et_lastname.getText().toString());
+                map.put("tel", RegisterActivity.this.et_mobile.getText().toString());
+                map.put("description", RegisterActivity.this.et_desc.getText().toString());
                 
-                if (validRegistrationForm(cMobile, cEmail, cPw)) {
+                if (validRegistrationForm(RegisterActivity.this.cMobile, RegisterActivity.this.cEmail,
+                        RegisterActivity.this.cPw)) {
                     switch (ctrl.register(map)) {
                         case Constants.REG_STAT_USED_USERNAME:
                             Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();

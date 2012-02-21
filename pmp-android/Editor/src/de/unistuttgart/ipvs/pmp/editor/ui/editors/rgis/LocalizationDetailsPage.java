@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
 import org.eclipse.jface.viewers.ISelection;
@@ -9,8 +28,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
@@ -27,12 +48,13 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	private final PrivacySettingsBlock block;
 	private IManagedForm form;
-	//private InformationTable localizationTable;
+	// private InformationTable localizationTable;
 	private RGISPrivacySetting privacySetting;
 	private LocaleTable localeTable;
 	private final LocaleTable.Type type;
 
-	public LocalizationDetailsPage(PrivacySettingsBlock block, LocaleTable.Type type) {
+	public LocalizationDetailsPage(PrivacySettingsBlock block,
+			LocaleTable.Type type) {
 		this.block = block;
 		this.type = type;
 	}
@@ -53,9 +75,9 @@ public class LocalizationDetailsPage implements IDetailsPage {
 		parent.setLayout(new GridLayout());
 
 		// Build view
-		FormToolkit toolkit = form.getToolkit();
-		Section section = toolkit.createSection(parent, Section.TWISTIE
-				| Section.TITLE_BAR);
+		FormToolkit toolkit = this.form.getToolkit();
+		Section section = toolkit.createSection(parent,
+				ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 		section.setText("Localization");
 		section.setExpanded(true);
 		section.setLayoutData(parentLayout);
@@ -66,20 +88,23 @@ public class LocalizationDetailsPage implements IDetailsPage {
 			@Override
 			public void doSetDirty(boolean dirty) {
 				Model.getInstance().setRgisDirty(true);
-				
+
 			}
 
 			@Override
 			public void doValidate() {
-				RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
-				validator.validatePrivacySettings(Model.getInstance().getRgis(), true);				
+				RGISValidatorWrapper validator = RGISValidatorWrapper
+						.getInstance();
+				validator.validatePrivacySettings(
+						Model.getInstance().getRgis(), true);
 			}
-			
+
 		};
-		localeTable = new LocaleTable(section, type, dirtyAction, toolkit);
-		//localizationTable = new InformationTable(section,
-		//		new StoredInformation(), toolkit);
-		section.setClient(localeTable.getComposite());
+		this.localeTable = new LocaleTable(section, this.type, dirtyAction,
+				toolkit);
+		// localizationTable = new InformationTable(section,
+		// new StoredInformation(), toolkit);
+		section.setClient(this.localeTable.getComposite());
 
 	}
 
@@ -91,36 +116,31 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	@Override
 	public boolean isDirty() {
-		return localeTable.isDirty();
+		return this.localeTable.isDirty();
 	}
 
 	@Override
 	public void commit(boolean onSave) {
 		// Write data form locale-table into model
-		/*privacySetting.getNames().clear();
-		privacySetting.getDescriptions().clear();
-
-		for (Information info : localizationTable.getStoredInformation()
-				.getMap().values()) {
-			ILocalizedString name = new LocalizedString();
-			name.setLocale(new Locale(info.getLocale()));
-			name.setString(info.getName());
-			privacySetting.addName(name);
-		}
-
-		for (Information info : localizationTable.getStoredInformation()
-				.getMap().values()) {
-			LocalizedString desc = new LocalizedString();
-			desc.setLocale(new Locale(info.getLocale()));
-			desc.setString(info.getDescription());
-			privacySetting.addDescription(desc);
-		}
-
-		block.refresh();
-		localizationTable.setDirty(false);
-		block.setDirty(true);
-		*/
-		block.refresh();
+		/*
+		 * privacySetting.getNames().clear();
+		 * privacySetting.getDescriptions().clear();
+		 * 
+		 * for (Information info : localizationTable.getStoredInformation()
+		 * .getMap().values()) { ILocalizedString name = new LocalizedString();
+		 * name.setLocale(new Locale(info.getLocale()));
+		 * name.setString(info.getName()); privacySetting.addName(name); }
+		 * 
+		 * for (Information info : localizationTable.getStoredInformation()
+		 * .getMap().values()) { LocalizedString desc = new LocalizedString();
+		 * desc.setLocale(new Locale(info.getLocale()));
+		 * desc.setString(info.getDescription());
+		 * privacySetting.addDescription(desc); }
+		 * 
+		 * block.refresh(); localizationTable.setDirty(false);
+		 * block.setDirty(true);
+		 */
+		this.block.refresh();
 	}
 
 	@Override
@@ -153,12 +173,10 @@ public class LocalizationDetailsPage implements IDetailsPage {
 		if (path.length < 1) {
 			return;
 		}
-		privacySetting = (RGISPrivacySetting) path[0].getFirstSegment();
+		this.privacySetting = (RGISPrivacySetting) path[0].getFirstSegment();
 
-		localeTable.setData(privacySetting);
-		localeTable.refresh();
+		this.localeTable.setData(this.privacySetting);
+		this.localeTable.refresh();
 	}
-
-	
 
 }

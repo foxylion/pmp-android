@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: vHike
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.text.SimpleDateFormat;
@@ -42,11 +61,12 @@ public class RideActivity extends Activity {
     private Button addButton;
     
     
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride);
         
-        ctrl = new Controller();
+        this.ctrl = new Controller();
         
         registerListener();
     }
@@ -54,12 +74,12 @@ public class RideActivity extends Activity {
     
     private void registerListener() {
         
-        rideDate = (Button) findViewById(R.id.ride_date);
+        this.rideDate = (Button) findViewById(R.id.ride_date);
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = df.format(c.getTime());
-        rideDate.setText(formattedDate);
-        rideDate.setOnClickListener(new View.OnClickListener() {
+        this.rideDate.setText(formattedDate);
+        this.rideDate.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
@@ -68,12 +88,12 @@ public class RideActivity extends Activity {
         });
         
         // Destination Spinner
-        spinner = (Spinner) findViewById(R.id.spinner);
+        this.spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.array_cities,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnLongClickListener(new OnLongClickListener() {
+        this.spinner.setAdapter(adapter);
+        this.spinner.setOnLongClickListener(new OnLongClickListener() {
             
             @Override
             public boolean onLongClick(View v) {
@@ -87,16 +107,16 @@ public class RideActivity extends Activity {
             }
             
         });
-        ViewModel.getInstance().getSpinners().add(spinner);
+        ViewModel.getInstance().getSpinners().add(this.spinner);
         
         // set as add-Button and set the OnClickListener
-        addButton = (Button) findViewById(R.id.ib_add);
-        addButton.setOnClickListener(new AddStopOverListener());
+        this.addButton = (Button) findViewById(R.id.ib_add);
+        this.addButton.setOnClickListener(new AddStopOverListener());
         
         // Number of Seats spinner
-        spinnerSeats = (Spinner) findViewById(R.id.spinner_numSeats);
+        this.spinnerSeats = (Spinner) findViewById(R.id.spinner_numSeats);
         adapter = ArrayAdapter.createFromResource(this, R.array.array_numSeats, android.R.layout.simple_spinner_item);
-        spinnerSeats.setAdapter(adapter);
+        this.spinnerSeats.setAdapter(adapter);
         
         Button btnDrive = (Button) findViewById(R.id.Button_Drive);
         Button btnSearch = (Button) findViewById(R.id.Button_Search);
@@ -106,13 +126,13 @@ public class RideActivity extends Activity {
             @Override
             public void onClick(View v) {
                 
-                ViewModel.getInstance().setDestination(spinner);
-                ViewModel.getInstance().setNumSeats(spinnerSeats);
+                ViewModel.getInstance().setDestination(RideActivity.this.spinner);
+                ViewModel.getInstance().setNumSeats(RideActivity.this.spinnerSeats);
                 
                 Log.i(this, "Destination and StopOvers: " + ViewModel.getInstance().getDestination());
                 
-                switch (ctrl.announceTrip(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), 0, 0,
-                        ViewModel.getInstance().getNumSeats())) {
+                switch (RideActivity.this.ctrl.announceTrip(Model.getInstance().getSid(), ViewModel.getInstance()
+                        .getDestination(), 0, 0, ViewModel.getInstance().getNumSeats())) {
                     case Constants.TRIP_STATUS_ANNOUNCED: {
                         Toast.makeText(RideActivity.this, "Announced trip", Toast.LENGTH_LONG).show();
                         
@@ -129,6 +149,7 @@ public class RideActivity extends Activity {
                         builder.setMessage("Trip already exists.\nDo you want to end the current trip?")
                                 .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     
+                                    @Override
                                     public void onClick(DialogInterface dialog, int id) {
                                         Controller ctrl = new Controller();
                                         switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance()
@@ -167,6 +188,7 @@ public class RideActivity extends Activity {
                                     }
                                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
                                     
+                                    @Override
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                         Intent intent = new Intent(RideActivity.this, DriverViewActivity.class);
@@ -191,8 +213,8 @@ public class RideActivity extends Activity {
             @Override
             public void onClick(View v) {
                 
-                ViewModel.getInstance().setDestination(spinner);
-                ViewModel.getInstance().setNumSeats(spinnerSeats);
+                ViewModel.getInstance().setDestination(RideActivity.this.spinner);
+                ViewModel.getInstance().setNumSeats(RideActivity.this.spinnerSeats);
                 
                 vhikeDialogs.getInstance().getSearchPD(RideActivity.this).show();
                 Intent intent = new Intent(RideActivity.this, PassengerViewActivity.class);

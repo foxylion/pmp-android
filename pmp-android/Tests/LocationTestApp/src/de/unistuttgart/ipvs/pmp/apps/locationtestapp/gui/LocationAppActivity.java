@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: SimpleApp
+ * Copyright 2012 pmp-android development team
+ * Project: LocationTestApp
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------

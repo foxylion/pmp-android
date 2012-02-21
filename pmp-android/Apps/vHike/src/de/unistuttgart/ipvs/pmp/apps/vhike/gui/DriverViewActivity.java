@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: vHike
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.util.Timer;
@@ -68,8 +87,8 @@ public class DriverViewActivity extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driverview);
         
-        handler = new Handler();
-        ctrl = new Controller();
+        this.handler = new Handler();
+        this.ctrl = new Controller();
         ViewModel.getInstance().initPassengersList();
         
         setMapView();
@@ -94,7 +113,7 @@ public class DriverViewActivity extends MapActivity {
         
         ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
         pLV.setClickable(true);
-        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(context, mapView));
+        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(this.context, this.mapView));
     }
     
     
@@ -105,7 +124,7 @@ public class DriverViewActivity extends MapActivity {
      */
     public void addHitchhiker(Profile hitchhiker) {
         ViewModel.getInstance().getHitchPassengers().add(hitchhiker);
-        ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+        ViewModel.getInstance().getDriverAdapter(this.context, this.mapView).notifyDataSetChanged();
     }
     
     
@@ -114,18 +133,18 @@ public class DriverViewActivity extends MapActivity {
      */
     @SuppressWarnings("deprecation")
     private void setMapView() {
-        mapView = (MapView) findViewById(R.id.driverMapView);
-        LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
+        this.mapView = (MapView) findViewById(R.id.driverMapView);
+        LinearLayout zoomView = (LinearLayout) this.mapView.getZoomControls();
         
         zoomView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         
         zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         zoomView.setVerticalScrollBarEnabled(true);
-        mapView.addView(zoomView);
+        this.mapView.addView(zoomView);
         
         // mapView.setBuiltInZoomControls(true);
-        mapController = mapView.getController();
+        this.mapController = this.mapView.getController();
     }
     
     
@@ -134,9 +153,9 @@ public class DriverViewActivity extends MapActivity {
      * possible passengers to search for
      */
     private void startTripByUpdating() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
+        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 0);
+        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this.luh);
         
         IBinder binder = PMP.get().getResourceFromCache(R_ID);
         IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
@@ -145,6 +164,7 @@ public class DriverViewActivity extends MapActivity {
             
             this.handler.post(new Runnable() {
                 
+                @Override
                 public void run() {
                     Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
                 }
@@ -153,14 +173,15 @@ public class DriverViewActivity extends MapActivity {
             // startContinousLookup();
             // Start Check4Queries Class to check for queries
             Check4Queries c4q = new Check4Queries();
-            timer = new Timer();
-            timer.schedule(c4q, 300, 10000);
+            this.timer = new Timer();
+            this.timer.schedule(c4q, 300, 10000);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
             e.printStackTrace();
             this.handler.post(new Runnable() {
                 
+                @Override
                 public void run() {
                     Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
                             .show();
@@ -184,19 +205,19 @@ public class DriverViewActivity extends MapActivity {
         switch (item.getItemId()) {
             case (R.id.mi_endTrip):
                 
-                switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+                switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
                     case (Constants.STATUS_UPDATED): {
                         
                         ViewModel.getInstance().clearDriverOverlayList();
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
-                        locationManager.removeUpdates(luh);
+                        this.locationManager.removeUpdates(this.luh);
                         
-                        timer.cancel();
+                        this.timer.cancel();
                         
                         Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
-                        this.finish();
+                        finish();
                         break;
                     }
                     case (Constants.STATUS_UPTODATE): {
@@ -220,7 +241,7 @@ public class DriverViewActivity extends MapActivity {
                 break;
             
             case (R.id.mi_updateData):
-                vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(this.context).show();
                 break;
         }
         return true;

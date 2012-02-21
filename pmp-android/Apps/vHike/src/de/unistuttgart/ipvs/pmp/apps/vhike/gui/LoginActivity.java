@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: vHike
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import android.app.Activity;
@@ -49,35 +68,35 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        handler = new Handler();
-        PMP.get(this.getApplication());
+        this.handler = new Handler();
+        PMP.get(getApplication());
         
         setContentView(R.layout.activity_login);
         
-        cb_remember = (CheckBox) findViewById(R.id.Checkbox_Remember);
+        this.cb_remember = (CheckBox) findViewById(R.id.Checkbox_Remember);
         Button btnLogin = (Button) findViewById(R.id.button_login);
-        et_username = (EditText) findViewById(R.id.edit_login);
-        et_pw = (EditText) findViewById(R.id.edit_password);
-        ctrl = new Controller();
+        this.et_username = (EditText) findViewById(R.id.edit_login);
+        this.et_pw = (EditText) findViewById(R.id.edit_password);
+        this.ctrl = new Controller();
         
         registerLink();
         
-        username = "";
-        pw = "";
+        this.username = "";
+        this.pw = "";
         
         btnLogin.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 
-                username = et_username.getText().toString();
-                pw = et_pw.getText().toString();
+                LoginActivity.this.username = LoginActivity.this.et_username.getText().toString();
+                LoginActivity.this.pw = LoginActivity.this.et_pw.getText().toString();
                 
-                if (username.equals("") || pw.equals("")) {
+                if (LoginActivity.this.username.equals("") || LoginActivity.this.pw.equals("")) {
                     Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
                 } else {
                     
-                    if (ctrl.login(username, pw)) {
+                    if (LoginActivity.this.ctrl.login(LoginActivity.this.username, LoginActivity.this.pw)) {
                         
                         vhikeDialogs.getInstance().getLoginPD(LoginActivity.this).show();
                         
@@ -115,16 +134,16 @@ public class LoginActivity extends Activity {
         });
         
         SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
-        remember = settings.getBoolean("REMEMBER", false);
-        username = settings.getString("USERNAME", "");
-        pw = settings.getString("PASSWORD", "");
+        this.remember = settings.getBoolean("REMEMBER", false);
+        this.username = settings.getString("USERNAME", "");
+        this.pw = settings.getString("PASSWORD", "");
         
-        if (remember) {
-            et_username.setText(username);
-            et_pw.setText(pw);
-            cb_remember.setChecked(remember);
+        if (this.remember) {
+            this.et_username.setText(this.username);
+            this.et_pw.setText(this.pw);
+            this.cb_remember.setChecked(this.remember);
         } else {
-            cb_remember.setChecked(remember);
+            this.cb_remember.setChecked(this.remember);
         }
     }
     
@@ -136,6 +155,7 @@ public class LoginActivity extends Activity {
             
             this.handler.post(new Runnable() {
                 
+                @Override
                 public void run() {
                     Toast.makeText(LoginActivity.this, "PMP said something like 'resource group does not exists'.",
                             Toast.LENGTH_SHORT).show();
@@ -158,18 +178,18 @@ public class LoginActivity extends Activity {
             return;
         }
         
-        SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         
-        if (cb_remember.isChecked()) {
+        if (this.cb_remember.isChecked()) {
             
-            prefsEditor.putBoolean("REMEMBER", cb_remember.isChecked());
-            prefsEditor.putString("USERNAME", et_username.getText().toString());
-            prefsEditor.putString("PASSWORD", et_pw.getText().toString());
+            prefsEditor.putBoolean("REMEMBER", this.cb_remember.isChecked());
+            prefsEditor.putString("USERNAME", this.et_username.getText().toString());
+            prefsEditor.putString("PASSWORD", this.et_pw.getText().toString());
             
             prefsEditor.commit();
         } else {
-            remember = false;
+            this.remember = false;
             prefsEditor.putBoolean("REMEMBER", false);
             
             prefsEditor.commit();

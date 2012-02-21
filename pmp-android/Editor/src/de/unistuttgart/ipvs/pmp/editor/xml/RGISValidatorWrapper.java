@@ -1,8 +1,8 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,9 +31,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Wrapper of the RGISValidator. The following issues are also attached to the
- * subobjects: 
- * - PS_IDENTIFIER_OCCURRED_TOO_OFTEN 
- * - CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN
+ * subobjects: - PS_IDENTIFIER_OCCURRED_TOO_OFTEN -
+ * CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN
  * 
  * @author Marcus Vetter
  * 
@@ -119,7 +118,7 @@ public class RGISValidatorWrapper extends RGISValidator {
 						for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
 							identifierISs.add(ps);
 						}
-						helper.attachIIdentifierIS(identifierISs,
+						this.helper.attachIIdentifierIS(identifierISs,
 								IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -132,10 +131,12 @@ public class RGISValidatorWrapper extends RGISValidator {
 								.getLocation();
 
 						// Attach change descriptions with issues
-						helper.attachIBasicIS(
-								changeDescrLocation.getChangeDescriptions(),
-								IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-								parameters);
+						this.helper
+								.attachIBasicIS(
+										changeDescrLocation
+												.getChangeDescriptions(),
+										IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+										parameters);
 
 						break;
 
