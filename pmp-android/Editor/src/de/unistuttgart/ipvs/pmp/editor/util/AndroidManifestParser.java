@@ -189,7 +189,7 @@ public class AndroidManifestParser {
 
 	Node mainActivityNode = getMainActivityNode();
 	Node parentNode = mainActivityNode.getParentNode();
-	if (mainActivityNode != null && parentNode != null) {
+	if (parentNode != null) {
 
 	    // Get the required information out of the old node
 	    NamedNodeMap attributes = mainActivityNode.getAttributes();

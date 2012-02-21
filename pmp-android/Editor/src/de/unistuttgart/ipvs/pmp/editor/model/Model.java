@@ -1,7 +1,17 @@
 package de.unistuttgart.ipvs.pmp.editor.model;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
@@ -29,7 +39,7 @@ public class Model {
      * Indicates if the ais file has unsaved changes
      */
     private Boolean isAISDirty = false;
-    
+
     private boolean rgisDirty = false;
 
     /**
@@ -48,7 +58,7 @@ public class Model {
     private List<RGIS> rgisList = null;
 
     private AisEditor aisEditor;
-    
+
     private RgisEditor rgisEditor;
 
     /**
@@ -106,18 +116,19 @@ public class Model {
     public void setRgis(IRGIS rgis) {
 	this.rgis = rgis;
     }
-    
+
     public void setRgisEditor(RgisEditor editor) {
-    	rgisEditor = editor;
-    	
+	rgisEditor = editor;
+
     }
+
     public void setRgisDirty(boolean dirty) {
-    	rgisDirty = dirty;
-    	rgisEditor.firePropertyChangedDirty();
+	rgisDirty = dirty;
+	rgisEditor.firePropertyChangedDirty();
     }
-    
+
     public boolean isRgisDirty() {
-    	return rgisDirty;
+	return rgisDirty;
     }
 
     /**
@@ -126,22 +137,89 @@ public class Model {
      * @return the rgisList
      * @throws IOException
      */
-    public List<RGIS> getRgisList() throws IOException {
+    public List<RGIS> getRgisList(Shell shell) {
 	if (rgisList == null) {
-	    updateServerList();
+	    updateServerList(shell);
 	}
 	return rgisList;
     }
 
     /**
-     * Updates the {@link RGIS} list from the server
+     * Updates the {@link RGIS} list from the server, while downloading a
+     * {@link ProgressMonitorDialog} is displayed
      * 
-     * @throws IOException
+     * @param shell
+     *            {@link Shell} to display the {@link ProgressMonitorDialog}
      */
-    public void updateServerList() throws IOException {
-	ServerProvider server = new ServerProvider();
-	server.updateResourceGroupList();
-	rgisList = server.getAvailableRessourceGroups();
+    public void updateServerList(final Shell shell) {
+
+	// Create the dialog
+	ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+	try {
+
+	    // Run the dialog, not cancelable because the timeout is set to 1000
+	    dialog.run(true, false, new IRunnableWithProgress() {
+
+		@Override
+		public void run(IProgressMonitor monitor)
+			throws InvocationTargetException, InterruptedException {
+
+		    // Start the task
+		    monitor.beginTask("Downloading Resource Groups...", 2);
+		    ServerProvider server = new ServerProvider();
+		    try {
+
+			// Refresh the list
+			server.updateResourceGroupList();
+			monitor.worked(1);
+			rgisList = server.getAvailableRessourceGroups();
+			monitor.done();
+		    } catch (final IOException e) {
+
+			// Show the error message in an asyncExectuable
+			Display.getDefault().asyncExec(
+				new Thread(new Runnable() {
+
+				    @Override
+				    public void run() {
+					IStatus status = new Status(
+						IStatus.ERROR,
+						"PROGRESS_DIALOG",
+						"See details", e);
+					ErrorDialog
+						.openError(
+							shell,
+							"Error",
+							"A error happend while downloading the "
+								+ "Resource Groups from the server.",
+							status);
+				    }
+				}));
+
+		    }
+
+		}
+	    });
+	} catch (InvocationTargetException e) {
+	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
+		    "See details", e);
+	    ErrorDialog
+		    .openError(
+			    shell,
+			    "Error",
+			    "A error happend while downloading the Resource Groups from the server.",
+			    status);
+	} catch (InterruptedException e) {
+	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
+		    "See details", e);
+	    ErrorDialog
+		    .openError(
+			    shell,
+			    "Error",
+			    "A error happend while downloading the Resource Groups from the server.",
+			    status);
+	}
+
     }
 
     /**
