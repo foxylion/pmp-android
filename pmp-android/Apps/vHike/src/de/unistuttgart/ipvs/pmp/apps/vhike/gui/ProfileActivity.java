@@ -15,6 +15,13 @@ import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
+/**
+ * Displays the profile of the current user, some other vHike-User to simply display users personal information or to
+ * rate a user after a ride through the history activity
+ * 
+ * @author Andre Nguyen
+ * 
+ */
 public class ProfileActivity extends Activity {
     
     private Profile profile;
@@ -33,6 +40,14 @@ public class ProfileActivity extends Activity {
     
     
     private void setUpProfile() {
+        
+        /**
+         * MY_PROFILE: gives info about opening ones own profile or from someone else
+         * PROFILE_ID: the profile id from some vHike-User
+         * RATING_MODUS: if rating modus is set the ratingbar is editable
+         * TRIP_ID: TRIP_ID which is needed to rate a user from a past ride
+         * 
+         */
         int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
         final int profileID = getIntent().getExtras().getInt("PROFILE_ID");
         int ratingModus = getIntent().getExtras().getInt("RATING_MODUS");
@@ -62,7 +77,6 @@ public class ProfileActivity extends Activity {
         
         rb = (RatingBar) findViewById(R.id.ratingbar_profile);
         rb.setRating((float) profile.getRating_avg());
-        
         
         if (ratingModus == 1) {
             rb.setIsIndicator(false);

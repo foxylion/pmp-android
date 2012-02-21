@@ -12,7 +12,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  * Check for ride queries every given time interval
  * 
  * 
- * @author andres
+ * @author Alexander Wassiljew, Andre Nguyen
  * 
  */
 public class Check4AcceptedOffers extends TimerTask {
@@ -21,6 +21,7 @@ public class Check4AcceptedOffers extends TimerTask {
     private Controller ctrl;
     private ViewObject object;
     private int offer_id;
+    
     
     /**
      * 
@@ -58,7 +59,7 @@ public class Check4AcceptedOffers extends TimerTask {
                         ViewModel.getInstance().updateView(0);
                         cancel();
                         break;
-                        
+                
                 }
             }
         });

@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,10 +19,9 @@ import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
-import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
- * LoginActivity: the startup activity for vHike
+ * LoginActivity: the startup activity for vHike and starts the registration on PMP to load resource groups
  * 
  * @author Andre Nguyen
  * 
@@ -101,6 +99,7 @@ public class LoginActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
+        /* Request resources from PMP*/
         PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
             
             @Override
@@ -144,32 +143,6 @@ public class LoginActivity extends Activity {
             });
             
             return;
-        }
-        
-        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
-        try {
-            //            loc.startLocationLookup(1000, 10.0F);
-            
-            this.handler.post(new Runnable() {
-                
-                public void run() {
-                    Toast.makeText(LoginActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            
-            //            startContinousLookup();
-        }
-        //        catch (RemoteException e) {
-        //            e.printStackTrace();
-        //        }
-        catch (SecurityException e) {
-            e.printStackTrace();
-            this.handler.post(new Runnable() {
-                
-                public void run() {
-                    Toast.makeText(LoginActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
         
     };

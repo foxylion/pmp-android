@@ -9,9 +9,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 
 /**
- * Check for incoming offers from drivers and draw found drivers in map and add them to slider list
+ * Check for incoming offers from drivers
  * 
- * @author andres
+ * @author Alexander Wassiljew, Andre Nguyen
  * 
  */
 public class Check4Offers extends TimerTask {

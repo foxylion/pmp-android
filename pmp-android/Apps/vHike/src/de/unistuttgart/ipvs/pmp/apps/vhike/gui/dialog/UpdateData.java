@@ -15,6 +15,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+/**
+ * Through this dialog a rides available/needed seat count can be updated
+ * 
+ * @author Andre Nguyen
+ *
+ */
 public class UpdateData extends Dialog {
 
 	private Context mContext;
