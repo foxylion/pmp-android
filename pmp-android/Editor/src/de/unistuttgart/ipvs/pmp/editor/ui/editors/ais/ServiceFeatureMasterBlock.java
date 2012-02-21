@@ -38,10 +38,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.ServiceFeatureTreeProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredResourceGroupsDialog;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.labelprovider.ServiceFeatureTreeLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ServiceFeatureTreeProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredResourceGroupsDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ServiceFeatureTreeLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
@@ -131,6 +132,17 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
 	buttonCompo.setLayoutData(buttonLayout);
 
+	TooltipTreeListener tooltipListener = new TooltipTreeListener(
+		treeViewer, parentShell);
+
+	// Disable the normal tool tips
+	treeViewer.getTree().setToolTipText("");
+
+	treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
+	treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
+	treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
+	treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
+
 	treeViewer.addDoubleClickListener(this);
 	treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -183,7 +195,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		}
 	    }
 	});
-
 	section.setClient(compo);
     }
 
@@ -243,7 +254,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			Model.getInstance().setAISDirty(true);
 			sf.setIdentifier(result);
 			AISValidatorWrapper.getInstance()
-				.validateServiceFeature(sf, true);
+				.validateServiceFeatures(
+					Model.getInstance().getAis(), true);
 			treeViewer.refresh();
 		    }
 		}
@@ -268,10 +280,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			rg.setMinRevision(result);
 
 			AISValidatorWrapper.getInstance()
+				.validateRequiredResourceGroup(rg, true);
+			AISValidatorWrapper.getInstance()
 				.validateServiceFeatures(
 					Model.getInstance().getAis(), true);
-			AISValidatorWrapper.getInstance()
-				.validateRequiredResourceGroup(rg, true);
 			treeViewer.refresh();
 		    }
 		}
@@ -449,9 +461,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		}
 		if (deleted) {
 		    detailsPart.selectionChanged(null, null);
-		    treeViewer.refresh();
 		    AISValidatorWrapper.getInstance().validateServiceFeatures(
 			    Model.getInstance().getAis(), true);
+
+		    treeViewer.refresh();
 		    Model.getInstance().setAISDirty(true);
 
 		}
@@ -469,8 +482,11 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
     }
-    
-    public static void refreshTree(){
+
+    /**
+     * Refreshs the tree
+     */
+    public static void refreshTree() {
 	treeViewer.refresh();
     }
 }

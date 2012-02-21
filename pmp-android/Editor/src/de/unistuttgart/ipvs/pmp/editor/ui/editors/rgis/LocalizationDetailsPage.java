@@ -72,8 +72,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
 			@Override
 			public void doValidate() {
 				RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
-				validator.validatePrivacySettings(Model.getInstance().getRgis(), true);
-				
+				validator.validatePrivacySettings(Model.getInstance().getRgis(), true);				
 			}
 			
 		};

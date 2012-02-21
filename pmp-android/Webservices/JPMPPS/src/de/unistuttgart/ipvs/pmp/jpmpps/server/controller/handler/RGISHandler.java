@@ -10,19 +10,24 @@ import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.ResponseHasher;
 
+/**
+ * The {@link RGISHandler} react on a {@link RequestRGIS}.
+ * It normally returns a {@link RGISResponse}. When the RGIS was cached it will return a {@link CachedRequestResponse}.
+ * When no RGIS was found it will return a {@link NoSuchPackageResponse}.
+ * 
+ * @author Jakob Jarosch
+ */
 public class RGISHandler implements IRequestHandler {
     
     @Override
     public AbstractResponse process(AbstractRequest request) {
         if (!(request instanceof RequestRGIS)) {
-            throw new IllegalArgumentException("Should be an instance of "
-                    + RequestRGIS.class.getSimpleName());
+            throw new IllegalArgumentException("Should be an instance of " + RequestRGIS.class.getSimpleName());
         }
         
         RequestRGIS rgisRequest = (RequestRGIS) request;
         
-        ResourceGroup rg = Model.get().getResourceGroups()
-                .get(((RequestRGIS) request).getPackageName());
+        ResourceGroup rg = Model.get().getResourceGroups().get(((RequestRGIS) request).getPackageName());
         
         if (rg == null) {
             return new NoSuchPackageResponse();

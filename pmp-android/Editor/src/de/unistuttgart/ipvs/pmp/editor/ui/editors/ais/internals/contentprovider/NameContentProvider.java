@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider;
 
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;

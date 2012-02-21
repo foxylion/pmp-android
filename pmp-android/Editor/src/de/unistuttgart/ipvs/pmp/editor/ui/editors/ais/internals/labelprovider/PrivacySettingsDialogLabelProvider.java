@@ -1,10 +1,10 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.labelprovider;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredPrivacySettingsDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**

@@ -38,6 +38,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
@@ -56,7 +57,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     /**
      * Path to the project that is opened
      */
-    private static String PROJECT_PATH;
+    private String PROJECT_PATH;
 
     /**
      * Android manifest file name
@@ -95,7 +96,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
 	// Set the section's parameters
 	Section section = createSectionWithDescription(parent,
-		"AndridManifest.xml functions", toolkit,
+		"AndroidManifest.xml functions", toolkit,
 		"Add helpful parts to the AndroidManifest.xml of the project");
 
 	// Create elements stored inside this section
@@ -140,25 +141,25 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	section.setLayoutData(layoutData);
 
 	IAIS ais = Model.getInstance().getAis();
-	// TODO hab das mal eingefuegt, damits Compiliert - musst halt ggf noch anpassen
 	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
-		
-		@Override
-		public void doSetDirty(boolean dirty) {
-			Model.getInstance().setAISDirty(true);
-		}
 
-		@Override
-		public void doValidate() {
-			// TODO Auto-generated method stub
-			
-		}
+	    @Override
+	    public void doSetDirty(boolean dirty) {
+		Model.getInstance().setAISDirty(true);
+	    }
+
+	    @Override
+	    public void doValidate() {
+		AISValidatorWrapper.getInstance().validateAppInformation(
+			Model.getInstance().getAis(), true);
+	    }
 	};
-	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);
+	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,
+		dirtyAction, toolkit);
 	nameTable.getComposite().setLayoutData(layoutData);
 
-	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION, dirtyAction,
-		toolkit);
+	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION,
+		dirtyAction, toolkit);
 	descTable.getComposite().setLayoutData(layoutData);
 
 	section.setClient(client);

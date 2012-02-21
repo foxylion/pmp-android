@@ -1,8 +1,7 @@
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -24,25 +23,26 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.ResourceGroupsDialogContentProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.labelprovider.ResourceGroupDialogLabelProvider;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.PrivacySettingsDialogContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.PrivacySettingsDialogLabelProvider;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
- * Shows a dialog where the user can check the required Resource Groups that he
- * wants to add to the Service Feature
+ * Shows a dialog where the user can check the {@link RGISPrivacySetting}s that
+ * he wants to add to the Service Feature
  * 
  * @author Thorsten Berberich
  * 
  */
-public class RequiredResourceGroupsDialog extends SelectionDialog implements
+public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	ISelectionChangedListener, ICheckStateListener {
 
     /**
      * The {@link RGISPrivacySetting}s to display
      */
-    private List<RGIS> toDisplay;
+    private RGIS toDisplay;
 
     /**
      * The text that is display on the left hand side
@@ -70,14 +70,15 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
     private final static int SIZING_SELECTION_WIDGET_WIDTH = 300;
 
     /**
-     * Constructor
+     * Constructr
      * 
      * @param parentShell
      *            {@link Shell} to display the dialog
      * @param toDisplay
-     *            {@link List} with {@link RGIS} that are displayed
+     *            one {@link RGIS} to display the {@link RGISPrivacySetting} out
+     *            of
      */
-    public RequiredResourceGroupsDialog(Shell parentShell, List<RGIS> toDisplay) {
+    public RequiredPrivacySettingsDialog(Shell parentShell, RGIS toDisplay) {
 	super(parentShell);
 	this.toDisplay = toDisplay;
     }
@@ -85,7 +86,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
     @Override
     protected void configureShell(Shell shell) {
 	super.configureShell(shell);
-	shell.setText("Select the required Resource Groups");
+	shell.setText("Select the required Privacy Settings");
     }
 
     @Override
@@ -95,7 +96,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	composite.setLayout(new GridLayout(2, false));
 
 	Label psLabel = new Label(composite, SWT.NULL);
-	psLabel.setText("Choose the required Resource Groups:");
+	psLabel.setText("Choose the required Privacy Settings:");
 
 	Label descLabel = new Label(composite, SWT.NULL);
 	descLabel.setText("Information:");
@@ -107,9 +108,9 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	listViewer.addCheckStateListener(this);
 
 	// Set the content provider and the label provider
-	listViewer
-		.setContentProvider(new ResourceGroupsDialogContentProvider());
-	listViewer.setLabelProvider(new ResourceGroupDialogLabelProvider());
+	PrivacySettingsDialogContentProvider contentProvider = new PrivacySettingsDialogContentProvider();
+	listViewer.setContentProvider(contentProvider);
+	listViewer.setLabelProvider(new PrivacySettingsDialogLabelProvider());
 	listViewer.setInput(toDisplay);
 	listViewer.addSelectionChangedListener(this);
 
@@ -133,7 +134,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	valueComp.setLayoutData(data);
 
 	Label valueLabel = new Label(valueComp, SWT.NULL);
-	valueLabel.setText("Minimal revision:");
+	valueLabel.setText("Value:");
 	valueLabel.pack();
 
 	valueText = new Text(valueComp, SWT.BORDER);
@@ -148,8 +149,8 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	    public void focusLost(org.eclipse.swt.events.FocusEvent arg0) {
 
 		// Store the value out of the value field
-		RGIS ps = (RGIS) listViewer.getTable().getSelection()[0]
-			.getData();
+		RGISPrivacySetting ps = (RGISPrivacySetting) listViewer
+			.getTable().getSelection()[0].getData();
 		if (!valueText.getText().isEmpty()) {
 		    values.put(ps.getIdentifier(), valueText.getText());
 		}
@@ -161,7 +162,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	});
 
 	// Set the initial selection and update the text
-	if (toDisplay.size() > 0) {
+	if (toDisplay.getPrivacySettings().size() > 0) {
 	    listViewer.getTable().select(0);
 	    updateText();
 	}
@@ -176,10 +177,10 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 
 	// Build a list of selected children.
 	if (children != null) {
-	    ArrayList<AISRequiredResourceGroup> list = new ArrayList<AISRequiredResourceGroup>();
-
+	    ArrayList<AISRequiredPrivacySetting> list = new ArrayList<AISRequiredPrivacySetting>();
 	    for (int i = 0; i < children.length; ++i) {
-		RGIS element = (RGIS) children[i];
+
+		RGISPrivacySetting element = (RGISPrivacySetting) children[i];
 		if (listViewer.getChecked(element)) {
 		    String value = "";
 		    // Add the entered values
@@ -188,9 +189,8 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 			    value = values.get(element.getIdentifier());
 			}
 		    }
-		    AISRequiredResourceGroup required = new AISRequiredResourceGroup(
-			    element.getIdentifier(), value);
-		    list.add(required);
+		    list.add(new AISRequiredPrivacySetting(element
+			    .getIdentifier(), value));
 		}
 	    }
 	    setResult(list);
@@ -214,41 +214,43 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
      * Updates the description and valid value {@link StyledText}
      */
     private void updateText() {
-	RGIS rg = (RGIS) listViewer.getTable().getSelection()[0].getData();
+	RGISPrivacySetting ps = (RGISPrivacySetting) listViewer.getTable()
+		.getSelection()[0].getData();
 	Locale enLocale = new Locale("en");
 
 	// Set the value text field
-	if (values.get(rg.getIdentifier()) != null) {
-	    valueText.setText(values.get(rg.getIdentifier()));
+	if (values.get(ps.getIdentifier()) != null) {
+	    valueText.setText(values.get(ps.getIdentifier()));
 	} else {
 	    valueText.setText("");
 	}
 
-	String nameString = rg.getNameForLocale(enLocale);
-	int nameLength = 0;
-	if (nameString == null || nameString.isEmpty()) {
-	    nameString = "No name available";
-	    nameLength = nameString.length();
-	} else {
-	    nameLength = nameString.length();
-	}
-
-	String descString = rg.getDescriptionForLocale(enLocale);
-	if (descString == null || nameString.isEmpty()) {
+	String descString = ps.getDescriptionForLocale(enLocale);
+	int descLength = 0;
+	if (descString == null) {
 	    descString = "No description available";
+	    descLength = descString.length();
+	} else {
+	    descLength = ps.getDescriptionForLocale(enLocale).length();
 	}
 
-	text.setText("Name:\n" + nameString + "\n\nDescription:\n" + descString);
+	String validvalueString = ps.getValidValueDescription();
+	if (validvalueString.isEmpty()) {
+	    validvalueString = "No valid value description available";
+	}
+
+	text.setText("Description:\n" + descString + "\n\nValid Values:\n"
+		+ validvalueString);
 
 	// Set the text styles
 	StyleRange style = new StyleRange();
 	style.start = 0;
-	style.length = 4;
+	style.length = 12;
 	style.fontStyle = SWT.BOLD;
 	text.setStyleRange(style);
 
 	style = new StyleRange();
-	style.start = 6 + nameLength;
+	style.start = 13 + descLength;
 	style.length = 15;
 	style.fontStyle = SWT.BOLD;
 	text.setStyleRange(style);
@@ -263,7 +265,8 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
      */
     @Override
     public void checkStateChanged(CheckStateChangedEvent event) {
-	RGIS checkedElement = (RGIS) event.getElement();
+	RGISPrivacySetting checkedElement = (RGISPrivacySetting) event
+		.getElement();
 
 	// Search the item at the list that was checked
 	for (int itr = 0; itr < listViewer.getTable().getItemCount(); itr++) {

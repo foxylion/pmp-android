@@ -36,13 +36,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-
-import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 public class LocaleTable {
 
@@ -149,6 +146,14 @@ public class LocaleTable {
 		// But data into table if set
 		tableViewer.setContentProvider(new ListContentProvider());
 		setData(data);
+		
+		// Add tooltip listener
+	    TooltipTableListener tooltipListener = new TooltipTableListener(
+				tableViewer, parent.getShell());
+		tableViewer.getTable().addListener(SWT.Dispose, tooltipListener);
+		tableViewer.getTable().addListener(SWT.KeyDown, tooltipListener);
+		tableViewer.getTable().addListener(SWT.MouseMove, tooltipListener);
+		tableViewer.getTable().addListener(SWT.MouseHover, tooltipListener);
 
 		// Add buttons
 		createButtons(toolkit);
@@ -246,24 +251,7 @@ public class LocaleTable {
 		ColumnLabelProvider errorLabel = new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				LocalizedString ls = (LocalizedString) element;
-				
-				if (ls.getIssues().isEmpty()) {
-					return "";
-				} else {
-					StringBuilder errorString = new StringBuilder(" (");
-					boolean first = true;
-					for (IIssue i : ls.getIssues()) {
-						if (!first) {
-							errorString.append(", ");
-						} else {
-							first = false;
-						}
-						errorString.append(i.getType());
-					}
-					errorString.append(")");
-					return errorString.toString();
-				}
+				return null;
 			}
 			
 			@Override
@@ -279,6 +267,25 @@ public class LocaleTable {
 		
 		TableViewerColumn errorColumn = buildColumn("", 30,
 				errorLabel, null, columnLayout);
+		new ColumnViewerSorter(tableViewer, errorColumn) {
+
+			@Override
+			public int doCompare(Viewer viewer, Object e1, Object e2) {
+				boolean empty1 = ((LocalizedString) e1).getIssues().isEmpty();
+				boolean empty2 = ((LocalizedString) e2).getIssues().isEmpty();
+				
+				if (empty1 == empty2) {
+					return 0;
+				}
+				
+				if (!empty1) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+
+		};
 		
 		// Locale column
 		ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
@@ -325,7 +332,7 @@ public class LocaleTable {
 			}
 		};
 
-		TableViewerColumn localeColumn = buildColumn("Locale", 100,
+		TableViewerColumn localeColumn = buildColumn("Locale", 50,
 				localeLabel, localeEditing, columnLayout);
 		new ColumnViewerSorter(tableViewer, localeColumn) {
 

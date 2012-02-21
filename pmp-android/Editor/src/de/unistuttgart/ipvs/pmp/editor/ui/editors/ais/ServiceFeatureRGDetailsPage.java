@@ -42,10 +42,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.InputNotEmptyValidator;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.RequiredPSContentProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.RequiredPrivacySettingsDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTableListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
@@ -158,6 +159,17 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		| SWT.MULTI);
 	psTableViewer.setContentProvider(new RequiredPSContentProvider());
 	psTableViewer.addDoubleClickListener(this);
+
+	// Disable the default tool tips
+	psTableViewer.getTable().setToolTipText("");
+
+	TooltipTableListener tooltipListener = new TooltipTableListener(
+		psTableViewer, parentShell);
+
+	psTableViewer.getTable().addListener(SWT.Dispose, tooltipListener);
+	psTableViewer.getTable().addListener(SWT.KeyDown, tooltipListener);
+	psTableViewer.getTable().addListener(SWT.MouseMove, tooltipListener);
+	psTableViewer.getTable().addListener(SWT.MouseHover, tooltipListener);
 
 	// The identifier column with the LabelProvider
 	TableViewerColumn identifierViewerColumn = new TableViewerColumn(
@@ -324,13 +336,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 			// Get the results
 			if (dialog.open() == Window.OK
-				& dialog.getResult().length > 0) {
+				&& dialog.getResult().length > 0) {
 
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
 				AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) object;
 				displayed.addRequiredPrivacySetting(rps);
-				
+
 				AISValidatorWrapper.getInstance()
 					.validateRequiredPrivacySetting(rps,
 						true);
@@ -385,7 +397,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			Model.getInstance().getAis(), true);
 
 		ServiceFeatureMasterBlock.refreshTree();
-		
+
 		// Update the view
 		psTableViewer.refresh();
 		psTableViewer.getTable().setRedraw(false);
@@ -460,7 +472,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    String message;
 	    if (requiredValues != null) {
 		message = "Enter the value of the required Privacy Setting \""
-			+ selected.getIdentifier() + "\" \n Valid values are:"
+			+ selected.getIdentifier() + "\" \n Valid values are: "
 			+ requiredValues;
 	    } else {
 		message = "Enter the value of the required Privacy Setting \""
@@ -487,7 +499,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    Model.getInstance().getAis(), true);
 
 		    ServiceFeatureMasterBlock.refreshTree();
-		    
+
 		    // Update the view
 		    psTableViewer.refresh();
 		    psTableViewer.getTable().setRedraw(false);
