@@ -7,6 +7,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Dialog for a pontential passenger who accepted an offer is awaiting to be picked up and confirm that his query search
+ * is over
+ * 
+ * @author Andre Nguyen
+ * 
+ */
 public class Wait4PickUp extends Dialog {
     
     public Wait4PickUp(final Context context) {

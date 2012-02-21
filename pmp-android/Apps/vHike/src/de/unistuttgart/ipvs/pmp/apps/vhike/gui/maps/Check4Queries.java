@@ -15,7 +15,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  * Check for ride queries every given time interval
  * 
  * 
- * @author andres
+ * @author Andre Nguyen, Alexander Wassiljew
  * 
  */
 public class Check4Queries extends TimerTask {
@@ -30,7 +30,7 @@ public class Check4Queries extends TimerTask {
     
     
     /**
-     * 
+     * Check for queries every given interval
      */
     public Check4Queries() {
         handler = new Handler();
@@ -47,8 +47,6 @@ public class Check4Queries extends TimerTask {
             
             @Override
             public void run() {
-                
-                // retrieve my latitude and longitude, my current location
                 
                 try {
                     PositionObject pObject = ctrl.getUserPosition(Model.getInstance().getSid(), me.getID());

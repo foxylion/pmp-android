@@ -20,7 +20,7 @@ import android.widget.Toast;
 /**
  * Users can register an account when register form is filled in correctly
  * 
- * @author andres
+ * @author Andre Nguyen
  * 
  */
 public class RegisterActivity extends Activity {
@@ -171,10 +171,6 @@ public class RegisterActivity extends Activity {
             
         });
         
-        // et_email.addTextChangedListener(new InputValidator(et_email, "",
-        // cEmail, cMobile));
-        // et_mobile.addTextChangedListener(new InputValidator(et_mobile, "",
-        // cEmail, cMobile));
     }
     
     

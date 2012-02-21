@@ -8,7 +8,7 @@ import android.content.Context;
 /**
  * This class provides access to all dialogs in vHike
  * 
- * @author andres
+ * @author Andre Nguyen
  * 
  */
 public class vhikeDialogs {

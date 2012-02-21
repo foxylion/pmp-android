@@ -10,6 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+/**
+ * Listener to add multiple stopvers(destinations)
+ * 
+ * @author Andre Nguyen
+ * 
+ */
 public class AddStopOverListener implements OnClickListener {
     
     private Spinner spinner;

@@ -1,10 +1,13 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer; 
+import java.util.Timer;
 
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +22,8 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
@@ -27,14 +32,24 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
- * DriverViewActivity displays drivers current location on google maps
+ * DriverViewActivity displays driver with his perimeter, found hitchhikers, a list of found hitchhikers, the
+ * possibility to update the available seats, send offers or reject found hitchhikers and to pick up potential
+ * passengers and to
+ * end a trip
  * 
  * @author Andre Nguyen
  * 
  */
 public class DriverViewActivity extends MapActivity {
+    
+    // Re
+    private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
+    private static final String R_NAME = "absoluteLocationResource";
+    
+    private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
     
     private Context context;
     private MapView mapView;
@@ -43,6 +58,7 @@ public class DriverViewActivity extends MapActivity {
     private LocationUpdateHandler luh;
     
     private Timer timer;
+    private Handler handler;
     
     private Controller ctrl;
     
@@ -52,6 +68,7 @@ public class DriverViewActivity extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driverview);
         
+        handler = new Handler();
         ctrl = new Controller();
         ViewModel.getInstance().initPassengersList();
         
@@ -93,8 +110,7 @@ public class DriverViewActivity extends MapActivity {
     
     
     /**
-     * displays the map from xml file including a button to get current user
-     * location
+     * displays the map from xml file and sets the zoom buttons
      */
     @SuppressWarnings("deprecation")
     private void setMapView() {
@@ -115,17 +131,42 @@ public class DriverViewActivity extends MapActivity {
     
     /**
      * get current location and notify server that a trip was announced for
-     * possible passengers to see
+     * possible passengers to search for
      */
     private void startTripByUpdating() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
-        // Start Check4Queries Class to check for queries
-        Check4Queries c4q = new Check4Queries();
-        timer = new Timer();
-        timer.schedule(c4q, 300, 10000);
+        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
+        try {
+            loc.startLocationLookup(5000, 10.0F);
+            
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            // startContinousLookup();
+            // Start Check4Queries Class to check for queries
+            Check4Queries c4q = new Check4Queries();
+            timer = new Timer();
+            timer.schedule(c4q, 300, 10000);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+        }
         
     }
     

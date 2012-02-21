@@ -25,7 +25,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
- * This Activity gives user freedom to act as a Driver or Passenger
+ * This Activity gives user freedom to act as a Driver or Passenger, later user will get the chance to start preplanned
+ * rides, set needed or available seats depending on acting as driver or passenger, set destination over multiple stop
+ * overs
  * 
  * @author Andre Nguyen
  * 
