@@ -25,6 +25,10 @@ public interface TestConstants {
     static final String APP_SF2_DEF_NAME = "You didn't expect this";
     static final String APP_SF2_DEF_DESC = "Maybe it can always get worse.";
     
+    static final String APP_SF3_ID = "Servicewüste Deutschland";
+    static final String APP_SF4_ID = "We maintain the right to refuse service to anyone.";
+    static final String APP_SF5_ID = "Just shut up";
+    
     static final String APP_SF1_LOC_NAME = "M\u1ed9t t\u00ednh n\u0103ng d\u1ecbch v\u1ee5 v\u00f4 d\u1ee5ng";
     static final Locale APP_SF1_LOC_NAME_LOCALE = new Locale("vi");
     static final String APP_SF1_LOC_DESC = "\u05d0\u05dd \u05de\u05d3\u05d5\u05d1\u05e8 \u05e2\u05dc \u05ea\u05db"
@@ -43,6 +47,7 @@ public interface TestConstants {
     static final String RG_ID = "best.resource.group.ever";
     static final String RG_ICON = "icons/best.png";
     static final String RG_REVISION = "123456789";
+    static final String RG_INVALID_REVISION = "i may look like a revision; but meh. I'm not.";
     static final String RG_CLASS_NAME = "AndroidRG";
     static final String RG_NAME = "The Champions";
     static final String RG_DESC = "Best. Resource. Group. Ever.";
