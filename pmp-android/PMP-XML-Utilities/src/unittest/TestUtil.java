@@ -15,6 +15,11 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
@@ -22,6 +27,34 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 public class TestUtil implements TestConstants {
+    
+    static class ContextBean {
+        
+        private String type, condition, overrideValue;
+        
+        
+        public String getType() {
+            return this.type;
+        }
+        
+        
+        public String getCondition() {
+            return this.condition;
+        }
+        
+        
+        public String getOverrideValue() {
+            return this.overrideValue;
+        }
+        
+        
+        public ContextBean(String type, String condition, String overrideValue) {
+            this.type = type;
+            this.condition = condition;
+            this.overrideValue = overrideValue;
+        }
+        
+    }
     
     private static final boolean debugInput = false;
     
@@ -36,6 +69,8 @@ public class TestUtil implements TestConstants {
     protected static XMLNode rg, rgRev, rgDefName, rgDefDesc, pss;
     
     protected static XMLAttribute rgIcon, rgClass;
+    
+    protected static XMLNode ps;
     
     
     /*
@@ -123,7 +158,9 @@ public class TestUtil implements TestConstants {
         preset.addAttribute(new XMLAttribute(XML_IDENTIFIER, identifier));
         preset.addAttribute(new XMLAttribute(XML_CREATOR, creator));
         preset.addAttribute(new XMLAttribute(XML_NAME, name));
-        preset.addAttribute(new XMLAttribute(XML_DESCRIPTION, desc));
+        if (desc != null) {
+            preset.addAttribute(new XMLAttribute(XML_DESCRIPTION, desc));
+        }
         
         return preset;
     }
@@ -134,7 +171,9 @@ public class TestUtil implements TestConstants {
         
         for (String appIdentifier : appIdentifiers) {
             XMLNode app = new XMLNode(XML_APP);
-            app.addAttribute(new XMLAttribute(XML_IDENTIFIER, appIdentifier));
+            if (appIdentifier != null) {
+                app.addAttribute(new XMLAttribute(XML_IDENTIFIER, appIdentifier));
+            }
             aA.addChild(app);
         }
         
@@ -142,36 +181,49 @@ public class TestUtil implements TestConstants {
     }
     
     
-    protected static void addAssignedPrivacySettings(XMLNode at, String[] rgIds, String[] rgRevs, String[] psIds,
-            String[] values, String[][] ctxTypes, String[][] ctxConds, String[][] ctxOvers) {
-        XMLNode aPS = new XMLNode(XML_ASSIGNED_PRIVACY_SETTINGS);
-        
-        for (int i = 0; i < rgIds.length; i++) {
-            XMLNode ps = new XMLNode(XML_PRIVACY_SETTING);
-            ps.addAttribute(new XMLAttribute(XML_RG_IDENTIFIER, rgIds[i]));
-            ps.addAttribute(new XMLAttribute(XML_RG_REVISION, rgRevs[i]));
-            ps.addAttribute(new XMLAttribute(XML_PS_IDENTIFIER, psIds[i]));
-            
-            XMLNode value = new XMLNode(XML_VALUE);
-            value.setCDATAContent(values[i]);
-            ps.addChild(value);
-            
-            for (int j = 0; j < ctxTypes[i].length; j++) {
-                XMLNode ctx = new XMLNode(XML_CONTEXT);
-                ctx.addAttribute(new XMLAttribute(XML_TYPE, ctxTypes[i][j]));
-                ctx.addAttribute(new XMLAttribute(XML_CONDITION, ctxConds[i][j]));
-                
-                XMLNode ovrVal = new XMLNode(XML_OVERRIDE_VALUE);
-                ovrVal.setCDATAContent(ctxOvers[i][j]);
-                ctx.addChild(ovrVal);
-                
-                ps.addChild(ctx);
+    protected static void addAssignedPrivacySetting(XMLNode atPreset, String rgId, String rgRev, String psId,
+            String value, ContextBean[] contexts) {
+        // find assingPS node
+        XMLNode aPS = null;
+        for (XMLNode child : atPreset.getChildren()) {
+            if (child.getName().equals(XML_ASSIGNED_PRIVACY_SETTINGS)) {
+                aPS = child;
+                break;
             }
-            
-            aPS.addChild(ps);
+        }
+        if (aPS == null) {
+            aPS = new XMLNode(XML_ASSIGNED_PRIVACY_SETTINGS);
+            atPreset.addChild(aPS);
         }
         
-        at.addChild(aPS);
+        XMLNode ps = new XMLNode(XML_PRIVACY_SETTING);
+        ps.addAttribute(new XMLAttribute(XML_RG_IDENTIFIER, rgId));
+        ps.addAttribute(new XMLAttribute(XML_RG_REVISION, rgRev));
+        ps.addAttribute(new XMLAttribute(XML_PS_IDENTIFIER, psId));
+        
+        if (value != null) {
+            XMLNode valu = new XMLNode(XML_VALUE);
+            valu.setCDATAContent(value);
+            ps.addChild(valu);
+        }
+        
+        for (ContextBean context : contexts) {
+            XMLNode ctx = new XMLNode(XML_CONTEXT);
+            ctx.addAttribute(new XMLAttribute(XML_TYPE, context.getType()));
+            if (context.getCondition() != null) {
+                ctx.addAttribute(new XMLAttribute(XML_CONDITION, context.getCondition()));
+            }
+            
+            if (context.getOverrideValue() != null) {
+                XMLNode ovrVal = new XMLNode(XML_OVERRIDE_VALUE);
+                ovrVal.setCDATAContent(context.getOverrideValue());
+                ctx.addChild(ovrVal);
+            }
+            
+            ps.addChild(ctx);
+        }
+        
+        aPS.addChild(ps);
     }
     
     
@@ -186,7 +238,9 @@ public class TestUtil implements TestConstants {
             }
             XMLNode reqPS = new XMLNode(XML_REQUIRED_PRIVACY_SETTING);
             reqPS.addAttribute(new XMLAttribute(XML_IDENTIFIER, psId[i]));
-            reqPS.setCDATAContent(psValue[i]);
+            if (psValue[i] != null) {
+                reqPS.setCDATAContent(psValue[i]);
+            }
             reqRG.addChild(reqPS);
         }
         
@@ -314,6 +368,42 @@ public class TestUtil implements TestConstants {
     }
     
     
+    protected static boolean assertPSValidation(IPresetSet pset, Class<? extends IIssueLocation> atClass,
+            String atIdentifier, IssueType type) {
+        List<IIssue> result = XMLUtilityProxy.getPresetUtil().getValidator().validatePresetSet(pset, true);
+        
+        for (IIssue i : result) {
+            // the class and...
+            if (atClass.isAssignableFrom(i.getLocation().getClass())) {
+                // either the type suffices
+                if ((atIdentifier == null) && type.equals(i.getType())) {
+                    return true;
+                    
+                } else if (i.getLocation() instanceof IIdentifierIS) {
+                    IIdentifierIS iiis = (IIdentifierIS) (i.getLocation());
+                    
+                    // or we want it for that specific identifier
+                    if (iiis.getIdentifier().equals(atIdentifier) && i.getType().equals(type)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    
+    protected static boolean assertPresetValidationEmpty(IPresetSet pset) {
+        List<IIssue> result = XMLUtilityProxy.getPresetUtil().getValidator().validatePresetSet(pset, false);
+        for (IIssue i : result) {
+            System.out.println("Unexpected issue: ");
+            System.out.println(issueToString(i));
+        }
+        return result.size() == 0;
+    }
+    
+    
     protected static void debug(String name) {
         if (debugInput) {
             System.out.println("################################################################");
@@ -407,6 +497,28 @@ public class TestUtil implements TestConstants {
     }
     
     
+    public static void assertNoIssues(IPresetSet ps) {
+        Assert.assertEquals(0, ps.getIssues().size());
+        
+        for (IPreset p : ps.getPresets()) {
+            Assert.assertEquals(0, p.getIssues().size());
+            
+            for (IPresetAssignedApp aa : p.getAssignedApps()) {
+                Assert.assertEquals(0, aa.getIssues().size());
+            }
+            
+            for (IPresetAssignedPrivacySetting psps : p.getAssignedPrivacySettings()) {
+                Assert.assertEquals(0, psps.getIssues().size());
+                
+                for (IPresetPSContext c : psps.getContexts()) {
+                    Assert.assertEquals(0, c.getIssues().size());
+                }
+            }
+        }
+        
+    }
+    
+    
     public static String inputStreamToString(InputStream is) {
         StringBuilder sb = new StringBuilder();
         Scanner sc = new Scanner(is);
@@ -420,4 +532,5 @@ public class TestUtil implements TestConstants {
         }
         return sb.toString();
     }
+    
 }

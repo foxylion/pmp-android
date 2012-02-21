@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
@@ -26,13 +27,14 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
  * @author Marcus Vetter
  * 
  */
-public interface IPresetAssignedApp extends IIssueLocation {
+public interface IPresetAssignedApp extends IIssueLocation, IIdentifierIS {
     
     /**
      * Get the identifier
      * 
      * @return the identifier
      */
+    @Override
     public abstract String getIdentifier();
     
     
@@ -42,6 +44,7 @@ public interface IPresetAssignedApp extends IIssueLocation {
      * @param identifier
      *            the identifier to set
      */
+    @Override
     public abstract void setIdentifier(String identifier);
     
 }

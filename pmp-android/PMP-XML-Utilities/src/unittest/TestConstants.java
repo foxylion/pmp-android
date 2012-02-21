@@ -1,5 +1,6 @@
 package unittest;
 
+import java.util.Date;
 import java.util.Locale;
 
 public interface TestConstants {
@@ -47,6 +48,8 @@ public interface TestConstants {
     static final String RG_ID = "best.resource.group.ever";
     static final String RG_ICON = "icons/best.png";
     static final String RG_REVISION = "123456789";
+    static final Date RG_REVISION_DATE = new Date(123456789);
+    
     static final String RG_INVALID_REVISION = "i may look like a revision; but meh. I'm not.";
     static final String RG_CLASS_NAME = "AndroidRG";
     static final String RG_NAME = "The Champions";
@@ -62,6 +65,22 @@ public interface TestConstants {
     
     static final String RG_PS_VVD = "Valid or invalid, that is here the question.";
     static final String RG_PS_CD = "You paid with credit card, there is no change.";
+    
+    // preset
+    static final String PRESET1_IDENTIFIER = "preset1";
+    static final String PRESET1_CREATOR = ":";
+    static final String PRESET1_NAME = "pretty much set of a pre";
+    static final String PRESET1_DESCRIPTION = "Knock knock";
+    
+    static final String PRESET1_APP1_IDENTIFIER = "That_cool_app_you_got";
+    
+    static final String CONTEXT1_TYPE = "TimeContext";
+    static final String CONTEXT1_CONDITION = "8'o clock";
+    static final String CONTEXT1_OVERRIDE = "Yar must get out of beeed!";
+    
+    static final String CONTEXT2_TYPE = "LocationContext";
+    static final String CONTEXT2_CONDITION = "Graveyard";
+    static final String CONTEXT2_OVERRIDE = "You can shut down now";
     
     // default
     static final String ILLEGAL_LOCALE = "\u0623\u0646";

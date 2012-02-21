@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.BasicISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -422,12 +423,18 @@ public class RGParserTest extends TestCase implements TestConstants {
     @Test
     public void testCleanRGISIssues() throws Exception {
         
+        TestUtil.makeRG("", RG_ICON, RG_CLASS_NAME, RG_INVALID_REVISION, RG_NAME, RG_DESC);
+        XMLNode xmlPS1 = TestUtil.makePS(RG_PS1_ID, "", RG_PS1_DESC, RG_PS_CD, "");
+        XMLNode xmlPS2 = TestUtil.makePS("", RG_PS1_NAME, RG_PS1_DESC, "", RG_PS_VVD);
+        TestUtil.pss.addChild(xmlPS1);
+        TestUtil.pss.addChild(xmlPS2);
+        
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
         TestUtil.debug(ste.getMethodName());
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         TestUtil.assertNoIssues(rgis);
-        assertTrue("No issues in clean AIS issues test.",
+        assertTrue("No issues in clean RGIS issues test.",
                 XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true).size() > 0);
         XMLUtilityProxy.getRGUtil().getValidator().clearIssuesAndPropagate(rgis);
         TestUtil.assertNoIssues(rgis);
@@ -452,7 +459,8 @@ public class RGParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(RG_ID));
         assertTrue(compilation.contains(RG_ICON));
         assertTrue(compilation.contains(RG_CLASS_NAME));
-        assertTrue(compilation.contains(RG_REVISION));
+        assertTrue(compilation.contains(RG_REVISION)
+                || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(RG_NAME));
         assertTrue(compilation.contains(RG_DESC));
         assertTrue(compilation.contains(RG_PS1_ID));

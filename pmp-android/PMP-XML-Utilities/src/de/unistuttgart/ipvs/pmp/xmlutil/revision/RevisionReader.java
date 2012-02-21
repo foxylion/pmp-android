@@ -38,7 +38,7 @@ public class RevisionReader {
      * 
      * @param apk
      *            the apk file to read in
-     * @return the revision, i.e. the seconds that have passed since 01.01.1970 = UNIX timestamp,
+     * @return the revision, i.e. the milliseconds that have passed since 01.01.1970 = UNIX timestamp,
      *         or 04:04:04 04.04.1904 if a file wasn't found
      *         or 23:59:59 31.12.1969 if no time was specified in the APK
      *         or 06:06:06 06.06.1906 if another error occurred

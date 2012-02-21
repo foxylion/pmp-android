@@ -31,6 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.BasicISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -392,6 +393,39 @@ public class AppParserTest extends TestCase implements TestConstants {
     
     
     @Test
+    public void testAppEmptyReqRGValue() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] { "" },
+                RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        TestUtil.assertNoIssues(ais);
+    }
+    
+    
+    @Test
+    public void testAppMssingReqRGValue() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] { null },
+                RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with missing RG value.", TestUtil.assertAISValidation(ais,
+                IAISRequiredPrivacySetting.class, APP_SF1_REQ_RG1, IssueType.VALUE_MISSING));
+    }
+    
+    
+    @Test
     public void testAppEmptyReqRGPSIdentifier() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
@@ -613,7 +647,8 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(APP_SF1_REQ_RG1));
         assertTrue(compilation.contains(APP_SF1_REQ_PS1_ID));
         assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE));
-        assertTrue(compilation.contains(RG_REVISION));
+        assertTrue(compilation.contains(RG_REVISION)
+                || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(APP_SF1_LOC_NAME_LOCALE.getLanguage()));
         assertTrue(compilation.contains(APP_SF1_LOC_NAME));
         assertTrue(compilation.contains("he"));
