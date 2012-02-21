@@ -30,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 
 /**
@@ -351,7 +352,7 @@ public class ServerProvider implements IServerProvider {
     
     
     @Override
-    public String storePresetSet(PresetSet presetSet) {
+    public String storePresetSet(IPresetSet presetSet) {
         try {
             PresetSetSaveResponse rpss = ((PresetSetSaveResponse) handleRequest(new RequestPresetSetSave(presetSet)));
             return rpss.isSuccess() ? rpss.getId() : rpss.getMessage();
@@ -365,7 +366,7 @@ public class ServerProvider implements IServerProvider {
     
     
     @Override
-    public PresetSet loadPresetSet(String name) {
+    public IPresetSet loadPresetSet(String name) {
         Assert.nonNull(name, ModelMisuseError.class, Assert.ILLEGAL_NULL, "name", name);
         try {
             return (PresetSet) ((PresetSetLoadResponse) handleRequest(new RequestPresetSetLoad(name))).getPresetSet();

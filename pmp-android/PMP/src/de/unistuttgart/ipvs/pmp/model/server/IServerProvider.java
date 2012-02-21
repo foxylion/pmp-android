@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Date;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 
 /**
@@ -41,7 +42,7 @@ public interface IServerProvider {
      *            the preset set to store
      * @return the name of the created preset set, or null if an error occurred
      */
-    public String storePresetSet(PresetSet presetSet);
+    public String storePresetSet(IPresetSet presetSet);
     
     
     /**
@@ -51,7 +52,7 @@ public interface IServerProvider {
      *            the name of the preset set to load
      * @return the loaded preset set, or null if an error occurred
      */
-    public PresetSet loadPresetSet(String name);
+    public IPresetSet loadPresetSet(String name);
     
     
     /**
