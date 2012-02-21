@@ -9,6 +9,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -27,6 +29,8 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallback;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -145,6 +149,33 @@ public class ActivityPresets extends Activity {
                 DialogPresetEdit dialog = new DialogPresetEdit(this, this.callback, null);
                 dialog.show();
                 break;
+            
+            case R.id.presets_menu_import:
+                /*
+                 * Import a Preset
+                 */
+                PresetSetTools.importPresets(ActivityPresets.this, new ICallback() {
+                    
+                    @Override
+                    public void ended(boolean succcess) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                refresh();
+                            }
+                        });
+                    }
+                });
+                break;
+            
+            case R.id.presets_menu_export:
+                /*
+                 * Export a Preset
+                 */
+                PresetSetTools.exportPresets(ActivityPresets.this);
+                break;
+            
             case R.id.presets_menu_show_trash_bin:
                 /*
                  * Show the trash bin

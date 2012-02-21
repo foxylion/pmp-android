@@ -6,6 +6,14 @@
         android:icon="@drawable/menu_add"
         android:title="@string/add_preset"/>
     <item
+        android:id="@+id/presets_menu_export"
+        android:icon="@drawable/menu_export"
+        android:title="@string/export_presets"/>
+    <item
+        android:id="@+id/presets_menu_import"
+        android:icon="@drawable/menu_import"
+        android:title="@string/import_presets"/>
+    <item
         android:id="@+id/presets_menu_show_trash_bin"
         android:icon="@drawable/menu_show_deleted"
         android:title="@string/show_trash_bin"/>
