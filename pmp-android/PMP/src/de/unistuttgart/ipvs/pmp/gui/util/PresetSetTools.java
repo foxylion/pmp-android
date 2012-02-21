@@ -44,7 +44,7 @@ public class PresetSetTools {
                 
                 callback.ended(presetSet);
             }
-        });
+        }).start();
         
     }
     
@@ -58,7 +58,7 @@ public class PresetSetTools {
                 
                 callback.ended(id);
             }
-        });
+        }).start();
         
     }
 }
