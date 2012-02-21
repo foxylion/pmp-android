@@ -15,7 +15,11 @@ import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupPackageResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
 
-
+/**
+ * File for testing the JPMPPS.
+ * 
+ * @author Jakob Jarosch, Tobias Kuhn
+ */
 public class ServerTest {
     
     public static void main(String[] args) {
@@ -30,7 +34,7 @@ public class ServerTest {
             System.out.println(result.getClass());
             
             String downloadPackage = null;
-            if(result instanceof ResourceGroupsResponse) {
+            if (result instanceof ResourceGroupsResponse) {
                 ResourceGroupsResponse rgr = (ResourceGroupsResponse) result;
                 downloadPackage = rgr.getResourceGroups()[0].getIdentifier();
                 System.out.println(rgr.getResourceGroups()[0].getIdentifier());
@@ -44,7 +48,7 @@ public class ServerTest {
                 
                 System.out.println(result2.getClass());
                 
-                if(result2 instanceof ResourceGroupPackageResponse) {
+                if (result2 instanceof ResourceGroupPackageResponse) {
                     ResourceGroupPackageResponse rgpr = (ResourceGroupPackageResponse) result2;
                     download(rgpr);
                 }
@@ -60,16 +64,25 @@ public class ServerTest {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        
     }
-
+    
+    
+    /**
+     * Unpacks a package from a {@link ResourceGroupPackageResponse}.
+     * 
+     * @param rgpr
+     *            {@link ResourceGroupPackageResponse} which should be unpacked.
+     * 
+     * @throws IOException
+     *             Throws an {@link IOException} on an IO failure.
+     */
     private static void download(ResourceGroupPackageResponse rgpr) throws IOException {
         final int BUFFER_SIZE = 32 * 1024;
         File tmp = new File("Test.apk");
         FileOutputStream fos = new FileOutputStream(tmp);
         try {
             
-            // copy file
+            // Copy file to a local one.
             InputStream is = rgpr.getResourceGroupInputStream();
             try {
                 byte[] buffer = new byte[BUFFER_SIZE];
@@ -89,7 +102,7 @@ public class ServerTest {
             fos.close();
         }
         
+        // Print out the file size of the package.
         System.out.println(tmp.getAbsolutePath() + " is " + tmp.length() + " Bytes");
     }
-    
 }

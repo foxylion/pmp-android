@@ -5,35 +5,28 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.util.TimerTask;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPS;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.AbstractRequest;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestPresetSetLoad;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestPresetSetSave;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestRGIS;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroupPackage;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.AbstractResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.CachedRequestResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.InvalidRequestResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.NoSuchPackageResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.RGISResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupPackageResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
-import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
-import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
-import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.controller.ConnectionController;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.controller.HandlerFactory;
 
-public class TCPServer {
+/**
+ * The {@link TCPObjectServer} provides a TCP based connection interface for java clients.
+ * All IO will be done by using {@link ObjectInputStream}s and {@link ObjectOutputStream}s.
+ * 
+ * @author Jakob Jarosch
+ */
+public class TCPObjectServer {
     
+    /**
+     * The {@link ServerSocket} where the server listens to.
+     */
     private ServerSocket socket;
     
+    /**
+     * A Thread which is working in the background and accepts incoming connection.
+     */
     private AcceptingConnectionThread connectionAcceptThread = null;
     
     
@@ -43,7 +36,7 @@ public class TCPServer {
      * @param port
      *            Port which the server should listen on.
      */
-    public TCPServer(int port) {
+    public TCPObjectServer(int port) {
         
         try {
             this.socket = new ServerSocket(port);
@@ -55,6 +48,7 @@ public class TCPServer {
             System.exit(3);
         }
         
+        /* Start the thread in background */
         this.connectionAcceptThread = new AcceptingConnectionThread();
         this.connectionAcceptThread.start();
     }
@@ -75,12 +69,22 @@ public class TCPServer {
         }
     }
     
+    /**
+     * Background thread for accepting incoming connections.
+     * 
+     * @author Jakob Jarosch
+     */
     private class AcceptingConnectionThread extends Thread {
         
+        @Override
         public void run() {
             while (!isInterrupted()) {
                 try {
-                    Socket connection = socket.accept();
+                    // TODO use a thread pool to limit the number of threads at the same time, so DDOSing
+                    //      will be a little bit more difficult.
+                    
+                    /* When a new connection is accepted another background thread will be started. */
+                    Socket connection = TCPObjectServer.this.socket.accept();
                     new SocketProcessingThread(connection).start();
                 } catch (Exception e) {
                     System.out.println("[E] Failed accepting incomming connection. (Error: " + e.getMessage());
@@ -92,13 +96,28 @@ public class TCPServer {
         }
     }
     
+    /**
+     * {@link SocketProcessingThread} processes a client.
+     * 
+     * @author Jakob Jarosch
+     */
     private class SocketProcessingThread extends Thread {
         
+        /**
+         * {@link Socket} which is connected to the client.
+         */
         private Socket socket;
         
+        /**
+         * {@link ConnectionController} manages the connection to the client.
+         */
         private ConnectionController controller;
         
-        
+        /**
+         * Creates a new {@link SocketProcessingThread}.
+         * 
+         * @param socket The {@link Socket} which is connnected to the client.
+         */
         public SocketProcessingThread(Socket socket) {
             this.socket = socket;
         }
@@ -108,10 +127,13 @@ public class TCPServer {
         public void run() {
             this.controller = new ConnectionController(this.socket);
             
-            while (!controller.isCommunicationEnd()) {
-                AbstractRequest request = controller.readRequest();
-                if (!controller.isCommunicationEnd()) {
-                    HandlerFactory.getInstance().handle(controller, request);
+            /*
+             * Read on the socket until the communication is ended.
+             */
+            while (!this.controller.isCommunicationEnd()) {
+                AbstractRequest request = this.controller.readRequest();
+                if (!this.controller.isCommunicationEnd()) {
+                    HandlerFactory.getInstance().handle(this.controller, request);
                 }
             }
         }

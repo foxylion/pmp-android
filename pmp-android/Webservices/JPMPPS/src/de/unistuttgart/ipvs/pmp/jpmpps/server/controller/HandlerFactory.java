@@ -21,52 +21,87 @@ import de.unistuttgart.ipvs.pmp.jpmpps.server.controller.handler.RGISHandler;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.controller.handler.ResourceGroupPackageHandler;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.controller.handler.ResourceGroupsHandler;
 
+/**
+ * The {@link HandlerFactory} provides access to all handlers used for answering a request done by a client.
+ * 
+ * @author Jakob Jarosch
+ * 
+ */
 public class HandlerFactory {
     
+    /**
+     * Instance of the {@link HandlerFactory}.
+     */
     private static HandlerFactory instance;
     
+    /**
+     * Map for storing instances of all {@link IRequestHandler}s.
+     */
     private Map<Class<? extends AbstractRequest>, IRequestHandler> handlerMap = new HashMap<Class<? extends AbstractRequest>, IRequestHandler>();
     
+    /**
+     * The default handler which is invoked when no other compatible {@link IRequestHandler} was found.
+     */
     private IRequestHandler defaultHander = new DefaultHandler();
     
+    /**
+     * {@link HandlerFactory} constructor.
+     */
     private HandlerFactory() {
-        handlerMap.put(RequestCommunicationEnd.class, new CommunicationEndHandler());
-        handlerMap.put(RequestResourceGroups.class, new ResourceGroupsHandler());
-        handlerMap.put(RequestResourceGroupPackage.class, new ResourceGroupPackageHandler());
-        handlerMap.put(RequestRGIS.class, new RGISHandler());
-        handlerMap.put(RequestPresetSetSave.class, new PresetSetSaveHandler());
-        handlerMap.put(RequestPresetSetLoad.class, new PresetSetLoadHandler());
+        /* Register all handlers. */
+        this.handlerMap.put(RequestCommunicationEnd.class, new CommunicationEndHandler());
+        this.handlerMap.put(RequestResourceGroups.class, new ResourceGroupsHandler());
+        this.handlerMap.put(RequestResourceGroupPackage.class, new ResourceGroupPackageHandler());
+        this.handlerMap.put(RequestRGIS.class, new RGISHandler());
+        this.handlerMap.put(RequestPresetSetSave.class, new PresetSetSaveHandler());
+        this.handlerMap.put(RequestPresetSetLoad.class, new PresetSetLoadHandler());
     }
     
-    
+    /**
+     * @return Returns the instance of {@link HandlerFactory}.
+     */
     public static HandlerFactory getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HandlerFactory();
         }
+        
         return instance;
     }
     
+    
+    /**
+     * Handles a new incoming request.
+     * 
+     * @param controller {@link ConnectionController} which is responsible for the request.
+     * @param request Request which should be handled.
+     */
     public void handle(ConnectionController controller, AbstractRequest request) {
         IRequestHandler handler = null;
         
         if (request == null) {
-            handler = defaultHander;
+            /* No request means default handler. */
+            handler = this.defaultHander;
         } else {
-            handler = handlerMap.get(request.getClass());
+            /* Try to find the correct handler from the map */
+            handler = this.handlerMap.get(request.getClass());
         }
         
-        if(handler == null) {
-            handler = defaultHander;
+        /* If there is still no handler use the default handler. */
+        if (handler == null) {
+            handler = this.defaultHander;
         }
         
         AbstractResponse response = null;
         
+        /* Try to generate a response. */
         try {
             response = handler.process(request);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             controller.log("Something went wrong while processing the request", e);
             response = new InternalServerErrorResponse();
         }
+        
+        /* When the response is null that is an indication for a communication end. */
         if (response == null) {
             controller.endCommunication();
         } else {

@@ -9,6 +9,12 @@ import de.unistuttgart.ipvs.pmp.jpmpps.io.response.ResourceGroupsResponse;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.ResponseHasher;
 
+/**
+ * The {@link ResourceGroupsHandler} reacts on {@link RequestResourceGroups} requests.
+ * It normally returns a {@link ResourceGroupsResponse} or a {@link CachedRequestResponse} when the response is cached.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ResourceGroupsHandler implements IRequestHandler {
     
     @Override
@@ -20,10 +26,9 @@ public class ResourceGroupsHandler implements IRequestHandler {
         
         RequestResourceGroups rgsRequest = (RequestResourceGroups) request;
         
-        LocalizedResourceGroup[] rgs = JPMPPS.get().findResourceGroups(rgsRequest.getLocale(), rgsRequest.getFilter(),
-                JPMPPS.LIMIT);
+        LocalizedResourceGroup[] rgs = JPMPPS.get().findResourceGroups(rgsRequest.getLocale(), rgsRequest.getFilter());
         
-        if(ResponseHasher.checkHash(rgsRequest.getLocale(), rgs, rgsRequest.getCacheHash())) {
+        if (ResponseHasher.checkHash(rgsRequest.getLocale(), rgs, rgsRequest.getCacheHash())) {
             return new CachedRequestResponse();
         } else {
             return new ResourceGroupsResponse(rgs, ResponseHasher.hash(rgsRequest.getLocale(), rgs));

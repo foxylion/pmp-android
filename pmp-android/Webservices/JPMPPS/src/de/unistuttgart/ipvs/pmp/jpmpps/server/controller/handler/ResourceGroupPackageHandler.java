@@ -10,6 +10,14 @@ import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.ResponseHasher;
 
+/**
+ * The {@link ResourceGroupPackageHandler} react on a {@link RequestResourceGroupPackage}.
+ * It normally returns a {@link ResourceGroupPackageResponse}. When the {@link ResourceGroup} was cached it will return
+ * a {@link CachedRequestResponse}.
+ * When no {@link ResourceGroup} was found it will return a {@link NoSuchPackageResponse}.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ResourceGroupPackageHandler implements IRequestHandler {
     
     @Override
