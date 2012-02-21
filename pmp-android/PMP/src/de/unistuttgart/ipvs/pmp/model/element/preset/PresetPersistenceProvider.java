@@ -147,6 +147,13 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 + PRESET_IDENTIFIER + " = ?",
                 new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
+        // delete context annotations
+        for (List<ContextAnnotation> cas : this.element.contextAnnotations.values()) {
+            for (ContextAnnotation ca : cas) {
+                ca.delete();
+            }
+        }
+        
         // delete preset
         wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + CREATOR + " = ? AND " + IDENTIFIER + " = ?",
                 new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });

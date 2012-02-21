@@ -10,10 +10,9 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
 /**
- * Overlay for passengers, handling the drawable icon, tap actions and drawing
- * the perimeter
+ * Overlay for passengers, handling the drawable icon, tap actions
  * 
- * @author andres
+ * @author Andre Nguyen
  * 
  */
 @SuppressWarnings("rawtypes")

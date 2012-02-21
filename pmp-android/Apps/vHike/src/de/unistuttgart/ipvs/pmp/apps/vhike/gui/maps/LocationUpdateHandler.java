@@ -23,9 +23,10 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 /**
- * Handles location updates
+ * Handles location updates if location changes
+ * WILL BE REPLACED BY Location-ResourceGroup
  * 
- * @author Andre
+ * @author Andre Nguyen
  * 
  */
 public class LocationUpdateHandler implements LocationListener {

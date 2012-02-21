@@ -9,10 +9,19 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * After editing the rating bar user has to confirm is rating through this dialog
+ * 
+ * @author Andre Nguyen
+ * 
+ */
 public class RateProfileConfirm extends Dialog {
     
+    @SuppressWarnings("unused")
     private int profileID;
+    @SuppressWarnings("unused")
     private int rating;
+    @SuppressWarnings("unused")
     private int tripID;
     
     

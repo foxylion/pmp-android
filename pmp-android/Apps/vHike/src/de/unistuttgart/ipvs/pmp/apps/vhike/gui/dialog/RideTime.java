@@ -7,6 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * Set time of ride
+ * 
+ * @author Andre Nguyen
+ *
+ */
 public class RideTime extends Dialog {
 
 	private Context mContext;

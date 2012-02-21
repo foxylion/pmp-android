@@ -7,6 +7,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
@@ -55,6 +57,15 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
         wdb.execSQL("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE + " = ? AND " + IDENTIFIER
                 + " = ?",
                 new String[] { this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
+        
+        // delete context annotations
+        for (IContextAnnotation ca : getCache().getAllContextAnnotations()) {
+            if (ca.getPrivacySetting() == this.element) {
+                Assert.instanceOf(ca, ContextAnnotation.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "ca",
+                        ca);
+                ((ContextAnnotation) ca).delete();
+            }
+        }
         
     }
     

@@ -139,4 +139,9 @@ public class XMLNode {
         this.attributes.add(attribute);
     }
     
+    
+    public boolean removeAttribute(XMLAttribute attribute) {
+        return this.attributes.remove(attribute);
+    }
+    
 }

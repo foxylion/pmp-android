@@ -9,8 +9,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.RemoteException;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -26,6 +28,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
  * MapModel grants access to all elements needed to work with the map view
@@ -281,6 +284,28 @@ public class ViewModel {
     }
     
     
+    public void updatePosition(IAbsoluteLocation loc, int whichHitcher) throws RemoteException {
+        
+        setMyPosition((float) loc.getLatitude(), (float) loc.getLongitude(), whichHitcher);
+        
+        /**
+         * send server updated latitude and longitude
+         */
+        switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) loc.getLatitude(), (float) loc.getLongitude())) {
+            case Constants.STATUS_UPDATED:
+                Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
+                break;
+            case Constants.STATUS_UPTODATE:
+                Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();
+                break;
+            case Constants.STATUS_ERROR:
+                Toast.makeText(context, "Error Update position", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        
+    }
+    
+    
     /**
      * List containing all spinners/stop overs
      * 
@@ -290,13 +315,16 @@ public class ViewModel {
         return this.spinnersDest;
     }
     
+    
     public void setClickedSpinner(Spinner spinner) {
         clickedSpinner = spinner;
     }
     
+    
     public Spinner getClickedSpinner() {
         return clickedSpinner;
     }
+    
     
     /**
      * Holds all overlays of the the drivers Mapview
@@ -458,7 +486,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (driverAdapter == null) {
-            driverAdapter = new NotificationAdapter(context, getHitchPassengers(), 0, mapView);
+            driverAdapter = new NotificationAdapter(context, getHitchPassengers(), 0);
         }
         return driverAdapter;
     }
@@ -482,7 +510,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (passengerAdapter == null) {
-            passengerAdapter = new NotificationAdapter(context, getHitchDrivers(), 1, mapView);
+            passengerAdapter = new NotificationAdapter(context, getHitchDrivers(), 1);
         }
         return passengerAdapter;
     }

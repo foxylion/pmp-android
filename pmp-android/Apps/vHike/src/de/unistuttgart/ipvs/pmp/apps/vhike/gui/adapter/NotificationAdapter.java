@@ -1,24 +1,14 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import java.util.List; 
-import java.util.Timer;
-
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
+import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -32,16 +22,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Handles list elements where drivers or passengers are added/removed through
- * finding/accepting/denying hitchhikers
+ * finding/accepting/denying/sending offers to hitchhikers
  * 
  * mWhichHitcher indicates which list is to handle. 0 handles passengers list 1
  * handles drivers list
  * 
- * @author andres
+ * Also gives user opportunity to open profile of a found hitchhiker
+ * 
+ * @author Alexander Wassiljew, Andre Nguyen
  * 
  */
 public class NotificationAdapter extends BaseAdapter {
@@ -49,17 +40,14 @@ public class NotificationAdapter extends BaseAdapter {
     private Context context;
     private List<Profile> hitchhikers;
     private Profile hitchhiker;
-    private Profile me;
     private int mWhichHitcher;
     private int userID;
-    private MapView mapView;
     
     
-    public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher, MapView mapView) {
+    public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher) {
         this.context = context;
         this.hitchhikers = hitchhikers;
         mWhichHitcher = whichHitcher;
-        this.mapView = mapView;
     }
     
     
@@ -117,13 +105,12 @@ public class NotificationAdapter extends BaseAdapter {
         });
         
         noti_rb.setRating((float) hitchhiker.getRating_avg());
-        me = Model.getInstance().getOwnProfile();
         
         List<ViewObject> lqo = ViewModel.getInstance().getLVO();
         Log.i(this, "Position: " + position);
         final ViewObject actObject = lqo.get(position);
         
-        if(mWhichHitcher == 0){
+        if (mWhichHitcher == 0) {
             dismiss.setOnClickListener(new OnClickListener() {
                 
                 @Override
@@ -131,8 +118,8 @@ public class NotificationAdapter extends BaseAdapter {
                     ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
                     ViewModel.getInstance().updateView(mWhichHitcher);
                 }
-            });    
-        }else{
+            });
+        } else {
             dismiss.setOnClickListener(actObject.getDenieOfferClickListener());
         }
         

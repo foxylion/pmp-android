@@ -36,7 +36,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 /**
- * PassengerViewActivity displays passengers current location on google maps
+ * PassengerViewActivity displays passenger, found drivers, a list of found drivers, the
+ * possibility to update the available seats, accept offers and to end a trip
  * 
  * @author Andre Nguyen
  * 

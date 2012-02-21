@@ -31,7 +31,6 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -52,7 +51,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS2_ID },
-                new String[] { APP_SF1_REQ_PS2_VALUE });
+                new String[] { APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
         
         // disable CDATA for minimum
         XMLNode psValue = xmlSF1.getChildren().get(2).getChildren().get(0);
@@ -87,6 +86,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS2_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS2_ID).getValue());
         
+        assertTrue("Validator did not accept minimum app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
@@ -95,7 +95,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -125,6 +125,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS1_ID).getValue());
         
+        assertTrue("Validator did not accept CDATA app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
@@ -163,7 +164,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.addLocale(TestUtil.app, APP_LOC_DESC_LOCALE.getLanguage(), null, APP_LOC_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.addLocale(xmlSF1, APP_SF1_LOC_NAME_LOCALE.getLanguage(), APP_SF1_LOC_NAME, null);
         TestUtil.addLocale(xmlSF1, "he", null, APP_SF1_LOC_DESC);
         // we cannot use the Locale itself here,
@@ -201,6 +202,8 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertNotNull(rrg);
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS1_ID).getValue());
+        
+        assertTrue("Validator did not accept localized app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
@@ -210,7 +213,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.addLocale(TestUtil.app, ILLEGAL_LOCALE, APP_LOC_NAME, APP_LOC_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -228,7 +231,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.addLocale(TestUtil.app, "", APP_LOC_NAME, APP_LOC_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -246,7 +249,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.addLocale(TestUtil.main, Locale.GERMAN.getLanguage(), APP_LOC_NAME, APP_LOC_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -266,7 +269,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         // change all flags
@@ -298,27 +301,76 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertNotNull(rrg);
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS1_ID).getValue());
+        
+        assertTrue("Validator did not accept spaces app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
     @Test
     public void testAppDoubleLocaleAttribute() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
-        TestUtil.appDefDesc.addAttribute(new XMLAttribute(XML_LANG, Locale.GERMAN.getLanguage()));
+        TestUtil.addLocale(TestUtil.app, XML_DEFAULT_EN, null, APP_LOC_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
         TestUtil.debug(ste.getMethodName());
         
-        try {
-            XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
-            fail("Parser accepted app with double locale attribute.");
-        } catch (ParserException xmlpe) {
-            //assertEquals(ParserException.Type.LOCALE_INVALID, xmlpe.getType());
-        }
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with double locale attribute.",
+                TestUtil.assertAISValidation(ais, IAIS.class, null, IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN));
+    }
+    
+    
+    @Test
+    public void testAppEmptyReqRGRevision() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, "");
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with empty RG minRevision.", TestUtil.assertAISValidation(ais,
+                IAISRequiredResourceGroup.class, APP_SF1_REQ_RG1, IssueType.MINREVISION_MISSING));
+    }
+    
+    
+    @Test
+    public void testAppInvalidReqRGRevision() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_INVALID_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with empty RG minRevision.", TestUtil.assertAISValidation(ais,
+                IAISRequiredResourceGroup.class, APP_SF1_REQ_RG1, IssueType.MINREVISION_INVALID));
+    }
+    
+    
+    @Test
+    public void testAppNoReqRGPS() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { null }, new String[] { null }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with no PS in req RG.", TestUtil.assertAISValidation(ais,
+                IAISRequiredResourceGroup.class, APP_SF1_REQ_RG1, IssueType.NO_RPS_EXISTS));
     }
     
     
@@ -326,7 +378,8 @@ public class AppParserTest extends TestCase implements TestConstants {
     public void testAppEmptyReqRGIdentifier() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
-        TestUtil.addRequiredRG(xmlSF1, "", new String[] { APP_SF1_REQ_PS1_ID }, new String[] { APP_SF1_REQ_PS1_VALUE });
+        TestUtil.addRequiredRG(xmlSF1, "", new String[] { APP_SF1_REQ_PS1_ID }, new String[] { APP_SF1_REQ_PS1_VALUE },
+                RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -342,15 +395,33 @@ public class AppParserTest extends TestCase implements TestConstants {
     public void testAppEmptyReqRGPSIdentifier() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
-        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { "" }, new String[] { APP_SF1_REQ_PS1_VALUE });
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { "" }, new String[] { APP_SF1_REQ_PS1_VALUE },
+                RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
         TestUtil.debug(ste.getMethodName());
         
         IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
-        assertTrue("Validator accepted app with empty PS identifier.",
+        assertTrue("Validator accepted app with empty req PS identifier.",
                 TestUtil.assertAISValidation(ais, IAISRequiredPrivacySetting.class, "", IssueType.IDENTIFIER_MISSING));
+    }
+    
+    
+    @Test
+    public void testAppEmptyReqRGPSValue() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] { "" },
+                RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with missing req PS value.", TestUtil.assertAISValidation(ais,
+                IAISRequiredPrivacySetting.class, APP_SF1_REQ_PS1_ID, IssueType.EMPTY_VALUE));
     }
     
     
@@ -359,12 +430,12 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         XMLNode xmlSF2 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF2);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -377,13 +448,30 @@ public class AppParserTest extends TestCase implements TestConstants {
     
     
     @Test
+    public void testAppSFNoIdentifier() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF("", APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with SF with no identifier.",
+                TestUtil.assertAISValidation(ais, IAISServiceFeature.class, "", IssueType.IDENTIFIER_MISSING));
+    }
+    
+    
+    @Test
     public void testAppReqRGSameIdentifier() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS2_ID },
-                new String[] { APP_SF1_REQ_PS2_VALUE });
+                new String[] { APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -400,7 +488,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID, APP_SF1_REQ_PS1_ID },
-                new String[] { APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+                new String[] { APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -417,11 +505,11 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
         XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] {
-                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF1);
         XMLNode xmlSF2 = TestUtil.makeSF(APP_SF2_ID, APP_SF2_DEF_NAME, APP_SF2_DEF_DESC);
         TestUtil.addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID }, new String[] {
-                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE });
+                APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
         TestUtil.sfs.addChild(xmlSF2);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -430,6 +518,62 @@ public class AppParserTest extends TestCase implements TestConstants {
         IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted app with SF both requiring only the same PS.", TestUtil.assertAISValidation(ais,
                 IAIS.class, null, IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE));
+    }
+    
+    
+    @Test
+    public void testAppTwoTimesTwoSameSFReqs() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF1);
+        XMLNode xmlSF2 = TestUtil.makeSF(APP_SF2_ID, APP_SF2_DEF_NAME, APP_SF2_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF2);
+        
+        XMLNode xmlSF3 = TestUtil.makeSF(APP_SF3_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS2_ID },
+                new String[] { APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF3);
+        XMLNode xmlSF4 = TestUtil.makeSF(APP_SF4_ID, APP_SF2_DEF_NAME, APP_SF2_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS2_ID },
+                new String[] { APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF4);
+        
+        XMLNode xmlSF5 = TestUtil.makeSF(APP_SF5_ID, APP_SF2_DEF_NAME, APP_SF2_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF2, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID, APP_SF1_REQ_PS2_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE, APP_SF1_REQ_PS2_VALUE }, RG_REVISION);
+        TestUtil.sfs.addChild(xmlSF5);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        assertTrue("Validator accepted app with SF both requiring only the same PS.", TestUtil.assertAISValidation(ais,
+                IAIS.class, null, IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE));
+    }
+    
+    
+    public void testCleanAISIssues() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, "");
+        TestUtil.addLocale(TestUtil.app, "", APP_LOC_NAME, APP_LOC_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, "");
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, "");
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        TestUtil.assertNoIssues(ais);
+        assertTrue("No issues in clean AIS issues test.",
+                XMLUtilityProxy.getAppUtil().getValidator().validateAIS(ais, true).size() > 0);
+        XMLUtilityProxy.getAppUtil().getValidator().clearIssuesAndPropagate(ais);
+        TestUtil.assertNoIssues(ais);
+        
     }
     
 }

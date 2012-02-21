@@ -158,7 +158,7 @@ public class Model {
 	try {
 
 	    // Run the dialog, not cancelable because the timeout is set to 1000
-	    dialog.run(true, false, new IRunnableWithProgress() {
+	    dialog.run(false, false, new IRunnableWithProgress() {
 
 		@Override
 		public void run(IProgressMonitor monitor)

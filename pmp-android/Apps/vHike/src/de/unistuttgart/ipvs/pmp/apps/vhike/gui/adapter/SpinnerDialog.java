@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+/**
+ * SpinnerDialog contains only one button to remove a stop over
+ * 
+ * @author Andre Nguyen
+ * 
+ */
 public class SpinnerDialog extends Dialog {
     
     public SpinnerDialog(Context context) {

@@ -25,6 +25,10 @@ public interface TestConstants {
     static final String APP_SF2_DEF_NAME = "You didn't expect this";
     static final String APP_SF2_DEF_DESC = "Maybe it can always get worse.";
     
+    static final String APP_SF3_ID = "Servicewüste Deutschland";
+    static final String APP_SF4_ID = "We maintain the right to refuse service to anyone.";
+    static final String APP_SF5_ID = "Just shut up";
+    
     static final String APP_SF1_LOC_NAME = "M\u1ed9t t\u00ednh n\u0103ng d\u1ecbch v\u1ee5 v\u00f4 d\u1ee5ng";
     static final Locale APP_SF1_LOC_NAME_LOCALE = new Locale("vi");
     static final String APP_SF1_LOC_DESC = "\u05d0\u05dd \u05de\u05d3\u05d5\u05d1\u05e8 \u05e2\u05dc \u05ea\u05db"
@@ -43,6 +47,8 @@ public interface TestConstants {
     static final String RG_ID = "best.resource.group.ever";
     static final String RG_ICON = "icons/best.png";
     static final String RG_REVISION = "123456789";
+    static final String RG_INVALID_REVISION = "i may look like a revision; but meh. I'm not.";
+    static final String RG_CLASS_NAME = "AndroidRG";
     static final String RG_NAME = "The Champions";
     static final String RG_DESC = "Best. Resource. Group. Ever.";
     
@@ -53,6 +59,9 @@ public interface TestConstants {
     static final String RG_PSn_ID = "privacy.setting.%d";
     static final String RG_PSn_NAME = "Privacy sitting %d";
     static final String RG_PSn_DESC = "Sits with you in your %dth privacy.";
+    
+    static final String RG_PS_VVD = "Valid or invalid, that is here the question.";
+    static final String RG_PS_CD = "You paid with credit card, there is no change.";
     
     // default
     static final String ILLEGAL_LOCALE = "\u0623\u0646";
@@ -67,6 +76,7 @@ public interface TestConstants {
     static final String XML_RESOURCE_GROUP_INFORMATION_SET = "resourceGroupInformationSet";
     static final String XML_RESOURCE_GROUP_INFORMATION = "resourceGroupInformation";
     static final String XML_ICON = "icon";
+    static final String XML_CLASS_NAME = "className";
     static final String XML_REVISION = "minRevision";
     static final String XML_DEFAULT_EN = "en";
     static final String XML_PRIVACY_SETTINGS = "privacySettings";
@@ -81,6 +91,8 @@ public interface TestConstants {
     static final String XML_DESCRIPTION = "description";
     static final String XML_LANG = "lang";
     static final String XML_NAME = "name";
+    static final String XML_VALID_VALUE_DESCRIPTION = "validValueDescription";
+    static final String XML_CHANGE_DESCRIPTION = "changeDescription";
     
     static final Locale XML_DEFAULT_EN_LOCALE = Locale.ENGLISH;
 }
