@@ -93,6 +93,20 @@ public interface TestConstants {
     static final String XML_NAME = "name";
     static final String XML_VALID_VALUE_DESCRIPTION = "validValueDescription";
     static final String XML_CHANGE_DESCRIPTION = "changeDescription";
+    static final String XML_PRESET_SET = "presetSet";
+    static final String XML_PRESET = "preset";
+    static final String XML_CREATOR = "creator";
+    static final String XML_APP = "app";
+    static final String XML_ASSIGNED_APPS = "assignedApps";
+    static final String XML_ASSIGNED_PRIVACY_SETTINGS = "assignedPrivacySettings";
+    static final String XML_RG_IDENTIFIER = "rgIdentifier";
+    static final String XML_RG_REVISION = "rgRevision";
+    static final String XML_PS_IDENTIFIER = "psIdentifier";
+    static final String XML_CONTEXT = "context";
+    static final String XML_TYPE = "type";
+    static final String XML_CONDITION = "condition";
+    static final String XML_VALUE = "value";
+    static final String XML_OVERRIDE_VALUE = "overrideValue";
     
     static final Locale XML_DEFAULT_EN_LOCALE = Locale.ENGLISH;
 }

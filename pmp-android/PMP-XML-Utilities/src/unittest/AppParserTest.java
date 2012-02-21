@@ -556,6 +556,7 @@ public class AppParserTest extends TestCase implements TestConstants {
     }
     
     
+    @Test
     public void testCleanAISIssues() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, "");
         TestUtil.addLocale(TestUtil.app, "", APP_LOC_NAME, APP_LOC_DESC);

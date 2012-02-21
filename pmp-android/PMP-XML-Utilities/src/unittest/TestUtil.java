@@ -94,6 +94,11 @@ public class TestUtil implements TestConstants {
     }
     
     
+    protected static void makePresetSet() {
+        main = new XMLNode(XML_PRESET_SET);
+    }
+    
+    
     protected static XMLNode makeSF(String id, String name, String desc) {
         XMLNode sf = new XMLNode(XML_SERVICE_FEATURE);
         sf.addAttribute(new XMLAttribute(XML_IDENTIFIER, id));
@@ -109,6 +114,64 @@ public class TestUtil implements TestConstants {
         sf.addChild(defDesc);
         
         return sf;
+    }
+    
+    
+    protected static XMLNode makePreset(String identifier, String creator, String name, String desc) {
+        XMLNode preset = new XMLNode(XML_PRESET);
+        
+        preset.addAttribute(new XMLAttribute(XML_IDENTIFIER, identifier));
+        preset.addAttribute(new XMLAttribute(XML_CREATOR, creator));
+        preset.addAttribute(new XMLAttribute(XML_NAME, name));
+        preset.addAttribute(new XMLAttribute(XML_DESCRIPTION, desc));
+        
+        return preset;
+    }
+    
+    
+    protected static void addAssignedApps(XMLNode at, String... appIdentifiers) {
+        XMLNode aA = new XMLNode(XML_ASSIGNED_APPS);
+        
+        for (String appIdentifier : appIdentifiers) {
+            XMLNode app = new XMLNode(XML_APP);
+            app.addAttribute(new XMLAttribute(XML_IDENTIFIER, appIdentifier));
+            aA.addChild(app);
+        }
+        
+        at.addChild(aA);
+    }
+    
+    
+    protected static void addAssignedPrivacySettings(XMLNode at, String[] rgIds, String[] rgRevs, String[] psIds,
+            String[] values, String[][] ctxTypes, String[][] ctxConds, String[][] ctxOvers) {
+        XMLNode aPS = new XMLNode(XML_ASSIGNED_PRIVACY_SETTINGS);
+        
+        for (int i = 0; i < rgIds.length; i++) {
+            XMLNode ps = new XMLNode(XML_PRIVACY_SETTING);
+            ps.addAttribute(new XMLAttribute(XML_RG_IDENTIFIER, rgIds[i]));
+            ps.addAttribute(new XMLAttribute(XML_RG_REVISION, rgRevs[i]));
+            ps.addAttribute(new XMLAttribute(XML_PS_IDENTIFIER, psIds[i]));
+            
+            XMLNode value = new XMLNode(XML_VALUE);
+            value.setCDATAContent(values[i]);
+            ps.addChild(value);
+            
+            for (int j = 0; j < ctxTypes[i].length; j++) {
+                XMLNode ctx = new XMLNode(XML_CONTEXT);
+                ctx.addAttribute(new XMLAttribute(XML_TYPE, ctxTypes[i][j]));
+                ctx.addAttribute(new XMLAttribute(XML_CONDITION, ctxConds[i][j]));
+                
+                XMLNode ovrVal = new XMLNode(XML_OVERRIDE_VALUE);
+                ovrVal.setCDATAContent(ctxOvers[i][j]);
+                ctx.addChild(ovrVal);
+                
+                ps.addChild(ctx);
+            }
+            
+            aPS.addChild(ps);
+        }
+        
+        at.addChild(aPS);
     }
     
     
