@@ -87,6 +87,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS2_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS2_ID).getValue());
         
+        assertTrue("Validator did not accept minimum app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
@@ -125,6 +126,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS1_ID).getValue());
         
+        assertTrue("Validator did not accept CDATA app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
@@ -201,6 +203,8 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertNotNull(rrg);
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS1_ID).getValue());
+        
+        assertTrue("Validator did not accept localized app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
@@ -298,6 +302,8 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertNotNull(rrg);
         assertEquals(1, rrg.getRequiredPrivacySettings().size());
         assertEquals(APP_SF1_REQ_PS1_VALUE, rrg.getRequiredPrivacySettingForIdentifier(APP_SF1_REQ_PS1_ID).getValue());
+        
+        assertTrue("Validator did not accept spaces app.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     

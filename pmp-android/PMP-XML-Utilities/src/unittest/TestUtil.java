@@ -23,7 +23,9 @@ public class TestUtil implements TestConstants {
     
     protected static XMLNode app, appDefName, appDefDesc, sfs;
     
-    protected static XMLNode rg, rgIcon, rgRev, rgDefName, rgDefDesc, pss;
+    protected static XMLNode rg, rgRev, rgDefName, rgDefDesc, pss;
+    
+    protected static XMLAttribute rgIcon, rgClass;
     
     
     /*
@@ -51,14 +53,16 @@ public class TestUtil implements TestConstants {
     }
     
     
-    protected static void makeRG(String id, String icon, String revision, String name, String desc) {
+    protected static void makeRG(String id, String icon, String className, String revision, String name, String desc) {
         main = new XMLNode(XML_RESOURCE_GROUP_INFORMATION_SET);
         
         rg = new XMLNode(XML_RESOURCE_GROUP_INFORMATION);
         rg.addAttribute(new XMLAttribute(XML_IDENTIFIER, id));
+        rgIcon = new XMLAttribute(XML_ICON, icon);
+        rg.addAttribute(rgIcon);
+        rgClass = new XMLAttribute(XML_CLASS_NAME, className);
+        rg.addAttribute(rgClass);
         
-        rgIcon = new XMLNode(XML_ICON);
-        rgIcon.setContent(icon);
         rgRev = new XMLNode(XML_REVISION);
         rgRev.setContent(revision);
         
@@ -69,7 +73,6 @@ public class TestUtil implements TestConstants {
         rgDefDesc.addAttribute(new XMLAttribute(XML_LANG, XML_DEFAULT_EN));
         rgDefDesc.setContent(desc);
         
-        rg.addChild(rgIcon);
         rg.addChild(rgRev);
         rg.addChild(rgDefName);
         rg.addChild(rgDefDesc);
@@ -115,9 +118,10 @@ public class TestUtil implements TestConstants {
     }
     
     
-    protected static XMLNode makePS(String id, String name, String desc) {
+    protected static XMLNode makePS(String id, String name, String desc, String changeDesc, String validValueDesc) {
         XMLNode ps = new XMLNode(XML_PRIVACY_SETTING);
         ps.addAttribute(new XMLAttribute(XML_IDENTIFIER, id));
+        ps.addAttribute(new XMLAttribute(XML_VALID_VALUE_DESCRIPTION, validValueDesc));
         
         XMLNode defName = new XMLNode(XML_DEFAULT_NAME);
         defName.addAttribute(new XMLAttribute(XML_LANG, XML_DEFAULT_EN));
@@ -128,6 +132,11 @@ public class TestUtil implements TestConstants {
         defDesc.addAttribute(new XMLAttribute(XML_LANG, XML_DEFAULT_EN));
         defDesc.setContent(desc);
         ps.addChild(defDesc);
+        
+        XMLNode chgDesc = new XMLNode(XML_CHANGE_DESCRIPTION);
+        chgDesc.addAttribute(new XMLAttribute(XML_LANG, XML_DEFAULT_EN));
+        chgDesc.setContent(changeDesc);
+        ps.addChild(chgDesc);
         
         return ps;
     }
@@ -183,6 +192,16 @@ public class TestUtil implements TestConstants {
     }
     
     
+    protected static boolean assertAISValidationEmpty(IAIS ais) {
+        List<IIssue> result = XMLUtilityProxy.getAppUtil().getValidator().validateAIS(ais, false);
+        for (IIssue i : result) {
+            System.out.println("Unexpected issue: ");
+            System.out.println(issueToString(i));
+        }
+        return result.size() == 0;
+    }
+    
+    
     protected static boolean assertRGISValidation(IRGIS rgis, Class<? extends IIssueLocation> atClass,
             String atIdentifier, IssueType type) {
         List<IIssue> result = XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true);
@@ -209,6 +228,16 @@ public class TestUtil implements TestConstants {
     }
     
     
+    protected static boolean assertRGISValidationEmpty(IRGIS rgis) {
+        List<IIssue> result = XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, false);
+        for (IIssue i : result) {
+            System.out.println("Unexpected issue: ");
+            System.out.println(issueToString(i));
+        }
+        return result.size() == 0;
+    }
+    
+    
     protected static void debug(String name) {
         System.out.println("################################################################");
         System.out.println("Input for " + name + " was:");
@@ -216,4 +245,21 @@ public class TestUtil implements TestConstants {
         System.out.println("----------------------------------------------------------------");
     }
     
+    
+    protected static String issueToString(IIssue i) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(i.getType().toString());
+        sb.append(" (");
+        boolean first = false;
+        for (String p : i.getParameters()) {
+            if (!first) {
+                sb.append(", ");
+            }
+            sb.append(p);
+            first = true;
+        }
+        sb.append(") @ ");
+        sb.append(i.getLocation().getClass().getSimpleName());
+        return sb.toString();
+    }
 }
