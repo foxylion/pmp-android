@@ -126,7 +126,7 @@ public class ActivityPresets extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.presets_menu, menu);
-        MenuItem item = menu.getItem(1);
+        MenuItem item = menu.getItem(3);
         if (PMPPreferences.getInstance().isPresetTrashBinVisible()) {
             item.setTitle(R.string.hide_trash_bin);
         } else {

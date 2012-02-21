@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import android.app.Dialog;
@@ -132,8 +131,8 @@ public class DialogPresetsImportExport extends Dialog {
     
     
     private IPresetSet exportPresets() {
-        List<IPreset> exportPresets = new ArrayList<IPreset>();
-        Collections.copy(exportPresets, this.presets);
+        List<IPreset> exportPresets = new ArrayList<IPreset>(this.presets.size());
+        exportPresets.addAll(this.presets);
         
         int listSize = exportPresets.size();
         for (int i = listSize - 1; i >= 0; i--) {
