@@ -424,7 +424,7 @@ public class PersistenceProvider extends Observable implements PersistenceConsta
      * @param preset
      * @return
      */
-    protected final static String getPresetCreatorString(IPreset preset) {
+    public final static String getPresetCreatorString(IPreset preset) {
         if (preset.getCreator() == null) {
             return PersistenceConstants.PACKAGE_SEPARATOR;
         } else {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -43,8 +44,8 @@ public class XMLInterface implements IXMLInterface {
         
         // each preset
         for (IPreset preset : presets) {
-            Preset xmlPreset = new Preset(preset.getLocalIdentifier(), preset.getCreator().getIdentifier(),
-                    preset.getName(), preset.getDescription());
+            Preset xmlPreset = new Preset(preset.getLocalIdentifier(),
+                    PersistenceProvider.getPresetCreatorString(preset), preset.getName(), preset.getDescription());
             
             // each assigned app
             for (IApp app : preset.getAssignedApps()) {
