@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 public abstract class EncapsulatedString {

@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
+import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -16,6 +17,7 @@ public class Images {
 	public static final Image ERROR16;
 	public static final Image FOLDER16;
 	public static final Image FILE16;
+	public static final Image ERROR_DEC;
 	
 	static {
 		ISharedImages si = PlatformUI.getWorkbench().getSharedImages();
@@ -23,6 +25,9 @@ public class Images {
 		ERROR16 = si.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
 		FOLDER16 = si.getImage(ISharedImages.IMG_OBJ_FOLDER);
 		FILE16 = si.getImage(ISharedImages.IMG_OBJ_FILE);
+		
+		FieldDecorationRegistry fdr = FieldDecorationRegistry.getDefault();
+		ERROR_DEC = fdr.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage();
 	}
 
 }

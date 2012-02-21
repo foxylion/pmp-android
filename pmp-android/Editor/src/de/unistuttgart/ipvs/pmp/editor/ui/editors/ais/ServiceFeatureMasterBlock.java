@@ -254,7 +254,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			Model.getInstance().setAISDirty(true);
 			sf.setIdentifier(result);
 			AISValidatorWrapper.getInstance()
-				.validateServiceFeature(sf, true);
+				.validateServiceFeatures(
+					Model.getInstance().getAis(), true);
 			treeViewer.refresh();
 		    }
 		}

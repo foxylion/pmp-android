@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
@@ -14,7 +13,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
@@ -43,7 +41,6 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 
 	private PrivacySettingsPage form;
 	private TreeViewer treeViewer;
-	private boolean dirty = false;
 
 	public PrivacySettingsBlock(PrivacySettingsPage form) {
 		this.form = form;
