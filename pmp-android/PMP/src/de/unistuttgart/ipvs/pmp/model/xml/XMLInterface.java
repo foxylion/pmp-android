@@ -30,6 +30,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
  */
 public class XMLInterface implements IXMLInterface {
     
+    public static final IXMLInterface instance = new XMLInterface();
+    
+    
+    private XMLInterface() {
+    }
+    
+    
     @Override
     public IPresetSet exportPresets(List<IPreset> presets) {
         IPresetSet result = new PresetSet();
@@ -67,7 +74,8 @@ public class XMLInterface implements IXMLInterface {
     
     
     @Override
-    public void importPresets(List<Preset> presets, boolean override) throws InvalidPresetSetException {
+    public void importPresets(List<de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset> presets, boolean override)
+            throws InvalidPresetSetException {
         
         IModel m = Model.getInstance();
         
