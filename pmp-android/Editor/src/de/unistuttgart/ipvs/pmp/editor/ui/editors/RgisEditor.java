@@ -12,7 +12,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
@@ -24,13 +26,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  */
 public class RgisEditor extends FormEditor {
 
-	private RGUtil rgutil = new RGUtil();
 	private Model model = Model.getInstance();
 
 	@Override
 	protected void addPages() {
 		try {
 			model.setRgisEditor(this);
+			RGUtil rgutil = XMLUtilityProxy.getRGUtil();
 			
 			// Parse XML-File
 			FileEditorInput input = (FileEditorInput) this.getEditorInput();
@@ -46,6 +48,7 @@ public class RgisEditor extends FormEditor {
 				rgis = rgutil.createBlankRGIS();
 			}
 			model.setRgis(rgis);
+			RGISValidatorWrapper.getInstance().validateRGIS(rgis, true);
 			
 			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
@@ -71,7 +74,7 @@ public class RgisEditor extends FormEditor {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		FileEditorInput input = (FileEditorInput)this.getEditorInput();
-		InputStream is = rgutil.compile(model.getRgis());
+		InputStream is = XMLUtilityProxy.getRGUtil().compile(model.getRgis());
 		try {
 			input.getFile().setContents(is, false, true, monitor);
 			model.setRgisDirty(false);
