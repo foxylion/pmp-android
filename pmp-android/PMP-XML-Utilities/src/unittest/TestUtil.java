@@ -1,6 +1,27 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package unittest;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Scanner;
 
 import junit.framework.Assert;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
@@ -92,6 +113,11 @@ public class TestUtil implements TestConstants {
     }
     
     
+    protected static void makePresetSet() {
+        main = new XMLNode(XML_PRESET_SET);
+    }
+    
+    
     protected static XMLNode makeSF(String id, String name, String desc) {
         XMLNode sf = new XMLNode(XML_SERVICE_FEATURE);
         sf.addAttribute(new XMLAttribute(XML_IDENTIFIER, id));
@@ -107,6 +133,64 @@ public class TestUtil implements TestConstants {
         sf.addChild(defDesc);
         
         return sf;
+    }
+    
+    
+    protected static XMLNode makePreset(String identifier, String creator, String name, String desc) {
+        XMLNode preset = new XMLNode(XML_PRESET);
+        
+        preset.addAttribute(new XMLAttribute(XML_IDENTIFIER, identifier));
+        preset.addAttribute(new XMLAttribute(XML_CREATOR, creator));
+        preset.addAttribute(new XMLAttribute(XML_NAME, name));
+        preset.addAttribute(new XMLAttribute(XML_DESCRIPTION, desc));
+        
+        return preset;
+    }
+    
+    
+    protected static void addAssignedApps(XMLNode at, String... appIdentifiers) {
+        XMLNode aA = new XMLNode(XML_ASSIGNED_APPS);
+        
+        for (String appIdentifier : appIdentifiers) {
+            XMLNode app = new XMLNode(XML_APP);
+            app.addAttribute(new XMLAttribute(XML_IDENTIFIER, appIdentifier));
+            aA.addChild(app);
+        }
+        
+        at.addChild(aA);
+    }
+    
+    
+    protected static void addAssignedPrivacySettings(XMLNode at, String[] rgIds, String[] rgRevs, String[] psIds,
+            String[] values, String[][] ctxTypes, String[][] ctxConds, String[][] ctxOvers) {
+        XMLNode aPS = new XMLNode(XML_ASSIGNED_PRIVACY_SETTINGS);
+        
+        for (int i = 0; i < rgIds.length; i++) {
+            XMLNode ps = new XMLNode(XML_PRIVACY_SETTING);
+            ps.addAttribute(new XMLAttribute(XML_RG_IDENTIFIER, rgIds[i]));
+            ps.addAttribute(new XMLAttribute(XML_RG_REVISION, rgRevs[i]));
+            ps.addAttribute(new XMLAttribute(XML_PS_IDENTIFIER, psIds[i]));
+            
+            XMLNode value = new XMLNode(XML_VALUE);
+            value.setCDATAContent(values[i]);
+            ps.addChild(value);
+            
+            for (int j = 0; j < ctxTypes[i].length; j++) {
+                XMLNode ctx = new XMLNode(XML_CONTEXT);
+                ctx.addAttribute(new XMLAttribute(XML_TYPE, ctxTypes[i][j]));
+                ctx.addAttribute(new XMLAttribute(XML_CONDITION, ctxConds[i][j]));
+                
+                XMLNode ovrVal = new XMLNode(XML_OVERRIDE_VALUE);
+                ovrVal.setCDATAContent(ctxOvers[i][j]);
+                ctx.addChild(ovrVal);
+                
+                ps.addChild(ctx);
+            }
+            
+            aPS.addChild(ps);
+        }
+        
+        at.addChild(aPS);
     }
     
     
@@ -339,5 +423,20 @@ public class TestUtil implements TestConstants {
                 Assert.assertEquals(0, ls.getIssues().size());
             }
         }
+    }
+    
+    
+    public static String inputStreamToString(InputStream is) {
+        StringBuilder sb = new StringBuilder();
+        Scanner sc = new Scanner(is);
+        try {
+            while (sc.hasNextLine()) {
+                sb.append(sc.nextLine());
+                sb.append(System.getProperty("line.separator"));
+            }
+        } finally {
+            sc.close();
+        }
+        return sb.toString();
     }
 }

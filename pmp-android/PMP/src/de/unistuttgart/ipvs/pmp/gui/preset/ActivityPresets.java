@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
@@ -30,7 +49,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallback;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallbackImport;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -154,7 +173,7 @@ public class ActivityPresets extends Activity {
                 /*
                  * Import a Preset
                  */
-                PresetSetTools.importPresets(ActivityPresets.this, new ICallback() {
+                PresetSetTools.importPresets(ActivityPresets.this, new ICallbackImport() {
                     
                     @Override
                     public void ended(boolean succcess) {

@@ -1,6 +1,6 @@
 /*
  * Copyright 2012 pmp-android development team
- * Project: EmailResourceGroup
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  *
  * ---------------------------------------------------------------------
@@ -17,18 +17,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups.email;
+package unittest;
 
-import android.os.IBinder;
-import de.unistuttgart.ipvs.pmp.resource.Resource;
+import junit.framework.TestCase;
 
-public class EmailResource extends Resource {
+import org.junit.Test;
+
+public class PresetParserTest extends TestCase implements TestConstants {
     
-    @Override
-    public IBinder getAndroidInterface(String appIdentifier) {
-        // we want to pass some value from the RG
-        Email srg = (Email) getResourceGroup();
-        return new EmailOperationsStubImpl(appIdentifier, this, srg.getContext());
+    @Test
+    public void testPresetMinimum() throws Exception {
+        
+    }
+    
+    
+    @Test
+    public void testCleanPresetIssues() throws Exception {
+        
+    }
+    
+    
+    @Test
+    public void testPresetCompiler() throws Exception {
+        
     }
     
 }

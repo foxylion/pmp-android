@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
@@ -16,7 +35,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallback;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallbackImport;
 import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallbackUpload;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
@@ -24,17 +43,45 @@ import de.unistuttgart.ipvs.pmp.model.xml.InvalidPresetSetException;
 import de.unistuttgart.ipvs.pmp.model.xml.XMLInterface;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 
+/**
+ * The {@link DialogPresetsImportExport} provides a view for selecting the Presets which should be imported or exported.
+ * 
+ * @author Jakob Jarosch
+ */
 public class DialogPresetsImportExport extends Dialog {
     
-    private ICallback callback;
+    /**
+     * The {@link ICallbackImport} which is invoked on dialog completion.
+     */
+    private ICallbackImport callback;
     
+    /**
+     * Boolean is set to true if the {@link Dialog} was created for an import.
+     */
     boolean isExport;
+    
+    /**
+     * The List of {@link IPreset}s which are available for export.
+     */
     private List<IPreset> presets;
+    
+    /**
+     * The List of {@link IPreset} which are available for import.
+     */
     private IPresetSet presetsNew;
     
+    /**
+     * The ListView which holds a checkable list of all {@link IPreset}s.
+     */
     private ListView listView;
     
     
+    /**
+     * Creating a new {@link DialogPresetsImportExport} for an export.
+     * 
+     * @param context
+     *            {@link Context} which is required for {@link Dialog} creation.
+     */
     public DialogPresetsImportExport(Context context) {
         super(context);
         
@@ -45,7 +92,14 @@ public class DialogPresetsImportExport extends Dialog {
     }
     
     
-    public DialogPresetsImportExport(Context context, IPresetSet presets, ICallback callback) {
+    /**
+     * Creating a new {@link DialogPresetsImportExport} for an import.
+     * 
+     * @param context
+     * @param presets
+     * @param callback
+     */
+    public DialogPresetsImportExport(Context context, IPresetSet presets, ICallbackImport callback) {
         super(context);
         
         isExport = false;
@@ -56,9 +110,11 @@ public class DialogPresetsImportExport extends Dialog {
     }
     
     
+    /**
+     * Initializes the dialog.
+     */
     private void initializeDialog() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
         setContentView(R.layout.dialog_presets_import_export);
         
         this.listView = (ListView) findViewById(R.id.ListView_Presets);
@@ -121,6 +177,9 @@ public class DialogPresetsImportExport extends Dialog {
             }
         }
         
+        /*
+         * Imports the presets into the PMP model.
+         */
         try {
             XMLInterface.instance.importPresets(newPresets, override);
             return true;
@@ -130,6 +189,11 @@ public class DialogPresetsImportExport extends Dialog {
     }
     
     
+    /**
+     * Exports all checked {@link IPreset}s into a {@link IPresetSet}.
+     * 
+     * @return Returns a generated {@link IPresetSet}.
+     */
     private IPresetSet exportPresets() {
         List<IPreset> exportPresets = new ArrayList<IPreset>(this.presets.size());
         exportPresets.addAll(this.presets);
@@ -149,23 +213,28 @@ public class DialogPresetsImportExport extends Dialog {
      * Adds the listener to all clickable elements.
      */
     private void addListener() {
+        /*
+         * Confirm Button on click listener.
+         */
         ((Button) findViewById(R.id.Button_Confirm)).setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 if (isExport) {
+                    /* in export mode */
                     IPresetSet presetSet = exportPresets();
                     PresetSetTools.uploadPresetSet(getContext(), presetSet, new ICallbackUpload() {
                         
                         @Override
                         public void ended(final String id) {
+                            /* Invoked on upload completion */
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 
                                 @Override
                                 public void run() {
                                     if (id != null) {
+                                        new DialogPresetsImportExportId(getContext(), id).show();
                                         dismiss();
-                                        new DialogPresetExportEnd(getContext(), id).show();
                                     } else {
                                         Toast.makeText(getContext(),
                                                 getContext().getString(R.string.presets_export_upload_failed),
@@ -176,6 +245,7 @@ public class DialogPresetsImportExport extends Dialog {
                         }
                     });
                 } else {
+                    /* in import mode */
                     boolean override = ((CheckBox) findViewById(R.id.CheckBox_ImportOverride)).isChecked();
                     boolean importSuccess = importPresets(override);
                     if (importSuccess) {
@@ -187,6 +257,7 @@ public class DialogPresetsImportExport extends Dialog {
                                 Toast.LENGTH_LONG).show();
                         dismiss();
                     }
+                    
                     if (callback != null) {
                         callback.ended(importSuccess);
                     }
@@ -194,6 +265,10 @@ public class DialogPresetsImportExport extends Dialog {
             }
             
         });
+        
+        /*
+         * Cancel button on click listener.
+         */
         ((Button) findViewById(R.id.Button_Cancel)).setOnClickListener(new View.OnClickListener() {
             
             @Override

@@ -1,4 +1,22 @@
-// /*
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 // * Copyright 2011 pmp-android development team
 // * Project: PMP
 // * Project-Site: http://code.google.com/p/pmp-android/
@@ -556,6 +574,7 @@ public class AppParserTest extends TestCase implements TestConstants {
     }
     
     
+    @Test
     public void testCleanAISIssues() throws Exception {
         TestUtil.makeApp(APP_DEF_NAME, "");
         TestUtil.addLocale(TestUtil.app, "", APP_LOC_NAME, APP_LOC_DESC);
@@ -574,6 +593,49 @@ public class AppParserTest extends TestCase implements TestConstants {
         XMLUtilityProxy.getAppUtil().getValidator().clearIssuesAndPropagate(ais);
         TestUtil.assertNoIssues(ais);
         
+    }
+    
+    
+    @Test
+    public void testAppCompiler() throws Exception {
+        TestUtil.makeApp(APP_DEF_NAME, APP_DEF_DESC);
+        TestUtil.addLocale(TestUtil.app, APP_LOC_NAME_LOCALE.getLanguage(), APP_LOC_NAME, null);
+        TestUtil.addLocale(TestUtil.app, APP_LOC_DESC_LOCALE.getLanguage(), null, APP_LOC_DESC);
+        XMLNode xmlSF1 = TestUtil.makeSF(APP_SF1_ID, APP_SF1_DEF_NAME, APP_SF1_DEF_DESC);
+        TestUtil.addRequiredRG(xmlSF1, APP_SF1_REQ_RG1, new String[] { APP_SF1_REQ_PS1_ID },
+                new String[] { APP_SF1_REQ_PS1_VALUE }, RG_REVISION);
+        TestUtil.addLocale(xmlSF1, APP_SF1_LOC_NAME_LOCALE.getLanguage(), APP_SF1_LOC_NAME, null);
+        TestUtil.addLocale(xmlSF1, "he", null, APP_SF1_LOC_DESC);
+        // we cannot use the Locale itself here,
+        // because Java has some severe problems with Hebrew compatibility mode
+        
+        TestUtil.sfs.addChild(xmlSF1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        XMLUtilityProxy.getAppUtil().getValidator().validateAIS(ais, true);
+        TestUtil.assertNoIssues(ais);
+        String compilation = TestUtil.inputStreamToString(XMLUtilityProxy.getAppUtil().compile(ais));
+        
+        assertTrue(compilation.contains(APP_DEF_NAME));
+        assertTrue(compilation.contains(APP_DEF_DESC));
+        assertTrue(compilation.contains(APP_LOC_NAME_LOCALE.getLanguage()));
+        assertTrue(compilation.contains(APP_LOC_DESC_LOCALE.getLanguage()));
+        assertTrue(compilation.contains(APP_LOC_NAME));
+        assertTrue(compilation.contains(APP_LOC_DESC));
+        assertTrue(compilation.contains(APP_SF1_ID));
+        assertTrue(compilation.contains(APP_SF1_DEF_NAME));
+        assertTrue(compilation.contains(APP_SF1_DEF_DESC));
+        assertTrue(compilation.contains(APP_SF1_REQ_RG1));
+        assertTrue(compilation.contains(APP_SF1_REQ_PS1_ID));
+        assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE));
+        assertTrue(compilation.contains(RG_REVISION));
+        assertTrue(compilation.contains(APP_SF1_LOC_NAME_LOCALE.getLanguage()));
+        assertTrue(compilation.contains(APP_SF1_LOC_NAME));
+        assertTrue(compilation.contains("he"));
+        assertTrue(compilation.contains(APP_SF1_LOC_DESC));
     }
     
 }
