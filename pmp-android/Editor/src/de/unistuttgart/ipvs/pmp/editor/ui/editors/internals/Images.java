@@ -19,10 +19,16 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.util.BundleUtility;
+import org.osgi.framework.Bundle;
 
 /**
  * This class provides image and icons used all over this plugin List of
@@ -50,6 +56,23 @@ public class Images {
 		FieldDecorationRegistry fdr = FieldDecorationRegistry.getDefault();
 		ERROR_DEC = fdr.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR)
 				.getImage();
+	}
+
+	/**
+	 * Gets an {@link ImageDescriptor} to a path and icon name inside this
+	 * plugin
+	 * 
+	 * @param path
+	 *            path without "/" e.g. "icons"
+	 * @param iconName
+	 *            name of the icon with the file ending e.g. "sample.gif"
+	 * @return the {@link ImageDescriptor}
+	 */
+	public static ImageDescriptor getImageDescriptor(String path,
+			String iconName) {
+		Bundle bundle = Platform.getBundle("de.unistuttgart.ipvs.pmp.editor");
+		URL fullPathString = BundleUtility.find(bundle, path + "/" + iconName);
+		return ImageDescriptor.createFromURL(fullPathString);
 	}
 
 }
