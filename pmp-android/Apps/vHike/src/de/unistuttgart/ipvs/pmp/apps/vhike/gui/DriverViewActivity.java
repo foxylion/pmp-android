@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer;
+import java.util.Timer; 
 
 import android.content.Context;
 import android.location.LocationManager;
@@ -24,6 +24,7 @@ import com.google.android.maps.MapView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
@@ -138,36 +139,25 @@ public class DriverViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
-//        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-//        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
-//        try {
-//            loc.startLocationLookup(5000, 10.0F);
+//        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
 //            
-//            this.handler.post(new Runnable() {
-//                
-//                public void run() {
-//                    Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
-//                }
-//            });
+//            @Override
+//            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+//                resourceCached();
+//            }
 //            
-            // startContinousLookup();
-            // Start Check4Queries Class to check for queries
-            Check4Queries c4q = new Check4Queries();
-            timer = new Timer();
-            timer.schedule(c4q, 300, 10000);
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        } catch (SecurityException e) {
-//            e.printStackTrace();
-//            this.handler.post(new Runnable() {
-//                
-//                public void run() {
-//                    Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
-//                            .show();
-//                }
-//            });
-//        }
-//        
+//            
+//            @Override
+//            public void onBindingFailed() {
+//                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+//            }
+//        });
+        
+        // Start Check4Queries Class to check for queries
+        Check4Queries c4q = new Check4Queries();
+        timer = new Timer();
+        timer.schedule(c4q, 300, 10000);
+        
     }
     
     

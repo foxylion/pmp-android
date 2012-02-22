@@ -191,12 +191,17 @@ public class RideActivity extends Activity {
             @Override
             public void onClick(View v) {
                 
-                ViewModel.getInstance().setDestination(spinner);
-                ViewModel.getInstance().setNumSeats(spinnerSeats);
-                
-                vhikeDialogs.getInstance().getSearchPD(RideActivity.this).show();
-                Intent intent = new Intent(RideActivity.this, PassengerViewActivity.class);
-                RideActivity.this.startActivity(intent);
+                if (ViewModel.getInstance().getSpinners().size() > 1) {
+                    Toast.makeText(RideActivity.this, "Only one destination allowed for passenger", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    ViewModel.getInstance().setDestination(spinner);
+                    ViewModel.getInstance().setNumSeats(spinnerSeats);
+                    
+                    vhikeDialogs.getInstance().getSearchPD(RideActivity.this).show();
+                    Intent intent = new Intent(RideActivity.this, PassengerViewActivity.class);
+                    RideActivity.this.startActivity(intent);
+                }
                 
             }
         });
