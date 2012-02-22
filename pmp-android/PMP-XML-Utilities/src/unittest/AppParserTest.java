@@ -472,8 +472,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.debug(ste.getMethodName());
         
         IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
-        assertTrue("Validator accepted app with missing req PS value.", TestUtil.assertAISValidation(ais,
-                IAISRequiredPrivacySetting.class, APP_SF1_REQ_PS1_ID, IssueType.EMPTY_VALUE));
+        assertTrue("Validator did not accept Preset with empty Req PS value.", TestUtil.assertAISValidationEmpty(ais));
     }
     
     
