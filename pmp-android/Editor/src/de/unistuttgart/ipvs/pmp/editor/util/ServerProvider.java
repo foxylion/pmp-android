@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.util;
 
 import java.io.IOException;
@@ -7,6 +26,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+
 import de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferenceInitializer;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestRGIS;
@@ -19,21 +39,20 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 /**
  * Handles the access to the resource-group server to gather all available
  * resource-groups and represents them as a list of {@code RGIS}
- *  
+ * 
  * @author Patrick Strobel
  */
 public class ServerProvider implements IServerProvider {
 
 	private List<RGIS> rgisList = null;
 	private static ServerProvider instance = null;
-	
+
 	/**
 	 * @deprecated Use {@code getInstance()}
 	 */
 	public ServerProvider() {
-		
 	}
-	
+
 	public static ServerProvider getInstance() {
 		if (instance == null) {
 			instance = new ServerProvider();
@@ -44,11 +63,11 @@ public class ServerProvider implements IServerProvider {
 	@Override
 	public List<RGIS> getAvailableRessourceGroups() throws IOException {
 		// If this is the first access to the list, gather RGIS from server
-		if (rgisList == null) {
+		if (this.rgisList == null) {
 			updateResourceGroupList();
 		}
 
-		return rgisList;
+		return this.rgisList;
 	}
 
 	@Override
@@ -57,13 +76,12 @@ public class ServerProvider implements IServerProvider {
 		ObjectOutputStream out = null;
 		try {
 			// Establish a TCP-Connection to the server
-			server = new Socket(PreferenceInitializer.getJpmppsHostname(), 
+			server = new Socket(PreferenceInitializer.getJpmppsHostname(),
 					PreferenceInitializer.getJpmppsPort());
 			server.setSoTimeout(PreferenceInitializer.getJpmppsTimeout() * 1000);
 
 			// Request a list of all available RGs
-			out = new ObjectOutputStream(
-					server.getOutputStream());
+			out = new ObjectOutputStream(server.getOutputStream());
 
 			ObjectInputStream in = new ObjectInputStream(
 					server.getInputStream());
@@ -84,7 +102,8 @@ public class ServerProvider implements IServerProvider {
 		} catch (UnknownHostException e) {
 			throw new IOException("Unable to lookup the server's IP-address.");
 		} catch (IOException e) {
-			throw new IOException("Unable to contact the server. " + e.getLocalizedMessage());
+			throw new IOException("Unable to contact the server. "
+					+ e.getLocalizedMessage());
 		} finally {
 			if (server != null) {
 				try {
@@ -92,7 +111,7 @@ public class ServerProvider implements IServerProvider {
 					if (out != null) {
 						out.writeObject(new RequestCommunicationEnd());
 					}
-					
+
 					// Close connection
 					server.close();
 				} catch (IOException e) {
@@ -114,23 +133,23 @@ public class ServerProvider implements IServerProvider {
 	private void buildRGISList(LocalizedResourceGroup[] locRGArray,
 			ObjectInputStream in, ObjectOutputStream out) throws IOException,
 			ClassNotFoundException {
-		
+
 		// Clear-List
-		if (rgisList == null) {
-			rgisList = new ArrayList<RGIS>(locRGArray.length);
+		if (this.rgisList == null) {
+			this.rgisList = new ArrayList<RGIS>(locRGArray.length);
 		} else {
-			rgisList.clear();
+			this.rgisList.clear();
 		}
 
 		// Request RGIS from Server and add them to the list
 		for (LocalizedResourceGroup localizedRG : locRGArray) {
 			String packageName = localizedRG.getIdentifier();
 			out.writeObject(new RequestRGIS(packageName));
-			
+
 			Object response = in.readObject();
 			if (response instanceof RGISResponse) {
 				RGISResponse rgisRes = (RGISResponse) response;
-				rgisList.add((RGIS) rgisRes.getRGIS());
+				this.rgisList.add((RGIS) rgisRes.getRGIS());
 			} else {
 				throw new IOException("Unsupported response from server.");
 			}
