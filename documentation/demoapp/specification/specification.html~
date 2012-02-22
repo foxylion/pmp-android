@@ -323,7 +323,7 @@
 
 		                <h2 id="weather">Wetter</h2>
             <p>[Weather, de.unistuttgart.ipvs.pmp.resourcegroups.weather]</p>
-            <p>Ermöglicht das abrufen von Wetterinformationen.</p>
+            <p>Ermöglicht das Abrufen von Wetterinformationen.</p>
 		    <ul>
 			<li>
 			    <h3 id="rss-feed-1">Wetter abrufen</h3>
