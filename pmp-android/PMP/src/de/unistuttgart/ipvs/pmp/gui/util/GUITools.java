@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.util;
 
 import android.app.Activity;
@@ -14,38 +33,6 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 
 public class GUITools {
-    
-    /**
-     * Handles an intent which is called when a specific App should be referenced in the {@link Activity}.
-     * 
-     * @param intent
-     *            which invoked the {@link Activity}
-     * @return the corresponding {@link IApp}
-     */
-    public static IApp handleAppIntent(Intent intent) {
-        /* Intent should never be null */
-        if (intent == null) {
-            throw new IllegalArgumentException("Intent can't be null");
-        }
-        
-        String appIdentifier = intent.getExtras().getString(GUIConstants.APP_IDENTIFIER);
-        
-        /* App Identifier should never be null */
-        if (appIdentifier == null) {
-            throw new IllegalArgumentException("Intent should have the GUIConstants.APP_IDENTIFIER packed with it");
-        }
-        
-        IApp app = ModelProxy.get().getApp(appIdentifier);
-        
-        /* App does not exists in the model */
-        if (app == null) {
-            throw new IllegalArgumentException("The given App (" + appIdentifier
-                    + ") in the Intent does not exist in the model");
-        }
-        
-        return app;
-    }
-    
     
     /**
      * @return the action as a String, or an empty String if no action is given.
@@ -71,9 +58,78 @@ public class GUITools {
     
     
     /**
+     * Opens the App details of the given App.
+     * 
+     * @param app
+     *            the App which should be opened
+     */
+    public static Intent createAppActivityIntent(IApp app) {
+        Intent intent = new Intent(PMPApplication.getContext(), ActivityApp.class);
+        intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
+        return intent;
+    }
+    
+    
+    /**
+     * Handles an intent which is called when a specific App should be referenced in the {@link Activity}.
+     * 
+     * @param intent
+     *            which invoked the {@link Activity}
+     * @return the corresponding {@link IApp}
+     */
+    public static IApp getIAppFromIntent(Intent intent) {
+        /* Intent should never be null */
+        if (intent == null) {
+            throw new IllegalArgumentException("Intent can't be null");
+        }
+        
+        String appIdentifier = intent.getExtras().getString(GUIConstants.APP_IDENTIFIER);
+        
+        /* App Identifier should never be null */
+        if (appIdentifier == null) {
+            throw new IllegalArgumentException("Intent should have the GUIConstants.APP_IDENTIFIER packed with it");
+        }
+        
+        IApp app = ModelProxy.get().getApp(appIdentifier);
+        
+        /* App does not exists in the model */
+        if (app == null) {
+            throw new IllegalArgumentException("The given App (" + appIdentifier
+                    + ") in the Intent does not exist in the model");
+        }
+        
+        return app;
+    }
+    
+    
+    /**
+     * Opens the {@link TabAvailable} tab and views all the listed Resourcegroups.
+     * 
+     * @param filteredRGIdentifiers
+     *            Only the given Resourcegroups will be displayed.
+     */
+    public static Intent createRgFilterIntent(String[] filteredRGIdentifiers) {
+        Intent intent = new Intent(PMPApplication.getContext(), ActivityResourceGroups.class);
+        intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.FILTER_AVAILABLE_RGS);
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append("package:");
+        for (String s : filteredRGIdentifiers) {
+            if (sb.length() > 0) {
+                sb.append(",package:");
+            }
+            sb.append(s);
+        }
+        intent.putExtra(GUIConstants.RGS_FILTER, sb.toString());
+        
+        return intent;
+    }
+    
+    
+    /**
      * @return the RGs filter as a String, or an empty String if no filter is given.
      */
-    public static String getAvailableRGsFilter(Intent intent) {
+    public static String getRgFilterFromIntent(Intent intent) {
         /* Intent should never be null */
         if (intent == null) {
             throw new IllegalArgumentException("Intent can't be null");
@@ -94,39 +150,26 @@ public class GUITools {
     
     
     /**
-     * Opens the App details of the given App.
+     * Returns the id for a requested PresetSet.
      * 
-     * @param app
-     *            the App which should be opened
+     * @param intent
+     *            {@link Intent} which should be used for determining the id.
+     * @return The id of a PresetSet.
      */
-    public static Intent createAppActivityIntent(IApp app) {
-        Intent intent = new Intent(PMPApplication.getContext(), ActivityApp.class);
-        intent.putExtra(GUIConstants.APP_IDENTIFIER, app.getIdentifier());
-        return intent;
-    }
-    
-    
-    /**
-     * Opens the {@link TabAvailable} tab and views all the listed Resourcegroups.
-     * 
-     * @param filteredRGIdentifiers
-     *            Only the given Resourcegroups will be displayed.
-     */
-    public static Intent createFilterAvailableRGsIntent(String[] filteredRGIdentifiers) {
-        Intent intent = new Intent(PMPApplication.getContext(), ActivityResourceGroups.class);
-        intent.putExtra(GUIConstants.ACTIVITY_ACTION, GUIConstants.FILTER_AVAILABLE_RGS);
-        
-        StringBuffer sb = new StringBuffer();
-        sb.append("package:");
-        for (String s : filteredRGIdentifiers) {
-            if (sb.length() > 0) {
-                sb.append(",package:");
-            }
-            sb.append(s);
+    public static String getPresetSetId(Intent intent) {
+        /* Intent should never be null */
+        if (intent == null) {
+            throw new IllegalArgumentException("Intent can't be null");
         }
-        intent.putExtra(GUIConstants.RGS_FILTER, sb.toString());
         
-        return intent;
+        String presetSetId = intent.getExtras().getString(GUIConstants.PRESET_SET_ID);
+        
+        /* PresetSet identifier should never be null */
+        if (presetSetId == null) {
+            throw new IllegalArgumentException("Intent should have the GUIConstants.PRESET_SET_ID packed with it");
+        }
+        
+        return presetSetId;
     }
     
     

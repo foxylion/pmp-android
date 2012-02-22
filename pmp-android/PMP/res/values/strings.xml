@@ -19,6 +19,7 @@
     <string name="change">Change</string>
     <string name="change_value">Change value</string>
     <string name="change_newline_value">Change\nvalue</string>
+    <string name="choose_email_app">Choose email app&#8230;</string>
     <string name="choose_your_action">Choose your action</string>
     <string name="close">Close</string>
     <string name="clear_trash_bin">Clear trash bin</string>
@@ -41,6 +42,7 @@
     <string name="install">Install</string>
     <string name="installed">Installed</string>
     <string name="import_presets">Import Presets</string>
+    <string name="import_with_pmp">Import with PMP</string>
     <string name="last_update_at">Last update at</string>
     <string name="model">Model</string>
     <string name="name">Name</string>
@@ -161,12 +163,24 @@
     <string name="presets_no_presets_existing">There are currently no presets.</string>
     <string name="presets_trash_bin_empty">The trash bin is empty.</string>
 
-    <string name="presets_import_title">Enter the Preset set ID</string>
     <string name="presets_import_export_title">Select the Presets</string>
     <string name="presets_import_export_override_decription">Override existing Presets</string>
+    
+    <string name="presets_export_title">The ID of the PresetSet</string>
+    <string name="presets_export_email_subject">PresetSet for PMP</string>
+    <string name="presets_export_email_body">Hey,\nI\'ve created a PresetSet and uploaded it to the PMP website.\nYou can download it by using the link or just open your PMP app and import the PresetSet with the following ID.\n\nLink: http://pmp-android.no-ip.org:3134/%1$s \nID: %1$s\n\nBye.</string>
+    <string name="presets_export_description">Long touch on the ID copies it.</string>
+    <string name="presets_export_copy_success">Copied the ID.</string>
+    
+    <string name="presets_import_title">Enter the ID of the PresetSet</string>
     <string name="presets_import_failed">Failed to import the Preset set, maybe an incompatible version.</string>
     <string name="presets_import_succeed">Successfully imported Presets.</string>
+    
+    <string name="presets_export_upload_title">Upload in process&#8230;</string>
+    <string name="presets_export_upload_message">Please wait a moment until the upload is completed.</string>
     <string name="presets_export_upload_failed">Failed to upload the preset, you may try again.</string>
+    <string name="presets_import_download_title">Download in process&#8230;</string>
+    <string name="presets_import_download_message">Please wait a moment until the download is completed.</string>
     <string name="presets_import_download_failed">Failed to download the preset, you may try again with another ID.</string>
     
     <!-- One Preset / Tab: Details -->

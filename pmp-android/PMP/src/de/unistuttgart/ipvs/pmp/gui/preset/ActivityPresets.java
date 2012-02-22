@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
@@ -28,9 +47,10 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
+import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools;
-import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallback;
+import de.unistuttgart.ipvs.pmp.gui.util.PresetSetTools.ICallbackImport;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -99,8 +119,22 @@ public class ActivityPresets extends Activity {
         
         init();
         
+        checkPresetSetImportRequest();
+        
         /* Initiating the ActivityKillReceiver. */
         this.akr = new ActivityKillReceiver(this);
+    }
+    
+    
+    /**
+     * Checks if the activity was started with a preset set import request.
+     * Start the import when such a request was found.
+     */
+    private void checkPresetSetImportRequest() {
+        if (GUITools.handleIntentAction(getIntent()).equals(GUIConstants.DOWNLOAD_PRESET_SET)) {
+            String id = GUITools.getPresetSetId(getIntent());
+            importPresetSet(id);
+        }
     }
     
     
@@ -152,21 +186,9 @@ public class ActivityPresets extends Activity {
             
             case R.id.presets_menu_import:
                 /*
-                 * Import a Preset
+                 * Import a PresetSet
                  */
-                PresetSetTools.importPresets(ActivityPresets.this, new ICallback() {
-                    
-                    @Override
-                    public void ended(boolean succcess) {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            
-                            @Override
-                            public void run() {
-                                refresh();
-                            }
-                        });
-                    }
-                });
+                importPresetSet(null);
                 break;
             
             case R.id.presets_menu_export:
@@ -181,11 +203,9 @@ public class ActivityPresets extends Activity {
                  * Show the trash bin
                  */
                 if (PMPPreferences.getInstance().isPresetTrashBinVisible()) {
-                    showTrashBin(false);
                     PMPPreferences.getInstance().setPresetTrashBinVisible(false);
                     item.setTitle(R.string.show_trash_bin);
                 } else {
-                    showTrashBin(true);
                     PMPPreferences.getInstance().setPresetTrashBinVisible(true);
                     item.setTitle(R.string.hide_trash_bin);
                 }
@@ -225,6 +245,29 @@ public class ActivityPresets extends Activity {
                 break;
         }
         return super.onMenuItemSelected(featureId, item);
+    }
+    
+    
+    /**
+     * Starts the import of a PresetSet.
+     * 
+     * @param id
+     *            Id of the PresetSet which should be imported. Can be null.
+     */
+    private void importPresetSet(final String id) {
+        PresetSetTools.importPresets(ActivityPresets.this, new ICallbackImport() {
+            
+            @Override
+            public void ended(boolean succcess) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
+            }
+        }, id);
     }
     
     
@@ -292,9 +335,6 @@ public class ActivityPresets extends Activity {
         
         // Add listener
         addListener();
-        
-        // Show trash bin (or not)
-        showTrashBin(PMPPreferences.getInstance().isPresetTrashBinVisible());
     }
     
     
@@ -402,17 +442,6 @@ public class ActivityPresets extends Activity {
         } else {
             linearLayout.setVisibility(View.VISIBLE);
         }
-        
-    }
-    
-    
-    /**
-     * Show the trash bin (or not)
-     * 
-     * @param flag
-     *            flag if the trash bin should be shown or not
-     */
-    private void showTrashBin(boolean flag) {
         
     }
 }

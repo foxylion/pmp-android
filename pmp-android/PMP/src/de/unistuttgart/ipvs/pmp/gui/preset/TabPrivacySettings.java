@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
@@ -151,14 +170,14 @@ public class TabPrivacySettings extends Activity {
                 
                 return true;
             case 1:
-                new DialogPrivacySettingEdit(this, ps, preset.getGrantedPrivacySettingValue(ps),
+                new DialogPrivacySettingEdit(this, ps, this.preset.getGrantedPrivacySettingValue(ps),
                         new DialogPrivacySettingEdit.ICallback() {
                             
                             @Override
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
                                     try {
-                                        preset.assignPrivacySetting(ps, newValue);
+                                        TabPrivacySettings.this.preset.assignPrivacySetting(ps, newValue);
                                     } catch (PrivacySettingValueException e) {
                                         Log.e(TabPrivacySettings.this,
                                                 "Couldn't set new value for PrivacySetting, PSVE", e);
@@ -174,13 +193,14 @@ public class TabPrivacySettings extends Activity {
                 return true;
                 
             case 2:
-                new DialogContextChange(TabPrivacySettings.this, preset, ps, null, new DialogContextChange.ICallback() {
-                    
-                    @Override
-                    public void callback() {
-                        updateList();
-                    }
-                }).show();
+                new DialogContextChange(TabPrivacySettings.this, this.preset, ps, null,
+                        new DialogContextChange.ICallback() {
+                            
+                            @Override
+                            public void callback() {
+                                updateList();
+                            }
+                        }).show();
                 return true;
                 
             case 3:
@@ -203,20 +223,20 @@ public class TabPrivacySettings extends Activity {
                 if (confirmed) {
                     // Save expanded states
                     ArrayList<Boolean> expandedStates = new ArrayList<Boolean>();
-                    for (int groupID = 0; groupID < ppsAdapter.getGroupCount(); groupID++) {
-                        expandedStates.add(psExpandableListView.isGroupExpanded(groupID));
+                    for (int groupID = 0; groupID < TabPrivacySettings.this.ppsAdapter.getGroupCount(); groupID++) {
+                        expandedStates.add(TabPrivacySettings.this.psExpandableListView.isGroupExpanded(groupID));
                     }
                     // Save index of RG, if this RG will disappear later
-                    int tmpIndexOfRG = rgList.indexOf(privacySetting.getResourceGroup());
+                    int tmpIndexOfRG = TabPrivacySettings.this.rgList.indexOf(privacySetting.getResourceGroup());
                     
                     // Remove the PS
-                    preset.removePrivacySetting(privacySetting);
+                    TabPrivacySettings.this.preset.removePrivacySetting(privacySetting);
                     
                     // Update the list
                     updateList();
                     
                     // Restore the expanded states of the groups
-                    if (!rgList.contains(privacySetting.getResourceGroup())) {
+                    if (!TabPrivacySettings.this.rgList.contains(privacySetting.getResourceGroup())) {
                         propagateExpandedGroups(expandedStates, tmpIndexOfRG);
                     }
                     
