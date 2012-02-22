@@ -15,9 +15,12 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
@@ -59,9 +62,19 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
     private HashMap<String, String> values = new HashMap<String, String>();
 
     /**
+     * Stores if the value is intended to be empty
+     */
+    private HashMap<String, Boolean> valuesEmpty = new HashMap<String, Boolean>();
+
+    /**
      * The value text field
      */
     private Text valueText;
+
+    /**
+     * The checkbox that indicates if the value should be empty
+     */
+    Button emptyValue;
 
     /**
      * Sizing constants
@@ -161,6 +174,27 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	    }
 	});
 
+	new Label(valueComp, SWT.None).setVisible(false);
+
+	emptyValue = new Button(valueComp, SWT.CHECK);
+	emptyValue.setText("empty value");
+	emptyValue.addListener(SWT.Selection, new Listener() {
+
+	    @Override
+	    public void handleEvent(Event event) {
+		// Store the value out of the value field
+		RGISPrivacySetting ps = (RGISPrivacySetting) listViewer
+			.getTable().getSelection()[0].getData();
+		if (emptyValue.getSelection()) {
+		    valuesEmpty.put(ps.getIdentifier(), true);
+		    valueText.setEnabled(false);
+		} else {
+		    valuesEmpty.put(ps.getIdentifier(), false);
+		    valueText.setEnabled(true);
+		}
+	    }
+	});
+
 	// Set the initial selection and update the text
 	if (toDisplay.getPrivacySettings().size() > 0) {
 	    listViewer.getTable().select(0);
@@ -185,9 +219,16 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 		if (listViewer.getChecked(element)) {
 		    String value = "";
 		    // Add the entered values
-		    if (values.get(element.getIdentifier()) != null) {
-			if (!values.get(element.getIdentifier()).isEmpty()) {
-			    value = values.get(element.getIdentifier());
+		    Boolean empty = valuesEmpty.get(element.getIdentifier());
+		    
+		    // Check if the empty value was set
+		    if (empty != null) {
+			if (empty) {
+			    value = "";
+			} else if (values.get(element.getIdentifier()) != null) {
+			    if (!values.get(element.getIdentifier()).isEmpty()) {
+				value = values.get(element.getIdentifier());
+			    }
 			}
 		    }
 		    list.add(new AISRequiredPrivacySetting(element
@@ -208,7 +249,20 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
      */
     @Override
     public void selectionChanged(SelectionChangedEvent event) {
-	updateText();
+	RGISPrivacySetting ps = (RGISPrivacySetting) listViewer.getTable()
+		.getSelection()[0].getData();
+	Boolean empty = valuesEmpty.get(ps.getIdentifier());
+
+	// Check if the empty button was checked
+	if (empty == null || !empty) {
+	    emptyValue.setSelection(false);
+	    valueText.setEnabled(true);
+	    updateText();
+	} else {
+	    emptyValue.setSelection(true);
+	    valueText.setEnabled(false);
+	    updateText();
+	}
     }
 
     /**

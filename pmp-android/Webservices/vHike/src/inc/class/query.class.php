@@ -1,11 +1,11 @@
 <?php
-if (!defined("INCLUDE")) {
+if (!defined('INCLUDE')) {
     exit;
 }
 
 /**
- * Allows to create a new query and gives acccess to existing queries
- * @author Dang Huynh 
+ * Allows to create a new query and gives access to existing queries
+ * @author Dang Huynh, Patrick Strobel
  * @version 1.0.1
  */
 class Query {
@@ -91,14 +91,10 @@ class Query {
         $db->query("INSERT INTO `".DB_PREFIX."_query` (
                         `passenger`,
                         `seats`,
-                        `current_lat`,
-                        `current_lon`,
                         `destination`
                     ) VALUES (
                         \"".$this->passenger."\",
                         \"".$this->seats."\",
-                        ".$this->currentLat.",
-                        ".$this->currentLon.",
                         \"".$this->destination."\"
                     )");
         
@@ -111,19 +107,19 @@ class Query {
      * @return boolean  True, if data was updated successfully
 	 * @deprecated
      */
-    public function updatePosition($queryid) {
-        if (!is_numeric($queryid) || $queryid < 1) {
-            return false;
-        }
-        
-        $db = Database::getInstance();
-        $updated = $db->query("UPDATE `".DB_PREFIX."_query` 
-                               SET `current_lat` = '".$this->currentLat."',
-                                   `current_lon` = '".$this->currentLon."'
-                               WHERE `id` = ".$queryid."
-                               AND `passenger` = ".$this->passenger);
-        return ($updated && $db->getAffectedRows() > 0);
-    }
+//    public function updatePosition($queryid) {
+//        if (!is_numeric($queryid) || $queryid < 1) {
+//            return false;
+//        }
+//
+//        $db = Database::getInstance();
+//        $updated = $db->query("UPDATE `".DB_PREFIX."_query`
+//                               SET `current_lat` = '".$this->currentLat."',
+//                                   `current_lon` = '".$this->currentLon."'
+//                               WHERE `id` = ".$queryid."
+//                               AND `passenger` = ".$this->passenger);
+//        return ($updated && $db->getAffectedRows() > 0);
+//    }
     
     /**
      * Updates the number of available seats in the passenger car
@@ -247,4 +243,3 @@ class Query {
     
     
 }
-?>

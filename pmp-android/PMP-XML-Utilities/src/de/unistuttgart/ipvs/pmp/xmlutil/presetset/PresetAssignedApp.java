@@ -32,18 +32,12 @@ public class PresetAssignedApp extends IssueLocation implements Serializable, IP
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp#getIdentifier()
-     */
     @Override
     public String getIdentifier() {
         return this.identifier;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedApp#setIdentifier(java.lang.String)
-     */
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;

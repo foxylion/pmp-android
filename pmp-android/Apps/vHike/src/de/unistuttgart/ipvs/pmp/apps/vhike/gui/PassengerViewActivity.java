@@ -150,7 +150,7 @@ public class PassengerViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 1);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
-        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), ViewModel
+        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(), ViewModel
                 .getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance().getNumSeats())) {
             case (Constants.QUERY_ID_ERROR):
                 Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_SHORT).show();
@@ -176,6 +176,87 @@ public class PassengerViewActivity extends MapActivity {
     
     
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        
+        switch (ctrl.stopQuery(Model.getInstance().getSid(), Model.getInstance().getQueryId())) {
+            case Constants.STATUS_QUERY_DELETED:
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                Log.i(this, "QUERY DELTED");
+                ViewModel.getInstance().clearPassengerOverlayList();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().getHitchDrivers().clear();
+                ViewModel.getInstance().clearPassengerNotificationAdapter();
+                locationManager.removeUpdates(luh);
+                timer.cancel();
+                
+                break;
+            case Constants.STATUS_NO_QUERY:
+                Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
+                Log.i(this, "NO QUERY");
+                break;
+            case Constants.STATUS_INVALID_USER:
+                Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT).show();
+                Log.i(this, "INVALID USER");
+                break;
+            default:
+                // stop query
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                Log.i(this, "QUERY DELeTED");
+                ViewModel.getInstance().clearPassengerOverlayList();
+                ViewModel.getInstance().getHitchDrivers().clear();
+                locationManager.removeUpdates(luh);
+                timer.cancel();
+                ViewModel.getInstance().clearViewModel();
+                
+                PassengerViewActivity.this.finish();
+        }
+    }
+    
+    
+    @Override
+    public void onBackPressed() {
+        
+        switch (ctrl.stopQuery(Model.getInstance().getSid(), Model.getInstance().getQueryId())) {
+            case Constants.STATUS_QUERY_DELETED:
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                Log.i(this, "QUERY DELTED");
+                ViewModel.getInstance().clearPassengerOverlayList();
+                ViewModel.getInstance().getHitchDrivers().clear();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().clearPassengerNotificationAdapter();
+                locationManager.removeUpdates(luh);
+                timer.cancel();
+                ViewModel.getInstance().clearViewModel();
+                
+                PassengerViewActivity.this.finish();
+                break;
+            case Constants.STATUS_NO_QUERY:
+                Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
+                Log.i(this, "NO QUERY");
+                break;
+            case Constants.STATUS_INVALID_USER:
+                Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT).show();
+                Log.i(this, "INVALID USER");
+                break;
+            default:
+                // stop query
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                Log.i(this, "QUERY DELeTED");
+                ViewModel.getInstance().clearPassengerOverlayList();
+                ViewModel.getInstance().getHitchDrivers().clear();
+                locationManager.removeUpdates(luh);
+                timer.cancel();
+                ViewModel.getInstance().clearViewModel();
+                
+                PassengerViewActivity.this.finish();
+        }
+        
+        return;
+    }
+    
+    
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         
         // Provi
@@ -187,6 +268,8 @@ public class PassengerViewActivity extends MapActivity {
                         Log.i(this, "QUERY DELTED");
                         ViewModel.getInstance().clearPassengerOverlayList();
                         ViewModel.getInstance().getHitchDrivers().clear();
+                        ViewModel.getInstance().clearViewModel();
+                        ViewModel.getInstance().clearPassengerNotificationAdapter();
                         locationManager.removeUpdates(luh);
                         timer.cancel();
                         ViewModel.getInstance().clearViewModel();

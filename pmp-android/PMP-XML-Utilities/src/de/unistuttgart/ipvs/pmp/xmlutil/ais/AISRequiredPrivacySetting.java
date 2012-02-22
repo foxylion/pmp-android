@@ -38,7 +38,7 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
     /**
      * The value of the {@link AISRequiredPrivacySetting}
      */
-    private String value = "";
+    private String value = null;
     
     
     /**

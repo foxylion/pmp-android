@@ -5,9 +5,11 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 import android.content.Context;
@@ -42,12 +44,13 @@ public class NotificationAdapter extends BaseAdapter {
     private Profile hitchhiker;
     private int mWhichHitcher;
     private int userID;
-    
+    private Controller ctrl;
     
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher) {
         this.context = context;
         this.hitchhikers = hitchhikers;
         mWhichHitcher = whichHitcher;
+        ctrl = new Controller();
     }
     
     
@@ -115,8 +118,13 @@ public class NotificationAdapter extends BaseAdapter {
                 
                 @Override
                 public void onClick(View v) {
+                   
                     ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
                     ViewModel.getInstance().updateView(mWhichHitcher);
+                    if(actObject.getStatus()== Constants.V_OBJ_SATUS_PICKED_UP){
+                        ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats()+1);
+                        ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), ViewModel.getInstance().getNumSeats());
+                    }
                 }
             });
         } else {

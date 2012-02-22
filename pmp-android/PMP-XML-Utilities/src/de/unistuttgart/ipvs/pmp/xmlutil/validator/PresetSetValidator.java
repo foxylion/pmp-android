@@ -179,7 +179,7 @@ public class PresetSetValidator extends AbstractValidator {
             /*
              * Validate, if the value is set
              */
-            if (!checkValueSet(assignedPS.getValue())) {
+            if (assignedPS.getValue() == null) {
                 issueList.add(new Issue(IssueType.VALUE_MISSING, assignedPS));
             }
             
@@ -222,7 +222,7 @@ public class PresetSetValidator extends AbstractValidator {
             /*
              * Validate, if the override value is set
              */
-            if (!checkValueSet(context.getOverrideValue())) {
+            if (context.getOverrideValue() == null) {
                 issueList.add(new Issue(IssueType.OVERRIDE_VALUE_MISSING, context));
             }
             

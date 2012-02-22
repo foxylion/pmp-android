@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;  
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -132,9 +132,8 @@ public class vhikeDialogs {
     
     
     public Wait4PickUp getW4PU(Context context) {
-        if (w4pu == null) {
-            w4pu = new Wait4PickUp(context);
-        }
+        w4pu = new Wait4PickUp(context);
+        
         return w4pu;
     }
     

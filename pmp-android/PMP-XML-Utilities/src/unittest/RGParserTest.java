@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package unittest;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +29,7 @@ import org.junit.Test;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.compiler.BasicISCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -366,8 +386,8 @@ public class RGParserTest extends TestCase implements TestConstants {
         TestUtil.debug(ste.getMethodName());
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
-        assertTrue("Validator accepted RG with PS with empty valid value description.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+        assertTrue("Validator accepted RG with PS with empty valid value description.", TestUtil.assertRGISValidation(
+                rgis, IRGISPrivacySetting.class, RG_PS1_ID, IssueType.VALID_VALUE_DESCRIPTION_MISSING));
     }
     
     
@@ -416,5 +436,56 @@ public class RGParserTest extends TestCase implements TestConstants {
         } catch (ParserException xmlpe) {
             assertEquals(ParserException.Type.NULL_XML_STREAM, xmlpe.getType());
         }
+    }
+    
+    
+    @Test
+    public void testCleanRGISIssues() throws Exception {
+        
+        TestUtil.makeRG("", RG_ICON, RG_CLASS_NAME, RG_INVALID_REVISION, RG_NAME, RG_DESC);
+        XMLNode xmlPS1 = TestUtil.makePS(RG_PS1_ID, "", RG_PS1_DESC, RG_PS_CD, "");
+        XMLNode xmlPS2 = TestUtil.makePS("", RG_PS1_NAME, RG_PS1_DESC, "", RG_PS_VVD);
+        TestUtil.pss.addChild(xmlPS1);
+        TestUtil.pss.addChild(xmlPS2);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        TestUtil.assertNoIssues(rgis);
+        assertTrue("No issues in clean RGIS issues test.",
+                XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true).size() > 0);
+        XMLUtilityProxy.getRGUtil().getValidator().clearIssuesAndPropagate(rgis);
+        TestUtil.assertNoIssues(rgis);
+        
+    }
+    
+    
+    @Test
+    public void testRGCompiler() throws Exception {
+        TestUtil.makeRG(RG_ID, RG_ICON, RG_CLASS_NAME, RG_REVISION, RG_NAME, RG_DESC);
+        XMLNode xmlPS1 = TestUtil.makePS(RG_PS1_ID, RG_PS1_NAME, RG_PS1_DESC, RG_PS_CD, RG_PS_VVD);
+        TestUtil.pss.addChild(xmlPS1);
+        
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
+        TestUtil.debug(ste.getMethodName());
+        
+        IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true);
+        TestUtil.assertNoIssues(rgis);
+        String compilation = TestUtil.inputStreamToString(XMLUtilityProxy.getRGUtil().compile(rgis));
+        
+        assertTrue(compilation.contains(RG_ID));
+        assertTrue(compilation.contains(RG_ICON));
+        assertTrue(compilation.contains(RG_CLASS_NAME));
+        assertTrue(compilation.contains(RG_REVISION)
+                || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
+        assertTrue(compilation.contains(RG_NAME));
+        assertTrue(compilation.contains(RG_DESC));
+        assertTrue(compilation.contains(RG_PS1_ID));
+        assertTrue(compilation.contains(RG_PS1_NAME));
+        assertTrue(compilation.contains(RG_PS1_DESC));
+        assertTrue(compilation.contains(RG_PS_CD));
+        assertTrue(compilation.contains(RG_PS_VVD));
     }
 }

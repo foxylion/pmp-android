@@ -36,6 +36,8 @@ public class AddStopOverListener implements OnClickListener {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        // add Spinner to "StopOver-List"/Spinner-List
+        ViewModel.getInstance().getSpinners().add(spinner);
         spinner.setOnLongClickListener(new OnLongClickListener() {
             
             @Override
@@ -50,9 +52,6 @@ public class AddStopOverListener implements OnClickListener {
             }
             
         });
-        
-        // add Spinner to "StopOver-List"/Spinner-List
-        ViewModel.getInstance().getSpinners().add(spinner);
         
         // add to layout 
         layout.addView(spinner);

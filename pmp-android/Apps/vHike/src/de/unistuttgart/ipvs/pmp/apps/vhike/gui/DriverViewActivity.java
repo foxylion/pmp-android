@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer; 
+import java.util.Timer;
 
 import android.content.Context;
 import android.location.LocationManager;
@@ -139,19 +139,19 @@ public class DriverViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
-//        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
-//            
-//            @Override
-//            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-//                resourceCached();
-//            }
-//            
-//            
-//            @Override
-//            public void onBindingFailed() {
-//                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
-//            }
-//        });
+        //        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+        //            
+        //            @Override
+        //            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+        //                resourceCached();
+        //            }
+        //            
+        //            
+        //            @Override
+        //            public void onBindingFailed() {
+        //                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+        //            }
+        //        });
         
         // Start Check4Queries Class to check for queries
         Check4Queries c4q = new Check4Queries();
@@ -166,6 +166,47 @@ public class DriverViewActivity extends MapActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.driverview_menu, menu);
         return true;
+    }
+    
+    
+    @Override
+    public void onBackPressed() {
+        
+        switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+            case (Constants.STATUS_UPDATED): {
+                
+                ViewModel.getInstance().clearDriverOverlayList();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().clearHitchPassengers();
+                ViewModel.getInstance().clearDriverNotificationAdapter();
+                locationManager.removeUpdates(luh);
+                
+                timer.cancel();
+                
+                Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
+                this.finish();
+                break;
+            }
+            case (Constants.STATUS_UPTODATE): {
+                Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case (Constants.STATUS_NOTRIP): {
+                Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
+                DriverViewActivity.this.finish();
+                break;
+            }
+            case (Constants.STATUS_HASENDED): {
+                Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_SHORT).show();
+                DriverViewActivity.this.finish();
+                break;
+            }
+            case (Constants.STATUS_INVALID_USER):
+                Toast.makeText(DriverViewActivity.this, "Invalid user", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        
+        return;
     }
     
     

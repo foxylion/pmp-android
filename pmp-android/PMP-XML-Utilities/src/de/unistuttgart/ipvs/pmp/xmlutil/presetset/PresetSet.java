@@ -38,32 +38,23 @@ public class PresetSet extends IssueLocation implements Serializable, IPresetSet
     private static final long serialVersionUID = -3603193651021108354L;
     
     /**
-     * All presets
+     * All {@link IPreset}s
      */
     private List<IPreset> presets = new ArrayList<IPreset>();
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet#getPresets()
-     */
     @Override
     public List<IPreset> getPresets() {
         return this.presets;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet#addPreset(de.unistuttgart.ipvs.pmp.xmlutil.presetset.Preset)
-     */
     @Override
     public void addPreset(IPreset preset) {
         this.presets.add(preset);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet#removePreset(de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset)
-     */
     @Override
     public void removePreset(IPreset preset) {
         this.presets.remove(preset);

@@ -116,14 +116,21 @@ public abstract class AbstractParser {
             // Instantiate the parsed node
             ParsedNode parsedNode = new ParsedNode();
             
-            // iterate through the node values
-            for (int itemItr = 0; itemItr < element.getChildNodes().getLength(); itemItr++) {
-                parsedNode.setValue(parsedNode.getValue() + element.getChildNodes().item(itemItr).getNodeValue());
+            // Get the node value
+            if (element.getChildNodes().item(0) == null) {
+                parsedNode.setValue(null);
+            } else {
+                parsedNode.setValue(element.getChildNodes().item(0).getNodeValue());
             }
             
             // Get the attributes given as parameters
             for (String attributeName : attributeNames) {
-                parsedNode.putAttribute(attributeName, element.getAttribute(attributeName));
+                if (element.hasAttribute(attributeName)) {
+                    parsedNode.putAttribute(attributeName, element.getAttribute(attributeName));
+                } else {
+                    parsedNode.putAttribute(attributeName, null);
+                }
+                
             }
             
             // Add the result array to the result list of arrays
@@ -151,14 +158,18 @@ public abstract class AbstractParser {
         // Add to the app information set
         for (ParsedNode nameNode : nameList) {
             LocalizedString name = new LocalizedString();
-            name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-            name.setString(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
+            if (nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR) != null)
+                name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
+            if (nameNode.getValue() != null)
+                name.setString(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addName(name);
         }
         for (ParsedNode descriptionNode : descriptionList) {
             LocalizedString descr = new LocalizedString();
-            descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-            descr.setString(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
+            if (descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR) != null)
+                descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
+            if (descriptionNode.getValue() != null)
+                descr.setString(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
             is.addDescription(descr);
         }
     }
