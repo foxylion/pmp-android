@@ -99,21 +99,6 @@ public class LoginActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        /* Request resources from PMP*/
-        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
-            
-            @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                resourceCached();
-            }
-            
-            
-            @Override
-            public void onBindingFailed() {
-                Toast.makeText(LoginActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
-            }
-        });
-        
         SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         remember = settings.getBoolean("REMEMBER", false);
         username = settings.getString("USERNAME", "");
@@ -127,25 +112,6 @@ public class LoginActivity extends Activity {
             cb_remember.setChecked(remember);
         }
     }
-    
-    
-    private void resourceCached() {
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            
-            this.handler.post(new Runnable() {
-                
-                public void run() {
-                    Toast.makeText(LoginActivity.this, "PMP said something like 'resource group does not exists'.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
-            
-            return;
-        }
-        
-    };
     
     
     @Override

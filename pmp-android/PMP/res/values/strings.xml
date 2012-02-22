@@ -11,7 +11,6 @@
     <string name="app_version">version 2.0</string>
     <string name="assign_apps">Assign apps</string>
     <string name="assign_privacy_setting">Assign privacy setting</string>
-    <string name="apps">Apps</string>
     <string name="privacy_settings">Privacy settings</string>
     <string name="available">Available</string>
     <string name="bind">Bind</string>

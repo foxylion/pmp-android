@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>Spezifikation - Info-App (Informations-App)</title>
+        <title>Spezifikation - InfoApp (Informations-App)</title>
         <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="../../_layout/script.js"></script>
         <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
@@ -14,8 +14,8 @@
     <body>
         <div id="wrapper">
             <div id="page-head-date">22. Februar 2012</div>
-            <div id="page-head-title">Info-App</div>
-            <div id="page-title">Info-App Spezifikation</div>
+            <div id="page-head-title">InfoApp</div>
+            <div id="page-title">InfoApp Spezifikation</div>
             <div id="page-version">Version 3.7</div>
 
             <nav>
@@ -87,7 +87,7 @@
                 <p></p>
 
                 <h2 id="zweck">Zweck</h2>
-                <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "Info-App" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.
+                <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "InfoApp" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.
                     Das Dokument summiert die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
                     Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
                     Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
@@ -97,7 +97,7 @@
                     Bedeutung von speziellen Begriffen.</p>
 
                 <h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
-                <p>Info-App dient hauptsächlich als Demonstrationsprogramm um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
+                <p>InfoApp dient hauptsächlich als Demonstrationsprogramm um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
 
 
                 <h2 id="leserkreis">Leserkreis</h2>
@@ -122,39 +122,39 @@
 
                 <h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
 
-                <h2 id="anforderungen-an-pmp">Anforderungen an Info-App</h2>
+                <h2 id="anforderungen-an-pmp">Anforderungen an InfoApp</h2>
 
                 <h3 id="oberflaeche">Oberfläche</h3>
-                <p>Die Oberfläche von Info-App wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+                <p>Die Oberfläche von InfoApp wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
                 <h3 id="standardeinstellungen">Standardeinstellungen</h3>
-                <p>Info-App wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, einzige Bedingung ist dass PMP installiert sein muss.</p>
+                <p>InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, einzige Bedingung ist dass PMP installiert sein muss.</p>
 
 
                 <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
                 <h2 id="bedienbarkeit">Bedienbarkeit</h2>
-                <p>Info-App wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
+                <p>InfoApp wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
 
                 <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
-                <p>Info-App wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+                <p>InfoApp wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-                <p>Info-App wird kompatibel zur aktuellen PMP Version sein (PMP v3.x) und somit wird mindestens Android 2.1 benötigt.</p>
+                <p>InfoApp wird kompatibel zur aktuellen PMP Version sein (PMP v3.x) und somit wird mindestens Android 2.1 benötigt.</p>
 
                 <h2 id="internationalisierung">Internationalisierung</h2>
-                <p>Die einzige verfügbare Sprache für Info-App ist Englisch, weitere Übersetzungen sind jedoch ohne weitere Anpassungen möglich.</p>
+                <p>Die einzige verfügbare Sprache für InfoApp ist Englisch, weitere Übersetzungen sind jedoch ohne weitere Anpassungen möglich.</p>
 
                 <h2 id="installation">Installation</h2>
-                <p>Info-App wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
+                <p>InfoApp wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
 
                 <h2 id="wartbarkeit">Wartbarkeit</h2>
                 <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
 
                 <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-                <p>Info-App hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
+                <p>InfoApp hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
 
                 <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. Info-App wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. InfoApp wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
 
                 <div class="pagebreak"></div>
 
@@ -165,7 +165,7 @@
                     <a href="gui-prototype/screen-1.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-1.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Nach dem Starten von Info-App wird automatisch die Standardansicht geöffnet. Grundsätzlich wird in der Info-App immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
+                    <p>Nach dem Starten von InfoApp wird automatisch die Standardansicht geöffnet. Grundsätzlich wird in der InfoApp immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -181,7 +181,7 @@
                     <a href="gui-prototype/screen-3.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-3.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte Info-App gewährt wurden. Eine Übersicht über alle Panels findet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
+                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte InfoApp gewährt wurden. Eine Übersicht über alle Panels findet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
                     <div class="clear"></div>
                 </div>
 

@@ -24,6 +24,7 @@ import com.google.android.maps.MapView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
@@ -138,35 +139,24 @@ public class DriverViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
-        try {
-            loc.startLocationLookup(5000, 10.0F);
-            
-            this.handler.post(new Runnable() {
-                
-                public void run() {
-                    Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            
-            // startContinousLookup();
-            // Start Check4Queries Class to check for queries
-            Check4Queries c4q = new Check4Queries();
-            timer = new Timer();
-            timer.schedule(c4q, 300, 10000);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-            this.handler.post(new Runnable() {
-                
-                public void run() {
-                    Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            });
-        }
+        //        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+        //            
+        //            @Override
+        //            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+        //                resourceCached();
+        //            }
+        //            
+        //            
+        //            @Override
+        //            public void onBindingFailed() {
+        //                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+        //            }
+        //        });
+        
+        // Start Check4Queries Class to check for queries
+        Check4Queries c4q = new Check4Queries();
+        timer = new Timer();
+        timer.schedule(c4q, 300, 10000);
         
     }
     
@@ -176,6 +166,47 @@ public class DriverViewActivity extends MapActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.driverview_menu, menu);
         return true;
+    }
+    
+    
+    @Override
+    public void onBackPressed() {
+        
+        switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+            case (Constants.STATUS_UPDATED): {
+                
+                ViewModel.getInstance().clearDriverOverlayList();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().clearHitchPassengers();
+                ViewModel.getInstance().clearDriverNotificationAdapter();
+                locationManager.removeUpdates(luh);
+                
+                timer.cancel();
+                
+                Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
+                this.finish();
+                break;
+            }
+            case (Constants.STATUS_UPTODATE): {
+                Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case (Constants.STATUS_NOTRIP): {
+                Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
+                DriverViewActivity.this.finish();
+                break;
+            }
+            case (Constants.STATUS_HASENDED): {
+                Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_SHORT).show();
+                DriverViewActivity.this.finish();
+                break;
+            }
+            case (Constants.STATUS_INVALID_USER):
+                Toast.makeText(DriverViewActivity.this, "Invalid user", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        
+        return;
     }
     
     

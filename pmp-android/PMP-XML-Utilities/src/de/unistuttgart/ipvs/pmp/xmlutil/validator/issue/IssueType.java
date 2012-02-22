@@ -32,7 +32,6 @@ public enum IssueType {
      */
     LOCALE_INVALID,
     LOCALE_MISSING,
-    EMPTY_VALUE,
     
     /**
      * Common for all objects extending BasicIS
