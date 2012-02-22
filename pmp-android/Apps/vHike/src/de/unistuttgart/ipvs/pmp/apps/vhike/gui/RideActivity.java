@@ -73,6 +73,7 @@ public class RideActivity extends Activity {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        ViewModel.getInstance().getSpinners().add(spinner);
         spinner.setOnLongClickListener(new OnLongClickListener() {
             
             @Override
@@ -87,7 +88,6 @@ public class RideActivity extends Activity {
             }
             
         });
-        ViewModel.getInstance().getSpinners().add(spinner);
         
         // set as add-Button and set the OnClickListener
         addButton = (Button) findViewById(R.id.ib_add);
@@ -197,7 +197,7 @@ public class RideActivity extends Activity {
                     Toast.makeText(RideActivity.this, "Only one destination allowed for passenger", Toast.LENGTH_SHORT)
                             .show();
                 } else {
-                    ViewModel.getInstance().setDestination(spinner);
+                    ViewModel.getInstance().setDestination4Passenger(spinner);
                     ViewModel.getInstance().setNumSeats(spinnerSeats);
                     
                     vhikeDialogs.getInstance().getSearchPD(RideActivity.this).show();

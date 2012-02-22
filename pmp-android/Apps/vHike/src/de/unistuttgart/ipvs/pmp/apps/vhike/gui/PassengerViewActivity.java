@@ -150,7 +150,7 @@ public class PassengerViewActivity extends MapActivity {
         luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 1);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, luh);
         
-        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), ViewModel
+        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(), ViewModel
                 .getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance().getNumSeats())) {
             case (Constants.QUERY_ID_ERROR):
                 Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_SHORT).show();
@@ -184,12 +184,11 @@ public class PassengerViewActivity extends MapActivity {
                 Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                 Log.i(this, "QUERY DELTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
-                ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
                 locationManager.removeUpdates(luh);
                 timer.cancel();
-                ViewModel.getInstance().clearViewModel();
                 
                 break;
             case Constants.STATUS_NO_QUERY:

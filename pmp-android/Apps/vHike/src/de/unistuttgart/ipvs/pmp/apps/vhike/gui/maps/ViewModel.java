@@ -262,6 +262,7 @@ public class ViewModel {
     private List<Overlay> mapDriverOverlays;
     private List<Overlay> mapPassengerOverlays;
     private String destination;
+    private String destinationPassenger;
     private int numSeats = 0;
     private SlidingDrawer slider_Driver;
     private SlidingDrawer slider_Passenger;
@@ -384,6 +385,13 @@ public class ViewModel {
         destination = destination + ";";
     }
     
+    public void setDestination4Passenger(Spinner spDestination) {
+        destinationPassenger = spDestination.getSelectedItem().toString();
+    }
+    
+    public String getDestination4Passenger() {
+        return destinationPassenger;
+    }
     
     /**
      * set number of seats available/needed depending on users wishes
