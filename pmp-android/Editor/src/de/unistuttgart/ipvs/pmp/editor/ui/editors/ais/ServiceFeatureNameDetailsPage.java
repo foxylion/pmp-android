@@ -1,12 +1,9 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import java.util.HashMap;
-import java.util.Locale;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.window.Window;
@@ -19,8 +16,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -36,7 +31,6 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
-import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 
 /**
  * Shows the lists for the names and the descriptions of a service feature
@@ -66,27 +60,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      */
     private Shell parentShell;
 
-    /**
-     * {@link TableViewer} for the names table
-     */
-    private TableViewer nameTableViewer;
-
-    /**
-     * The columns of the names table
-     */
-    private TableColumn nameColumn;
-    private TableColumn localeNameColumn;
-
-    /**
-     * {@link TableViewer} for the description table
-     */
-    private TableViewer descriptionTableViewer;
-
-    /**
-     * The columns of the names table
-     */
-    private TableColumn descColumn;
-    private TableColumn localeDescColumn;
 
     LocaleTable descriptionTable;
     LocaleTable nameTable;
@@ -167,6 +140,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    public void doValidate() {
 		AISValidatorWrapper.getInstance().validateServiceFeature(
 			displayed, true);
+		ServiceFeatureMasterBlock.refreshTree();
 	    }
 
 	};
@@ -236,38 +210,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		HashMap<String, String> values = new HashMap<String, String>();
-		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Name", "Add");
-		if (dialog.open() == Window.OK) {
-		    nameTableViewer.getTable().setRedraw(false);
-
-		    // Get the values
-		    String stringLocale = values.get("locale");
-		    String stringName = values.get("Name");
-
-		    // Create the things for the model
-		    Locale locale = new Locale(stringLocale);
-
-		    LocalizedString name = new LocalizedString();
-		    name.setLocale(locale);
-		    name.setString(stringName);
-
-		    displayed.addName(name);
-
-		    model.setAISDirty(true);
-		    AISValidatorWrapper.getInstance().validateServiceFeature(
-			    displayed, true);
-		    ServiceFeatureMasterBlock.refreshTree();
-
-		    nameTableViewer.refresh();
-
-		    nameColumn.pack();
-		    localeNameColumn.pack();
-
-		    nameTableViewer.getTable().redraw();
-		    nameTableViewer.getTable().setRedraw(true);
-		}
+		
 	    }
 	};
 	add.setToolTipText("Add a new name for the Service Feature");
@@ -277,23 +220,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		nameTableViewer.getTable().setRedraw(false);
-		TableItem[] selection = nameTableViewer.getTable()
-			.getSelection();
-
-		// Delete it out of the model
-		for (TableItem item : selection) {
-		    displayed.removeName((LocalizedString) item.getData());
-		}
-		nameColumn.pack();
-		localeNameColumn.pack();
-		AISValidatorWrapper.getInstance().validateServiceFeature(
-			displayed, true);
-		ServiceFeatureMasterBlock.refreshTree();
-
-		nameTableViewer.getTable().setRedraw(true);
-		nameTableViewer.refresh();
-		model.setAISDirty(true);
 	    }
 	};
 	remove.setToolTipText("Remove the selected names");
@@ -339,33 +265,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
 			parentShell, null, null, values, "Description", "Add");
 		if (dialog.open() == Window.OK) {
-		    descriptionTableViewer.getTable().setRedraw(false);
 
-		    // Get the values
-		    String stringLocale = values.get("locale");
-		    String stringDesc = values.get("Description");
-
-		    // Create the things for the model
-		    Locale locale = new Locale(stringLocale);
-
-		    LocalizedString desc = new LocalizedString();
-		    desc.setLocale(locale);
-		    desc.setString(stringDesc);
-
-		    displayed.addDescription(desc);
-
-		    model.setAISDirty(true);
-		    AISValidatorWrapper.getInstance().validateServiceFeature(
-			    displayed, true);
-		    ServiceFeatureMasterBlock.refreshTree();
-
-		    descriptionTableViewer.refresh();
-
-		    descColumn.pack();
-		    localeDescColumn.pack();
-
-		    descriptionTableViewer.getTable().redraw();
-		    descriptionTableViewer.getTable().setRedraw(true);
 		}
 	    }
 	};
@@ -376,26 +276,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		descriptionTableViewer.getTable().setRedraw(false);
-		TableItem[] selections = descriptionTableViewer.getTable()
-			.getSelection();
 
-		// Delete it out of the model
-		for (TableItem item : selections) {
-		    displayed.removeDescription((LocalizedString) item
-			    .getData());
-		}
-
-		descColumn.pack();
-		localeDescColumn.pack();
-
-		descriptionTableViewer.getTable().setRedraw(true);
-		AISValidatorWrapper.getInstance().validateServiceFeature(
-			displayed, true);
-		ServiceFeatureMasterBlock.refreshTree();
-
-		descriptionTableViewer.refresh();
-		model.setAISDirty(true);
 	    }
 	};
 	remove.setToolTipText("Remove the selected descriptions");
