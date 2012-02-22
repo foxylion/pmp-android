@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.model.element.privacysetting;
 
 import android.content.ContentValues;
@@ -7,6 +26,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.element.ElementPersistenceProvider;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.ContextAnnotation;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
@@ -55,6 +76,15 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
         wdb.execSQL("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE + " = ? AND " + IDENTIFIER
                 + " = ?",
                 new String[] { this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
+        
+        // delete context annotations
+        for (IContextAnnotation ca : getCache().getAllContextAnnotations()) {
+            if (ca.getPrivacySetting() == this.element) {
+                Assert.instanceOf(ca, ContextAnnotation.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "ca",
+                        ca);
+                ((ContextAnnotation) ca).delete();
+            }
+        }
         
     }
     

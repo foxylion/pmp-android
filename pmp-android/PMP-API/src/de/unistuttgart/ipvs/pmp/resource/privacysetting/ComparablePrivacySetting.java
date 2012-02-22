@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: SwitchesResourceGroup
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-API
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------

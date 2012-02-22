@@ -1,17 +1,27 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: vHike
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 import android.content.Context;
 import android.location.Address;
@@ -22,10 +32,20 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
+
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+
 /**
- * Handles location updates
+ * Handles location updates if location changes
+ * WILL BE REPLACED BY Location-ResourceGroup
  * 
- * @author Andre
+ * @author Andre Nguyen
  * 
  */
 public class LocationUpdateHandler implements LocationListener {
@@ -61,66 +81,70 @@ public class LocationUpdateHandler implements LocationListener {
         this.mapController = mapController;
         this.whichHitcher = whichHitcher;
         
-        ctrl = new Controller();
+        this.ctrl = new Controller();
         
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPSupdateInterval, GPSmoveInterval,
-                (LocationListener) this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, this.GPSupdateInterval,
+                this.GPSmoveInterval, this);
     }
     
     
+    @Override
     public void onLocationChanged(Location location) {
         
         /**
          * draw an overlay for driver or passenger
          */
-        mapController = mapView.getController();
+        this.mapController = this.mapView.getController();
         
         int lat = (int) (location.getLatitude() * 1E6);
         int lng = (int) (location.getLongitude() * 1E6);
-        gPosition = new GeoPoint(lat, lng);
+        this.gPosition = new GeoPoint(lat, lng);
         // Set my position to ViewModel
         ViewModel.getInstance().setMyPosition((float) location.getLatitude(), (float) location.getLongitude(),
-                whichHitcher);
+                this.whichHitcher);
         Log.i(this, "Lat: " + location.getLatitude() + ", Lng: " + location.getLongitude());
         
         /**
          * send server updated latitude and longitude
          */
-        switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) location.getLatitude(),
+        switch (this.ctrl.userUpdatePos(Model.getInstance().getSid(), (float) location.getLatitude(),
                 (float) location.getLongitude())) {
             case Constants.STATUS_UPDATED:
-                Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Status updated", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.STATUS_UPTODATE:
-                Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Status up to date", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.STATUS_ERROR:
-                Toast.makeText(context, "Error Update position", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Error Update position", Toast.LENGTH_SHORT).show();
                 break;
         }
         
-        mapController = mapView.getController();
-        mapController.setZoom(17);
-        mapController.animateTo(gPosition);
-        mapController.setCenter(gPosition);
-        mapView.invalidate();
+        this.mapController = this.mapView.getController();
+        this.mapController.setZoom(17);
+        this.mapController.animateTo(this.gPosition);
+        this.mapController.setCenter(this.gPosition);
+        this.mapView.invalidate();
         
         showCurrentLocation();
         
     }
     
     
+    @Override
     public void onProviderDisabled(String provider) {
-        locationManager.removeUpdates(this);
+        this.locationManager.removeUpdates(this);
     }
     
     
+    @Override
     public void onProviderEnabled(String provider) {
         // TODO Auto-generated method stub
         
     }
     
     
+    @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
         
@@ -132,11 +156,11 @@ public class LocationUpdateHandler implements LocationListener {
      */
     public void showCurrentLocation() {
         
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        this.location = this.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         
-        if (location != null) {
-            String address = convertPointToLocation(gPosition);
-            Toast.makeText(context, address, Toast.LENGTH_SHORT).show();
+        if (this.location != null) {
+            String address = convertPointToLocation(this.gPosition);
+            Toast.makeText(this.context, address, Toast.LENGTH_SHORT).show();
         }
         
     }
@@ -150,15 +174,16 @@ public class LocationUpdateHandler implements LocationListener {
      */
     public String convertPointToLocation(GeoPoint point) {
         StringBuffer address = new StringBuffer();
-        Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geoCoder = new Geocoder(this.context, Locale.getDefault());
         try {
             List<Address> addresses = geoCoder.getFromLocation(point.getLatitudeE6() / 1E6,
                     point.getLongitudeE6() / 1E6, 1);
             
             if (addresses.size() > 0) {
-                for (int index = 0; index < addresses.get(0).getMaxAddressLineIndex(); index++)
+                for (int index = 0; index < addresses.get(0).getMaxAddressLineIndex(); index++) {
                     // address += addresses.get(0).getAddressLine(index) + " ";
                     address.append(address.toString() + addresses.get(0).getAddressLine(index) + " ");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

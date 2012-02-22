@@ -1,5 +1,25 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -10,14 +30,21 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ISetDirtyAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * General-Page of the RGIS-Editor
@@ -27,8 +54,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  */
 public class GeneralPage extends FormPage {
 
-	private IManagedForm managedForm;
 	public static final String ID = "rgis_general";
+	private ControlDecoration classnameDec;
+	private ControlDecoration iconDec;
+	private ControlDecoration identifierDec;
 
 	public GeneralPage(FormEditor parent) {
 		super(parent, ID, "General");
@@ -36,7 +65,6 @@ public class GeneralPage extends FormPage {
 
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
-		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Defines general information");
@@ -51,6 +79,7 @@ public class GeneralPage extends FormPage {
 	private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
 		// Set the section's parameters
 		Section section = createSection(parent, "Preferences", toolkit);
+		IssueTranslator it = new IssueTranslator();
 
 		// Create elements stored inside this section
 		Composite client = toolkit.createComposite(section, SWT.WRAP);
@@ -61,34 +90,99 @@ public class GeneralPage extends FormPage {
 		textLayout.horizontalAlignment = GridData.FILL;
 		textLayout.grabExcessHorizontalSpace = true;
 
-		toolkit.createLabel(client, "Identifier");
-		final Text identifier = toolkit.createText(client, Model.getInstance()
-				.getRgis().getIdentifier());
+		final IRGIS rgis = Model.getInstance().getRgis();
 
-		identifier.addFocusListener(new FocusListener() {
-			
+		// Classname
+		toolkit.createLabel(client, "Class name");
+		final Text classname = toolkit.createText(client, rgis.getClassName());
+		classname.setLayoutData(textLayout);
+		classname.addFocusListener(new FocusListener() {
+
 			private String before;
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				if (!identifier.getText().equals(before)) {
+				String input = classname.getText();
+				if (!input.equals(this.before)) {
+					rgis.setClassName(input);
 					setDirty(true);
+					validatePreferences();
 				}
 			}
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				before = identifier.getText();
+				this.before = classname.getText();
+
+			}
+		});
+		this.classnameDec = new ControlDecoration(classname, SWT.TOP
+				| SWT.RIGHT);
+		this.classnameDec.setImage(Images.ERROR_DEC);
+		this.classnameDec.setDescriptionText(it
+				.getTranslation(IssueType.CLASSNAME_MISSING));
+
+		// Icon
+		toolkit.createLabel(client, "Icon");
+		final Text icon = toolkit.createText(client, rgis.getIconLocation());
+		icon.setLayoutData(textLayout);
+		icon.addFocusListener(new FocusListener() {
+
+			private String before;
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				String input = icon.getText();
+				if (!input.equals(this.before)) {
+					rgis.setIconLocation(input);
+					setDirty(true);
+					validatePreferences();
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				this.before = icon.getText();
+
+			}
+		});
+		this.iconDec = new ControlDecoration(icon, SWT.TOP | SWT.RIGHT);
+		this.iconDec.setImage(Images.ERROR_DEC);
+		this.iconDec.setDescriptionText(it
+				.getTranslation(IssueType.ICON_MISSING));
+
+		// Identifier
+		toolkit.createLabel(client, "Identifier");
+		final Text identifier = toolkit
+				.createText(client, rgis.getIdentifier());
+		identifier.addFocusListener(new FocusListener() {
+
+			private String before;
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				String input = identifier.getText();
+				if (!input.equals(this.before)) {
+					rgis.setIdentifier(input);
+					setDirty(true);
+					validatePreferences();
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				this.before = identifier.getText();
 
 			}
 		});
 		identifier.setLayoutData(textLayout);
+		this.identifierDec = new ControlDecoration(identifier, SWT.TOP
+				| SWT.RIGHT);
+		this.identifierDec.setImage(Images.ERROR_DEC);
+		this.identifierDec.setDescriptionText(it
+				.getTranslation(IssueType.IDENTIFIER_MISSING));
 
-		/*
-		 * toolkit.createLabel(client, "Revision"); Text revision =
-		 * toolkit.createText(client, "123");
-		 * revision.setLayoutData(textLayout);
-		 */
+		validatePreferences();
 
 		section.setClient(client);
 	}
@@ -112,11 +206,18 @@ public class GeneralPage extends FormPage {
 		section.setLayoutData(layoutData);
 
 		// Defines action that should be done when tables are dirty
-		ISetDirtyAction dirtyAction = new ISetDirtyAction() {
-			
+		ILocaleTableAction dirtyAction = new ILocaleTableAction() {
+
 			@Override
 			public void doSetDirty(boolean dirty) {
 				setDirty(true);
+			}
+
+			@Override
+			public void doValidate() {
+				RGISValidatorWrapper validator = RGISValidatorWrapper
+						.getInstance();
+				validator.validateRGIS(Model.getInstance().getRgis(), true);
 			}
 		};
 		IRGIS rgis = Model.getInstance().getRgis();
@@ -142,8 +243,8 @@ public class GeneralPage extends FormPage {
 	 */
 	private Section createSection(Composite parent, String title,
 			FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.TWISTIE
-				| Section.TITLE_BAR);
+		Section section = toolkit.createSection(parent,
+				ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 		section.setText(title);
 		section.setExpanded(true);
 
@@ -155,9 +256,35 @@ public class GeneralPage extends FormPage {
 
 		return section;
 	}
-	
+
 	private void setDirty(boolean dirty) {
 		Model.getInstance().setRgisDirty(dirty);
+	}
+
+	private void validatePreferences() {
+		RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
+		IRGIS rgis = Model.getInstance().getRgis();
+		validator.validateRGInformation(rgis, true);
+
+		// Remove error images if set
+		this.classnameDec.hide();
+		this.iconDec.hide();
+		this.identifierDec.hide();
+
+		// Set error images if there is an issue
+		for (IIssue i : rgis.getIssues()) {
+			switch (i.getType()) {
+			case CLASSNAME_MISSING:
+				this.classnameDec.show();
+				break;
+			case ICON_MISSING:
+				this.iconDec.show();
+				break;
+			case IDENTIFIER_MISSING:
+				this.identifierDec.show();
+				break;
+			}
+		}
 	}
 
 }

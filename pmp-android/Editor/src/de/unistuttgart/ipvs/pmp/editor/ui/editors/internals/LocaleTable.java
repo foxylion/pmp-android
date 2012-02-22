@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
 import java.util.Locale;
@@ -27,6 +46,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -34,13 +54,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.part.EditorPart;
 
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 public class LocaleTable {
 
@@ -49,25 +68,57 @@ public class LocaleTable {
 	private final Type type;
 	private final TableViewer tableViewer;
 	private boolean dirty = false;
-	private final ISetDirtyAction dirtyAction;
+	private final ILocaleTableAction tableAction;
 
 	public enum Type {
-		NAME, DESCRIPTION
+		NAME, DESCRIPTION, CHANGE_DESCRIPTION
 	};
 
-	public LocaleTable(Composite parent, Type type, ISetDirtyAction dirtyAction,
-			FormToolkit toolkit) {
-		this(parent, null, type, dirtyAction, toolkit);
+	/**
+	 * See information and warning in description of {@link
+	 * LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction
+	 * dirtyAction, FormToolkit toolkit)}
+	 * 
+	 * @param parent
+	 * @param type
+	 * @param tableAction
+	 * @param toolkit
+	 */
+	public LocaleTable(Composite parent, Type type,
+			ILocaleTableAction tableAction, FormToolkit toolkit) {
+		this(parent, null, type, tableAction, toolkit);
 	}
-	public LocaleTable(Composite parent, IBasicIS data, Type type, ISetDirtyAction dirtyAction,
-			FormToolkit toolkit) {
+
+	/**
+	 * Creates a new locale table. This table shows all available names,
+	 * descriptions or change descriptions and their locale.
+	 * 
+	 * @param parent
+	 *            Parent widget, to which this table should be added
+	 * @param data
+	 *            Data, from which the information will be loaded and written
+	 *            into
+	 * @param type
+	 *            Type of data, that should be shown.<br />
+	 *            <b>Warning:</b> If type is set to {@code CHANGE_DESCRIPTION},
+	 *            {@code data} has to of type {@code RGISPrivacySetting}.
+	 *            Otherwise this table will throw {@code ClassCastException}s
+	 *            while user interaction!
+	 * @param tableAction
+	 *            Action, that will be initated when the data in this table was
+	 *            changed by the user
+	 * @param toolkit
+	 *            SWT-Toolkit
+	 */
+	public LocaleTable(Composite parent, IBasicIS data, Type type,
+			ILocaleTableAction tableAction, FormToolkit toolkit) {
 		this.data = data;
 		this.type = type;
-		this.dirtyAction = dirtyAction;
+		this.tableAction = tableAction;
 
 		// Create grid for storing the table and buttons
-		outerCompo = toolkit.createComposite(parent);
-		outerCompo.setLayout(new GridLayout(2, false));
+		this.outerCompo = toolkit.createComposite(parent);
+		this.outerCompo.setLayout(new GridLayout(2, false));
 
 		// Set layout so that the table uses the whole width
 		GridData tableLayout = new GridData();
@@ -80,14 +131,14 @@ public class LocaleTable {
 		// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
 		tableLayout.widthHint = 1;
 
-		Composite tableCompo = toolkit.createComposite(outerCompo);
+		Composite tableCompo = toolkit.createComposite(this.outerCompo);
 		tableCompo.setLayoutData(tableLayout);
 		TableColumnLayout columnLayout = new TableColumnLayout();
 		tableCompo.setLayout(columnLayout);
 
-		tableViewer = new TableViewer(tableCompo, SWT.BORDER
+		this.tableViewer = new TableViewer(tableCompo, SWT.BORDER
 				| SWT.FULL_SELECTION);
-		Table table = tableViewer.getTable();
+		Table table = this.tableViewer.getTable();
 		table.setLayoutData(tableLayout);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -96,7 +147,8 @@ public class LocaleTable {
 
 		// Add keyboard navigation
 		ColumnViewerEditorActivationStrategy activationStrategy = new ColumnViewerEditorActivationStrategy(
-				tableViewer) {
+				this.tableViewer) {
+			@Override
 			protected boolean isEditorActivationEvent(
 					ColumnViewerEditorActivationEvent event) {
 				// Editing is enabled as before but also by pressing enter
@@ -111,21 +163,30 @@ public class LocaleTable {
 		activationStrategy.setEnableEditorActivationWithKeyboard(true);
 
 		FocusCellHighlighter highlighter = new FocusCellOwnerDrawHighlighter(
-				tableViewer);
+				this.tableViewer);
 		TableViewerFocusCellManager focusManager = new TableViewerFocusCellManager(
-				tableViewer, highlighter);
+				this.tableViewer, highlighter);
 
-		TableViewerEditor.create(tableViewer, focusManager, activationStrategy,
-				ColumnViewerEditor.TABBING_HORIZONTAL
+		TableViewerEditor.create(this.tableViewer, focusManager,
+				activationStrategy, ColumnViewerEditor.TABBING_HORIZONTAL
 						| ColumnViewerEditor.TABBING_MOVE_TO_ROW_NEIGHBOR
 						| ColumnViewerEditor.KEYBOARD_ACTIVATION);
 
 		// Add table sorter
-		tableViewer.setSorter(new ViewerSorter());
+		this.tableViewer.setSorter(new ViewerSorter());
 
 		// But data into table if set
-		tableViewer.setContentProvider(new ListContentProvider());
+		this.tableViewer.setContentProvider(new ListContentProvider());
 		setData(data);
+
+		// Add tooltip listener
+		TooltipTableListener tooltipListener = new TooltipTableListener(
+				this.tableViewer, parent.getShell());
+		this.tableViewer.getTable().addListener(SWT.Dispose, tooltipListener);
+		this.tableViewer.getTable().addListener(SWT.KeyDown, tooltipListener);
+		this.tableViewer.getTable().addListener(SWT.MouseMove, tooltipListener);
+		this.tableViewer.getTable()
+				.addListener(SWT.MouseHover, tooltipListener);
 
 		// Add buttons
 		createButtons(toolkit);
@@ -138,7 +199,7 @@ public class LocaleTable {
 	 * @param toolkit
 	 */
 	private void createButtons(FormToolkit toolkit) {
-		Composite buttonCompo = toolkit.createComposite(outerCompo);
+		Composite buttonCompo = toolkit.createComposite(this.outerCompo);
 		buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
 		GridData buttonLayout = new GridData();
 		buttonLayout.verticalAlignment = SWT.BEGINNING;
@@ -155,13 +216,22 @@ public class LocaleTable {
 			public void widgetSelected(SelectionEvent e) {
 
 				LocalizedString ls = new LocalizedString();
-				
-				if (type == Type.NAME) {
-					data.addName(ls);
-				} else {
-					data.addDescription(ls);
+
+				switch (LocaleTable.this.type) {
+				case NAME:
+					LocaleTable.this.data.addName(ls);
+					break;
+				case DESCRIPTION:
+					LocaleTable.this.data.addDescription(ls);
+					break;
+				case CHANGE_DESCRIPTION:
+					((IRGISPrivacySetting) LocaleTable.this.data)
+							.addChangeDescription(ls);
+					break;
 				}
+
 				setDirty(true);
+				LocaleTable.this.tableAction.doValidate();
 				refresh();
 
 			}
@@ -170,22 +240,32 @@ public class LocaleTable {
 		removeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				StructuredSelection sl = (StructuredSelection) tableViewer
+				StructuredSelection sl = (StructuredSelection) LocaleTable.this.tableViewer
 						.getSelection();
 
-				if (type == Type.NAME) {
-					data.removeName((LocalizedString) sl.getFirstElement());
-				} else {
-					data.removeDescription((LocalizedString) sl
-							.getFirstElement());
+				LocalizedString selection = (LocalizedString) sl
+						.getFirstElement();
+
+				switch (LocaleTable.this.type) {
+				case NAME:
+					LocaleTable.this.data.removeName(selection);
+					break;
+				case DESCRIPTION:
+					LocaleTable.this.data.removeDescription(selection);
+					break;
+				case CHANGE_DESCRIPTION:
+					((IRGISPrivacySetting) LocaleTable.this.data)
+							.removeChangeDescription(selection);
+					break;
 				}
 				setDirty(true);
+				LocaleTable.this.tableAction.doValidate();
 				refresh();
 
 			}
 		});
 
-		tableViewer
+		this.tableViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 
 					@Override
@@ -203,12 +283,52 @@ public class LocaleTable {
 	 * @param columnLayout
 	 */
 	private void createColumns(TableColumnLayout columnLayout) {
+		// Error column
+		ColumnLabelProvider errorLabel = new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return null;
+			}
 
+			@Override
+			public Image getImage(Object element) {
+				LocalizedString ls = (LocalizedString) element;
+				if (ls.getIssues().isEmpty()) {
+					return Images.FILE16;
+				} else {
+					return Images.ERROR16;
+				}
+			}
+		};
+
+		TableViewerColumn errorColumn = buildColumn("", 30, errorLabel, null,
+				columnLayout);
+		new ColumnViewerSorter(this.tableViewer, errorColumn) {
+
+			@Override
+			public int doCompare(Viewer viewer, Object e1, Object e2) {
+				boolean empty1 = ((LocalizedString) e1).getIssues().isEmpty();
+				boolean empty2 = ((LocalizedString) e2).getIssues().isEmpty();
+
+				if (empty1 == empty2) {
+					return 0;
+				}
+
+				if (!empty1) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+
+		};
+
+		// Locale column
 		ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
 				LocalizedString ls = (LocalizedString) element;
-				
+
 				if (ls.getLocale() == null) {
 					return "-";
 				} else {
@@ -217,12 +337,13 @@ public class LocaleTable {
 			}
 		};
 
-		EditingSupport localeEditing = new LocaleEditingSupport(tableViewer) {
+		EditingSupport localeEditing = new LocaleEditingSupport(
+				this.tableViewer) {
 
 			@Override
 			protected Object getValue(Object element) {
 				LocalizedString ls = (LocalizedString) element;
-				
+
 				if (ls.getLocale() == null) {
 					return "";
 				} else {
@@ -233,29 +354,33 @@ public class LocaleTable {
 			@Override
 			protected void setValue(Object element, Object value) {
 				LocalizedString ls = (LocalizedString) element;
-				String input = ((String) value).toUpperCase();
-				
+				String input = (String) value;
+
 				// Save input when input has changed
-				if (ls.getLocale() == null && !input.isEmpty() ||
-						ls.getLocale() != null && !ls.getLocale().getLanguage().equalsIgnoreCase(input)) {
+				if (ls.getLocale() == null
+						&& !input.isEmpty()
+						|| ls.getLocale() != null
+						&& !ls.getLocale().getLanguage()
+								.equalsIgnoreCase(input)) {
 					// Mark as dirty, when the locale has been edited
 					Locale locale = new Locale(input);
 					ls.setLocale(locale);
 					setDirty(true);
-					tableViewer.update(element, null);
+					LocaleTable.this.tableAction.doValidate();
+					LocaleTable.this.tableViewer.update(element, null);
 				}
 			}
 		};
 
-		TableViewerColumn localeColumn = buildColumn("Locale", 100,
-				localeLabel, localeEditing, columnLayout);
-		new ColumnViewerSorter(tableViewer, localeColumn) {
+		TableViewerColumn localeColumn = buildColumn("Locale", 50, localeLabel,
+				localeEditing, columnLayout);
+		new ColumnViewerSorter(this.tableViewer, localeColumn) {
 
 			@Override
 			public int doCompare(Viewer viewer, Object e1, Object e2) {
 				Locale locale1 = ((LocalizedString) e1).getLocale();
 				Locale locale2 = ((LocalizedString) e2).getLocale();
-				
+
 				if (locale1 == null && locale2 == null) {
 					return 0;
 				}
@@ -265,7 +390,7 @@ public class LocaleTable {
 				if (locale2 == null) {
 					return 1;
 				}
-				
+
 				return locale1.getLanguage().compareToIgnoreCase(
 						locale2.getLanguage());
 			}
@@ -285,7 +410,7 @@ public class LocaleTable {
 			}
 		};
 
-		EditingSupport valueEditing = new TextEditingSupport(tableViewer) {
+		EditingSupport valueEditing = new TextEditingSupport(this.tableViewer) {
 
 			@Override
 			protected Object getValue(Object element) {
@@ -297,26 +422,35 @@ public class LocaleTable {
 			protected void setValue(Object element, Object value) {
 				LocalizedString ls = ((LocalizedString) element);
 				String input = (String) value;
-				
+
 				if (!ls.getString().equals(input)) {
 					ls.setString(input);
 					setDirty(true);
-					tableViewer.update(element, null);
+					LocaleTable.this.tableAction.doValidate();
+					LocaleTable.this.tableViewer.update(element, null);
 				}
 			}
 
 		};
 
 		String valueTitle;
-		if (type == Type.NAME) {
+		switch (this.type) {
+		case NAME:
 			valueTitle = "Name";
-		} else {
+			break;
+		case DESCRIPTION:
 			valueTitle = "Description";
+			break;
+		case CHANGE_DESCRIPTION:
+			valueTitle = "Change Description";
+			break;
+		default:
+			valueTitle = "Undefined";
 		}
 
 		TableViewerColumn valueColumn = buildColumn(valueTitle, 0, valueLabel,
 				valueEditing, columnLayout);
-		new ColumnViewerSorter(tableViewer, valueColumn) {
+		new ColumnViewerSorter(this.tableViewer, valueColumn) {
 
 			@Override
 			public int doCompare(Viewer viewer, Object e1, Object e2) {
@@ -344,9 +478,9 @@ public class LocaleTable {
 	private TableViewerColumn buildColumn(String text, int width,
 			CellLabelProvider labelProvider, EditingSupport editingSupport,
 			TableColumnLayout columnLayout) {
-		TableViewerColumn column = new TableViewerColumn(tableViewer,
+		TableViewerColumn column = new TableViewerColumn(this.tableViewer,
 				SWT.BORDER);
-		
+
 		final TableColumn control = column.getColumn();
 		if (width <= 0) {
 			columnLayout.setColumnData(control, new ColumnWeightData(1, true));
@@ -354,7 +488,7 @@ public class LocaleTable {
 			columnLayout.setColumnData(control,
 					new ColumnPixelData(width, true));
 		}
-		
+
 		control.setText(text);
 		column.setLabelProvider(labelProvider);
 		column.setEditingSupport(editingSupport);
@@ -362,36 +496,43 @@ public class LocaleTable {
 		return column;
 
 	}
-	
+
 	public void setData(IBasicIS data) {
 		this.data = data;
 		if (data != null) {
-			if (type == Type.NAME) {
-				tableViewer.setInput(data.getNames());
-			} else {
-				tableViewer.setInput(data.getDescriptions());
+			switch (this.type) {
+			case NAME:
+				this.tableViewer.setInput(data.getNames());
+				break;
+			case DESCRIPTION:
+				this.tableViewer.setInput(data.getDescriptions());
+				break;
+			case CHANGE_DESCRIPTION:
+				this.tableViewer.setInput(((RGISPrivacySetting) data)
+						.getChangeDescriptions());
+				break;
 			}
 		}
 	}
-	
+
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
-		dirtyAction.doSetDirty(dirty);
+		this.tableAction.doSetDirty(dirty);
 	}
 
 	public boolean isDirty() {
-		return dirty;
+		return this.dirty;
 	}
 
 	public Composite getComposite() {
-		return outerCompo;
+		return this.outerCompo;
 	}
 
 	/**
 	 * Refreshes the table so that current values from the model will be shown
 	 */
 	public void refresh() {
-		tableViewer.refresh();
+		this.tableViewer.refresh();
 	}
 
 }

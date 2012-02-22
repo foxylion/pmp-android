@@ -1,10 +1,24 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: vHike
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +28,19 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
+/**
+ * Displays the profile of the current user, some other vHike-User to simply display users personal information or to
+ * rate a user after a ride through the history activity
+ * 
+ * @author Andre Nguyen
+ * 
+ */
 public class ProfileActivity extends Activity {
     
     private Profile profile;
@@ -24,6 +50,7 @@ public class ProfileActivity extends Activity {
             "03.01.2011, Vaihingen", "..." };
     
     
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
@@ -33,40 +60,47 @@ public class ProfileActivity extends Activity {
     
     
     private void setUpProfile() {
+        
+        /**
+         * MY_PROFILE: gives info about opening ones own profile or from someone else
+         * PROFILE_ID: the profile id from some vHike-User
+         * RATING_MODUS: if rating modus is set the ratingbar is editable
+         * TRIP_ID: TRIP_ID which is needed to rate a user from a past ride
+         * 
+         */
         int whoIsIt = getIntent().getExtras().getInt("MY_PROFILE");
         final int profileID = getIntent().getExtras().getInt("PROFILE_ID");
         int ratingModus = getIntent().getExtras().getInt("RATING_MODUS");
         final int tripID = getIntent().getExtras().getInt("TRIP_ID");
         
         if (whoIsIt == 0) {
-            profile = Model.getInstance().getOwnProfile();
+            this.profile = Model.getInstance().getOwnProfile();
         } else {
             Controller ctrl = new Controller();
-            profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
+            this.profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
         }
         
         TextView tv_username = (TextView) findViewById(R.id.tv_username);
-        tv_username.setText(profile.getUsername());
+        tv_username.setText(this.profile.getUsername());
         
         EditText et_firstname = (EditText) findViewById(R.id.et_firstname);
-        et_firstname.setText(profile.getFirstname());
+        et_firstname.setText(this.profile.getFirstname());
         
         EditText et_lastname = (EditText) findViewById(R.id.et_lastname);
-        et_lastname.setText(profile.getLastname());
+        et_lastname.setText(this.profile.getLastname());
         
         EditText et_email = (EditText) findViewById(R.id.et_email);
-        et_email.setText(profile.getEmail());
+        et_email.setText(this.profile.getEmail());
         
         EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-        et_mobile.setText(profile.getTel());
+        et_mobile.setText(this.profile.getTel());
         
-        rb = (RatingBar) findViewById(R.id.ratingbar_profile);
-        rb.setRating((float) profile.getRating_avg());
-        
+        this.rb = (RatingBar) findViewById(R.id.ratingbar_profile);
+        this.rb.setRating((float) this.profile.getRating_avg());
         
         if (ratingModus == 1) {
-            rb.setIsIndicator(false);
-            rb.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+            this.rb.setIsIndicator(false);
+            this.rb.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
                 
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -75,8 +109,8 @@ public class ProfileActivity extends Activity {
                 }
             });
         } else {
-            rb.setIsIndicator(true);
-            rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            this.rb.setIsIndicator(true);
+            this.rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -86,10 +120,10 @@ public class ProfileActivity extends Activity {
         }
         
         TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
-        tv_rating.setText(String.valueOf(profile.getRating_avg()));
+        tv_rating.setText(String.valueOf(this.profile.getRating_avg()));
         
         EditText et_desc = (EditText) findViewById(R.id.et_description_profile);
-        et_desc.setText(profile.getDescription());
+        et_desc.setText(this.profile.getDescription());
         // // car = "";
         // et_car.setText(car);
         

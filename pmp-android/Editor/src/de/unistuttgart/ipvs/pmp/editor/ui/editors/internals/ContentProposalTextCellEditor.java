@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -25,23 +44,25 @@ public class ContentProposalTextCellEditor extends TextCellEditor {
 	private void enableContentProposal(
 			IContentProposalProvider contentProposalProvider,
 			KeyStroke keyStroke, char[] autoActivationCharacters) {
-		contentProposalAdapter = new ContentProposalAdapter(this.getControl(),
+		this.contentProposalAdapter = new ContentProposalAdapter(getControl(),
 				new TextContentAdapter(), contentProposalProvider, keyStroke,
 				autoActivationCharacters);
 
 		// Listen for popup open/close events to be able to handle focus events
 		// correctly
-		contentProposalAdapter
+		this.contentProposalAdapter
 				.addContentProposalListener(new IContentProposalListener2() {
 
+					@Override
 					public void proposalPopupClosed(
 							ContentProposalAdapter adapter) {
-						popupOpen = false;
+						ContentProposalTextCellEditor.this.popupOpen = false;
 					}
 
+					@Override
 					public void proposalPopupOpened(
 							ContentProposalAdapter adapter) {
-						popupOpen = true;
+						ContentProposalTextCellEditor.this.popupOpen = true;
 					}
 				});
 	}
@@ -52,11 +73,12 @@ public class ContentProposalTextCellEditor extends TextCellEditor {
 	 * @return the {@link ContentProposalAdapter}
 	 */
 	public ContentProposalAdapter getContentProposalAdapter() {
-		return contentProposalAdapter;
+		return this.contentProposalAdapter;
 	}
 
+	@Override
 	protected void focusLost() {
-		if (!popupOpen) {
+		if (!this.popupOpen) {
 			// Focus lost deactivates the cell editor.
 			// This must not happen if focus lost was caused by activating
 			// the completion proposal popup.
@@ -64,6 +86,7 @@ public class ContentProposalTextCellEditor extends TextCellEditor {
 		}
 	}
 
+	@Override
 	protected boolean dependsOnExternalFocusListener() {
 		// Always return false;
 		// Otherwise, the ColumnViewerEditor will install an additional focus

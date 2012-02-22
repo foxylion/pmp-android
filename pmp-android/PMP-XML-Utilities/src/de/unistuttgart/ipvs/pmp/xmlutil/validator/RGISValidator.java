@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -25,7 +25,6 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
-import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -51,8 +50,9 @@ public class RGISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             rgis.clearIssues();
+        }
         
         /*
          * Validate the app information and the service features 
@@ -77,8 +77,9 @@ public class RGISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             rgis.clearRGInformationIssues();
+        }
         
         /*
          * Validate names and descriptions
@@ -89,19 +90,22 @@ public class RGISValidator extends AbstractValidator {
         /*
          * Validate, if the identifier is set
          */
-        if (!checkValueSet(rgis.getIdentifier()))
+        if (!checkValueSet(rgis.getIdentifier())) {
             issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, rgis));
+        }
         
         /*
          * Validate, if the icon is set
          */
-        if (!checkValueSet(rgis.getIconLocation()))
+        if (!checkValueSet(rgis.getIconLocation())) {
             issueList.add(new Issue(IssueType.ICON_MISSING, rgis));
+        }
         /*
          * Validate, if the class name is set
          */
-        if (!checkValueSet(rgis.getClassName()))
+        if (!checkValueSet(rgis.getClassName())) {
             issueList.add(new Issue(IssueType.CLASSNAME_MISSING, rgis));
+        }
         
         // Attach data
         attachData(issueList, attachData);
@@ -123,8 +127,9 @@ public class RGISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             rgis.clearPSIssues();
+        }
         
         /*
          * Validate the occurrences of identifier of privacy settings
@@ -176,8 +181,9 @@ public class RGISValidator extends AbstractValidator {
         List<IIssue> issueList = new ArrayList<IIssue>();
         
         // Clear the attached issues, if the issues should be attached
-        if (attachData)
+        if (attachData) {
             ps.clearIssues();
+        }
         
         /*
          * Validate names, descriptions and change descriptions
@@ -189,14 +195,16 @@ public class RGISValidator extends AbstractValidator {
         /*
          * Validate, if the identifier is set
          */
-        if (!checkValueSet(ps.getIdentifier()))
+        if (!checkValueSet(ps.getIdentifier())) {
             issueList.add(new Issue(IssueType.IDENTIFIER_MISSING, ps));
+        }
         
         /*
          * Validate, if the valid value description is set
          */
-        if (!checkValueSet(ps.getValidValueDescription()))
+        if (!checkValueSet(ps.getValidValueDescription())) {
             issueList.add(new Issue(IssueType.VALID_VALUE_DESCRIPTION_MISSING, ps));
+        }
         
         // Attach data
         attachData(issueList, attachData);
@@ -211,7 +219,7 @@ public class RGISValidator extends AbstractValidator {
      * @param rgis
      *            the IRGIS
      */
-    public void clearIssuesAndPropagate(RGIS rgis) {
+    public void clearIssuesAndPropagate(IRGIS rgis) {
         rgis.clearIssues();
         for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
             ps.clearIssues();

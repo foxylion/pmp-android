@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,9 @@ import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
  * 
  */
 public class BasicISCompiler {
+    
+    public static final SimpleDateFormat REVISION_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+    
     
     /**
      * Create a list of XMLNodes with names and descriptions from a BasicIS

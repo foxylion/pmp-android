@@ -1,8 +1,8 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,19 +35,17 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Wrapper of the AISValidator. The following issues are also attached to the
- * subobjects: 
- * - NAME_LOCALE_OCCURRED_TOO_OFTEN 
- * - DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN 
- * - SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE
- * - SF_IDENTIFIER_OCCURRED_TOO_OFTEN 
- * - RRG_IDENTIFIER_OCCURRED_TOO_OFTEN 
- * - RPS_IDENTIFIER_OCCURRED_TOO_OFTEN
+ * subobjects: - NAME_LOCALE_OCCURRED_TOO_OFTEN -
+ * DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN -
+ * SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE -
+ * SF_IDENTIFIER_OCCURRED_TOO_OFTEN - RRG_IDENTIFIER_OCCURRED_TOO_OFTEN -
+ * RPS_IDENTIFIER_OCCURRED_TOO_OFTEN
  * 
  * @author Marcus Vetter
  * 
  */
 public class AISValidatorWrapper extends AISValidator {
-	
+
 	/**
 	 * ValidatorWrapperHelper
 	 */
@@ -68,7 +66,7 @@ public class AISValidatorWrapper extends AISValidator {
 		}
 		return instance;
 	}
-	
+
 	@Override
 	public List<IIssue> validateAIS(IAIS ais, boolean attachData) {
 		List<IIssue> issues = super.validateAIS(ais, attachData);
@@ -141,7 +139,7 @@ public class AISValidatorWrapper extends AISValidator {
 						IBasicIS nameLocation = (IBasicIS) issue.getLocation();
 
 						// Attach names with issue
-						helper.attachIBasicIS(nameLocation.getNames(),
+						this.helper.attachIBasicIS(nameLocation.getNames(),
 								IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -153,10 +151,11 @@ public class AISValidatorWrapper extends AISValidator {
 						IBasicIS descrLocation = (IBasicIS) issue.getLocation();
 
 						// Attach descriptions with issue
-						helper.attachIBasicIS(
-								descrLocation.getDescriptions(),
-								IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-								parameters);
+						this.helper
+								.attachIBasicIS(
+										descrLocation.getDescriptions(),
+										IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+										parameters);
 
 						break;
 
@@ -174,8 +173,9 @@ public class AISValidatorWrapper extends AISValidator {
 							for (IIssue assignedIssue : sf.getIssues()) {
 								if (assignedIssue
 										.getType()
-										.equals(IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE))
+										.equals(IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)) {
 									hasIssue = true;
+								}
 							}
 							if (!hasIssue) {
 								sf.addIssue(new Issue(
@@ -196,7 +196,7 @@ public class AISValidatorWrapper extends AISValidator {
 						for (IAISServiceFeature sf : ais.getServiceFeatures()) {
 							identifierISs.add(sf);
 						}
-						helper.attachIIdentifierIS(identifierISs,
+						this.helper.attachIIdentifierIS(identifierISs,
 								IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -214,7 +214,7 @@ public class AISValidatorWrapper extends AISValidator {
 								.getRequiredResourceGroups()) {
 							iISs.add(rrg);
 						}
-						helper.attachIIdentifierIS(iISs,
+						this.helper.attachIIdentifierIS(iISs,
 								IssueType.RRG_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -232,7 +232,7 @@ public class AISValidatorWrapper extends AISValidator {
 								.getRequiredPrivacySettings()) {
 							identISs.add(ps);
 						}
-						helper.attachIIdentifierIS(identISs,
+						this.helper.attachIIdentifierIS(identISs,
 								IssueType.RPS_IDENTIFIER_OCCURRED_TOO_OFTEN,
 								parameters);
 
@@ -248,6 +248,5 @@ public class AISValidatorWrapper extends AISValidator {
 
 		}
 	}
-
 
 }

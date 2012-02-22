@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.context;
 
 import java.util.List;
@@ -171,7 +190,7 @@ public class DialogContextChange extends Dialog {
             
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                usedContext = contexts.get(which);
+                DialogContextChange.this.usedContext = contexts.get(which);
                 refresh();
                 showDialog();
             }
@@ -198,22 +217,22 @@ public class DialogContextChange extends Dialog {
         /*
          * Only make context annotation deletable when context annotation is not newly created.
          */
-        ((Button) findViewById(R.id.Button_Delete)).setEnabled((contextAnnotation != null));
+        ((Button) findViewById(R.id.Button_Delete)).setEnabled((this.contextAnnotation != null));
         
         /*
          * Only display context when the type is already selected.
          */
-        if (usedContext != null) {
-            if (usedView == null) {
-                usedView = usedContext.getView(getContext());
+        if (this.usedContext != null) {
+            if (this.usedView == null) {
+                this.usedView = this.usedContext.getView(getContext());
             }
             
             /*
              * Try to update the context view with the contextCondition.
              */
             try {
-                if (contextCondition != null) {
-                    usedView.setViewCondition(contextCondition);
+                if (this.contextCondition != null) {
+                    this.usedView.setViewCondition(this.contextCondition);
                 }
             } catch (InvalidConditionException e) {
                 Log.e(this, "The condition which should be assigned seems to be an invalid one.", e);
@@ -221,7 +240,7 @@ public class DialogContextChange extends Dialog {
             
             /* Add the view */
             ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
-            ((LinearLayout) findViewById(R.id.LinearLayout_Context)).addView(usedView.asView());
+            ((LinearLayout) findViewById(R.id.LinearLayout_Context)).addView(this.usedView.asView());
         }
     }
     
@@ -237,13 +256,13 @@ public class DialogContextChange extends Dialog {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySettingEdit(getContext(), privacySetting, overrideValue,
-                        new DialogPrivacySettingEdit.ICallback() {
+                new DialogPrivacySettingEdit(getContext(), DialogContextChange.this.privacySetting,
+                        DialogContextChange.this.overrideValue, new DialogPrivacySettingEdit.ICallback() {
                             
                             @Override
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
-                                    overrideValue = newValue;
+                                    DialogContextChange.this.overrideValue = newValue;
                                     refresh();
                                 }
                             }
@@ -261,20 +280,24 @@ public class DialogContextChange extends Dialog {
                 /*
                  * When the override value is null the context can't be created, so inform the user.
                  */
-                if (overrideValue == null) {
+                if (DialogContextChange.this.overrideValue == null) {
                     Toast.makeText(getContext(),
                             "Please first configure the Privacy Setting over the 'Change value' button.",
                             Toast.LENGTH_LONG).show();
                 } else {
                     /* Try to create the context annotation. */
-                    contextCondition = usedView.getViewCondition();
+                    DialogContextChange.this.contextCondition = DialogContextChange.this.usedView.getViewCondition();
                     
                     try {
                         /* First add, then delete, 'cause if something went wrong during assign the old value will still be set. */
-                        preset.assignContextAnnotation(privacySetting, usedContext, contextCondition, overrideValue);
+                        DialogContextChange.this.preset.assignContextAnnotation(
+                                DialogContextChange.this.privacySetting, DialogContextChange.this.usedContext,
+                                DialogContextChange.this.contextCondition, DialogContextChange.this.overrideValue);
                         
-                        if (contextAnnotation != null) {
-                            preset.removeContextAnnotation(privacySetting, contextAnnotation);
+                        if (DialogContextChange.this.contextAnnotation != null) {
+                            DialogContextChange.this.preset
+                                    .removeContextAnnotation(DialogContextChange.this.privacySetting,
+                                            DialogContextChange.this.contextAnnotation);
                         }
                     } catch (InvalidConditionException e) {
                         Log.e(DialogContextChange.this, "Couldn't set new value for ContextAnnotaion, ICE", e);
@@ -298,7 +321,8 @@ public class DialogContextChange extends Dialog {
             
             @Override
             public void onClick(View v) {
-                preset.removeContextAnnotation(privacySetting, contextAnnotation);
+                DialogContextChange.this.preset.removeContextAnnotation(DialogContextChange.this.privacySetting,
+                        DialogContextChange.this.contextAnnotation);
                 dismiss();
             }
         });
@@ -324,8 +348,8 @@ public class DialogContextChange extends Dialog {
         ((LinearLayout) findViewById(R.id.LinearLayout_Context)).removeAllViews();
         
         /* Inform the callback. */
-        if (callback != null) {
-            callback.callback();
+        if (this.callback != null) {
+            this.callback.callback();
         }
     }
 }

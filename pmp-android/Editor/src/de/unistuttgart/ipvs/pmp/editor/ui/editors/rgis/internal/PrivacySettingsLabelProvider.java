@@ -1,11 +1,31 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
-import java.util.Locale;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 public class PrivacySettingsLabelProvider extends LabelProvider {
 
@@ -17,8 +37,29 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
 					+ ")";
 		}
 
-		if (element instanceof IEncapsulatedString) {
-			return ((IEncapsulatedString)element).getString();
+		if (element instanceof EncapsulatedString) {
+			EncapsulatedString es = (EncapsulatedString) element;
+			String string = es.getString();
+
+			if (string == null) {
+				string = "Undefined";
+			}
+
+			// Trim the string
+			if (string.length() > 50) {
+				string = string.substring(0, 50) + "...";
+			}
+
+			if (element instanceof NameString) {
+				return "Name: " + string;
+			}
+			if (element instanceof DescriptionString) {
+				return "Description: " + string;
+			}
+
+			if (element instanceof ChangeDescriptionString) {
+				return "Change Description: " + string;
+			}
 		}
 
 		return "Undefined";
@@ -26,33 +67,42 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
+		// Get PS
+		RGISPrivacySetting ps = null;
 		if (element instanceof RGISPrivacySetting) {
-			RGISPrivacySetting ps = (RGISPrivacySetting) element;
-			if (ps.getIdentifier() == null || ps.getIdentifier().isEmpty()
-					|| ps.getValidValueDescription() == null
-					|| ps.getValidValueDescription().isEmpty()) {
+			ps = (RGISPrivacySetting) element;
+
+			if (ps.getIssues().isEmpty()) {
+				return Images.INFO16;
+			} else {
 				return Images.ERROR16;
 			}
 
-			// Show also an error icon, if default name or desc is not set
-			String name = ps.getNameForLocale(Locale.ENGLISH);
-			String desc = ps.getDescriptionForLocale(Locale.ENGLISH);
+		} else if (element instanceof EncapsulatedString) {
+			EncapsulatedString es = (EncapsulatedString) element;
+			ps = es.getPrivacySetting();
 
-			if (name == null || name.isEmpty() || desc == null
-					|| desc.isEmpty()) {
-				return Images.ERROR16;
+			// Show icon only if this field is invalid
+			for (IIssue i : ps.getIssues()) {
+				IssueType type = i.getType();
+				if (es instanceof NameString
+						&& (type == IssueType.NAME_LOCALE_EN_MISSING
+								|| type == IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN || type == IssueType.NAME_MISSING)) {
+					return Images.ERROR16;
+				}
+
+				if (es instanceof DescriptionString
+						&& (type == IssueType.DESCRIPTION_LOCALE_EN_MISSING || type == IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)) {
+					return Images.ERROR16;
+				}
+
+				if (es instanceof ChangeDescriptionString
+						&& (type == IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING || type == IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)) {
+					return Images.ERROR16;
+				}
+				// System.out.println("Issue: " + i.getType());
 			}
-
 			return Images.INFO16;
-		}
-
-		// Check if the default-name and desc are set and show warning when not
-		if (element instanceof String) {
-			if (((String) element).isEmpty()) {
-				return Images.ERROR16;
-			}
-
-			return Images.FILE16;
 		}
 
 		return null;

@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.privacysetting;
 
 import android.content.Context;
@@ -71,13 +90,14 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = layoutInflater.inflate(R.layout.listitem_preset_ps, null);
         
-        v.setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.FILL_PARENT,
-                ListView.LayoutParams.WRAP_CONTENT));
+        v.setLayoutParams(new ListView.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         
         addView(v);
         
         // Set LayoutParams of view to fill_parent for width.
-        setLayoutParams(new ListView.LayoutParams(ListView.LayoutParams.FILL_PARENT, ListView.LayoutParams.WRAP_CONTENT));
+        setLayoutParams(new ListView.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         
         addListener();
         
@@ -93,7 +113,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
          * Check whether the number of contexts is greater than 0.
          * If not, hide the toggle indicator and hide the menu/empty context list.
          */
-        if (preset.getContextAnnotations(privacySetting).size() == 0) {
+        if (this.preset.getContextAnnotations(this.privacySetting).size() == 0) {
             ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.GONE);
             ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).setVisibility(View.GONE);
         } else {
@@ -146,10 +166,11 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                if (preset.getContextAnnotations(privacySetting).size() > 0) {
+                if (ViewPrivacySettingPreset.this.preset.getContextAnnotations(
+                        ViewPrivacySettingPreset.this.privacySetting).size() > 0) {
                     toggleMenuAndContexts();
                 } else {
-                    adapter.reactOnItemClick(ViewPrivacySettingPreset.this);
+                    ViewPrivacySettingPreset.this.adapter.reactOnItemClick(ViewPrivacySettingPreset.this);
                 }
             }
         });
@@ -163,7 +184,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                     
                     @Override
                     public boolean onLongClick(View v) {
-                        adapter.reactOnItemClick(ViewPrivacySettingPreset.this);
+                        ViewPrivacySettingPreset.this.adapter.reactOnItemClick(ViewPrivacySettingPreset.this);
                         
                         return true;
                     }
@@ -176,7 +197,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySettingInformation(getContext(), privacySetting).show();
+                new DialogPrivacySettingInformation(getContext(), ViewPrivacySettingPreset.this.privacySetting).show();
             }
         });
         
@@ -190,25 +211,29 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                 /*
                  * Open the edit dialog and react on a change.
                  */
-                new DialogPrivacySettingEdit(getContext(), privacySetting, preset
-                        .getGrantedPrivacySettingValue(privacySetting), new DialogPrivacySettingEdit.ICallback() {
-                    
-                    @Override
-                    public void result(boolean changed, String newValue) {
-                        if (changed) {
-                            try {
-                                preset.assignPrivacySetting(privacySetting, newValue);
-                            } catch (PrivacySettingValueException e) {
-                                Log.e(ViewPrivacySettingPreset.this, "Couldn't set new value for PrivacySetting, PSVE",
-                                        e);
-                                GUITools.showToast(getContext(),
-                                        getContext().getString(R.string.failure_invalid_ps_value), Toast.LENGTH_LONG);
-                            }
+                new DialogPrivacySettingEdit(getContext(), ViewPrivacySettingPreset.this.privacySetting,
+                        ViewPrivacySettingPreset.this.preset
+                                .getGrantedPrivacySettingValue(ViewPrivacySettingPreset.this.privacySetting),
+                        new DialogPrivacySettingEdit.ICallback() {
                             
-                            refresh();
-                        }
-                    }
-                }).show();
+                            @Override
+                            public void result(boolean changed, String newValue) {
+                                if (changed) {
+                                    try {
+                                        ViewPrivacySettingPreset.this.preset.assignPrivacySetting(
+                                                ViewPrivacySettingPreset.this.privacySetting, newValue);
+                                    } catch (PrivacySettingValueException e) {
+                                        Log.e(ViewPrivacySettingPreset.this,
+                                                "Couldn't set new value for PrivacySetting, PSVE", e);
+                                        GUITools.showToast(getContext(),
+                                                getContext().getString(R.string.failure_invalid_ps_value),
+                                                Toast.LENGTH_LONG);
+                                    }
+                                    
+                                    refresh();
+                                }
+                            }
+                        }).show();
             }
         });
         
@@ -222,8 +247,8 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                 /*
                  * Open a dialog for configuring the new context.
                  */
-                new DialogContextChange(getContext(), preset, privacySetting, null,
-                        new DialogContextChange.ICallback() {
+                new DialogContextChange(getContext(), ViewPrivacySettingPreset.this.preset,
+                        ViewPrivacySettingPreset.this.privacySetting, null, new DialogContextChange.ICallback() {
                             
                             @Override
                             public void callback() {
@@ -240,7 +265,8 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                adapter.removePrivacySetting(privacySetting);
+                ViewPrivacySettingPreset.this.adapter
+                        .removePrivacySetting(ViewPrivacySettingPreset.this.privacySetting);
             }
         });
     }
@@ -274,8 +300,8 @@ public class ViewPrivacySettingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogContextChange(getContext(), preset, privacySetting, context,
-                        new DialogContextChange.ICallback() {
+                new DialogContextChange(getContext(), ViewPrivacySettingPreset.this.preset,
+                        ViewPrivacySettingPreset.this.privacySetting, context, new DialogContextChange.ICallback() {
                             
                             @Override
                             public void callback() {

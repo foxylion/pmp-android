@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -137,6 +137,11 @@ public class XMLNode {
     
     public void addAttribute(XMLAttribute attribute) {
         this.attributes.add(attribute);
+    }
+    
+    
+    public boolean removeAttribute(XMLAttribute attribute) {
+        return this.attributes.remove(attribute);
     }
     
 }

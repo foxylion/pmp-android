@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
 import org.eclipse.jface.bindings.keys.KeyStroke;
@@ -31,35 +50,45 @@ public class AutocompleteTextCellEditor extends TextCellEditor {
 		super(parent);
 
 		proposalProvider.setFiltering(true);
-		adapter = new ContentProposalAdapter(text, new TextContentAdapter(),
-				proposalProvider, keyStroke, autoActivationCharacters);
+		this.adapter = new ContentProposalAdapter(this.text,
+				new TextContentAdapter(), proposalProvider, keyStroke,
+				autoActivationCharacters);
 		// adapter.setPropagateKeys(true);
-		adapter.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+		this.adapter
+				.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
 
 		// Listen for popup open/close events to be able to handle focus events
 		// correctly
-		adapter.addContentProposalListener(new IContentProposalListener2() {
+		this.adapter
+				.addContentProposalListener(new IContentProposalListener2() {
 
-			public void proposalPopupClosed(ContentProposalAdapter adapter) {
-				if (!text.isFocusControl()) {
-					focusLost();// fireApplyEditorValue();
-				}
-			}
+					@Override
+					public void proposalPopupClosed(
+							ContentProposalAdapter adapter) {
+						if (!AutocompleteTextCellEditor.this.text
+								.isFocusControl()) {
+							focusLost();// fireApplyEditorValue();
+						}
+					}
 
-			public void proposalPopupOpened(ContentProposalAdapter adapter) {
-			}
-		});
+					@Override
+					public void proposalPopupOpened(
+							ContentProposalAdapter adapter) {
+					}
+				});
 	}
 
+	@Override
 	protected void focusLost() {
 
-		if (!adapter.isProposalPopupOpen()) {
+		if (!this.adapter.isProposalPopupOpen()) {
 			// this.fireApplyEditorValue();
 			super.focusLost();
 		}
 
 	}
 
+	@Override
 	protected boolean dependsOnExternalFocusListener() {
 		return false;
 	}

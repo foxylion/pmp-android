@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
 import android.app.Dialog;
@@ -78,13 +97,14 @@ public class DialogInstalledDetails extends Dialog {
                     @Override
                     public void callback(boolean confirmed) {
                         if (confirmed) {
-                            ModelProxy.get().uninstallResourceGroup(resourcegroup.getIdentifier());
+                            ModelProxy.get().uninstallResourceGroup(
+                                    DialogInstalledDetails.this.resourcegroup.getIdentifier());
                             
                             Toast.makeText(getContext(), getContext().getString(R.string.rg_removed_success),
                                     Toast.LENGTH_LONG).show();
                             
                             dismiss();
-                            parent.refreshList();
+                            DialogInstalledDetails.this.parent.refreshList();
                             
                             /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
                             new Thread() {
@@ -95,7 +115,7 @@ public class DialogInstalledDetails extends Dialog {
                                         Thread.sleep(2000);
                                     } catch (InterruptedException e) {
                                     }
-                                    Restarter.killAppAndRestartActivity(parent.getParent());
+                                    Restarter.killAppAndRestartActivity(DialogInstalledDetails.this.parent.getParent());
                                 };
                             }.start();
                         }

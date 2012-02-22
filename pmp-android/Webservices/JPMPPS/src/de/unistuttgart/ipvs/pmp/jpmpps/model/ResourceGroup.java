@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: JPMPPS
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.jpmpps.model;
 
 import java.io.File;
@@ -9,6 +28,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPS;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.RGISParser;
 import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -22,13 +42,24 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  */
 public class ResourceGroup {
     
-    private static final int REVISION_CHECK_DELAY = 60 * 1000;
-    
+    /**
+     * Path to the {@link ResourceGroup}.
+     */
     private File path;
     
+    /**
+     * Instance of the {@link IRGIS}.
+     */
     private IRGIS parsedRGIS = null;
     
+    /**
+     * The latest known revision of the {@link ResourceGroup}.
+     */
     private long revision = Long.MIN_VALUE;
+    
+    /**
+     * The time of last revision check.
+     */
     private long lastRevisionUpdate = 0;
     
     
@@ -66,15 +97,22 @@ public class ResourceGroup {
     }
     
     
+    /**
+     * @return Return an instance of the {@link IRGIS}.
+     */
     public IRGIS getRGIS() {
         long currentRevision = getRevision();
         
-        if (parsedRGIS != null && revision == currentRevision) {
-            return parsedRGIS;
+        /* 
+         * When a RGIS is available an the current revision is the newest one,
+         * directly return the instance of the RGIS.
+         */
+        if (this.parsedRGIS != null && this.revision == currentRevision) {
+            return this.parsedRGIS;
         }
         
         /* Update the revision */
-        revision = currentRevision;
+        this.revision = currentRevision;
         
         /* Start new parsing execution. */
         RGISParser parser = new RGISParser();
@@ -87,14 +125,14 @@ public class ResourceGroup {
                 return null;
             }
             InputStream stream = zip.getInputStream(entry);
-            parsedRGIS = parser.parse(stream);
+            this.parsedRGIS = parser.parse(stream);
             
         } catch (IOException e) {
             System.out.println("[E] Failed to load rgis.xml from package " + getPath().toString()
                     + ", skipping. (Error: " + e.getMessage() + ")");
         }
         
-        return parsedRGIS;
+        return this.parsedRGIS;
     }
     
     
@@ -103,8 +141,8 @@ public class ResourceGroup {
      */
     public long getRevision() {
         long revision = this.revision;
-        if (this.lastRevisionUpdate + REVISION_CHECK_DELAY < System.currentTimeMillis()) {
-            revision = RevisionReader.get().readRevision(path);
+        if (this.lastRevisionUpdate + JPMPPS.REVISION_UPDATE_DELAY < System.currentTimeMillis()) {
+            revision = RevisionReader.get().readRevision(this.path);
         }
         
         return revision;
@@ -128,7 +166,7 @@ public class ResourceGroup {
         lrg.setDescription(description != null ? description : getRGIS().getDescriptionForLocale(Locale.ENGLISH));
         
         lrg.setIdentifier(getRGIS().getIdentifier());
-        lrg.setRevision(RevisionReader.get().readRevision(path));
+        lrg.setRevision(RevisionReader.get().readRevision(this.path));
         
         return lrg;
     }

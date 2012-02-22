@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
 import java.util.HashMap;
@@ -17,6 +36,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -31,14 +52,17 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.DescriptionContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.NameContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.DescriptionContentProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.contentprovider.NameContentProvider;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ais.dialogs.ServiceFeatureDescriptionDialog;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTableListener;
+import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
@@ -51,608 +75,750 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
  */
 public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
-    /**
-     * ID of this page
-     */
-    public static final String ID = "ais_service_feature_names";
+	/**
+	 * ID of this page
+	 */
+	public static final String ID = "ais_service_feature_names";
 
-    /**
-     * Given form
-     */
-    private IManagedForm form;
+	/**
+	 * Given form
+	 */
+	private IManagedForm form;
 
-    /**
-     * {@link Shell} of the parent
-     */
-    private Shell parentShell;
+	/**
+	 * {@link Shell} of the parent
+	 */
+	private Shell parentShell;
 
-    /**
-     * {@link TableViewer} for the names table
-     */
-    private TableViewer nameTableViewer;
+	/**
+	 * {@link TableViewer} for the names table
+	 */
+	private TableViewer nameTableViewer;
 
-    /**
-     * The columns of the names table
-     */
-    private TableColumn nameColumn;
-    private TableColumn localeNameColumn;
+	/**
+	 * The columns of the names table
+	 */
+	private TableColumn nameColumn;
+	private TableColumn localeNameColumn;
 
-    /**
-     * {@link TableViewer} for the description table
-     */
-    private TableViewer descriptionTableViewer;
+	/**
+	 * {@link TableViewer} for the description table
+	 */
+	private TableViewer descriptionTableViewer;
 
-    /**
-     * The columns of the names table
-     */
-    private TableColumn descColumn;
-    private TableColumn localeDescColumn;
+	/**
+	 * The columns of the names table
+	 */
+	private TableColumn descColumn;
+	private TableColumn localeDescColumn;
 
-    /**
-     * The displayed ServiceFeature
-     */
-    AISServiceFeature displayed;
+	/**
+	 * Action of the remove description
+	 */
+	private Action removeDesc;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.ui.forms.IFormPart#initialize(org.eclipse.ui.forms.IManagedForm
-     * )
-     */
-    @Override
-    public void initialize(IManagedForm arg0) {
-	form = arg0;
-    }
+	/**
+	 * The remove name action
+	 */
+	private Action removeName;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.ui.forms.IDetailsPage#createContents(org.eclipse.swt.widgets
-     * .Composite)
-     */
-    @Override
-    public void createContents(Composite parent) {
-	parentShell = parent.getShell();
+	/**
+	 * The displayed ServiceFeature
+	 */
+	AISServiceFeature displayed;
 
-	// Set parent's layout
-	GridData parentLayout = new GridData();
-	parentLayout.verticalAlignment = GridData.FILL;
-	parentLayout.grabExcessVerticalSpace = true;
-	parentLayout.horizontalAlignment = GridData.FILL;
-	parentLayout.grabExcessHorizontalSpace = true;
-	parent.setLayout(new GridLayout(1, false));
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.forms.IFormPart#initialize(org.eclipse.ui.forms.IManagedForm
+	 * )
+	 */
+	@Override
+	public void initialize(IManagedForm arg0) {
+		this.form = arg0;
+	}
 
-	// Attributes section
-	FormToolkit toolkit = form.getToolkit();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.forms.IDetailsPage#createContents(org.eclipse.swt.widgets
+	 * .Composite)
+	 */
+	@Override
+	public void createContents(Composite parent) {
+		this.parentShell = parent.getShell();
 
-	// The name section
-	Section nameSection = toolkit.createSection(parent,
-		Section.CLIENT_INDENT | Section.TITLE_BAR);
-	nameSection.setText("Names");
-	nameSection.setLayout(new GridLayout(1, false));
-	nameSection.setExpanded(true);
-	nameSection.setLayoutData(parentLayout);
-	createNameSectionAttributeToolbar(nameSection);
+		// Set parent's layout
+		GridData parentLayout = new GridData();
+		parentLayout.verticalAlignment = GridData.FILL;
+		parentLayout.grabExcessVerticalSpace = true;
+		parentLayout.horizontalAlignment = GridData.FILL;
+		parentLayout.grabExcessHorizontalSpace = true;
+		parent.setLayout(new GridLayout(1, false));
 
-	// The description section
-	Section descriptionSection = toolkit.createSection(parent,
-		Section.CLIENT_INDENT | Section.TITLE_BAR);
-	descriptionSection.setText("Descriptions");
-	descriptionSection.setLayout(new GridLayout(1, false));
-	descriptionSection.setExpanded(true);
-	descriptionSection.setLayoutData(parentLayout);
-	createDescriptionSectionAttributeToolbar(descriptionSection);
+		// Attributes section
+		FormToolkit toolkit = this.form.getToolkit();
 
-	// Composite that is display in the description section
-	Composite descriptionComposite = toolkit
-		.createComposite(descriptionSection);
-	descriptionComposite.setLayout(new GridLayout(1, false));
-	descriptionComposite.setLayoutData(parentLayout);
-	createDescriptionTable(descriptionComposite, toolkit);
+		// The name section
+		Section nameSection = toolkit.createSection(parent,
+				ExpandableComposite.CLIENT_INDENT
+						| ExpandableComposite.TITLE_BAR);
+		nameSection.setText("Names");
+		nameSection.setLayout(new GridLayout(1, false));
+		nameSection.setExpanded(true);
+		nameSection.setLayoutData(parentLayout);
+		createNameSectionAttributeToolbar(nameSection);
 
-	// Composite that is display in the name section
-	Composite nameComposite = toolkit.createComposite(nameSection);
-	nameComposite.setLayout(new GridLayout(1, false));
-	nameComposite.setLayoutData(parentLayout);
-	createNameTable(nameComposite, toolkit);
+		// The description section
+		Section descriptionSection = toolkit.createSection(parent,
+				ExpandableComposite.CLIENT_INDENT
+						| ExpandableComposite.TITLE_BAR);
+		descriptionSection.setText("Descriptions");
+		descriptionSection.setLayout(new GridLayout(1, false));
+		descriptionSection.setExpanded(true);
+		descriptionSection.setLayoutData(parentLayout);
+		createDescriptionSectionAttributeToolbar(descriptionSection);
 
-	// Set the composites
-	descriptionSection.setClient(descriptionComposite);
-	nameSection.setClient(nameComposite);
-    }
+		// Composite that is display in the description section
+		Composite descriptionComposite = toolkit
+				.createComposite(descriptionSection);
+		descriptionComposite.setLayout(new GridLayout(1, false));
+		descriptionComposite.setLayoutData(parentLayout);
+		createDescriptionTable(descriptionComposite, toolkit);
 
-    private TableViewer createNameTable(Composite parent, FormToolkit toolkit) {
-	// Use grid layout so that the table uses the whole screen width
-	final GridData layoutData = new GridData();
-	layoutData.horizontalAlignment = GridData.FILL;
-	layoutData.grabExcessHorizontalSpace = true;
-	layoutData.verticalAlignment = GridData.FILL;
-	layoutData.grabExcessVerticalSpace = true;
+		// Composite that is display in the name section
+		Composite nameComposite = toolkit.createComposite(nameSection);
+		nameComposite.setLayout(new GridLayout(1, false));
+		nameComposite.setLayoutData(parentLayout);
+		createNameTable(nameComposite, toolkit);
 
-	// Workaround for SWT-Bug needed
-	// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
-	layoutData.widthHint = 1;
+		// Set the composites
+		descriptionSection.setClient(descriptionComposite);
+		nameSection.setClient(nameComposite);
+	}
 
-	nameTableViewer = new TableViewer(parent, SWT.BORDER
-		| SWT.FULL_SELECTION | SWT.MULTI);
-	nameTableViewer.setContentProvider(new NameContentProvider());
+	private TableViewer createNameTable(Composite parent, FormToolkit toolkit) {
+		// Use grid layout so that the table uses the whole screen width
+		final GridData layoutData = new GridData();
+		layoutData.horizontalAlignment = GridData.FILL;
+		layoutData.grabExcessHorizontalSpace = true;
+		layoutData.verticalAlignment = GridData.FILL;
+		layoutData.grabExcessVerticalSpace = true;
 
-	// The locale column with the LabelProvider
-	TableViewerColumn localeColumn = new TableViewerColumn(nameTableViewer,
-		SWT.NULL);
-	localeColumn.getColumn().setText("Locale");
-	localeColumn.setLabelProvider(new ColumnLabelProvider() {
-	    @Override
-	    public String getText(Object element) {
-		return ((LocalizedString) element).getLocale().toString();
-	    }
+		// Workaround for SWT-Bug needed
+		// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
+		layoutData.widthHint = 1;
 
-	    @Override
-	    public Image getImage(Object element) {
-		ILocalizedString item = (LocalizedString) element;
-		if (!item.getIssues().isEmpty()) {
-		    return Images.ERROR16;
-		}
-		return null;
-	    }
-	});
+		this.nameTableViewer = new TableViewer(parent, SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.MULTI);
+		this.nameTableViewer.setContentProvider(new NameContentProvider());
 
-	this.localeNameColumn = localeColumn.getColumn();
+		// Disable the default tool tips
+		this.nameTableViewer.getTable().setToolTipText("");
 
-	// The description column with the LabelProvider
-	TableViewerColumn nameColumn = new TableViewerColumn(nameTableViewer,
-		SWT.NULL);
-	nameColumn.getColumn().setText("Name");
-	nameColumn.setLabelProvider(new ColumnLabelProvider() {
-	    @Override
-	    public String getText(Object element) {
-		return ((LocalizedString) element).getString();
-	    }
-	});
+		TooltipTableListener tooltipListener = new TooltipTableListener(
+				this.nameTableViewer, this.parentShell);
 
-	this.nameColumn = nameColumn.getColumn();
+		this.nameTableViewer.getTable().addListener(SWT.Dispose,
+				tooltipListener);
+		this.nameTableViewer.getTable().addListener(SWT.KeyDown,
+				tooltipListener);
+		this.nameTableViewer.getTable().addListener(SWT.MouseMove,
+				tooltipListener);
+		this.nameTableViewer.getTable().addListener(SWT.MouseHover,
+				tooltipListener);
 
-	// Define the table's view
-	Table descriptionTable = nameTableViewer.getTable();
-	descriptionTable.setLayoutData(layoutData);
-	descriptionTable.setHeaderVisible(true);
-	descriptionTable.setLinesVisible(true);
+		this.nameTableViewer.getTable().addSelectionListener(
+				new SelectionListener() {
 
-	// Add the double click listener
-	nameTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+					@Override
+					public void widgetSelected(SelectionEvent arg0) {
+						if (ServiceFeatureNameDetailsPage.this.nameTableViewer
+								.getTable().getSelectionCount() > 0) {
+							ServiceFeatureNameDetailsPage.this.removeName
+									.setEnabled(true);
+						} else {
+							ServiceFeatureNameDetailsPage.this.removeName
+									.setEnabled(false);
+						}
+					}
 
-	    @Override
-	    public void doubleClick(DoubleClickEvent arg0) {
-		if (nameTableViewer.getTable().getSelectionCount() == 1) {
-		    LocalizedString oldName = (LocalizedString) nameTableViewer
-			    .getTable().getSelection()[0].getData();
+					@Override
+					public void widgetDefaultSelected(SelectionEvent arg0) {
+					}
+				});
 
-		    // Show the dialog
-		    HashMap<String, String> values = new HashMap<String, String>();
-		    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			    parentShell, oldName.getLocale().toString(),
-			    oldName.getString(), values, "Name", "Change");
-		    if (dialog.open() == Window.OK) {
-			String newName = values.get("Name");
-			String newLocale = values.get("locale");
-
-			// Sth. has changed
-			if (!(newName.equals(oldName.getString()) && newLocale
-				.equals(oldName.getLocale().toString()))) {
-			    nameTableViewer.getTable().setRedraw(false);
-
-			    Locale locale = new Locale(newLocale);
-
-			    oldName.setLocale(locale);
-			    oldName.setString(newName);
-
-			    Model.getInstance().setAISDirty(true);
-			    nameTableViewer.refresh();
-
-			    // Redraw the table
-			    ServiceFeatureNameDetailsPage.this.nameColumn
-				    .pack();
-			    localeNameColumn.pack();
-
-			    nameTableViewer.getTable().redraw();
-			    nameTableViewer.getTable().setRedraw(true);
+		// The locale column with the LabelProvider
+		TableViewerColumn localeColumn = new TableViewerColumn(
+				this.nameTableViewer, SWT.NULL);
+		localeColumn.getColumn().setText("Locale");
+		localeColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((LocalizedString) element).getLocale().toString();
 			}
-		    }
-		}
 
-	    }
-	});
-
-	return nameTableViewer;
-    }
-
-    public TableViewer createDescriptionTable(Composite parent,
-	    FormToolkit toolkit) {
-	// Use grid layout so that the table uses the whole screen width
-	final GridData layoutData = new GridData();
-	layoutData.horizontalAlignment = GridData.FILL;
-	layoutData.grabExcessHorizontalSpace = true;
-	layoutData.verticalAlignment = GridData.FILL;
-	layoutData.grabExcessVerticalSpace = true;
-
-	// Workaround for SWT-Bug needed
-	// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
-	layoutData.widthHint = 1;
-
-	descriptionTableViewer = new TableViewer(parent, SWT.BORDER
-		| SWT.FULL_SELECTION | SWT.MULTI);
-	descriptionTableViewer
-		.setContentProvider(new DescriptionContentProvider());
-
-	// The locale column with the LabelProvider
-	TableViewerColumn localeColumn = new TableViewerColumn(
-		descriptionTableViewer, SWT.NULL);
-	localeColumn.getColumn().setText("Locale");
-	localeColumn.setLabelProvider(new ColumnLabelProvider() {
-	    @Override
-	    public String getText(Object element) {
-		return ((LocalizedString) element).getLocale().toString();
-	    }
-
-	    @Override
-	    public Image getImage(Object element) {
-		// Add the check if the entry is correct
-		return null;
-	    }
-	});
-
-	this.localeDescColumn = localeColumn.getColumn();
-
-	// The name column with the LabelProvider
-	TableViewerColumn descColumn = new TableViewerColumn(
-		descriptionTableViewer, SWT.NULL);
-	descColumn.getColumn().setText("Description");
-	descColumn.setLabelProvider(new ColumnLabelProvider() {
-	    @Override
-	    public String getText(Object element) {
-		return ((LocalizedString) element).getString();
-	    }
-	});
-
-	this.descColumn = descColumn.getColumn();
-
-	// Define the table's view
-	Table descriptionTable = descriptionTableViewer.getTable();
-	descriptionTable.setLayoutData(layoutData);
-	descriptionTable.setHeaderVisible(true);
-	descriptionTable.setLinesVisible(true);
-
-	// Add the double click listener
-	descriptionTableViewer
-		.addDoubleClickListener(new IDoubleClickListener() {
-
-		    @Override
-		    public void doubleClick(DoubleClickEvent arg0) {
-			if (descriptionTableViewer.getTable()
-				.getSelectionCount() == 1) {
-			    LocalizedString oldDesc = (LocalizedString) descriptionTableViewer
-				    .getTable().getSelection()[0].getData();
-
-			    // Show the dialog
-			    HashMap<String, String> values = new HashMap<String, String>();
-			    ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-				    parentShell,
-				    oldDesc.getLocale().toString(), oldDesc
-					    .getString(), values,
-				    "Description", "Change");
-			    if (dialog.open() == Window.OK) {
-				String newDesc = values.get("Description");
-				String newLocale = values.get("locale");
-
-				// Sth. has changed
-				if (!(newDesc.equals(oldDesc.getString()) && newLocale
-					.equals(oldDesc.getLocale().toString()))) {
-				    descriptionTableViewer.getTable()
-					    .setRedraw(false);
-
-				    Locale locale = new Locale(newLocale);
-
-				    oldDesc.setLocale(locale);
-				    oldDesc.setString(newDesc);
-
-				    Model.getInstance().setAISDirty(true);
-				    descriptionTableViewer.refresh();
-
-				    // Redraw the table
-				    ServiceFeatureNameDetailsPage.this.descColumn
-					    .pack();
-				    localeDescColumn.pack();
-
-				    descriptionTableViewer.getTable()
-					    .setRedraw(true);
-				    descriptionTableViewer.getTable().redraw();
+			@Override
+			public Image getImage(Object element) {
+				ILocalizedString item = (LocalizedString) element;
+				if (!item.getIssues().isEmpty()) {
+					return Images.ERROR16;
 				}
-			    }
+				return null;
 			}
-		    }
 		});
 
-	return descriptionTableViewer;
-    }
+		this.localeNameColumn = localeColumn.getColumn();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.ui.forms.IPartSelectionListener#selectionChanged(org.eclipse
-     * .ui.forms.IFormPart, org.eclipse.jface.viewers.ISelection)
-     */
-    @Override
-    public void selectionChanged(IFormPart arg0, ISelection selection) {
-	// Disable redrawing of the table
-	nameTableViewer.getTable().setRedraw(false);
-	descriptionTableViewer.getTable().setRedraw(false);
+		// The description column with the LabelProvider
+		TableViewerColumn nameColumn = new TableViewerColumn(
+				this.nameTableViewer, SWT.NULL);
+		nameColumn.getColumn().setText("Name");
+		nameColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((LocalizedString) element).getString();
+			}
+		});
 
-	// Get the selected service feature and set the name
-	TreePath[] path = ((TreeSelection) selection).getPaths();
-	displayed = (AISServiceFeature) path[0].getFirstSegment();
-	nameTableViewer.setInput(displayed);
-	localeNameColumn.pack();
-	nameColumn.pack();
+		this.nameColumn = nameColumn.getColumn();
 
-	// Set the description
-	descriptionTableViewer.setInput(displayed);
-	descColumn.pack();
-	localeDescColumn.pack();
+		// Define the table's view
+		Table descriptionTable = this.nameTableViewer.getTable();
+		descriptionTable.setLayoutData(layoutData);
+		descriptionTable.setHeaderVisible(true);
+		descriptionTable.setLinesVisible(true);
 
-	// Enable redrawing
-	nameTableViewer.getTable().setRedraw(true);
-	descriptionTableViewer.getTable().setRedraw(true);
-    }
+		// Add the double click listener
+		this.nameTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 
-    /**
-     * Adds the toolbar with the remove and add buttons to the name section
-     * 
-     * @param section
-     *            {@link Section} to set the toolbar
-     */
-    private void createNameSectionAttributeToolbar(Section section) {
-	// Create the toolbar
-	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
-	ToolBar toolbar = toolBarManager.createControl(section);
+			@Override
+			public void doubleClick(DoubleClickEvent arg0) {
+				if (ServiceFeatureNameDetailsPage.this.nameTableViewer
+						.getTable().getSelectionCount() == 1) {
+					LocalizedString oldName = (LocalizedString) ServiceFeatureNameDetailsPage.this.nameTableViewer
+							.getTable().getSelection()[0].getData();
 
-	final Cursor handCursor = new Cursor(Display.getCurrent(),
-		SWT.CURSOR_HAND);
-	toolbar.setCursor(handCursor);
-	toolbar.addDisposeListener(new DisposeListener() {
-	    public void widgetDisposed(DisposeEvent e) {
-		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
-		    handCursor.dispose();
-		}
-	    }
-	});
+					// Show the dialog
+					HashMap<String, String> values = new HashMap<String, String>();
+					ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+							ServiceFeatureNameDetailsPage.this.parentShell,
+							oldName.getLocale().toString(),
+							oldName.getString(), values, "Name", "Change");
+					if (dialog.open() == Window.OK) {
+						String newName = values.get("Name");
+						String newLocale = values.get("locale");
 
-	// Picture can be added also to the actions
-	Action add = new Action("Add") {
+						// Sth. has changed
+						if (!(newName.equals(oldName.getString()) && newLocale
+								.equals(oldName.getLocale().toString()))) {
+							ServiceFeatureNameDetailsPage.this.nameTableViewer
+									.getTable().setRedraw(false);
 
-	    @Override
-	    public void run() {
-		HashMap<String, String> values = new HashMap<String, String>();
-		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Name", "Add");
-		if (dialog.open() == Window.OK) {
-		    nameTableViewer.getTable().setRedraw(false);
+							Locale locale = new Locale(newLocale);
 
-		    // Get the values
-		    String stringLocale = values.get("locale");
-		    String stringName = values.get("Name");
+							oldName.setLocale(locale);
+							oldName.setString(newName);
 
-		    // Create the things for the model
-		    Locale locale = new Locale(stringLocale);
+							Model.getInstance().setAISDirty(true);
+							AISValidatorWrapper
+									.getInstance()
+									.validateServiceFeature(
+											ServiceFeatureNameDetailsPage.this.displayed,
+											true);
+							ServiceFeatureMasterBlock.refreshTree();
+							ServiceFeatureNameDetailsPage.this.nameTableViewer
+									.refresh();
 
-		    LocalizedString name = new LocalizedString();
-		    name.setLocale(locale);
-		    name.setString(stringName);
+							// Redraw the table
+							ServiceFeatureNameDetailsPage.this.nameColumn
+									.pack();
+							ServiceFeatureNameDetailsPage.this.localeNameColumn
+									.pack();
 
-		    displayed.addName(name);
+							ServiceFeatureNameDetailsPage.this.nameTableViewer
+									.getTable().redraw();
+							ServiceFeatureNameDetailsPage.this.nameTableViewer
+									.getTable().setRedraw(true);
+						}
+					}
+				}
 
-		    Model.getInstance().setAISDirty(true);
-		    nameTableViewer.refresh();
+			}
+		});
 
-		    nameColumn.pack();
-		    localeNameColumn.pack();
+		return this.nameTableViewer;
+	}
 
-		    nameTableViewer.getTable().redraw();
-		    nameTableViewer.getTable().setRedraw(true);
-		}
-	    }
-	};
-	add.setToolTipText("Add a new name for the Service Feature");
+	public TableViewer createDescriptionTable(Composite parent,
+			FormToolkit toolkit) {
+		// Use grid layout so that the table uses the whole screen width
+		final GridData layoutData = new GridData();
+		layoutData.horizontalAlignment = GridData.FILL;
+		layoutData.grabExcessHorizontalSpace = true;
+		layoutData.verticalAlignment = GridData.FILL;
+		layoutData.grabExcessVerticalSpace = true;
 
-	// The remove action
-	Action remove = new Action("Remove") {
+		// Workaround for SWT-Bug needed
+		// (https://bugs.eclipse.org/bugs/show_bug.cgi?id=215997)
+		layoutData.widthHint = 1;
 
-	    @Override
-	    public void run() {
-		nameTableViewer.getTable().setRedraw(false);
-		TableItem[] selection = nameTableViewer.getTable()
-			.getSelection();
+		this.descriptionTableViewer = new TableViewer(parent, SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.MULTI);
 
-		// Delete it out of the model
-		for (TableItem item : selection) {
-		    displayed.removeName((LocalizedString) item.getData());
-		}
-		nameColumn.pack();
-		localeNameColumn.pack();
+		TooltipTableListener descTooltipListener = new TooltipTableListener(
+				this.descriptionTableViewer, this.parentShell);
 
-		nameTableViewer.getTable().setRedraw(true);
-		nameTableViewer.refresh();
-		Model.getInstance().setAISDirty(true);
-	    }
-	};
-	remove.setToolTipText("Remove the selected names");
+		// Disable the default tool tips
+		this.descriptionTableViewer.getTable().setToolTipText("");
 
-	// Add the actions to the toolbar
-	toolBarManager.add(add);
-	toolBarManager.add(remove);
+		this.descriptionTableViewer.getTable().addListener(SWT.Dispose,
+				descTooltipListener);
+		this.descriptionTableViewer.getTable().addListener(SWT.KeyDown,
+				descTooltipListener);
+		this.descriptionTableViewer.getTable().addListener(SWT.MouseMove,
+				descTooltipListener);
+		this.descriptionTableViewer.getTable().addListener(SWT.MouseHover,
+				descTooltipListener);
 
-	toolBarManager.update(true);
-	section.setTextClient(toolbar);
-    }
+		this.descriptionTableViewer
+				.setContentProvider(new DescriptionContentProvider());
 
-    /**
-     * Adds the toolbar with the remove and add buttons to the description
-     * section
-     * 
-     * @param section
-     *            {@link Section} to set the toolbar
-     */
-    private void createDescriptionSectionAttributeToolbar(Section section) {
-	// Create the toolbar
-	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
-	ToolBar toolbar = toolBarManager.createControl(section);
+		// The locale column with the LabelProvider
+		TableViewerColumn localeColumn = new TableViewerColumn(
+				this.descriptionTableViewer, SWT.NULL);
+		localeColumn.getColumn().setText("Locale");
+		localeColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((LocalizedString) element).getLocale().toString();
+			}
+		});
 
-	final Cursor handCursor = new Cursor(Display.getCurrent(),
-		SWT.CURSOR_HAND);
-	toolbar.setCursor(handCursor);
-	toolbar.addDisposeListener(new DisposeListener() {
-	    public void widgetDisposed(DisposeEvent e) {
-		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
-		    handCursor.dispose();
-		}
-	    }
-	});
+		this.localeDescColumn = localeColumn.getColumn();
 
-	// Picture can be added also to the actions
-	Action add = new Action("Add") {
+		// The name column with the LabelProvider
+		TableViewerColumn descColumn = new TableViewerColumn(
+				this.descriptionTableViewer, SWT.NULL);
+		descColumn.getColumn().setText("Description");
+		descColumn.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return ((LocalizedString) element).getString();
+			}
+		});
 
-	    @Override
-	    public void run() {
-		HashMap<String, String> values = new HashMap<String, String>();
-		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Description", "Add");
-		if (dialog.open() == Window.OK) {
-		    descriptionTableViewer.getTable().setRedraw(false);
+		this.descColumn = descColumn.getColumn();
 
-		    // Get the values
-		    String stringLocale = values.get("locale");
-		    String stringDesc = values.get("Description");
+		// Define the table's view
+		Table descriptionTable = this.descriptionTableViewer.getTable();
+		descriptionTable.setLayoutData(layoutData);
+		descriptionTable.setHeaderVisible(true);
+		descriptionTable.setLinesVisible(true);
 
-		    // Create the things for the model
-		    Locale locale = new Locale(stringLocale);
+		descriptionTable.addSelectionListener(new SelectionListener() {
 
-		    LocalizedString desc = new LocalizedString();
-		    desc.setLocale(locale);
-		    desc.setString(stringDesc);
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				if (ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+						.getTable().getSelectionCount() > 0) {
+					ServiceFeatureNameDetailsPage.this.removeDesc
+							.setEnabled(true);
+				} else {
+					ServiceFeatureNameDetailsPage.this.removeDesc
+							.setEnabled(false);
+				}
+			}
 
-		    displayed.addDescription(desc);
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+		});
 
-		    Model.getInstance().setAISDirty(true);
-		    descriptionTableViewer.refresh();
+		// Add the double click listener
+		this.descriptionTableViewer
+				.addDoubleClickListener(new IDoubleClickListener() {
 
-		    descColumn.pack();
-		    localeDescColumn.pack();
+					@Override
+					public void doubleClick(DoubleClickEvent arg0) {
+						if (ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+								.getTable().getSelectionCount() == 1) {
+							LocalizedString oldDesc = (LocalizedString) ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+									.getTable().getSelection()[0].getData();
 
-		    descriptionTableViewer.getTable().redraw();
-		    descriptionTableViewer.getTable().setRedraw(true);
-		}
-	    }
-	};
-	add.setToolTipText("Add a new description for the Service Feature");
+							// Show the dialog
+							HashMap<String, String> values = new HashMap<String, String>();
+							ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+									ServiceFeatureNameDetailsPage.this.parentShell,
+									oldDesc.getLocale().toString(), oldDesc
+											.getString(), values,
+									"Description", "Change");
+							if (dialog.open() == Window.OK) {
+								String newDesc = values.get("Description");
+								String newLocale = values.get("locale");
 
-	// The remove action
-	Action remove = new Action("Remove") {
+								// Sth. has changed
+								if (!(newDesc.equals(oldDesc.getString()) && newLocale
+										.equals(oldDesc.getLocale().toString()))) {
+									ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+											.getTable().setRedraw(false);
 
-	    @Override
-	    public void run() {
-		descriptionTableViewer.getTable().setRedraw(false);
-		TableItem[] selections = descriptionTableViewer.getTable()
-			.getSelection();
+									Locale locale = new Locale(newLocale);
 
-		// Delete it out of the model
-		for (TableItem item : selections) {
-		    displayed.removeDescription((LocalizedString) item
-			    .getData());
-		}
+									oldDesc.setLocale(locale);
+									oldDesc.setString(newDesc);
 
-		descColumn.pack();
-		localeDescColumn.pack();
+									Model.getInstance().setAISDirty(true);
+									AISValidatorWrapper
+											.getInstance()
+											.validateServiceFeature(
+													ServiceFeatureNameDetailsPage.this.displayed,
+													true);
+									ServiceFeatureMasterBlock.refreshTree();
 
-		descriptionTableViewer.getTable().setRedraw(true);
-		descriptionTableViewer.refresh();
-		Model.getInstance().setAISDirty(true);
-	    }
-	};
-	remove.setToolTipText("Remove the selected descriptions");
+									ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+											.refresh();
 
-	// Add the actions to the toolbar
-	toolBarManager.add(add);
-	toolBarManager.add(remove);
+									// Redraw the table
+									ServiceFeatureNameDetailsPage.this.descColumn
+											.pack();
+									ServiceFeatureNameDetailsPage.this.localeDescColumn
+											.pack();
 
-	toolBarManager.update(true);
-	section.setTextClient(toolbar);
-    }
+									ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+											.getTable().setRedraw(true);
+									ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+											.getTable().redraw();
+								}
+							}
+						}
+					}
+				});
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#commit(boolean)
-     */
-    @Override
-    public void commit(boolean arg0) {
-    }
+		return this.descriptionTableViewer;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#dispose()
-     */
-    @Override
-    public void dispose() {
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.ui.forms.IPartSelectionListener#selectionChanged(org.eclipse
+	 * .ui.forms.IFormPart, org.eclipse.jface.viewers.ISelection)
+	 */
+	@Override
+	public void selectionChanged(IFormPart arg0, ISelection selection) {
+		// Disable redrawing of the table
+		this.nameTableViewer.getTable().setRedraw(false);
+		this.descriptionTableViewer.getTable().setRedraw(false);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#isDirty()
-     */
-    @Override
-    public boolean isDirty() {
-	return Model.getInstance().isAisDirty();
-    }
+		// Get the selected service feature and set the name
+		TreePath[] path = ((TreeSelection) selection).getPaths();
+		this.displayed = (AISServiceFeature) path[0].getFirstSegment();
+		this.nameTableViewer.setInput(this.displayed);
+		this.localeNameColumn.pack();
+		this.nameColumn.pack();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#isStale()
-     */
-    @Override
-    public boolean isStale() {
-	return false;
-    }
+		/*
+		 * Disable the remove buttons because if the selection was changed no
+		 * line is selected
+		 */
+		this.removeName.setEnabled(false);
+		this.removeDesc.setEnabled(false);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#refresh()
-     */
-    @Override
-    public void refresh() {
-    }
+		// Set the description
+		this.descriptionTableViewer.setInput(this.displayed);
+		this.descColumn.pack();
+		this.localeDescColumn.pack();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#setFocus()
-     */
-    @Override
-    public void setFocus() {
-    }
+		// Enable redrawing
+		this.nameTableViewer.getTable().setRedraw(true);
+		this.descriptionTableViewer.getTable().setRedraw(true);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.ui.forms.IFormPart#setFormInput(java.lang.Object)
-     */
-    @Override
-    public boolean setFormInput(Object arg0) {
-	return false;
-    }
+	/**
+	 * Adds the toolbar with the remove and add buttons to the name section
+	 * 
+	 * @param section
+	 *            {@link Section} to set the toolbar
+	 */
+	private void createNameSectionAttributeToolbar(Section section) {
+		// Create the toolbar
+		ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+		ToolBar toolbar = toolBarManager.createControl(section);
+
+		final Cursor handCursor = new Cursor(Display.getCurrent(),
+				SWT.CURSOR_HAND);
+		toolbar.setCursor(handCursor);
+		toolbar.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+					handCursor.dispose();
+				}
+			}
+		});
+
+		// Picture can be added also to the actions
+		Action add = new Action("Add") {
+
+			@Override
+			public void run() {
+				HashMap<String, String> values = new HashMap<String, String>();
+				ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+						ServiceFeatureNameDetailsPage.this.parentShell, null,
+						null, values, "Name", "Add");
+				if (dialog.open() == Window.OK) {
+					ServiceFeatureNameDetailsPage.this.nameTableViewer
+							.getTable().setRedraw(false);
+
+					// Get the values
+					String stringLocale = values.get("locale");
+					String stringName = values.get("Name");
+
+					// Create the things for the model
+					Locale locale = new Locale(stringLocale);
+
+					LocalizedString name = new LocalizedString();
+					name.setLocale(locale);
+					name.setString(stringName);
+
+					ServiceFeatureNameDetailsPage.this.displayed.addName(name);
+
+					Model.getInstance().setAISDirty(true);
+					AISValidatorWrapper.getInstance().validateServiceFeature(
+							ServiceFeatureNameDetailsPage.this.displayed, true);
+					ServiceFeatureMasterBlock.refreshTree();
+
+					ServiceFeatureNameDetailsPage.this.nameTableViewer
+							.refresh();
+
+					ServiceFeatureNameDetailsPage.this.nameColumn.pack();
+					ServiceFeatureNameDetailsPage.this.localeNameColumn.pack();
+
+					ServiceFeatureNameDetailsPage.this.nameTableViewer
+							.getTable().redraw();
+					ServiceFeatureNameDetailsPage.this.nameTableViewer
+							.getTable().setRedraw(true);
+				}
+			}
+		};
+		add.setToolTipText("Add a new name for the Service Feature");
+
+		// The remove action
+		this.removeName = new Action("Remove") {
+
+			@Override
+			public void run() {
+				ServiceFeatureNameDetailsPage.this.nameTableViewer.getTable()
+						.setRedraw(false);
+				TableItem[] selection = ServiceFeatureNameDetailsPage.this.nameTableViewer
+						.getTable().getSelection();
+
+				// Delete it out of the model
+				for (TableItem item : selection) {
+					ServiceFeatureNameDetailsPage.this.displayed
+							.removeName((LocalizedString) item.getData());
+				}
+				ServiceFeatureNameDetailsPage.this.nameColumn.pack();
+				ServiceFeatureNameDetailsPage.this.localeNameColumn.pack();
+				AISValidatorWrapper.getInstance().validateServiceFeature(
+						ServiceFeatureNameDetailsPage.this.displayed, true);
+				ServiceFeatureMasterBlock.refreshTree();
+
+				ServiceFeatureNameDetailsPage.this.nameTableViewer.getTable()
+						.setRedraw(true);
+				ServiceFeatureNameDetailsPage.this.nameTableViewer.refresh();
+				Model.getInstance().setAISDirty(true);
+			}
+		};
+		this.removeName.setToolTipText("Remove the selected names");
+		this.removeName.setEnabled(false);
+
+		// Add the actions to the toolbar
+		toolBarManager.add(add);
+		toolBarManager.add(this.removeName);
+
+		toolBarManager.update(true);
+		section.setTextClient(toolbar);
+	}
+
+	/**
+	 * Adds the toolbar with the remove and add buttons to the description
+	 * section
+	 * 
+	 * @param section
+	 *            {@link Section} to set the toolbar
+	 */
+	private void createDescriptionSectionAttributeToolbar(Section section) {
+		// Create the toolbar
+		ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+		ToolBar toolbar = toolBarManager.createControl(section);
+
+		final Cursor handCursor = new Cursor(Display.getCurrent(),
+				SWT.CURSOR_HAND);
+		toolbar.setCursor(handCursor);
+		toolbar.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				if ((handCursor != null) && (handCursor.isDisposed() == false)) {
+					handCursor.dispose();
+				}
+			}
+		});
+
+		// Picture can be added also to the actions
+		Action add = new Action("Add") {
+
+			@Override
+			public void run() {
+				HashMap<String, String> values = new HashMap<String, String>();
+				ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
+						ServiceFeatureNameDetailsPage.this.parentShell, null,
+						null, values, "Description", "Add");
+				if (dialog.open() == Window.OK) {
+					ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+							.getTable().setRedraw(false);
+
+					// Get the values
+					String stringLocale = values.get("locale");
+					String stringDesc = values.get("Description");
+
+					// Create the things for the model
+					Locale locale = new Locale(stringLocale);
+
+					LocalizedString desc = new LocalizedString();
+					desc.setLocale(locale);
+					desc.setString(stringDesc);
+
+					ServiceFeatureNameDetailsPage.this.displayed
+							.addDescription(desc);
+
+					Model.getInstance().setAISDirty(true);
+					AISValidatorWrapper.getInstance().validateServiceFeature(
+							ServiceFeatureNameDetailsPage.this.displayed, true);
+					ServiceFeatureMasterBlock.refreshTree();
+
+					ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+							.refresh();
+
+					ServiceFeatureNameDetailsPage.this.descColumn.pack();
+					ServiceFeatureNameDetailsPage.this.localeDescColumn.pack();
+
+					ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+							.getTable().redraw();
+					ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+							.getTable().setRedraw(true);
+				}
+			}
+		};
+		add.setToolTipText("Add a new description for the Service Feature");
+
+		// The remove action
+		this.removeDesc = new Action("Remove") {
+
+			@Override
+			public void run() {
+				ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+						.getTable().setRedraw(false);
+				TableItem[] selections = ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+						.getTable().getSelection();
+
+				// Delete it out of the model
+				for (TableItem item : selections) {
+					ServiceFeatureNameDetailsPage.this.displayed
+							.removeDescription((LocalizedString) item.getData());
+				}
+
+				ServiceFeatureNameDetailsPage.this.descColumn.pack();
+				ServiceFeatureNameDetailsPage.this.localeDescColumn.pack();
+
+				ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+						.getTable().setRedraw(true);
+				AISValidatorWrapper.getInstance().validateServiceFeature(
+						ServiceFeatureNameDetailsPage.this.displayed, true);
+				ServiceFeatureMasterBlock.refreshTree();
+
+				ServiceFeatureNameDetailsPage.this.descriptionTableViewer
+						.refresh();
+				Model.getInstance().setAISDirty(true);
+			}
+		};
+		this.removeDesc.setToolTipText("Remove the selected descriptions");
+		this.removeDesc.setEnabled(false);
+
+		// Add the actions to the toolbar
+		toolBarManager.add(add);
+		toolBarManager.add(this.removeDesc);
+
+		toolBarManager.update(true);
+		section.setTextClient(toolbar);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#commit(boolean)
+	 */
+	@Override
+	public void commit(boolean arg0) {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#dispose()
+	 */
+	@Override
+	public void dispose() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#isDirty()
+	 */
+	@Override
+	public boolean isDirty() {
+		return Model.getInstance().isAisDirty();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#isStale()
+	 */
+	@Override
+	public boolean isStale() {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#refresh()
+	 */
+	@Override
+	public void refresh() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.forms.IFormPart#setFormInput(java.lang.Object)
+	 */
+	@Override
+	public boolean setFormInput(Object arg0) {
+		return false;
+	}
 }

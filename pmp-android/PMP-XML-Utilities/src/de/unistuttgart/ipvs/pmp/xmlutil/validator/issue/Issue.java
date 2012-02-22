@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -62,7 +62,7 @@ public class Issue implements IIssue {
      */
     @Override
     public IIssueLocation getLocation() {
-        return location;
+        return this.location;
     }
     
     
@@ -80,7 +80,7 @@ public class Issue implements IIssue {
      */
     @Override
     public IssueType getType() {
-        return type;
+        return this.type;
     }
     
     
@@ -98,7 +98,7 @@ public class Issue implements IIssue {
      */
     @Override
     public List<String> getParameters() {
-        return parameters;
+        return this.parameters;
     }
     
     

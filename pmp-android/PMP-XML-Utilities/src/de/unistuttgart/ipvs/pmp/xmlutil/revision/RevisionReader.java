@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.xmlutil.revision;
 
 import java.io.File;
@@ -38,7 +57,7 @@ public class RevisionReader {
      * 
      * @param apk
      *            the apk file to read in
-     * @return the revision, i.e. the seconds that have passed since 01.01.1970 = UNIX timestamp,
+     * @return the revision, i.e. the milliseconds that have passed since 01.01.1970 = UNIX timestamp,
      *         or 04:04:04 04.04.1904 if a file wasn't found
      *         or 23:59:59 31.12.1969 if no time was specified in the APK
      *         or 06:06:06 06.06.1906 if another error occurred

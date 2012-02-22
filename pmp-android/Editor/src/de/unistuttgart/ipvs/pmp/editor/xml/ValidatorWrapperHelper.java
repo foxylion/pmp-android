@@ -1,8 +1,8 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,7 @@ public class ValidatorWrapperHelper {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * INTERNAL USE ONLY! Extend the attachments of
 	 * "identifier occurred too often"

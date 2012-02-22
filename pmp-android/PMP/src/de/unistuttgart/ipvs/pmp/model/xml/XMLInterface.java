@@ -1,9 +1,29 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.model.xml;
 
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.model.IModel;
 import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
@@ -30,14 +50,21 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
  */
 public class XMLInterface implements IXMLInterface {
     
+    public static final IXMLInterface instance = new XMLInterface();
+    
+    
+    private XMLInterface() {
+    }
+    
+    
     @Override
     public IPresetSet exportPresets(List<IPreset> presets) {
         IPresetSet result = new PresetSet();
         
         // each preset
         for (IPreset preset : presets) {
-            Preset xmlPreset = new Preset(preset.getLocalIdentifier(), preset.getCreator().getIdentifier(),
-                    preset.getName(), preset.getDescription());
+            Preset xmlPreset = new Preset(preset.getLocalIdentifier(),
+                    PersistenceProvider.getPresetCreatorString(preset), preset.getName(), preset.getDescription());
             
             // each assigned app
             for (IApp app : preset.getAssignedApps()) {
@@ -67,7 +94,8 @@ public class XMLInterface implements IXMLInterface {
     
     
     @Override
-    public void importPresets(List<Preset> presets, boolean override) throws InvalidPresetSetException {
+    public void importPresets(List<de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset> presets, boolean override)
+            throws InvalidPresetSetException {
         
         IModel m = Model.getInstance();
         

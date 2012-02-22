@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -125,7 +125,7 @@ public class PresetSetParser extends AbstractParser {
         checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET).item(0));
         
         // Add preset to Preset Set
-        presetSet.addPreset(preset);
+        this.presetSet.addPreset(preset);
     }
     
     

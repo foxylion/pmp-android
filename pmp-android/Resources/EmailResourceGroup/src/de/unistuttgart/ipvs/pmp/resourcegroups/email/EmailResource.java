@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 pmp-android development team
+ * Copyright 2012 pmp-android development team
  * Project: EmailResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
  * 

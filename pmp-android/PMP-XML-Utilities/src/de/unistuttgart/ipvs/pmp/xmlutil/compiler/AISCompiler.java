@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -134,10 +133,9 @@ public class AISCompiler extends BasicISCompiler {
             
             // Add minRevision and use the simple date formatter
             String minRevision = rrg.getMinRevision();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
             try {
                 Date date = new Date(Long.valueOf(minRevision) * 1000);
-                minRevision = sdf.format(date);
+                minRevision = REVISION_DATE_FORMAT.format(date);
             } catch (NumberFormatException nfe) {
                 // Ignore it. Something went wrong and the min revision was not an integer.
             }

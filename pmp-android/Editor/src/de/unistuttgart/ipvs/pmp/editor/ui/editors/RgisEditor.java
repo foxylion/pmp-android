@@ -1,8 +1,30 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: Editor
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors;
+
+import java.io.InputStream;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
@@ -10,7 +32,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
+import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
@@ -22,26 +46,30 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  */
 public class RgisEditor extends FormEditor {
 
-	private RGUtil rgutil = new RGUtil();
 	private Model model = Model.getInstance();
 
 	@Override
 	protected void addPages() {
 		try {
-			model.setRgisEditor(this);
-			
+			this.model.setRgisEditor(this);
+			RGUtil rgutil = XMLUtilityProxy.getRGUtil();
+
 			// Parse XML-File
-			FileEditorInput input = (FileEditorInput) this.getEditorInput();
+			FileEditorInput input = (FileEditorInput) getEditorInput();
+			IRGIS rgis;
 			try {
 				// Synchronize if out of sync (better: show message)
 				if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
 					input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
 				}
-				IRGIS rgis = rgutil.parse(input.getFile().getContents());
-				model.setRgis(rgis);
+				rgis = rgutil.parse(input.getFile().getContents());
 
 			} catch (ParserException e) {
+				rgis = rgutil.createBlankRGIS();
 			}
+			this.model.setRgis(rgis);
+			RGISValidatorWrapper.getInstance().validateRGIS(rgis, true);
+
 			addPage(new GeneralPage(this));
 			addPage(new PrivacySettingsPage(this));
 		} catch (PartInitException e) {
@@ -54,26 +82,33 @@ public class RgisEditor extends FormEditor {
 	}
 
 	public void firePropertyChangedDirty() {
-		firePropertyChange(FormEditor.PROP_DIRTY);
+		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
-	
-	@Override
-	public boolean isDirty() {
-		return model.isRgisDirty();
-	}
-	
 
 	@Override
-	public void doSave(IProgressMonitor arg0) {
-		// TODO Auto-generated method stub
-		model.setRgisDirty(false);
+	public boolean isDirty() {
+		return this.model.isRgisDirty();
+	}
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		FileEditorInput input = (FileEditorInput) getEditorInput();
+		InputStream is = XMLUtilityProxy.getRGUtil().compile(
+				this.model.getRgis());
+		try {
+			input.getFile().setContents(is, false, true, monitor);
+			this.model.setRgisDirty(false);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void doSaveAs() {
 		// TODO Auto-generated method stub
-
+		System.out.println("saveas");
 	}
 
 	@Override

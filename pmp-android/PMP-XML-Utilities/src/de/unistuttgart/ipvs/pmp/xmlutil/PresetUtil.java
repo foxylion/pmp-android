@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -51,7 +51,7 @@ public class PresetUtil {
      * @return PresetSet
      */
     public IPresetSet parse(InputStream xmlStream) {
-        return presetSetParser.parse(xmlStream);
+        return this.presetSetParser.parse(xmlStream);
     }
     
     
@@ -63,7 +63,7 @@ public class PresetUtil {
      * @return compiled xml file
      */
     public InputStream compile(IPresetSet presetSet) {
-        return presetSetCompiler.compile(presetSet);
+        return this.presetSetCompiler.compile(presetSet);
     }
     
     
@@ -73,7 +73,7 @@ public class PresetUtil {
      * @return PresetSetValidator
      */
     public PresetSetValidator getValidator() {
-        return presetSetValidator;
+        return this.presetSetValidator;
     }
     
     

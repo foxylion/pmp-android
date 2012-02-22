@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -46,7 +46,7 @@ public abstract class IssueLocation implements IIssueLocation {
      */
     @Override
     public List<IIssue> getIssues() {
-        return issues;
+        return this.issues;
     }
     
     
@@ -55,7 +55,7 @@ public abstract class IssueLocation implements IIssueLocation {
      */
     @Override
     public void addIssue(IIssue issue) {
-        issues.add(issue);
+        this.issues.add(issue);
     }
     
     
@@ -64,7 +64,7 @@ public abstract class IssueLocation implements IIssueLocation {
      */
     @Override
     public void removeIssue(IIssue issue) {
-        issues.remove(issue);
+        this.issues.remove(issue);
     }
     
     

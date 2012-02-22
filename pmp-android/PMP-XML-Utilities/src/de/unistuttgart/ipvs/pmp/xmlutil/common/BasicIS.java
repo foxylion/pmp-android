@@ -1,6 +1,6 @@
 /*
- * Copyright 2011 pmp-android development team
- * Project: PMP
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
  * ---------------------------------------------------------------------
@@ -64,8 +64,9 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     @Override
     public String getNameForLocale(Locale locale) {
         for (ILocalizedString name : this.names) {
-            if (name.getLocale() == null)
+            if (name.getLocale() == null) {
                 continue;
+            }
             if (name.getLocale().getLanguage().equals(locale.getLanguage())) {
                 return name.getString();
             }
@@ -107,8 +108,9 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     @Override
     public String getDescriptionForLocale(Locale locale) {
         for (ILocalizedString descr : this.descriptions) {
-            if (descr.getLocale() == null)
+            if (descr.getLocale() == null) {
                 continue;
+            }
             if (descr.getLocale().getLanguage().equals(locale.getLanguage())) {
                 return descr.getString();
             }
@@ -140,7 +142,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      */
     @Override
     public void clearNameIssues() {
-        for (ILocalizedString name : this.getNames()) {
+        for (ILocalizedString name : getNames()) {
             name.clearIssues();
         }
     }
@@ -151,7 +153,7 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
      */
     @Override
     public void clearDescriptionIssues() {
-        for (ILocalizedString descr : this.getDescriptions()) {
+        for (ILocalizedString descr : getDescriptions()) {
             descr.clearIssues();
         }
     }
