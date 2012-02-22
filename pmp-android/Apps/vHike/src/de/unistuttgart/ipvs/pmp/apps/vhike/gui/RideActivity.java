@@ -73,7 +73,7 @@ public class RideActivity extends Activity {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        ViewModel.getInstance().getSpinners().add(spinner);
+        
         spinner.setOnLongClickListener(new OnLongClickListener() {
             
             @Override
@@ -88,6 +88,7 @@ public class RideActivity extends Activity {
             }
             
         });
+        ViewModel.getInstance().getSpinners().add(spinner);
         
         // set as add-Button and set the OnClickListener
         addButton = (Button) findViewById(R.id.ib_add);

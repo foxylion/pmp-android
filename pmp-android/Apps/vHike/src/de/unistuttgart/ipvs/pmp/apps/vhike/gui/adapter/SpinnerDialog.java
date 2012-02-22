@@ -18,14 +18,9 @@ import android.widget.Toast;
  */
 public class SpinnerDialog extends Dialog {
     
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_remove_dest);
-    }
-    
-    
     public SpinnerDialog(Context context) {
         super(context);
+        setContentView(R.layout.dialog_remove_dest);
         setTitle("Remove destination");
         
         Button remove = (Button) findViewById(R.id.btn_remove_dest);
