@@ -9,15 +9,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPS;
+import de.unistuttgart.ipvs.pmp.jpmpps.server.controller.ConnectionController;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 
+/**
+ * The {@link HTTPServer} provides the {@link IPresetSet}s over HTTP.
+ * 
+ * @author Jakob Jarosch
+ */
 public class HTTPServer {
     
     /**
@@ -70,6 +77,11 @@ public class HTTPServer {
         }
     }
     
+    /**
+     * Thread for connection accept.
+     * 
+     * @author Jakob Jarosch
+     */
     class AcceptingConnectionThread extends Thread {
         
         @Override
@@ -92,18 +104,51 @@ public class HTTPServer {
         }
     }
     
+    /**
+     * Thread for processing a request from a client.
+     * 
+     * @author Jakob Jarosch
+     */
     class SocketProcessingThread extends Thread {
         
+        /**
+         * Pattern is used to find the requested {@link IPresetSet} id.
+         */
         private final Pattern HTTP_PRESET_SET_ID = Pattern.compile("GET /?([a-z0-9]+)");
         
+        /**
+         * {@link Socket} which provides the connection to client.
+         */
         private Socket connection;
+        
+        /**
+         * {@link BufferedReader} for reading the client input line by line.
+         */
         private BufferedReader input;
+        
+        /**
+         * {@link BufferedWriter} for writing output for the client line by line.
+         */
         private BufferedWriter output;
+        
+        /**
+         * {@link BufferedOutputStream} for writing output with byte arrays to the client.
+         */
         private BufferedOutputStream outputSimple;
         
         
+        /**
+         * Creates a new processing thread.
+         * 
+         * @param connection
+         *            {@link Socket} which should be handled.
+         * @throws IOException
+         *             Is thrown when it failed to create input or output streams.
+         */
         public SocketProcessingThread(Socket connection) throws IOException {
             this.connection = connection;
+            
+            this.connection.setSoTimeout(ConnectionController.MAXIMUM_IDLE_TIME);
             
             this.input = new BufferedReader(new InputStreamReader(this.connection.getInputStream()));
             this.output = new BufferedWriter(new OutputStreamWriter(this.connection.getOutputStream()));
@@ -116,6 +161,10 @@ public class HTTPServer {
             try {
                 
                 while (!this.connection.isClosed()) {
+                    
+                    /*
+                     * Read the header from the client.
+                     */
                     List<String> header = new ArrayList<String>();
                     String line;
                     do {
@@ -168,8 +217,10 @@ public class HTTPServer {
                     output.close();
                     outputSimple.close();
                 }
+            } catch (SocketTimeoutException e) {
+                // TODO make log entry
             } catch (IOException e) {
-                
+                // TODO make log entry
             } finally {
                 try {
                     this.connection.close();

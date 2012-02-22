@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         handler = new Handler();
-        PMP.get(this.getApplication());
+//        PMP.get(this.getApplication());
         
         setContentView(R.layout.activity_login);
         
@@ -99,20 +99,20 @@ public class LoginActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        /* Request resources from PMP*/
-        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
-            
-            @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                resourceCached();
-            }
-            
-            
-            @Override
-            public void onBindingFailed() {
-                Toast.makeText(LoginActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
-            }
-        });
+//        /* Request resources from PMP*/
+//        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+//            
+//            @Override
+//            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+//                resourceCached();
+//            }
+//            
+//            
+//            @Override
+//            public void onBindingFailed() {
+//                Toast.makeText(LoginActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+//            }
+//        });
         
         SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         remember = settings.getBoolean("REMEMBER", false);
@@ -152,11 +152,11 @@ public class LoginActivity extends Activity {
     protected void onStop() {
         super.onStop();
         
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            return;
-        }
+//        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+//        
+//        if (binder == null) {
+//            return;
+//        }
         
         SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
