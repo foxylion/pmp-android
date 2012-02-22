@@ -132,9 +132,8 @@ public class vhikeDialogs {
     
     
     public Wait4PickUp getW4PU(Context context) {
-        if (w4pu == null) {
-            w4pu = new Wait4PickUp(context);
-        }
+        w4pu = new Wait4PickUp(context);
+        
         return w4pu;
     }
     
