@@ -50,7 +50,8 @@ public class BasicISCompiler {
         for (ILocalizedString name : basicIS.getNames()) {
             XMLNode nameNode = new XMLNode(XMLConstants.NAME);
             nameNode.setContent(name.getString());
-            nameNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, name.getLocale().getLanguage()));
+            if (name.getLocale() != null)
+                nameNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, name.getLocale().getLanguage()));
             nodeList.add(nameNode);
         }
         
@@ -58,7 +59,8 @@ public class BasicISCompiler {
         for (ILocalizedString descr : basicIS.getDescriptions()) {
             XMLNode descrNode = new XMLNode(XMLConstants.DESCRIPTION);
             descrNode.setContent(descr.getString());
-            descrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, descr.getLocale().getLanguage()));
+            if (descr.getLocale() != null)
+                descrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, descr.getLocale().getLanguage()));
             nodeList.add(descrNode);
         }
         
