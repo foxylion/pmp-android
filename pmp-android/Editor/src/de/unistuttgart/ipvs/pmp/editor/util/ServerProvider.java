@@ -7,8 +7,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPSConstants;
+import de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferenceInitializer;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestCommunicationEnd;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestRGIS;
 import de.unistuttgart.ipvs.pmp.jpmpps.io.request.RequestResourceGroups;
@@ -25,14 +24,22 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  */
 public class ServerProvider implements IServerProvider {
 
-	/**
-	 * URL and port could be set using preferences
-	 */
-	private String serverUrl = /*"localhost";// */JPMPPSConstants.HOSTNAME;
-	private int serverPort = JPMPPSConstants.PORT;
-	private int serverTimeout = 10000;
-
 	private List<RGIS> rgisList = null;
+	private static ServerProvider instance = null;
+	
+	/**
+	 * @deprecated Use {@code getInstance()}
+	 */
+	public ServerProvider() {
+		
+	}
+	
+	public static ServerProvider getInstance() {
+		if (instance == null) {
+			instance = new ServerProvider();
+		}
+		return instance;
+	}
 
 	@Override
 	public List<RGIS> getAvailableRessourceGroups() throws IOException {
@@ -50,8 +57,9 @@ public class ServerProvider implements IServerProvider {
 		ObjectOutputStream out = null;
 		try {
 			// Establish a TCP-Connection to the server
-			server = new Socket(serverUrl, serverPort);
-			server.setSoTimeout(serverTimeout);
+			server = new Socket(PreferenceInitializer.getJpmppsHostname(), 
+					PreferenceInitializer.getJpmppsPort());
+			server.setSoTimeout(PreferenceInitializer.getJpmppsTimeout() * 1000);
 
 			// Request a list of all available RGs
 			out = new ObjectOutputStream(
@@ -72,14 +80,11 @@ public class ServerProvider implements IServerProvider {
 			}
 
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			throw new IOException("Invalid response from server.");
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
 			throw new IOException("Unable to lookup the server's IP-address.");
 		} catch (IOException e) {
-			e.printStackTrace();
-			throw new IOException("Unable to contact the server.");
+			throw new IOException("Unable to contact the server. " + e.getLocalizedMessage());
 		} finally {
 			if (server != null) {
 				try {
@@ -91,8 +96,6 @@ public class ServerProvider implements IServerProvider {
 					// Close connection
 					server.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}
 		}

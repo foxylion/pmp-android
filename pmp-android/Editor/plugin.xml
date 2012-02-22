@@ -41,5 +41,19 @@
             id="de.unistuttgart.ipvs.pmp.editor.ui.wizard.rgis.CreateWizardRGIS">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferencePage"
+            id="de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferencePage"
+            name="EIS">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
 
 </plugin>
