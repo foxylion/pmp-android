@@ -205,6 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:isIndicator="true"
+            android:stepSize="1"
             android:layout_centerInParent="true"
             android:numStars="5" />
 
