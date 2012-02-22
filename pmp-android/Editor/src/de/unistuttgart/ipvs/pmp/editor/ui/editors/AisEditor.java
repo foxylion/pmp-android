@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
@@ -32,6 +33,8 @@ public class AisEditor extends FormEditor {
      */
     private AISGeneralPage generalPage;
 
+    private static Model model;
+
     /**
      * The {@link AISServiceFeaturesPage}
      */
@@ -44,6 +47,7 @@ public class AisEditor extends FormEditor {
      */
     @Override
     protected void addPages() {
+	model = new Model();
 	try {
 	    // Parse XML-File
 	    FileEditorInput input = (FileEditorInput) this.getEditorInput();
@@ -61,22 +65,24 @@ public class AisEditor extends FormEditor {
 		String project = "/" + split[1];
 
 		// Store ais in the Model
-		Model.getInstance().setAis(ais);
-		
-		AISValidatorWrapper.getInstance().validateAIS(Model.getInstance().getAis(), true);
+		model.setAis(ais);
+
+		AISValidatorWrapper.getInstance().validateAIS(model.getAis(),
+			true);
 
 		// Create the pages
 		generalPage = new AISGeneralPage(this, project);
 		sfPage = new AISServiceFeaturesPage(this);
 	    } catch (ParserException e) {
 		generalPage = new AISGeneralPage(this, null);
+		sfPage = new AISServiceFeaturesPage(this);
 	    }
 	    /*
 	     * Reset the dirty flag in the model and store this instance of this
 	     * editor that the model can call the firepropertyChanged
 	     */
-	    Model.getInstance().setAisEditor(this);
-	    Model.getInstance().setAISDirty(false);
+	    model.setAisEditor(this);
+	    model.setAISDirty(false);
 
 	    // Add the pages
 	    addPage(generalPage);
@@ -99,14 +105,13 @@ public class AisEditor extends FormEditor {
     @Override
     public void doSave(IProgressMonitor mon) {
 	FileEditorInput input = (FileEditorInput) this.getEditorInput();
-	InputStream is = XMLUtilityProxy.getAppUtil().compile(
-		Model.getInstance().getAis());
+	InputStream is = XMLUtilityProxy.getAppUtil().compile(model.getAis());
 	try {
 	    // Save the file
 	    input.getFile().setContents(is, true, true, mon);
 
 	    // Set the dirty flag to false because it was just saved
-	    Model.getInstance().setAISDirty(false);
+	    model.setAISDirty(false);
 	} catch (CoreException e) {
 	    MessageDialog.openError(this.getSite().getShell(), "Error",
 		    "Could not save file.");
@@ -125,7 +130,7 @@ public class AisEditor extends FormEditor {
 
     @Override
     public boolean isDirty() {
-	return Model.getInstance().isAisDirty();
+	return model.isAisDirty();
     }
 
     /*
@@ -144,6 +149,10 @@ public class AisEditor extends FormEditor {
      * {@link FormEditor#firePropertyChange(FormEditor.PROP_DIRTY)}
      */
     public void firePropertyChangedDirty() {
-	firePropertyChange(FormEditor.PROP_DIRTY);
+	firePropertyChange(IEditorPart.PROP_DIRTY);
+    }
+
+    public static Model getModel() {
+	return model;
     }
 }

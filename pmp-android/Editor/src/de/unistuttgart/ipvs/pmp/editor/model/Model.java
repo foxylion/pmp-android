@@ -31,11 +31,6 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 public class Model {
 
     /**
-     * Instance of this class
-     */
-    private static Model instance = null;
-
-    /**
      * Indicates if the ais file has unsaved changes
      */
     private Boolean isAISDirty = false;
@@ -60,24 +55,6 @@ public class Model {
     private AisEditor aisEditor;
 
     private RgisEditor rgisEditor;
-
-    /**
-     * Private constructor because of singleton
-     */
-    private Model() {
-    }
-
-    /**
-     * Methode used to get the only instance of this class
-     * 
-     * @return only {@link Model} instance of this class
-     */
-    public static Model getInstance() {
-	if (instance == null) {
-	    instance = new Model();
-	}
-	return instance;
-    }
 
     /**
      * Gets the stored {@link AIS}
@@ -166,7 +143,7 @@ public class Model {
 
 		    // Start the task
 		    monitor.beginTask("Downloading Resource Groups...", 2);
-		    ServerProvider server = new ServerProvider();
+		    ServerProvider server = ServerProvider.getInstance();
 		    try {
 
 			// Refresh the list

@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -74,6 +75,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 	assetsFolderText.setLayoutData(gd);
 	assetsFolderText.addModifyListener(new ModifyListener() {
+	    @Override
 	    public void modifyText(ModifyEvent e) {
 		dialogChanged();
 	    }
@@ -83,6 +85,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	Button button = new Button(container, SWT.PUSH);
 	button.setText("Browse...");
 	button.addSelectionListener(new SelectionAdapter() {
+	    @Override
 	    public void widgetSelected(SelectionEvent e) {
 		handleBrowse();
 	    }
@@ -130,7 +133,7 @@ public class WizardPageCreateAIS extends WizardPage {
 	ContainerSelectionDialog dialog = new ContainerSelectionDialog(
 		getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
 		"Select the project");
-	if (dialog.open() == ContainerSelectionDialog.OK) {
+	if (dialog.open() == Window.OK) {
 	    Object[] result = dialog.getResult();
 	    if (result.length == 1) {
 		String[] split = ((Path) result[0]).toString().split("/");

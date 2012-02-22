@@ -44,115 +44,116 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  */
 public class ServerProvider implements IServerProvider {
 
-	private List<RGIS> rgisList = null;
-	private static ServerProvider instance = null;
+    private List<RGIS> rgisList = null;
+    private static ServerProvider instance = null;
 
-	/**
-	 * @deprecated Use {@code getInstance()}
-	 */
-	public ServerProvider() {
+    /**
+     * @deprecated Use {@code getInstance()}
+     */
+    @Deprecated
+    public ServerProvider() {
+    }
+
+    public static ServerProvider getInstance() {
+	if (instance == null) {
+	    instance = new ServerProvider();
+	}
+	return instance;
+    }
+
+    @Override
+    public List<RGIS> getAvailableRessourceGroups() throws IOException {
+	// If this is the first access to the list, gather RGIS from server
+	if (this.rgisList == null) {
+	    updateResourceGroupList();
 	}
 
-	public static ServerProvider getInstance() {
-		if (instance == null) {
-			instance = new ServerProvider();
-		}
-		return instance;
-	}
+	return this.rgisList;
+    }
 
-	@Override
-	public List<RGIS> getAvailableRessourceGroups() throws IOException {
-		// If this is the first access to the list, gather RGIS from server
-		if (this.rgisList == null) {
-			updateResourceGroupList();
-		}
+    @Override
+    public void updateResourceGroupList() throws IOException {
+	Socket server = null;
+	ObjectOutputStream out = null;
+	try {
+	    // Establish a TCP-Connection to the server
+	    server = new Socket(PreferenceInitializer.getJpmppsHostname(),
+		    PreferenceInitializer.getJpmppsPort());
+	    server.setSoTimeout(PreferenceInitializer.getJpmppsTimeout() * 1000);
 
-		return this.rgisList;
-	}
+	    // Request a list of all available RGs
+	    out = new ObjectOutputStream(server.getOutputStream());
 
-	@Override
-	public void updateResourceGroupList() throws IOException {
-		Socket server = null;
-		ObjectOutputStream out = null;
+	    ObjectInputStream in = new ObjectInputStream(
+		    server.getInputStream());
+	    out.writeObject(new RequestResourceGroups("en"));
+
+	    // Parse list of resource-groups
+	    Object response = in.readObject();
+
+	    if (response instanceof ResourceGroupsResponse) {
+		ResourceGroupsResponse rgs = (ResourceGroupsResponse) response;
+		buildRGISList(rgs.getResourceGroups(), in, out);
+	    } else {
+		throw new IOException("Unsupported response from server.");
+	    }
+
+	} catch (ClassNotFoundException e) {
+	    throw new IOException("Invalid response from server.");
+	} catch (UnknownHostException e) {
+	    throw new IOException("Unable to lookup the server's IP-address.");
+	} catch (IOException e) {
+	    throw new IOException("Unable to contact the server. "
+		    + e.getLocalizedMessage());
+	} finally {
+	    if (server != null) {
 		try {
-			// Establish a TCP-Connection to the server
-			server = new Socket(PreferenceInitializer.getJpmppsHostname(),
-					PreferenceInitializer.getJpmppsPort());
-			server.setSoTimeout(PreferenceInitializer.getJpmppsTimeout() * 1000);
+		    // Disconnect from RG-Server
+		    if (out != null) {
+			out.writeObject(new RequestCommunicationEnd());
+		    }
 
-			// Request a list of all available RGs
-			out = new ObjectOutputStream(server.getOutputStream());
-
-			ObjectInputStream in = new ObjectInputStream(
-					server.getInputStream());
-			out.writeObject(new RequestResourceGroups("en"));
-
-			// Parse list of resource-groups
-			Object response = in.readObject();
-
-			if (response instanceof ResourceGroupsResponse) {
-				ResourceGroupsResponse rgs = (ResourceGroupsResponse) response;
-				buildRGISList(rgs.getResourceGroups(), in, out);
-			} else {
-				throw new IOException("Unsupported response from server.");
-			}
-
-		} catch (ClassNotFoundException e) {
-			throw new IOException("Invalid response from server.");
-		} catch (UnknownHostException e) {
-			throw new IOException("Unable to lookup the server's IP-address.");
+		    // Close connection
+		    server.close();
 		} catch (IOException e) {
-			throw new IOException("Unable to contact the server. "
-					+ e.getLocalizedMessage());
-		} finally {
-			if (server != null) {
-				try {
-					// Disconnect from RG-Server
-					if (out != null) {
-						out.writeObject(new RequestCommunicationEnd());
-					}
-
-					// Close connection
-					server.close();
-				} catch (IOException e) {
-				}
-			}
 		}
+	    }
+	}
+    }
+
+    /**
+     * Builds the RGIS-List using the data received in
+     * {@code ResourceGroupsResponse}.
+     * 
+     * @param locRGArray
+     * @param in
+     * @param out
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void buildRGISList(LocalizedResourceGroup[] locRGArray,
+	    ObjectInputStream in, ObjectOutputStream out) throws IOException,
+	    ClassNotFoundException {
+
+	// Clear-List
+	if (this.rgisList == null) {
+	    this.rgisList = new ArrayList<RGIS>(locRGArray.length);
+	} else {
+	    this.rgisList.clear();
 	}
 
-	/**
-	 * Builds the RGIS-List using the data received in
-	 * {@code ResourceGroupsResponse}.
-	 * 
-	 * @param locRGArray
-	 * @param in
-	 * @param out
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	private void buildRGISList(LocalizedResourceGroup[] locRGArray,
-			ObjectInputStream in, ObjectOutputStream out) throws IOException,
-			ClassNotFoundException {
+	// Request RGIS from Server and add them to the list
+	for (LocalizedResourceGroup localizedRG : locRGArray) {
+	    String packageName = localizedRG.getIdentifier();
+	    out.writeObject(new RequestRGIS(packageName));
 
-		// Clear-List
-		if (this.rgisList == null) {
-			this.rgisList = new ArrayList<RGIS>(locRGArray.length);
-		} else {
-			this.rgisList.clear();
-		}
-
-		// Request RGIS from Server and add them to the list
-		for (LocalizedResourceGroup localizedRG : locRGArray) {
-			String packageName = localizedRG.getIdentifier();
-			out.writeObject(new RequestRGIS(packageName));
-
-			Object response = in.readObject();
-			if (response instanceof RGISResponse) {
-				RGISResponse rgisRes = (RGISResponse) response;
-				this.rgisList.add((RGIS) rgisRes.getRGIS());
-			} else {
-				throw new IOException("Unsupported response from server.");
-			}
-		}
+	    Object response = in.readObject();
+	    if (response instanceof RGISResponse) {
+		RGISResponse rgisRes = (RGISResponse) response;
+		this.rgisList.add((RGIS) rgisRes.getRGIS());
+	    } else {
+		throw new IOException("Unsupported response from server.");
+	    }
 	}
+    }
 }

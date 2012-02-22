@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
@@ -32,7 +33,6 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdent
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActivityAlreadyExistsException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
@@ -140,18 +140,18 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	client.setLayoutData(layoutData);
 	section.setLayoutData(layoutData);
 
-	IAIS ais = Model.getInstance().getAis();
+	IAIS ais = AisEditor.getModel().getAis();
 	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 
 	    @Override
 	    public void doSetDirty(boolean dirty) {
-		Model.getInstance().setAISDirty(true);
+		AisEditor.getModel().setAISDirty(true);
 	    }
 
 	    @Override
 	    public void doValidate() {
 		AISValidatorWrapper.getInstance().validateAppInformation(
-			Model.getInstance().getAis(), true);
+			AisEditor.getModel().getAis(), true);
 	    }
 	};
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,
@@ -180,8 +180,8 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     private Section createSectionWithDescription(Composite parent,
 	    String title, FormToolkit toolkit, String desc) {
-	Section section = toolkit.createSection(parent, Section.TWISTIE
-		| Section.TITLE_BAR | Section.DESCRIPTION);
+	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
+		| ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
 	section.setDescription(desc);
 	section.setText(title);
 	section.setExpanded(true);
@@ -205,8 +205,8 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     private Section createSection(Composite parent, String title,
 	    FormToolkit toolkit) {
-	Section section = toolkit.createSection(parent, Section.TWISTIE
-		| Section.TITLE_BAR);
+	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
+		| ExpandableComposite.TITLE_BAR);
 	section.setText(title);
 	section.setExpanded(true);
 
