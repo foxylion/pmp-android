@@ -44,7 +44,7 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     private String identifier = "";
     
     /**
-     * A description of the valid values for this privacy setting
+     * The description of the valid value
      */
     private String validValueDescription = "";
     
@@ -75,54 +75,48 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting#getValidValueDescription()
-     */
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    @Override
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
+    
     @Override
     public String getValidValueDescription() {
         return this.validValueDescription;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting#setValidValueDescription(java.lang.String)
-     */
     @Override
     public void setValidValueDescription(String validValueDescription) {
         this.validValueDescription = validValueDescription;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting#addChangeDescription(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
-     */
     @Override
     public void addChangeDescription(ILocalizedString changeDescription) {
         this.changeDescriptions.add(changeDescription);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting#getChangeDescriptions()
-     */
     @Override
     public List<ILocalizedString> getChangeDescriptions() {
         return this.changeDescriptions;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting#removeChangeDescription(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString)
-     */
     @Override
     public void removeChangeDescription(ILocalizedString changeDescription) {
         this.changeDescriptions.remove(changeDescription);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting#getChangeDescriptionForLocale(java.util.Locale)
-     */
     @Override
     public String getChangeDescriptionForLocale(Locale locale) {
         for (ILocalizedString changeDescr : this.changeDescriptions) {
@@ -145,18 +139,6 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
         for (ILocalizedString changeDescr : getChangeDescriptions()) {
             changeDescr.clearIssues();
         }
-    }
-    
-    
-    @Override
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    @Override
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
     
 }

@@ -42,15 +42,11 @@ public class TestXMLFiles {
     private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
     private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
     private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
-    //    
-    private static String presetSetDefectURL = "http://mvvt.de/presetset_defect.xml";
     
-    //    
+    private static String presetSetDefectURL = "http://mvvt.de/presetset_defect.xml";
     private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
     private static String rgisDefectURL = "http://mvvt.de/rgis_defect.xml";
     
-    
-    //    
     
     /**
      * Test method

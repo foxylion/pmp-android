@@ -57,41 +57,65 @@ public class RGIS extends BasicIS implements IRGIS {
     private String className = "";
     
     /**
-     * This list contains all privacy settings of the resource group.
+     * This list contains all {@link IRGISPrivacySetting}s of the {@link IRGIS}.
      */
     private List<IRGISPrivacySetting> privacySettings = new ArrayList<IRGISPrivacySetting>();
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#addPrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting)
-     */
+    @Override
+    public String getIdentifier() {
+        return this.identifier;
+    }
+    
+    
+    @Override
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+    
+    
+    @Override
+    public String getIconLocation() {
+        return this.iconLocation;
+    }
+    
+    
+    @Override
+    public void setIconLocation(String iconLocation) {
+        this.iconLocation = iconLocation;
+    }
+    
+    
+    @Override
+    public String getClassName() {
+        return this.className;
+    }
+    
+    
+    @Override
+    public void setClassName(String className) {
+        this.className = className;
+    }
+    
+    
     @Override
     public void addPrivacySetting(IRGISPrivacySetting privacySetting) {
         this.privacySettings.add(privacySetting);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getPrivacySettings()
-     */
     @Override
     public List<IRGISPrivacySetting> getPrivacySettings() {
         return this.privacySettings;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#removePrivacySetting(de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting)
-     */
     @Override
     public void removePrivacySetting(IRGISPrivacySetting privacySetting) {
         this.privacySettings.remove(privacySetting);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getPrivacySettingForIdentifier(java.lang.String)
-     */
     @Override
     public IRGISPrivacySetting getPrivacySettingForIdentifier(String identifier) {
         for (IRGISPrivacySetting ps : this.privacySettings) {
@@ -103,42 +127,6 @@ public class RGIS extends BasicIS implements IRGIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getIconLocation()
-     */
-    @Override
-    public String getIconLocation() {
-        return this.iconLocation;
-    }
-    
-    
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#setIconLocation(java.lang.String)
-     */
-    @Override
-    public void setIconLocation(String iconLocation) {
-        this.iconLocation = iconLocation;
-    }
-    
-    
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#getClassName()
-     */
-    @Override
-    public String getClassName() {
-        return this.className;
-    }
-    
-    
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#setClassName(java.lang.String)
-     */
-    @Override
-    public void setClassName(String className) {
-        this.className = className;
-    }
-    
-    
     @Override
     public void clearIssues() {
         clearRGInformationIssues();
@@ -146,9 +134,6 @@ public class RGIS extends BasicIS implements IRGIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#clearRGInformationIssuesAndPropagate()
-     */
     @Override
     public void clearRGInformationIssues() {
         clearNameIssues();
@@ -166,9 +151,6 @@ public class RGIS extends BasicIS implements IRGIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS#clearPSIssuesAndPropagate()
-     */
     @Override
     public void clearPSIssues() {
         List<IIssue> removeList = new ArrayList<IIssue>();
@@ -182,18 +164,6 @@ public class RGIS extends BasicIS implements IRGIS {
         for (IIssue issue : removeList) {
             removeIssue(issue);
         }
-    }
-    
-    
-    @Override
-    public String getIdentifier() {
-        return this.identifier;
-    }
-    
-    
-    @Override
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
     }
     
 }

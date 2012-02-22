@@ -333,8 +333,8 @@ public class AISValidator extends AbstractValidator {
         /*
          * Validate, if the value is set
          */
-        if (!checkValueSet(rps.getValue())) {
-            issueList.add(new Issue(IssueType.EMPTY_VALUE, rps));
+        if (rps.getValue() == null) {
+            issueList.add(new Issue(IssueType.VALUE_MISSING, rps));
         }
         
         // Attach data

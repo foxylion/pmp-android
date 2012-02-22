@@ -129,8 +129,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	FormToolkit toolkit = form.getToolkit();
 
 	// The name section
-	Section psSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
-		| ExpandableComposite.TITLE_BAR);
+	Section psSection = toolkit.createSection(parent,
+		ExpandableComposite.CLIENT_INDENT
+			| ExpandableComposite.TITLE_BAR);
 	psSection.setText("Required Privacy Setting");
 	psSection.setLayout(new GridLayout(1, false));
 	psSection.setExpanded(true);
@@ -202,6 +203,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	valueViewerColumn.setLabelProvider(new ColumnLabelProvider() {
 	    @Override
 	    public String getText(Object element) {
+		if (((AISRequiredPrivacySetting) element) == null) {
+		    return "";
+		}
 		return ((AISRequiredPrivacySetting) element).getValue();
 	    }
 	});
@@ -299,7 +303,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 		// Build a custom RGIS with the privacy settings that are
 		// not set yet
-		RGIS customRGIS = resGroup;
+		RGIS customRGIS = new RGIS();
 
 		// Check if there are RGs from the server
 		if (resGroup != null) {
@@ -316,12 +320,17 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		     */
 		    for (IAISRequiredPrivacySetting requiredPS : displayed
 			    .getRequiredPrivacySettings()) {
-			if (privacySettings.containsKey(requiredPS
-				.getIdentifier())) {
-			    customRGIS.removePrivacySetting(privacySettings
-				    .get(requiredPS.getIdentifier()));
-			}
 
+			for (IRGISPrivacySetting ps : resGroup
+				.getPrivacySettings()) {
+			    if (!ps.getIdentifier().equals(
+				    requiredPS.getIdentifier())) {
+				if (!customRGIS.getPrivacySettings().contains(
+					ps)) {
+				    customRGIS.addPrivacySetting(ps);
+				}
+			    }
+			}
 		    }
 
 		    // If there are some PS to add
@@ -358,8 +367,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    psTableViewer.getTable().setRedraw(false);
 			    identifierColumn.pack();
 			    valueColumn.pack();
-			    psTableViewer.getTable().redraw();
 			    psTableViewer.getTable().setRedraw(true);
+			    psTableViewer.getTable().redraw();
 			    model.setAISDirty(true);
 			}
 
@@ -455,11 +464,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    }
 		}
 	    }
+
 	    AISRequiredPrivacySetting selected = (AISRequiredPrivacySetting) psTableViewer
 		    .getTable().getSelection()[0].getData();
 
 	    String requiredValues = null;
-
 	    if (resGroup != null) {
 		for (IRGISPrivacySetting ps : resGroup.getPrivacySettings()) {
 		    if (ps.getIdentifier().equals(selected.getIdentifier())) {
