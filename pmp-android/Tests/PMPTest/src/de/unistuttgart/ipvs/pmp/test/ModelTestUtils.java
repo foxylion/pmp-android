@@ -20,7 +20,7 @@ public class ModelTestUtils {
      * @author Jakob Jarosch
      */
     public enum App {
-        PMP_TEST_APP_1("de.unistuttgart.ipvs.pmp.test.testapp1", 3);
+        PMP_TEST_APP_1("de.unistuttgart.ipvs.pmp.test.testapp1", 4);
         
         private String packageName;
         private int serviceFeaturesCount;

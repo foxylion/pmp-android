@@ -18,7 +18,7 @@
 			<description lang="en">Service Feature 2 requires some more resources</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
 				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="write">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="modify">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="allowedDatabases">testdb</requiredPrivacySetting>
 			</requiredResourceGroup>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="1">
@@ -31,6 +31,13 @@
 			<description lang="en">Service Feature 3 requires some more resources</description>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
 				<requiredPrivacySetting identifier="CanWifiState">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="sf_bad">
+			<name lang="en">Bad ServiceFeature</name>
+			<description lang="en">Bad Service Feature requires some undefined privacy settings</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
+				<requiredPrivacySetting identifier="StartAtomarExplosion">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 	</serviceFeatures>
