@@ -189,7 +189,6 @@ public class PassengerViewActivity extends MapActivity {
                 timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
-                PassengerViewActivity.this.finish();
                 break;
             case Constants.STATUS_NO_QUERY:
                 Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
