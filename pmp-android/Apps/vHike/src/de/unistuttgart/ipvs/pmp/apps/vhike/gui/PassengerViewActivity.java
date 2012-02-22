@@ -185,6 +185,8 @@ public class PassengerViewActivity extends MapActivity {
                 Log.i(this, "QUERY DELTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().clearPassengerNotificationAdapter();
                 locationManager.removeUpdates(luh);
                 timer.cancel();
                 ViewModel.getInstance().clearViewModel();
@@ -222,6 +224,8 @@ public class PassengerViewActivity extends MapActivity {
                 Log.i(this, "QUERY DELTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().clearPassengerNotificationAdapter();
                 locationManager.removeUpdates(luh);
                 timer.cancel();
                 ViewModel.getInstance().clearViewModel();
@@ -265,6 +269,8 @@ public class PassengerViewActivity extends MapActivity {
                         Log.i(this, "QUERY DELTED");
                         ViewModel.getInstance().clearPassengerOverlayList();
                         ViewModel.getInstance().getHitchDrivers().clear();
+                        ViewModel.getInstance().clearViewModel();
+                        ViewModel.getInstance().clearPassengerNotificationAdapter();
                         locationManager.removeUpdates(luh);
                         timer.cancel();
                         ViewModel.getInstance().clearViewModel();
