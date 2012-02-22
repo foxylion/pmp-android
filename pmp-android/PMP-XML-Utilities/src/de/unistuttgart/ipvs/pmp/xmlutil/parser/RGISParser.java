@@ -145,8 +145,9 @@ public class RGISParser extends AbstractParser {
             for (ParsedNode changeDescriptionNode : changeDescriptionList) {
                 LocalizedString changeDescr = new LocalizedString();
                 changeDescr.setLocale(new Locale(changeDescriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-                changeDescr.setString(changeDescriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ")
-                        .trim());
+                if (changeDescriptionNode.getValue() != null)
+                    changeDescr.setString(changeDescriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ")
+                            .trim());
                 ps.addChangeDescription(changeDescr);
             }
             

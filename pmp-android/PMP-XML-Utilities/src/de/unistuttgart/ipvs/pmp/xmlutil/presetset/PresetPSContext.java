@@ -29,7 +29,7 @@ public class PresetPSContext extends IssueLocation implements Serializable, IPre
     /**
      * The override value
      */
-    private String overrideValue = "";
+    private String overrideValue = null;
     
     
     /**
@@ -49,54 +49,36 @@ public class PresetPSContext extends IssueLocation implements Serializable, IPre
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#getType()
-     */
     @Override
     public String getType() {
         return this.type;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#setType(java.lang.String)
-     */
     @Override
     public void setType(String type) {
         this.type = type;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#getCondition()
-     */
     @Override
     public String getCondition() {
         return this.condition;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#setCondition(java.lang.String)
-     */
     @Override
     public void setCondition(String condition) {
         this.condition = condition;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#getOverrideValue()
-     */
     @Override
     public String getOverrideValue() {
         return this.overrideValue;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext#setOverrideValue(java.lang.String)
-     */
     @Override
     public void setOverrideValue(String overrideValue) {
         this.overrideValue = overrideValue;
