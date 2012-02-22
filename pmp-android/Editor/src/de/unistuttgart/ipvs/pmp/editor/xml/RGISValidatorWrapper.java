@@ -31,124 +31,123 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Wrapper of the RGISValidator. The following issues are also attached to the
- * subobjects: 
- * - PS_IDENTIFIER_OCCURRED_TOO_OFTEN 
- * - CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN
+ * subobjects: - PS_IDENTIFIER_OCCURRED_TOO_OFTEN -
+ * CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN
  * 
  * @author Marcus Vetter
  * 
  */
 public class RGISValidatorWrapper extends RGISValidator {
 
-	/**
-	 * ValidatorWrapperHelper
-	 */
-	ValidatorWrapperHelper helper = ValidatorWrapperHelper.getInstance();
+    /**
+     * ValidatorWrapperHelper
+     */
+    ValidatorWrapperHelper helper = ValidatorWrapperHelper.getInstance();
 
-	/**
-	 * Singleton stuff
-	 */
-	private static RGISValidatorWrapper instance = null;
+    /**
+     * Singleton stuff
+     */
+    private static RGISValidatorWrapper instance = null;
 
-	private RGISValidatorWrapper() {
+    private RGISValidatorWrapper() {
 
+    }
+
+    public static RGISValidatorWrapper getInstance() {
+	if (instance == null) {
+	    instance = new RGISValidatorWrapper();
 	}
+	return instance;
+    }
 
-	public static RGISValidatorWrapper getInstance() {
-		if (instance == null) {
-			instance = new RGISValidatorWrapper();
-		}
-		return instance;
-	}
+    @Override
+    public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
+	List<IIssue> issues = super.validateRGIS(rgis, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
-		List<IIssue> issues = super.validateRGIS(rgis, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateRGInformation(IRGIS rgis, boolean attachData) {
+	List<IIssue> issues = super.validateRGInformation(rgis, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateRGInformation(IRGIS rgis, boolean attachData) {
-		List<IIssue> issues = super.validateRGInformation(rgis, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validatePrivacySettings(IRGIS rgis, boolean attachData) {
+	List<IIssue> issues = super.validatePrivacySettings(rgis, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validatePrivacySettings(IRGIS rgis, boolean attachData) {
-		List<IIssue> issues = super.validatePrivacySettings(rgis, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validatePrivacySetting(IRGISPrivacySetting ps,
+	    boolean attachData) {
+	List<IIssue> issues = super.validatePrivacySetting(ps, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validatePrivacySetting(IRGISPrivacySetting ps,
-			boolean attachData) {
-		List<IIssue> issues = super.validatePrivacySetting(ps, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    /**
+     * INTERNAL USE ONLY! Extend the attachments of issues
+     * 
+     * @param issues
+     *            the list of issues
+     * @param attachData
+     *            only extend the attachments, if its true
+     */
+    private void extendAttachments(List<IIssue> issues, boolean attachData) {
+	if (attachData) {
+	    try {
+		for (IIssue issue : issues) {
 
-	/**
-	 * INTERNAL USE ONLY! Extend the attachments of issues
-	 * 
-	 * @param issues
-	 *            the list of issues
-	 * @param attachData
-	 *            only extend the attachments, if its true
-	 */
-	private void extendAttachments(List<IIssue> issues, boolean attachData) {
-		if (attachData) {
-			try {
-				for (IIssue issue : issues) {
+		    // The issue
+		    IssueType type = issue.getType();
+		    List<String> parameters = issue.getParameters();
 
-					// The issue
-					IssueType type = issue.getType();
-					List<String> parameters = issue.getParameters();
+		    // Switch the issue types
+		    switch (type) {
+		    case PS_IDENTIFIER_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IRGIS rgis = (IRGIS) issue.getLocation();
 
-					// Switch the issue types
-					switch (type) {
-					case PS_IDENTIFIER_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IRGIS rgis = (IRGIS) issue.getLocation();
-
-						// Attach service features with issue
-						List<IIdentifierIS> identifierISs = new ArrayList<IIdentifierIS>();
-						for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
-							identifierISs.add(ps);
-						}
-						helper.attachIIdentifierIS(identifierISs,
-								IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
-								parameters);
-
-						break;
-
-					case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IRGISPrivacySetting changeDescrLocation = (IRGISPrivacySetting) issue
-								.getLocation();
-
-						// Attach change descriptions with issues
-						helper.attachIBasicIS(
-								changeDescrLocation.getChangeDescriptions(),
-								IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-								parameters);
-
-						break;
-
-					}
-
-				}
-			} catch (ClassCastException cce) {
-				System.out
-						.println("Oooops, shit happens! The RGISValidatorWrapper failed or the XML Library has changed.");
-				cce.printStackTrace();
+			// Attach service features with issue
+			List<IIdentifierIS> identifierISs = new ArrayList<IIdentifierIS>();
+			for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+			    identifierISs.add(ps);
 			}
+			helper.attachIIdentifierIS(identifierISs,
+				IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
+				parameters);
+
+			break;
+
+		    case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IRGISPrivacySetting changeDescrLocation = (IRGISPrivacySetting) issue
+				.getLocation();
+
+			// Attach change descriptions with issues
+			helper.attachIBasicIS(
+				changeDescrLocation.getChangeDescriptions(),
+				IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+				parameters);
+
+			break;
+
+		    }
 
 		}
+	    } catch (ClassCastException cce) {
+		System.out
+			.println("Oooops, shit happens! The RGISValidatorWrapper failed or the XML Library has changed.");
+		cce.printStackTrace();
+	    }
+
 	}
+    }
 
 }

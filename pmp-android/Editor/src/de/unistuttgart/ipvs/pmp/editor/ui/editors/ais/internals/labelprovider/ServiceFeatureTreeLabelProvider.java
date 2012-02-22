@@ -32,19 +32,19 @@ public class ServiceFeatureTreeLabelProvider extends LabelProvider {
     public Image getImage(Object element) {
 	// Check for errors and return the correct image
 	if (element instanceof AISServiceFeature) {
-	    AISServiceFeature sf =(AISServiceFeature) element;
-	    if (!sf.getIssues().isEmpty()){
+	    AISServiceFeature sf = (AISServiceFeature) element;
+	    if (!sf.getIssues().isEmpty()) {
 		return Images.ERROR16;
 	    }
 	}
 
 	if (element instanceof AISRequiredResourceGroup) {
 	    AISRequiredResourceGroup rg = (AISRequiredResourceGroup) element;
-	    if (!rg.getIssues().isEmpty()){
+	    if (!rg.getIssues().isEmpty()) {
 		return Images.ERROR16;
 	    }
 	}
-	
+
 	return null;
     }
 }

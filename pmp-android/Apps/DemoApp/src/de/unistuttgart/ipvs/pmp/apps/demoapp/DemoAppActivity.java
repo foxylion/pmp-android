@@ -39,11 +39,7 @@ public class DemoAppActivity extends FragmentActivity {
 		mPagerAdapter = new DemoAppFragmentPagerAdapter(
 				getSupportFragmentManager());
 		mViewPager.setAdapter(mPagerAdapter);
-
 		TextView tv;
-		tv = (TextView) findViewById(R.id.panel_current);
-		tv.setText("" + mViewPager.getCurrentItem());
-
 		tv = (TextView) findViewById(R.id.panel_total);
 		tv.setText("" + mPagerAdapter.getCount());
 	}

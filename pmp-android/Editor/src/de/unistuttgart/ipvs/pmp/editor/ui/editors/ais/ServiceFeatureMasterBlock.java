@@ -30,10 +30,12 @@ import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
 import org.eclipse.ui.forms.SectionPart;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredResourceGroupsDialog;
@@ -71,6 +73,11 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     private Action remove;
 
     /**
+     * The model of this editor
+     */
+    private Model model = AisEditor.getModel();
+
+    /**
      * The add {@link AISRequiredResourceGroup} action
      */
     private Action addRG;
@@ -87,8 +94,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    Composite parent) {
 	parentShell = parent.getShell();
 	FormToolkit toolkit = managedForm.getToolkit();
-	Section section = toolkit.createSection(parent, Section.CLIENT_INDENT
-		| Section.TITLE_BAR);
+	Section section = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
+		| ExpandableComposite.TITLE_BAR);
 	section.setText("Service Features");
 	section.setExpanded(true);
 	creatSectionToolbar(section);
@@ -100,7 +107,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	treeViewer = new TreeViewer(compo);
 	treeViewer.setContentProvider(new ServiceFeatureTreeProvider());
 	treeViewer.setLabelProvider(new ServiceFeatureTreeLabelProvider());
-	treeViewer.setInput(Model.getInstance().getAis());
+	treeViewer.setInput(model.getAis());
 
 	GridData treeLayout = new GridData();
 	treeLayout.verticalAlignment = GridData.FILL;
@@ -242,11 +249,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    if (!result.equals(sf.getIdentifier())) {
 
 			// Change the service feature and set the dirty flag
-			Model.getInstance().setAISDirty(true);
+			model.setAISDirty(true);
 			sf.setIdentifier(result);
 			AISValidatorWrapper.getInstance()
-				.validateServiceFeatures(
-					Model.getInstance().getAis(), true);
+				.validateServiceFeatures(model.getAis(), true);
 			treeViewer.refresh();
 		    }
 		}
@@ -267,14 +273,13 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    if (!result.equals(rg.getMinRevision())) {
 
 			// Change the service feature and set the dirty flag
-			Model.getInstance().setAISDirty(true);
+			model.setAISDirty(true);
 			rg.setMinRevision(result);
 
 			AISValidatorWrapper.getInstance()
 				.validateRequiredResourceGroup(rg, true);
 			AISValidatorWrapper.getInstance()
-				.validateServiceFeatures(
-					Model.getInstance().getAis(), true);
+				.validateServiceFeatures(model.getAis(), true);
 			treeViewer.refresh();
 		    }
 		}
@@ -297,6 +302,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		SWT.CURSOR_HAND);
 	toolbar.setCursor(handCursor);
 	toolbar.addDisposeListener(new DisposeListener() {
+	    @Override
 	    public void widgetDisposed(DisposeEvent e) {
 		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
 		    handCursor.dispose();
@@ -317,12 +323,12 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 		if (dialog.open() == Window.OK) {
 		    // Add the service feature and set the dirty flag
-		    Model.getInstance().setAISDirty(true);
+		    model.setAISDirty(true);
 		    String result = dialog.getValue();
-		    Model.getInstance().getAis()
-			    .addServiceFeature(new AISServiceFeature(result));
+		    model.getAis().addServiceFeature(
+			    new AISServiceFeature(result));
 		    AISValidatorWrapper.getInstance().validateServiceFeatures(
-			    Model.getInstance().getAis(), true);
+			    model.getAis(), true);
 		    treeViewer.refresh();
 		}
 	    }
@@ -335,7 +341,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    @Override
 	    public void run() {
 		List<RGIS> rgisList = null;
-		rgisList = Model.getInstance().getRgisList(parentShell);
+		rgisList = model.getRgisList(parentShell);
 
 		if (rgisList != null) {
 		    HashMap<String, RGIS> resGroups = new HashMap<String, RGIS>();
@@ -390,10 +396,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 						required, true);
 				sf.addRequiredResourceGroup(required);
 			    }
-			    Model.getInstance().setAISDirty(true);
+			    model.setAISDirty(true);
 			    AISValidatorWrapper.getInstance()
-				    .validateServiceFeatures(
-					    Model.getInstance().getAis(), true);
+				    .validateServiceFeatures(model.getAis(),
+					    true);
 			    treeViewer.refresh();
 			}
 		    }
@@ -421,8 +427,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    // Check the type of the data, ServiceFeature could be
 		    // deleted directly
 		    if (data instanceof AISServiceFeature) {
-			Model.getInstance().getAis().getServiceFeatures()
-				.remove(data);
+			model.getAis().getServiceFeatures().remove(data);
 			item.dispose();
 			deleted = true;
 		    }
@@ -442,10 +447,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		if (deleted) {
 		    detailsPart.selectionChanged(null, null);
 		    AISValidatorWrapper.getInstance().validateServiceFeatures(
-			    Model.getInstance().getAis(), true);
+			    model.getAis(), true);
 
 		    treeViewer.refresh();
-		    Model.getInstance().setAISDirty(true);
+		    model.setAISDirty(true);
 
 		}
 

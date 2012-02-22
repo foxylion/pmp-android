@@ -29,7 +29,7 @@ public class ResourceGroupsDialogContentProvider implements IContentProvider,
     public Object[] getElements(Object arg0) {
 	@SuppressWarnings("unchecked")
 	List<RGIS> list = (List<RGIS>) arg0;
-	return (RGIS[]) list.toArray(new RGIS[list.size()]);
+	return list.toArray(new RGIS[list.size()]);
     }
 
     /*

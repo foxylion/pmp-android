@@ -160,6 +160,7 @@ public class CreateWizardRGIS extends Wizard implements INewWizard {
 
 	// Try to open the editor with the file
 	getShell().getDisplay().asyncExec(new Runnable() {
+	    @Override
 	    public void run() {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
 			.getActiveWorkbenchWindow().getActivePage();

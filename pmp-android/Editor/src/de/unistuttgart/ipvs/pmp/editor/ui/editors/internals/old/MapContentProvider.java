@@ -8,27 +8,29 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * Feeds a table with data from a map
+ * 
  * @author Patrick Strobel
  */
-public class MapContentProvider implements IContentProvider, IStructuredContentProvider {
+public class MapContentProvider implements IContentProvider,
+	IStructuredContentProvider {
 
-	@Override
-	public Object[] getElements(Object inputElement) {
-		@SuppressWarnings("unchecked")
-		Map<Object,Object> inputMap = (Map<Object,Object>)inputElement;
-		return inputMap.values().toArray();
-	}
+    @Override
+    public Object[] getElements(Object inputElement) {
+	@SuppressWarnings("unchecked")
+	Map<Object, Object> inputMap = (Map<Object, Object>) inputElement;
+	return inputMap.values().toArray();
+    }
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void dispose() {
+	// TODO Auto-generated method stub
 
-	@Override
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
+
+    @Override
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	// TODO Auto-generated method stub
+
+    }
 
 }

@@ -45,11 +45,12 @@ public class AndroidManifestAdapter {
      * @throws IOException
      * @throws SAXException
      * @throws ParserConfigurationException
-     * @throws AppIdentifierNotFoundException 
+     * @throws AppIdentifierNotFoundException
      */
     public String getAppIdentifier(String xmlPath, String xmlFile)
-	    throws ParserConfigurationException, SAXException, IOException, AppIdentifierNotFoundException {
-	
+	    throws ParserConfigurationException, SAXException, IOException,
+	    AppIdentifierNotFoundException {
+
 	return new AndroidManifestParser().getAppIdentifier(getInputStream(
 		xmlPath, xmlFile));
     }
@@ -72,13 +73,14 @@ public class AndroidManifestAdapter {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPActivityAlreadyExistsException
-     * @throws NoMainActivityException 
-     * @throws AppIdentifierNotFoundException 
+     * @throws NoMainActivityException
+     * @throws AppIdentifierNotFoundException
      */
     public void addPMPActivityToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, TransformerFactoryConfigurationError,
-	    TransformerException, PMPActivityAlreadyExistsException, NoMainActivityException, AppIdentifierNotFoundException {
+	    TransformerException, PMPActivityAlreadyExistsException,
+	    NoMainActivityException, AppIdentifierNotFoundException {
 
 	new AndroidManifestParser().addPMPActivity(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
@@ -99,13 +101,15 @@ public class AndroidManifestAdapter {
      * @throws TransformerFactoryConfigurationError
      * @throws TransformerException
      * @throws PMPServiceAlreadyExists
-     * @throws AppIdentifierNotFoundException 
-     * @throws DOMException 
+     * @throws AppIdentifierNotFoundException
+     * @throws DOMException
      */
     public void addPMPServiceToManifest(String xmlPath, String xmlFile)
 	    throws FileNotFoundException, ParserConfigurationException,
 	    SAXException, IOException, AndroidApplicationException,
-	    TransformerFactoryConfigurationError, TransformerException, PMPServiceAlreadyExists, DOMException, AppIdentifierNotFoundException {
+	    TransformerFactoryConfigurationError, TransformerException,
+	    PMPServiceAlreadyExists, DOMException,
+	    AppIdentifierNotFoundException {
 
 	new AndroidManifestParser().addPMPServiceToManifest(
 		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));

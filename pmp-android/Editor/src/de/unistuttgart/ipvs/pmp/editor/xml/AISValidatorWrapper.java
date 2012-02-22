@@ -35,219 +35,216 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Wrapper of the AISValidator. The following issues are also attached to the
- * subobjects: 
- * - NAME_LOCALE_OCCURRED_TOO_OFTEN 
- * - DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN 
- * - SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE
- * - SF_IDENTIFIER_OCCURRED_TOO_OFTEN 
- * - RRG_IDENTIFIER_OCCURRED_TOO_OFTEN 
- * - RPS_IDENTIFIER_OCCURRED_TOO_OFTEN
+ * subobjects: - NAME_LOCALE_OCCURRED_TOO_OFTEN -
+ * DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN -
+ * SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE -
+ * SF_IDENTIFIER_OCCURRED_TOO_OFTEN - RRG_IDENTIFIER_OCCURRED_TOO_OFTEN -
+ * RPS_IDENTIFIER_OCCURRED_TOO_OFTEN
  * 
  * @author Marcus Vetter
  * 
  */
 public class AISValidatorWrapper extends AISValidator {
-	
-	/**
-	 * ValidatorWrapperHelper
-	 */
-	ValidatorWrapperHelper helper = ValidatorWrapperHelper.getInstance();
 
-	/**
-	 * Singleton stuff
-	 */
-	private static AISValidatorWrapper instance = null;
+    /**
+     * ValidatorWrapperHelper
+     */
+    ValidatorWrapperHelper helper = ValidatorWrapperHelper.getInstance();
 
-	private AISValidatorWrapper() {
+    /**
+     * Singleton stuff
+     */
+    private static AISValidatorWrapper instance = null;
 
+    private AISValidatorWrapper() {
+
+    }
+
+    public static AISValidatorWrapper getInstance() {
+	if (instance == null) {
+	    instance = new AISValidatorWrapper();
 	}
+	return instance;
+    }
 
-	public static AISValidatorWrapper getInstance() {
-		if (instance == null) {
-			instance = new AISValidatorWrapper();
-		}
-		return instance;
-	}
-	
-	@Override
-	public List<IIssue> validateAIS(IAIS ais, boolean attachData) {
-		List<IIssue> issues = super.validateAIS(ais, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateAIS(IAIS ais, boolean attachData) {
+	List<IIssue> issues = super.validateAIS(ais, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateAppInformation(IAIS ais, boolean attachData) {
-		List<IIssue> issues = super.validateAppInformation(ais, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateAppInformation(IAIS ais, boolean attachData) {
+	List<IIssue> issues = super.validateAppInformation(ais, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateServiceFeatures(IAIS ais, boolean attachData) {
-		List<IIssue> issues = super.validateServiceFeatures(ais, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateServiceFeatures(IAIS ais, boolean attachData) {
+	List<IIssue> issues = super.validateServiceFeatures(ais, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateServiceFeature(IAISServiceFeature sf,
-			boolean attachData) {
-		List<IIssue> issues = super.validateServiceFeature(sf, attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateServiceFeature(IAISServiceFeature sf,
+	    boolean attachData) {
+	List<IIssue> issues = super.validateServiceFeature(sf, attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateRequiredResourceGroup(
-			IAISRequiredResourceGroup rrg, boolean attachData) {
-		List<IIssue> issues = super.validateRequiredResourceGroup(rrg,
-				attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateRequiredResourceGroup(
+	    IAISRequiredResourceGroup rrg, boolean attachData) {
+	List<IIssue> issues = super.validateRequiredResourceGroup(rrg,
+		attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	@Override
-	public List<IIssue> validateRequiredPrivacySetting(
-			IAISRequiredPrivacySetting rps, boolean attachData) {
-		List<IIssue> issues = super.validateRequiredPrivacySetting(rps,
-				attachData);
-		extendAttachments(issues, attachData);
-		return issues;
-	}
+    @Override
+    public List<IIssue> validateRequiredPrivacySetting(
+	    IAISRequiredPrivacySetting rps, boolean attachData) {
+	List<IIssue> issues = super.validateRequiredPrivacySetting(rps,
+		attachData);
+	extendAttachments(issues, attachData);
+	return issues;
+    }
 
-	/**
-	 * INTERNAL USE ONLY! Extend the attachments of issues
-	 * 
-	 * @param issues
-	 *            the list of issues
-	 * @param attachData
-	 *            only extend the attachments, if its true
-	 */
-	private void extendAttachments(List<IIssue> issues, boolean attachData) {
-		if (attachData) {
-			try {
-				for (IIssue issue : issues) {
+    /**
+     * INTERNAL USE ONLY! Extend the attachments of issues
+     * 
+     * @param issues
+     *            the list of issues
+     * @param attachData
+     *            only extend the attachments, if its true
+     */
+    private void extendAttachments(List<IIssue> issues, boolean attachData) {
+	if (attachData) {
+	    try {
+		for (IIssue issue : issues) {
 
-					// The issue
-					IssueType type = issue.getType();
-					List<String> parameters = issue.getParameters();
+		    // The issue
+		    IssueType type = issue.getType();
+		    List<String> parameters = issue.getParameters();
 
-					// Switch the issue types
-					switch (type) {
-					case NAME_LOCALE_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IBasicIS nameLocation = (IBasicIS) issue.getLocation();
+		    // Switch the issue types
+		    switch (type) {
+		    case NAME_LOCALE_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IBasicIS nameLocation = (IBasicIS) issue.getLocation();
 
-						// Attach names with issue
-						helper.attachIBasicIS(nameLocation.getNames(),
-								IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
-								parameters);
+			// Attach names with issue
+			helper.attachIBasicIS(nameLocation.getNames(),
+				IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
+				parameters);
 
-						break;
+			break;
 
-					case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IBasicIS descrLocation = (IBasicIS) issue.getLocation();
+		    case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IBasicIS descrLocation = (IBasicIS) issue.getLocation();
 
-						// Attach descriptions with issue
-						helper.attachIBasicIS(
-								descrLocation.getDescriptions(),
-								IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-								parameters);
+			// Attach descriptions with issue
+			helper.attachIBasicIS(
+				descrLocation.getDescriptions(),
+				IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+				parameters);
 
-						break;
+			break;
 
-					case SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IAIS aisLocation = (IAIS) issue.getLocation();
+		    case SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IAIS aisLocation = (IAIS) issue.getLocation();
 
-						// Attach service features with this issue
-						for (IAISServiceFeature sf : aisLocation
-								.getServiceFeatures()) {
+			// Attach service features with this issue
+			for (IAISServiceFeature sf : aisLocation
+				.getServiceFeatures()) {
 
-							// if the sf has not the issue yet
-							boolean hasIssue = false;
-							for (IIssue assignedIssue : sf.getIssues()) {
-								if (assignedIssue
-										.getType()
-										.equals(IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE))
-									hasIssue = true;
-							}
-							if (!hasIssue) {
-								sf.addIssue(new Issue(
-										IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE,
-										sf));
-							}
-						}
-
-						break;
-
-					case SF_IDENTIFIER_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IAIS ais = (IAIS) issue.getLocation();
-
-						// Attach service features with issue
-						List<IIdentifierIS> identifierISs = new ArrayList<IIdentifierIS>();
-						for (IAISServiceFeature sf : ais.getServiceFeatures()) {
-							identifierISs.add(sf);
-						}
-						helper.attachIIdentifierIS(identifierISs,
-								IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
-								parameters);
-
-						break;
-
-					case RRG_IDENTIFIER_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IAISServiceFeature sf = (IAISServiceFeature) issue
-								.getLocation();
-
-						// Attach service features with issue
-						List<IIdentifierIS> iISs = new ArrayList<IIdentifierIS>();
-						for (IAISRequiredResourceGroup rrg : sf
-								.getRequiredResourceGroups()) {
-							iISs.add(rrg);
-						}
-						helper.attachIIdentifierIS(iISs,
-								IssueType.RRG_IDENTIFIER_OCCURRED_TOO_OFTEN,
-								parameters);
-
-						break;
-
-					case RPS_IDENTIFIER_OCCURRED_TOO_OFTEN:
-						// Cast the location (should be possible, if
-						// its this issue type)
-						IAISRequiredResourceGroup rrg = (IAISRequiredResourceGroup) issue
-								.getLocation();
-
-						// Attach service features with issue
-						List<IIdentifierIS> identISs = new ArrayList<IIdentifierIS>();
-						for (IAISRequiredPrivacySetting ps : rrg
-								.getRequiredPrivacySettings()) {
-							identISs.add(ps);
-						}
-						helper.attachIIdentifierIS(identISs,
-								IssueType.RPS_IDENTIFIER_OCCURRED_TOO_OFTEN,
-								parameters);
-
-						break;
-					}
-
-				}
-			} catch (ClassCastException cce) {
-				System.out
-						.println("Oooops, shit happens! The AISValidatorWrapper failed or the XML Library has changed.");
-				cce.printStackTrace();
+			    // if the sf has not the issue yet
+			    boolean hasIssue = false;
+			    for (IIssue assignedIssue : sf.getIssues()) {
+				if (assignedIssue
+					.getType()
+					.equals(IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE))
+				    hasIssue = true;
+			    }
+			    if (!hasIssue) {
+				sf.addIssue(new Issue(
+					IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE,
+					sf));
+			    }
 			}
 
-		}
-	}
+			break;
 
+		    case SF_IDENTIFIER_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IAIS ais = (IAIS) issue.getLocation();
+
+			// Attach service features with issue
+			List<IIdentifierIS> identifierISs = new ArrayList<IIdentifierIS>();
+			for (IAISServiceFeature sf : ais.getServiceFeatures()) {
+			    identifierISs.add(sf);
+			}
+			helper.attachIIdentifierIS(identifierISs,
+				IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
+				parameters);
+
+			break;
+
+		    case RRG_IDENTIFIER_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IAISServiceFeature sf = (IAISServiceFeature) issue
+				.getLocation();
+
+			// Attach service features with issue
+			List<IIdentifierIS> iISs = new ArrayList<IIdentifierIS>();
+			for (IAISRequiredResourceGroup rrg : sf
+				.getRequiredResourceGroups()) {
+			    iISs.add(rrg);
+			}
+			helper.attachIIdentifierIS(iISs,
+				IssueType.RRG_IDENTIFIER_OCCURRED_TOO_OFTEN,
+				parameters);
+
+			break;
+
+		    case RPS_IDENTIFIER_OCCURRED_TOO_OFTEN:
+			// Cast the location (should be possible, if
+			// its this issue type)
+			IAISRequiredResourceGroup rrg = (IAISRequiredResourceGroup) issue
+				.getLocation();
+
+			// Attach service features with issue
+			List<IIdentifierIS> identISs = new ArrayList<IIdentifierIS>();
+			for (IAISRequiredPrivacySetting ps : rrg
+				.getRequiredPrivacySettings()) {
+			    identISs.add(ps);
+			}
+			helper.attachIIdentifierIS(identISs,
+				IssueType.RPS_IDENTIFIER_OCCURRED_TOO_OFTEN,
+				parameters);
+
+			break;
+		    }
+
+		}
+	    } catch (ClassCastException cce) {
+		System.out
+			.println("Oooops, shit happens! The AISValidatorWrapper failed or the XML Library has changed.");
+		cce.printStackTrace();
+	    }
+
+	}
+    }
 
 }

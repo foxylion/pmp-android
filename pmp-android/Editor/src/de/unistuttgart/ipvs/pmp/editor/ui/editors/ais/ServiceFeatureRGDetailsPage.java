@@ -34,10 +34,12 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
@@ -73,6 +75,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      * {@link Shell} of the parent
      */
     private Shell parentShell;
+
+    /**
+     * The model of this editor
+     */
+    private Model model = AisEditor.getModel();
 
     /**
      * Required privacy setting {@link TableViewer}
@@ -122,8 +129,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	FormToolkit toolkit = form.getToolkit();
 
 	// The name section
-	Section psSection = toolkit.createSection(parent, Section.CLIENT_INDENT
-		| Section.TITLE_BAR);
+	Section psSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
+		| ExpandableComposite.TITLE_BAR);
 	psSection.setText("Required Privacy Setting");
 	psSection.setLayout(new GridLayout(1, false));
 	psSection.setExpanded(true);
@@ -241,7 +248,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      */
     @Override
     public boolean isDirty() {
-	return Model.getInstance().isAisDirty();
+	return model.isAisDirty();
     }
 
     /**
@@ -260,6 +267,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		SWT.CURSOR_HAND);
 	toolbar.setCursor(handCursor);
 	toolbar.addDisposeListener(new DisposeListener() {
+	    @Override
 	    public void widgetDisposed(DisposeEvent e) {
 		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
 		    handCursor.dispose();
@@ -277,8 +285,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		RGIS resGroup = null;
 
 		// Get the resource groups from the server
-		List<RGIS> rgList = Model.getInstance()
-			.getRgisList(parentShell);
+		List<RGIS> rgList = model.getRgisList(parentShell);
 		if (rgList != null) {
 		    for (RGIS rgis : rgList) {
 			if (rgis.getIdentifier().equals(
@@ -342,8 +349,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 				    .validateRequiredResourceGroup(displayed,
 					    true);
 			    AISValidatorWrapper.getInstance()
-				    .validateServiceFeatures(
-					    Model.getInstance().getAis(), true);
+				    .validateServiceFeatures(model.getAis(),
+					    true);
 
 			    ServiceFeatureMasterBlock.refreshTree();
 			    // Update the view
@@ -353,7 +360,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    valueColumn.pack();
 			    psTableViewer.getTable().redraw();
 			    psTableViewer.getTable().setRedraw(true);
-			    Model.getInstance().setAISDirty(true);
+			    model.setAISDirty(true);
 			}
 
 			// There are no PS to add to this service feature
@@ -398,7 +405,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		AISValidatorWrapper.getInstance()
 			.validateRequiredResourceGroup(displayed, true);
 		AISValidatorWrapper.getInstance().validateServiceFeatures(
-			Model.getInstance().getAis(), true);
+			model.getAis(), true);
 
 		ServiceFeatureMasterBlock.refreshTree();
 
@@ -410,7 +417,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		psTableViewer.getTable().redraw();
 		psTableViewer.getTable().setRedraw(true);
 
-		Model.getInstance().setAISDirty(true);
+		model.setAISDirty(true);
 	    }
 	};
 	remove.setToolTipText("Remove the selected required Privacy Setting");
@@ -436,10 +443,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	if (selectionCount == 1) {
 	    RGIS resGroup = null;
 
-	    if (Model.getInstance().isRGListAvailable()) {
+	    if (model.isRGListAvailable()) {
 		// Get the resource groups from the server
-		List<RGIS> rgList = Model.getInstance()
-			.getRgisList(parentShell);
+		List<RGIS> rgList = model.getRgisList(parentShell);
 		if (rgList != null) {
 		    for (RGIS rgis : rgList) {
 			if (rgis.getIdentifier().equals(
@@ -490,7 +496,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    AISValidatorWrapper.getInstance()
 			    .validateRequiredResourceGroup(displayed, true);
 		    AISValidatorWrapper.getInstance().validateServiceFeatures(
-			    Model.getInstance().getAis(), true);
+			    model.getAis(), true);
 
 		    ServiceFeatureMasterBlock.refreshTree();
 
@@ -502,7 +508,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    psTableViewer.getTable().redraw();
 		    psTableViewer.getTable().setRedraw(true);
 
-		    Model.getInstance().setAISDirty(true);
+		    model.setAISDirty(true);
 		}
 	    }
 	}

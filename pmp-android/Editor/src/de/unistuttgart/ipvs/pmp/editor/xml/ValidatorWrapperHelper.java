@@ -34,72 +34,72 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  */
 public class ValidatorWrapperHelper {
 
-	/**
-	 * Singleton stuff
-	 */
-	private static ValidatorWrapperHelper instance = null;
+    /**
+     * Singleton stuff
+     */
+    private static ValidatorWrapperHelper instance = null;
 
-	private ValidatorWrapperHelper() {
+    private ValidatorWrapperHelper() {
 
+    }
+
+    protected static ValidatorWrapperHelper getInstance() {
+	if (instance == null) {
+	    instance = new ValidatorWrapperHelper();
 	}
+	return instance;
+    }
 
-	protected static ValidatorWrapperHelper getInstance() {
-		if (instance == null) {
-			instance = new ValidatorWrapperHelper();
-		}
-		return instance;
+    /**
+     * INTERNAL USE ONLY! Extend the attachments of
+     * "identifier occurred too often"
+     * 
+     * @param identifierISs
+     *            list of identifier information sets
+     * @param issueType
+     *            the issue type
+     * @param issueParameters
+     *            the parameters of the issue
+     */
+    protected void attachIIdentifierIS(List<IIdentifierIS> identifierISs,
+	    IssueType issueType, List<String> issueParameters) {
+	// Attach service features with issue
+	for (IIdentifierIS identifierIS : identifierISs) {
+	    String ident = identifierIS.getIdentifier();
+
+	    // if the identifier is the same, add the issue
+	    if ((issueParameters.size() == 1 && ident.equals(issueParameters
+		    .get(0)))
+		    || (issueParameters.size() == 0 && ident.equals(""))) {
+		identifierIS.addIssue(new Issue(issueType, identifierIS));
+	    }
 	}
-	
-	/**
-	 * INTERNAL USE ONLY! Extend the attachments of
-	 * "identifier occurred too often"
-	 * 
-	 * @param identifierISs
-	 *            list of identifier information sets
-	 * @param issueType
-	 *            the issue type
-	 * @param issueParameters
-	 *            the parameters of the issue
-	 */
-	protected void attachIIdentifierIS(List<IIdentifierIS> identifierISs,
-			IssueType issueType, List<String> issueParameters) {
-		// Attach service features with issue
-		for (IIdentifierIS identifierIS : identifierISs) {
-			String ident = identifierIS.getIdentifier();
+    }
 
-			// if the identifier is the same, add the issue
-			if ((issueParameters.size() == 1 && ident.equals(issueParameters
-					.get(0)))
-					|| (issueParameters.size() == 0 && ident.equals(""))) {
-				identifierIS.addIssue(new Issue(issueType, identifierIS));
-			}
-		}
+    /**
+     * INTERNAL USE ONLY! Extend the attachments of
+     * "Name/Description/RGISChangeDescription occurred too often"
+     * 
+     * @param localizedStrings
+     *            list of localized strings
+     * @param issueType
+     *            the issue type
+     * @param issueParameters
+     *            the parameters of the issue
+     */
+    protected void attachIBasicIS(List<ILocalizedString> localizedStrings,
+	    IssueType issueType, List<String> issueParameters) {
+	// Attach localized strings with issue
+	for (ILocalizedString localizedString : localizedStrings) {
+	    String locale = localizedString.getLocale().getLanguage();
+
+	    // if the locale is the same
+	    if ((issueParameters.size() == 1 && locale.equals(issueParameters
+		    .get(0)))
+		    || (issueParameters.size() == 0 && locale.equals(""))) {
+		localizedString.addIssue(new Issue(issueType, localizedString));
+	    }
 	}
-
-	/**
-	 * INTERNAL USE ONLY! Extend the attachments of
-	 * "Name/Description/RGISChangeDescription occurred too often"
-	 * 
-	 * @param localizedStrings
-	 *            list of localized strings
-	 * @param issueType
-	 *            the issue type
-	 * @param issueParameters
-	 *            the parameters of the issue
-	 */
-	protected void attachIBasicIS(List<ILocalizedString> localizedStrings,
-			IssueType issueType, List<String> issueParameters) {
-		// Attach localized strings with issue
-		for (ILocalizedString localizedString : localizedStrings) {
-			String locale = localizedString.getLocale().getLanguage();
-
-			// if the locale is the same
-			if ((issueParameters.size() == 1 && locale.equals(issueParameters
-					.get(0)))
-					|| (issueParameters.size() == 0 && locale.equals(""))) {
-				localizedString.addIssue(new Issue(issueType, localizedString));
-			}
-		}
-	}
+    }
 
 }

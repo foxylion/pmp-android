@@ -170,6 +170,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
 	return composite;
     }
 
+    @Override
     protected void okPressed() {
 
 	Object[] children = listViewer.getCheckedElements();

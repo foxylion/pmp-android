@@ -8,40 +8,56 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * @author Thorsten
- *
+ * 
  */
-public class ResourceGroupDialogLabelProvider implements ILabelProvider{
+public class ResourceGroupDialogLabelProvider implements ILabelProvider {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
+     * jface.viewers.ILabelProviderListener)
      */
     @Override
     public void addListener(ILabelProviderListener arg0) {
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
      */
     @Override
     public void dispose() {
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
+     * .Object, java.lang.String)
      */
     @Override
     public boolean isLabelProperty(Object arg0, String arg1) {
 	return false;
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+     * .jface.viewers.ILabelProviderListener)
      */
     @Override
     public void removeListener(ILabelProviderListener arg0) {
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
      */
     @Override
@@ -49,7 +65,9 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider{
 	return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
      */
     @Override

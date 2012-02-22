@@ -31,10 +31,12 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.DescriptionContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.NameContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.ServiceFeatureDescriptionDialog;
@@ -62,6 +64,11 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      * Given form
      */
     private IManagedForm form;
+
+    /**
+     * The model of this editor
+     */
+    private Model model = AisEditor.getModel();
 
     /**
      * {@link Shell} of the parent
@@ -131,7 +138,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	// The name section
 	Section nameSection = toolkit.createSection(parent,
-		Section.CLIENT_INDENT | Section.TITLE_BAR);
+		ExpandableComposite.CLIENT_INDENT | ExpandableComposite.TITLE_BAR);
 	nameSection.setText("Names");
 	nameSection.setLayout(new GridLayout(1, false));
 	nameSection.setExpanded(true);
@@ -140,7 +147,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	// The description section
 	Section descriptionSection = toolkit.createSection(parent,
-		Section.CLIENT_INDENT | Section.TITLE_BAR);
+		ExpandableComposite.CLIENT_INDENT | ExpandableComposite.TITLE_BAR);
 	descriptionSection.setText("Descriptions");
 	descriptionSection.setLayout(new GridLayout(1, false));
 	descriptionSection.setExpanded(true);
@@ -261,7 +268,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 			    oldName.setLocale(locale);
 			    oldName.setString(newName);
 
-			    Model.getInstance().setAISDirty(true);
+			    model.setAISDirty(true);
 			    AISValidatorWrapper.getInstance()
 				    .validateServiceFeature(displayed, true);
 			    ServiceFeatureMasterBlock.refreshTree();
@@ -383,7 +390,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 				    oldDesc.setLocale(locale);
 				    oldDesc.setString(newDesc);
 
-				    Model.getInstance().setAISDirty(true);
+				    model.setAISDirty(true);
 				    AISValidatorWrapper.getInstance()
 					    .validateServiceFeature(displayed,
 						    true);
@@ -453,6 +460,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		SWT.CURSOR_HAND);
 	toolbar.setCursor(handCursor);
 	toolbar.addDisposeListener(new DisposeListener() {
+	    @Override
 	    public void widgetDisposed(DisposeEvent e) {
 		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
 		    handCursor.dispose();
@@ -484,7 +492,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		    displayed.addName(name);
 
-		    Model.getInstance().setAISDirty(true);
+		    model.setAISDirty(true);
 		    AISValidatorWrapper.getInstance().validateServiceFeature(
 			    displayed, true);
 		    ServiceFeatureMasterBlock.refreshTree();
@@ -522,7 +530,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		nameTableViewer.getTable().setRedraw(true);
 		nameTableViewer.refresh();
-		Model.getInstance().setAISDirty(true);
+		model.setAISDirty(true);
 	    }
 	};
 	remove.setToolTipText("Remove the selected names");
@@ -551,6 +559,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		SWT.CURSOR_HAND);
 	toolbar.setCursor(handCursor);
 	toolbar.addDisposeListener(new DisposeListener() {
+	    @Override
 	    public void widgetDisposed(DisposeEvent e) {
 		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
 		    handCursor.dispose();
@@ -582,7 +591,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		    displayed.addDescription(desc);
 
-		    Model.getInstance().setAISDirty(true);
+		    model.setAISDirty(true);
 		    AISValidatorWrapper.getInstance().validateServiceFeature(
 			    displayed, true);
 		    ServiceFeatureMasterBlock.refreshTree();
@@ -623,7 +632,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		ServiceFeatureMasterBlock.refreshTree();
 
 		descriptionTableViewer.refresh();
-		Model.getInstance().setAISDirty(true);
+		model.setAISDirty(true);
 	    }
 	};
 	remove.setToolTipText("Remove the selected descriptions");
@@ -661,7 +670,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      */
     @Override
     public boolean isDirty() {
-	return Model.getInstance().isAisDirty();
+	return model.isAisDirty();
     }
 
     /*
