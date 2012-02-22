@@ -312,7 +312,7 @@ public class RGParserTest extends TestCase implements TestConstants {
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted RG with empty name.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.VALUE_MISSING));
     }
     
     
@@ -327,7 +327,7 @@ public class RGParserTest extends TestCase implements TestConstants {
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted RG with empty description.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.VALUE_MISSING));
     }
     
     
@@ -342,7 +342,7 @@ public class RGParserTest extends TestCase implements TestConstants {
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted RG with PS with empty name.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.VALUE_MISSING));
     }
     
     
@@ -357,7 +357,7 @@ public class RGParserTest extends TestCase implements TestConstants {
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted RG with PS with empty description.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.VALUE_MISSING));
     }
     
     
@@ -372,7 +372,7 @@ public class RGParserTest extends TestCase implements TestConstants {
         
         IRGIS rgis = XMLUtilityProxy.getRGUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted RG with PS with empty change description.",
-                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.EMPTY_VALUE));
+                TestUtil.assertRGISValidation(rgis, ILocalizedString.class, null, IssueType.VALUE_MISSING));
     }
     
     

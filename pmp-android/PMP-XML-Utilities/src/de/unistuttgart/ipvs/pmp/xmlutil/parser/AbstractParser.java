@@ -120,7 +120,10 @@ public abstract class AbstractParser {
             if (element.getChildNodes().item(0) == null) {
                 parsedNode.setValue(null);
             } else {
-                parsedNode.setValue(element.getChildNodes().item(0).getNodeValue());
+                parsedNode.setValue("");
+                for (int itemItr = 0; itemItr < element.getChildNodes().getLength(); itemItr++) {
+                    parsedNode.setValue(parsedNode.getValue() + element.getChildNodes().item(itemItr).getNodeValue());
+                }
             }
             
             // Get the attributes given as parameters

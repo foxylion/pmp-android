@@ -226,7 +226,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         IPresetSet pset = XMLUtilityProxy.getPresetUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         
         assertTrue("Validator accepted Preset with missing description.",
-                TestUtil.assertPSValidation(pset, IPreset.class, PRESET1_IDENTIFIER, IssueType.EMPTY_VALUE));
+                TestUtil.assertPSValidation(pset, IPreset.class, PRESET1_IDENTIFIER, IssueType.VALUE_MISSING));
     }
     
     

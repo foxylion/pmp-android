@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
  * 
  */
 public class BasicISCompiler {
+    
+    /**
+     * The simple date format
+     */
+    public static final SimpleDateFormat REVISION_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+    
     
     /**
      * Create a list of XMLNodes with names and descriptions from a BasicIS

@@ -75,7 +75,7 @@ public class TestUtil implements TestConstants {
         
     }
     
-    private static final boolean debugInput = false;
+    private static final boolean debugInput = true;
     
     /*
     * statics used to access results of creation methods

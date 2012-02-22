@@ -439,7 +439,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         
         IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
         assertTrue("Validator accepted app with missing RG value.", TestUtil.assertAISValidation(ais,
-                IAISRequiredPrivacySetting.class, APP_SF1_REQ_PS1_ID, IssueType.EMPTY_VALUE));
+                IAISRequiredPrivacySetting.class, APP_SF1_REQ_PS1_ID, IssueType.VALUE_MISSING));
     }
     
     
