@@ -87,8 +87,8 @@
                 <p></p>
 
                 <h2 id="zweck">Zweck</h2>
-                <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "InfoApp" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.
-                    Das Dokument summiert die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
+                <p>Dieses Dokument stellt die Spezifikation des Projektes InfoApp dar. Diese wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" entwickelt.
+                    Das Dokument summiert die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung.
                     Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
                     Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
                     damit die weitere Entwicklung stets auf dieses Dokument zurückgreifen kann.</p>
@@ -97,15 +97,16 @@
                     Bedeutung von speziellen Begriffen.</p>
 
                 <h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
-                <p>InfoApp dient hauptsächlich als Demonstrationsprogramm um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
+                <p>Die InfoApp dient hauptsächlich als Informationsapplikation um möglichst viele Funktionalitäten von PMP darzustellen und Features zu nutzen. Dazu gehört hauptsächlich die Demonstration der Ressourcengruppen.</p>
 
 
                 <h2 id="leserkreis">Leserkreis</h2>
                 <p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
                 <ul>
-                    <li>den Entwicklern von PMP</li>
+                    <li>den Entwicklern von der InfoApp</li>
+					<li>den Entwicklern von PMP</li>
                     <li>dem Kunden</li>
-                    <li>dem Betreuern des Studienprojekts</li>
+                    <li>den Betreuern des Studienprojekts</li>
                 </ul>
 
                 <div class="pagebreak"></div>
@@ -122,50 +123,51 @@
 
                 <h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
 
-                <h2 id="anforderungen-an-pmp">Anforderungen an InfoApp</h2>
+                <h2 id="anforderungen-an-pmp">Anforderungen an die InfoApp</h2>
 
                 <h3 id="oberflaeche">Oberfläche</h3>
-                <p>Die Oberfläche von InfoApp wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+                <p>Die Oberfläche der InfoApp wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
                 <h3 id="standardeinstellungen">Standardeinstellungen</h3>
-                <p>InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, einzige Bedingung ist dass PMP installiert sein muss.</p>
+                <p>Die InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. Die einzige Bedingung ist, dass PMP installiert sein muss.</p>
 
 
                 <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
                 <h2 id="bedienbarkeit">Bedienbarkeit</h2>
-                <p>InfoApp wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
+                <p>Die InfoApp wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
 
                 <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
-                <p>InfoApp wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+                <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-                <p>InfoApp wird kompatibel zur aktuellen PMP Version sein (PMP v3.x) und somit wird mindestens Android 2.1 benötigt.</p>
+                <p>Die InfoApp wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v3.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
 
                 <h2 id="internationalisierung">Internationalisierung</h2>
-                <p>Die einzige verfügbare Sprache für InfoApp ist Englisch, weitere Übersetzungen sind jedoch ohne weitere Anpassungen möglich.</p>
+                <p>Die einzige verfügbare Sprache für InfoApp ist Englisch, wobei weitere Übersetzungen ohne Anpassung des Quellcodes hinzugefügt werden können.</p>
 
                 <h2 id="installation">Installation</h2>
-                <p>InfoApp wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
+                <p>Die InfoApp wird im apk-Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
 
                 <h2 id="wartbarkeit">Wartbarkeit</h2>
                 <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
 
                 <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-                <p>InfoApp hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
+                <p>Die InfoApp hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
 
                 <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. InfoApp wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. Die InfoApp wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
 
                 <div class="pagebreak"></div>
 
                 <h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
+				Das Start-Panel kann vom Benutzer in den Einstellungen der InfoApp festgelegt werden.
 
-                <h2 id="ui-mainactivity">Startbildschirm</h2>
+                <h2 id="ui-mainactivity">Start-Panel</h2>
                 <div class="uip">
                     <a href="gui-prototype/screen-1.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-1.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Nach dem Starten von InfoApp wird automatisch die Standardansicht geöffnet. Grundsätzlich wird in der InfoApp immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
+                    <p>Nach dem Starten der InfoApp wird automatisch das Start-Panel (hier: Wetter-Panel) geöffnet.<br>Grundsätzlich wird in der InfoApp eine Kopfzeile angezeigt, in der unter anderem der Name des gerade aktiven Panels angezeigt wird.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -173,7 +175,7 @@
                     <a href="gui-prototype/screen-2.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-2.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Durch Wischen auf dem Bildschirm kann zwischen den einzelnen Panels hin und hergeschaltet werden.</p>
+                    <p>Durch eine Wisch-Geste auf dem Bildschirm kann zwischen den einzelnen Panels hin- und hergewechselt werden.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -181,7 +183,7 @@
                     <a href="gui-prototype/screen-3.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-3.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte InfoApp gewährt wurden. Eine Übersicht über alle Panels findet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
+                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet. Die Anzahl der verfügbaren Panels richtet sich nach den installierten Ressourcengruppen und den gewährten Rechten.<br>Eine Übersicht über alle Panels befindet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -189,14 +191,22 @@
                     <a href="gui-prototype/screen-4.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-4.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Mit der "Menü"-Taste können weitere Einstellungen geöffnet werden.</p>
+                    <p>Mit der "Menü"-Taste können die Einstellungen der InfoApp geöffnet werden.
+					</p>
+					<p>Screenshot mit Einstellungen erstellen:<br>
+					- Dropdown für Start-Panel<br>
+					- Checkbox, ob Panels bei nichtvorhandenen RGs angezeigt werden sollen<br>
+					<br>
+					- Screenshots alle konsistent machen: Design und "InfoApp" als Name<br>
+					- Alle Screenshots auf Englisch!
+					</p>
                     <div class="clear"></div>
                 </div>
             </div>
 
 
             <h2 id="ui-panels">Panels</h2>
-            <p>In jedem Panel werden je nach Berechtigung die benötigten Informationen dargestellt oder ausgeblendet. Fehlen grundlegende Berechtigungen wird das gesamte Panel ausgeblendet.</p>
+            <p>In jedem Panel werden je nach Berechtigung die Informationen dargestellt.</p>
 
             <h3  id="panel-rss">Nachrichten-Panel</h3>
 	    <div class="uip">
@@ -204,7 +214,7 @@
             <img src="gui-prototype/panel-rss.png" alt="Home" class="left" width="300" />
             </a>
             <p>In diesem Panel werden verschiedene RSS-Feeds abgerufen und dargestellt.</p>
-            <p><em>Benutzt die RSS-Feed-Ressourcengruppe.</em></p>
+            <p><em>Verwendet die RSS-Feed-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
 
@@ -213,8 +223,8 @@
             <a href="gui-prototype/panel-bookmarks.png" rel="ui-prototype" class="fancybox">
             <img src="gui-prototype/panel-bookmarks.png" alt="Home" class="left" width="300" />
             </a>
- <p>In diesem Panel werden die zehn neuesten Bookmarks, eingeblendet. Bei entsprechenden Berechtigungen können die Bookmarks auch bearbeitet werden.</p>
-            <p><em>Benutzt die Browser-Ressourcengruppe.</em></p>
+ <p>In diesem Panel werden die zehn neuesten Bookmarks eingeblendet. Bei entsprechenden Berechtigungen können die Bookmarks auch bearbeitet werden.</p>
+            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
            
@@ -224,8 +234,8 @@
             <a href="gui-prototype/panel-browserhistory.png" rel="ui-prototype" class="fancybox">
             <img src="gui-prototype/panel-browserhistory.png" alt="Home" class="left" width="300" />
             </a>
-<p>In diesem Panel werden die zehn zuletzt besuchten Seiten angezeigt, bei entsprechender Berechtigung kann die History gelöscht werden.</p>
-            <p><em>Benutzt die Browser-Ressourcengruppe.</em></p>
+<p>In diesem Panel werden die zehn zuletzt besuchten Seiten angezeigt. Bei entsprechender Berechtigung kann die History gelöscht werden.</p>
+            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
             
@@ -235,8 +245,8 @@
             <a href="gui-prototype/panel-searchistory.png" rel="ui-prototype" class="fancybox">
             <img src="gui-prototype/panel-searchistory.png" alt="Home" class="left" width="300" />
             </a>
-<p>In diesem Panel werden die letzten zehn Internetsuchen angezeigt, bei entsprechender Berechtigung kann die History gelöscht werden.</p>
-            <p><em>Benutzt die Browser-Ressourcengruppe.</em></p>
+<p>In diesem Panel werden die letzten zehn Suchanfragen angezeigt. Bei entsprechender Berechtigung kann die History gelöscht werden.</p>
+            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
             
@@ -247,7 +257,7 @@
             <img src="gui-prototype/panel-translation.png" alt="Home" class="left" width="300" />
             </a>
 <p>In diesem Panel kann ein Text von Englisch ins Deutsche übersetzt werden.</p>
-            <p><em>Benutzt die Übersetzungs-Ressourcengruppe.</em></p>
+            <p><em>Verwendet die Übersetzungs-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
 
@@ -256,8 +266,8 @@
             <a href="gui-prototype/panel-location.png" rel="ui-prototype" class="fancybox">
             <img src="gui-prototype/panel-location.png" alt="Home" class="left" width="300" />
             </a>
-<p>In diesem Panel wird eine Karte angezeigt sowie weitere Details über den aktuellen Standort wie GPS-Genauigkeit, Geschwindigkeit und GPS-Koordinaten angezeigt.</p>
-            <p><em>Benutzt die Standort-Ressourcengruppe.</em></p>
+<p>In diesem Panel wird eine Karte, sowie weitere Details über den aktuellen Standort angezeigt. Hierbei können die GPS-Genauigkeit, Geschwindigkeit und GPS-Koordinaten angezeigt werden.</p>
+            <p><em>Verwendet die Standort-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
             
@@ -268,30 +278,33 @@
             <img src="gui-prototype/panel-weather.png" alt="Home" class="left" width="300" />
             </a>
 <p>In diesem Panel wird das lokale Wetter für die nächsten Tage angezeigt.</p>
-	    <p><em>Benutzt die Wetter-Ressourcengruppe.</em></p>
+	    <p><em>Verwendet die Wetter- und Standort-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
             
-            
+            <!--
+			
             <h3 id="panel-contacts">Kontakte-Panel</h3>
             <div class="uip">
             <a href="gui-prototype/panel-contacts.png" rel="ui-prototype" class="fancybox">
             <img src="gui-prototype/panel-contacts.png" alt="Home" class="left" width="300" />
             </a>
-<p>Es werden je nach Berechtigung, die Kontakte mit verschiedenen Details wie Vorname, Nachname, Email, vollständiger Adresse oder das Benutzerbild angezeigt.</p>
-	    <p><em>Benutzt die Kontakte-Ressourcengruppe.</em></p>
+<p>Es werden je nach Berechtigung die Kontakte mit verschiedenen Details wie Vorname, Nachname, Email, vollständiger Adresse und das Benutzerbild angezeigt.</p>
+	    <p><em>Verwendet die Kontakte-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
             
             <h3 id="panel-hardware">Hardware-Panel</h3>
             <div class="uip">
-            <a href="gui-prototype/panel-rss.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-rss.png" alt="Home" class="left" width="300" />
+            <a href="gui-prototype/panel-hardware.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-hardware.png" alt="Home" class="left" width="300" />
             </a>
-	    <p>Es werden je nach Berechtigung, verschiedene Informationen über Hardware-Geräte wie Kamera, Audio, GPS, Bluetooth, WLAN ausgegeben. Bei entsprechenden Berechtigungen können diese Geräte auch ein-/ausgeschaltet bzw. konfiguriert werden.</p>
-	    <p><em>Benutzt die Hardware-Ressourcengruppe.</em></p>
+	    <p>Es werden je nach Berechtigung verschiedene Informationen über Hardware-Geräte wie Kamera, Audio, GPS, Bluetooth und WLAN angezeigt. Bei entsprechenden Berechtigungen können diese Geräte auch ein-/ausgeschaltet bzw. konfiguriert werden.</p>
+	    <p><em>Verwendet die Hardware-Ressourcengruppe.</em></p>
 	    <div class="clear"></div>
             </div>
+			
+			-->
 
             <div class="pagebreak"></div>
 
@@ -299,8 +312,8 @@
             <div class="uip">
                 <p>
                     Es werden alle Ressourcengruppen aufgelistet, die neu implementiert oder modifiziert werden.
-                    Es wird jeweils der Deutsche Name, der Englische Name der Ressourcengruppe und der Klassenpfad in der Form [Name, full.class.path] angegeben.<br />
-                    Zu jeder Ressourcengruppe werden dann die einzelnen Privacy Settings erläutert und bei jedem Privacy Setting werden die möglichen Werte aufgelistet.
+                    Es wird jeweils der Deutsche Name, der Englische Name und der Klassenpfad der Ressourcengruppe in der Form [Name, full.class.path] angegeben.<br />
+                    Zu jeder Ressourcengruppe werden die einzelnen Privacy Settings erläutert und bei jedem Privacy Setting die möglichen Werte aufgelistet.
                 </p>
             </div>
 
@@ -317,7 +330,7 @@
 			<li>
 			    <h3 id="rss-feed-2">Speziellen RSS-Feeds abrufen</h3>
 			    <p>Kann benutzt werden um den Zugriff auf bestimmte RSS-Feeds zu beschränken</p>
-			    <p><em>null, url, url[]</em></p>
+			    <p><em>url, url[]</em></p>
 			</li>
 		    </ul>
 
@@ -342,6 +355,7 @@
 			</li>
 		    </ul>
 		    
+			<!--
             <h2 id="filesystem">Dateisystem</h2>
             <p>[FileSystem, de.unistuttgart.ipvs.pmp.resourcegroups.filesystem]</p>
             <p>Ermöglicht den Zugriff auf den internen Speicher von Android oder auf die SD-Karte</p>
@@ -430,7 +444,7 @@
                             <p><em>true, false</em></p>
                         </li>
                     </ul>
-
+-->
             <h2 id="browser">Browser</h2>
             <p>[Browser, de.unistuttgart.ipvs.pmp.resourcegroups.browser]</p>
             <ul>
@@ -455,7 +469,7 @@
                             <p><em>true, false</em></p>
                         </li>
                                                 <li>
-                            <h3 id="history-access">Browser-History bearbeiten</h3>
+                            <h3 id="history-access">Browser-History löschen</h3>
                             <p><em>true, false</em></p>
                         </li>
                     </ul>
@@ -468,7 +482,7 @@
                             <p><em>true, false</em></p>
                         </li>
                                                 <li>
-                            <h3 id="search-history-access">Such-History bearbeiten</h3>
+                            <h3 id="search-history-access">Such-History löschen</h3>
                             <p><em>true, false</em></p>
                         </li>
                     </ul>
@@ -496,13 +510,13 @@
             <table>
                 <tr><th class="left">Begriff</th><th>Panel</th></tr>
                 <tr><th class="left">Synonyme</th><td>-</td></tr>
-                <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppen von PMP.</td></tr>
-                <tr><th class="left">Beispiele</th><td>Im Wetter-Panel wird das lokale Wetter für die nächsten Tage angezeigt</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppe von PMP.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Im Wetter-Panel wird das lokale Wetter für die nächsten Tage angezeigt.</td></tr>
                 <tr><th class="left">Abgrenzung</th><td>-</td></tr>
-                <tr><th class="left">Gültigkeit</th><td>Das Panel bleibt gültig, solange die entsprechende Ressourcengruppe eingebunden ist.</td></tr>
-                <tr><th class="left">Bezeichnung</th><td>Das Panel wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Das Panel bleibt gültig, solange die InfoApp gestartet ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Das Panel wird durch die zugehörige Ressourcengruppe und den Namen des Panels eindeutig identifiziert.</td></tr>
                 <tr><th class="left">Unklarheiten</th><td>-</td></tr>
-                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
             </table>
                      
 

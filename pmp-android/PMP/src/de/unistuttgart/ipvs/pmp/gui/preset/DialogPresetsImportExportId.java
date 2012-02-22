@@ -215,6 +215,9 @@ public class DialogPresetsImportExportId extends Dialog {
             }
         });
         
+        /*
+         * TextView listener reacts on a long touch and copies the id to the clipboard.
+         */
         ((TextView) findViewById(R.id.TextView_ID)).setOnLongClickListener(new View.OnLongClickListener() {
             
             @Override
@@ -232,6 +235,9 @@ public class DialogPresetsImportExportId extends Dialog {
     }
     
     
+    /**
+     * Creates a send email {@link Intent} with a message including the preset set id.
+     */
     private void sendEmail() {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
