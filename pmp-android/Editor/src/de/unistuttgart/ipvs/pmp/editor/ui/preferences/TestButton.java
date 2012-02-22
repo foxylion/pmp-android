@@ -38,6 +38,8 @@ public class TestButton extends FieldEditor {
 		// gd.horizontalSpan = numColumns;
 		parent.setLayoutData(gd);
 
+		getLabelControl(parent);
+
 		status = new Label(parent, SWT.NONE);
 		status.setText("Unknown (Press \"Apply\" before testing/updating)");
 		GridData layout = new GridData();
