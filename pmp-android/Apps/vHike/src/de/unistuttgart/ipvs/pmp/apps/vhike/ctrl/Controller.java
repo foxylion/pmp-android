@@ -284,7 +284,6 @@ public class Controller {
         }
     }
     
-    
     /**
      * Delete the active query.
      * 
