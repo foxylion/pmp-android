@@ -1,5 +1,25 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP-XML-UTILITIES
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package unittest;
 
+import java.util.Date;
 import java.util.Locale;
 
 public interface TestConstants {
@@ -25,6 +45,10 @@ public interface TestConstants {
     static final String APP_SF2_DEF_NAME = "You didn't expect this";
     static final String APP_SF2_DEF_DESC = "Maybe it can always get worse.";
     
+    static final String APP_SF3_ID = "Servicewüste Deutschland";
+    static final String APP_SF4_ID = "We maintain the right to refuse service to anyone.";
+    static final String APP_SF5_ID = "Just shut up";
+    
     static final String APP_SF1_LOC_NAME = "M\u1ed9t t\u00ednh n\u0103ng d\u1ecbch v\u1ee5 v\u00f4 d\u1ee5ng";
     static final Locale APP_SF1_LOC_NAME_LOCALE = new Locale("vi");
     static final String APP_SF1_LOC_DESC = "\u05d0\u05dd \u05de\u05d3\u05d5\u05d1\u05e8 \u05e2\u05dc \u05ea\u05db"
@@ -43,6 +67,9 @@ public interface TestConstants {
     static final String RG_ID = "best.resource.group.ever";
     static final String RG_ICON = "icons/best.png";
     static final String RG_REVISION = "123456789";
+    static final Date RG_REVISION_DATE = new Date(123456789);
+    
+    static final String RG_INVALID_REVISION = "i may look like a revision; but meh. I'm not.";
     static final String RG_CLASS_NAME = "AndroidRG";
     static final String RG_NAME = "The Champions";
     static final String RG_DESC = "Best. Resource. Group. Ever.";
@@ -57,6 +84,22 @@ public interface TestConstants {
     
     static final String RG_PS_VVD = "Valid or invalid, that is here the question.";
     static final String RG_PS_CD = "You paid with credit card, there is no change.";
+    
+    // preset
+    static final String PRESET1_IDENTIFIER = "preset1";
+    static final String PRESET1_CREATOR = ":";
+    static final String PRESET1_NAME = "pretty much set of a pre";
+    static final String PRESET1_DESCRIPTION = "Knock knock";
+    
+    static final String PRESET1_APP1_IDENTIFIER = "That_cool_app_you_got";
+    
+    static final String CONTEXT1_TYPE = "TimeContext";
+    static final String CONTEXT1_CONDITION = "8'o clock";
+    static final String CONTEXT1_OVERRIDE = "Yar must get out of beeed!";
+    
+    static final String CONTEXT2_TYPE = "LocationContext";
+    static final String CONTEXT2_CONDITION = "Graveyard";
+    static final String CONTEXT2_OVERRIDE = "You can shut down now";
     
     // default
     static final String ILLEGAL_LOCALE = "\u0623\u0646";
@@ -88,6 +131,20 @@ public interface TestConstants {
     static final String XML_NAME = "name";
     static final String XML_VALID_VALUE_DESCRIPTION = "validValueDescription";
     static final String XML_CHANGE_DESCRIPTION = "changeDescription";
+    static final String XML_PRESET_SET = "presetSet";
+    static final String XML_PRESET = "preset";
+    static final String XML_CREATOR = "creator";
+    static final String XML_APP = "app";
+    static final String XML_ASSIGNED_APPS = "assignedApps";
+    static final String XML_ASSIGNED_PRIVACY_SETTINGS = "assignedPrivacySettings";
+    static final String XML_RG_IDENTIFIER = "rgIdentifier";
+    static final String XML_RG_REVISION = "rgRevision";
+    static final String XML_PS_IDENTIFIER = "psIdentifier";
+    static final String XML_CONTEXT = "context";
+    static final String XML_TYPE = "type";
+    static final String XML_CONDITION = "condition";
+    static final String XML_VALUE = "value";
+    static final String XML_OVERRIDE_VALUE = "overrideValue";
     
     static final Locale XML_DEFAULT_EN_LOCALE = Locale.ENGLISH;
 }
