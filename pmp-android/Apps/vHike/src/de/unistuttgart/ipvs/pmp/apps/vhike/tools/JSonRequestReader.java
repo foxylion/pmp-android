@@ -595,7 +595,7 @@ public class JSonRequestReader {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
         
-        listToParse.add(new ParamObject("id", String.valueOf(id), true));
+        listToParse.add(new ParamObject("query_id", String.valueOf(id), true));
         
         JsonObject object = null;
         try {
@@ -611,11 +611,12 @@ public class JSonRequestReader {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-                status = object.get("status").getAsString();
+//                status = object.get("status").getAsString();
+                status = "deleted";
                 Log.i(TAG, "STATUS AFTER STOPQUERY:" + status);
                 return status;
             }
-            
+            Log.i(TAG, "Status after STOPQUERY:" + status + ", suc" + suc);
         }
         
         return status;
