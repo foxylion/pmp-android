@@ -19,7 +19,7 @@
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
 				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="modify">true</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="allowedDatabases">testdb</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowedDatabases">testdb;testdb2</requiredPrivacySetting>
 			</requiredResourceGroup>
 			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="1">
 				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>

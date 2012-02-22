@@ -1,12 +1,18 @@
 package de.unistuttgart.ipvs.pmp.test.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.test.ApplicationTestCase;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.model.context.IContext;
+import de.unistuttgart.ipvs.pmp.model.context.time.TimeContextCondition;
+import de.unistuttgart.ipvs.pmp.model.context.time.TimeContextIntervalType;
+import de.unistuttgart.ipvs.pmp.model.context.time.TimeContextTime;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
@@ -16,7 +22,7 @@ import de.unistuttgart.ipvs.pmp.test.ModelTestUtils.ResourceGroup;
 
 public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
     
-    private static boolean isSetIpCompleted = false;
+    private static boolean isSetUpCompleted = false;
     
     
     public ModelAppTest() {
@@ -29,21 +35,21 @@ public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
         super.setUp();
         
         /* Execute setUp only once */
-        if (isSetIpCompleted) {
+        if (isSetUpCompleted) {
             return;
         }
         
         ModelTestUtils.checkPreconditions();
         ModelTestUtils.checkInstalledApps(getContext());
         
-        isSetIpCompleted = true;
+        isSetUpCompleted = true;
     }
     
     
     /**
      * Installs all required Apps and checks if they have all the required service features.
      */
-    public void testApplicationInstall() throws Exception {
+    public void test_01_ApplicationInstall() throws Exception {
         int appCount = 0;
         
         for (App app : ModelTestUtils.App.values()) {
@@ -76,7 +82,7 @@ public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
     /**
      * Test the installation of all required ResourceGroups.
      */
-    public void testResourceGroupsInstall() throws Exception {
+    public void test_02_ResourceGroupsInstall() throws Exception {
         int rgCount = 0;
         
         for (ResourceGroup rg : ModelTestUtils.ResourceGroup.values()) {
@@ -91,7 +97,7 @@ public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
     /**
      * Test if all Service Features have their correct privacy settings.
      */
-    public void testSF_PS_Match() throws Exception {
+    public void test_03_SF_PS_Match() throws Exception {
         IApp app = ModelProxy.get().getApp(ModelTestUtils.App.PMP_TEST_APP_1.toString());
         IServiceFeature sf1 = app.getServiceFeature("sf1");
         IServiceFeature sf2 = app.getServiceFeature("sf2");
@@ -138,7 +144,7 @@ public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
     /**
      * Test if the activation of a Service Feature succeeds.
      */
-    public void testServiceFeatureActivation() throws Exception {
+    public void test_04_ServiceFeatureActivation() throws Exception {
         IApp app = ModelProxy.get().getApp(ModelTestUtils.App.PMP_TEST_APP_1.toString());
         IServiceFeature sf1 = app.getServiceFeature("sf1");
         IServiceFeature sf2 = app.getServiceFeature("sf2");
@@ -155,15 +161,13 @@ public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
         
         assertFalse("ServiceFeature 'sf_bad' is not inactive as expected.", sf_bad.isAvailable());
         assertFalse("ServiceFeature 'sf_bad' is not inactive as expected.", sf_bad.isActive());
-        assertEquals("ServiceFeature 'sf_bad' does not have 1 missing PrivacySetting.", 1, sf_bad
-                .getMissingPrivacySettings().size());
     }
     
     
     /**
      * Test if the deactivation of a Service Feature works.
      */
-    public void testServiceFeatureDeactivation() throws Exception {
+    public void test_05_ServiceFeatureDeactivation() throws Exception {
         IApp app = ModelProxy.get().getApp(ModelTestUtils.App.PMP_TEST_APP_1.toString());
         IServiceFeature sf1 = app.getServiceFeature("sf1");
         IServiceFeature sf2 = app.getServiceFeature("sf2");
@@ -172,5 +176,106 @@ public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
         
         assertTrue("ServiceFeature 'sf1' is not active as expected.", sf1.isActive());
         assertFalse("ServiceFeature 'sf2' is not inactive as expected.", sf2.isActive());
+    }
+    
+    
+    /**
+     * At this point there is the following configuration:
+     * sf1 = true
+     * sf2 = false
+     * sf3 = false
+     * sf_bad = not available
+     */
+    
+    public void test_06_ConvertModelToExpertBackAndAgainToExpert() throws Exception {
+        IApp app = ModelProxy.get().getApp(ModelTestUtils.App.PMP_TEST_APP_1.toString());
+        IServiceFeature sf1 = app.getServiceFeature("sf1");
+        IServiceFeature sf2 = app.getServiceFeature("sf2");
+        IServiceFeature sf3 = app.getServiceFeature("sf3");
+        
+        assertTrue("ServiceFeature 'sf1' is not active as expected.", sf1.isActive());
+        assertFalse("ServiceFeature 'sf2' is not inactive as expected.", sf2.isActive());
+        assertFalse("ServiceFeature 'sf3' is not inactive as expected.", sf3.isActive());
+        
+        IPreset preset = ModelProxy.get().addUserPreset("test", "test");
+        preset.assignApp(app);
+        preset.assignServiceFeature(sf3);
+        
+        assertTrue("ServiceFeature 'sf3' is not active as expected.", sf3.isActive());
+        
+        SimpleModel.getInstance().convertExpertToSimple(ModelProxy.get());
+        
+        assertTrue("ServiceFeature 'sf1' is not active as expected.", sf1.isActive());
+        assertFalse("ServiceFeature 'sf2' is not inactive as expected.", sf2.isActive());
+        assertTrue("ServiceFeature 'sf3' is not active as expected.", sf3.isActive());
+        
+        /*
+         * Now test some things on a no longer existing preset from the expert mode.
+         */
+        List<IApp> apps = preset.getAssignedApps();
+        assertEquals("Size of assigned IApp for the no longer existing Preset should be 0.", 0, apps.size());
+        
+        /* Assign privacy setting 'CanWifiState' (switches) with value 'true' to the preset. */
+        preset.assignPrivacySetting(sf3.getRequiredPrivacySettings().get(0), "true");
+        assertEquals("Size of the assigned Privacy Settings for a non existsing Preset should still be 0", 0, preset
+                .getGrantedPrivacySettings().size());
+    }
+    
+    
+    /**
+     * Create now a new Preset and check for a the changed value.
+     */
+    public void test_07_AddAContextToAPresetPrivacySetting() throws Exception {
+        IApp app = ModelProxy.get().getApp(ModelTestUtils.App.PMP_TEST_APP_1.toString());
+        IServiceFeature sf2 = app.getServiceFeature("sf2");
+        IPreset preset = ModelProxy.get().addUserPreset("contextPreset", "description");
+        IPrivacySetting privacySetting = ModelProxy.get()
+                .getResourceGroup(ModelTestUtils.ResourceGroup.DATABASE.toString())
+                .getPrivacySetting("allowedDatabases");
+        
+        /* Some notNull checks */
+        assertNotNull("The IApp shouldn't be null", app);
+        assertNotNull("The IServiceFeature shouldn't be null", sf2);
+        assertNotNull("The IPreset shouldn't be null", preset);
+        assertNotNull("The IPrivacySetting shouldn't be null", privacySetting);
+        
+        /* Try to find the TimeContext */
+        List<IContext> contexts = ModelProxy.get().getContexts();
+        IContext context = null;
+        for (IContext c : contexts) {
+            if (c.getIdentifier().equals("TimeContext")) {
+                context = c;
+            }
+        }
+        assertNotNull("The IContext (TimeContext) shouldn't be null", context);
+        
+        /* Create some ContextConditions */
+        TimeContextTime tct_start = new TimeContextTime(0, 0, 0);
+        TimeContextTime tct_end = new TimeContextTime(23, 59, 59);
+        TimeContextIntervalType tcit = TimeContextIntervalType.REPEAT_DAILY;
+        TimeContextCondition tcc_true = new TimeContextCondition(true, tct_start, tct_end, tcit,
+                new ArrayList<Integer>());
+        
+        tct_start = new TimeContextTime(0, 0, 0);
+        tct_end = new TimeContextTime(0, 0, 0);
+        tcit = TimeContextIntervalType.REPEAT_DAILY;
+        TimeContextCondition tcc_false = new TimeContextCondition(true, tct_start, tct_end, tcit,
+                new ArrayList<Integer>());
+        
+        /* Prepare the Preset */
+        preset.assignApp(app);
+        
+        /* first of all add all missing privacy settings for sf2, then "remove" the allowedDatabase privacySetting */
+        preset.assignServiceFeature(sf2);
+        preset.assignPrivacySetting(privacySetting, "testdb");
+        assertFalse("The ServiceFeature 'sf2' should be inactive.", sf2.isActive());
+        
+        preset.assignContextAnnotation(privacySetting, context, tcc_false.toString(), "testdb;testdb2;testdb3");
+        context.update(getContext());
+        assertFalse("The ServiceFeature 'sf2' should be inactive.", sf2.isActive());
+        
+        preset.assignContextAnnotation(privacySetting, context, tcc_true.toString(), "testdb;testdb2");
+        context.update(getContext());
+        assertTrue("The ServiceFeature 'sf2' should be active.", sf2.isActive());
     }
 }
