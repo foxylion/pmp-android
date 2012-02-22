@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>Spezifikation - App3 (Informations-App)</title>
+        <title>Spezifikation - Info-App (Informations-App)</title>
         <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
         <script type="text/javascript" src="../../_layout/script.js"></script>
         <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
@@ -13,10 +13,10 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="page-head-date">13. Februar 2012</div>
-            <div id="page-head-title">App3</div>
-            <div id="page-title">App3 Spezifikation</div>
-            <div id="page-version">Version 3.5</div>
+            <div id="page-head-date">22. Februar 2012</div>
+            <div id="page-head-title">Info-App</div>
+            <div id="page-title">Info-App Spezifikation</div>
+            <div id="page-version">Version 3.7</div>
 
             <nav>
                 <div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,20 @@
             <div id="content">
 
                 <h1 id="versionshistorie">Versionshistorie</h1>
+
+
+		<h3>Version 3.7 (22.02.2012)</h3>
+                <ul>
+                    <li>Bilder wieder eingefügt</li>
+                    <li>Kleinere Verbesserungen</li>
+                </ul>
+
+		<h3>Version 3.6 (21.02.2012)</h3>
+                <ul>
+                    <li>Begriffslexikon verbessert</li>
+                    <li>Grammatikalische Verbesserungen vorgenommen</li>
+                </ul>
+
 
 		<h3>Version 3.5 (13.02.2012)</h3>
                 <ul>
@@ -73,7 +87,7 @@
                 <p></p>
 
                 <h2 id="zweck">Zweck</h2>
-                <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "App3" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.  
+                <p>Dieses Dokument stellt die Spezifikation des Unterprojektes "Info-App" dar. Dieser wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" durchgefürt.
                     Das Dokument summiert die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung in einer Iteration.
                     Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
                     Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
@@ -83,7 +97,7 @@
                     Bedeutung von speziellen Begriffen.</p>
 
                 <h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
-                <p>App3 dient hauptsächlich als Demonstrationsprogramm um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
+                <p>Info-App dient hauptsächlich als Demonstrationsprogramm um möglichst viele Features von PMP darzustellen und zu nutzen. Dazu gehört hauptsächlich die Demonstration der neuentwickelten Ressourcengruppen.</p>
 
 
                 <h2 id="leserkreis">Leserkreis</h2>
@@ -107,42 +121,40 @@
 
 
                 <h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
-                <h2 id="use-cases">Use Cases</h2>
-                Die Use Cases wurden in ein separates Dokument ausgelagert.
 
-                <h2 id="anforderungen-an-pmp">Anforderungen an App3</h2>
+                <h2 id="anforderungen-an-pmp">Anforderungen an Info-App</h2>
 
                 <h3 id="oberflaeche">Oberfläche</h3>
-                <p>Die Oberfläche von App3 wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+                <p>Die Oberfläche von Info-App wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
                 <h3 id="standardeinstellungen">Standardeinstellungen</h3>
-                <p>App3 wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, einzige Bedingung ist dass PMP installiert sein muss.</p>
+                <p>Info-App wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, einzige Bedingung ist dass PMP installiert sein muss.</p>
 
 
                 <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
                 <h2 id="bedienbarkeit">Bedienbarkeit</h2>
-                <p>App3 wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
+                <p>Info-App wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
 
                 <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
-                <p>App3 wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+                <p>Info-App wird bei Verwendung eines aktuellen Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-                <p>App3 wird kompatibel zur aktuellen PMP Version sein (PMP v3.x) und somit wird mindestens Android 2.1 benötigt.</p>
+                <p>Info-App wird kompatibel zur aktuellen PMP Version sein (PMP v3.x) und somit wird mindestens Android 2.1 benötigt.</p>
 
                 <h2 id="internationalisierung">Internationalisierung</h2>
-                <p>Die einzige verfügbare Sprache für App3 ist Englisch, weitere Übersetzungen sind jedoch ohne weitere Anpassungen möglich.</p>
+                <p>Die einzige verfügbare Sprache für Info-App ist Englisch, weitere Übersetzungen sind jedoch ohne weitere Anpassungen möglich.</p>
 
                 <h2 id="installation">Installation</h2>
-                <p>App3 wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
+                <p>Info-App wird im .apk Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
 
                 <h2 id="wartbarkeit">Wartbarkeit</h2>
                 <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
 
                 <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-                <p>App3 hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
+                <p>Info-App hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
 
                 <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
-                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. App3 wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. Info-App wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
 
                 <div class="pagebreak"></div>
 
@@ -153,7 +165,7 @@
                     <a href="gui-prototype/screen-1.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-1.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Nach dem Starten von App3 wird automatisch die Standardansicht geöffnet. Grundsätzlich wird in App3 immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
+                    <p>Nach dem Starten von Info-App wird automatisch die Standardansicht geöffnet. Grundsätzlich wird in der Info-App immer ein kleiner Header im oberen Teil des Bildschirms angezeigt in dem neben dem Namen das gerade aktive Panel anzeigt wird.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -169,7 +181,7 @@
                     <a href="gui-prototype/screen-3.png" rel="ui-prototype" class="fancybox">
                         <img src="gui-prototype/screen-3.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte App3 gewährt wurden. Eine Übersicht über alle Panels findet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
+                    <p>Auf jedem Panel werden bestimmte Ressourcengruppen verwendet, die Anzahl der verfügbaren Panels richtet sich danach welche Ressourcengruppen installiert, und welche Rechte Info-App gewährt wurden. Eine Übersicht über alle Panels findet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
                     <div class="clear"></div>
                 </div>
 
@@ -184,93 +196,172 @@
 
 
             <h2 id="ui-panels">Panels</h2>
+            <p>In jedem Panel werden je nach Berechtigung die benötigten Informationen dargestellt oder ausgeblendet. Fehlen grundlegende Berechtigungen wird das gesamte Panel ausgeblendet.</p>
 
-            <h3>Nachrichten-Panel</h3>
-            <p>In diesem Panel werden verschiedene RSS Feeds abgerufen und dargestellt. Da die RG RSS-Feed erlaubt nur bestimmte Domain oder Teile davon können je nach Berechtigung alle, manche oder keine RSS-Feeds dargestellt werden.</p>
+            <h3  id="panel-rss">Nachrichten-Panel</h3>
+	    <div class="uip">
+            <a href="gui-prototype/panel-rss.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-rss.png" alt="Home" class="left" width="300" />
+            </a>
+            <p>In diesem Panel werden verschiedene RSS-Feeds abgerufen und dargestellt.</p>
+            <p><em>Benutzt die RSS-Feed-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
 
-            <h3>Browser-Panel</h3>
-            <p>In diesem Panel werden einige Bookmarks, die letzten besuchten Webseiten sowie die Suchhistory angezeigt.</p>
+            <h3 id="panel-bookmarks">Bookmarks-Panel</h3>
+<div class="uip">
+            <a href="gui-prototype/panel-bookmarks.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-bookmarks.png" alt="Home" class="left" width="300" />
+            </a>
+ <p>In diesem Panel werden die zehn neuesten Bookmarks, eingeblendet. Bei entsprechenden Berechtigungen können die Bookmarks auch bearbeitet werden.</p>
+            <p><em>Benutzt die Browser-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+           
 
-            <h3>Wetter-Panel</h3>
-            <p>In diesem Panel wird das lokale Wetter für die nächsten Tage angezeigt. Je nach Berechtigungen und Verfügbarkeit der Ressourcen wird der Standort ermittelt oder ein vorkonfigurierter Standort verwendet.</p>
+            <h3 id="panel-browserhistory">Browserhistory-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-browserhistory.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-browserhistory.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel werden die zehn zuletzt besuchten Seiten angezeigt, bei entsprechender Berechtigung kann die History gelöscht werden.</p>
+            <p><em>Benutzt die Browser-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
 
-            <h3>Kontakte-Panel</h3>
-            <p>Es werden je nach Berechtigung, die Kontakte mit verschiedenen Details wie Email, Adresse und Bilder angezeigt.</p>
+            <h3  id="panel-searchistory">Suchhistory-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-searchistory.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-searchistory.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel werden die letzten zehn Internetsuchen angezeigt, bei entsprechender Berechtigung kann die History gelöscht werden.</p>
+            <p><em>Benutzt die Browser-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
 
-            <h3>System-Panel</h3>
-            <p>Hier werden verschiedene Details über das Android System angezeigt.</p>
+            <h3 id="panel-translation">Übersetzungs-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-translation.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-translation.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel kann ein Text von Englisch ins Deutsche übersetzt werden.</p>
+            <p><em>Benutzt die Übersetzungs-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
 
-            <h3>Hardware-Panel</h3>
-            <p>Es werden je nach Berechtigung, verschiedene Informationen für Hardwaredevices wie Kamera, Audio, GPS, Bluetooth, WLAN ausgegeben.</p>
+                        <h3 id="panel-location">Standort-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-location.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-location.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel wird eine Karte angezeigt sowie weitere Details über den aktuellen Standort wie GPS-Genauigkeit, Geschwindigkeit und GPS-Koordinaten angezeigt.</p>
+            <p><em>Benutzt die Standort-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+            
+            <h3  id="panel-weather">Wetter-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-weather.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-weather.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel wird das lokale Wetter für die nächsten Tage angezeigt.</p>
+	    <p><em>Benutzt die Wetter-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+            
+            <h3 id="panel-contacts">Kontakte-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-contacts.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-contacts.png" alt="Home" class="left" width="300" />
+            </a>
+<p>Es werden je nach Berechtigung, die Kontakte mit verschiedenen Details wie Vorname, Nachname, Email, vollständiger Adresse oder das Benutzerbild angezeigt.</p>
+	    <p><em>Benutzt die Kontakte-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+            <h3 id="panel-hardware">Hardware-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-rss.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-rss.png" alt="Home" class="left" width="300" />
+            </a>
+	    <p>Es werden je nach Berechtigung, verschiedene Informationen über Hardware-Geräte wie Kamera, Audio, GPS, Bluetooth, WLAN ausgegeben. Bei entsprechenden Berechtigungen können diese Geräte auch ein-/ausgeschaltet bzw. konfiguriert werden.</p>
+	    <p><em>Benutzt die Hardware-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
 
             <div class="pagebreak"></div>
 
             <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
             <div class="uip">
                 <p>
-                    Es werden alle Ressourcengruppen aufgelistet, die neu implementiert oder modifiziert werden. Die Ressourcengruppen gehören eigentlich zu PMP, werden allerdings hier spezifiziert.
-                    Es wird jeweils der Deutsche Name, dahinter wird in der Form [Name, full.class.path] der englische Name der Ressourcengruppe und der Klassenpfad angegeben.<br />
-                    Zu jeder Ressourcengruppe werden dann die einzelnen Ressourcen als Unterpunkte gelistet welche wiederum alle Privacy Settings enthalten.<br />
-                    Bei jedem Privacy Setting werden die möglichen Werte aufgelistet.
+                    Es werden alle Ressourcengruppen aufgelistet, die neu implementiert oder modifiziert werden.
+                    Es wird jeweils der Deutsche Name, der englische Name der Ressourcengruppe und der Klassenpfad in der Form [Name, full.class.path] angegeben.<br />
+                    Zu jeder Ressourcengruppe werden dann die einzelnen Privacy Settings erläutert und bei jedem Privacy Setting werden die möglichen Werte aufgelistet.
                 </p>
             </div>
+
+
+            <h2 id="rss-feed">RSS-Feeds</h2>
+            <p>[RSS-Feeds, de.unistuttgart.ipvs.pmp.resourcegroups.rssfeeds]</p>
+            <p>Ermöglicht das Empfangen von RSS-Feeds.</p>
+		    <ul>
+			<li>
+			    <h3 id="rss-feed-1">RSS-Feeds abrufen</h3>
+			    <p>Erlaubt das Abrufen von RSS Feeds aus dem Internet.</p>
+			    <p><em>true, false</em></p>
+			</li>
+			<li>
+			    <h3 id="rss-feed-2">Speziellen RSS-Feeds abrufen</h3>
+			    <p>Kann benutzt werden um den Zugriff auf bestimmte RSS-Feeds zu beschränken</p>
+			    <p><em>null, url, url[]</em></p>
+			</li>
+		    </ul>
+
+		                <h2 id="weather">Wetter</h2>
+            <p>[Weather, de.unistuttgart.ipvs.pmp.resourcegroups.weather]</p>
+            <p>Ermöglicht das abrufen von Wetterinformationen.</p>
+		    <ul>
+			<li>
+			    <h3 id="rss-feed-1">Wetter abrufen</h3>
+			    <p>Erlaubt das Abrufen von Wetterdaten aus dem Internet.</p>
+			    <p><em>true, false</em></p>
+			</li>
+		    </ul>
             
-            <h2 id="feeds">Internetdienste</h2>
-            <p>[WebServices, de.unistuttgart.ipvs.pmp.resourcegroups.webservices]</p>
-            <ul>
-                <li>
-                    <h3 id="rss-feed">RSS Feed</h3>
-                    <p>Ermöglicht das Empfangen von RSS Feeds.</p>                   
-                    <ul>
-                        <li>
-                            <h4 id="rss-feed-address">RSS Feed Address</h4>
-                            <p><em>null, url, multiple urls</em></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
+            <h2 id="translation">Online-Übersetzung</h2>
+            <p>[Translation, de.unistuttgart.ipvs.pmp.resourcegroups.translation]</p>
+            <p>Ermöglicht das automatische Übersetzen von Texten.</p>
+		    <ul>
+			<li>
+			    <h3 id="rss-feed-1">Online Übersetzung verwenden</h3>
+			    <p><em>true, false</em></p>
+			</li>
+		    </ul>
+		    
             <h2 id="filesystem">Dateisystem</h2>
-            <p>[FileSystem, de.unistuttgart.ipvs.pmp.resourcegroups.filesystem]<br />
-                Die bisherigen PrivacySetting und Ressourcen bleiben gleich, es werden nur neue oder geänderte Features spezifiziert.</p>
-            <ul>
-                <li>
-                    <h3 id="filesystem-gfa">Generic File Access</h3>                 
-                    <ul>
+            <p>[FileSystem, de.unistuttgart.ipvs.pmp.resourcegroups.filesystem]</p>
+            <p>Ermöglicht den Zugriff auf den internen Speicher von Android oder auf die SD-Karte</p>
+        <ul>
                         <li>
-                            <h4 id="filesystem-gfa-loc">Location</h4>
-                            <p><em>null, path/to/folder, multiple paths</em></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h2 id="location">Location</h2>
-            <p class="">Vorläufig, muss mit Jakob abgesprochen werden.</p>
-            <p>[Location, de.unistuttgart.ipvs.pmp.resourcegroups.location]<br />
-                Die bisherigen PrivacySetting und Ressourcen bleiben gleich, es werden nur neue oder geänderte Features spezifiziert.</p>
-            <ul>
-                <li>
-                    <h3 id="address">Adresse</h3>
-                    <p>Ermöglicht Zugriff auf die Adresse des aktuellen Standorts.</p>
-                    <ul>
-                        <li>
-                            <h4 id="address-country">Land</h4>
-                            <p><em>true, false</em></p>
-                        </li>    
-                        <li>
-                            <h4 id="address-city">Stadt</h4>
-                            <p><em>true, false</em></p>
-                        </li>    
-                        <li>
-                            <h4 id="address-city-code">PLZ</h4>
+                            <h3 id="filesystem-">Dateizugriff (lesen)</h3>
                             <p><em>true, false</em></p>
                         </li>
                         <li>
-                            <h4 id="address-street">Stadt</h4>
+                            <h3 id="filesystem-">Dateizugriff (schreiben)</h3>
                             <p><em>true, false</em></p>
-                        </li>    
+                        </li>
                         <li>
+                            <h3 id="filesystem-">Dateizugriff (löschen)</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="filesystem-">Dateizugriff (Pfad)</h3>
+                            <p><em>null, path, path[]</em></p>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -282,8 +373,12 @@
                     <h3 id="bluetooth">Bluetooth</h3>                 
                     <ul>
                         <li>
-                            <h4 id="bluetooth-status">Status</h4>
-                            <p><em>false, read, read/write</em></p>
+                            <h3 id="bluetooth-status">Bluetooth-Status auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="bluetooth-status">Bluetooth-Status ändern</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
                 </li>
@@ -291,17 +386,21 @@
                     <h3 id="wifi">WLAN</h3>                 
                     <ul>
                         <li>
-                            <h4 id="wifi-status">Status</h4>
-                            <p><em>false, read, read/write</em></p>
+                            <h3 id="wifi-status">WLAN-Status auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="wifi-status">WLAN-Status ändern</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <h3 id="battery">Battery</h3>                 
+                    <h3 id="battery">Batterie</h3>
                     <ul>
                         <li>
-                            <h4 id="battery-status">Status</h4>
-                            <p><em>false, read</em></p>
+                            <h3 id="battery-status">Batterie-Status auslesen</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
                 </li>
@@ -309,21 +408,28 @@
 
             <h2 id="contacts">Kontakte</h2>
             <p>[Contacts, de.unistuttgart.ipvs.pmp.resourcegroups.contacts]</p>
-            <ul>
-                <li>
-                    <h3 id="contactlist">Kontaktliste</h3>                 
                     <ul>
                         <li>
-                            <h4 id="contactlist-access">Zugriff</h4>
-                            <p><em>false, true</em></p>
+                            <h3 id="contactlist-access">Vorname anzeigen</h3>
+                            <p><em>true, false</em></p>
                         </li>
                         <li>
-                            <h4 id="contactlist-details">Details</h4>
-                            <p><em>null, attribute, multiple attributes</em></p>
+                            <h3 id="contactlist-access">Nachname anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Emailadresse anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Adresse anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Benutzerbild anzeigen</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
-                </li>
-            </ul>
 
             <h2 id="browser">Browser</h2>
             <p>[Browser, de.unistuttgart.ipvs.pmp.resourcegroups.browser]</p>
@@ -332,8 +438,12 @@
                     <h3 id="bookmarks">Bookmarks</h3>                 
                     <ul>
                         <li>
-                            <h4 id="bookmarks-access">Zugriff</h4>
-                            <p><em>false, read, write, read/write</em></p>
+                            <h3 id="bookmarks-access">Bookmarks auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                                                <li>
+                            <h3 id="bookmarks-access">Bookmarks bearbeiten</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
                 </li>
@@ -341,8 +451,12 @@
                     <h3 id="history">History</h3>                 
                     <ul>
                         <li>
-                            <h4 id="history-access">Zugriff</h4>
-                            <p><em>false, read, write, read/write</em></p>
+                            <h3 id="history-access">Browser-History auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                                                <li>
+                            <h3 id="history-access">Browser-History bearbeiten</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
                 </li>
@@ -350,34 +464,18 @@
                     <h3 id="search-history">Such-History</h3>                 
                     <ul>
                         <li>
-                            <h4 id="search-history-access">Zugriff</h4>
-                            <p><em>false, read, write, read/write</em></p>
+                            <h3 id="search-history-access">Such-History auslesen</h3>
+                            <p><em>true, false</em></p>
                         </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h2 id="system">System</h2>
-            <p>[System, de.unistuttgart.ipvs.pmp.resourcegroups.system]</p>
-            <ul>
-                <li>
-                    <h3 id="system-system">System</h3>                 
-                    <ul>
-                        <li>
-                            <h4 id="telephon-details">Telefon Details</h4>
-                            <p><em>false, limited, all</em></p>
-                        </li>
-                        <li>
-                            <h4 id="telephon-uid">Einzigartige Kennung</h4>
-                            <p>Hash der IMEI Nummer und damit einzigartig, kann durch einen eigenen Wert überschrieben werden.</p>
-                            <p><em>false, read, string</em></p>
+                                                <li>
+                            <h3 id="search-history-access">Such-History bearbeiten</h3>
+                            <p><em>true, false</em></p>
                         </li>
                     </ul>
                 </li>
             </ul>
 
             <div class="clear"></div>
-            <div class="pagebreak"></div>
 
             <div class="pagebreak"></div>
             <h1 id="begriffslexikon">Begriffslexikon</h1>
@@ -396,32 +494,17 @@
 
 	    <h2 id="bgl-panel">Panel</h2>
             <table>
-                <tr><th class="left">Begriff</th><th>Kontext</th></tr>
+                <tr><th class="left">Begriff</th><th>Panel</th></tr>
                 <tr><th class="left">Synonyme</th><td>-</td></tr>
                 <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppen von PMP.</td></tr>
-                <tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
-                <tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
-                <tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-                <tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
-                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
-                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
-            </table>
-            
-            
-            <h2 id="bgl-kontext">Kontext</h2>
-            <table>
-                <tr><th class="left">Begriff</th><th>Kontext</th></tr>
-                <tr><th class="left">Synonyme</th><td>-</td></tr>
-                <tr><th class="left">Bedeutung</th><td>Ein Kontext ist ein Zustand einer in PMP eingebundenen, speziell gekennzeichneten Ressource. Von einem Kontext können einzelne Einstellungen der Presets und Privacy Setting abhängen.</td></tr>
-                <tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "GPS-Ortung" könnte einen Kontext "Aktuelle Geschwindigkeit beträgt weniger als 100 km/h" anbieten.</td></tr>
-                <tr><th class="left">Abgrenzung</th><td>Ein Kontext ergibt sich nicht durch den Zustand der PMP.</td></tr>
-                <tr><th class="left">Gültigkeit</th><td>Der Kontext bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
-                <tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Im Wetter-Panel wird das lokale Wetter für die nächsten Tage angezeigt</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>-</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Das Panel bleibt gültig, solange die entsprechende Ressourcengruppe eingebunden ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Das Panel wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
                 <tr><th class="left">Unklarheiten</th><td>-</td></tr>
                 <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-privacysetting"></span>,  <span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
             </table>
-
-
+                     
 
             <h2 id="bgl-privacysetting">Privacy Setting</h2>
             <table>
@@ -433,7 +516,7 @@
                 <tr><th class="left">Gültigkeit</th><td>Das Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
                 <tr><th class="left">Bezeichnung</th><td>Das Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
                 <tr><th class="left">Unklarheiten</th><td>-</td></tr>
-                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
             </table>
 
             <h2 id="bgl-ressource">Ressource</h2>

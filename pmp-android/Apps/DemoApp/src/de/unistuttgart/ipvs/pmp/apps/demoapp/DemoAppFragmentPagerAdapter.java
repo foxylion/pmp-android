@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.demoapp.panels.Location;
 import de.unistuttgart.ipvs.pmp.apps.demoapp.panels.RSSFeed;
 import de.unistuttgart.ipvs.pmp.apps.demoapp.panels.Translation;
@@ -31,6 +32,10 @@ public class DemoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int index) {
+
+		TextView tv;
+		tv = (TextView) findViewById(R.id.panel_current);
+		tv.setText("" + mPagerAdapter.getCount());
 		return panels.get(index);
 	}
 }
