@@ -176,6 +176,46 @@ public class PassengerViewActivity extends MapActivity {
     
     
     @Override
+    public void onBackPressed() {
+        
+        switch (ctrl.stopQuery(Model.getInstance().getSid(), Model.getInstance().getQueryId())) {
+            case Constants.STATUS_QUERY_DELETED:
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                Log.i(this, "QUERY DELTED");
+                ViewModel.getInstance().clearPassengerOverlayList();
+                ViewModel.getInstance().getHitchDrivers().clear();
+                locationManager.removeUpdates(luh);
+                timer.cancel();
+                ViewModel.getInstance().clearViewModel();
+                
+                PassengerViewActivity.this.finish();
+                break;
+            case Constants.STATUS_NO_QUERY:
+                Toast.makeText(context, "No query", Toast.LENGTH_SHORT).show();
+                Log.i(this, "NO QUERY");
+                break;
+            case Constants.STATUS_INVALID_USER:
+                Toast.makeText(context, "Invalid user", Toast.LENGTH_SHORT).show();
+                Log.i(this, "INVALID USER");
+                break;
+            default:
+                // stop query
+                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                Log.i(this, "QUERY DELeTED");
+                ViewModel.getInstance().clearPassengerOverlayList();
+                ViewModel.getInstance().getHitchDrivers().clear();
+                locationManager.removeUpdates(luh);
+                timer.cancel();
+                ViewModel.getInstance().clearViewModel();
+                
+                PassengerViewActivity.this.finish();
+        }
+        
+        return;
+    }
+    
+    
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         
         // Provi

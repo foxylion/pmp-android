@@ -191,6 +191,8 @@ public class RideActivity extends Activity {
             @Override
             public void onClick(View v) {
                 
+                Log.i(this, "SIZE: " + ViewModel.getInstance().getSpinners().size());
+                
                 if (ViewModel.getInstance().getSpinners().size() > 1) {
                     Toast.makeText(RideActivity.this, "Only one destination allowed for passenger", Toast.LENGTH_SHORT)
                             .show();
