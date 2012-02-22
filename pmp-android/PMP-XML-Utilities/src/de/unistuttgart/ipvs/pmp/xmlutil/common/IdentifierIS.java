@@ -12,21 +12,15 @@ public abstract class IdentifierIS extends IssueLocation implements IIdentifierI
     /**
      * The identifier
      */
-    private String identifier = "";
+    private String identifier = null;
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS#getIdentifier()
-     */
     @Override
     public String getIdentifier() {
         return this.identifier;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IIdentifierIS#setIdentifier(java.lang.String)
-     */
     @Override
     public void setIdentifier(String identifier) {
         this.identifier = identifier;

@@ -36,46 +36,34 @@ public class LocalizedString extends IssueLocation implements ILocalizedString {
     private static final long serialVersionUID = -8792729039613615548L;
     
     /**
-     * The name
+     * The string
      */
-    private String string = "";
+    private String string = null;
     
     /**
-     * Locale
+     * The locale
      */
-    private Locale locale;
+    private Locale locale = null;
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#getString()
-     */
     @Override
     public String getString() {
         return this.string;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#setString(java.lang.String)
-     */
     @Override
     public void setString(String name) {
         this.string = name;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#getLocale()
-     */
     @Override
     public Locale getLocale() {
         return this.locale;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.ILocalizedString#setLocale(java.util.Locale)
-     */
     @Override
     public void setLocale(Locale locale) {
         this.locale = locale;

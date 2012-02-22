@@ -5,6 +5,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,10 +18,17 @@ import android.widget.Toast;
  */
 public class SpinnerDialog extends Dialog {
     
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_remove_dest);
+        
+        
+    }
+    
+    
     public SpinnerDialog(Context context) {
         super(context);
         setTitle("Remove destination");
-        setContentView(R.layout.dialog_remove_dest);
         
         Button remove = (Button) findViewById(R.id.btn_remove_dest);
         remove.setOnClickListener(new View.OnClickListener() {

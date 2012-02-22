@@ -49,18 +49,12 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     protected List<ILocalizedString> descriptions = new ArrayList<ILocalizedString>();
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#getNames()
-     */
     @Override
     public List<ILocalizedString> getNames() {
         return this.names;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#getNameForLocale(java.util.Locale)
-     */
     @Override
     public String getNameForLocale(Locale locale) {
         for (ILocalizedString name : this.names) {
@@ -75,36 +69,24 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#addName(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
-     */
     @Override
     public void addName(ILocalizedString name) {
         this.names.add(name);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#removeName(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
-     */
     @Override
     public void removeName(ILocalizedString name) {
         this.names.remove(name);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#getDescriptions()
-     */
     @Override
     public List<ILocalizedString> getDescriptions() {
         return this.descriptions;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#getDescriptionForLocale(java.util.Locale)
-     */
     @Override
     public String getDescriptionForLocale(Locale locale) {
         for (ILocalizedString descr : this.descriptions) {
@@ -119,27 +101,18 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#addDescription(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
-     */
     @Override
     public void addDescription(ILocalizedString description) {
         this.descriptions.add(description);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#removeDescription(de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.LocalizedString)
-     */
     @Override
     public void removeDescription(ILocalizedString description) {
         this.descriptions.remove(description);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#clearNameIssues()
-     */
     @Override
     public void clearNameIssues() {
         for (ILocalizedString name : getNames()) {
@@ -148,9 +121,6 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.common.informationset.IBasicIS#clearDescriptionIssues()
-     */
     @Override
     public void clearDescriptionIssues() {
         for (ILocalizedString descr : getDescriptions()) {

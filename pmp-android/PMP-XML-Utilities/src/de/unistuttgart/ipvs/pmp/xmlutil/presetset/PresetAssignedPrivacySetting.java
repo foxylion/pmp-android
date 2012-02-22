@@ -36,10 +36,10 @@ public class PresetAssignedPrivacySetting extends IssueLocation implements Seria
     /**
      * The value
      */
-    private String value = "";
+    private String value = null;
     
     /**
-     * List of contexts
+     * List of {@link IPresetPSContext}s
      */
     private List<IPresetPSContext> contexts = new ArrayList<IPresetPSContext>();
     
@@ -64,99 +64,66 @@ public class PresetAssignedPrivacySetting extends IssueLocation implements Seria
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getRgIdentifier()
-     */
     @Override
     public String getRgIdentifier() {
         return this.rgIdentifier;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setRgIdentifier(java.lang.String)
-     */
     @Override
     public void setRgIdentifier(String rgIdentifier) {
         this.rgIdentifier = rgIdentifier;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getRgRevision()
-     */
     @Override
     public String getRgRevision() {
         return this.rgRevision;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setRgRevision(java.lang.String)
-     */
     @Override
     public void setRgRevision(String rgRevision) {
         this.rgRevision = rgRevision;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getPsIdentifier()
-     */
     @Override
     public String getPsIdentifier() {
         return this.psIdentifier;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setPsIdentifier(java.lang.String)
-     */
     @Override
     public void setPsIdentifier(String psIdentifier) {
         this.psIdentifier = psIdentifier;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getValue()
-     */
     @Override
     public String getValue() {
         return this.value;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#setValue(java.lang.String)
-     */
     @Override
     public void setValue(String value) {
         this.value = value;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#getContexts()
-     */
     @Override
     public List<IPresetPSContext> getContexts() {
         return this.contexts;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#addContext(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext)
-     */
     @Override
     public void addContext(IPresetPSContext context) {
         this.contexts.add(context);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting#removeContext(de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext)
-     */
     @Override
     public void removeContext(IPresetPSContext context) {
         this.contexts.remove(context);

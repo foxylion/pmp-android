@@ -106,7 +106,7 @@ public class AbstractValidator {
             // Instantiate possible issues
             Issue localeMissing = new Issue(IssueType.LOCALE_MISSING, lString);
             Issue localeInvalid = new Issue(IssueType.LOCALE_INVALID, lString);
-            Issue nameEmpty = new Issue(IssueType.EMPTY_VALUE, lString);
+            Issue nameEmpty = new Issue(IssueType.VALUE_MISSING, lString);
             
             // Flag, if the locale is missing
             boolean localeAvailable = true;

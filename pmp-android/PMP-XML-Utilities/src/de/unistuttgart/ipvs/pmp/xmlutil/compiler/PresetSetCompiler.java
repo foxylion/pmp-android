@@ -147,8 +147,11 @@ public class PresetSetCompiler extends BasicISCompiler {
             privacySettingNode.addAttribute(new XMLAttribute(XMLConstants.PS_IDENTIFIER_ATTR, ps.getPsIdentifier()));
             
             // Add the value
-            XMLNode valueNode = new XMLNode(XMLConstants.VALUE);
-            valueNode.setCDATAContent(ps.getValue());
+            if (ps.getValue() != null) {
+                XMLNode valueNode = new XMLNode(XMLConstants.VALUE);
+                valueNode.setCDATAContent(ps.getValue());
+                privacySettingNode.addChild(valueNode);
+            }
             
             // Add the contexts
             for (IPresetPSContext context : ps.getContexts()) {
@@ -157,16 +160,17 @@ public class PresetSetCompiler extends BasicISCompiler {
                 contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_CONDITION_ATTR, context.getCondition()));
                 
                 // Create the overrideValue-Node
-                XMLNode overrideValueNode = new XMLNode(XMLConstants.CONTEXT_OVERRIDE_VALUE);
-                overrideValueNode.setCDATAContent(context.getOverrideValue());
-                contextNode.addChild(overrideValueNode);
+                if (context.getOverrideValue() != null) {
+                    XMLNode overrideValueNode = new XMLNode(XMLConstants.CONTEXT_OVERRIDE_VALUE);
+                    overrideValueNode.setCDATAContent(context.getOverrideValue());
+                    contextNode.addChild(overrideValueNode);
+                }
                 
                 // Add it to his parent
                 privacySettingNode.addChild(contextNode);
             }
             
-            // Now finally add the childs to the AssignedPrivacySettingsNode and add this one to the result list
-            privacySettingNode.addChild(valueNode);
+            // Now finally add it to the result list
             nodes.add(privacySettingNode);
         }
         
