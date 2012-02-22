@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<name lang="en">PMPTest App1</name>
+		<description lang="en">Test App for PMP.</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="sf1">
+			<name lang="en">Test ServiceFeature 1</name>
+			<description lang="en">Service Feature 1 requires some resources</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
+				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowedDatabases">testdb</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="sf2">
+			<name lang="en">Test ServiceFeature 2</name>
+			<description lang="en">Service Feature 2 requires some more resources</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1">
+				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="write">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowedDatabases">testdb</requiredPrivacySetting>
+			</requiredResourceGroup>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="1">
+				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="locationPrecision">100</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+		<serviceFeature identifier="sf3">
+			<name lang="en">Test ServiceFeature 3</name>
+			<description lang="en">Service Feature 3 requires some more resources</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.switches" minRevision="1">
+				<requiredPrivacySetting identifier="CanWifiState">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>

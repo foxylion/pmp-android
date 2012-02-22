@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.test.model;
+package de.unistuttgart.ipvs.pmp.test.model.sample;
 
 import android.content.pm.PackageManager;
 import android.test.ActivityInstrumentationTestCase2;
@@ -9,9 +9,14 @@ import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 
-public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
+/**
+ * Sample model test implementation.
+ * 
+ * @author Tobias Kuhn
+ */
+public class SampleModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
     
-    public ModelTest() {
+    public SampleModelTest() {
         super("de.unistuttgart.ipvs.pmp", ActivityMain.class);
     }
     
@@ -30,8 +35,7 @@ public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
     private static boolean installChecked = false;
     
     
-    @Override
-    protected void setUp() throws Exception {
+    protected void X_setUp() throws Exception {
         try {
             if (!installChecked) {
                 // check for the appropriate device setup
@@ -65,7 +69,7 @@ public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
     }
     
     
-    public void testInstallApp() throws Exception {
+    public void X_testInstallApp() throws Exception {
         Model.getInstance().registerApp(SIMPLE_APP);
         Thread.sleep(1000L);
         assertEquals(1, Model.getInstance().getApps().size());
@@ -73,7 +77,7 @@ public class ModelTest extends ActivityInstrumentationTestCase2<ActivityMain> {
     }
     
     
-    public void testInstallRG() throws Exception {
+    public void X_testInstallRG() throws Exception {
         assertTrue(Model.getInstance().installResourceGroup(SWITCHES_RG, false));
         assertEquals(1, Model.getInstance().getResourceGroups().size());
         assertNotNull(Model.getInstance().getResourceGroup(SWITCHES_RG));
