@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.Model;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.jpmpps.server.HTTPServer;
 import de.unistuttgart.ipvs.pmp.jpmpps.server.TCPObjectServer;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
@@ -69,10 +70,12 @@ public class JPMPPS {
      */
     private File presetSetDatastorePath;
     
+    private TCPObjectServer serverTCPObject = null;
+    
     /**
-     * Instance of the {@link TCPObjectServer}.
+     * Instance of the {@link HTTPServer}.
      */
-    private TCPObjectServer server = null;
+    private HTTPServer serverHTTP = null;
     
     /**
      * Timer for updating the packages.
@@ -153,8 +156,11 @@ public class JPMPPS {
      * Starts the server and begins to listen on the specified port.
      */
     public void startServer() {
-        if (this.server == null) {
-            this.server = new TCPObjectServer(JPMPPSConstants.PORT);
+        if (this.serverTCPObject == null) {
+            this.serverTCPObject = new TCPObjectServer(JPMPPSConstants.PORT);
+        }
+        if (this.serverHTTP == null) {
+            this.serverHTTP = new HTTPServer(JPMPPSConstants.PORT + 1);
         }
     }
     
@@ -163,7 +169,8 @@ public class JPMPPS {
      * Stops the Server.
      */
     public void stopServer() {
-        this.server.stop();
+        this.serverTCPObject.stop();
+        this.serverHTTP.stop();
     }
     
     

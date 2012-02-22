@@ -78,7 +78,7 @@ public class TCPObjectServer {
         
         @Override
         public void run() {
-            while (!isInterrupted()) {
+            while (!isInterrupted() && !socket.isClosed()) {
                 try {
                     // TODO use a thread pool to limit the number of threads at the same time, so DDOSing
                     //      will be a little bit more difficult.

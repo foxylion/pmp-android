@@ -20,7 +20,6 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import android.app.Dialog;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.text.ClipboardManager;
@@ -221,8 +220,8 @@ public class DialogPresetsImportExportId extends Dialog {
             @Override
             public boolean onLongClick(View v) {
                 ClipboardManager clipboard = (ClipboardManager) getContext()
-                        .getSystemService(Service.CLIPBOARD_SERVICE);
-                clipboard.setText(id);
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setText(DialogPresetsImportExportId.this.id);
                 
                 Toast.makeText(getContext(), getContext().getString(R.string.presets_export_copy_success),
                         Toast.LENGTH_SHORT).show();

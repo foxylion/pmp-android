@@ -1,7 +1,6 @@
 package de.unistuttgart.ipvs.pmp.model.context.time;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,9 +130,9 @@ public class TimeContextCondition {
     public boolean satisfiedIn(long state) {
         Calendar cal;
         if (this.isUTC) {
-            cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("GMT"));
+            cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         } else {
-            cal = GregorianCalendar.getInstance();
+            cal = Calendar.getInstance();
         }
         cal.setTimeInMillis(state);
         
