@@ -21,6 +21,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
@@ -183,7 +184,7 @@ public class DriverViewActivity extends MapActivity {
                 
                 timer.cancel();
                 
-                Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
+                Log.i(this, "Trip ENDED");
                 this.finish();
                 break;
             }
@@ -198,6 +199,7 @@ public class DriverViewActivity extends MapActivity {
             }
             case (Constants.STATUS_HASENDED): {
                 Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_SHORT).show();
+                Log.i(this, "Trip ENDED");
                 DriverViewActivity.this.finish();
                 break;
             }
@@ -226,7 +228,7 @@ public class DriverViewActivity extends MapActivity {
                         
                         timer.cancel();
                         
-                        Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_LONG).show();
+                        Log.i(this, "Trip ENDED");
                         this.finish();
                         break;
                     }
@@ -240,7 +242,7 @@ public class DriverViewActivity extends MapActivity {
                         break;
                     }
                     case (Constants.STATUS_HASENDED): {
-                        Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "Trip ENDED");
                         DriverViewActivity.this.finish();
                         break;
                     }

@@ -115,7 +115,7 @@ public class RideActivity extends Activity {
                 switch (ctrl.announceTrip(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), 0, 0,
                         ViewModel.getInstance().getNumSeats())) {
                     case Constants.TRIP_STATUS_ANNOUNCED: {
-                        Toast.makeText(RideActivity.this, "Announced trip", Toast.LENGTH_LONG).show();
+                        Log.i(this, "ANNOUNCED trip");
                         
                         vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this).show();
                         
@@ -179,7 +179,7 @@ public class RideActivity extends Activity {
                         
                         break;
                     case Constants.STATUS_ERROR:
-                        Toast.makeText(RideActivity.this, "Error anouncing trip", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RideActivity.this, "Error anouncing trip", Toast.LENGTH_SHORT).show();
                         break;
                 
                 }

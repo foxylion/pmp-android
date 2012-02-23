@@ -147,4 +147,8 @@ public class vhikeDialogs {
     public SpinnerDialog spDialog(Context context) {
         return new SpinnerDialog(context);
     }
+    
+    public ProfileDialog getProfileDialog(Context context, int profileID) {
+        return new ProfileDialog(context, profileID);
+    }
 }

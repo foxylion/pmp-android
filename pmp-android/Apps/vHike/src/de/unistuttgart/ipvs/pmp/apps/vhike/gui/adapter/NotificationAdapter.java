@@ -6,14 +6,14 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.ProfileActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +45,7 @@ public class NotificationAdapter extends BaseAdapter {
     private int mWhichHitcher;
     private int userID;
     private Controller ctrl;
+    
     
     public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher) {
         this.context = context;
@@ -81,6 +82,7 @@ public class NotificationAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         hitchhiker = hitchhikers.get(position);
+        userID = hitchhiker.getID();
         
         /* load the layout from the xml file */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -96,14 +98,12 @@ public class NotificationAdapter extends BaseAdapter {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ProfileActivity.class);
                 
-                userID = hitchhiker.getID();
+                List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+                userID = lqo.get(position).getUserid();
+                Log.i(this, "ProfileID: " + userID + ", Position: " + position);
                 
-                intent.putExtra("PROFILE_ID", userID);
-                intent.putExtra("MY_PROFILE", 1);
-                
-                context.startActivity(intent);
+                vhikeDialogs.getInstance().getProfileDialog(context, userID).show();
             }
         });
         
@@ -118,12 +118,13 @@ public class NotificationAdapter extends BaseAdapter {
                 
                 @Override
                 public void onClick(View v) {
-                   
+                    
                     ViewModel.getInstance().addToBanned(actObject.getViewObjectToBann());
                     ViewModel.getInstance().updateView(mWhichHitcher);
-                    if(actObject.getStatus()== Constants.V_OBJ_SATUS_PICKED_UP){
-                        ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats()+1);
-                        ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), ViewModel.getInstance().getNumSeats());
+                    if (actObject.getStatus() == Constants.V_OBJ_SATUS_PICKED_UP) {
+                        ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats() + 1);
+                        ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance().getTripId(), ViewModel
+                                .getInstance().getNumSeats());
                     }
                 }
             });

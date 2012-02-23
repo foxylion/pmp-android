@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,10 +12,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 
@@ -32,7 +31,6 @@ public class LoginActivity extends Activity {
     private static final String R_NAME = "absoluteLocationResource";
     
     private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
-    private Handler handler;
     
     private String username;
     private String pw;
@@ -49,7 +47,6 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        handler = new Handler();
         PMP.get(this.getApplication());
         
         setContentView(R.layout.activity_login);
@@ -81,7 +78,7 @@ public class LoginActivity extends Activity {
                         
                         vhikeDialogs.getInstance().getLoginPD(LoginActivity.this).show();
                         
-                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "LOGIN successfull");
                         Intent intent = new Intent(v.getContext(), MainActivity.class);
                         v.getContext().startActivity(intent);
                         
