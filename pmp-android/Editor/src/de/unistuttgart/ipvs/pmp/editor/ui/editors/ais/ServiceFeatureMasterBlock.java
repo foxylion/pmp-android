@@ -35,10 +35,13 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -74,7 +77,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
-	IDoubleClickListener {
+	IDoubleClickListener, SelectionListener {
 
     /**
      * The {@link TreeViewer} of this block
@@ -87,19 +90,19 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     private Shell parentShell;
 
     /**
-     * The remove action
+     * The remove button
      */
-    private Action remove;
+    private Button removeButton;
+
+    /**
+     * The add resource group button
+     */
+    private Button addRGButton;
 
     /**
      * The model of this editor
      */
     private Model model = AisEditor.getModel();
-
-    /**
-     * The add {@link AISRequiredResourceGroup} action
-     */
-    private Action addRG;
 
     /*
      * (non-Javadoc)
@@ -113,20 +116,38 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    Composite parent) {
 	parentShell = parent.getShell();
 	FormToolkit toolkit = managedForm.getToolkit();
-	Section section = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.CLIENT_INDENT
+			| ExpandableComposite.TITLE_BAR);
 	section.setText("Service Features");
 	section.setExpanded(true);
 	creatSectionToolbar(section);
 
 	Composite compo = toolkit.createComposite(section);
-	compo.setLayout(new GridLayout(1, false));
+	compo.setLayout(new GridLayout(2, false));
 
 	// Add tree
 	treeViewer = new TreeViewer(compo);
 	treeViewer.setContentProvider(new ServiceFeatureTreeProvider());
 	treeViewer.setLabelProvider(new ServiceFeatureTreeLabelProvider());
 	treeViewer.setInput(model.getAis());
+
+	// Add all buttons
+	Composite rgButtonsComp = toolkit.createComposite(compo);
+	rgButtonsComp.setLayout(new FillLayout(SWT.VERTICAL));
+	GridData buttonLayout = new GridData();
+	buttonLayout.verticalAlignment = SWT.BEGINNING;
+	rgButtonsComp.setLayoutData(buttonLayout);
+	Button addSFButton = toolkit.createButton(rgButtonsComp,
+		"Add Service Feature", SWT.PUSH);
+	addSFButton.addSelectionListener(this);
+	addRGButton = toolkit.createButton(rgButtonsComp, "Add Resource Group",
+		SWT.PUSH);
+	addRGButton.addSelectionListener(this);
+	addRGButton.setEnabled(false);
+	removeButton = toolkit.createButton(rgButtonsComp, "Remove", SWT.PUSH);
+	removeButton.setEnabled(false);
+	removeButton.addSelectionListener(this);
 
 	GridData treeLayout = new GridData();
 	treeLayout.verticalAlignment = GridData.FILL;
@@ -141,13 +162,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	managedForm.addPart(spart);
 	sashForm.setOrientation(SWT.HORIZONTAL);
 	managedForm.reflow(true);
-
-	// Add buttons
-	Composite buttonCompo = toolkit.createComposite(compo);
-	GridData buttonLayout = new GridData();
-	buttonLayout.verticalAlignment = SWT.BEGINNING;
-	buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
-	buttonCompo.setLayoutData(buttonLayout);
 
 	TooltipTreeListener tooltipListener = new TooltipTreeListener(
 		treeViewer, parentShell);
@@ -168,47 +182,19 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		managedForm.fireSelectionChanged(spart, event.getSelection());
 
 		Tree tree = treeViewer.getTree();
-		TreeItem[] selection = tree.getSelection();
 		int selectionCount = tree.getSelectionCount();
+
+		if (selectionCount > 0) {
+		    removeButton.setEnabled(true);
+		} else {
+		    removeButton.setEnabled(false);
+		}
 
 		// Enable / disable the add rg button
 		if (selectionCount == 1) {
-		    TreeItem item = selection[0];
-		    if (item.getData() instanceof AISServiceFeature) {
-			addRG.setEnabled(true);
-		    } else {
-			addRG.setEnabled(false);
-		    }
+		    addRGButton.setEnabled(true);
 		} else {
-		    addRG.setEnabled(false);
-		}
-
-		Boolean enableSF = true;
-		Boolean enableRG = true;
-
-		// Check if all selections are on the service features
-		for (int itr = 0; itr < selectionCount; itr++) {
-		    TreeItem item = selection[itr];
-		    Object data = item.getData();
-		    if (!(data instanceof AISServiceFeature)) {
-			enableSF = false;
-		    }
-
-		    /*
-		     * Enable the remove button only if there are only Service
-		     * Features enabled or only required Resourcegroups
-		     */
-		    if (!(data instanceof AISRequiredResourceGroup)) {
-			enableRG = false;
-		    }
-		}
-
-		// If yes then enable the delete button
-		if (enableSF ^ enableRG) {
-		    remove.setEnabled(true);
-		} else {
-		    // Else disable it
-		    remove.setEnabled(false);
+		    addRGButton.setEnabled(false);
 		}
 	    }
 	});
@@ -330,10 +316,54 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	});
 
 	// Picture can be added also to the actions
-	Action addSF = new Action("Add Service Feature") {
+	Action refresh = new Action("Refresh Resource Group List from server") {
 
 	    @Override
 	    public void run() {
+		AisEditor.getModel().updateRgisListWithJob(parentShell, true);
+	    }
+	};
+	refresh.setToolTipText("Refresh the Resource Group list from the server");
+
+	// Add the actions to the toolbar
+	toolBarManager.add(refresh);
+
+	toolBarManager.update(true);
+	section.setTextClient(toolbar);
+    }
+
+    /**
+     * Refreshs the tree
+     */
+    public static void refreshTree() {
+	treeViewer.refresh();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+     * .swt.events.SelectionEvent)
+     */
+    @Override
+    public void widgetDefaultSelected(SelectionEvent selectionEvent) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+     * .events.SelectionEvent)
+     */
+    @Override
+    public void widgetSelected(SelectionEvent selectionEvent) {
+	if (selectionEvent.getSource() instanceof Button) {
+	    Button clicked = (Button) selectionEvent.getSource();
+
+	    // Add SF was clicked
+	    if (clicked.getText().equals("Add Service Feature")) {
 		// Show the input dialog
 		InputDialog dialog = new InputDialog(parentShell,
 			"Add Service Feature",
@@ -351,14 +381,66 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    treeViewer.refresh();
 		}
 	    }
-	};
-	addSF.setToolTipText("Add a new Service Feature");
 
-	// Picture can be added also to the actions
-	addRG = new Action("Add Resource Group") {
+	    // Remove was clicked
+	    if (clicked.getText().equals("Remove")) {
+		Tree tree = treeViewer.getTree();
+		TreeItem[] selection = tree.getSelection();
+		int selectionCount = tree.getSelectionCount();
+		Boolean deleted = false;
 
-	    @Override
-	    public void run() {
+		HashMap<AISServiceFeature, TreeItem> serviceFeaturesToDel = new HashMap<AISServiceFeature, TreeItem>();
+		HashMap<AISRequiredResourceGroup, TreeItem> requiredResourceGroupsToDel = new HashMap<AISRequiredResourceGroup, TreeItem>();
+
+		// Check all selections
+		for (int itr = 0; itr < selectionCount; itr++) {
+		    TreeItem item = selection[itr];
+		    Object data = item.getData();
+
+		    if (data instanceof AISServiceFeature) {
+			serviceFeaturesToDel
+				.put((AISServiceFeature) data, item);
+		    }
+
+		    if (data instanceof IAISRequiredResourceGroup) {
+			requiredResourceGroupsToDel.put(
+				(AISRequiredResourceGroup) data, item);
+		    }
+		}
+
+		// First delete all Service Features
+		for (AISServiceFeature toDel : serviceFeaturesToDel.keySet()) {
+		    model.getAis().getServiceFeatures().remove(toDel);
+		    serviceFeaturesToDel.get(toDel).dispose();
+		    deleted = true;
+		}
+
+		// Delete all resource groups that are selected
+		for (AISRequiredResourceGroup toDel : requiredResourceGroupsToDel
+			.keySet()) {
+		    TreeItem selected = requiredResourceGroupsToDel.get(toDel);
+		    if (!selected.isDisposed()
+			    && !selected.getParentItem().isDisposed()) {
+			AISServiceFeature parentSf = (AISServiceFeature) selected
+				.getParentItem().getData();
+			parentSf.removeRequiredResourceGroup(toDel);
+			selected.dispose();
+			deleted = true;
+		    }
+		}
+
+		// Mark the model as dirty, validate the SFs and refresh the
+		// tree
+		if (deleted) {
+		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+			    AisEditor.getModel().getAis(), true);
+		    AisEditor.getModel().setAISDirty(true);
+		    treeViewer.refresh();
+		}
+	    }
+
+	    // Add RG was clicked
+	    if (clicked.getText().equals("Add Resource Group")) {
 		List<RGIS> rgisList = null;
 		rgisList = model.getRgisList(parentShell);
 
@@ -368,15 +450,21 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    // Iterate through all set RGs of the Service Feature
 		    Tree tree = treeViewer.getTree();
 		    TreeItem[] selection = tree.getSelection();
-		    AISServiceFeature sf = (AISServiceFeature) selection[0]
-			    .getData();
+
+		    AISServiceFeature sf = null;
+		    if (selection[0].getData() instanceof AISServiceFeature) {
+			sf = (AISServiceFeature) selection[0].getData();
+		    } else {
+			sf = (AISServiceFeature) tree.getSelection()[0]
+				.getParentItem().getData();
+		    }
 
 		    // Iterate through all available RGs of the server
 		    for (RGIS rgis : rgisList) {
 			Boolean found = false;
 			for (IAISRequiredResourceGroup sfRg : sf
 				.getRequiredResourceGroups()) {
-			    // Add the RGs that arent already at the SF
+			    // Add the RGs that aren't already at the SF
 			    if (rgis.getIdentifier().equals(
 				    sfRg.getIdentifier())) {
 				found = true;
@@ -385,7 +473,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 			}
 
-			// Didn't found the RG at the sf
+			// Didn't found the RG at the Service Feature
 			if (!found) {
 			    resGroups.put(rgis.getIdentifier(), rgis);
 			}
@@ -410,10 +498,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			    // Store them at the model
 			    for (Object object : dialog.getResult()) {
 				AISRequiredResourceGroup required = (AISRequiredResourceGroup) object;
+				sf.addRequiredResourceGroup(required);
 				AISValidatorWrapper.getInstance()
 					.validateRequiredResourceGroup(
 						required, true);
-				sf.addRequiredResourceGroup(required);
 			    }
 			    model.setAISDirty(true);
 			    AISValidatorWrapper.getInstance()
@@ -424,73 +512,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    }
 		}
 	    }
-	};
-	addRG.setToolTipText("Add a new Resource Group");
-	addRG.setEnabled(false);
-
-	// The remove action
-	remove = new Action("Remove") {
-
-	    @Override
-	    public void run() {
-		Tree tree = treeViewer.getTree();
-		TreeItem[] selection = tree.getSelection();
-		int selectionCount = tree.getSelectionCount();
-		Boolean deleted = false;
-
-		// Check all selections
-		for (int itr = 0; itr < selectionCount; itr++) {
-		    TreeItem item = selection[itr];
-		    Object data = item.getData();
-
-		    // Check the type of the data, ServiceFeature could be
-		    // deleted directly
-		    if (data instanceof AISServiceFeature) {
-			model.getAis().getServiceFeatures().remove(data);
-			item.dispose();
-			deleted = true;
-		    }
-
-		    // Remove the resource group
-		    if (data instanceof IAISRequiredResourceGroup) {
-			IAISRequiredResourceGroup rg = (IAISRequiredResourceGroup) data;
-			TreeItem parent = item.getParentItem();
-			AISServiceFeature parentSf = (AISServiceFeature) parent
-				.getData();
-			parentSf.removeRequiredResourceGroup(rg);
-			item.dispose();
-			deleted = true;
-		    }
-
-		}
-		if (deleted) {
-		    detailsPart.selectionChanged(null, null);
-		    AISValidatorWrapper.getInstance().validateServiceFeatures(
-			    model.getAis(), true);
-
-		    treeViewer.refresh();
-		    model.setAISDirty(true);
-
-		}
-
-	    }
-	};
-	remove.setToolTipText("Remove the selected Service Features");
-
-	// Add the actions to the toolbar
-	toolBarManager.add(addSF);
-	toolBarManager.add(addRG);
-	remove.setEnabled(false);
-	toolBarManager.add(remove);
-
-	toolBarManager.update(true);
-	section.setTextClient(toolbar);
-    }
-
-    /**
-     * Refreshs the tree
-     */
-    public static void refreshTree() {
-	treeViewer.refresh();
+	}
     }
 }

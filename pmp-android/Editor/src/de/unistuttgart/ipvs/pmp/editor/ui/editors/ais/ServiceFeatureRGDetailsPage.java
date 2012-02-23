@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -114,6 +115,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
     private TableColumn identifierColumn;
     private TableColumn valueColumn;
 
+    /**
+     * Privacy {@link Section}
+     */
+    private Section psSection;
+
     private AISRequiredResourceGroup displayed;
 
     /*
@@ -151,10 +157,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	FormToolkit toolkit = form.getToolkit();
 
 	// The name section
-	Section psSection = toolkit.createSection(parent,
+	psSection = toolkit.createSection(parent,
 		ExpandableComposite.CLIENT_INDENT
 			| ExpandableComposite.TITLE_BAR);
-	psSection.setText("Required Privacy Setting");
 	psSection.setLayout(new GridLayout(1, false));
 	psSection.setExpanded(true);
 	psSection.setLayoutData(parentLayout);
@@ -287,6 +292,28 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	psTableViewer.setInput(displayed);
 
 	removeButton.setEnabled(false);
+
+	/*
+	 * Set the title of the section. If the RGIS list from the server is
+	 * available then with the name, else with the identifier from the RG
+	 */
+	Boolean found = false;
+	if (AisEditor.getModel().isRGListAvailable()) {
+	    for (RGIS rg : AisEditor.getModel().getRgisList(parentShell)) {
+		if (rg.getIdentifier().equals(displayed.getIdentifier())) {
+		    psSection.setText("Required Privacy Settings: "
+			    + rg.getNameForLocale(new Locale("en")));
+		    found = true;
+		    break;
+		}
+	    }
+	}
+
+	// RG not found or not available. Set the identifier
+	if (!found) {
+	    psSection.setText("Required Privacy Settings: "
+		    + displayed.getIdentifier());
+	}
 
 	// Pack all columns
 	identifierColumn.pack();
@@ -536,25 +563,23 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    }
 
 		    /*
-		     * Iterate through the set of required Privacy Settings
+		     * Iterate through the privacy settings of the resource
+		     * group
 		     */
-		    for (IAISRequiredPrivacySetting requiredPS : displayed
-			    .getRequiredPrivacySettings()) {
+		    for (IRGISPrivacySetting ps : resGroup.getPrivacySettings()) {
 
 			/*
-			 * Iterate through the privacy settings of the resource
-			 * group
+			 * Check if this ps is already added to RGIS list that /
+			 * will be displayed
 			 */
-			for (IRGISPrivacySetting ps : resGroup
-				.getPrivacySettings()) {
-			    if (!ps.getIdentifier().equals(
-				    requiredPS.getIdentifier())
-				    && !addedIdentifiers.contains(ps
-					    .getIdentifier())) {
-				if (!customRGIS.getPrivacySettings().contains(
-					ps)) {
-				    customRGIS.addPrivacySetting(ps);
-				}
+			if (!customRGIS.getPrivacySettings().contains(ps)) {
+
+			    /*
+			     * Check if this PS is already added to the
+			     * resourcegroup
+			     */
+			    if (!addedIdentifiers.contains(ps.getIdentifier())) {
+				customRGIS.addPrivacySetting(ps);
 			    }
 			}
 		    }

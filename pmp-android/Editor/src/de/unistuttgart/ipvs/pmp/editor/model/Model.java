@@ -19,22 +19,15 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.model;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.swt.widgets.Shell;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
-import de.unistuttgart.ipvs.pmp.editor.util.ServerProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ServerProviderDialogWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -54,6 +47,9 @@ public class Model {
      */
     private Boolean isAISDirty = false;
 
+    /**
+     * Indicates if the rgis file has unsaved changes
+     */
     private boolean rgisDirty = false;
 
     /**
@@ -71,8 +67,11 @@ public class Model {
      */
     private List<RGIS> rgisList = null;
 
+    /**
+     * The editor files that the propertychanged can be fired from within the
+     * model
+     */
     private AisEditor aisEditor;
-
     private RgisEditor rgisEditor;
 
     /**
@@ -113,16 +112,32 @@ public class Model {
 	this.rgis = rgis;
     }
 
+    /**
+     * Sets the {@link RgisEditor}
+     * 
+     * @param editor
+     *            the {@link RgisEditor}
+     */
     public void setRgisEditor(RgisEditor editor) {
 	rgisEditor = editor;
 
     }
 
+    /**
+     * Sets whether the rgis model is dirty or not
+     * 
+     * @param dirty
+     */
     public void setRgisDirty(boolean dirty) {
 	rgisDirty = dirty;
 	rgisEditor.firePropertyChangedDirty();
     }
 
+    /**
+     * Gets the dirty status of the rgis list
+     * 
+     * @return true if dirty, false otherwise
+     */
     public boolean isRgisDirty() {
 	return rgisDirty;
     }
@@ -131,90 +146,50 @@ public class Model {
      * Gets the whole {@link RGIS} list from the server
      * 
      * @return the rgisList
-     * @throws IOException
      */
     public List<RGIS> getRgisList(Shell shell) {
 	if (rgisList == null) {
-	    updateServerList(shell);
+	    updateRgisListWithDialog(shell);
 	}
 	return rgisList;
     }
 
     /**
-     * Updates the {@link RGIS} list from the server, while downloading a
-     * {@link ProgressMonitorDialog} is displayed
+     * Updates the {@link RGIS} list and let the
+     * {@link ServerProviderDialogWrapper} show a dialogF
      * 
      * @param shell
-     *            {@link Shell} to display the {@link ProgressMonitorDialog}
+     *            shell to display errors
      */
-    public void updateServerList(final Shell shell) {
+    public void updateRgisListWithDialog(Shell shell) {
+	ServerProviderDialogWrapper dialog = new ServerProviderDialogWrapper();
+	dialog.updateServerListWithDialog(shell);
+	rgisList = dialog.getRGISList();
+    }
 
-	// Create the dialog
-	ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
-	try {
+    /**
+     * Updates the {@link RGIS} list and let the
+     * {@link ServerProviderDialogWrapper} do this in a job that will be
+     * displayed
+     * 
+     * @param shell
+     *            shell to display errors
+     * @param showErrors
+     *            true if errors should be shown, else if not
+     */
+    public void updateRgisListWithJob(Shell shell, Boolean showErrors) {
+	final ServerProviderDialogWrapper dialog = new ServerProviderDialogWrapper();
 
-	    // Run the dialog, not cancelable because the timeout is set to 1000
-	    dialog.run(true, false, new IRunnableWithProgress() {
-
-		@Override
-		public void run(IProgressMonitor monitor)
-			throws InvocationTargetException, InterruptedException {
-
-		    // Start the task
-		    monitor.beginTask("Downloading Resource Groups...", 2);
-		    ServerProvider server = ServerProvider.getInstance();
-		    try {
-
-			// Refresh the list
-			server.updateResourceGroupList();
-			monitor.worked(1);
-			rgisList = server.getAvailableRessourceGroups();
-			monitor.done();
-		    } catch (final IOException e) {
-
-			// Show the error message in an asyncExectuable
-			Display.getDefault().asyncExec(
-				new Thread(new Runnable() {
-
-				    @Override
-				    public void run() {
-					IStatus status = new Status(
-						IStatus.ERROR,
-						"PROGRESS_DIALOG",
-						"See details", e);
-					ErrorDialog
-						.openError(
-							shell,
-							"Error",
-							"A error happend while downloading the "
-								+ "Resource Groups from the server.",
-							status);
-				    }
-				}));
-
-		    }
-
+	// The callback method inside a job listener
+	JobChangeAdapter changeAdapter = new JobChangeAdapter() {
+	    public void done(IJobChangeEvent event) {
+		if (event.getResult().isOK()) {
+		    // Get the downloaded list
+		    rgisList = dialog.getRGISList();
 		}
-	    });
-	} catch (InvocationTargetException e) {
-	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
-		    "See details", e);
-	    ErrorDialog
-		    .openError(
-			    shell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server.",
-			    status);
-	} catch (InterruptedException e) {
-	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
-		    "See details", e);
-	    ErrorDialog
-		    .openError(
-			    shell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server.",
-			    status);
-	}
+	    }
+	};
+	dialog.updateServerListWithJob(shell, showErrors, changeAdapter);
 
     }
 

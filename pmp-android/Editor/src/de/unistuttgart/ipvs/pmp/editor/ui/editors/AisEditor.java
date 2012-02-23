@@ -25,6 +25,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -67,6 +68,7 @@ public class AisEditor extends FormEditor {
     @Override
     protected void addPages() {
 	model = new Model();
+	model.updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
 	try {
 	    // Parse XML-File
 	    FileEditorInput input = (FileEditorInput) this.getEditorInput();
