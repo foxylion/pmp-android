@@ -66,8 +66,6 @@ public class IssueTranslator {
 	    return "A description with an English locale is missing";
 	case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
 	    return "Locale of a description occured to often";
-	case EMPTY_VALUE:
-	    return "Value is empty";
 	case ICON_MISSING:
 	    return "Icon is missing";
 	case IDENTIFIER_MISSING:
