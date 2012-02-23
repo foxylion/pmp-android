@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.xmlutil.parser;
 
 import java.io.InputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -175,10 +174,9 @@ public class PresetSetParser extends AbstractParser {
             String psIdentifier = psNode.getAttribute(XMLConstants.PS_IDENTIFIER_ATTR);
             
             // Transforme the rgRevision
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
             try {
-                Date date = sdf.parse(rgRevision);
-                rgRevision = String.valueOf(date.getTime() / 1000);
+                Date date = XMLConstants.REVISION_DATE_FORMAT.parse(rgRevision);
+                rgRevision = String.valueOf(date.getTime());
             } catch (ParseException e) {
                 // The parse exception can be ignored.
                 // If the time was in another format, the validator will find it.

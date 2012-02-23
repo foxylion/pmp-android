@@ -49,7 +49,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.BasicISCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -472,6 +472,10 @@ public class AppParserTest extends TestCase implements TestConstants {
         TestUtil.debug(ste.getMethodName());
         
         IAIS ais = XMLUtilityProxy.getAppUtil().parse(XMLCompiler.compileStream(TestUtil.main));
+        System.out.println(">>> "
+                + ais.getServiceFeatureForIdentifier("serviceFeature")
+                        .getRequiredResourceGroupForIdentifier("required.resource.group")
+                        .getRequiredPrivacySettingForIdentifier("required.privacy.setting").getValue());
         assertTrue("Validator did not accept Preset with empty Req PS value.", TestUtil.assertAISValidationEmpty(ais));
     }
     
@@ -665,7 +669,7 @@ public class AppParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(APP_SF1_REQ_PS1_ID));
         assertTrue(compilation.contains(APP_SF1_REQ_PS2_VALUE));
         assertTrue(compilation.contains(RG_REVISION)
-                || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
+                || compilation.contains(XMLConstants.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(APP_SF1_LOC_NAME_LOCALE.getLanguage()));
         assertTrue(compilation.contains(APP_SF1_LOC_NAME));
         assertTrue(compilation.contains("he"));

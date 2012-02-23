@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.xmlutil.parser;
 
 import java.io.InputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -136,10 +135,9 @@ public class AISParser extends AbstractParser {
                 
                 // If the min revision is a simple date format, convert it into an integer (seconds)
                 String minRevision = rrgElement.getAttribute(XMLConstants.MINREVISION_ATTR);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
                 try {
-                    Date date = sdf.parse(minRevision);
-                    minRevision = String.valueOf(date.getTime() / 1000);
+                    Date date = XMLConstants.REVISION_DATE_FORMAT.parse(minRevision);
+                    minRevision = String.valueOf(date.getTime());
                 } catch (ParseException e) {
                     // The parse exception can be ignored.
                     // If the time was in another format, the validator will find it.

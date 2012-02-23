@@ -29,7 +29,7 @@ import org.junit.Test;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.BasicISCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -479,7 +479,7 @@ public class RGParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(RG_ICON));
         assertTrue(compilation.contains(RG_CLASS_NAME));
         assertTrue(compilation.contains(RG_REVISION)
-                || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
+                || compilation.contains(XMLConstants.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(RG_NAME));
         assertTrue(compilation.contains(RG_DESC));
         assertTrue(compilation.contains(RG_PS1_ID));

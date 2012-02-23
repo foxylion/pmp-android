@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.xmlutil.compiler;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -133,10 +132,9 @@ public class PresetSetCompiler extends BasicISCompiler {
             
             // Transform the rg revision
             String rgRevision = ps.getRgRevision();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
             try {
-                Date date = new Date(Long.valueOf(rgRevision) * 1000);
-                rgRevision = sdf.format(date);
+                Date date = new Date(Long.valueOf(rgRevision));
+                rgRevision = XMLConstants.REVISION_DATE_FORMAT.format(date);
             } catch (NumberFormatException nfe) {
                 // Ignore it. Something went wrong and the min revision was not an integer.
             }

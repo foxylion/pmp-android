@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import unittest.TestUtil.ContextBean;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.compiler.BasicISCompiler;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -519,7 +519,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(PRESET1_APP1_IDENTIFIER));
         assertTrue(compilation.contains(RG_ID));
         assertTrue(compilation.contains(RG_REVISION)
-                || compilation.contains(BasicISCompiler.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
+                || compilation.contains(XMLConstants.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(RG_PS1_ID));
         assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE));
         assertTrue(compilation.contains(CONTEXT1_TYPE));

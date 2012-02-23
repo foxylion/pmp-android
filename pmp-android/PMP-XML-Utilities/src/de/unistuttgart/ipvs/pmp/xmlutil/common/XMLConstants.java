@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.common;
 
+import java.text.SimpleDateFormat;
+
 /**
  * There are xml constants defined.
  * 
@@ -26,6 +28,11 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common;
  * 
  */
 public class XMLConstants {
+    
+    /**
+     * The simple date format for the revision
+     */
+    public static final SimpleDateFormat REVISION_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
     
     /**
      * AIS
