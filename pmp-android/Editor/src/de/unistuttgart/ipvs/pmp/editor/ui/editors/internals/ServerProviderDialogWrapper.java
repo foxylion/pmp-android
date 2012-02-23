@@ -64,11 +64,11 @@ public class ServerProviderDialogWrapper {
      */
     public void updateServerListWithJob(final Shell shell,
 	    final Boolean showErrors, IJobChangeListener listener) {
-	Job job = new Job("Downloading Resource Groups...") {
+	Job job = new Job("Downloading Resource Groups") {
 
 	    @Override
 	    protected IStatus run(IProgressMonitor monitor) {
-		monitor.beginTask("Updating Resource Groups", 2);
+		monitor.beginTask("Downloading Resource Groups", 2);
 		ServerProvider server = ServerProvider.getInstance();
 
 		// Refresh the list
@@ -89,7 +89,7 @@ public class ServerProviderDialogWrapper {
 				    public void run() {
 					IStatus status = new Status(
 						IStatus.ERROR,
-						"PROGRESS_DIALOG",
+						"PROGRESS_JOB",
 						"See details", e);
 					ErrorDialog
 						.openError(
