@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -180,8 +181,9 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     private Section createSectionWithDescription(Composite parent,
 	    String title, FormToolkit toolkit, String desc) {
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
+			| Section.DESCRIPTION);
 	section.setDescription(desc);
 	section.setText(title);
 	section.setExpanded(true);
@@ -205,8 +207,8 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     private Section createSection(Composite parent, String title,
 	    FormToolkit toolkit) {
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 	section.setText(title);
 	section.setExpanded(true);
 
@@ -252,6 +254,11 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	    if (clicked.getText().equals("Add PMP Registration activity")) {
 		try {
 		    adapter.addPMPActivityToManifest(PROJECT_PATH, MANIFTEST);
+		    MessageDialog
+			    .openInformation(
+				    Display.getDefault().getActiveShell(),
+				    "Success",
+				    "The PMP Registration activity was successfully added to the AndroidManifest.xml.");
 		} catch (FileNotFoundException e) {
 		    IStatus status = new Status(IStatus.ERROR, ID,
 			    "See details", e);
@@ -310,6 +317,11 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	    } else {
 		try {
 		    adapter.addPMPServiceToManifest(PROJECT_PATH, MANIFTEST);
+		    MessageDialog
+			    .openInformation(Display.getDefault()
+				    .getActiveShell(), "Success",
+				    "The PMP Service was successfully added to the AndroidManifest.xml.");
+
 		} catch (FileNotFoundException e) {
 		    IStatus status = new Status(IStatus.ERROR, ID,
 			    "See details", e);
