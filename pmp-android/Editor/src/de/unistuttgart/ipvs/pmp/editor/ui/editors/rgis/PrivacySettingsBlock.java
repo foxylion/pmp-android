@@ -44,7 +44,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
@@ -70,11 +69,12 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 
     private PrivacySettingsPage form;
     private TreeViewer treeViewer;
-    private Model model = RgisEditor.getModel();
+    private final Model model;
     private ControlDecoration treeDec;
 
-    public PrivacySettingsBlock(PrivacySettingsPage form) {
+    public PrivacySettingsBlock(PrivacySettingsPage form, Model model) {
 	this.form = form;
+	this.model = model;
     }
 
     public void setDirty(boolean dirty) {
@@ -241,6 +241,10 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
     protected void createToolBarActions(IManagedForm managedForm) {
 	// TODO Auto-generated method stub
 
+    }
+    
+    public Model getModel() {
+	return model;
     }
 
 }

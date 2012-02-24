@@ -86,7 +86,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void doSetDirty(boolean dirty) {
-		RgisEditor.getModel().setRgisDirty(true);
+		block.getModel().setRgisDirty(true);
 
 	    }
 
@@ -94,7 +94,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
 	    public void doValidate() {
 		RGISValidatorWrapper validator = RGISValidatorWrapper
 			.getInstance();
-		validator.validatePrivacySettings(RgisEditor.getModel()
+		validator.validatePrivacySettings(block.getModel()
 			.getRgis(), true);
 	    }
 

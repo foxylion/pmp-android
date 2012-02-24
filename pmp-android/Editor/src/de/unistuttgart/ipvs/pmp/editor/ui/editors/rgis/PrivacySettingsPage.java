@@ -24,6 +24,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
+import de.unistuttgart.ipvs.pmp.editor.model.Model;
+
 /**
  * Privacy Settings page of the RGIS-Editor
  * 
@@ -33,11 +35,11 @@ public class PrivacySettingsPage extends FormPage {
 
     public static final String ID = "rgis_ps";
     private boolean dirty = false;
-    private PrivacySettingsBlock privacySettingsBlock = new PrivacySettingsBlock(
-	    this);
+    private final PrivacySettingsBlock privacySettingsBlock;
 
-    public PrivacySettingsPage(FormEditor parent) {
+    public PrivacySettingsPage(FormEditor parent, Model model) {
 	super(parent, ID, "Privacy Settings");
+	privacySettingsBlock = new PrivacySettingsBlock(this, model);
 
     }
 

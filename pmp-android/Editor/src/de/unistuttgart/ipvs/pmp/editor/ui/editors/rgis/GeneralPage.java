@@ -35,7 +35,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
@@ -58,10 +57,11 @@ public class GeneralPage extends FormPage {
     private ControlDecoration classnameDec;
     private ControlDecoration iconDec;
     private ControlDecoration identifierDec;
-    private Model model = RgisEditor.getModel();
+    private final Model model;
 
-    public GeneralPage(FormEditor parent) {
+    public GeneralPage(FormEditor parent, Model model) {
 	super(parent, ID, "General");
+	this.model = model;
     }
 
     @Override

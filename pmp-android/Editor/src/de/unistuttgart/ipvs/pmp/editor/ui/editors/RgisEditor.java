@@ -46,10 +46,15 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  */
 public class RgisEditor extends FormEditor {
 
-    private final static Model model = new Model();
+    private final Model model = new Model();
+    
+    public RgisEditor() {
+	System.out.println("construct");
+    }
 
     @Override
     protected void addPages() {
+	System.out.println("add");
 	try {
 	    model.setRgisEditor(this);
 	    RGUtil rgutil = XMLUtilityProxy.getRGUtil();
@@ -70,8 +75,8 @@ public class RgisEditor extends FormEditor {
 	    model.setRgis(rgis);
 	    RGISValidatorWrapper.getInstance().validateRGIS(rgis, true);
 
-	    addPage(new GeneralPage(this));
-	    addPage(new PrivacySettingsPage(this));
+	    addPage(new GeneralPage(this, model));
+	    addPage(new PrivacySettingsPage(this, model));
 	} catch (PartInitException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
@@ -114,10 +119,6 @@ public class RgisEditor extends FormEditor {
     public boolean isSaveAsAllowed() {
 	// TODO Auto-generated method stub
 	return false;
-    }
-
-    public static Model getModel() {
-	return model;
     }
 
 }
