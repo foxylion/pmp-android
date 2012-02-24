@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>Entwurf - Info-App</title>
+	<title>Entwurf - InfoApp</title>
 	<script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="../../_layout/script.js"></script>
 	<script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
@@ -14,9 +14,9 @@
 <body>
 	<div id="wrapper">
 		<div id="page-head-date">07. Februar 2012</div>
-		<div id="page-head-title">Info-App</div>
-		<div id="page-title">Info-App <p>Entwurf</p></div>
-		<div id="page-version">Version 3.3</div>
+		<div id="page-head-title">InfoApp</div>
+		<div id="page-title">InfoApp <p>Entwurf</p></div>
+		<div id="page-version">Version 3.4</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -31,17 +31,22 @@
 				
 				<h3>Version 3.1 (08.02.2012)</h3>
 					<ul>
-						<li>Erstes Gerüst des 				Entwurfs</li>
+						<li>Erstes Gerüst des Entwurfs</li>
 					</ul>
 
 				<h3>Version 3.2 (10.02.2012)</h3>
 					<ul>
-						<li>Klassendiagramm 				hinzugefügt</li>
+						<li>Klassendiagramm hinzugefügt</li>
 					</ul>
 
 				<h3>Version 3.3 (15.02.2012)</h3>
 					<ul>
-						<li>Verbesserungen nach der 						Begutachtung vorgenommen</li>
+						<li>Verbesserungen nach der Begutachtung vorgenommen</li>
+					</ul>
+				
+				<h3>Version 3.4 (24.02.2012)</h3>
+					<ul>
+						<li>Klassendiagramm bearbeitet</li>
 					</ul>
 
 
@@ -51,51 +56,45 @@
 			
 
 			<p>Die entworfene Software dient als eine Beispielapp, die die Funktionen der PMP bezüglich des Umgangs mit vielen Ressourcen demonstriert.</p>
-			<p>Die Software ist reine Demonstrationsapp und soll keine ausgefallene Oberfläche besitzen, jedoch hässlich soll sie auch nicht werden. Dafür soll sie viele Ressourcengruppen gemeinsam mit der PMP verwenden.</p>
-			<p>In erster Linie soll die Funktionalität der Software sichergestellt werden, sodass die zusätzlichen Ressourcengruppen im Nachhinein hinzugefügt werden.</p>
+			<p>Die Software ist reine Demonstrationsapp und soll keine ausgefallene Oberfläche besitzen, jedoch hässlich soll sie auch nicht werden. Dafür 				soll sie viele Ressourcengruppen gemeinsam mit der PMP verwenden.</p>
+			<p>In erster Linie soll die Funktionalität der Software sichergestellt werden, sodass die zusätzlichen Ressourcengruppen im Nachhinein 				hinzugefügt werden.</p>
 
 
 
 			
 			<h1 id="entwurfsprinzipien">Entwurfsprinzipien</h1>
 
-					<p>Die Software ist eine Informations-App. Somit wird diese hauptsächlich die Informationen aus dem Internet beziehen und diese dem Benutzer anzeigen. Die Hauptquelle werden die diversen RSS-Feeds sein. Der Benutzer wird in der Lage sein die Informationen der Info-App einstellen zu können, was er mit Hilfe von PMP erreichen können wird.</p>	
+					<p>Die Software ist eine Informations-App. Somit wird diese hauptsächlich die Informationen aus dem Internet beziehen und diese dem Benutzer anzeigen. Die Hauptquelle werden die diversen RSS-Feeds sein. Der Benutzer wird in der Lage sein die Informationen der InfoApp einstellen zu können, was er mit Hilfe von PMP erreichen können wird.</p>	
 			
 			<h1 id="architektur">Architektur</h1>
-				<p>Das System ist in die drei Komponenten UserInterface, ResourceGroups und PMP untergliedert. Der Zugriff auf die
-Komponenten erfolgt über die entsprechenden Klassen. Die von PMP zur Verfügung gestellten und mit der Info-App gemeinsam genutzten Ressourcen-Gruppen werden auch über die entsprechende Klassen gesteuert. Weitere Schnittstellen zwischen den Komponenten gibt es nicht.</p>
-			<p>Die folgende Abbildung zeigt die Komponenten im 			Überblick.</p>
-
-      			<p>    
-        		<img src="./app3-components.png" alt="Info-App - Components" 			style="width:70%">
-      			</p>
+				<p>Das System ist in die drei Komponenten UserInterface, ResourceGroupe und Model untergliedert. Der Zugriff auf die
+Komponenten erfolgt über die entsprechenden Klassen. Die von PMP zur Verfügung gestellten und mit der InfoApp gemeinsam genutzten Ressourcen-Gruppen werden auch über die entsprechende Klassen gesteuert. Weitere Schnittstellen zwischen den Komponenten gibt es nicht.</p>
 
 
 			<h1 id="komponenten">Komponenten</h1>
 			<p>Die folgenden Abschnitte beschreiben die Komponenten der Anwendung, deren Schnittstellen, ihren Aufbau und ihre Funktion. 
-Die Beschreibungen legen den Schwerpunkt auf die Erklärung
-der Konzepte und Ideen, die hinter den Komponenten und ihrer Funktionsweise stecken.</p>	
+		Die Beschreibungen legen den Schwerpunkt auf die Erklärung der Konzepte und Ideen, die hinter den Komponenten und ihrer Funktionsweise stecken.</p>	
 
 
 
 			<h2 id="userinterface">UserInterface</h2>
 
-				<p>Die graphische Benutzungsschnittstelle besteht im Wesentlichen aus wenigen Activitys-Fenstern, die die gewünschten Informationen anbieten werden. Diese Activity-Fenster wird man durch einen Regler umschalten können. Auf die Funktionen der Schnittstelle wird über die entsprechende UI-Klasse zugegriffen.</p>
+				<p>Die graphische Benutzungsschnittstelle besteht im Wesentlichen aus wenigen Activitys-Fenstern, die die gewünschten Informationen anbieten werden. Diese Activity-Fenster wird man durch eine Wisch-Geste auf dem Bildschirm umschalten können. Auf die Funktionen der Schnittstelle wird über die entsprechende UI-Klasse zugegriffen.</p>
 
 			
-			<h2 id="resourcegroups">ResourceGroups</h2>
-				<p>Die Komponente ResourceGroups implementiert die Möglichkeiten die einzelnen Informationsbereiche individuell einstellen zu können. Dabei wird 				man unter anderem zu der PMP verlinkt und nimmt die Einstellungen von dieser App vor.</p>
+			<h2 id="resourcegroupe">ResourceGroupe</h2>
+				<p>Die Komponente ResourceGroupe implementiert die Möglichkeiten manche Informationsbereiche individuell einstellen zu können. Dabei wird man in der SettingsActivity die Einstellungen vornehmen können.</p>
 
-			<h2 id="pmpcomponent">PMP</h2>
-				<p>PMP ist eine Art externe Komponente, die der 				Info-App die Interfaces bereitstellt.</p>
+			<h2 id="model">Model</h2>
+				<p>Model holt die notwendigen Ressourcengruppen und stellt diese zur Darstellung der Informationspanels dem UserInterface zu verfügung.</p>
 
 			<h1 id="klassendiagramm">Klassendiagramm</h1>	
 
       			<p>    
-        		<img src="./app3-classes.png" alt="Info-App - Components" style="width:90%">
+        		<img src="./classdiag.png" alt="InfoApp - Components" style="width:90%">
       			</p>	
 
-			<p>Die Klasse Model steuert die Info-App. Die Klasse IAppActivity implementiert die Hauptactivity der Info-App. Diese ist nur eines der Informationspanels, die vom Benutzer als die Startactivity ausgesucht wird. Als Beispiel eines Informationpanels wurde im Diagramm das Panel RSSFeedPanel mit der zugehörigen RG 	RSSFeed gewählt. Das dazugehörige Interface IRSSFeed wird von der Ressourcen-Gruppe bereitgestellt. Auf dieselbe Art werden alle Ressourcen-Gruppen der Info-App im System eingebunden. Die letzte Klasse IAppSettingsActivity implementiert die Einstellungen der einzelnen Informationpanels.</p>
+			<p>Die Klasse <b>Model</b> steuert die InfoApp. Die Klasse <b>InfoAppActivity</b> implementiert die Hauptactivity der InfoApp. Diese ermöglicht die Darstellung aller Informationspanels der InfoApp in sich. Ein Panel wird vom Benutzer als das Startpanel ausgesucht. Als Beispiel eines Informationpanels kann man im Diagramm das Panel <b>News</b> mit der zugehörigen RG <b>IRSSFeed</b> betrachten. Auf dieselbe Art werden alle Ressourcen-Gruppen der InfoApp im System eingebunden. Die Klasse <b>SettingsActivity</b> implementiert die Einstellungen der InfoApp. Die letzte Klasse <b>InfoAppFragmentPagerAdapter</b> ermöglicht das Wechseln zwischen den Panels durch eine Wisch-Geste auf dem Bildschirm.</p>
 	
 	
 </body>
