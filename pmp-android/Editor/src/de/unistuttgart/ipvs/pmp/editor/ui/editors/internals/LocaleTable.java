@@ -398,7 +398,7 @@ public class LocaleTable {
 	    @Override
 	    public String getText(Object element) {
 		LocalizedString ls = (LocalizedString) element;
-		if (ls.getString().isEmpty()) {
+		if (ls.getString() == null || ls.getString().isEmpty()) {
 		    return "-";
 		} else {
 		    return ls.getString();
@@ -411,7 +411,11 @@ public class LocaleTable {
 	    @Override
 	    protected Object getValue(Object element) {
 		LocalizedString ls = (LocalizedString) element;
-		return ls.getString();
+		if (ls.getString() == null) {
+		    return "";
+		} else {
+		    return ls.getString();
+		}
 	    }
 
 	    @Override
@@ -419,7 +423,7 @@ public class LocaleTable {
 		LocalizedString ls = ((LocalizedString) element);
 		String input = (String) value;
 
-		if (!ls.getString().equals(input)) {
+		if (ls.getString() == null || ls.getString() != null && !ls.getString().equals(input)) {
 		    ls.setString(input);
 		    setDirty(true);
 		    tableAction.doValidate();
@@ -453,6 +457,19 @@ public class LocaleTable {
 		String value1, value2;
 		value1 = ((LocalizedString) e1).getString();
 		value2 = ((LocalizedString) e2).getString();
+		
+		if (value1 == null && value2 == null) {
+		    return 0;
+		}
+		
+		if (value1 == null) {
+		    return -1;
+		} 
+		
+		if (value2 == null) {
+		    return 1;
+		}
+		
 		return value1.compareToIgnoreCase(value2);
 	    }
 
