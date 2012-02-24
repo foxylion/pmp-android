@@ -28,7 +28,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -74,6 +73,8 @@ public class DialogPresetsImportExport extends Dialog {
      * The ListView which holds a checkable list of all {@link IPreset}s.
      */
     private ListView listView;
+    
+    private AdapterString listViewAdapter;
     
     
     /**
@@ -160,8 +161,8 @@ public class DialogPresetsImportExport extends Dialog {
          */
         this.listView.setItemsCanFocus(false);
         this.listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        this.listView.setAdapter(new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_list_item_multiple_choice, items));
+        this.listViewAdapter = new AdapterString(getContext(), items);
+        this.listView.setAdapter(this.listViewAdapter);
     }
     
     
@@ -172,7 +173,7 @@ public class DialogPresetsImportExport extends Dialog {
         List<de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset> newPresets = this.presetsNew.getPresets();
         int listSize = this.presetsNew.getPresets().size();
         for (int i = listSize - 1; i >= 0; i--) {
-            if (!this.listView.isItemChecked(i)) {
+            if (!this.listViewAdapter.isChecked(i)) {
                 newPresets.remove(i);
             }
         }
@@ -200,7 +201,7 @@ public class DialogPresetsImportExport extends Dialog {
         
         int listSize = exportPresets.size();
         for (int i = listSize - 1; i >= 0; i--) {
-            if (!this.listView.isItemChecked(i)) {
+            if (!this.listViewAdapter.isChecked(i)) {
                 exportPresets.remove(i);
             }
         }
