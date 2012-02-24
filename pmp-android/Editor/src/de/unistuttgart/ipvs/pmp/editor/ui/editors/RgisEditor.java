@@ -47,14 +47,9 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 public class RgisEditor extends FormEditor {
 
     private final Model model = new Model();
-    
-    public RgisEditor() {
-	System.out.println("construct");
-    }
 
     @Override
     protected void addPages() {
-	System.out.println("add");
 	try {
 	    model.setRgisEditor(this);
 	    RGUtil rgutil = XMLUtilityProxy.getRGUtil();

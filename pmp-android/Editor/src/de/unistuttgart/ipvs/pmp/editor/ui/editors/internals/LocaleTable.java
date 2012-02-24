@@ -155,7 +155,9 @@ public class LocaleTable {
 	tableDec = new ControlDecoration(tableViewer.getControl(), SWT.TOP
 		| SWT.LEFT);
 	tableDec.setImage(Images.ERROR_DEC);
-	validate();
+	if (data != null) {
+	    validate();
+	}
 
 	// Add keyboard navigation
 	ColumnViewerEditorActivationStrategy activationStrategy = new ColumnViewerEditorActivationStrategy(
@@ -537,6 +539,8 @@ public class LocaleTable {
 			.getChangeDescriptions());
 		break;
 	    }
+	    
+	    validate();
 	}
     }
 

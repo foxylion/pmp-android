@@ -34,23 +34,12 @@ import de.unistuttgart.ipvs.pmp.editor.model.Model;
 public class PrivacySettingsPage extends FormPage {
 
     public static final String ID = "rgis_ps";
-    private boolean dirty = false;
     private final PrivacySettingsBlock privacySettingsBlock;
 
     public PrivacySettingsPage(FormEditor parent, Model model) {
 	super(parent, ID, "Privacy Settings");
 	privacySettingsBlock = new PrivacySettingsBlock(this, model);
 
-    }
-
-    public void setDirty(boolean dirty) {
-	this.dirty = dirty;
-	System.out.println("PS-Page dirty = " + dirty);
-    }
-
-    @Override
-    public boolean isDirty() {
-	return dirty;
     }
 
     @Override

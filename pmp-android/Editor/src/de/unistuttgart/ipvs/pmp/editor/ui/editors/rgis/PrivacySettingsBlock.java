@@ -67,18 +67,16 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  */
 public class PrivacySettingsBlock extends MasterDetailsBlock {
 
-    private PrivacySettingsPage form;
     private TreeViewer treeViewer;
     private final Model model;
     private ControlDecoration treeDec;
 
     public PrivacySettingsBlock(PrivacySettingsPage form, Model model) {
-	this.form = form;
 	this.model = model;
     }
 
     public void setDirty(boolean dirty) {
-	form.setDirty(dirty);
+	model.setRgisDirty(true);
     }
 
     @Override
@@ -144,6 +142,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		IRGIS rgis = model.getRgis();
 		RGISPrivacySetting ps = new RGISPrivacySetting();
 		rgis.addPrivacySetting(ps);
+		setDirty(true);
 		refresh();
 	    }
 
@@ -173,6 +172,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		// Remove selected entry for model
 		IRGIS rgis = model.getRgis();
 		rgis.removePrivacySetting(ps);
+		setDirty(true);
 		refresh();
 	    }
 

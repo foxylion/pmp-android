@@ -97,7 +97,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		// Mark as dirty and staled when text has been changed
 		if (!before.equals(identifier.getText())) {
 		    dirty = true;
-		    // isStaled = true;
 		}
 	    }
 
@@ -118,7 +117,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 		// Mark as dirty and staled when text has been changed
 		if (!before.equals(values.getText())) {
 		    dirty = true;
-		    // isStaled = true;
 		}
 	    }
 
@@ -145,7 +143,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     @Override
     public void commit(boolean onSave) {
 
-	System.out.println("commit");
 	privacySetting.setIdentifier(identifier.getText());
 	privacySetting.setValidValueDescription(values.getText());
 	block.refresh();
