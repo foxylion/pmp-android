@@ -19,10 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.jface.bindings.keys.IKeyLookup;
 import org.eclipse.jface.bindings.keys.KeyLookupFactory;
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -55,10 +58,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 public class LocaleTable {
 
@@ -68,6 +74,7 @@ public class LocaleTable {
     private final TableViewer tableViewer;
     private boolean dirty = false;
     private final ILocaleTableAction tableAction;
+    private ControlDecoration tableDec;
 
     public enum Type {
 	NAME, DESCRIPTION, CHANGE_DESCRIPTION
@@ -143,6 +150,12 @@ public class LocaleTable {
 	table.setLinesVisible(true);
 
 	createColumns(columnLayout);
+
+	// Add decoration
+	tableDec = new ControlDecoration(tableViewer.getControl(), SWT.TOP
+		| SWT.LEFT);
+	tableDec.setImage(Images.ERROR_DEC);
+	validate();
 
 	// Add keyboard navigation
 	ColumnViewerEditorActivationStrategy activationStrategy = new ColumnViewerEditorActivationStrategy(
@@ -228,7 +241,6 @@ public class LocaleTable {
 		}
 
 		setDirty(true);
-		tableAction.doValidate();
 		refresh();
 
 	    }
@@ -256,7 +268,6 @@ public class LocaleTable {
 		    break;
 		}
 		setDirty(true);
-		tableAction.doValidate();
 		refresh();
 
 	    }
@@ -362,7 +373,7 @@ public class LocaleTable {
 		    Locale locale = new Locale(input);
 		    ls.setLocale(locale);
 		    setDirty(true);
-		    tableAction.doValidate();
+		    validate();
 		    tableViewer.update(element, null);
 		}
 	    }
@@ -423,10 +434,11 @@ public class LocaleTable {
 		LocalizedString ls = ((LocalizedString) element);
 		String input = (String) value;
 
-		if (ls.getString() == null || ls.getString() != null && !ls.getString().equals(input)) {
+		if (ls.getString() == null || ls.getString() != null
+			&& !ls.getString().equals(input)) {
 		    ls.setString(input);
 		    setDirty(true);
-		    tableAction.doValidate();
+		    validate();
 		    tableViewer.update(element, null);
 		}
 	    }
@@ -457,19 +469,19 @@ public class LocaleTable {
 		String value1, value2;
 		value1 = ((LocalizedString) e1).getString();
 		value2 = ((LocalizedString) e2).getString();
-		
+
 		if (value1 == null && value2 == null) {
 		    return 0;
 		}
-		
+
 		if (value1 == null) {
 		    return -1;
-		} 
-		
+		}
+
 		if (value2 == null) {
 		    return 1;
 		}
-		
+
 		return value1.compareToIgnoreCase(value2);
 	    }
 
@@ -540,12 +552,49 @@ public class LocaleTable {
     public Composite getComposite() {
 	return outerCompo;
     }
+    
+    private void validate() {
+	tableAction.doValidate();
+	
+	// Set decoration
+	tableDec.hide();
+	List<IIssue> dataIssues = data.getIssues();
+	List<IIssue> tableIssues = new ArrayList<IIssue>(); 
+	for (IIssue i : dataIssues) {
+	    IssueType t = i.getType();
+	    switch (type) {
+	    	case NAME:
+	    	    if (t == IssueType.NAME_LOCALE_EN_MISSING || t == IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN) {
+	    		tableDec.show();
+	    		tableIssues.add(i);
+	    	    }
+	    	    break;
+	    	    
+	    	case DESCRIPTION:
+	    	    if (t == IssueType.DESCRIPTION_LOCALE_EN_MISSING || t == IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN) {
+	    		tableDec.show();
+	    		tableIssues.add(i);
+	    	    }
+	    	    break;
+	    	    
+	    	case CHANGE_DESCRIPTION:
+	    	    if (t == IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING || t == IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN) {
+	    		tableDec.show();
+	    		tableIssues.add(i);
+	    	    }
+	    	    break;
+	    }
+	}
+	
+	tableDec.setDescriptionText(new IssueTranslator().translateIssues(tableIssues));
+    }
 
     /**
      * Refreshes the table so that current values from the model will be shown
      */
     public void refresh() {
-	tableViewer.refresh();
+	validate();
+	tableViewer.refresh();	
     }
 
 }

@@ -19,6 +19,10 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreePath;
@@ -41,6 +45,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.Model;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.ChangeDescriptionString;
@@ -48,9 +53,12 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.DescriptionStrin
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.NameString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.PrivacySettingsContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.PrivacySettingsLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Manages the master block of the privacy settings pages
@@ -63,6 +71,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
     private PrivacySettingsPage form;
     private TreeViewer treeViewer;
     private Model model = RgisEditor.getModel();
+    private ControlDecoration treeDec;
 
     public PrivacySettingsBlock(PrivacySettingsPage form) {
 	this.form = form;
@@ -78,8 +87,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	FormToolkit toolkit = managedForm.getToolkit();
 
 	// Create section
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 	section.setText("Privacy Settings");
 	section.setExpanded(true);
 	section.marginWidth = 5;
@@ -93,6 +102,12 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	treeViewer.setContentProvider(new PrivacySettingsContentProvider());
 	treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
 	treeViewer.setInput(model.getRgis());
+
+	// Add decoration
+	treeDec = new ControlDecoration(treeViewer.getControl(), SWT.TOP
+		| SWT.LEFT);
+	treeDec.setImage(Images.ERROR_DEC);
+	validate();
 
 	// Add tooltip listener
 	TooltipTreeListener tooltipListener = new TooltipTreeListener(
@@ -129,7 +144,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		IRGIS rgis = model.getRgis();
 		RGISPrivacySetting ps = new RGISPrivacySetting();
 		rgis.addPrivacySetting(ps);
-		treeViewer.refresh();
+		refresh();
 	    }
 
 	});
@@ -158,7 +173,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 		// Remove selected entry for model
 		IRGIS rgis = model.getRgis();
 		rgis.removePrivacySetting(ps);
-		treeViewer.refresh();
+		refresh();
 	    }
 
 	});
@@ -175,10 +190,35 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	section.setClient(compo);
     }
 
-    protected void refresh() {
+    private void validate() {
 	RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
 	validator.validatePrivacySettings(model.getRgis(), true);
+
+	// Set decoration
+	treeDec.hide();
+	List<IIssue> dataIssues = model.getRgis().getIssues();
+	List<IIssue> treeIssues = new ArrayList<IIssue>();
+
+	for (IIssue i : dataIssues) {
+	    if (i.getType() == IssueType.NO_PS_EXISTS) {
+		treeDec.show();
+		treeIssues.add(i);
+	    }
+
+	    if (i.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN) {
+		treeDec.show();
+		treeIssues.add(i);
+	    }
+	}
+
+	treeDec.setDescriptionText(new IssueTranslator()
+		.translateIssues(treeIssues));
+    }
+
+    protected void refresh() {
+	validate();
 	treeViewer.refresh();
+
     }
 
     @Override
