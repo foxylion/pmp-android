@@ -20,17 +20,19 @@
 package de.unistuttgart.ipvs.pmp.gui.resourcegroup;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -181,7 +183,7 @@ public class TabAvailable extends Activity {
         
         if (informationSets != null && informationSets.length > 0) {
             this.lastUpdateTextView.setText(getResources().getString(R.string.last_update_at) + ": "
-                    + new Date().toString());
+                    + ServerProvider.getInstance().getFindResourceGroupsCacheDate(this.filter).toGMTString());
             
             this.rgisList = Arrays.asList(informationSets);
             
@@ -204,6 +206,37 @@ public class TabAvailable extends Activity {
                 new DialogAvailableDetails(TabAvailable.this, TabAvailable.this.rgisList.get(item)).show();
             }
         });
+        
+        ((EditText) findViewById(R.id.EditText_Search)).setOnKeyListener(new View.OnKeyListener() {
+            
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    filter = ((EditText) findViewById(R.id.EditText_Search)).getText().toString();
+                    updateDownloadList();
+                    return true;
+                }
+                return false;
+            }
+        });
+        ((ImageView) findViewById(R.id.ImageView_Search)).setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                filter = ((EditText) findViewById(R.id.EditText_Search)).getText().toString();
+                updateDownloadList();
+            }
+        });
+    }
+    
+    
+    private void toggleSearchView() {
+        LinearLayout searchLayout = (LinearLayout) findViewById(R.id.LinearLayout_Search);
+        if (searchLayout.getVisibility() == View.GONE) {
+            searchLayout.setVisibility(View.VISIBLE);
+        } else {
+            searchLayout.setVisibility(View.GONE);
+        }
     }
     
     
@@ -212,6 +245,10 @@ public class TabAvailable extends Activity {
         switch (item.getItemId()) {
             case R.id.menu_rg_refresh:
                 updateDownloadList();
+                break;
+            
+            case R.id.menu_rg_search:
+                toggleSearchView();
                 break;
         }
         return super.onMenuItemSelected(featureId, item);

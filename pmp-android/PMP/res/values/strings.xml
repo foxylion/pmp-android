@@ -65,6 +65,7 @@
     <string name="resource_groups">Resource groups</string>
     <string name="restore_preset">Restore preset</string>
     <string name="save">Save</string>
+    <string name="search">Search</string>
     <string name="send_email">Send email</string>
     <string name="service_features">Service features</string>
     <string name="settings">Settings</string>
@@ -147,7 +148,7 @@
 
     <!-- ResourceGroups -->
     <string name="rg_fetching_resources">Fetching resources from server.\nPlease wait…</string>
-    <string name="rg_server_not_available">The update server was not reachable, or no resources are available. Try it again in a few minutes by pressing "Update".</string>
+    <string name="rg_server_not_available">The update server was not reachable, or no matching resources where found.</string>
     <string name="rg_removed_success">The resource has been successfully removed. Restarting PMP, please wait a second.</string>
     <string name="rg_processing_installation">Processing installation request…</string>
     <string name="rg_confirm_remove">Confirm removing resource</string>
