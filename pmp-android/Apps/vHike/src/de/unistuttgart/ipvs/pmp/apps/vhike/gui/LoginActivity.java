@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 
@@ -27,14 +25,8 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
  */
 public class LoginActivity extends Activity {
     
-    private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
-    private static final String R_NAME = "absoluteLocationResource";
-    
-    private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
-    
     private String username;
     private String pw;
-    private boolean remember;
     
     private EditText et_username;
     private EditText et_pw;
@@ -93,33 +85,8 @@ public class LoginActivity extends Activity {
     
     
     @Override
-    protected void onResume() {
-        super.onResume();
-        
-        SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
-        remember = settings.getBoolean("REMEMBER", false);
-        username = settings.getString("USERNAME", "");
-        pw = settings.getString("PASSWORD", "");
-        
-        if (remember) {
-            et_username.setText(username);
-            et_pw.setText(pw);
-            cb_remember.setChecked(remember);
-        } else {
-            cb_remember.setChecked(remember);
-        }
-    }
-    
-    
-    @Override
     protected void onStop() {
         super.onStop();
-        
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            return;
-        }
         
         SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
@@ -132,7 +99,6 @@ public class LoginActivity extends Activity {
             
             prefsEditor.commit();
         } else {
-            remember = false;
             prefsEditor.putBoolean("REMEMBER", false);
             
             prefsEditor.commit();

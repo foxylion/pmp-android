@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -29,7 +28,7 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -47,7 +46,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
  */
 public class DriverViewActivity extends MapActivity {
     
-    // Re
+    // Resource
     private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
     private static final String R_NAME = "absoluteLocationResource";
     
@@ -55,7 +54,6 @@ public class DriverViewActivity extends MapActivity {
     
     private Context context;
     private MapView mapView;
-    private MapController mapController;
     private LocationManager locationManager;
     private LocationUpdateHandler luh;
     
@@ -81,6 +79,26 @@ public class DriverViewActivity extends MapActivity {
         vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearAnnouncPD();
         
+    }
+    
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                resourceCached();
+            }
+            
+            
+            @Override
+            public void onBindingFailed() {
+                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+            }
+        });
     }
     
     
@@ -125,9 +143,6 @@ public class DriverViewActivity extends MapActivity {
         zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         zoomView.setVerticalScrollBarEnabled(true);
         mapView.addView(zoomView);
-        
-        // mapView.setBuiltInZoomControls(true);
-        mapController = mapView.getController();
     }
     
     
@@ -136,29 +151,80 @@ public class DriverViewActivity extends MapActivity {
      * possible passengers to search for
      */
     private void startTripByUpdating() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
+        //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
+        //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
         
-        //        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
-        //            
-        //            @Override
-        //            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-        //                resourceCached();
-        //            }
-        //            
-        //            
-        //            @Override
-        //            public void onBindingFailed() {
-        //                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
-        //            }
-        //        });
+        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                resourceCached();
+                Toast.makeText(context, "Binding successfull", Toast.LENGTH_SHORT).show();
+            }
+            
+            
+            @Override
+            public void onBindingFailed() {
+                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+            }
+        });
         
-        // Start Check4Queries Class to check for queries
-        Check4Queries c4q = new Check4Queries();
-        timer = new Timer();
-        timer.schedule(c4q, 300, 10000);
+        //        // Start Check4Queries Class to check for queries
+        //        Check4Queries c4q = new Check4Queries();
+        //        timer = new Timer();
+        //        timer.schedule(c4q, 300, 10000);
         
+    }
+    
+    
+    private void resourceCached() {
+        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(DriverViewActivity.this,
+                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            return;
+        }
+        
+        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
+        try {
+            loc.startLocationLookup(1000, 10.0F);
+            
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+            startContinousLookup();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
+        }
+        
+    };
+    
+    
+    private void startContinousLookup() {
+        this.timer = new Timer();
+        this.timer.schedule(new Check4Location(handler, mapView, context), 300, 5000);
     }
     
     
@@ -180,9 +246,10 @@ public class DriverViewActivity extends MapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearHitchPassengers();
                 ViewModel.getInstance().clearDriverNotificationAdapter();
-                locationManager.removeUpdates(luh);
+                //                locationManager.removeUpdates(luh);
                 
-                timer.cancel();
+                stopResource();
+                //                timer.cancel();
                 
                 Log.i(this, "Trip ENDED");
                 this.finish();
@@ -226,6 +293,7 @@ public class DriverViewActivity extends MapActivity {
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         locationManager.removeUpdates(luh);
                         
+                        stopResource();
                         timer.cancel();
                         
                         Log.i(this, "Trip ENDED");
@@ -257,6 +325,34 @@ public class DriverViewActivity extends MapActivity {
                 break;
         }
         return true;
+    }
+    
+    
+    private void stopResource() {
+        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            return;
+        }
+        
+        stopContinousLookup();
+        
+        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
+        try {
+            loc.endLocationLookup();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private void stopContinousLookup() {
+        if (this.timer != null) {
+            this.timer.cancel();
+            this.timer = null;
+        }
     }
     
     
