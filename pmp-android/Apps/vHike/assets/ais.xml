@@ -24,18 +24,12 @@
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location"
 				minRevision="1">
-				<requiredPrivacySetting identifier="useAbsoluteLocation">true
-				</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="useCoordinates">true
-				</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="useSpeed">true
-				</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="useAccuracy">true
-				</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="useLocationDescription">STREET
-				</requiredPrivacySetting>
-				<requiredPrivacySetting identifier="locationPrecision">10
-				</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useCoordinates">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useSpeed">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useAccuracy">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useLocationDescription">STREET</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="locationPrecision">10</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 	</serviceFeatures>
