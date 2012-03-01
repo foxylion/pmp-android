@@ -33,7 +33,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.apps.vhike.aidl.*;;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
  * DriverViewActivity displays driver with his perimeter, found hitchhikers, a list of found hitchhikers, the

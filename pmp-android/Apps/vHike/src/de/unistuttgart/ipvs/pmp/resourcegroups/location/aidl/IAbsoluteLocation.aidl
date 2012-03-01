@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.apps.vhike.aidl;
+package de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl;
 
 /**
  * The IAbsoluteLocation interface is used to get the current location
