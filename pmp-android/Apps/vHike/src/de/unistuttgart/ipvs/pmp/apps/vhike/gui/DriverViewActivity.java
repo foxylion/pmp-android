@@ -58,6 +58,7 @@ public class DriverViewActivity extends MapActivity {
     private LocationUpdateHandler luh;
     
     private Timer timer;
+    private Timer queryTimer;
     private Handler handler;
     
     private Controller ctrl;
@@ -160,7 +161,6 @@ public class DriverViewActivity extends MapActivity {
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 resourceCached();
-                Toast.makeText(context, "Binding successfull", Toast.LENGTH_SHORT).show();
             }
             
             
@@ -224,7 +224,8 @@ public class DriverViewActivity extends MapActivity {
     
     private void startContinousLookup() {
         this.timer = new Timer();
-        this.timer.schedule(new Check4Location(handler, mapView, context), 300, 5000);
+        this.timer.schedule(new Check4Location(mapView, context, handler, queryTimer), 1000, 1000);
+        Log.i(this, "Timer started");
     }
     
     
@@ -249,7 +250,8 @@ public class DriverViewActivity extends MapActivity {
                 //                locationManager.removeUpdates(luh);
                 
                 stopResource();
-                //                timer.cancel();
+                this.timer.cancel();
+                this.queryTimer.cancel();
                 
                 Log.i(this, "Trip ENDED");
                 this.finish();
@@ -291,10 +293,10 @@ public class DriverViewActivity extends MapActivity {
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
-                        locationManager.removeUpdates(luh);
                         
                         stopResource();
-                        timer.cancel();
+                        this.timer.cancel();
+                        this.queryTimer.cancel();
                         
                         Log.i(this, "Trip ENDED");
                         this.finish();

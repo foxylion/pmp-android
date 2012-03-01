@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.Timer;
+import java.util.Timer; 
 import java.util.TimerTask;
 
 import android.content.Context;
@@ -24,7 +24,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 /**
  * 
  * @author andres
- *
+ * 
  */
 public class Check4Location extends TimerTask {
     
@@ -33,17 +33,19 @@ public class Check4Location extends TimerTask {
     
     private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
     
-    private Handler handler;
     private MapView mapView;
     private IAbsoluteLocation loc;
     private Controller ctrl;
     private Context context;
+    private Handler handler;
+    private Timer queryTimer;
     
     
-    public Check4Location(Handler handler, MapView mapView, Context context) {
-        this.handler = handler;
+    public Check4Location(MapView mapView, Context context, Handler handler, Timer queryTimer) {
         this.mapView = mapView;
         this.context = context;
+        this.handler = handler;
+        this.queryTimer = queryTimer;
         ctrl = new Controller();
     }
     
@@ -51,8 +53,10 @@ public class Check4Location extends TimerTask {
     @Override
     public void run() {
         IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        Log.i(this, "In Timer");
         
         if (binder == null) {
+            Log.i(this, "Binder null");
             return;
         }
         
@@ -75,11 +79,13 @@ public class Check4Location extends TimerTask {
             }
             try {
                 longitude = loc.getLongitude();
+                Log.i(this, "Longitude: " + longitude);
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
                 latitude = loc.getLatitude();
+                Log.i(this, "Latitude: " + latitude);
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
@@ -101,12 +107,14 @@ public class Check4Location extends TimerTask {
             
         } catch (RemoteException e) {
             e.printStackTrace();
+            Log.i(this, "Catch");
         }
         
         final boolean isFixedD = isFixed;
         
         final double longitudeD = longitude;
         final double latitudeD = latitude;
+        Log.i(this, "Lat: " + latitudeD + ", Lng: " + longitudeD);
         
         final String countryD = country;
         final String cityD = city;
@@ -115,6 +123,8 @@ public class Check4Location extends TimerTask {
         handler.post(new Runnable() {
             
             public void run() {
+                
+                Log.i(this, "In handerl");
                 
                 if (isFixedD) {
                     MapController controller = mapView.getController();
@@ -144,8 +154,8 @@ public class Check4Location extends TimerTask {
                         
                         // Start Check4Queries Class to check for queries
                         Check4Queries c4q = new Check4Queries();
-                        Timer queriesTimer = new Timer();
-                        queriesTimer.schedule(c4q, 300, 10000);
+                        queryTimer = new Timer();
+                        queryTimer.schedule(c4q, 300, 10000);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

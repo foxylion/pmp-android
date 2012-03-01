@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
     
     private String username;
     private String pw;
+    private boolean remember = false;
     
     private EditText et_username;
     private EditText et_pw;
@@ -85,6 +86,25 @@ public class LoginActivity extends Activity {
     
     
     @Override
+    protected void onResume() {
+        super.onResume();
+        
+        SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
+        remember = settings.getBoolean("REMEMBER", false);
+        username = settings.getString("USERNAME", "");
+        pw = settings.getString("PASSWORD", "");
+        
+        if (remember) {
+            et_username.setText(username);
+            et_pw.setText(pw);
+            cb_remember.setChecked(remember);
+        } else {
+            cb_remember.setChecked(remember);
+        }
+    }
+    
+    
+    @Override
     protected void onStop() {
         super.onStop();
         
@@ -99,6 +119,7 @@ public class LoginActivity extends Activity {
             
             prefsEditor.commit();
         } else {
+            remember = false;
             prefsEditor.putBoolean("REMEMBER", false);
             
             prefsEditor.commit();
