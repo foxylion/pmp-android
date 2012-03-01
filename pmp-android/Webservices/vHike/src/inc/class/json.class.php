@@ -75,7 +75,6 @@ class Json {
 	 * @return string Generated JSON string
 	 */
 	public static function arrayToJson($array) {
-		header('Content-type: application/json');
 		$json = json_encode($array);
 
 		// Format JSON string if formation is enabled
