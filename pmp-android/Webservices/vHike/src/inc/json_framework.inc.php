@@ -33,4 +33,5 @@ try {
 } catch (DatabaseException $de) {
     Json::printError("cannot_connect_to_database", $de->__toString());
 }
-?>
+
+// EOF
