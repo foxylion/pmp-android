@@ -26,6 +26,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -62,6 +63,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyVal
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredResourceGroupsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ServiceFeatureTreeLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
@@ -326,7 +328,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	});
 
 	// Picture can be added also to the actions
-	Action refresh = new Action("Refresh Resource Group List from server") {
+	Action refresh = new Action("Refresh Resource Group List from server", ImageDescriptor.createFromImage(Images.IMG_ELCL_SYNCED)) {
 
 	    @Override
 	    public void run() {

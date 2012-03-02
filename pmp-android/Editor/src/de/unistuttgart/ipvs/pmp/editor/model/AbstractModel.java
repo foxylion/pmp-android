@@ -57,25 +57,26 @@ public abstract class AbstractModel {
      */
     public void setDirty(Boolean dirty) {
 	this.isDirty = dirty;
-	
+
 	/*
 	 * Try to cast the editor to an ais editor and fire the property changed
 	 */
-	try{
+	try {
 	    AisEditor aisEditor = (AisEditor) editor;
 	    aisEditor.firePropertyChangedDirty();
-	} catch (ClassCastException e){
-	    
+	} catch (ClassCastException e) {
+	    // ignore
 	}
-	
+
 	/*
-	 * Try to cast the editor to an rgis editor and fire the property changed
+	 * Try to cast the editor to an rgis editor and fire the property
+	 * changed
 	 */
-	try{
+	try {
 	    RgisEditor rgisEditor = (RgisEditor) editor;
 	    rgisEditor.firePropertyChangedDirty();
-	} catch (ClassCastException e){
-	    
+	} catch (ClassCastException e) {
+	    // ignore
 	}
     }
 
