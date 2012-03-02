@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.Timer; 
+import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
@@ -39,24 +39,26 @@ public class Check4Location extends TimerTask {
     private Context context;
     private Handler handler;
     private Timer queryTimer;
+    private IBinder binder;
     
     
-    public Check4Location(MapView mapView, Context context, Handler handler, Timer queryTimer) {
+    public Check4Location(MapView mapView, Context context, Handler handler, Timer queryTimer, IBinder binder) {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
         this.queryTimer = queryTimer;
+        this.binder = binder;
         ctrl = new Controller();
     }
     
     
     @Override
     public void run() {
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
         Log.i(this, "In Timer");
         
         if (binder == null) {
-            Log.i(this, "Binder null");
+            Log.i(this, "Check4LOC: Binder null");
             return;
         }
         

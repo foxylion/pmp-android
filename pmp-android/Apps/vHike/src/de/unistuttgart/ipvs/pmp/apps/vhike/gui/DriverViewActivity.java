@@ -58,6 +58,7 @@ public class DriverViewActivity extends MapActivity {
     private LocationUpdateHandler luh;
     
     private Timer timer;
+    private Timer check4LocTimer;
     private Timer queryTimer;
     private Handler handler;
     
@@ -68,6 +69,8 @@ public class DriverViewActivity extends MapActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driverview);
+        
+        PMP.get(getApplication());
         
         handler = new Handler();
         ctrl = new Controller();
@@ -100,6 +103,29 @@ public class DriverViewActivity extends MapActivity {
                 Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        
+        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            return;
+        }
+        
+        stopContinousLookup();
+        
+        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
+        try {
+            loc.endLocationLookup();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
     }
     
     
@@ -182,7 +208,7 @@ public class DriverViewActivity extends MapActivity {
         IBinder binder = PMP.get().getResourceFromCache(R_ID);
         
         if (binder == null) {
-            
+            Log.i(this, "Binder null");
             this.handler.post(new Runnable() {
                 
                 public void run() {
@@ -196,7 +222,7 @@ public class DriverViewActivity extends MapActivity {
         
         IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
         try {
-            loc.startLocationLookup(1000, 10.0F);
+            loc.startLocationLookup(5000, 20.0F);
             
             this.handler.post(new Runnable() {
                 
@@ -205,7 +231,7 @@ public class DriverViewActivity extends MapActivity {
                 }
             });
             
-            startContinousLookup();
+            startContinousLookup(binder);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -222,9 +248,9 @@ public class DriverViewActivity extends MapActivity {
     };
     
     
-    private void startContinousLookup() {
-        this.timer = new Timer();
-        this.timer.schedule(new Check4Location(mapView, context, handler, queryTimer), 1000, 1000);
+    private void startContinousLookup(IBinder binder) {
+        check4LocTimer = new Timer();
+        check4LocTimer.schedule(new Check4Location(mapView, context, handler, queryTimer, binder), 4000, 4000);
         Log.i(this, "Timer started");
     }
     
@@ -250,8 +276,7 @@ public class DriverViewActivity extends MapActivity {
                 //                locationManager.removeUpdates(luh);
                 
                 stopResource();
-                this.timer.cancel();
-                this.queryTimer.cancel();
+                stopContinousLookup();
                 
                 Log.i(this, "Trip ENDED");
                 this.finish();
@@ -295,8 +320,7 @@ public class DriverViewActivity extends MapActivity {
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         
                         stopResource();
-                        this.timer.cancel();
-                        this.queryTimer.cancel();
+                        stopContinousLookup();
                         
                         Log.i(this, "Trip ENDED");
                         this.finish();
@@ -354,6 +378,10 @@ public class DriverViewActivity extends MapActivity {
         if (this.timer != null) {
             this.timer.cancel();
             this.timer = null;
+        }
+        if (check4LocTimer != null) {
+            check4LocTimer.cancel();
+            check4LocTimer = null;
         }
     }
     
