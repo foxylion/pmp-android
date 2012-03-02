@@ -184,7 +184,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 		
 		calculateRandomInaccuracy();
 		
-		return this.absoluteLocationR.getLongitude() * this.randomInaccuracyLong;
+		return this.absoluteLocationR.getLongitude()/* this.randomInaccuracyLong*/;
 	}
 	
 	
@@ -195,7 +195,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 		
 		calculateRandomInaccuracy();
 		
-		return this.absoluteLocationR.getLatitude() * this.randomInaccuracyLat;
+		return this.absoluteLocationR.getLatitude()/* * this.randomInaccuracyLat*/;
 	}
 	
 	
