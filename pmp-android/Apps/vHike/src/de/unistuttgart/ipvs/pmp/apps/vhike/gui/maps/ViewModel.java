@@ -1,7 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.ArrayList;   
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -47,6 +48,9 @@ public class ViewModel {
     private float my_lon;
     private boolean newFound = false;
     
+    private Timer locationTimer;
+    private Timer queryTimer;
+    
     
     public List<ViewObject> getLVO() {
         return lvo;
@@ -56,6 +60,34 @@ public class ViewModel {
     private ViewModel() {
         lvo = new ArrayList<ViewObject>();
         banned = new ArrayList<ViewObject>();
+    }
+    
+    
+    public Timer getLocationTimer() {
+        if (locationTimer == null) {
+            locationTimer = new Timer();
+        }
+        return locationTimer;
+    }
+    
+    
+    public Timer getQueryTimer() {
+        if (queryTimer == null) {
+            queryTimer = new Timer();
+        }
+        return queryTimer;
+    }
+    
+    
+    public void stopTimers() {
+        if (queryTimer != null) {
+            queryTimer.cancel();
+            queryTimer = null;
+        }
+        if (locationTimer != null) {
+            locationTimer.cancel();
+            locationTimer = null;
+        }
     }
     
     
@@ -385,13 +417,16 @@ public class ViewModel {
         destination = destination + ";";
     }
     
+    
     public void setDestination4Passenger(Spinner spDestination) {
         destinationPassenger = spDestination.getSelectedItem().toString();
     }
     
+    
     public String getDestination4Passenger() {
         return destinationPassenger;
     }
+    
     
     /**
      * set number of seats available/needed depending on users wishes

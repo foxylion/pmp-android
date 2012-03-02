@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.Timer;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -55,8 +54,6 @@ public class DriverViewActivity extends MapActivity {
     //    private LocationManager locationManager;
     //    private LocationUpdateHandler luh;
     
-    private Timer check4LocTimer;
-    private Timer queryTimer;
     private Handler handler;
     
     private Controller ctrl;
@@ -239,8 +236,8 @@ public class DriverViewActivity extends MapActivity {
     
     
     private void startContinousLookup(IBinder binder) {
-        check4LocTimer = new Timer();
-        check4LocTimer.schedule(new Check4Location(mapView, context, handler, queryTimer, binder), 4000, 4000);
+        ViewModel.getInstance().getLocationTimer()
+                .schedule(new Check4Location(mapView, context, handler, binder), 4000, 4000);
     }
     
     
@@ -343,15 +340,8 @@ public class DriverViewActivity extends MapActivity {
     
     private void stopContinousLookup() {
         
-        if (check4LocTimer != null) {
-            check4LocTimer.cancel();
-            check4LocTimer = null;
-        }
+        ViewModel.getInstance().stopTimers();
         
-        if (queryTimer != null) {
-            queryTimer.cancel();
-            queryTimer = null;
-        }
     }
     
     
