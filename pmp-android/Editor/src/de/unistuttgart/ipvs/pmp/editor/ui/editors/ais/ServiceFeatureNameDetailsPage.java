@@ -43,8 +43,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
+import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
@@ -70,23 +69,33 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
     private IManagedForm form;
 
     /**
-     * The model of this editor
+     * The model of this editor instance
      */
-    private Model model = AisEditor.getModel();
+    private final AisModel model;
 
     /**
      * {@link Shell} of the parent
      */
     private Shell parentShell;
 
-
+    /**
+     * The {@link LocaleTable} for the descriptions
+     */
     LocaleTable descriptionTable;
+
+    /**
+     * The {@link LocaleTable} for the names
+     */
     LocaleTable nameTable;
 
     /**
      * The displayed ServiceFeature
      */
     AISServiceFeature displayed;
+
+    public ServiceFeatureNameDetailsPage(AisModel model) {
+	this.model = model;
+    }
 
     /*
      * (non-Javadoc)
@@ -146,12 +155,13 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 		.createComposite(descriptionSection);
 	descriptionComposite.setLayout(new GridLayout(1, false));
 	descriptionComposite.setLayoutData(parentLayout);
+
 	// Build localization table
 	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 
 	    @Override
 	    public void doSetDirty(boolean dirty) {
-		AisEditor.getModel().setAISDirty(true);
+		model.setDirty(true);
 
 	    }
 
@@ -229,7 +239,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void run() {
-		
+
 	    }
 	};
 	add.setToolTipText("Add a new name for the Service Feature");
@@ -333,7 +343,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      */
     @Override
     public boolean isDirty() {
-	return model.isAisDirty();
+	return model.isDirty();
     }
 
     /*

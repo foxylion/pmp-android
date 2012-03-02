@@ -43,7 +43,7 @@ import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
@@ -68,15 +68,15 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 public class PrivacySettingsBlock extends MasterDetailsBlock {
 
     private TreeViewer treeViewer;
-    private final Model model;
+    private final RgisModel model;
     private ControlDecoration treeDec;
 
-    public PrivacySettingsBlock(PrivacySettingsPage form, Model model) {
+    public PrivacySettingsBlock(PrivacySettingsPage form, RgisModel model) {
 	this.model = model;
     }
 
     public void setDirty(boolean dirty) {
-	model.setRgisDirty(true);
+	model.setDirty(true);
     }
 
     @Override
@@ -243,7 +243,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 
     }
     
-    public Model getModel() {
+    public RgisModel getModel() {
 	return model;
     }
 

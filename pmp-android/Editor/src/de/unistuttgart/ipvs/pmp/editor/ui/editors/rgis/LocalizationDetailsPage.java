@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 pmp-android development team
+v * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
  *
@@ -85,7 +85,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void doSetDirty(boolean dirty) {
-		block.getModel().setRgisDirty(true);
+		block.getModel().setDirty(true);
 
 	    }
 

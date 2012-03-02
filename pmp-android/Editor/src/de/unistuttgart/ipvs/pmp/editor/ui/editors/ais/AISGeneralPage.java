@@ -53,6 +53,7 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdent
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActivityAlreadyExistsException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
+import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
@@ -80,6 +81,11 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     private String PROJECT_PATH;
 
     /**
+     * The model of this editor instance
+     */
+    private final AisModel model;
+
+    /**
      * Android manifest file name
      */
     private static String MANIFTEST = "AndroidManifest.xml";
@@ -89,8 +95,9 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      * 
      * @param editor
      */
-    public AISGeneralPage(FormEditor editor, String path) {
+    public AISGeneralPage(FormEditor editor, String path, AisModel model) {
 	super(editor, ID, "General");
+	this.model = model;
 	PROJECT_PATH = path;
     }
 
@@ -160,18 +167,18 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	client.setLayoutData(layoutData);
 	section.setLayoutData(layoutData);
 
-	IAIS ais = AisEditor.getModel().getAis();
+	IAIS ais = model.getAis();
 	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
 
 	    @Override
 	    public void doSetDirty(boolean dirty) {
-		AisEditor.getModel().setAISDirty(true);
+		model.setDirty(true);
 	    }
 
 	    @Override
 	    public void doValidate() {
 		AISValidatorWrapper.getInstance().validateAppInformation(
-			AisEditor.getModel().getAis(), true);
+			model.getAis(), true);
 	    }
 	};
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,

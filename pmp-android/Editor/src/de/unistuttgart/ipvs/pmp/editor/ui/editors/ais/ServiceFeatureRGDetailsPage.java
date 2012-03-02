@@ -56,7 +56,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
@@ -95,9 +95,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
     private Shell parentShell;
 
     /**
-     * The model of this editor
+     * The model of this editor instance
      */
-    private Model model = AisEditor.getModel();
+    private final AisModel model;
 
     /**
      * Required privacy setting {@link TableViewer}
@@ -120,7 +120,20 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      */
     private Section psSection;
 
+    /**
+     * The {@link AISRequiredResourceGroup} that is selected at the tree
+     */
     private AISRequiredResourceGroup displayed;
+
+    /**
+     * Constructor to get the model of this editor instance
+     * 
+     * @param model
+     *            {@link Model} of this {@link AisEditor}
+     */
+    public ServiceFeatureRGDetailsPage(AisModel model) {
+	this.model = model;
+    }
 
     /*
      * (non-Javadoc)
@@ -298,8 +311,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	 * available then with the name, else with the identifier from the RG
 	 */
 	Boolean found = false;
-	if (AisEditor.getModel().isRGListAvailable()) {
-	    for (RGIS rg : AisEditor.getModel().getRgisList(parentShell)) {
+	if (model.isRGListAvailable()) {
+	    for (RGIS rg : model.getRgisList(parentShell)) {
 		if (rg.getIdentifier().equals(displayed.getIdentifier())) {
 		    psSection.setText("Required Privacy Settings: "
 			    + rg.getNameForLocale(new Locale("en")));
@@ -330,7 +343,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      */
     @Override
     public boolean isDirty() {
-	return model.isAisDirty();
+	return model.isDirty();
     }
 
     /*
@@ -411,7 +424,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    psTableViewer.getTable().redraw();
 		    psTableViewer.getTable().setRedraw(true);
 
-		    model.setAISDirty(true);
+		    model.setDirty(true);
 		}
 	    }
 	}
@@ -521,7 +534,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		psTableViewer.getTable().redraw();
 		psTableViewer.getTable().setRedraw(true);
 
-		model.setAISDirty(true);
+		model.setDirty(true);
 	    }
 
 	    if (clicked.getText().equals("Add")) {
@@ -620,7 +633,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    valueColumn.pack();
 			    psTableViewer.getTable().setRedraw(true);
 			    psTableViewer.getTable().redraw();
-			    model.setAISDirty(true);
+			    model.setDirty(true);
 			}
 
 			// There are no PS to add to this service feature

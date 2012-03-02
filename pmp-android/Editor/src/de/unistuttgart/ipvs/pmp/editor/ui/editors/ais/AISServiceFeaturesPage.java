@@ -24,6 +24,8 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+
+import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 
 /**
@@ -39,18 +41,22 @@ public class AISServiceFeaturesPage extends FormPage {
      */
     public static final String ID = "ais_service_features";
 
-    public int width;
-    public int height;
+    /**
+     * The model of this editor instance
+     */
+    private final AisModel model;
 
     /**
-     * Constructor
+     * Constructor to get the model of this editor instance
      * 
      * @param editor
+     *            {@link FormEditor}
+     * @param model
+     *            {@link Model} of this {@link AisEditor}
      */
-    public AISServiceFeaturesPage(FormEditor editor) {
+    public AISServiceFeaturesPage(FormEditor editor, AisModel model) {
 	super(editor, ID, "Service Features");
-	width = editor.getSite().getShell().getSize().x;
-	height = editor.getSite().getShell().getSize().y;
+	this.model = model;
     }
 
     @Override
@@ -59,6 +65,6 @@ public class AISServiceFeaturesPage extends FormPage {
 	form.setText("Define the Service Features");
 
 	form.getBody().setLayout(new GridLayout(2, false));
-	new ServiceFeatureMasterBlock().createContent(managedForm);
+	new ServiceFeatureMasterBlock(model).createContent(managedForm);
     }
 }

@@ -31,7 +31,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
 
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
@@ -53,7 +53,10 @@ public class AisEditor extends FormEditor {
      */
     private AISGeneralPage generalPage;
 
-    private static Model model;
+    /**
+     * The model of this editor instance
+     */
+    private AisModel model;
 
     /**
      * The {@link AISServiceFeaturesPage}
@@ -67,7 +70,7 @@ public class AisEditor extends FormEditor {
      */
     @Override
     protected void addPages() {
-	model = new Model();
+	model = new AisModel();
 	model.updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
 	try {
 	    // Parse XML-File
@@ -92,18 +95,18 @@ public class AisEditor extends FormEditor {
 			true);
 
 		// Create the pages
-		generalPage = new AISGeneralPage(this, project);
-		sfPage = new AISServiceFeaturesPage(this);
+		generalPage = new AISGeneralPage(this, project, model);
+		sfPage = new AISServiceFeaturesPage(this, model);
 	    } catch (ParserException e) {
-		generalPage = new AISGeneralPage(this, null);
-		sfPage = new AISServiceFeaturesPage(this);
+		generalPage = new AISGeneralPage(this, null, model);
+		sfPage = new AISServiceFeaturesPage(this, model);
 	    }
 	    /*
 	     * Reset the dirty flag in the model and store this instance of this
 	     * editor that the model can call the firepropertyChanged
 	     */
-	    model.setAisEditor(this);
-	    model.setAISDirty(false);
+	    model.setEditor(this);
+	    model.setDirty(false);
 
 	    // Add the pages
 	    addPage(generalPage);
@@ -132,7 +135,7 @@ public class AisEditor extends FormEditor {
 	    input.getFile().setContents(is, true, true, mon);
 
 	    // Set the dirty flag to false because it was just saved
-	    model.setAISDirty(false);
+	    model.setDirty(false);
 	} catch (CoreException e) {
 	    MessageDialog.openError(this.getSite().getShell(), "Error",
 		    "Could not save file.");
@@ -151,7 +154,7 @@ public class AisEditor extends FormEditor {
 
     @Override
     public boolean isDirty() {
-	return model.isAisDirty();
+	return model.isDirty();
     }
 
     /*
@@ -171,9 +174,5 @@ public class AisEditor extends FormEditor {
      */
     public void firePropertyChangedDirty() {
 	firePropertyChange(IEditorPart.PROP_DIRTY);
-    }
-
-    public static Model getModel() {
-	return model;
     }
 }

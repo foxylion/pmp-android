@@ -29,7 +29,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
 
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
@@ -46,12 +46,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  */
 public class RgisEditor extends FormEditor {
 
-    private final Model model = new Model();
+    private final RgisModel model = new RgisModel();
 
     @Override
     protected void addPages() {
 	try {
-	    model.setRgisEditor(this);
+	    model.setEditor(this);
 	    RGUtil rgutil = XMLUtilityProxy.getRGUtil();
 
 	    // Parse XML-File
@@ -87,7 +87,7 @@ public class RgisEditor extends FormEditor {
 
     @Override
     public boolean isDirty() {
-	return model.isRgisDirty();
+	return model.isDirty();
     }
 
     @Override
@@ -96,7 +96,7 @@ public class RgisEditor extends FormEditor {
 	InputStream is = XMLUtilityProxy.getRGUtil().compile(model.getRgis());
 	try {
 	    input.getFile().setContents(is, false, true, monitor);
-	    model.setRgisDirty(false);
+	    model.setDirty(false);
 	} catch (CoreException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();

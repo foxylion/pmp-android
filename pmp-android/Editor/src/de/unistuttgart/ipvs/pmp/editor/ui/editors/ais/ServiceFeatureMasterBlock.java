@@ -56,7 +56,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import de.unistuttgart.ipvs.pmp.editor.model.Model;
+import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ServiceFeatureTreeProvider;
@@ -102,7 +102,17 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     /**
      * The model of this editor
      */
-    private Model model = AisEditor.getModel();
+    private final AisModel model;
+
+    /**
+     * Constructor to get the model instance
+     * 
+     * @param model
+     *            {@link Model} of this {@link AisEditor} instance
+     */
+    public ServiceFeatureMasterBlock(AisModel model) {
+	this.model = model;
+    }
 
     /*
      * (non-Javadoc)
@@ -222,9 +232,9 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     @Override
     protected void registerPages(DetailsPart detailsPart) {
 	detailsPart.registerPage(AISServiceFeature.class,
-		new ServiceFeatureNameDetailsPage());
+		new ServiceFeatureNameDetailsPage(model));
 	detailsPart.registerPage(AISRequiredResourceGroup.class,
-		new ServiceFeatureRGDetailsPage());
+		new ServiceFeatureRGDetailsPage(model));
     }
 
     /*
@@ -254,7 +264,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    if (!result.equals(sf.getIdentifier())) {
 
 			// Change the service feature and set the dirty flag
-			model.setAISDirty(true);
+			model.setDirty(true);
 			sf.setIdentifier(result);
 			AISValidatorWrapper.getInstance()
 				.validateServiceFeatures(model.getAis(), true);
@@ -278,7 +288,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    if (!result.equals(rg.getMinRevision())) {
 
 			// Change the service feature and set the dirty flag
-			model.setAISDirty(true);
+			model.setDirty(true);
 			rg.setMinRevision(result);
 
 			AISValidatorWrapper.getInstance()
@@ -320,7 +330,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 	    @Override
 	    public void run() {
-		AisEditor.getModel().updateRgisListWithJob(parentShell, true);
+		model.updateRgisListWithJob(parentShell, true);
 	    }
 	};
 	refresh.setToolTipText("Refresh the Resource Group list from the server");
@@ -372,7 +382,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 		if (dialog.open() == Window.OK) {
 		    // Add the service feature and set the dirty flag
-		    model.setAISDirty(true);
+		    model.setDirty(true);
 		    String result = dialog.getValue();
 		    model.getAis().addServiceFeature(
 			    new AISServiceFeature(result));
@@ -433,8 +443,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		// tree
 		if (deleted) {
 		    AISValidatorWrapper.getInstance().validateServiceFeatures(
-			    AisEditor.getModel().getAis(), true);
-		    AisEditor.getModel().setAISDirty(true);
+			    model.getAis(), true);
+		    model.setDirty(true);
 		    treeViewer.refresh();
 		}
 	    }
@@ -503,7 +513,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 					.validateRequiredResourceGroup(
 						required, true);
 			    }
-			    model.setAISDirty(true);
+			    model.setDirty(true);
 			    AISValidatorWrapper.getInstance()
 				    .validateServiceFeatures(model.getAis(),
 					    true);
