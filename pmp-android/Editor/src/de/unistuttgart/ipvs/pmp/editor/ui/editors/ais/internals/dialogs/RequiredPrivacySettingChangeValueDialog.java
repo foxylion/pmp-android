@@ -19,16 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs;
 
-import java.util.HashMap;
-import java.util.Locale;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.fieldassist.AutoCompleteField;
-import org.eclipse.jface.fieldassist.TextContentAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -38,27 +35,21 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 
 /**
- * The dialog that lets the user enter the name, locale and description for the
- * {@link AISServiceFeature}
+ * Lets the user change the value of a {@link AISRequiredPrivacySetting}
  * 
  * @author Thorsten Berberich
  * 
  */
-public class ServiceFeatureDescriptionDialog extends Dialog implements
-	ModifyListener {
+public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
+	ModifyListener, SelectionListener {
 
     /**
      * Locale field that was entered
      */
-    Text localeText;
-
-    /**
-     * Description field that was entered
-     */
-    Text fieldText;
+    Text valueText;
 
     /**
      * The error text
@@ -71,11 +62,25 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
     Button okButton;
 
     /**
+     * The empty value check button
+     */
+    Button checked;
+
+    /**
      * The Strings that could be set
      */
-    String locale;
-    String description;
-    String title;
+    String name;
+    String value;
+
+    /**
+     * The result
+     */
+    String[] result;
+
+    /**
+     * Message that is shown
+     */
+    String message;
 
     /**
      * Change or add
@@ -83,41 +88,29 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
     String type;
 
     /**
-     * The entered values
-     */
-    HashMap<String, String> values;
-
-    /**
      * The Constructor for this dialog
      * 
      * @param parentShell
      *            {@link Shell} to display
      */
-    public ServiceFeatureDescriptionDialog(Shell parentShell, String locale,
-	    String desc, HashMap<String, String> values, String title,
-	    String type) {
+    public RequiredPrivacySettingChangeValueDialog(Shell parentShell,
+	    String value, String message, String[] result) {
 	super(parentShell);
-	this.locale = locale;
-	this.description = desc;
-	this.values = values;
-	this.title = title;
-	this.type = type;
+	this.message = message;
+	this.value = value;
+	this.result = result;
     }
 
     @Override
     protected void configureShell(Shell shell) {
 	super.configureShell(shell);
-	shell.setText(type + " " + title);
+	shell.setText("Change value");
     }
 
     @Override
     protected Control createDialogArea(Composite parent) {
 	// create composite
 	Composite composite = (Composite) super.createDialogArea(parent);
-
-	// Create message
-	String message = type + " the " + title.toLowerCase()
-		+ " for the Service Feature";
 
 	Label label = new Label(composite, SWT.WRAP);
 	label.setText(message);
@@ -134,29 +127,25 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 
 	// Create a new composite with a gridlayout
 	Composite textComposite = new Composite(parent, SWT.NULL);
-	GridLayout gridLayout = new GridLayout(2, false);
+	GridLayout gridLayout = new GridLayout(3, false);
 	gridLayout.verticalSpacing = 9;
 	textComposite.setLayout(gridLayout);
 
-	// Add a label and a textfield for the 3 attributes
 	data = new GridData(GridData.FILL_HORIZONTAL);
 	data.widthHint = convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH);
 	textComposite.setLayoutData(data);
 
-	new Label(textComposite, SWT.FILL).setText("Locale: ");
-	localeText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
-	localeText.addModifyListener(this);
-	localeText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+	// The label and text field for the value
+	new Label(textComposite, SWT.FILL).setText("Value: ");
+	valueText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
+	valueText.addModifyListener(this);
+	valueText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 		| GridData.HORIZONTAL_ALIGN_FILL));
 
-	new AutoCompleteField(localeText, new TextContentAdapter(),
-		Locale.getISOLanguages());
-
-	new Label(textComposite, SWT.FILL).setText(title);
-	fieldText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
-	fieldText.addModifyListener(this);
-	fieldText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-		| GridData.HORIZONTAL_ALIGN_FILL));
+	// The button for the empty value
+	checked = new Button(textComposite, SWT.CHECK);
+	checked.setText("Empty value");
+	checked.addSelectionListener(this);
 
 	// The error message
 	new Label(textComposite, SWT.NULL).setVisible(false);
@@ -165,7 +154,7 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 		| GridData.HORIZONTAL_ALIGN_FILL));
 	errorMessageText.setBackground(errorMessageText.getDisplay()
 		.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-	errorMessageText.setText("All fields could not be empty");
+	errorMessageText.setText("Value field could not be empty");
 
 	applyDialogFont(composite);
 	return composite;
@@ -173,12 +162,14 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 
     @Override
     public void okPressed() {
-	if (localeText.getText() != null) {
-	    values.put("locale", localeText.getText());
+	if (valueText.getText().isEmpty()) {
+	    result[0] = null;
+	} else {
+	    result[0] = valueText.getText();
 	}
 
-	if (fieldText.getText() != null) {
-	    values.put(title, fieldText.getText());
+	if (checked.getSelection()) {
+	    result[0] = "";
 	}
 	close();
     }
@@ -196,15 +187,20 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
 	okButton.setEnabled(false);
 	createButton(parent, IDialogConstants.CANCEL_ID,
 		IDialogConstants.CANCEL_LABEL, false);
-	localeText.setFocus();
 
-	if (locale != null) {
-	    localeText.setText(locale);
+	/*
+	 * Add the value to the dialog, or enable the empty value checkbox and
+	 * disable the text field
+	 */
+	if (value != null) {
+	    if (value.isEmpty()) {
+		checked.setSelection(true);
+		valueText.setEnabled(false);
+	    }
+	    valueText.setText(value);
 	}
+	valueText.setFocus();
 
-	if (description != null) {
-	    fieldText.setText(description);
-	}
     }
 
     /*
@@ -216,7 +212,41 @@ public class ServiceFeatureDescriptionDialog extends Dialog implements
      */
     @Override
     public void modifyText(ModifyEvent arg0) {
-	if (localeText.getText().isEmpty() && fieldText.getText().isEmpty()) {
+	if (valueText.getText().isEmpty() && !checked.getSelection()) {
+	    errorMessageText.setVisible(true);
+	    okButton.setEnabled(false);
+	} else {
+	    errorMessageText.setVisible(false);
+	    okButton.setEnabled(true);
+	}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse
+     * .swt.events.SelectionEvent)
+     */
+    @Override
+    public void widgetDefaultSelected(SelectionEvent arg0) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+     * .events.SelectionEvent)
+     */
+    @Override
+    public void widgetSelected(SelectionEvent arg0) {
+	if (checked.getSelection()) {
+	    valueText.setEnabled(false);
+	} else {
+	    valueText.setEnabled(true);
+	}
+	if (valueText.getText().isEmpty() && !checked.getSelection()) {
 	    errorMessageText.setVisible(true);
 	    okButton.setEnabled(false);
 	} else {

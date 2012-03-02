@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -44,6 +43,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -58,8 +58,8 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingChangeValueDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTableListener;
@@ -285,6 +285,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	    }
 	});
 
+	markEmptyCells();
 	return psTableViewer;
     }
 
@@ -331,6 +332,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	// Pack all columns
 	identifierColumn.pack();
 	valueColumn.pack();
+	
+	markEmptyCells();
 
 	psTableViewer.getTable().setRedraw(true);
 	psTableViewer.getTable().redraw();
@@ -395,14 +398,14 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			+ selected.getIdentifier() + "\"";
 	    }
 
-	    // Show the input dialog
-	    InputDialog dialog = new InputDialog(parentShell,
-		    "Change the value of the required Privacy Setting",
-		    message, selected.getValue(), new InputNotEmptyValidator(
-			    "Value"));
+	    // Show the input dialog;
+	    String[] resultArray = new String[1];
+	    RequiredPrivacySettingChangeValueDialog dialog = new RequiredPrivacySettingChangeValueDialog(
+		    parentShell, selected.getValue(), message, resultArray);
 
 	    if (dialog.open() == Window.OK) {
-		String result = dialog.getValue();
+		
+		String result = resultArray[0];
 
 		if (!result.equals(selected.getValue())) {
 		    selected.setValue(result);
@@ -424,6 +427,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    psTableViewer.getTable().redraw();
 		    psTableViewer.getTable().setRedraw(true);
 
+		    markEmptyCells();
 		    model.setDirty(true);
 		}
 	    }
@@ -628,6 +632,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    ServiceFeatureMasterBlock.refreshTree();
 			    // Update the view
 			    psTableViewer.refresh();
+			    markEmptyCells();
 			    psTableViewer.getTable().setRedraw(false);
 			    identifierColumn.pack();
 			    valueColumn.pack();
@@ -657,6 +662,25 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 					"This Resource Group was not found at the Resource Group server.\n"
 						+ "Therefore you can not add a Privacy Setting");
 		    }
+		}
+	    }
+	}
+    }
+
+    /**
+     * Marks the value cells that are should be an empty value
+     */
+    public void markEmptyCells() {
+	TableItem[] items = psTableViewer.getTable().getItems();
+	for (TableItem item : items) {
+	    AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) item
+		    .getData();
+	    if (rps.getValue() != null) {
+		if (rps.getValue().isEmpty()) {
+		    item.setBackground(
+			    1,
+			    Display.getCurrent().getSystemColor(
+				    SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
 		}
 	    }
 	}

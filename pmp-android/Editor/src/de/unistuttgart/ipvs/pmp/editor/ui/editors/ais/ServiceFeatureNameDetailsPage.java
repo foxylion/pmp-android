@@ -19,23 +19,12 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
-import java.util.HashMap;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
-import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -44,7 +33,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.ServiceFeatureDescriptionDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
@@ -72,11 +60,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      * The model of this editor instance
      */
     private final AisModel model;
-
-    /**
-     * {@link Shell} of the parent
-     */
-    private Shell parentShell;
 
     /**
      * The {@link LocaleTable} for the descriptions
@@ -118,7 +101,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
      */
     @Override
     public void createContents(Composite parent) {
-	parentShell = parent.getShell();
 
 	// Set parent's layout
 	GridData parentLayout = new GridData();
@@ -138,7 +120,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	nameSection.setLayout(new GridLayout(1, false));
 	nameSection.setExpanded(true);
 	nameSection.setLayoutData(parentLayout);
-	createNameSectionAttributeToolbar(nameSection);
 
 	// The description section
 	Section descriptionSection = toolkit.createSection(parent,
@@ -148,7 +129,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	descriptionSection.setLayout(new GridLayout(1, false));
 	descriptionSection.setExpanded(true);
 	descriptionSection.setLayoutData(parentLayout);
-	createDescriptionSectionAttributeToolbar(descriptionSection);
 
 	// Composite that is display in the description section
 	Composite descriptionComposite = toolkit
@@ -206,116 +186,9 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	displayed = (AISServiceFeature) path[0].getFirstSegment();
 	descriptionTable.setData(displayed);
 	descriptionTable.refresh();
-
+	
 	nameTable.setData(displayed);
 	nameTable.refresh();
-    }
-
-    /**
-     * Adds the toolbar with the remove and add buttons to the name section
-     * 
-     * @param section
-     *            {@link Section} to set the toolbar
-     */
-    private void createNameSectionAttributeToolbar(Section section) {
-	// Create the toolbar
-	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
-	ToolBar toolbar = toolBarManager.createControl(section);
-
-	final Cursor handCursor = new Cursor(Display.getCurrent(),
-		SWT.CURSOR_HAND);
-	toolbar.setCursor(handCursor);
-	toolbar.addDisposeListener(new DisposeListener() {
-	    @Override
-	    public void widgetDisposed(DisposeEvent e) {
-		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
-		    handCursor.dispose();
-		}
-	    }
-	});
-
-	// Picture can be added also to the actions
-	Action add = new Action("Add") {
-
-	    @Override
-	    public void run() {
-
-	    }
-	};
-	add.setToolTipText("Add a new name for the Service Feature");
-
-	// The remove action
-	Action remove = new Action("Remove") {
-
-	    @Override
-	    public void run() {
-	    }
-	};
-	remove.setToolTipText("Remove the selected names");
-
-	// Add the actions to the toolbar
-	toolBarManager.add(add);
-	toolBarManager.add(remove);
-
-	toolBarManager.update(true);
-	section.setTextClient(toolbar);
-    }
-
-    /**
-     * Adds the toolbar with the remove and add buttons to the description
-     * section
-     * 
-     * @param section
-     *            {@link Section} to set the toolbar
-     */
-    private void createDescriptionSectionAttributeToolbar(Section section) {
-	// Create the toolbar
-	ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
-	ToolBar toolbar = toolBarManager.createControl(section);
-
-	final Cursor handCursor = new Cursor(Display.getCurrent(),
-		SWT.CURSOR_HAND);
-	toolbar.setCursor(handCursor);
-	toolbar.addDisposeListener(new DisposeListener() {
-	    @Override
-	    public void widgetDisposed(DisposeEvent e) {
-		if ((handCursor != null) && (handCursor.isDisposed() == false)) {
-		    handCursor.dispose();
-		}
-	    }
-	});
-
-	// Picture can be added also to the actions
-	Action add = new Action("Add") {
-
-	    @Override
-	    public void run() {
-		HashMap<String, String> values = new HashMap<String, String>();
-		ServiceFeatureDescriptionDialog dialog = new ServiceFeatureDescriptionDialog(
-			parentShell, null, null, values, "Description", "Add");
-		if (dialog.open() == Window.OK) {
-
-		}
-	    }
-	};
-	add.setToolTipText("Add a new description for the Service Feature");
-
-	// The remove action
-	Action remove = new Action("Remove") {
-
-	    @Override
-	    public void run() {
-
-	    }
-	};
-	remove.setToolTipText("Remove the selected descriptions");
-
-	// Add the actions to the toolbar
-	toolBarManager.add(add);
-	toolBarManager.add(remove);
-
-	toolBarManager.update(true);
-	section.setTextClient(toolbar);
     }
 
     /*

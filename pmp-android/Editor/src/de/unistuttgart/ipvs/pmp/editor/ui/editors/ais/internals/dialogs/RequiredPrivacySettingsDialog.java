@@ -236,10 +236,10 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 
 		RGISPrivacySetting element = (RGISPrivacySetting) children[i];
 		if (listViewer.getChecked(element)) {
-		    String value = "";
+		    String value = null;
 		    // Add the entered values
 		    Boolean empty = valuesEmpty.get(element.getIdentifier());
-		    
+
 		    // Check if the empty value was set
 		    if (empty != null) {
 			if (empty) {
