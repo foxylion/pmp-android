@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
-import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
@@ -31,17 +30,15 @@ public class Check4Location extends TimerTask {
     private Controller ctrl;
     private Context context;
     private Handler handler;
-    private Timer queryTimer;
     private IBinder binder;
     
     private int showAddress = 0;
     
     
-    public Check4Location(MapView mapView, Context context, Handler handler, Timer queryTimer, IBinder binder) {
+    public Check4Location(MapView mapView, Context context, Handler handler, IBinder binder) {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
-        this.queryTimer = queryTimer;
         this.binder = binder;
         ctrl = new Controller();
     }
@@ -149,8 +146,7 @@ public class Check4Location extends TimerTask {
                         
                         // Start Check4Queries Class to check for queries
                         Check4Queries c4q = new Check4Queries();
-                        queryTimer = new Timer();
-                        queryTimer.schedule(c4q, 300, 10000);
+                        ViewModel.getInstance().getQueryTimer().schedule(c4q, 300, 10000);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
