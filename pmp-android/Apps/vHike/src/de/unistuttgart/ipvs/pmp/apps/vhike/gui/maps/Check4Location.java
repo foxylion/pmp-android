@@ -14,8 +14,6 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -28,11 +26,6 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
  */
 public class Check4Location extends TimerTask {
     
-    private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
-    private static final String R_NAME = "absoluteLocationResource";
-    
-    private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
-    
     private MapView mapView;
     private IAbsoluteLocation loc;
     private Controller ctrl;
@@ -40,6 +33,8 @@ public class Check4Location extends TimerTask {
     private Handler handler;
     private Timer queryTimer;
     private IBinder binder;
+    
+    private int showAddress = 0;
     
     
     public Check4Location(MapView mapView, Context context, Handler handler, Timer queryTimer, IBinder binder) {
@@ -55,10 +50,7 @@ public class Check4Location extends TimerTask {
     @Override
     public void run() {
         
-        Log.i(this, "In Timer");
-        
         if (binder == null) {
-            Log.i(this, "Check4LOC: Binder null");
             return;
         }
         
@@ -81,13 +73,13 @@ public class Check4Location extends TimerTask {
             }
             try {
                 longitude = loc.getLongitude();
-                Log.i(this, "Longitude: " + longitude);
+                Log.i(this, "Longitude: " + (float) loc.getLongitude());
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
                 latitude = loc.getLatitude();
-                Log.i(this, "Latitude: " + latitude);
+                Log.i(this, "Latitude: " + (float) loc.getLatitude());
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
@@ -109,14 +101,13 @@ public class Check4Location extends TimerTask {
             
         } catch (RemoteException e) {
             e.printStackTrace();
-            Log.i(this, "Catch");
         }
         
         final boolean isFixedD = isFixed;
         
         final double longitudeD = longitude;
         final double latitudeD = latitude;
-        Log.i(this, "Lat: " + latitudeD + ", Lng: " + longitudeD);
+        //        Log.i(this, "Lat: " + (float) latitudeD + ", Lng: " + (float) longitudeD);
         
         final String countryD = country;
         final String cityD = city;
@@ -126,19 +117,16 @@ public class Check4Location extends TimerTask {
             
             public void run() {
                 
-                Log.i(this, "In handerl");
-                
                 if (isFixedD) {
                     MapController controller = mapView.getController();
                     try {
-                        ViewModel.getInstance().setMyPosition((float) loc.getLatitude(), (float) loc.getLongitude(), 0);
+                        ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD, 0);
                         /**
                          * send server updated latitude and longitude
                          */
                         switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) loc.getLatitude(),
                                 (float) loc.getLongitude())) {
                             case Constants.STATUS_UPDATED:
-                                //                                Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
                                 Log.i(this, "SEND LOCATION, STATUS UPDATED");
                                 break;
                             case Constants.STATUS_UPTODATE:
@@ -149,10 +137,15 @@ public class Check4Location extends TimerTask {
                                 break;
                         }
                         
-                        controller.animateTo(new GeoPoint((int) (latitudeD * 1E6), (int) (longitudeD * 1E6)));
+                        controller.animateTo(new GeoPoint((int) (loc.getLatitude() * 1E6),
+                                (int) (loc.getLongitude() * 1E6)));
                         controller.setZoom(17);
                         
-                        Toast.makeText(context, countryD + ", " + cityD + ", " + addressD, Toast.LENGTH_SHORT).show();
+                        // display address only once
+                        if (showAddress == 0)
+                            Toast.makeText(context, countryD + ", " + cityD + ", " + addressD, Toast.LENGTH_SHORT)
+                                    .show();
+                        showAddress++;
                         
                         // Start Check4Queries Class to check for queries
                         Check4Queries c4q = new Check4Queries();

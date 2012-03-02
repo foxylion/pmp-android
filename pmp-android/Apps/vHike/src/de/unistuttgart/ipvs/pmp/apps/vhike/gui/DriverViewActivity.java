@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import java.util.Timer;
 
 import android.content.Context;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -29,7 +28,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -54,10 +52,9 @@ public class DriverViewActivity extends MapActivity {
     
     private Context context;
     private MapView mapView;
-    private LocationManager locationManager;
-    private LocationUpdateHandler luh;
+    //    private LocationManager locationManager;
+    //    private LocationUpdateHandler luh;
     
-    private Timer timer;
     private Timer check4LocTimer;
     private Timer queryTimer;
     private Handler handler;
@@ -106,9 +103,7 @@ public class DriverViewActivity extends MapActivity {
     }
     
     
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private void stopRG() {
         
         IBinder binder = PMP.get().getResourceFromCache(R_ID);
         
@@ -196,11 +191,6 @@ public class DriverViewActivity extends MapActivity {
             }
         });
         
-        //        // Start Check4Queries Class to check for queries
-        //        Check4Queries c4q = new Check4Queries();
-        //        timer = new Timer();
-        //        timer.schedule(c4q, 300, 10000);
-        
     }
     
     
@@ -251,7 +241,6 @@ public class DriverViewActivity extends MapActivity {
     private void startContinousLookup(IBinder binder) {
         check4LocTimer = new Timer();
         check4LocTimer.schedule(new Check4Location(mapView, context, handler, queryTimer, binder), 4000, 4000);
-        Log.i(this, "Timer started");
     }
     
     
@@ -273,10 +262,9 @@ public class DriverViewActivity extends MapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearHitchPassengers();
                 ViewModel.getInstance().clearDriverNotificationAdapter();
-                //                locationManager.removeUpdates(luh);
+                //  locationManager.removeUpdates(luh);
                 
-                stopResource();
-                stopContinousLookup();
+                stopRG();
                 
                 Log.i(this, "Trip ENDED");
                 this.finish();
@@ -319,8 +307,7 @@ public class DriverViewActivity extends MapActivity {
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         
-                        stopResource();
-                        stopContinousLookup();
+                        stopRG();
                         
                         Log.i(this, "Trip ENDED");
                         this.finish();
@@ -354,34 +341,16 @@ public class DriverViewActivity extends MapActivity {
     }
     
     
-    private void stopResource() {
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            return;
-        }
-        
-        stopContinousLookup();
-        
-        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
-        try {
-            loc.endLocationLookup();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
     private void stopContinousLookup() {
-        if (this.timer != null) {
-            this.timer.cancel();
-            this.timer = null;
-        }
+        
         if (check4LocTimer != null) {
             check4LocTimer.cancel();
             check4LocTimer = null;
+        }
+        
+        if (queryTimer != null) {
+            queryTimer.cancel();
+            queryTimer = null;
         }
     }
     

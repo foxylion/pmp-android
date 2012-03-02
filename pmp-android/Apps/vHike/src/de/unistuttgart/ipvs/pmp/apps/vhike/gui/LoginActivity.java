@@ -126,6 +126,27 @@ public class LoginActivity extends Activity {
         }
     }
     
+    @Override
+    protected void onPause() {
+        super.onStop();
+        
+        SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        
+        if (cb_remember.isChecked()) {
+            
+            prefsEditor.putBoolean("REMEMBER", cb_remember.isChecked());
+            prefsEditor.putString("USERNAME", et_username.getText().toString());
+            prefsEditor.putString("PASSWORD", et_pw.getText().toString());
+            
+            prefsEditor.commit();
+        } else {
+            remember = false;
+            prefsEditor.putBoolean("REMEMBER", false);
+            
+            prefsEditor.commit();
+        }
+    }
     
     /**
      * Set up Button for registration, starts RegisterActivity
