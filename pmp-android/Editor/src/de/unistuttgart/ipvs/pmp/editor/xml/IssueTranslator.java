@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.xml;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
@@ -45,13 +46,60 @@ public class IssueTranslator {
 	String issues = "";
 
 	for (IIssue issue : list) {
-	    issues += getTranslation(issue.getType()) + "\n";
+	    issues += getTranslationWithParameters(issue.getType(),
+		    issue.getParameters())
+		    + "\n";
 	}
 	return issues;
     }
 
-    public String getTranslation(IssueType type) {
+    /**
+     * Translates one given {@link IssueType} into a string for a tool tip
+     * 
+     * @param type
+     *            {@link IssueType} to translate
+     * @return {@link String} for a tool tip
+     */
+    public String getTranslationWithoutParameters(IssueType type) {
+	return getTranslationWithParameters(type, new ArrayList<String>());
+    }
+
+    /**
+     * Translates a given {@link IssueType} into a String for a tool tip and
+     * considers the parameters
+     * 
+     * @param type
+     *            {@link IssueType}
+     * @param parameters
+     *            {@link List} of {@link String}
+     * @return String for a tool tip
+     */
+    public String getTranslationWithParameters(IssueType type,
+	    List<String> parameters) {
 	switch (type) {
+	case LOCALE_INVALID:
+	    return "Locale \"" + parameters.get(0) + "\" is invalid";
+	case LOCALE_MISSING:
+	    return "Locale is missing";
+	case NAME_LOCALE_EN_MISSING:
+	    return "A name with an English locale is missing";
+	case NAME_LOCALE_OCCURRED_TOO_OFTEN:
+	    return "This locale occured too often";
+	case DESCRIPTION_LOCALE_EN_MISSING:
+	    return "A description with an English locale is missing";
+	case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+	    return "This locale occurred to often";
+	case IDENTIFIER_MISSING:
+	    return "Identifier is missing";
+	case SF_IDENTIFIER_OCCURRED_TOO_OFTEN:
+	    return "This identifier occurred too often";
+	case NO_SF_EXISTS:
+	    return "No Service Features existing";
+	case SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE:
+	    return "A Service Feature with the same Resource Groups and Privacy Settings exists";
+	case RRG_IDENTIFIER_OCCURRED_TOO_OFTEN:
+	    return "Resourcegroup identifier occured too often";
+
 	case CHANGE_DESCRIPTION_LOCALE_EN_MISSING:
 	    return "A change description with an English locale is missing";
 	case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
@@ -62,26 +110,12 @@ public class IssueTranslator {
 	    return "Condition is missing";
 	case CREATOR_MISSING:
 	    return "Creator is missing";
-	case DESCRIPTION_LOCALE_EN_MISSING:
-	    return "A description with an English locale is missing";
-	case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
-	    return "Locale of a description occured to often";
 	case ICON_MISSING:
 	    return "Icon is missing";
-	case IDENTIFIER_MISSING:
-	    return "Identifier is missing";
-	case LOCALE_INVALID:
-	    return "Locale is invalid";
-	case LOCALE_MISSING:
-	    return "Locale is missing";
 	case MINREVISION_INVALID:
 	    return "Minimum revision is invalid";
 	case MINREVISION_MISSING:
 	    return "Miniumum revision is missing";
-	case NAME_LOCALE_EN_MISSING:
-	    return "A name with an English locale is missing";
-	case NAME_LOCALE_OCCURRED_TOO_OFTEN:
-	    return "Locale of a name occured to often";
 	case NAME_MISSING:
 	    return "Name is missing";
 	default:
