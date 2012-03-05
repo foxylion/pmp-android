@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups.webservice.aidl; 
+package de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl; 
 
 /**
  * The IvHikeWebservice interface is used to provide all functions of
