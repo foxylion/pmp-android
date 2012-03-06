@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pmp="http://schemas.android.com/res/de.unistuttgart.ipvs.pmp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:background="@drawable/bg_blur"
+    android:orientation="vertical" >
+    
+    
+    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+        pmp:name="@string/main_ride"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        pmp:borderColor="@color/dark_blue"
+        pmp:icon="@drawable/logo_rd"
+        pmp:textColor="@color/dark_blue" >
+
+    </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="3dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:paddingLeft="4dp"
+                android:text="@string/ride_date"
+                android:textColor="@color/dark_blue"
+                android:textStyle="bold" />
+            <RadioGroup
+                android:id="@+id/radioGroup1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/radio_now"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:paddingRight="10dp"
+                    android:text="@string/dialog_now"
+                    android:textColor="@color/black" />
+
+                <RadioButton
+                    android:id="@+id/radio_later"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dialog_choose_date"
+                    android:textColor="@color/black" />
+            </RadioGroup>
+
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="2"
+                android:stretchColumns="0" >
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dip"
+                        android:paddingLeft="4dp"
+                        android:text="@string/ride_destination"
+                        android:textColor="@color/dark_blue"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:visibility="invisible"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dip"
+                        android:paddingLeft="7dp"
+                        android:text="@string/available_seats"
+                        android:textColor="@color/dark_blue"
+                        android:textStyle="bold" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:id="@+id/layout_dest"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:drawSelectorOnTop="false"
+                            android:prompt="@string/ride_promptDestination" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/ib_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/add"
+                        android:contentDescription="@string/destination_contentDesc"
+                        android:paddingRight="5dp" android:gravity="center" android:layout_gravity="bottom" android:layout_marginBottom="5dp" android:layout_marginRight="10dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinner_numSeats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/array_numSeats"
+                        android:prompt="@string/ride_promptSeats" android:layout_marginLeft="5dp"/>
+
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="20dp" >
+
+                <Button
+                    android:id="@+id/Button_Drive"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_ride"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_drive" />
+
+                <Button
+                    android:id="@+id/Button_Search"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/passenger_logo"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_searchingpassenger" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

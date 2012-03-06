@@ -29,7 +29,7 @@
     <string name="profile_description">Description</string>
     <string name="profile_pw">Password</string>
     <string name="profile_pw_confirm">Confirm password</string>
-    <string name="available_seats">Number of seats</string>
+    <string name="available_seats">No. of seats</string>
     <string name="ride_promptSeats">Seats available/needed</string>
 
     <string-array name="array_numSeats">
@@ -64,7 +64,7 @@
     <string name="history_driver">Driver -History</string>
     <string name="history_passenger">Passenger -History</string>
     <string name="history_title_menu">History</string>
-    <string name="history_instruction">Please choose your role as you were travelling.</string>
+    <string name="history_instruction">Please choose your role as you were traveling.</string>
     <string name="history_title_driver">History - Driver</string>
     <string name="history_title_passenger">History - Passenger</string>
     <string name="checkOffers">Check 4 offers</string>
@@ -80,10 +80,19 @@
     <string name="unknown">Unknown</string>
     <string name="description">Description</string>
     <string name="default_OK">OK</string>
-    <string name="wait4PickUp">Please wait for your driver to pick you up...</string>
+    <string name="wait4PickUp">Please wait for your driver to pick you up&#8230;</string>
     <string name="rateProfile">Send rating?</string>
     <string name="default_CANCEL">Cancel</string>
     <string name="default_remove">Remove destination</string>
     <string name="default_new">New destination</string>
+    <string name="main_trips">My Trips</string>
+    <string name="main_messages">My Messages</string>
+    <string name="main_plan">Plan a new Trip</string>
+    <string name="dialog_now">Now</string>
+    <string name="dialog_choose_date">Choose date&#8230;</string>
+    <string name="dialog_pick_date_and_time">Pick date and time</string>
+    <string name="date_in_past">vHike cannot create a new trip in the past unless you, Sir, have a time machine</string>
+    <string name="date_get_error">Error in getting the date. Please try again!</string>
+    <string name="destination_max_reached">Really? More destinations than available options to choose from?</string>
 
 </resources>

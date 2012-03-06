@@ -78,7 +78,7 @@ public class RideActivity extends Activity {
             
             @Override
             public boolean onLongClick(View v) {
-                for (Spinner s : ViewModel.getInstance().getSpinners()) {
+                for (Spinner s : ViewModel.getInstance().getDestinationSpinners()) {
                     if (s == (Spinner) v) {
                         ViewModel.getInstance().setClickedSpinner(s);
                     }
@@ -88,7 +88,7 @@ public class RideActivity extends Activity {
             }
             
         });
-        ViewModel.getInstance().getSpinners().add(spinner);
+        ViewModel.getInstance().getDestinationSpinners().add(spinner);
         
         // set as add-Button and set the OnClickListener
         addButton = (Button) findViewById(R.id.ib_add);
@@ -192,9 +192,9 @@ public class RideActivity extends Activity {
             @Override
             public void onClick(View v) {
                 
-                Log.i(this, "SIZE: " + ViewModel.getInstance().getSpinners().size());
+                Log.i(this, "SIZE: " + ViewModel.getInstance().getDestinationSpinners().size());
                 
-                if (ViewModel.getInstance().getSpinners().size() > 1) {
+                if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
                     Toast.makeText(RideActivity.this, "Only one destination allowed for passenger", Toast.LENGTH_SHORT)
                             .show();
                 } else {

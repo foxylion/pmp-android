@@ -34,7 +34,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 /**
  * MapModel grants access to all elements needed to work with the map view
  * 
- * @author andres
+ * @author Andres Nguyen
  * 
  */
 public class ViewModel {
@@ -344,7 +344,7 @@ public class ViewModel {
      * 
      * @return
      */
-    public List<Spinner> getSpinners() {
+    public List<Spinner> getDestinationSpinners() {
         return this.spinnersDest;
     }
     

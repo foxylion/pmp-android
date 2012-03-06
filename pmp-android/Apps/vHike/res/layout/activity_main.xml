@@ -71,4 +71,41 @@
         </Button>
     </LinearLayout>
 
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TableRow>
+            
+            <Button
+                android:id="@+id/Button_Trips"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingTop="25sp"
+                android:text="@string/main_trips" >
+            </Button>
+
+            <Button
+                android:id="@+id/Button_Message"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingTop="25sp"
+                android:text="@string/main_messages" >
+            </Button>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/Button_Plan"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:paddingTop="25sp"
+                android:text="@string/main_plan" >
+            </Button>            
+
+        </TableRow>
+    </TableLayout>
 </LinearLayout>

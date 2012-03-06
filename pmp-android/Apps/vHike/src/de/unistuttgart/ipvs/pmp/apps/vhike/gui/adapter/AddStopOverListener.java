@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import de.unistuttgart.ipvs.pmp.R;
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import android.view.View;
@@ -9,11 +11,12 @@ import android.view.View.OnLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
- * Listener to add multiple stopvers(destinations)
+ * Listener to add multiple stopovers(destinations)
  * 
- * @author Andre Nguyen
+ * @author Andre Nguyen, Dang Huynh
  * 
  */
 public class AddStopOverListener implements OnClickListener {
@@ -25,24 +28,29 @@ public class AddStopOverListener implements OnClickListener {
     @Override
     public void onClick(View v) {
         
-        View parent = (View) v.getParent();
-        layout = (LinearLayout) parent.findViewById(R.id.layout_dest);
+        List<Spinner> l = ViewModel.getInstance().getDestinationSpinners();
         
-        // "remove" add-Button temprarily
-        layout.removeView(v);
+        if (l.size()==0 || l.size() >= l.get(0).getCount()) {
+            Toast.makeText(v.getContext(), R.string.destination_max_reached, Toast.LENGTH_LONG).show();
+            return;
+        }
+        
+        View root = (View) v.getRootView();
+        layout = (LinearLayout) root.findViewById(R.id.layout_dest);
         
         spinner = new Spinner(v.getContext());
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(), R.array.array_cities,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        
         // add Spinner to "StopOver-List"/Spinner-List
-        ViewModel.getInstance().getSpinners().add(spinner);
+        l.add(spinner);
         spinner.setOnLongClickListener(new OnLongClickListener() {
             
             @Override
             public boolean onLongClick(View v) {
-                for (Spinner s : ViewModel.getInstance().getSpinners()) {
+                for (Spinner s : ViewModel.getInstance().getDestinationSpinners()) {
                     if (s == (Spinner) v) {
                         ViewModel.getInstance().setClickedSpinner(s);
                     }
@@ -55,10 +63,5 @@ public class AddStopOverListener implements OnClickListener {
         
         // add to layout 
         layout.addView(spinner);
-        
-        // readd add-Button
-        layout.addView(v);
-        
     }
-    
 }
