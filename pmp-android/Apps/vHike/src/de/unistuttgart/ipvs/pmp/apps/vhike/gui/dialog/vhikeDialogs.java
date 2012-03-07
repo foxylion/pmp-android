@@ -133,7 +133,8 @@ public class vhikeDialogs extends Activity {
             dRideDate = new RideDate(context);
         }
         return dRideDate;
-    }    
+    }
+    
     
     public RideTime getRideTime(Context context) {
         if (dRideTime == null) {
@@ -164,7 +165,8 @@ public class vhikeDialogs extends Activity {
     public ProfileDialog getProfileDialog(Context context, int profileID) {
         return new ProfileDialog(context, profileID);
     }
-
+    
+    
     /**
      * Returns a ready to use DateTimePicker-Dialog
      * 
@@ -183,7 +185,7 @@ public class vhikeDialogs extends Activity {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.dialog_ride_datetime, null); //, (ViewGroup) findViewById(R.id.layout_root)
         AlertDialog.Builder builder = new Builder(mContext);
-
+        
         // Set up the dialog
         if (cal == null)
             cal = Calendar.getInstance();
@@ -200,7 +202,7 @@ public class vhikeDialogs extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         try {
-                            IDialogFinishedCallBack d = (IDialogFinishedCallBack)inActivity;
+                            IDialogFinishedCallBack d = (IDialogFinishedCallBack) inActivity;
                             d.dialogFinished(ID, IDialogFinishedCallBack.POSITIVE_BUTTON);
                         } catch (Exception e) {
                             Toast.makeText(mContext, "ERROR", Toast.LENGTH_LONG).show();
