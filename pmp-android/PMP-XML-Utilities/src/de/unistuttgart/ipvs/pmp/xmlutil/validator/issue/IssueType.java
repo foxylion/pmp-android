@@ -104,4 +104,10 @@ public enum IssueType {
     CONDITION_MISSING,
     OVERRIDE_VALUE_MISSING,
     
+    /**
+     * Summary types
+     */
+    AIS_SF_NAME_ISSUES,
+    AIS_SF_DESCRIPTION_ISSUES,
+    AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES
 }
