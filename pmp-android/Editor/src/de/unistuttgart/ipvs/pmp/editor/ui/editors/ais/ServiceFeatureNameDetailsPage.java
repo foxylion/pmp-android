@@ -129,7 +129,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	parent.setLayout(new GridLayout(1, false));
 
 	FormToolkit toolkit = form.getToolkit();
-	
+
 	// The attribute section
 	Section attributeSection = toolkit.createSection(parent,
 		ExpandableComposite.CLIENT_INDENT
@@ -137,14 +137,14 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	attributeSection.setText("Attribute");
 	attributeSection.setLayout(new GridLayout(1, false));
 	attributeSection.setExpanded(true);
-	
+
 	Composite attComp = toolkit.createComposite(attributeSection);
 	attComp.setLayout(new GridLayout(2, false));
 	attComp.setLayoutData(parentLayout);
-	
+
 	Label identifierLabel = new Label(attComp, SWT.NONE);
 	identifierLabel.setText("Identifier:");
-	
+
 	Text identifierField = new Text(attComp, SWT.BORDER);
 	attributeSection.setClient(attComp);
 
@@ -155,7 +155,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	nameSection.setText("Names");
 	nameSection.setLayout(new GridLayout(1, false));
 	nameSection.setExpanded(true);
-	nameSection.setLayoutData(parentLayout);	
+	nameSection.setLayoutData(parentLayout);
 
 	// The description section
 	Section descriptionSection = toolkit.createSection(parent,
@@ -183,8 +183,8 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	    @Override
 	    public void doValidate() {
-		AISValidatorWrapper.getInstance().validateServiceFeature(
-			displayed, true);
+		AISValidatorWrapper.getInstance().validateAIS(model.getAis(),
+			true);
 		parentTree.refresh();
 	    }
 

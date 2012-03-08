@@ -263,7 +263,7 @@ public class GeneralPage extends FormPage {
     private void validatePreferences() {
 	RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
 	IRGIS rgis = model.getRgis();
-	validator.validateRGInformation(rgis, true);
+	validator.validateRGIS(rgis, true);
 
 	// Remove error images if set
 	classnameDec.hide();

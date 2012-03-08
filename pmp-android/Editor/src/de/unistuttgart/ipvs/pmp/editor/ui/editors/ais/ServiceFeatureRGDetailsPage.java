@@ -422,11 +422,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		if (!result.equals(selected.getValue())) {
 		    selected.setValue(result);
 
-		    AISValidatorWrapper.getInstance()
-			    .validateRequiredPrivacySetting(selected, true);
-		    AISValidatorWrapper.getInstance()
-			    .validateRequiredResourceGroup(displayed, true);
-		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+		    AISValidatorWrapper.getInstance().validateAIS(
 			    model.getAis(), true);
 
 		    parentTree.refresh();
@@ -535,10 +531,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    displayed.removeRequiredPrivacySetting(ps);
 		}
 
-		AISValidatorWrapper.getInstance()
-			.validateRequiredResourceGroup(displayed, true);
-		AISValidatorWrapper.getInstance().validateServiceFeatures(
-			model.getAis(), true);
+		AISValidatorWrapper.getInstance().validateAIS(model.getAis(),
+			true);
 
 		parentTree.refresh();
 
@@ -629,18 +623,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    for (Object object : dialog.getResult()) {
 				AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) object;
 				displayed.addRequiredPrivacySetting(rps);
-
-				AISValidatorWrapper.getInstance()
-					.validateRequiredPrivacySetting(rps,
-						true);
 			    }
 
-			    AISValidatorWrapper.getInstance()
-				    .validateRequiredResourceGroup(displayed,
-					    true);
-			    AISValidatorWrapper.getInstance()
-				    .validateServiceFeatures(model.getAis(),
-					    true);
+			    AISValidatorWrapper.getInstance().validateAIS(
+				    model.getAis(), true);
 
 			    parentTree.refresh();
 			    // Update the view

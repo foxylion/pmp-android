@@ -37,7 +37,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  * @author Marcus Vetter
  * 
  */
-public class RGISValidatorWrapper extends RGISValidator {
+public class RGISValidatorWrapper {
 
     /**
      * ValidatorWrapperHelper
@@ -60,31 +60,8 @@ public class RGISValidatorWrapper extends RGISValidator {
 	return instance;
     }
 
-    @Override
     public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
-	List<IIssue> issues = super.validateRGIS(rgis, attachData);
-	extendAttachments(issues, attachData);
-	return issues;
-    }
-
-    @Override
-    public List<IIssue> validateRGInformation(IRGIS rgis, boolean attachData) {
-	List<IIssue> issues = super.validateRGInformation(rgis, attachData);
-	extendAttachments(issues, attachData);
-	return issues;
-    }
-
-    @Override
-    public List<IIssue> validatePrivacySettings(IRGIS rgis, boolean attachData) {
-	List<IIssue> issues = super.validatePrivacySettings(rgis, attachData);
-	extendAttachments(issues, attachData);
-	return issues;
-    }
-
-    @Override
-    public List<IIssue> validatePrivacySetting(IRGISPrivacySetting ps,
-	    boolean attachData) {
-	List<IIssue> issues = super.validatePrivacySetting(ps, attachData);
+	List<IIssue> issues = new RGISValidator().validateRGIS(rgis, attachData);
 	extendAttachments(issues, attachData);
 	return issues;
     }

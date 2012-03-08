@@ -193,7 +193,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 
     private void validate() {
 	RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
-	validator.validatePrivacySettings(model.getRgis(), true);
+	validator.validateRGIS(model.getRgis(), true);
 
 	// Set decoration
 	treeDec.hide();

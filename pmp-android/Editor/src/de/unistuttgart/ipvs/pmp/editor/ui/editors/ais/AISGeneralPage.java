@@ -178,7 +178,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 
 	    @Override
 	    public void doValidate() {
-		AISValidatorWrapper.getInstance().validateAppInformation(
+		AISValidatorWrapper.getInstance().validateAIS(
 			model.getAis(), true);
 	    }
 	};

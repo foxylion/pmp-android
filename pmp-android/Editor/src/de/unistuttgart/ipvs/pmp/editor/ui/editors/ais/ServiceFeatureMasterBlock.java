@@ -271,7 +271,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			model.setDirty(true);
 			sf.setIdentifier(result);
 			AISValidatorWrapper.getInstance()
-				.validateServiceFeatures(model.getAis(), true);
+				.validateAIS(model.getAis(), true);
 			treeViewer.refresh();
 		    }
 		}
@@ -296,9 +296,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			rg.setMinRevision(result);
 
 			AISValidatorWrapper.getInstance()
-				.validateRequiredResourceGroup(rg, true);
-			AISValidatorWrapper.getInstance()
-				.validateServiceFeatures(model.getAis(), true);
+				.validateAIS(model.getAis(), true);
 			treeViewer.refresh();
 		    }
 		}
@@ -383,7 +381,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		    String result = dialog.getValue();
 		    model.getAis().addServiceFeature(
 			    new AISServiceFeature(result));
-		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+		    AISValidatorWrapper.getInstance().validateAIS(
 			    model.getAis(), true);
 		    treeViewer.refresh();
 		}
@@ -439,7 +437,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		// Mark the model as dirty, validate the SFs and refresh the
 		// tree
 		if (deleted) {
-		    AISValidatorWrapper.getInstance().validateServiceFeatures(
+		    AISValidatorWrapper.getInstance().validateAIS(
 			    model.getAis(), true);
 		    model.setDirty(true);
 		    treeViewer.refresh();
@@ -506,13 +504,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 			    for (Object object : dialog.getResult()) {
 				AISRequiredResourceGroup required = (AISRequiredResourceGroup) object;
 				sf.addRequiredResourceGroup(required);
-				AISValidatorWrapper.getInstance()
-					.validateRequiredResourceGroup(
-						required, true);
 			    }
 			    model.setDirty(true);
 			    AISValidatorWrapper.getInstance()
-				    .validateServiceFeatures(model.getAis(),
+				    .validateAIS(model.getAis(),
 					    true);
 			    treeViewer.refresh();
 			}
