@@ -99,25 +99,50 @@ public class IssueTranslator {
 	    return "A Service Feature with the same Resource Groups and Privacy Settings exists";
 	case RRG_IDENTIFIER_OCCURRED_TOO_OFTEN:
 	    return "Resourcegroup identifier occured too often";
-
-	case CHANGE_DESCRIPTION_LOCALE_EN_MISSING:
-	    return "A change description with an English locale is missing";
-	case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
-	    return "Locale of a change description occured to often";
-	case CLASSNAME_MISSING:
-	    return "Classname is missing";
-	case CONDITION_MISSING:
-	    return "Condition is missing";
-	case CREATOR_MISSING:
-	    return "Creator is missing";
-	case ICON_MISSING:
-	    return "Icon is missing";
-	case MINREVISION_INVALID:
-	    return "Minimum revision is invalid";
+	case NO_RRG_EXISTS:
+	    return "No Resource Groups existing";
 	case MINREVISION_MISSING:
 	    return "Miniumum revision is missing";
+	case MINREVISION_INVALID:
+	    return "Minimum revision is invalid";
+	case RPS_IDENTIFIER_OCCURRED_TOO_OFTEN:
+	    return "This Privacy Setting identifier occured too often";
+	case NO_RPS_EXISTS:
+	    return "No Privacy Setting existing";
+	case ICON_MISSING:
+	    return "Icon is missing";
+	case CLASSNAME_MISSING:
+	    return "Classname is missing";
+	case PS_IDENTIFIER_OCCURRED_TOO_OFTEN:
+	    return "Privacy Setting identifier occured too often";
+	case NO_PS_EXISTS:
+	    return "No Privacy Setting existing";
+	case VALID_VALUE_DESCRIPTION_MISSING:
+	    return "Valid value description is missing";
+	case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+	    return "Locale of a change description occured to often";
+	case CHANGE_DESCRIPTION_LOCALE_EN_MISSING:
+	    return "A change description with an English locale is missing";
+	case CREATOR_MISSING:
+	    return "Creator is missing";
 	case NAME_MISSING:
 	    return "Name is missing";
+	case RG_IDENTIFIER_MISSING:
+	    return "Resource Group identifier is missing";
+	case RG_REVISION_MISSING:
+	    return "Resource Group revision is missing";
+	case RG_REVISION_INVALID:
+	    return "Resource Group revision is invalid";
+	case PS_IDENTIFIER_MISSING:
+	    return "Preset Identifier is missing";
+	case VALUE_MISSING:
+	    return "Value is missing";
+	case TYPE_MISSING:
+	    return "Type is missing";
+	case CONDITION_MISSING:
+	    return "Condition is missing";
+	case OVERRIDE_VALUE_MISSING:
+	    return "Override value is missing";
 	default:
 	    return type.toString();
 	}

@@ -58,6 +58,7 @@ import org.eclipse.ui.forms.widgets.Section;
 
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
+import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingChangeValueDialog;
@@ -313,8 +314,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	 * available then with the name, else with the identifier from the RG
 	 */
 	Boolean found = false;
-	if (model.isRGListAvailable()) {
-	    for (RGIS rg : model.getRgisList(parentShell)) {
+	if (DownloadedRGModel.getInstance().isRGListAvailable()) {
+	    for (RGIS rg : DownloadedRGModel.getInstance().getRgisList(parentShell)) {
 		if (rg.getIdentifier().equals(displayed.getIdentifier())) {
 		    psSection.setText("Required Privacy Settings: "
 			    + rg.getNameForLocale(new Locale("en")));
@@ -363,9 +364,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	if (selectionCount == 1) {
 	    RGIS resGroup = null;
 
-	    if (model.isRGListAvailable()) {
+	    if (DownloadedRGModel.getInstance().isRGListAvailable()) {
 		// Get the resource groups from the server
-		List<RGIS> rgList = model.getRgisList(parentShell);
+		List<RGIS> rgList = DownloadedRGModel.getInstance().getRgisList(parentShell);
 		if (rgList != null) {
 		    for (RGIS rgis : rgList) {
 			if (rgis.getIdentifier().equals(
@@ -548,7 +549,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		RGIS resGroup = null;
 
 		// Get the resource groups from the server
-		List<RGIS> rgList = model.getRgisList(parentShell);
+		List<RGIS> rgList = DownloadedRGModel.getInstance().getRgisList(parentShell);
 		if (rgList != null) {
 		    for (RGIS rgis : rgList) {
 			if (rgis.getIdentifier().equals(

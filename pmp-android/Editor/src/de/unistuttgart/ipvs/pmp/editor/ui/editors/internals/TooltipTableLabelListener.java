@@ -71,7 +71,6 @@ public class TooltipTableLabelListener implements
 	    shell.dispose();
 	    break;
 	}
-
     }
 
 }
