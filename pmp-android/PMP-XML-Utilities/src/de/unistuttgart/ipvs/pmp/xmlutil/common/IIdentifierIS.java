@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.common;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
+ * The interface for a information set
  * 
  * @author Marcus Vetter
  * 

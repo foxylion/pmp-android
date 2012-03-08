@@ -32,9 +32,9 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 public interface IBasicIS extends IIssueLocation {
     
     /**
-     * Get all names.
+     * Get all names as {@link ILocalizedString}s
      * 
-     * @return list with names
+     * @return list with names as {@link ILocalizedString}s
      */
     public abstract List<ILocalizedString> getNames();
     
@@ -51,7 +51,7 @@ public interface IBasicIS extends IIssueLocation {
     
     
     /**
-     * Add a name.
+     * Add a name as {@link ILocalizedString}
      * 
      * @param name
      *            name to add
@@ -60,7 +60,7 @@ public interface IBasicIS extends IIssueLocation {
     
     
     /**
-     * Remove a name.
+     * Remove a name as {@link ILocalizedString}
      * 
      * @param name
      *            name to remove
@@ -69,7 +69,7 @@ public interface IBasicIS extends IIssueLocation {
     
     
     /**
-     * Get all descriptions.
+     * Get all descriptions as {@link ILocalizedString}s
      * 
      * @return list with descriptions
      */
@@ -88,7 +88,7 @@ public interface IBasicIS extends IIssueLocation {
     
     
     /**
-     * Add a description
+     * Add a description as {@link ILocalizedString}
      * 
      * @param description
      *            description to add
@@ -97,7 +97,7 @@ public interface IBasicIS extends IIssueLocation {
     
     
     /**
-     * Remove a description
+     * Remove a description as {@link ILocalizedString}
      * 
      * @param description
      *            description to remove

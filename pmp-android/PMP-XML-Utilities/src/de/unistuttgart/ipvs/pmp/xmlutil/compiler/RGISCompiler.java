@@ -31,6 +31,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * 
@@ -40,10 +41,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 public class RGISCompiler extends BasicISCompiler {
     
     /**
-     * Compile an RGIS and return the xml input stream
+     * Compile an {@link IRGIS} and return the xml input stream
      * 
      * @param rgis
-     *            RGIS to compile
+     *            {@link IRGIS} to compile
      * @return xml input stream
      */
     public InputStream compile(IRGIS rgis) {
@@ -84,11 +85,11 @@ public class RGISCompiler extends BasicISCompiler {
     
     
     /**
-     * Create the privacy setting node list
+     * Create the {@link RGISPrivacySetting} node list
      * 
      * @param rgis
-     *            RGIS
-     * @return privacy setting node list
+     *            {@link IRGIS}
+     * @return {@link RGISPrivacySetting} node list
      */
     private List<XMLNode> createPSNodes(IRGIS rgis) {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();

@@ -41,7 +41,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetPSContext;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 
 /**
- * This class parses a given xml file and creates a PresetSet
+ * This class parses a given xml file and creates a {@link IPresetSet}
  * 
  * @author Marcus Vetter
  * 
@@ -49,15 +49,15 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.PresetSet;
 public class PresetSetParser extends AbstractParser {
     
     /**
-     * PresetSet
+     * The {@link IPresetSet}
      */
     private IPresetSet presetSet;
     
     
     /**
-     * This method parses a given xml (by the xml url) and returns a created preset set
+     * This method parses a given xml (by the xml url) and returns a created {@link IPresetSet}
      * 
-     * @return created preset set
+     * @return created {@link IPresetSet}
      */
     public IPresetSet parse(InputStream xmlStream) {
         // Initialize
@@ -82,7 +82,7 @@ public class PresetSetParser extends AbstractParser {
     
     
     /**
-     * Parse one preset
+     * Parse one {@link IPreset}
      * 
      * @param presetElement
      */
@@ -149,12 +149,12 @@ public class PresetSetParser extends AbstractParser {
     
     
     /**
-     * Parse assigned privacy settings
+     * Parse {@link IPresetAssignedPrivacySetting}s
      * 
      * @param assignedPSsElement
-     *            the element of the assigned privacy settings
+     *            the element of the {@link IPresetAssignedPrivacySetting}s
      * @param preset
-     *            the preset
+     *            the {@link IPreset}
      */
     private void parseAssignedPSs(Element assignedPSsElement, IPreset preset) {
         // Get the list of all assigned privacy settings
@@ -215,9 +215,9 @@ public class PresetSetParser extends AbstractParser {
      * Parse a context
      * 
      * @param psElement
-     *            the element of the privacy setting
+     *            the element of the {@link IPresetAssignedPrivacySetting}
      * @param assignedPS
-     *            the assigned privacy setting object
+     *            the assigned {@link IPresetAssignedPrivacySetting} object
      */
     private int parseContexts(Element psElement, IPresetAssignedPrivacySetting assignedPS) {
         // Get the list of all assigned privacy settings

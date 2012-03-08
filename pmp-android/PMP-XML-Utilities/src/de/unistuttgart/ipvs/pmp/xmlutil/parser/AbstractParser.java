@@ -43,8 +43,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 
 /**
- * This class abstracts common used methods for the xml parsers of an app or
- * resourcegroup
+ * This class abstracts common used methods for the xml parsers of an app,
+ * resourcegroup or presetset
  * 
  * @author Marcus Vetter
  * 

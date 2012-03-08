@@ -32,12 +32,12 @@ import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
- * This XML Parser parses a given xml (for a rg) and creates a rg information
- * set
+ * This XML Parser parses a given xml (for a rg) and creates a {@link IRGIS}
  * 
  * @author Marcus Vetter
  * 
@@ -45,16 +45,15 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 public class RGISParser extends AbstractParser {
     
     /**
-     * RgInformationSet
+     * The {@link IRGIS}
      */
     private IRGIS rgis;
     
     
     /**
-     * This method parses a given xml (by the xml url) and returns a created
-     * resourcegroup information set
+     * This method parses a given xml (by the xml url) and returns a created {@link IRGIS}
      * 
-     * @return created rg information set
+     * @return created {@link IRGIS}
      */
     public IRGIS parse(InputStream xmlStream) {
         // Initialize
@@ -117,7 +116,7 @@ public class RGISParser extends AbstractParser {
     
     
     /**
-     * This method parses the privacy settings element
+     * This method parses the {@link IRGISPrivacySetting} element
      * 
      * @param privacySettingsElement
      *            starting with this root element

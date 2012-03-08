@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
@@ -42,10 +44,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 public class AISCompiler extends BasicISCompiler {
     
     /**
-     * Compile an AIS and return the xml input stream
+     * Compile an {@link IAIS} and return the xml input stream
      * 
      * @param ais
-     *            AIS to compile
+     *            {@link IAIS} to compile
      * @return xml input stream
      */
     public InputStream compile(IAIS ais) {
@@ -81,11 +83,11 @@ public class AISCompiler extends BasicISCompiler {
     
     
     /**
-     * Create the service feature node list
+     * Create the {@link AISServiceFeature} node list
      * 
      * @param ais
-     *            AIS
-     * @return service feature node list
+     *            {@link IAIS}
+     * @return {@link AISServiceFeature} node list
      */
     private List<XMLNode> createSFNodes(IAIS ais) {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();
@@ -116,11 +118,11 @@ public class AISCompiler extends BasicISCompiler {
     
     
     /**
-     * Create the required resource group node list
+     * Create the {@link AISRequiredResourceGroup} node list
      * 
      * @param sf
-     *            SF of the rrgs
-     * @return node list of required resource groups
+     *            {@link AISServiceFeature} of the {@link AISRequiredResourceGroup}s
+     * @return node list of {@link AISRequiredResourceGroup}s
      */
     private List<XMLNode> createRRGNodes(IAISServiceFeature sf) {
         List<XMLNode> nodeList = new ArrayList<XMLNode>();

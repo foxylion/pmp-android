@@ -38,8 +38,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 
 /**
- * This XML Parser parses a given xml (for an app) and creates a app information
- * set
+ * This XML Parser parses a given xml (for an app) and creates an {@link IAIS}
  * 
  * @author Marcus Vetter
  * 
@@ -47,16 +46,15 @@ import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException.Type;
 public class AISParser extends AbstractParser {
     
     /**
-     * AppInformationSet
+     * The {@link IAIS}
      */
     private IAIS ais;
     
     
     /**
-     * This method parses a given xml (by the xml url) and returns a created app
-     * information set
+     * This method parses a given xml (by the xml url) and returns a created {@link IAIS}
      * 
-     * @return created app information set
+     * @return created {@link IAIS}
      */
     public IAIS parse(InputStream xmlStream) {
         // Initialize
@@ -101,7 +99,7 @@ public class AISParser extends AbstractParser {
     
     
     /**
-     * This method parses the service features element
+     * This method parses the {@link AISServiceFeature} element
      * 
      * @param serviceFeaturesElement
      *            starting with this root element

@@ -24,6 +24,7 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLAttribute;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
@@ -36,7 +37,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 public class BasicISCompiler {
     
     /**
-     * Create a list of XMLNodes with names and descriptions from a BasicIS
+     * Create a list of XMLNodes with names as {@link LocalizedString}s and descriptions as {@link LocalizedString}s
+     * from a BasicIS
      * 
      * @param basicIS
      *            basicIS with data

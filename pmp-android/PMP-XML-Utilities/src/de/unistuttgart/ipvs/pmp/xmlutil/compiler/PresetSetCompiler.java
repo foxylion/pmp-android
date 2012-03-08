@@ -43,10 +43,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 public class PresetSetCompiler extends BasicISCompiler {
     
     /**
-     * Compile an PresetSet and return the xml input stream
+     * Compile an {@link IPresetSet} and return the xml input stream
      * 
      * @param presetSet
-     *            presetSet to compile
+     *            {@link IPresetSet} to compile
      * @return xml input stream
      */
     public InputStream compile(IPresetSet presetSet) {

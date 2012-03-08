@@ -39,12 +39,12 @@ public abstract class BasicIS extends IssueLocation implements IBasicIS {
     private static final long serialVersionUID = -7705624993277295194L;
     
     /**
-     * This list contains all names.
+     * This list contains all names as {@link ILocalizedString}s.
      */
     protected List<ILocalizedString> names = new ArrayList<ILocalizedString>();
     
     /**
-     * This list contains all descriptions.
+     * This list contains all descriptions as {@link ILocalizedString}s.
      */
     protected List<ILocalizedString> descriptions = new ArrayList<ILocalizedString>();
     
