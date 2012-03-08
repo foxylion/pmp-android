@@ -32,6 +32,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
+import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
@@ -71,7 +72,12 @@ public class AisEditor extends FormEditor {
     @Override
     protected void addPages() {
 	model = new AisModel();
-	model.updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
+
+	// Download the RGs from the server at startup if it's not done
+	if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
+	    DownloadedRGModel.getInstance().updateRgisListWithJob(
+		    Display.getCurrent().getActiveShell(), false);
+	}
 	try {
 	    // Parse XML-File
 	    FileEditorInput input = (FileEditorInput) this.getEditorInput();

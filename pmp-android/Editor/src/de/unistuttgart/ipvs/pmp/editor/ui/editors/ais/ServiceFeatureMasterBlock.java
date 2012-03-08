@@ -58,6 +58,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
+import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ServiceFeatureTreeProvider;
@@ -332,7 +333,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 	    @Override
 	    public void run() {
-		model.updateRgisListWithJob(parentShell, true);
+		DownloadedRGModel.getInstance().updateRgisListWithJob(parentShell, true);
 	    }
 	};
 	refresh.setToolTipText("Refresh the Resource Group list from the server");
@@ -454,7 +455,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    // Add RG was clicked
 	    if (clicked.getText().equals("Add Resource Group")) {
 		List<RGIS> rgisList = null;
-		rgisList = model.getRgisList(parentShell);
+		rgisList = DownloadedRGModel.getInstance().getRgisList(parentShell);
 
 		if (rgisList != null) {
 		    HashMap<String, RGIS> resGroups = new HashMap<String, RGIS>();

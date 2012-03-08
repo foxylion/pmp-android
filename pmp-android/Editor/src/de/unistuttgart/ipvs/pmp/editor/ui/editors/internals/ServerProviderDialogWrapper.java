@@ -49,7 +49,34 @@ public class ServerProviderDialogWrapper {
     /**
      * The downloaded list
      */
-    List<RGIS> rgisList;
+    private List<RGIS> rgisList;
+
+    /**
+     * The instance of this class
+     */
+    private static ServerProviderDialogWrapper instance;
+
+    /**
+     * The update job
+     */
+    Job job;
+
+    /**
+     * Private constructor because of singleton
+     */
+    private ServerProviderDialogWrapper() {
+    }
+
+    /**
+     * Returns the instance of this class
+     * @return instance of {@link ServerProviderDialogWrapper}
+     */
+    public static ServerProviderDialogWrapper getInstance() {
+	if (instance == null) {
+	    instance = new ServerProviderDialogWrapper();
+	}
+	return instance;
+    }
 
     /**
      * Downloads the RG list in a job
@@ -64,7 +91,7 @@ public class ServerProviderDialogWrapper {
      */
     public void updateServerListWithJob(final Shell shell,
 	    final Boolean showErrors, IJobChangeListener listener) {
-	Job job = new Job("Downloading Resource Groups") {
+	job = new Job("Downloading Resource Groups") {
 
 	    @Override
 	    protected IStatus run(IProgressMonitor monitor) {
@@ -88,8 +115,7 @@ public class ServerProviderDialogWrapper {
 				    @Override
 				    public void run() {
 					IStatus status = new Status(
-						IStatus.ERROR,
-						"PROGRESS_JOB",
+						IStatus.ERROR, "PROGRESS_JOB",
 						"See details", e);
 					ErrorDialog
 						.openError(
@@ -196,5 +222,14 @@ public class ServerProviderDialogWrapper {
      */
     public List<RGIS> getRGISList() {
 	return rgisList;
+    }
+    
+    /**
+     * Cancels a running job
+     */
+    public void cancelJob(){
+	if (job != null){
+	    job.cancel();
+	}
     }
 }
