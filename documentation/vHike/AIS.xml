@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<name lang="en">vHike</name>
+		<name lang="de">vHike</name>
+		<description lang="en">This App provides...
+		</description>
+		<description lang="de">Die App...
+		</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="gps-standard">
+			<name lang="en">GPS Standard</name>
+			<name lang="de">GPS Standard</name>
+			<description lang="en">You can use the GPS...
+			</description>
+			<description lang="de">Mit diesem Service Feature kann blabla genutzt werden.
+			</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="2012-01-01 00:00:00 GMT+01:00">
+				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="useCoordinates">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>
