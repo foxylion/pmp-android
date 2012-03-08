@@ -236,9 +236,9 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
     @Override
     protected void registerPages(DetailsPart detailsPart) {
 	detailsPart.registerPage(AISServiceFeature.class,
-		new ServiceFeatureNameDetailsPage(model));
+		new ServiceFeatureNameDetailsPage(model, treeViewer));
 	detailsPart.registerPage(AISRequiredResourceGroup.class,
-		new ServiceFeatureRGDetailsPage(model));
+		new ServiceFeatureRGDetailsPage(model, treeViewer));
     }
 
     /*
@@ -344,13 +344,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 
 	toolBarManager.update(true);
 	section.setTextClient(toolbar);
-    }
-
-    /**
-     * Refreshs the tree
-     */
-    public static void refreshTree() {
-	treeViewer.refresh();
     }
 
     /*

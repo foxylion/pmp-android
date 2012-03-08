@@ -33,6 +33,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -55,7 +56,6 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
@@ -118,6 +118,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
     private TableColumn valueColumn;
 
     /**
+     * The {@link TreeViewer} of the parent view to refresh it
+     */
+    private TreeViewer parentTree;
+
+    /**
      * Privacy {@link Section}
      */
     private Section psSection;
@@ -132,9 +137,12 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      * 
      * @param model
      *            {@link Model} of this {@link AisEditor}
+     * @param tree
+     *            the {@link TreeViewer} of the parent view to refresh it
      */
-    public ServiceFeatureRGDetailsPage(AisModel model) {
+    public ServiceFeatureRGDetailsPage(AisModel model, TreeViewer tree) {
 	this.model = model;
+	this.parentTree = tree;
     }
 
     /*
@@ -315,7 +323,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	 */
 	Boolean found = false;
 	if (DownloadedRGModel.getInstance().isRGListAvailable()) {
-	    for (RGIS rg : DownloadedRGModel.getInstance().getRgisList(parentShell)) {
+	    for (RGIS rg : DownloadedRGModel.getInstance().getRgisList(
+		    parentShell)) {
 		if (rg.getIdentifier().equals(displayed.getIdentifier())) {
 		    psSection.setText("Required Privacy Settings: "
 			    + rg.getNameForLocale(new Locale("en")));
@@ -334,7 +343,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	// Pack all columns
 	identifierColumn.pack();
 	valueColumn.pack();
-	
+
 	markEmptyCells();
 
 	psTableViewer.getTable().setRedraw(true);
@@ -366,7 +375,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	    if (DownloadedRGModel.getInstance().isRGListAvailable()) {
 		// Get the resource groups from the server
-		List<RGIS> rgList = DownloadedRGModel.getInstance().getRgisList(parentShell);
+		List<RGIS> rgList = DownloadedRGModel.getInstance()
+			.getRgisList(parentShell);
 		if (rgList != null) {
 		    for (RGIS rgis : rgList) {
 			if (rgis.getIdentifier().equals(
@@ -406,7 +416,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    parentShell, selected.getValue(), message, resultArray);
 
 	    if (dialog.open() == Window.OK) {
-		
+
 		String result = resultArray[0];
 
 		if (!result.equals(selected.getValue())) {
@@ -419,7 +429,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		    AISValidatorWrapper.getInstance().validateServiceFeatures(
 			    model.getAis(), true);
 
-		    ServiceFeatureMasterBlock.refreshTree();
+		    parentTree.refresh();
 
 		    // Update the view
 		    psTableViewer.refresh();
@@ -530,7 +540,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		AISValidatorWrapper.getInstance().validateServiceFeatures(
 			model.getAis(), true);
 
-		ServiceFeatureMasterBlock.refreshTree();
+		parentTree.refresh();
 
 		// Update the view
 		psTableViewer.refresh();
@@ -549,7 +559,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		RGIS resGroup = null;
 
 		// Get the resource groups from the server
-		List<RGIS> rgList = DownloadedRGModel.getInstance().getRgisList(parentShell);
+		List<RGIS> rgList = DownloadedRGModel.getInstance()
+			.getRgisList(parentShell);
 		if (rgList != null) {
 		    for (RGIS rgis : rgList) {
 			if (rgis.getIdentifier().equals(
@@ -631,7 +642,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 				    .validateServiceFeatures(model.getAis(),
 					    true);
 
-			    ServiceFeatureMasterBlock.refreshTree();
+			    parentTree.refresh();
 			    // Update the view
 			    psTableViewer.refresh();
 			    markEmptyCells();

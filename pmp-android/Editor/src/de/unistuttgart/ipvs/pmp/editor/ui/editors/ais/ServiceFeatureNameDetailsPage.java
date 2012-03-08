@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -31,7 +32,6 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
@@ -65,20 +65,34 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
     /**
      * The {@link LocaleTable} for the descriptions
      */
-    LocaleTable descriptionTable;
+    private LocaleTable descriptionTable;
 
     /**
      * The {@link LocaleTable} for the names
      */
-    LocaleTable nameTable;
+    private LocaleTable nameTable;
+
+    /**
+     * The tree of the {@link ServiceFeatureMasterBlock}
+     */
+    private TreeViewer parentTree;
 
     /**
      * The displayed ServiceFeature
      */
     AISServiceFeature displayed;
 
-    public ServiceFeatureNameDetailsPage(AisModel model) {
+    /**
+     * Constructor to get the model and the tree to refresh it
+     * 
+     * @param model
+     *            model of this instance
+     * @param parentTree
+     *            the {@link TreeViewer} of the parent view to refresh it
+     */
+    public ServiceFeatureNameDetailsPage(AisModel model, TreeViewer parentTree) {
 	this.model = model;
+	this.parentTree = parentTree;
     }
 
     /*
@@ -150,7 +164,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	    public void doValidate() {
 		AISValidatorWrapper.getInstance().validateServiceFeature(
 			displayed, true);
-		ServiceFeatureMasterBlock.refreshTree();
+		parentTree.refresh();
 	    }
 
 	};
@@ -187,7 +201,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	displayed = (AISServiceFeature) path[0].getFirstSegment();
 	descriptionTable.setData(displayed);
 	descriptionTable.refresh();
-	
+
 	nameTable.setData(displayed);
 	nameTable.refresh();
     }
