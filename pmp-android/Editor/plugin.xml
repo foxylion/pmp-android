@@ -46,7 +46,7 @@
       <page
             class="de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferencePage"
             id="de.unistuttgart.ipvs.pmp.editor.ui.preferences.PreferencePage"
-            name="EIS">
+            name="Privacy Management Platform">
       </page>
    </extension>
    <extension
