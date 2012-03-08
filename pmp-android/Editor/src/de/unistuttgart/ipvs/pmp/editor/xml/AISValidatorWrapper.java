@@ -23,12 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
@@ -140,7 +142,7 @@ public class AISValidatorWrapper {
 			    helper.attachIIdentifierIS(identifierISs,
 				    IssueType.SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
 				    issueParameters);
-			    
+
 			    // Remove issue of the ais
 			    ais.removeIssue(issue);
 
@@ -170,12 +172,13 @@ public class AISValidatorWrapper {
 				    }
 				}
 			    }
-			    
+
 			    // Remove issue of the ais
 			    ais.removeIssue(issue);
 
 			    break;
 			}
+
 		    }
 
 		    /*
@@ -247,6 +250,44 @@ public class AISValidatorWrapper {
 
 			    break;
 			}
+
+			// Add summary issues
+			boolean nameIssue = false;
+			boolean descriptionIssue = false;
+			boolean rrgIssue = false;
+			for (ILocalizedString name : sf.getNames()) {
+			    if (!name.getIssues().isEmpty())
+				nameIssue = true;
+			}
+			for (ILocalizedString description : sf
+				.getDescriptions()) {
+			    if (!description.getIssues().isEmpty())
+				descriptionIssue = true;
+			}
+			for (IAISRequiredResourceGroup rrg : sf
+				.getRequiredResourceGroups()) {
+			    if (!rrg.getIssues().isEmpty())
+				rrgIssue = true;
+			    for (IAISRequiredPrivacySetting rps : rrg
+				    .getRequiredPrivacySettings()) {
+				if (!rps.getIssues().isEmpty())
+				    rrgIssue = true;
+			    }
+			}
+			if (nameIssue
+				&& !sf.hasIssueType(IssueType.AIS_SF_NAME_ISSUES))
+			    sf.addIssue(new Issue(IssueType.AIS_SF_NAME_ISSUES,
+				    sf));
+			if (descriptionIssue
+				&& !sf.hasIssueType(IssueType.AIS_SF_DESCRIPTION_ISSUES))
+			    sf.addIssue(new Issue(
+				    IssueType.AIS_SF_DESCRIPTION_ISSUES, sf));
+			if (rrgIssue
+				&& !sf.hasIssueType(IssueType.AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES))
+			    sf.addIssue(new Issue(
+				    IssueType.AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES,
+				    sf));
+
 		    }
 
 		}

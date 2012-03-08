@@ -75,14 +75,7 @@ public class ValidatorWrapperHelper {
             if ((issueParameters.size() == 1 && ident.equals(issueParameters.get(0)))
                     || (issueParameters.size() == 0 && ident.equals(""))) {
                 
-                // Check, if the identifierIS has already this issue
-                boolean hasIssue = false;
-                for (IIssue issue : identifierIS.getIssues()) {
-                    if (issue.getType().equals(issueType))
-                        hasIssue = true;
-                }
-                
-                if (!hasIssue)
+                if (!identifierIS.hasIssueType(issueType))
                     identifierIS.addIssue(new Issue(issueType, identifierIS));
             }
         }
@@ -110,13 +103,7 @@ public class ValidatorWrapperHelper {
             if ((issueParameters.size() == 1 && locale.equals(issueParameters.get(0)))
                     || (issueParameters.size() == 0 && locale.equals(""))) {
                 
-                // Check, if the localizedString has already this issue
-                boolean hasIssue = false;
-                for (IIssue issue : localizedString.getIssues()) {
-                    if (issue.getType().equals(issueType))
-                        hasIssue = true;
-                }
-                if (!hasIssue)
+                if (!localizedString.hasIssueType(issueType))
                     localizedString.addIssue(new Issue(issueType, localizedString));
             }
         }

@@ -73,4 +73,15 @@ public abstract class IssueLocation implements IIssueLocation {
         this.issues.clear();
     }
     
+    
+    @Override
+    public boolean hasIssueType(IssueType issueType) {
+        boolean hasIssueType = false;
+        for (IIssue issue : getIssues()) {
+            if (issue.getType().equals(issueType))
+                hasIssueType = true;
+        }
+        return hasIssueType;
+    }
+    
 }

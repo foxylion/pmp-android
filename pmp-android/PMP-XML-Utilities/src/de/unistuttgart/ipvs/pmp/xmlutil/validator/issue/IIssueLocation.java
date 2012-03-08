@@ -60,4 +60,10 @@ public interface IIssueLocation extends Serializable {
      */
     public abstract void clearIssues();
     
+    
+    /**
+     * Check, whether the issue with the given type is present or not
+     */
+    public abstract boolean hasIssueType(IssueType issueType);
+    
 }
