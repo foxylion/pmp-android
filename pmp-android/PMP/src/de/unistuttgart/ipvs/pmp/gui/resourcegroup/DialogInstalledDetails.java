@@ -92,35 +92,37 @@ public class DialogInstalledDetails extends Dialog {
             @Override
             public void onClick(View v) {
                 new DialogConfirmDelete(getContext(), getContext().getString(R.string.rg_confirm_remove), getContext()
-                        .getString(R.string.rg_confirm_description), new DialogConfirmDelete.ICallback() {
-                    
-                    @Override
-                    public void callback(boolean confirmed) {
-                        if (confirmed) {
-                            ModelProxy.get().uninstallResourceGroup(
-                                    DialogInstalledDetails.this.resourcegroup.getIdentifier());
+                        .getString(R.string.rg_confirm_description, resourcegroup.getName()),
+                        new DialogConfirmDelete.ICallback() {
                             
-                            Toast.makeText(getContext(), getContext().getString(R.string.rg_removed_success),
-                                    Toast.LENGTH_LONG).show();
-                            
-                            dismiss();
-                            DialogInstalledDetails.this.parent.refreshList();
-                            
-                            /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
-                            new Thread() {
-                                
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.sleep(2000);
-                                    } catch (InterruptedException e) {
-                                    }
-                                    Restarter.killAppAndRestartActivity(DialogInstalledDetails.this.parent.getParent());
-                                };
-                            }.start();
-                        }
-                    }
-                });
+                            @Override
+                            public void callback(boolean confirmed) {
+                                if (confirmed) {
+                                    ModelProxy.get().uninstallResourceGroup(
+                                            DialogInstalledDetails.this.resourcegroup.getIdentifier());
+                                    
+                                    Toast.makeText(getContext(), getContext().getString(R.string.rg_removed_success),
+                                            Toast.LENGTH_LONG).show();
+                                    
+                                    dismiss();
+                                    DialogInstalledDetails.this.parent.refreshList();
+                                    
+                                    /* Here we use a bad code style because android has a bug. see ticket #485 in redmine */
+                                    new Thread() {
+                                        
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Thread.sleep(2000);
+                                            } catch (InterruptedException e) {
+                                            }
+                                            Restarter.killAppAndRestartActivity(DialogInstalledDetails.this.parent
+                                                    .getParent());
+                                        };
+                                    }.start();
+                                }
+                            }
+                        }).show();
             }
         });
         
