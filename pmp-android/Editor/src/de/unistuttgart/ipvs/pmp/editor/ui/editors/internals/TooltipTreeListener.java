@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 
+
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.EncapsulatedString;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;

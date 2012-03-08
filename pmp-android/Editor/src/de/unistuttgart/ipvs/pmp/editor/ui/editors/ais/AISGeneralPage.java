@@ -48,6 +48,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AndroidApplicationException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
