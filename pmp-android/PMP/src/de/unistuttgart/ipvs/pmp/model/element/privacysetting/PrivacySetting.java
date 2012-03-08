@@ -118,7 +118,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         try {
             this.link.parseValue(value);
         } catch (PrivacySettingValueException psve) {
-            throw new PrivacySettingValueException(psve);
+            throw psve;
         } catch (Throwable t) {
             this.resourceGroup.deactivate(t);
         }
@@ -130,6 +130,8 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         checkCached();
         try {
             return this.link.getHumanReadableValue(value);
+        } catch (PrivacySettingValueException psve) {
+            throw psve;
         } catch (Throwable t) {
             this.resourceGroup.deactivate(t);
             return "";
@@ -142,6 +144,8 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         checkCached();
         try {
             return this.link.permits(value, reference);
+        } catch (PrivacySettingValueException psve) {
+            throw psve;
         } catch (Throwable t) {
             this.resourceGroup.deactivate(t);
             return false;
@@ -168,6 +172,8 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
         Assert.nonNull(context, ModelMisuseError.class, Assert.ILLEGAL_NULL, "context", context);
         try {
             this.link.setViewValue(context, value);
+        } catch (PrivacySettingValueException psve) {
+            throw psve;
         } catch (Throwable t) {
             this.resourceGroup.deactivate(t);
         }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
 
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
@@ -13,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
 /**
@@ -153,6 +155,8 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
     
     
     public void deactivate(Throwable t) {
+        FileLog.get().logWithForward(this, t, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.SEVERE,
+                "ResourceGroup %s deactivated.", getIdentifier());
         this.unexpectedThrowable = t;
     }
     
