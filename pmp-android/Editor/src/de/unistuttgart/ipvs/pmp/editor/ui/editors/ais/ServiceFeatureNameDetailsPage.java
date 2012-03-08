@@ -23,9 +23,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -126,6 +129,24 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	parent.setLayout(new GridLayout(1, false));
 
 	FormToolkit toolkit = form.getToolkit();
+	
+	// The attribute section
+	Section attributeSection = toolkit.createSection(parent,
+		ExpandableComposite.CLIENT_INDENT
+			| ExpandableComposite.TITLE_BAR);
+	attributeSection.setText("Attribute");
+	attributeSection.setLayout(new GridLayout(1, false));
+	attributeSection.setExpanded(true);
+	
+	Composite attComp = toolkit.createComposite(attributeSection);
+	attComp.setLayout(new GridLayout(2, false));
+	attComp.setLayoutData(parentLayout);
+	
+	Label identifierLabel = new Label(attComp, SWT.NONE);
+	identifierLabel.setText("Identifier:");
+	
+	Text identifierField = new Text(attComp, SWT.BORDER);
+	attributeSection.setClient(attComp);
 
 	// The name section
 	Section nameSection = toolkit.createSection(parent,
@@ -134,7 +155,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 	nameSection.setText("Names");
 	nameSection.setLayout(new GridLayout(1, false));
 	nameSection.setExpanded(true);
-	nameSection.setLayoutData(parentLayout);
+	nameSection.setLayoutData(parentLayout);	
 
 	// The description section
 	Section descriptionSection = toolkit.createSection(parent,
