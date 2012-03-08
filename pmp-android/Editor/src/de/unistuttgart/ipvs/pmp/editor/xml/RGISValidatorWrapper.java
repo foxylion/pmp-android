@@ -23,10 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
@@ -61,8 +66,10 @@ public class RGISValidatorWrapper {
     }
 
     public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
-	List<IIssue> issues = new RGISValidator().validateRGIS(rgis, attachData);
+	List<IIssue> issues = new RGISValidator()
+		.validateRGIS(rgis, attachData);
 	extendAttachments(issues, attachData);
+	addSummaryIssues(rgis);
 	return issues;
     }
 
@@ -80,41 +87,103 @@ public class RGISValidatorWrapper {
 		for (IIssue issue : issues) {
 
 		    // The issue
-		    IssueType type = issue.getType();
-		    List<String> parameters = issue.getParameters();
+		    IssueType issueType = issue.getType();
+		    List<String> issueParameters = issue.getParameters();
+		    IIssueLocation issueLocation = issue.getLocation();
 
-		    // Switch the issue types
-		    switch (type) {
-		    case PS_IDENTIFIER_OCCURRED_TOO_OFTEN:
-			// Cast the location (should be possible, if
-			// its this issue type)
-			IRGIS rgis = (IRGIS) issue.getLocation();
+		    /*
+		     * RGIS
+		     */
+		    if (issueLocation instanceof RGIS) {
+			// Cast the issue location
+			RGIS rgis = (RGIS) issueLocation;
 
-			// Attach service features with issue
-			List<IIdentifierIS> identifierISs = new ArrayList<IIdentifierIS>();
-			for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
-			    identifierISs.add(ps);
+			// Switch the issue types
+			switch (issueType) {
+
+			case NAME_LOCALE_OCCURRED_TOO_OFTEN:
+
+			    // Attach names with issue
+			    helper.attachIBasicIS(rgis.getNames(),
+				    IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
+				    issueParameters);
+
+			    // Remove issue of the rgis
+			    rgis.removeIssue(issue);
+
+			    break;
+
+			case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+
+			    // Attach descriptions with issue
+			    helper.attachIBasicIS(
+				    rgis.getDescriptions(),
+				    IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+				    issueParameters);
+
+			    // Remove issue of the rgis
+			    rgis.removeIssue(issue);
+
+			    break;
+
+			case PS_IDENTIFIER_OCCURRED_TOO_OFTEN:
+
+			    // Attach privacy settings with issue
+			    List<IIdentifierIS> identifierISs = new ArrayList<IIdentifierIS>();
+			    for (IRGISPrivacySetting ps : rgis
+				    .getPrivacySettings()) {
+				identifierISs.add(ps);
+			    }
+			    helper.attachIIdentifierIS(identifierISs,
+				    IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
+				    issueParameters);
+
+			    // Remove issue of the rgis
+			    rgis.removeIssue(issue);
 			}
-			helper.attachIIdentifierIS(identifierISs,
-				IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN,
-				parameters);
 
-			break;
+		    }
 
-		    case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
-			// Cast the location (should be possible, if
-			// its this issue type)
-			IRGISPrivacySetting changeDescrLocation = (IRGISPrivacySetting) issue
-				.getLocation();
+		    /*
+		     * Privacy Setting
+		     */
+		    if (issueLocation instanceof RGISPrivacySetting) {
+			// Cast the issue location
+			RGISPrivacySetting ps = (RGISPrivacySetting) issueLocation;
 
-			// Attach change descriptions with issues
-			helper.attachIBasicIS(
-				changeDescrLocation.getChangeDescriptions(),
-				IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
-				parameters);
+			// Switch the issue types
+			switch (issueType) {
 
-			break;
+			case NAME_LOCALE_OCCURRED_TOO_OFTEN:
 
+			    // Attach names with issue
+			    helper.attachIBasicIS(ps.getNames(),
+				    IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
+				    issueParameters);
+
+			    break;
+
+			case DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+
+			    // Attach descriptions with issue
+			    helper.attachIBasicIS(
+				    ps.getDescriptions(),
+				    IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+				    issueParameters);
+
+			    break;
+
+			case CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN:
+
+			    // Attach change descriptions with issues
+			    helper.attachIBasicIS(
+				    ps.getChangeDescriptions(),
+				    IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
+				    issueParameters);
+
+			    break;
+
+			}
 		    }
 
 		}
@@ -124,6 +193,43 @@ public class RGISValidatorWrapper {
 		cce.printStackTrace();
 	    }
 
+	}
+    }
+
+    /**
+     * Add all summary issues
+     * 
+     * @param rgis
+     *            the RGIS
+     */
+    private void addSummaryIssues(IRGIS rgis) {
+	for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+	    boolean nameIssue = false;
+	    boolean descriptionIssue = false;
+	    boolean changeDescriptionIssue = false;
+	    for (ILocalizedString name : ps.getNames()) {
+		if (!name.getIssues().isEmpty())
+		    nameIssue = true;
+	    }
+	    for (ILocalizedString description : ps.getDescriptions()) {
+		if (!description.getIssues().isEmpty())
+		    descriptionIssue = true;
+	    }
+	    for (ILocalizedString changeDescription : ps
+		    .getChangeDescriptions()) {
+		if (!changeDescription.getIssues().isEmpty())
+		    changeDescriptionIssue = true;
+	    }
+
+	    if (nameIssue && !ps.hasIssueType(IssueType.RGIS_PS_NAME_ISSUES))
+		ps.addIssue(new Issue(IssueType.RGIS_PS_NAME_ISSUES, ps));
+	    if (descriptionIssue
+		    && !ps.hasIssueType(IssueType.RGIS_PS_DESCRIPTION_ISSUES))
+		ps.addIssue(new Issue(IssueType.RGIS_PS_DESCRIPTION_ISSUES, ps));
+	    if (changeDescriptionIssue
+		    && !ps.hasIssueType(IssueType.RGIS_PS_CHANGE_DESCRIPTION_ISSUES))
+		ps.addIssue(new Issue(
+			IssueType.RGIS_PS_CHANGE_DESCRIPTION_ISSUES, ps));
 	}
     }
 

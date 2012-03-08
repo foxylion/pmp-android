@@ -143,6 +143,18 @@ public class IssueTranslator {
 	    return "Condition is missing";
 	case OVERRIDE_VALUE_MISSING:
 	    return "Override value is missing";
+	case AIS_SF_NAME_ISSUES:
+	    return "There are issues with the names";
+	case AIS_SF_DESCRIPTION_ISSUES:
+	    return "There are issues with the descriptions";
+	case AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES:
+	    return "There are issues with the required resource groups";
+	case RGIS_PS_NAME_ISSUES:
+	    return "There are issues with the names";
+	case RGIS_PS_DESCRIPTION_ISSUES:
+	    return "There are issues with the descriptions";
+	case RGIS_PS_CHANGE_DESCRIPTION_ISSUES:
+	    return "There are issues with the change descriptions";
 	default:
 	    return type.toString();
 	}

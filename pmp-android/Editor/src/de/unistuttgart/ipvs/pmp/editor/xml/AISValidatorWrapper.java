@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
@@ -74,6 +73,7 @@ public class AISValidatorWrapper {
     public List<IIssue> validateAIS(IAIS ais, boolean attachData) {
 	List<IIssue> issues = new AISValidator().validateAIS(ais, attachData);
 	extendAttachments(issues, attachData);
+	addSummaryIssues(ais);
 	return issues;
     }
 
@@ -154,21 +154,12 @@ public class AISValidatorWrapper {
 			    for (IAISServiceFeature sf : ais
 				    .getServiceFeatures()) {
 
-				// if the sf has not the issue yet
-				boolean hasIssue = false;
-				for (IIssue assignedIssue : sf.getIssues()) {
-				    if (assignedIssue
-					    .getType()
-					    .equals(IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE))
-					hasIssue = true;
-				}
 				for (String identifier : issue.getParameters()) {
 				    if (sf.getIdentifier().equals(identifier)
-					    && !hasIssue) {
+					    && !sf.hasIssueType(IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE)) {
 					sf.addIssue(new Issue(
 						IssueType.SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE,
 						sf));
-					hasIssue = true;
 				    }
 				}
 			    }
@@ -250,44 +241,6 @@ public class AISValidatorWrapper {
 
 			    break;
 			}
-
-			// Add summary issues
-			boolean nameIssue = false;
-			boolean descriptionIssue = false;
-			boolean rrgIssue = false;
-			for (ILocalizedString name : sf.getNames()) {
-			    if (!name.getIssues().isEmpty())
-				nameIssue = true;
-			}
-			for (ILocalizedString description : sf
-				.getDescriptions()) {
-			    if (!description.getIssues().isEmpty())
-				descriptionIssue = true;
-			}
-			for (IAISRequiredResourceGroup rrg : sf
-				.getRequiredResourceGroups()) {
-			    if (!rrg.getIssues().isEmpty())
-				rrgIssue = true;
-			    for (IAISRequiredPrivacySetting rps : rrg
-				    .getRequiredPrivacySettings()) {
-				if (!rps.getIssues().isEmpty())
-				    rrgIssue = true;
-			    }
-			}
-			if (nameIssue
-				&& !sf.hasIssueType(IssueType.AIS_SF_NAME_ISSUES))
-			    sf.addIssue(new Issue(IssueType.AIS_SF_NAME_ISSUES,
-				    sf));
-			if (descriptionIssue
-				&& !sf.hasIssueType(IssueType.AIS_SF_DESCRIPTION_ISSUES))
-			    sf.addIssue(new Issue(
-				    IssueType.AIS_SF_DESCRIPTION_ISSUES, sf));
-			if (rrgIssue
-				&& !sf.hasIssueType(IssueType.AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES))
-			    sf.addIssue(new Issue(
-				    IssueType.AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES,
-				    sf));
-
 		    }
 
 		}
@@ -297,6 +250,46 @@ public class AISValidatorWrapper {
 		cce.printStackTrace();
 	    }
 
+	}
+    }
+    
+    /**
+     * Add all summary issues
+     * 
+     * @param ais
+     *            the AIS
+     */
+    private void addSummaryIssues(IAIS ais) {
+	for (IAISServiceFeature sf : ais.getServiceFeatures()) {
+	    boolean nameIssue = false;
+	    boolean descriptionIssue = false;
+	    boolean rrgIssue = false;
+	    for (ILocalizedString name : sf.getNames()) {
+		if (!name.getIssues().isEmpty())
+		    nameIssue = true;
+	    }
+	    for (ILocalizedString description : sf.getDescriptions()) {
+		if (!description.getIssues().isEmpty())
+		    descriptionIssue = true;
+	    }
+	    for (IAISRequiredResourceGroup rrg : sf.getRequiredResourceGroups()) {
+		if (!rrg.getIssues().isEmpty())
+		    rrgIssue = true;
+		for (IAISRequiredPrivacySetting rps : rrg
+			.getRequiredPrivacySettings()) {
+		    if (!rps.getIssues().isEmpty())
+			rrgIssue = true;
+		}
+	    }
+	    if (nameIssue && !sf.hasIssueType(IssueType.AIS_SF_NAME_ISSUES))
+		sf.addIssue(new Issue(IssueType.AIS_SF_NAME_ISSUES, sf));
+	    if (descriptionIssue
+		    && !sf.hasIssueType(IssueType.AIS_SF_DESCRIPTION_ISSUES))
+		sf.addIssue(new Issue(IssueType.AIS_SF_DESCRIPTION_ISSUES, sf));
+	    if (rrgIssue
+		    && !sf.hasIssueType(IssueType.AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES))
+		sf.addIssue(new Issue(
+			IssueType.AIS_SF_REQUIRED_RESOURCE_GROUP_ISSUES, sf));
 	}
     }
 
