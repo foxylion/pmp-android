@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -36,6 +37,8 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -45,10 +48,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -66,11 +71,13 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.Required
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTableListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Shows the table with the details to the resource groups
@@ -79,7 +86,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ServiceFeatureRGDetailsPage implements IDetailsPage,
-	IDoubleClickListener, SelectionListener {
+	IDoubleClickListener, SelectionListener, FocusListener {
 
     /**
      * ID of this page
@@ -121,6 +128,26 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
      * The {@link TreeViewer} of the parent view to refresh it
      */
     private TreeViewer parentTree;
+
+    /**
+     * The textfield of the identifier
+     */
+    private Text identifierField;
+
+    /**
+     * The decoration of the identifier label
+     */
+    private ControlDecoration identifierDec;
+
+    /**
+     * The textfield of the minimum revision
+     */
+    private Text revisionField;
+
+    /**
+     * The decoration of the minimal revision label
+     */
+    private ControlDecoration revisionDec;
 
     /**
      * Privacy {@link Section}
@@ -178,6 +205,94 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	// Attributes section
 	FormToolkit toolkit = form.getToolkit();
+
+	// The attribute layout data
+	GridData attributeLayout = new GridData();
+	attributeLayout.horizontalAlignment = GridData.FILL;
+	attributeLayout.grabExcessHorizontalSpace = true;
+
+	// The attribute section
+	Section attributeSection = toolkit.createSection(parent,
+		ExpandableComposite.CLIENT_INDENT
+			| ExpandableComposite.TITLE_BAR);
+	attributeSection.setText("Attributes");
+	attributeSection.setLayout(new GridLayout(1, false));
+	attributeSection.setExpanded(true);
+	attributeSection.setLayoutData(attributeLayout);
+
+	Composite attributeComp = toolkit.createComposite(attributeSection);
+	GridLayout attributeGridLayout = new GridLayout(2, false);
+	attributeGridLayout.horizontalSpacing = 7;
+	attributeComp.setLayout(attributeGridLayout);
+
+	GridData textLayout = new GridData();
+	textLayout.horizontalAlignment = GridData.FILL;
+	textLayout.grabExcessHorizontalSpace = true;
+
+	Label identifierLabel = new Label(attributeComp, SWT.NONE);
+
+	identifierLabel.setText("Identifier:");
+
+	identifierField = new Text(attributeComp, SWT.BORDER);
+	identifierField.setLayoutData(textLayout);
+
+	identifierDec = new ControlDecoration(identifierField, SWT.TOP
+		| SWT.LEFT);
+	identifierDec.setImage(Images.ERROR_DEC);
+
+	// Store the field in the model when sth. was changed
+	identifierField
+		.addKeyListener(new org.eclipse.swt.events.KeyListener() {
+
+		    @Override
+		    public void keyReleased(org.eclipse.swt.events.KeyEvent arg0) {
+			// The old value of this text field
+			String oldValue = displayed.getIdentifier();
+			if (!identifierField.getText().equals(oldValue)) {
+			    displayed.setIdentifier(identifierField.getText());
+			    parentTree.refresh();
+			    model.setDirty(true);
+			}
+		    }
+
+		    @Override
+		    public void keyPressed(org.eclipse.swt.events.KeyEvent arg0) {
+		    }
+		});
+
+	identifierField.addFocusListener(this);
+	identifierField.setData("_NAME", "identifier");
+
+	// The minimum revision label and text
+	Label minRevisionLabel = new Label(attributeComp, SWT.NONE);
+	minRevisionLabel.setText("Minimal revision:");
+
+	revisionField = new Text(attributeComp, SWT.BORDER);
+	attributeSection.setClient(attributeComp);
+	revisionField.setLayoutData(textLayout);
+
+	revisionDec = new ControlDecoration(revisionField, SWT.TOP | SWT.LEFT);
+	revisionDec.setImage(Images.ERROR_DEC);
+
+	// Store the field in the model when sth. was changed
+	revisionField.addKeyListener(new org.eclipse.swt.events.KeyListener() {
+
+	    @Override
+	    public void keyReleased(org.eclipse.swt.events.KeyEvent arg0) {
+		// The old value of this text field
+		String oldValue = displayed.getMinRevision();
+		if (!revisionField.getText().equals(oldValue)) {
+		    displayed.setMinRevision(revisionField.getText());
+		    model.setDirty(true);
+		}
+	    }
+
+	    @Override
+	    public void keyPressed(org.eclipse.swt.events.KeyEvent arg0) {
+	    }
+	});
+	revisionField.addFocusListener(this);
+	revisionField.setData("_NAME", "revision");
 
 	// The name section
 	psSection = toolkit.createSection(parent,
@@ -314,6 +429,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	TreePath[] path = ((TreeSelection) selection).getPaths();
 	displayed = (AISRequiredResourceGroup) path[0].getLastSegment();
 	psTableViewer.setInput(displayed);
+
+	// Set the identifier and minimal revision
+	identifierField.setText(displayed.getIdentifier());
+	revisionField.setText(displayed.getMinRevision());
+
+	updateIdentifierDec();
+	updateRevisionDec();
 
 	removeButton.setEnabled(false);
 
@@ -682,6 +804,79 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 				    SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
 		}
 	    }
+	}
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events
+     * .FocusEvent)
+     */
+    @Override
+    public void focusGained(FocusEvent arg0) {
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events
+     * .FocusEvent)
+     */
+    @Override
+    public void focusLost(FocusEvent event) {
+	AISValidatorWrapper.getInstance().validateAIS(model.getAis(), true);
+	Text source = (Text) event.getSource();
+	String name = (String) source.getData("_NAME");
+	if (name.equals("identifier")) {
+	    updateIdentifierDec();
+	}
+
+	if (name.equals("revision")) {
+	    updateRevisionDec();
+	}
+    }
+
+    /**
+     * Update the identifier decoration and sets the message that is displayed
+     */
+    private void updateIdentifierDec() {
+	identifierDec.hide();
+	if (displayed.hasIssueType(IssueType.IDENTIFIER_MISSING)) {
+	    identifierDec.show();
+	    identifierDec
+		    .setDescriptionText(new IssueTranslator()
+			    .getTranslationWithoutParameters(IssueType.IDENTIFIER_MISSING));
+	}
+    }
+
+    /**
+     * Update the minimal revision decoration and sets the message that is
+     * displayed
+     */
+    private void updateRevisionDec() {
+	revisionDec.hide();
+	String message = "";
+	if (displayed.hasIssueType(IssueType.MINREVISION_MISSING)) {
+	    message += new IssueTranslator()
+		    .getTranslationWithoutParameters(IssueType.MINREVISION_MISSING);
+	}
+	if (displayed.hasIssueType(IssueType.MINREVISION_INVALID)) {
+	    if (!message.isEmpty()) {
+		message += "\n"
+			+ new IssueTranslator()
+				.getTranslationWithoutParameters(IssueType.MINREVISION_INVALID);
+	    } else {
+		message += new IssueTranslator()
+			.getTranslationWithoutParameters(IssueType.MINREVISION_INVALID);
+	    }
+	}
+
+	if (!message.isEmpty()) {
+	    revisionDec.show();
+	    revisionDec.setDescriptionText(message);
 	}
     }
 }

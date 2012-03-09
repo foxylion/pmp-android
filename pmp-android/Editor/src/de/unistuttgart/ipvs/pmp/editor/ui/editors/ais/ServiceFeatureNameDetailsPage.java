@@ -187,9 +187,12 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		    @Override
 		    public void keyReleased(org.eclipse.swt.events.KeyEvent arg0) {
-			displayed.setIdentifier(identifierField.getText());
-			parentTree.refresh();
-			model.setDirty(true);
+			String oldValue = displayed.getIdentifier();
+			if (!oldValue.equals(identifierField.getText())) {
+			    displayed.setIdentifier(identifierField.getText());
+			    parentTree.refresh();
+			    model.setDirty(true);
+			}
 		    }
 
 		    @Override

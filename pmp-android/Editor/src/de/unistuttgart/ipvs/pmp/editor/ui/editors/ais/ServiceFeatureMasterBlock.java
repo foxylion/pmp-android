@@ -27,8 +27,6 @@ import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -57,7 +55,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
@@ -81,7 +78,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
-	IDoubleClickListener, SelectionListener {
+	SelectionListener {
 
     /**
      * The {@link TreeViewer} of this block
@@ -188,7 +185,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
 	treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
 
-	treeViewer.addDoubleClickListener(this);
 	treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 	    @Override
@@ -241,69 +237,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		new ServiceFeatureRGDetailsPage(model, treeViewer));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse
-     * .jface.viewers.DoubleClickEvent)
-     */
-    @Override
-    public void doubleClick(DoubleClickEvent arg0) {
-	if (treeViewer.getTree().getSelectionCount() == 1) {
-	    Object data = treeViewer.getTree().getSelection()[0].getData();
-	    if (data instanceof AISServiceFeature) {
-		AISServiceFeature sf = ((AISServiceFeature) data);
-		// Show the input dialog
-		InputDialog dialog = new InputDialog(parentShell,
-			"Change Service Feature",
-			"Enter the new identifier of the Service Feature",
-			sf.getIdentifier(), new InputNotEmptyValidator(
-				"Identifier"));
-
-		if (dialog.open() == Window.OK) {
-		    String result = dialog.getValue();
-
-		    // Name changed, model is dirty
-		    if (!result.equals(sf.getIdentifier())) {
-
-			// Change the service feature and set the dirty flag
-			model.setDirty(true);
-			sf.setIdentifier(result);
-			AISValidatorWrapper.getInstance()
-				.validateAIS(model.getAis(), true);
-			treeViewer.refresh();
-		    }
-		}
-	    }
-
-	    if (data instanceof AISRequiredResourceGroup) {
-		AISRequiredResourceGroup rg = (AISRequiredResourceGroup) data;
-		InputDialog dialog = new InputDialog(
-			parentShell,
-			"Change minimal Revision",
-			"Change the minimal required revision of the Resource Group",
-			rg.getMinRevision(), new InputNotEmptyValidator(
-				"Minimal revision"));
-		if (dialog.open() == Window.OK) {
-		    String result = dialog.getValue();
-
-		    // The revision has changed
-		    if (!result.equals(rg.getMinRevision())) {
-
-			// Change the service feature and set the dirty flag
-			model.setDirty(true);
-			rg.setMinRevision(result);
-
-			AISValidatorWrapper.getInstance()
-				.validateAIS(model.getAis(), true);
-			treeViewer.refresh();
-		    }
-		}
-	    }
-	}
-    }
-
     /**
      * Adds the toolbar with the remove and add buttons to the given section
      * 
@@ -328,11 +261,13 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	});
 
 	// Picture can be added also to the actions
-	Action refresh = new Action("Refresh Resource Group List from server", ImageDescriptor.createFromImage(Images.IMG_ELCL_SYNCED)) {
+	Action refresh = new Action("Refresh Resource Group List from server",
+		ImageDescriptor.createFromImage(Images.IMG_ELCL_SYNCED)) {
 
 	    @Override
 	    public void run() {
-		DownloadedRGModel.getInstance().updateRgisListWithJob(parentShell, true);
+		DownloadedRGModel.getInstance().updateRgisListWithJob(
+			parentShell, true);
 	    }
 	};
 	refresh.setToolTipText("Refresh the Resource Group list from the server");
@@ -447,7 +382,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    // Add RG was clicked
 	    if (clicked.getText().equals("Add Resource Group")) {
 		List<RGIS> rgisList = null;
-		rgisList = DownloadedRGModel.getInstance().getRgisList(parentShell);
+		rgisList = DownloadedRGModel.getInstance().getRgisList(
+			parentShell);
 
 		if (rgisList != null) {
 		    HashMap<String, RGIS> resGroups = new HashMap<String, RGIS>();
@@ -506,9 +442,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 				sf.addRequiredResourceGroup(required);
 			    }
 			    model.setDirty(true);
-			    AISValidatorWrapper.getInstance()
-				    .validateAIS(model.getAis(),
-					    true);
+			    AISValidatorWrapper.getInstance().validateAIS(
+				    model.getAis(), true);
 			    treeViewer.refresh();
 			}
 		    }
