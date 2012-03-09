@@ -306,7 +306,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	Composite psComposite = toolkit.createComposite(psSection);
 	psComposite.setLayout(new GridLayout(2, false));
 	psComposite.setLayoutData(parentLayout);
-	createRGTable(psComposite, toolkit);
+	createPSTable(psComposite, toolkit);
 
 	Composite psButtonsComp = toolkit.createComposite(psComposite);
 	psButtonsComp.setLayout(new FillLayout(SWT.VERTICAL));
@@ -322,7 +322,16 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	psSection.setClient(psComposite);
     }
 
-    private TableViewer createRGTable(Composite parent, FormToolkit toolkit) {
+    /**
+     * Creates the resource group table
+     * 
+     * @param parent
+     *            parent {@link Composite}
+     * @param toolkit
+     *            {@link FormToolkit}
+     * @return the created {@link TableViewer}
+     */
+    private TableViewer createPSTable(Composite parent, FormToolkit toolkit) {
 	// Use grid layout so that the table uses the whole screen width
 	final GridData layoutData = new GridData();
 	layoutData.horizontalAlignment = GridData.FILL;

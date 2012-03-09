@@ -296,47 +296,6 @@ public class LocaleTable {
      * @param columnLayout
      */
     private void createColumns(TableColumnLayout columnLayout) {
-	// Error column
-	ColumnLabelProvider errorLabel = new ColumnLabelProvider() {
-	    @Override
-	    public String getText(Object element) {
-		return null;
-	    }
-
-	    @Override
-	    public Image getImage(Object element) {
-		LocalizedString ls = (LocalizedString) element;
-		if (ls.getIssues().isEmpty()) {
-		    return null;
-		} else {
-		    return Images.ERROR16;
-		}
-	    }
-	};
-
-	TableViewerColumn errorColumn = buildColumn("", 30, errorLabel, null,
-		columnLayout);
-	errorColumn.getColumn().setResizable(false);
-	new ColumnViewerSorter(tableViewer, errorColumn) {
-
-	    @Override
-	    public int doCompare(Viewer viewer, Object e1, Object e2) {
-		boolean empty1 = ((LocalizedString) e1).getIssues().isEmpty();
-		boolean empty2 = ((LocalizedString) e2).getIssues().isEmpty();
-
-		if (empty1 == empty2) {
-		    return 0;
-		}
-
-		if (!empty1) {
-		    return -1;
-		} else {
-		    return 1;
-		}
-	    }
-
-	};
-
 	// Locale column
 	ColumnLabelProvider localeLabel = new ColumnLabelProvider() {
 	    @Override
@@ -347,6 +306,16 @@ public class LocaleTable {
 		    return "-";
 		} else {
 		    return ls.getLocale().getLanguage();
+		}
+	    }
+
+	    @Override
+	    public Image getImage(Object element) {
+		LocalizedString ls = (LocalizedString) element;
+		if (ls.getIssues().isEmpty()) {
+		    return null;
+		} else {
+		    return Images.ERROR16;
 		}
 	    }
 	};
@@ -543,7 +512,7 @@ public class LocaleTable {
 			.getChangeDescriptions());
 		break;
 	    }
-	    
+
 	    validate();
 	}
     }
@@ -560,41 +529,45 @@ public class LocaleTable {
     public Composite getComposite() {
 	return outerCompo;
     }
-    
+
     private void validate() {
 	tableAction.doValidate();
-	
+
 	// Set decoration
 	tableDec.hide();
 	List<IIssue> dataIssues = data.getIssues();
-	List<IIssue> tableIssues = new ArrayList<IIssue>(); 
+	List<IIssue> tableIssues = new ArrayList<IIssue>();
 	for (IIssue i : dataIssues) {
 	    IssueType t = i.getType();
 	    switch (type) {
-	    	case NAME:
-	    	    if (t == IssueType.NAME_LOCALE_EN_MISSING || t == IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN) {
-	    		tableDec.show();
-	    		tableIssues.add(i);
-	    	    }
-	    	    break;
-	    	    
-	    	case DESCRIPTION:
-	    	    if (t == IssueType.DESCRIPTION_LOCALE_EN_MISSING || t == IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN) {
-	    		tableDec.show();
-	    		tableIssues.add(i);
-	    	    }
-	    	    break;
-	    	    
-	    	case CHANGE_DESCRIPTION:
-	    	    if (t == IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING || t == IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN) {
-	    		tableDec.show();
-	    		tableIssues.add(i);
-	    	    }
-	    	    break;
+	    case NAME:
+		if (t == IssueType.NAME_LOCALE_EN_MISSING
+			|| t == IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN) {
+		    tableDec.show();
+		    tableIssues.add(i);
+		}
+		break;
+
+	    case DESCRIPTION:
+		if (t == IssueType.DESCRIPTION_LOCALE_EN_MISSING
+			|| t == IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN) {
+		    tableDec.show();
+		    tableIssues.add(i);
+		}
+		break;
+
+	    case CHANGE_DESCRIPTION:
+		if (t == IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING
+			|| t == IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN) {
+		    tableDec.show();
+		    tableIssues.add(i);
+		}
+		break;
 	    }
 	}
-	
-	tableDec.setDescriptionText(new IssueTranslator().translateIssues(tableIssues));
+
+	tableDec.setDescriptionText(new IssueTranslator()
+		.translateIssues(tableIssues));
     }
 
     /**
@@ -602,7 +575,7 @@ public class LocaleTable {
      */
     public void refresh() {
 	validate();
-	tableViewer.refresh();	
+	tableViewer.refresh();
     }
 
 }
