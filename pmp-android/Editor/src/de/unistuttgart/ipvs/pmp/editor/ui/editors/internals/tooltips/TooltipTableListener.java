@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableItem;
 
-
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
@@ -64,6 +63,14 @@ public class TooltipTableListener implements Listener {
      */
     Shell shell;
 
+    /**
+     * Creates the {@link TooltipTableLabelListener}
+     * 
+     * @param tableViewer
+     *            {@link TableViewer}that was the listener added to
+     * @param shell
+     *            {@link Shell} to display the tool tip
+     */
     public TooltipTableListener(TableViewer tableViewer, Shell shell) {
 	this.tableViewer = tableViewer;
 	this.shell = shell;

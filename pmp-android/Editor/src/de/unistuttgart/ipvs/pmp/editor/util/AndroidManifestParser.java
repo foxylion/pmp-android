@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -74,6 +75,10 @@ public class AndroidManifestParser {
      * Path to the PMP registration activity
      */
     private final String ANDROID_NAME = "android:name";
+
+    /**
+     * String of the pmp activity
+     */
     private final String PMP_ACTIVITY = "de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity";
 
     /**
@@ -85,6 +90,10 @@ public class AndroidManifestParser {
      * Style of the PMP registration activity
      */
     private final String ANDROID_THEME = "android:theme";
+
+    /**
+     * PMP Android theme
+     */
     private final String PMP_ANDROID_THEME = "@android:style/Theme.NoTitleBar";
 
     /**

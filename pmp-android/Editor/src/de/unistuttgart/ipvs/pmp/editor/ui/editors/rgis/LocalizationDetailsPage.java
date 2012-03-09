@@ -1,5 +1,5 @@
 /*
-v * Copyright 2012 pmp-android development team
+ * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
  *
@@ -75,8 +75,8 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	// Build view
 	FormToolkit toolkit = form.getToolkit();
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 	section.setText("Localization");
 	section.setExpanded(true);
 	section.setLayoutData(parentLayout);

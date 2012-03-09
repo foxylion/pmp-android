@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -152,8 +153,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		"Add Service Feature...", SWT.PUSH);
 	addSFButton.setImage(Images.IMG_OBJ_ADD);
 	addSFButton.addSelectionListener(this);
-	addRGButton = toolkit.createButton(rgButtonsComp, "Add Resource Group...",
-		SWT.PUSH);
+	addRGButton = toolkit.createButton(rgButtonsComp,
+		"Add Resource Group...", SWT.PUSH);
 	addRGButton.addSelectionListener(this);
 	addRGButton.setEnabled(false);
 	addRGButton.setImage(Images.IMG_OBJ_ADD);

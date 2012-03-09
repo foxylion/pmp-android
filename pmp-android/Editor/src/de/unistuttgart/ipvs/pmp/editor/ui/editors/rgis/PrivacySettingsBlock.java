@@ -245,7 +245,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	// TODO Auto-generated method stub
 
     }
-    
+
     public RgisModel getModel() {
 	return model;
     }

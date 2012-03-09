@@ -69,6 +69,7 @@ public class ServerProviderDialogWrapper {
 
     /**
      * Returns the instance of this class
+     * 
      * @return instance of {@link ServerProviderDialogWrapper}
      */
     public static ServerProviderDialogWrapper getInstance() {
@@ -223,12 +224,12 @@ public class ServerProviderDialogWrapper {
     public List<RGIS> getRGISList() {
 	return rgisList;
     }
-    
+
     /**
      * Cancels a running job
      */
-    public void cancelJob(){
-	if (job != null){
+    public void cancelJob() {
+	if (job != null) {
 	    job.cancel();
 	}
     }

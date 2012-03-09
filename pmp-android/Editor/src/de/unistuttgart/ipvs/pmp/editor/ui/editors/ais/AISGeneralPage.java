@@ -92,9 +92,14 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     private static String MANIFTEST = "AndroidManifest.xml";
 
     /**
-     * Constructor
+     * Creates the general page
      * 
      * @param editor
+     *            {@link FormEditor}
+     * @param path
+     *            the project path
+     * @param model
+     *            the {@link AisModel} of this instance
      */
     public AISGeneralPage(FormEditor editor, String path, AisModel model) {
 	super(editor, ID, "General");
@@ -207,7 +212,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            {@link FormToolkit}
      * @param desc
      *            description of the Section
-     * @return
+     * @return the created Section
      */
     private Section createSectionWithDescription(Composite parent,
 	    String title, FormToolkit toolkit, String desc) {
@@ -231,9 +236,12 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      * Creates a default section which spans over the whole editor
      * 
      * @param parent
+     *            parent Composite
      * @param title
+     *            title of the section
      * @param toolkit
-     * @return
+     *            {@link FormToolkit}
+     * @return the creatde Section
      */
     private Section createSection(Composite parent, String title,
 	    FormToolkit toolkit) {

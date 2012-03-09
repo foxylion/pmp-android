@@ -54,6 +54,9 @@ public abstract class AbstractModel {
 
     /**
      * Sets the dirty status
+     * 
+     * @param dirty
+     *            true if dirty, false otherwise
      */
     public void setDirty(Boolean dirty) {
 	this.isDirty = dirty;

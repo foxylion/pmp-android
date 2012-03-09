@@ -65,7 +65,7 @@ public class Activator extends AbstractUIPlugin {
     public void stop(BundleContext context) throws Exception {
 	plugin = null;
 	super.stop(context);
-	
+
 	// Stops a running download job while closing the plugin
 	ServerProviderDialogWrapper.getInstance().cancelJob();
     }

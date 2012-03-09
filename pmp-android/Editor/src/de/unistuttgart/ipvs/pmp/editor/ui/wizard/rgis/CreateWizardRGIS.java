@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.wizard.rgis;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -41,6 +42,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -56,6 +58,10 @@ public class CreateWizardRGIS extends Wizard implements INewWizard {
      * {@link IWizardPage} that will be displayed
      */
     private WizardPageCreateRGIS page;
+
+    /**
+     * {@link IStructuredSelection}
+     */
     private ISelection selection;
 
     /**

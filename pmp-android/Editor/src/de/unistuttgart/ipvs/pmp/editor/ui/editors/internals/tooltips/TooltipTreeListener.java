@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TreeItem;
 
-
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.EncapsulatedString;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
@@ -82,7 +81,6 @@ public class TooltipTreeListener implements Listener {
 	switch (event.type) {
 	case SWT.Dispose:
 	case SWT.KeyDown:
-	    System.out.println("key down");
 	case SWT.MouseMove: {
 
 	    // Dispose the tool tip when the mouse is moved

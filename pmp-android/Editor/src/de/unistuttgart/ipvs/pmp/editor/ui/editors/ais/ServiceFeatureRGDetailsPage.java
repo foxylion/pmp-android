@@ -119,9 +119,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
     private Button removeButton;
 
     /**
-     * Columns of the table
+     * Identifier column of the table
      */
     private TableColumn identifierColumn;
+
+    /**
+     * Value column of the table
+     */
     private TableColumn valueColumn;
 
     /**
@@ -318,12 +322,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	GridData buttonLayout = new GridData();
 	buttonLayout.verticalAlignment = SWT.BEGINNING;
 	psButtonsComp.setLayoutData(buttonLayout);
-	Button addButton = toolkit.createButton(psButtonsComp, "Add...", SWT.PUSH);
+	Button addButton = toolkit.createButton(psButtonsComp, "Add...",
+		SWT.PUSH);
 	addButton.addSelectionListener(this);
 	addButton.setImage(Images.IMG_OBJ_ADD);
-	
+
 	removeButton = toolkit.createButton(psButtonsComp, "Remove", SWT.PUSH);
-	removeButton.addSelectionListener((SelectionListener) this);
+	removeButton.addSelectionListener(this);
 	removeButton.setImage(Images.IMG_ETOOL_DELETE);
 	removeButton.setEnabled(false);
 

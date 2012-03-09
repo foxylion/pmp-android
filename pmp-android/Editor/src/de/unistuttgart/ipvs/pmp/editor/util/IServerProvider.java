@@ -24,6 +24,13 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
+/**
+ * Interface that defines the method to update and download the list of
+ * {@link RGIS} from the RG Server
+ * 
+ * @author Thorsten Berberich
+ * 
+ */
 public interface IServerProvider {
 
     /**

@@ -47,6 +47,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ResourceGroupDialogLabelProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
  * Shows a dialog where the user can check the required Resource Groups that he

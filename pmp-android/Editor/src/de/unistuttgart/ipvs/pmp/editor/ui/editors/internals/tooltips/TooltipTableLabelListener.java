@@ -43,7 +43,7 @@ public class TooltipTableLabelListener implements
     /**
      * Creates a listener to display the labels
      * 
-     * @param treeViewer
+     * @param table
      *            {@link TableViewer} where the tool tips are displayed
      */
     public TooltipTableLabelListener(TableViewer table) {

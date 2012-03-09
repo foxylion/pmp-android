@@ -20,8 +20,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
 import java.util.Locale;
+
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
