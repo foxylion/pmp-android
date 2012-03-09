@@ -78,7 +78,7 @@ public class IssueTranslator {
 	    List<String> parameters) {
 	switch (type) {
 	case LOCALE_INVALID:
-	    return "Locale \"" + parameters.get(0) + "\" is invalid";
+	    return "This locale is invalid";
 	case LOCALE_MISSING:
 	    return "Locale is missing";
 	case NAME_LOCALE_EN_MISSING:
@@ -114,7 +114,7 @@ public class IssueTranslator {
 	case CLASSNAME_MISSING:
 	    return "Classname is missing";
 	case PS_IDENTIFIER_OCCURRED_TOO_OFTEN:
-	    return "Privacy Setting identifier occured too often";
+	    return "This Privacy Setting identifier occured too often";
 	case NO_PS_EXISTS:
 	    return "No Privacy Setting existing";
 	case VALID_VALUE_DESCRIPTION_MISSING:
