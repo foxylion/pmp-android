@@ -150,6 +150,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
     private ControlDecoration revisionDec;
 
     /**
+     * The decoration of the privacy setting table
+     */
+    private ControlDecoration psTableDec;
+
+    /**
      * Privacy {@link Section}
      */
     private Section psSection;
@@ -348,6 +353,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	psTableViewer.setContentProvider(new RequiredPSContentProvider());
 	psTableViewer.addDoubleClickListener(this);
 
+	psTableDec = new ControlDecoration(psTableViewer.getControl(), SWT.TOP
+		| SWT.LEFT);
+	psTableDec.setImage(Images.ERROR_DEC);
+
 	// Disable the default tool tips
 	psTableViewer.getTable().setToolTipText("");
 
@@ -443,8 +452,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	identifierField.setText(displayed.getIdentifier());
 	revisionField.setText(displayed.getMinRevision());
 
+	// Update all decorations
 	updateIdentifierDec();
 	updateRevisionDec();
+	updatePSTableDec();
 
 	removeButton.setEnabled(false);
 
@@ -550,8 +561,29 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 		String result = resultArray[0];
 
-		if (!result.equals(selected.getValue())) {
-		    selected.setValue(result);
+		if (result != null) {
+		    if (!result.equals(selected.getValue())) {
+			selected.setValue(result);
+
+			AISValidatorWrapper.getInstance().validateAIS(
+				model.getAis(), true);
+
+			parentTree.refresh();
+
+			// Update the view
+			psTableViewer.refresh();
+			psTableViewer.getTable().setRedraw(false);
+			identifierColumn.pack();
+			valueColumn.pack();
+			psTableViewer.getTable().redraw();
+			psTableViewer.getTable().setRedraw(true);
+
+			markEmptyCells();
+			model.setDirty(true);
+		    }
+		} else {
+		    // The value is not empty but nothing was entered
+		    selected.setValue(null);
 
 		    AISValidatorWrapper.getInstance().validateAIS(
 			    model.getAis(), true);
@@ -674,6 +706,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		valueColumn.pack();
 		psTableViewer.getTable().redraw();
 		psTableViewer.getTable().setRedraw(true);
+		updatePSTableDec();
 
 		model.setDirty(true);
 	    }
@@ -769,6 +802,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 			    psTableViewer.getTable().setRedraw(true);
 			    psTableViewer.getTable().redraw();
 			    model.setDirty(true);
+			    updatePSTableDec();
 			}
 
 			// There are no PS to add to this service feature
@@ -886,6 +920,18 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	if (!message.isEmpty()) {
 	    revisionDec.show();
 	    revisionDec.setDescriptionText(message);
+	}
+    }
+
+    /**
+     * Updates the decoration of the privacy setting table
+     */
+    private void updatePSTableDec() {
+	psTableDec.hide();
+	if (displayed.hasIssueType(IssueType.NO_RPS_EXISTS)) {
+	    psTableDec.show();
+	    psTableDec.setDescriptionText(new IssueTranslator()
+		    .getTranslationWithoutParameters(IssueType.NO_RPS_EXISTS));
 	}
     }
 }

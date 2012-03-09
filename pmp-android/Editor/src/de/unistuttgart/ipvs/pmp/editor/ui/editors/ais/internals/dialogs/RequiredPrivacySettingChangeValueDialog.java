@@ -51,38 +51,27 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
     /**
      * Locale field that was entered
      */
-    Text valueText;
-
-    /**
-     * The okButton
-     */
-    Button okButton;
+    private Text valueText;
 
     /**
      * The empty value check button
      */
-    Button checked;
+    private Button checked;
 
     /**
      * The Strings that could be set
      */
-    String name;
-    String value;
+    private String value;
 
     /**
      * The result
      */
-    String[] result;
+    private String[] result;
 
     /**
      * Message that is shown
      */
-    String message;
-
-    /**
-     * Change or add
-     */
-    String type;
+    private String message;
 
     /**
      * Creates the dialog
@@ -156,6 +145,7 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
 
     @Override
     public void okPressed() {
+	// Set the results if ok is pressed
 	if (valueText.getText().isEmpty()) {
 	    result[0] = null;
 	} else {
@@ -176,8 +166,8 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
 	// create OK and Cancel buttons by default
-	okButton = createButton(parent, IDialogConstants.OK_ID,
-		IDialogConstants.OK_LABEL, true);
+	createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+		true);
 	createButton(parent, IDialogConstants.CANCEL_ID,
 		IDialogConstants.CANCEL_LABEL, false);
 
@@ -231,6 +221,7 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
 	    valueText.setEnabled(false);
 	} else {
 	    valueText.setEnabled(true);
+	    valueText.setFocus();
 	}
     }
 }
