@@ -69,7 +69,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingChangeValueDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTableListener;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips.TooltipTableListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;

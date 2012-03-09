@@ -17,14 +17,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips;
 
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.widgets.TableItem;
 
 /**
  * Listener to display the labels for the fake tool tips
@@ -32,22 +32,22 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Thorsten Berberich
  * 
  */
-public class TooltipTreeLabelListener implements
+public class TooltipTableLabelListener implements
 	org.eclipse.swt.widgets.Listener {
 
     /**
-     * The {@link TreeViewer} where the tool tips are placed
+     * The {@link TableViewer} where the tool tips are placed
      */
-    TreeViewer treeViewer;
+    TableViewer tableViewer;
 
     /**
      * Creates a listener to display the labels
      * 
      * @param treeViewer
-     *            {@link TreeViewer} where the tool tips are displayed
+     *            {@link TableViewer} where the tool tips are displayed
      */
-    public TooltipTreeLabelListener(TreeViewer tree) {
-	this.treeViewer = tree;
+    public TooltipTableLabelListener(TableViewer table) {
+	this.tableViewer = table;
     }
 
     /*
@@ -64,14 +64,13 @@ public class TooltipTreeLabelListener implements
 	switch (event.type) {
 	case SWT.MouseDown:
 	    Event e = new Event();
-	    e.item = (TreeItem) label.getData("_TREEITEM");
-	    treeViewer.getTree().setSelection((TreeItem) e.item);
-	    treeViewer.refresh();
+	    e.item = (TableItem) label.getData("_TABLEITEM");
+	    tableViewer.getTable().setSelection((TableItem) e.item);
+	    tableViewer.refresh();
 	case SWT.MouseExit:
 	    shell.dispose();
 	    break;
 	}
-
     }
 
 }

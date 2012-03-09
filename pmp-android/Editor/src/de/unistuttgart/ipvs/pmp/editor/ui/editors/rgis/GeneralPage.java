@@ -36,10 +36,10 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;

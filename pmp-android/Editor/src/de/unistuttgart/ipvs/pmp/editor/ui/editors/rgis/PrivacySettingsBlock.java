@@ -46,8 +46,8 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.TooltipTreeListener;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips.TooltipTreeListener;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.ChangeDescriptionString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.DescriptionString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.NameString;

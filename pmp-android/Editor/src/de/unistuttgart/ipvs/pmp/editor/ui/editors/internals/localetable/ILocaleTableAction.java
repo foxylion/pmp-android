@@ -17,33 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable;
 
-import java.util.List;
+public interface ILocaleTableAction {
 
-import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.Viewer;
+    public void doSetDirty(boolean dirty);
 
-public class ListContentProvider implements IContentProvider,
-	IStructuredContentProvider {
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Object[] getElements(Object inputElement) {
-	return ((List<Object>) inputElement).toArray();
-    }
-
-    @Override
-    public void dispose() {
-	// TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-	// TODO Auto-generated method stub
-
-    }
+    public void doValidate();
 
 }

@@ -17,30 +17,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals;
-
-import java.util.Locale;
+package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable;
 
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.widgets.Composite;
 
 /**
- * Provides a cell editor that enables the user to put in a locale. It provides
- * a autocomplete-text field the shows all available locales while typing.
  * 
  * @author Patrick Strobel
+ * 
  */
-public abstract class LocaleEditingSupport extends EditingSupport {
+public abstract class TextEditingSupport extends EditingSupport {
 
-    // private ComboBoxViewerCellEditor editor;
-    private TextCellEditor editor;
+    protected TextCellEditor editor;
 
-    public LocaleEditingSupport(TableViewer viewer) {
+    public TextEditingSupport(ColumnViewer viewer) {
 	super(viewer);
-	editor = new AutocompleteTextCellEditor(viewer.getTable(),
-		Locale.getISOLanguages());
+	editor = new TextCellEditor((Composite) viewer.getControl());
     }
 
     @Override
