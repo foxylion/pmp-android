@@ -307,7 +307,7 @@ public class LocaleTable {
 	    public Image getImage(Object element) {
 		LocalizedString ls = (LocalizedString) element;
 		if (ls.getIssues().isEmpty()) {
-		    return Images.FILE16;
+		    return null;
 		} else {
 		    return Images.ERROR16;
 		}
@@ -316,6 +316,7 @@ public class LocaleTable {
 
 	TableViewerColumn errorColumn = buildColumn("", 30, errorLabel, null,
 		columnLayout);
+	errorColumn.getColumn().setResizable(false);
 	new ColumnViewerSorter(tableViewer, errorColumn) {
 
 	    @Override
