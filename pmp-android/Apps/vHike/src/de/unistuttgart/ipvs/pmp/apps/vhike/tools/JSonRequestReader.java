@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -117,7 +118,7 @@ public class JSonRequestReader {
         String status = null;
         if (suc) {
             status = object.get("status").getAsString();
-            Log.i(TAG, "STATUS NACH DEM LOGIN:" + status);
+            Log.d(TAG, "STATUS NACH DEM LOGIN:" + status);
             if (!status.equals("invalid")) {
                 sid = object.get("sid").getAsString();
                 Model.getInstance().setSid(sid);
@@ -202,7 +203,7 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             id = object.get("id").getAsInt();
             username = object.get("username").getAsString();
-            Log.i(TAG, "USERNAME:" + username);
+            Log.d(TAG, "USERNAME:" + username);
             email = object.get("email").getAsString();
             firstname = object.get("firstname").getAsString();
             lastname = object.get("lastname").getAsString();
@@ -292,7 +293,7 @@ public class JSonRequestReader {
             }
             username = object.get("username").getAsString();
             description = object.get("description").getAsString();
-            Log.i(TAG, "GETPROFILE_: description:" + description);
+            Log.d(TAG, "GETPROFILE_: description:" + description);
             regdate = object.get("regdate").getAsString();
             rating_avg = object.get("rating_avg").getAsFloat();
             rating_num = object.get("rating_num").getAsInt();
@@ -331,31 +332,23 @@ public class JSonRequestReader {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_announce.php", false);
+            object = JSonRequestProvider.doRequest(listToParse, "trip_announce.php", true);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc = false;
-        int tripId = 0;
-        String status = null;
-        if (object != null) {
-            suc = object.get("successful").getAsBoolean();
-            if (suc) {
-                status = object.get("status").getAsString();
-                if (status.equals("announced")) {
-                    tripId = object.get("id").getAsInt();
-                    Model.getInstance().setTripId(tripId);
-                    Log.i(TAG, String.valueOf(Model.getInstance().getTripId()));
-                }
-            } else {
-                return status = object.get("msg").getAsString();
-            }
-            
+        int tripId = -1;
+        if (object != null && object.get("successful").getAsBoolean()) {
+            String status = object.get("status").getAsString();
+            if (status.equals("announced")) {
+                tripId = object.get("id").getAsInt();
+                Model.getInstance().setTripId(tripId);
+                Log.d(TAG, String.valueOf(Model.getInstance().getTripId()));
+            } else
+                return status;
         }
-        
-        return status;
+        return object.get("msg").getAsString();
     }
     
     
@@ -425,6 +418,7 @@ public class JSonRequestReader {
         
         return status;
     }
+    
     
     public static PositionObject getUserPosition(String sid, int user_id) {
         listToParse.clear();
@@ -507,32 +501,32 @@ public class JSonRequestReader {
      * 
      * @param sid
      * @param trip_id
-     * @return
+     * @return "error" when error
      */
     public static String endTrip(String sid, int trip_id) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
-        
         listToParse.add(new ParamObject("id", String.valueOf(trip_id), true));
         
-        JsonObject object = null;
+        JsonObject json = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_ended.php", false);
+            json = JSonRequestProvider.doRequest(listToParse, "trip_ended.php", false);
+            boolean ok = json.get("successful").getAsBoolean();
+            if (json != null && ok && !json.get("error").isJsonNull()) {
+                return json.get("status").getAsString();
+            } else if (json != null && ok) {
+                return json.get("status").getAsString();
+            }
+            return json.get("error").getAsString();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            Log.e(TAG, json == null ? "" : json.toString());
         }
-        boolean suc = false;
-        String status = null;
-        if (object != null) {
-            suc = object.get("successful").getAsBoolean();
-            status = object.get("status").getAsString();
-            return status;
-        }
-        
-        return status;
-        
+
+        return "error";
     }
     
     
@@ -544,14 +538,14 @@ public class JSonRequestReader {
      * @param current_lat
      * @param current_lon
      * @param seats
-     * @return int id of the query
+     * @return ID of the query
      */
     public static int startQuery(String sid, String destination, float current_lat, float current_lon, int seats) {
-        Log.i(TAG, sid);
-        Log.i(TAG, destination);
-        Log.i(TAG, String.valueOf(current_lat));
-        Log.i(TAG, String.valueOf(current_lon));
-        Log.i(TAG, String.valueOf(seats));
+        Log.d(TAG, sid);
+        Log.d(TAG, destination);
+        Log.d(TAG, String.valueOf(current_lat));
+        Log.d(TAG, String.valueOf(current_lon));
+        Log.d(TAG, String.valueOf(seats));
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
         
@@ -574,7 +568,7 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 id = object.get("id").getAsInt();
-                Log.i(TAG, String.valueOf(id));
+                Log.d(TAG, String.valueOf(id));
                 return id;
             }
         }
@@ -611,12 +605,12 @@ public class JSonRequestReader {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-//                status = object.get("status").getAsString();
+                //                status = object.get("status").getAsString();
                 status = "deleted";
-                Log.i(TAG, "STATUS AFTER STOPQUERY:" + status);
+                Log.d(TAG, "STATUS AFTER STOPQUERY:" + status);
                 return status;
             }
-            Log.i(TAG, "Status after STOPQUERY:" + status + ", suc" + suc);
+            Log.d(TAG, "Status after STOPQUERY:" + status + ", suc" + suc);
         }
         
         return status;
@@ -657,7 +651,7 @@ public class JSonRequestReader {
                 String status = object.get("status").getAsString();
                 if (status.equals("result")) {
                     JsonArray array = object.get("queries").getAsJsonArray();
-                    Log.i(TAG, array.toString());
+                    Log.d(TAG, array.toString());
                     queryObjects = new ArrayList<QueryObject>();
                     
                     /*
@@ -684,13 +678,13 @@ public class JSonRequestReader {
                                 distance);
                         queryObjects.add(qObject);
                     }
-                    if(queryObjects!=null)
+                    if (queryObjects != null)
                         Model.getInstance().setQueryHolder(queryObjects);
                     return queryObjects;
                 }
             }
         }
-        if(queryObjects!=null)
+        if (queryObjects != null)
             Model.getInstance().setQueryHolder(queryObjects);
         return queryObjects;
     }
@@ -771,10 +765,10 @@ public class JSonRequestReader {
      */
     public static String sendOffer(String sid, int trip_id, int query_id, String message) {
         
-        Log.i(TAG, sid);
-        Log.i(TAG, String.valueOf(trip_id));
-        Log.i(TAG, String.valueOf(query_id));
-        Log.i(TAG, message);
+        Log.d(TAG, sid);
+        Log.d(TAG, String.valueOf(trip_id));
+        Log.d(TAG, String.valueOf(query_id));
+        Log.d(TAG, message);
         
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
@@ -798,7 +792,7 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
-                if(status.equals("sent")){
+                if (status.equals("sent")) {
                     status = String.valueOf(object.get("offer_id").getAsInt());
                 }
                 return status;
@@ -831,8 +825,8 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 JsonArray array;
-                try{
-                    array = object.get("offers").getAsJsonArray();   
+                try {
+                    array = object.get("offers").getAsJsonArray();
                     offerObjects = new ArrayList<OfferObject>();
                     for (int i = 0; i < array.size(); i++) {
                         JsonObject Iobject = array.get(i).getAsJsonObject();
@@ -848,7 +842,7 @@ public class JSonRequestReader {
                         offerObjects.add(oObject);
                     }
                     Model.getInstance().setOfferHolder(offerObjects);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     offerObjects = new ArrayList<OfferObject>();
                 }
                 
@@ -889,11 +883,11 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 status = object.get("status").getAsString();
-                Log.i(null, "STATUS after handleOFFER: " +status);
+                Log.d(null, "STATUS after handleOFFER: " + status);
                 return status;
             }
         }
-        Log.i(null, "STATUS after handleOFFER: " +status );
+        Log.d(null, "STATUS after handleOFFER: " + status);
         return status;
     }
     
@@ -930,6 +924,7 @@ public class JSonRequestReader {
         }
         return false;
     }
+    
     
     public static boolean isPicked(String sid) {
         listToParse.clear();
@@ -995,8 +990,8 @@ public class JSonRequestReader {
      */
     public static List<HistoryRideObject> getHistory(String sid, String role) {
         
-        Log.i(TAG, "SID:" + sid);
-        Log.i(TAG, "Role:" + role);
+        Log.d(TAG, "SID:" + sid);
+        Log.d(TAG, "Role:" + role);
         
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
@@ -1019,8 +1014,8 @@ public class JSonRequestReader {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
                 array_rides = object.get("rides").getAsJsonArray();
-                Log.i(TAG, "Array rides: "  + array_rides.toString());
-                Log.i(TAG, "Array rides: "  + array_rides.size());
+                Log.d(TAG, "Array rides: " + array_rides.toString());
+                Log.d(TAG, "Array rides: " + array_rides.size());
                 historyObjects = new ArrayList<HistoryRideObject>();
                 
                 for (int i = 0; i < array_rides.size(); i++) {
@@ -1074,7 +1069,7 @@ public class JSonRequestReader {
                                 rated);
                         historyPersons.add(person);
                     }
-                    Log.i(null, "IN READER HISTORYPERSONS" + historyPersons.size());
+                    Log.d(null, "IN READER HISTORYPERSONS" + historyPersons.size());
                     HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination,
                             historyPersons);
                     historyObjects.add(ride);
@@ -1087,7 +1082,7 @@ public class JSonRequestReader {
     }
     
     
-    public static String rateUser(String sid, int userid, int tripid, int rating){
+    public static String rateUser(String sid, int userid, int tripid, int rating) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
         listToParse.add(new ParamObject("recipient", String.valueOf(userid), true));
@@ -1103,16 +1098,17 @@ public class JSonRequestReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc=false;
-        String status="";
-        if(object!=null){
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
             suc = object.get("successful").getAsBoolean();
-            if(suc){
+            if (suc) {
                 status = object.get("status").getAsString();
             }
         }
         return status;
     }
+    
     
     /**
      * Dummy method don't touch it
@@ -1121,8 +1117,8 @@ public class JSonRequestReader {
      * @return
      */
     public static String dummyMethod(String name, String mood) {
-        Log.i(TAG, "To Parse name:" + name);
-        Log.i(TAG, "To Parse mood:" + mood);
+        Log.d(TAG, "To Parse name:" + name);
+        Log.d(TAG, "To Parse mood:" + mood);
         listToParse.clear();
         listToParse.add(new ParamObject("name", name, true));
         listToParse.add(new ParamObject("mood", mood, false));
@@ -1143,8 +1139,8 @@ public class JSonRequestReader {
             out_get = object.get("output_get").toString();
         }
         
-        Log.i(TAG, "Postoutput:" + out_pos);
-        Log.i(TAG, "Getoutput:" + out_get);
+        Log.d(TAG, "Postoutput:" + out_pos);
+        Log.d(TAG, "Getoutput:" + out_get);
         return null;
     }
     

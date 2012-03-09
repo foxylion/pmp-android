@@ -114,16 +114,14 @@ public class RideActivity extends Activity {
                 
                 switch (ctrl.announceTrip(Model.getInstance().getSid(), ViewModel.getInstance().getDestination(), 0, 0,
                         ViewModel.getInstance().getNumSeats())) {
-                    case Constants.TRIP_STATUS_ANNOUNCED: {
+                    case Constants.TRIP_STATUS_ANNOUNCED:
                         Log.i(this, "ANNOUNCED trip");
                         
                         vhikeDialogs.getInstance().getAnnouncePD(RideActivity.this).show();
                         
                         Intent intent = new Intent(RideActivity.this, DriverViewActivity.class);
                         RideActivity.this.startActivity(intent);
-                        
                         break;
-                    }
                     case Constants.TRIP_STATUS_OPEN_TRIP:
                         
                         AlertDialog.Builder builder = new AlertDialog.Builder(RideActivity.this);
@@ -164,6 +162,8 @@ public class RideActivity extends Activity {
                                                         .show();
                                                 dialog.cancel();
                                                 break;
+                                            default:
+                                                Toast.makeText(RideActivity.this, "Error anouncing trip", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -176,14 +176,11 @@ public class RideActivity extends Activity {
                                 });
                         AlertDialog alert = builder.create();
                         alert.show();
-                        
                         break;
                     case Constants.STATUS_ERROR:
                         Toast.makeText(RideActivity.this, "Error anouncing trip", Toast.LENGTH_SHORT).show();
                         break;
-                
                 }
-                
             }
         });
         

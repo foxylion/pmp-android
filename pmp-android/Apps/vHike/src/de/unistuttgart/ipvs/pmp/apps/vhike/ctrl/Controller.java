@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.stream.JsonReader;
-
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
@@ -44,10 +42,10 @@ public class Controller {
      */
     public boolean login(String username, String pw) {
         
-        Log.i(this, "USERNAME: " + username);
-        Log.i(this, "PASSSWORD: " + pw);
+        Log.v(this, "USERNAME: " + username);
+        Log.v(this, "PASSSWORD: " + pw);
         String status = JSonRequestReader.login(username, pw);
-        Log.i(this, "Status im CTRL: " + status);
+        Log.v(this, "Status im CTRL: " + status);
         if (status.equals("logged_in")) {
             return true;
         } else {
@@ -88,7 +86,7 @@ public class Controller {
     /**
      * Registar an user
      * 
-     * @return int code specified in {@link Constants}
+     * @return code specified in {@link Constants}
      */
     public int register(Map<String, String> list) {
         
@@ -127,7 +125,7 @@ public class Controller {
      */
     public Profile getProfile(String session_id, int user_id) {
         Profile profile = JSonRequestReader.getProfile(session_id, user_id);
-        Log.i(this, "Controller->Profile->Description:" + profile.getDescription());
+        Log.v(this, "Controller->Profile->Description:" + profile.getDescription());
         return profile;
     }
     
@@ -140,7 +138,7 @@ public class Controller {
      * @return TRIP_STATUS_ANNOUNCED, TRIP_STATUS_OPEN_TRIP,STATUS_ERROR
      */
     public int announceTrip(String session_id, String destination, float current_lat, float current_lon, int avail_seats) {
-        Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
+        Log.v(this, "announceTrip: " + session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
         String status = JSonRequestReader.announceTrip(session_id, destination, current_lat, current_lon, avail_seats);
         
         if (status.equals("announced")) {
@@ -149,7 +147,6 @@ public class Controller {
             return Constants.TRIP_STATUS_OPEN_TRIP;
         }
         return Constants.STATUS_ERROR;
-        
     }
     
     
@@ -167,7 +164,7 @@ public class Controller {
     //    @Deprecated
     //    public int tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) {
     //        String status = JSonRequestReader.tripUpdatePos(sid, trip_id, current_lat, current_lon);
-    //        Log.i(this, current_lat + " " + current_lon);
+    //        Log.v(this, current_lat + " " + current_lon);
     //        if (status.equals("updated")) {
     //            return Constants.STATUS_UPDATED;
     //        } else if (status.equals("already_uptodate")) {
@@ -227,7 +224,7 @@ public class Controller {
         } else if (status.equals("invalid_user")) {
             return Constants.STATUS_INVALID_USER;
         }
-        return 0;
+        return Constants.STATUS_ERROR;
     }
     
     
@@ -247,6 +244,7 @@ public class Controller {
      *         STATUS_INVALID_USER see {@link Constants} and design.html
      */
     public int endTrip(String sid, int trip_id) {
+        Log.d("End trip", "trip id " + trip_id);
         String status = JSonRequestReader.endTrip(sid, trip_id);
         
         if (status.equals("updated")) {
@@ -259,8 +257,10 @@ public class Controller {
             return Constants.STATUS_HASENDED;
         } else if (status.equals("invalid_user")) {
             return Constants.STATUS_INVALID_USER;
+        } else {
+            Log.w(this, "End trip status: " + status);
+            return Constants.STATUS_ERROR;
         }
-        return 0;
     }
     
     
@@ -470,14 +470,14 @@ public class Controller {
      */
     public List<HistoryRideObject> getHistory(String sid, String role) {
         List<HistoryRideObject> list = JSonRequestReader.getHistory(sid, role);
-        Log.i(this, "getHistory history size: " + list.size());
+        Log.v(this, "getHistory history size: " + list.size());
         return list;
     }
     
     
     public String rateUser(String sid, int userid, int tripid, int rating) {
         String status = JSonRequestReader.rateUser(sid, userid, tripid, rating);
-        Log.i(this, "CONTROLLER STATUS AFTER RATING:" + status);
+        Log.v(this, "CONTROLLER STATUS AFTER RATING:" + status);
         return status;
     }
     

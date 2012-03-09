@@ -61,7 +61,6 @@ public class JSonRequestProvider {
     public static JsonObject doRequest(List<ParamObject> listToParse, String url, boolean debug)
             throws ClientProtocolException, IOException {
         
-        String getParam = "";
         // GET REQUESTS
         StringBuffer buf = new StringBuffer();
         buf.append(url);
@@ -77,24 +76,26 @@ public class JSonRequestProvider {
                 // getParam = getParam + "&";
             }
         }
-        getParam = buf.toString();
+        String getParam = buf.toString();
         // Cut the last '&' out
         getParam = getParam.substring(0, getParam.length() - 1);
         
-        Log.i(TAG, "Parameter :" + getParam);
+        Log.d(TAG, "Param: " + getParam);
         
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
         
         HttpPost httppost = new HttpPost(Constants.WEBSERVICE_URL + getParam);
         
-        List<NameValuePair> namelist = new ArrayList<NameValuePair>();
+        List<NameValuePair> namelist = new ArrayList<NameValuePair>(listToParse.size());
         
-        // Iterate over objects, wich have to be post to the webservice
+        // Iterate over objects, which have to be post to the webservice
         // POST REQUESTS
         for (ParamObject object : listToParse) {
             if ((object.isPost())) {
                 namelist.add(new BasicNameValuePair(object.getKey(), object.getValue()));
+                // TODO: Remove this line
+                Log.d(TAG, "POST: " + object.getKey() + " - " + object.getValue());
             }
         }
         
@@ -107,40 +108,16 @@ public class JSonRequestProvider {
         // for JSON:
         if (response != null) {
             InputStream is = response.getEntity().getContent();
-            
             BufferedReader r = new BufferedReader(new InputStreamReader(is));
-            JsonParser parser = new JsonParser();
-            BufferedReader tempR = new BufferedReader(r);
-            
-            if (debug) {
-                Log.w(TAG, "=====JSonRequestProvider DEBUG MODE===");
-                Log.w(TAG, "======DEBUG MODE============");
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "Json: " + r.readLine());
-                Log.w(TAG, "======DEBUG MODE END=====");
-            }
-            
             try {
-                jsonObject = parser.parse(r).getAsJsonObject();
+                jsonObject = (new JsonParser()).parse(r).getAsJsonObject();
+                Log.d(TAG, "=====JSonRequestProvider DEBUG MODE===");
+                Log.d(TAG, "======DEBUG MODE============");
+                Log.d(TAG, jsonObject.toString());
+                Log.d(TAG, "======DEBUG MODE END=====");
             } catch (Exception e) {
             }
-            
         }
-        
         return jsonObject;
     }
-    
 }
