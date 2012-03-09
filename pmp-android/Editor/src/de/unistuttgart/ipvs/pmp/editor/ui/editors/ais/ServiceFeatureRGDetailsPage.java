@@ -243,7 +243,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	identifierDec = new ControlDecoration(identifierField, SWT.TOP
 		| SWT.LEFT);
-	identifierDec.setImage(Images.ERROR_DEC);
+	identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 
 	// Store the field in the model when sth. was changed
 	identifierField
@@ -277,7 +277,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	revisionField.setLayoutData(textLayout);
 
 	revisionDec = new ControlDecoration(revisionField, SWT.TOP | SWT.LEFT);
-	revisionDec.setImage(Images.ERROR_DEC);
+	revisionDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 
 	// Store the field in the model when sth. was changed
 	revisionField.addKeyListener(new org.eclipse.swt.events.KeyListener() {
@@ -355,7 +355,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 
 	psTableDec = new ControlDecoration(psTableViewer.getControl(), SWT.TOP
 		| SWT.LEFT);
-	psTableDec.setImage(Images.ERROR_DEC);
+	psTableDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 
 	// Disable the default tool tips
 	psTableViewer.getTable().setToolTipText("");

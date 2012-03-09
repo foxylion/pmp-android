@@ -138,7 +138,7 @@ public class GeneralPage extends FormPage {
 	    }
 	});
 	classnameDec = new ControlDecoration(classname, SWT.TOP | SWT.LEFT);
-	classnameDec.setImage(Images.ERROR_DEC);
+	classnameDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 	classnameDec.setDescriptionText(it
 		.getTranslationWithoutParameters(IssueType.CLASSNAME_MISSING));
 
@@ -181,7 +181,7 @@ public class GeneralPage extends FormPage {
 	    }
 	});
 	iconDec = new ControlDecoration(icon, SWT.TOP | SWT.LEFT);
-	iconDec.setImage(Images.ERROR_DEC);
+	iconDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 	iconDec.setDescriptionText(it
 		.getTranslationWithoutParameters(IssueType.ICON_MISSING));
 
@@ -225,7 +225,7 @@ public class GeneralPage extends FormPage {
 	});
 	identifier.setLayoutData(textLayout);
 	identifierDec = new ControlDecoration(identifier, SWT.TOP | SWT.LEFT);
-	identifierDec.setImage(Images.ERROR_DEC);
+	identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 	identifierDec.setDescriptionText(it
 		.getTranslationWithoutParameters(IssueType.IDENTIFIER_MISSING));
 

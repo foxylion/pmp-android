@@ -157,7 +157,7 @@ public class LocaleTable {
 	// Add decoration
 	tableDec = new ControlDecoration(tableViewer.getControl(), SWT.TOP
 		| SWT.LEFT);
-	tableDec.setImage(Images.ERROR_DEC);
+	tableDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 	if (data != null) {
 	    validate();
 	}

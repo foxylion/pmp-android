@@ -46,6 +46,7 @@ public class Images {
     public static final Image FILE16;
     public static final Image ERROR_DEC;
     public static final Image IMG_ELCL_SYNCED;
+    public static final Image IMG_DEC_FIELD_ERROR;
 
     static {
 	ISharedImages si = PlatformUI.getWorkbench().getSharedImages();
@@ -54,6 +55,7 @@ public class Images {
 	FOLDER16 = si.getImage(ISharedImages.IMG_OBJ_FOLDER);
 	FILE16 = si.getImage(ISharedImages.IMG_OBJ_FILE);
 	IMG_ELCL_SYNCED = si.getImage(ISharedImages.IMG_ELCL_SYNCED);
+	IMG_DEC_FIELD_ERROR = si.getImage(ISharedImages.IMG_DEC_FIELD_ERROR);
 
 	FieldDecorationRegistry fdr = FieldDecorationRegistry.getDefault();
 	ERROR_DEC = fdr.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR)

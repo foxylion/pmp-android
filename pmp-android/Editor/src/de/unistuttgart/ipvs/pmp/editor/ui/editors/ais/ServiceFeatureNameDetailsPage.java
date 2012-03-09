@@ -179,7 +179,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	identifierDec = new ControlDecoration(identifierField, SWT.TOP
 		| SWT.LEFT);
-	identifierDec.setImage(Images.ERROR_DEC);
+	identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 
 	// Store the field in the model when sth. was changed
 	identifierField
