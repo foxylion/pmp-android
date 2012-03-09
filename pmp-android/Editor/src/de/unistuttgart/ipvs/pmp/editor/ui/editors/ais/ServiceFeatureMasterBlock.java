@@ -58,7 +58,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.InputNotEmptyValidator;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ServiceFeatureTreeProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredResourceGroupsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ServiceFeatureTreeLabelProvider;
@@ -308,7 +307,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 		InputDialog dialog = new InputDialog(parentShell,
 			"Add Service Feature",
 			"Enter the identifier of the Service Feature", null,
-			new InputNotEmptyValidator("Identifier"));
+			null);
 
 		if (dialog.open() == Window.OK) {
 		    // Add the service feature and set the dirty flag

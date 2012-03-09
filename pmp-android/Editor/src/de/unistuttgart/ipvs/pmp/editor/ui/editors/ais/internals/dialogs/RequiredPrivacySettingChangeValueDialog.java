@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs;
 
+import java.lang.reflect.Array;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -52,11 +54,6 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
     Text valueText;
 
     /**
-     * The error text
-     */
-    Text errorMessageText;
-
-    /**
      * The okButton
      */
     Button okButton;
@@ -88,10 +85,16 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
     String type;
 
     /**
-     * The Constructor for this dialog
+     * Creates the dialog
      * 
      * @param parentShell
      *            {@link Shell} to display
+     * @param value
+     *            value to display
+     * @param message
+     *            message to display
+     * @param result
+     *            String {@link Array} to return the result
      */
     public RequiredPrivacySettingChangeValueDialog(Shell parentShell,
 	    String value, String message, String[] result) {
@@ -147,15 +150,6 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
 	checked.setText("Empty value");
 	checked.addSelectionListener(this);
 
-	// The error message
-	new Label(textComposite, SWT.NULL).setVisible(false);
-	errorMessageText = new Text(textComposite, SWT.READ_ONLY | SWT.WRAP);
-	errorMessageText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-		| GridData.HORIZONTAL_ALIGN_FILL));
-	errorMessageText.setBackground(errorMessageText.getDisplay()
-		.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-	errorMessageText.setText("Value field could not be empty");
-
 	applyDialogFont(composite);
 	return composite;
     }
@@ -184,7 +178,6 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
 	// create OK and Cancel buttons by default
 	okButton = createButton(parent, IDialogConstants.OK_ID,
 		IDialogConstants.OK_LABEL, true);
-	okButton.setEnabled(false);
 	createButton(parent, IDialogConstants.CANCEL_ID,
 		IDialogConstants.CANCEL_LABEL, false);
 
@@ -212,13 +205,6 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
      */
     @Override
     public void modifyText(ModifyEvent arg0) {
-	if (valueText.getText().isEmpty() && !checked.getSelection()) {
-	    errorMessageText.setVisible(true);
-	    okButton.setEnabled(false);
-	} else {
-	    errorMessageText.setVisible(false);
-	    okButton.setEnabled(true);
-	}
     }
 
     /*
@@ -245,13 +231,6 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements
 	    valueText.setEnabled(false);
 	} else {
 	    valueText.setEnabled(true);
-	}
-	if (valueText.getText().isEmpty() && !checked.getSelection()) {
-	    errorMessageText.setVisible(true);
-	    okButton.setEnabled(false);
-	} else {
-	    errorMessageText.setVisible(false);
-	    okButton.setEnabled(true);
 	}
     }
 }
