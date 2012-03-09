@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation 
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.rssfeed"
+		icon="res/drawable-hdpi/icon.png"
+		className="RSSFeed">
+		<name lang="en">RSS feeds</name>
+		<name lang="de">RSS-Feeds</name>
+		<description lang="en">Allows to fetch different RSS feeds.</description>
+		<description lang="de">Erlaubt das Abrufen von RSS-Feeds aus dem Internet.</description>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting
+			identifier="AllowRSSFeed"
+			validValueDescription="'true', 'false'">
+			<name lang="en">RSS feeds</name>
+			<name lang="de">RSS-Feeds</name>
+			<description lang="en">Allows to fetch RSS feeds.</description>
+			<description lang="de">RSS-Feeds abrufen erlauben.</description>
+			<changeDescription lang="en">By enabling the checkbox all assigned Apps can fetch RSS Feeds.</changeDescription>
+			<changeDescription lang="de">Durch aktivieren der Checkbox können alle zugewiesenen Apps verschiedene RSS-Feeds abrufen.</changeDescription>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>
