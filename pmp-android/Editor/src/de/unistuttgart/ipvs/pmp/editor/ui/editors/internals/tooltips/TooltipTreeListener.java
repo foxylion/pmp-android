@@ -82,6 +82,7 @@ public class TooltipTreeListener implements Listener {
 	switch (event.type) {
 	case SWT.Dispose:
 	case SWT.KeyDown:
+	    System.out.println("key down");
 	case SWT.MouseMove: {
 
 	    // Dispose the tool tip when the mouse is moved

@@ -66,7 +66,7 @@ public class TooltipTableLabelListener implements
 	    Event e = new Event();
 	    e.item = (TableItem) label.getData("_TABLEITEM");
 	    tableViewer.getTable().setSelection((TableItem) e.item);
-	    tableViewer.refresh();
+	    tableViewer.getTable().notifyListeners(SWT.Selection, e);
 	case SWT.MouseExit:
 	    shell.dispose();
 	    break;

@@ -66,7 +66,7 @@ public class TooltipTreeLabelListener implements
 	    Event e = new Event();
 	    e.item = (TreeItem) label.getData("_TREEITEM");
 	    treeViewer.getTree().setSelection((TreeItem) e.item);
-	    treeViewer.refresh();
+	    treeViewer.getTree().notifyListeners(SWT.Selection, e);
 	case SWT.MouseExit:
 	    shell.dispose();
 	    break;
