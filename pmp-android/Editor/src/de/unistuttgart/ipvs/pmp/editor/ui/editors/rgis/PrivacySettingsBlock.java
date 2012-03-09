@@ -135,6 +135,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
 	buttonCompo.setLayoutData(buttonLayout);
 	Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+	addButton.setImage(Images.IMG_OBJ_ADD);
 
 	addButton.addSelectionListener(new SelectionAdapter() {
 
@@ -152,6 +153,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
 	final Button removeButton = toolkit.createButton(buttonCompo, "Remove",
 		SWT.PUSH);
 	removeButton.setEnabled(false);
+	removeButton.setImage(Images.IMG_ETOOL_DELETE);
 	removeButton.addSelectionListener(new SelectionAdapter() {
 
 	    @Override

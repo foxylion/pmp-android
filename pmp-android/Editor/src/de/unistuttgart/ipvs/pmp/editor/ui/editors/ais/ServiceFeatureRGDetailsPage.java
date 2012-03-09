@@ -318,10 +318,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 	GridData buttonLayout = new GridData();
 	buttonLayout.verticalAlignment = SWT.BEGINNING;
 	psButtonsComp.setLayoutData(buttonLayout);
-	Button addButton = toolkit.createButton(psButtonsComp, "Add", SWT.PUSH);
+	Button addButton = toolkit.createButton(psButtonsComp, "Add...", SWT.PUSH);
 	addButton.addSelectionListener(this);
+	addButton.setImage(Images.IMG_OBJ_ADD);
+	
 	removeButton = toolkit.createButton(psButtonsComp, "Remove", SWT.PUSH);
 	removeButton.addSelectionListener((SelectionListener) this);
+	removeButton.setImage(Images.IMG_ETOOL_DELETE);
 	removeButton.setEnabled(false);
 
 	psSection.setClient(psComposite);
@@ -711,7 +714,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage,
 		model.setDirty(true);
 	    }
 
-	    if (clicked.getText().equals("Add")) {
+	    if (clicked.getText().equals("Add...")) {
 		// Flag if an error happend while downloading
 		Boolean error = false;
 		RGIS resGroup = null;

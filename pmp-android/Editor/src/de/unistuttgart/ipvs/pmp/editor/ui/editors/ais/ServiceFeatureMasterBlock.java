@@ -149,14 +149,17 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	buttonLayout.verticalAlignment = SWT.BEGINNING;
 	rgButtonsComp.setLayoutData(buttonLayout);
 	Button addSFButton = toolkit.createButton(rgButtonsComp,
-		"Add Service Feature", SWT.PUSH);
+		"Add Service Feature...", SWT.PUSH);
+	addSFButton.setImage(Images.IMG_OBJ_ADD);
 	addSFButton.addSelectionListener(this);
-	addRGButton = toolkit.createButton(rgButtonsComp, "Add Resource Group",
+	addRGButton = toolkit.createButton(rgButtonsComp, "Add Resource Group...",
 		SWT.PUSH);
 	addRGButton.addSelectionListener(this);
 	addRGButton.setEnabled(false);
+	addRGButton.setImage(Images.IMG_OBJ_ADD);
 	removeButton = toolkit.createButton(rgButtonsComp, "Remove", SWT.PUSH);
 	removeButton.setEnabled(false);
+	removeButton.setImage(Images.IMG_ETOOL_DELETE);
 	removeButton.addSelectionListener(this);
 
 	GridData treeLayout = new GridData();
@@ -302,7 +305,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    Button clicked = (Button) selectionEvent.getSource();
 
 	    // Add SF was clicked
-	    if (clicked.getText().equals("Add Service Feature")) {
+	    if (clicked.getText().equals("Add Service Feature...")) {
 		// Show the input dialog
 		InputDialog dialog = new InputDialog(parentShell,
 			"Add Service Feature",
@@ -379,7 +382,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements
 	    }
 
 	    // Add RG was clicked
-	    if (clicked.getText().equals("Add Resource Group")) {
+	    if (clicked.getText().equals("Add Resource Group...")) {
 		List<RGIS> rgisList = null;
 		rgisList = DownloadedRGModel.getInstance().getRgisList(
 			parentShell);
