@@ -23,6 +23,8 @@ import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -36,10 +38,10 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -86,7 +88,10 @@ public class GeneralPage extends FormPage {
 	// Create elements stored inside this section
 	Composite client = toolkit.createComposite(section, SWT.WRAP);
 
-	client.setLayout(new GridLayout(2, false));
+	GridLayout attributeGridLayout = new GridLayout(2, false);
+	attributeGridLayout.horizontalSpacing = 7;
+
+	client.setLayout(attributeGridLayout);
 
 	GridData textLayout = new GridData();
 	textLayout.horizontalAlignment = GridData.FILL;
@@ -98,6 +103,21 @@ public class GeneralPage extends FormPage {
 	toolkit.createLabel(client, "Class name");
 	final Text classname = toolkit.createText(client, rgis.getClassName());
 	classname.setLayoutData(textLayout);
+	classname.addKeyListener(new KeyListener() {
+
+	    @Override
+	    public void keyReleased(KeyEvent arg0) {
+		String old = model.getRgis().getClassName();
+		if (!old.equals(classname.getText())) {
+		    rgis.setClassName(classname.getText());
+		    setDirty(true);
+		}
+	    }
+
+	    @Override
+	    public void keyPressed(KeyEvent arg0) {
+	    }
+	});
 	classname.addFocusListener(new FocusListener() {
 
 	    private String before;
@@ -106,7 +126,6 @@ public class GeneralPage extends FormPage {
 	    public void focusLost(FocusEvent e) {
 		String input = classname.getText();
 		if (!input.equals(before)) {
-		    rgis.setClassName(input);
 		    setDirty(true);
 		    validatePreferences();
 		}
@@ -118,8 +137,8 @@ public class GeneralPage extends FormPage {
 
 	    }
 	});
-	classnameDec = new ControlDecoration(classname, SWT.TOP | SWT.RIGHT);
-	classnameDec.setImage(Images.ERROR_DEC);
+	classnameDec = new ControlDecoration(classname, SWT.TOP | SWT.LEFT);
+	classnameDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 	classnameDec.setDescriptionText(it
 		.getTranslationWithoutParameters(IssueType.CLASSNAME_MISSING));
 
@@ -127,6 +146,21 @@ public class GeneralPage extends FormPage {
 	toolkit.createLabel(client, "Icon");
 	final Text icon = toolkit.createText(client, rgis.getIconLocation());
 	icon.setLayoutData(textLayout);
+	icon.addKeyListener(new KeyListener() {
+
+	    @Override
+	    public void keyReleased(KeyEvent arg0) {
+		String old = model.getRgis().getIconLocation();
+		if (!old.equals(icon.getText())) {
+		    rgis.setIconLocation(icon.getText());
+		    setDirty(true);
+		}
+	    }
+
+	    @Override
+	    public void keyPressed(KeyEvent arg0) {
+	    }
+	});
 	icon.addFocusListener(new FocusListener() {
 
 	    private String before;
@@ -135,7 +169,6 @@ public class GeneralPage extends FormPage {
 	    public void focusLost(FocusEvent e) {
 		String input = icon.getText();
 		if (!input.equals(before)) {
-		    rgis.setIconLocation(input);
 		    setDirty(true);
 		    validatePreferences();
 		}
@@ -147,14 +180,30 @@ public class GeneralPage extends FormPage {
 
 	    }
 	});
-	iconDec = new ControlDecoration(icon, SWT.TOP | SWT.RIGHT);
-	iconDec.setImage(Images.ERROR_DEC);
-	iconDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.ICON_MISSING));
+	iconDec = new ControlDecoration(icon, SWT.TOP | SWT.LEFT);
+	iconDec.setImage(Images.IMG_DEC_FIELD_ERROR);
+	iconDec.setDescriptionText(it
+		.getTranslationWithoutParameters(IssueType.ICON_MISSING));
 
 	// Identifier
 	toolkit.createLabel(client, "Identifier");
 	final Text identifier = toolkit
 		.createText(client, rgis.getIdentifier());
+	identifier.addKeyListener(new KeyListener() {
+
+	    @Override
+	    public void keyReleased(KeyEvent arg0) {
+		String old = model.getRgis().getIdentifier();
+		if (!old.equals(identifier.getText())) {
+		    rgis.setIdentifier(identifier.getText());
+		    setDirty(true);
+		}
+	    }
+
+	    @Override
+	    public void keyPressed(KeyEvent arg0) {
+	    }
+	});
 	identifier.addFocusListener(new FocusListener() {
 
 	    private String before;
@@ -163,7 +212,6 @@ public class GeneralPage extends FormPage {
 	    public void focusLost(FocusEvent e) {
 		String input = identifier.getText();
 		if (!input.equals(before)) {
-		    rgis.setIdentifier(input);
 		    setDirty(true);
 		    validatePreferences();
 		}
@@ -176,8 +224,8 @@ public class GeneralPage extends FormPage {
 	    }
 	});
 	identifier.setLayoutData(textLayout);
-	identifierDec = new ControlDecoration(identifier, SWT.TOP | SWT.RIGHT);
-	identifierDec.setImage(Images.ERROR_DEC);
+	identifierDec = new ControlDecoration(identifier, SWT.TOP | SWT.LEFT);
+	identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 	identifierDec.setDescriptionText(it
 		.getTranslationWithoutParameters(IssueType.IDENTIFIER_MISSING));
 
@@ -242,8 +290,8 @@ public class GeneralPage extends FormPage {
      */
     private Section createSection(Composite parent, String title,
 	    FormToolkit toolkit) {
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 	section.setText(title);
 	section.setExpanded(true);
 

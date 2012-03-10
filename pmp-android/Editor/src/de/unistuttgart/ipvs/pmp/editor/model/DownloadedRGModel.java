@@ -104,6 +104,7 @@ public class DownloadedRGModel {
     public void updateRgisListWithJob(Shell shell, Boolean showErrors) {
 	// The callback method inside a job listener
 	JobChangeAdapter changeAdapter = new JobChangeAdapter() {
+	    @Override
 	    public void done(IJobChangeEvent event) {
 		if (event.getResult().isOK()) {
 		    // Get the downloaded list

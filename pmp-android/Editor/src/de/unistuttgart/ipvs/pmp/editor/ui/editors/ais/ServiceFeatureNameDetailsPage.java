@@ -40,9 +40,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
@@ -179,7 +179,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 	identifierDec = new ControlDecoration(identifierField, SWT.TOP
 		| SWT.LEFT);
-	identifierDec.setImage(Images.ERROR_DEC);
+	identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
 
 	// Store the field in the model when sth. was changed
 	identifierField
@@ -187,9 +187,12 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
 
 		    @Override
 		    public void keyReleased(org.eclipse.swt.events.KeyEvent arg0) {
-			displayed.setIdentifier(identifierField.getText());
-			parentTree.refresh();
-			model.setDirty(true);
+			String oldValue = displayed.getIdentifier();
+			if (!oldValue.equals(identifierField.getText())) {
+			    displayed.setIdentifier(identifierField.getText());
+			    parentTree.refresh();
+			    model.setDirty(true);
+			}
 		    }
 
 		    @Override

@@ -93,7 +93,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
     /**
      * The checkbox that indicates if the value should be empty
      */
-    Button emptyValue;
+    private Button emptyValue;
 
     /**
      * Sizing constants
@@ -210,6 +210,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 		} else {
 		    valuesEmpty.put(ps.getIdentifier(), false);
 		    valueText.setEnabled(true);
+		    valueText.setFocus();
 		}
 	    }
 	});
@@ -244,10 +245,10 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 		    if (empty != null) {
 			if (empty) {
 			    value = "";
-			} else if (values.get(element.getIdentifier()) != null) {
-			    if (!values.get(element.getIdentifier()).isEmpty()) {
-				value = values.get(element.getIdentifier());
-			    }
+			}
+		    } else if (values.get(element.getIdentifier()) != null) {
+			if (!values.get(element.getIdentifier()).isEmpty()) {
+			    value = values.get(element.getIdentifier());
 			}
 		    }
 		    list.add(new AISRequiredPrivacySetting(element
@@ -276,6 +277,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements
 	if (empty == null || !empty) {
 	    emptyValue.setSelection(false);
 	    valueText.setEnabled(true);
+	    valueText.setFocus();
 	    updateText();
 	} else {
 	    emptyValue.setSelection(true);

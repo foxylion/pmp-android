@@ -252,7 +252,7 @@ public class AISValidatorWrapper {
 
 	}
     }
-    
+
     /**
      * Add all summary issues
      * 

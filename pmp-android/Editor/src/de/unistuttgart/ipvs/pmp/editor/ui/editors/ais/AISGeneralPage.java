@@ -48,7 +48,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AndroidApplicationException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.NoMainActivityException;
@@ -56,9 +55,10 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPActiv
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServiceAlreadyExists;
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable.Type;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
@@ -92,9 +92,14 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
     private static String MANIFTEST = "AndroidManifest.xml";
 
     /**
-     * Constructor
+     * Creates the general page
      * 
      * @param editor
+     *            {@link FormEditor}
+     * @param path
+     *            the project path
+     * @param model
+     *            the {@link AisModel} of this instance
      */
     public AISGeneralPage(FormEditor editor, String path, AisModel model) {
 	super(editor, ID, "General");
@@ -133,9 +138,12 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	client.setLayout(new GridLayout(2, false));
 
 	Button pmpReg = toolkit.createButton(client,
-		"Add PMP Registration activity", SWT.PUSH);
-	Button service = toolkit.createButton(client, "Add PMP service",
+		"Add PMP Registration activity...", SWT.PUSH);
+	pmpReg.setImage(Images.IMG_OBJ_ADD);
+
+	Button service = toolkit.createButton(client, "Add PMP service...",
 		SWT.PUSH);
+	service.setImage(Images.IMG_OBJ_ADD);
 	pmpReg.addSelectionListener(this);
 	service.addSelectionListener(this);
 
@@ -178,8 +186,8 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 
 	    @Override
 	    public void doValidate() {
-		AISValidatorWrapper.getInstance().validateAIS(
-			model.getAis(), true);
+		AISValidatorWrapper.getInstance().validateAIS(model.getAis(),
+			true);
 	    }
 	};
 	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,
@@ -204,7 +212,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            {@link FormToolkit}
      * @param desc
      *            description of the Section
-     * @return
+     * @return the created Section
      */
     private Section createSectionWithDescription(Composite parent,
 	    String title, FormToolkit toolkit, String desc) {
@@ -228,9 +236,12 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      * Creates a default section which spans over the whole editor
      * 
      * @param parent
+     *            parent Composite
      * @param title
+     *            title of the section
      * @param toolkit
-     * @return
+     *            {@link FormToolkit}
+     * @return the creatde Section
      */
     private Section createSection(Composite parent, String title,
 	    FormToolkit toolkit) {
@@ -278,7 +289,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	     * Add the activity or the service to the AndroidManifestxml and /
 	     * show the error warnings
 	     */
-	    if (clicked.getText().equals("Add PMP Registration activity")) {
+	    if (clicked.getText().equals("Add PMP Registration activity...")) {
 		try {
 		    adapter.addPMPActivityToManifest(PROJECT_PATH, MANIFTEST);
 		    MessageDialog
@@ -323,11 +334,9 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 			    Display.getDefault().getActiveShell(), "Error",
 			    "Could not add the activity.", status);
 		} catch (PMPActivityAlreadyExistsException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "The PMP activity is already declared", status);
+		    MessageDialog.openInformation(Display.getDefault()
+			    .getActiveShell(), "Information",
+			    "The PMP activity is already declared.");
 		} catch (NoMainActivityException e) {
 		    IStatus status = new Status(IStatus.ERROR, ID,
 			    "See details", e);
@@ -339,7 +348,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 			    "See details", e);
 		    ErrorDialog.openError(
 			    Display.getDefault().getActiveShell(), "Error",
-			    "The <application> node was not found", status);
+			    "The <application> node was not found.", status);
 		}
 	    } else {
 		try {
@@ -398,11 +407,9 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 			    Display.getDefault().getActiveShell(), "Error",
 			    "Could not add the PMP service.", status);
 		} catch (PMPServiceAlreadyExists e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "The PMP service is already declared.", status);
+		    MessageDialog.openInformation(Display.getDefault()
+			    .getActiveShell(), "Information",
+			    "The PMP service is already declared.");
 		} catch (AppIdentifierNotFoundException e) {
 		    IStatus status = new Status(IStatus.ERROR, ID,
 			    "See details", e);
@@ -413,5 +420,4 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
 	    }
 	}
     }
-
 }

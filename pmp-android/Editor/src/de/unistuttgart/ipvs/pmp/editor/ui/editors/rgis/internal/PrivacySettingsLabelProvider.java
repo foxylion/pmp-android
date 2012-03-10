@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;

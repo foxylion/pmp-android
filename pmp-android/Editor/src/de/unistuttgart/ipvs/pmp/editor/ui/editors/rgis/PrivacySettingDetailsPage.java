@@ -33,6 +33,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 /**
@@ -73,8 +74,8 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 	// Build view
 	// System.out.println("Draw");
 	FormToolkit toolkit = form.getToolkit();
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 	section.setText("Privacy Setting");
 	section.setExpanded(true);
 	section.setLayoutData(parentLayout);
@@ -155,8 +156,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 
     @Override
     public boolean setFormInput(Object input) {
-	System.out.println("Set Input");
-	// TODO Auto-generated method stub
 	return false;
     }
 
@@ -173,7 +172,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
 
     @Override
     public void refresh() {
-	System.out.println("Refresh");
 	update();
     }
 

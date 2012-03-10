@@ -29,7 +29,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.part.FileEditorInput;
 
-
 import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.GeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.PrivacySettingsPage;
@@ -74,10 +73,8 @@ public class RgisEditor extends FormEditor {
 	    addPage(new GeneralPage(this, model));
 	    addPage(new PrivacySettingsPage(this, model));
 	} catch (PartInitException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	} catch (CoreException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
@@ -99,7 +96,6 @@ public class RgisEditor extends FormEditor {
 	    input.getFile().setContents(is, false, true, monitor);
 	    model.setDirty(false);
 	} catch (CoreException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
 
@@ -107,13 +103,10 @@ public class RgisEditor extends FormEditor {
 
     @Override
     public void doSaveAs() {
-	// TODO Auto-generated method stub
-	System.out.println("saveas");
     }
 
     @Override
     public boolean isSaveAsAllowed() {
-	// TODO Auto-generated method stub
 	return false;
     }
 

@@ -14,10 +14,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">12. Januar 2012</div>
+    <div id="page-head-date">09. März 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Handbuch</div>
-    <div id="page-version">Version 1.3</div>
+    <div id="page-version">Version 3.0</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -95,7 +95,7 @@
         verwendet werden.
       </p>
       
-      <h2 id="basisc_res">Ressourcen & Privacy-Settings</h2>
+      <h2 id="basisc_res">Ressourcen & Privacy Settings</h2>
       <p>
         Ressourcen bieten Anwendungen Zugriff auf die verschiedenen Funktionen eines 
         Android-Gerätes. In der PMP werden einzelne, inhaltlich zusammengehörige 
@@ -103,56 +103,47 @@
         installiert werden.
       </p>
       <p>
-        Jede Ressource definiert mehrere so genannte Privacy-Settings. Diesen
+        Jede Ressource definiert mehrere so genannte Privacy Settings. Diesen
         können verschiedene Werte zugewiesen werden (etwa erlauben oder nicht).
         Abhängig vom gesetzten Wert ist ein Zugriff auf eine Funktion der Ressource
-        möglich (ist etwa des Privacy-Setting "Datei lesen" gesetzt, das
+        möglich (ist etwa des Privacy Setting "Datei lesen" gesetzt, das
         Setting "Datei schreiben" jedoch nicht, so erlaubt die Ressource
         "Dateisystem" nur das Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
       </p>
        
-      <h2 id="basics_sl">Service-Features</h2>
+      <h2 id="basics_sl">Service Features</h2>
       <p>
         Jede PMP-Applikation legt fest, welche Funktionen bestimmter Ressourcen 
         sie benötigt und welche Dienste sie hierfür dem Benutzer anbietet. Diese 
-        Vereinbarung wird als Service-Features bezeichnet. Eine Applikation besitzt
-        in der Regel mehrere Service-Features.
+        Vereinbarung wird als Service Features bezeichnet. Eine Applikation besitzt
+        in der Regel mehrere Service Features.
       </p>
       <p>
-        Im Detail legt jedes Service-Feature fest, welche Ressourcen, und welche
+        Im Detail legt jedes Service Feature fest, welche Ressourcen, und welche
         Funktionen dieser Ressource, benötigt werden. Im Gegenzug bietet die 
         Applikation dem Anwender für den Zugriff auf diese Ressource bzw. dieser
         Funktion bestimmte Funktionalitäten an.
       </p>
       <p>
-        Es können bei Bedarf mehrere Service-Features gleichzeitig aktiviert werden,
+        Es können bei Bedarf mehrere Service Features gleichzeitig aktiviert werden,
         wodurch der Funktionsumfang der Applikation erweitert werden kann.
       </p>
       
       <h2 id="basics_presets">Presets</h2>
       <p>
-        Über die Presets können mehrere Service-Features zusammengefasst und
+        Über die Presets können mehrere Service Features zusammengefasst und
         somit bei Bedarf gemeinsam aktiviert oder deaktiviert werden.
       </p>
-      
-      <!--
-      <h2 id="basics_ps">Privacy-Settings</h2>
-      <p>
-        Privacy-Settings definieren für jede Ressource, welche Funktionen durch 
-        diese angeboten werden können. Hierzu definiert jedes Privacy-Setting
-        der entsprechenden Ressource, wie diese Funktion lautet und in welchem
-        Zustand sich diese befinden kann (z. B. aktiviert oder deaktiviert).
-      </p>
-      -->
+
       
       <h1 id="req">Systemanforderungen</h1>
       <p>
         Um PMP installieren und ausführen zu können, muss auf dem Zielgerät mindestens
         Android in der Version 2.1.1 installiert sein. Weitere Anforderungen
         werden vom Basissystem der PMP nicht gestellt. Es ist jedoch möglich,
-        dass bestimmte Ressourcengruppen Funktion benötigen, die nicht auf allen
+        dass bestimmte Ressourcen Funktion benötigen, die nicht auf allen
         Geräten verfügbar sind (z. B. aktive GSM-Verbindung oder GPS-Ortung).
-        In der Beschreibung der jeweiligen Ressourcengruppe finden Sie in der Regel 
+        In der Beschreibung der jeweiligen Ressourcen finden Sie in der Regel 
         Informationen über deren Systemanforderungen.
       </p>
       
@@ -223,9 +214,9 @@
       
       <h3 id="switchmode" style="clear:none;">Modus-Wechsel</h3>
       <p>
-        Der Wechsel zwischen einfachem und erweitertem Modus erfolgt über den
+        Der Wechsel zwischen einfachem und experten Modus erfolgt über den
         Einstellungs-Dialog der PMP. Dieser wird über die Schaltfläche "Settings" 
-        im Hauptmenü aufgerufen. Über die dort vorhandene Schaltfläche "Expert Mode"
+        im Hauptmenü aufgerufen. Über die dort vorhandene Schaltfläche "Expert mode"
         lässt sich der experten Modus aktivieren bzw. deaktivieren. 
       </p>
       <p>
@@ -242,23 +233,21 @@
       </p>
       
        
-      <h3 id="expertmode">Experten-Modus (Expert Mode)</h3>
+      <h3 id="expertmode">Experten Modus (Expert Mode)</h3>
       <p>
-        Der Experten-Modus gibt Zugriff auf alle Funktionen der PMP. Da sich daher 
+        Der experten Modus gibt Zugriff auf alle Funktionen der PMP. Da sich daher 
         unerfahrene Benutzer überfordert fühlen könnten, richtet sich dieser Modus
         an erfahrene Benutzer, die vollen Zugriff auf den Funktionsumfang haben möchten.
       </p>
       <p>
         Die Abgrenzung zwischen den beiden Modi erfolgt in der nachfolgenden 
-        Beschreibungen durch Hinweise der Form "Expert Mode:". Die diesem 
-        Hinweis folgenden Funktionen sind ausschließlich im Experten-Modus verfügbar.
+        Beschreibungen durch Hinweise der Form "Experten Modus:". Die diesem 
+        Hinweis folgenden Funktionen sind ausschließlich im experten Modus verfügbar.
       </p>
-      <!--
       <p>
-        Da der erweiterte Modus gegenwärtig nicht implementiert ist, wird auf ihn 
-        in dieser Version des Handbuchs nicht näher eingegangen.
+        Bei aktiviertem experten Modus kann das Protokolieren von bestimmten 
+        Ereignissen, wie etwa beim Ändern von Kontexten, aktiviert werden.
       </p>
-      -->
       
       <h2 id="apps">Applikationen</h2>
       <h3 id="apps_inst">Applikationen installieren</h3>
@@ -269,14 +258,14 @@
         diese Zugriffe über die PMP-Ressourcengruppen erfolgen.
       </p>
       
-      <h3 id="apps_show">Installierte Applikationen anzeigen & Aktvionenmenü</h3>
+      <h3 id="apps_show">Installierte Applikationen anzeigen & Aktionenmenü</h3>
       <a href="images/pmp_apps_actionmenu.png" class="fancybox">
 	      <img src="images/pmp_apps_actionmenu.png" alt="Aktionenmenü" style="width:215px;" class="right">
 	    </a>
       <p>
         Über die Schaltfläche "Applications" im Hauptmenü der PMP lassen sich alle
         momentan auf dem Gerät installierten PMP-Applikationen anzeigen.
-        Durch das Antippen einer Anwendung erhalten sich weitere Informationen zu
+        Durch das Antippen einer Anwendung erhalten Sie weitere Informationen zu
         dieser Applikation. Durch langes Drücken auf eine Applikation öffnet sich das zugehörige 
         Aktionsmenü. Über dieses können weitere Aktionen vorgenommen werden
         (siehe folgende Kapitel).
@@ -288,7 +277,7 @@
 	      <img src="images/pmp_apps_details.png" alt="Details" style="width:215px;" class="right">
 	    </a>
       <p>
-        Über den Eintrag "View Dateils" des Aktionenmenüs
+        Über den Eintrag "App details" des Aktionenmenüs
         (siehe <span class="reference" title="#apps_show"></span>) oder durch
         kurzes Antippen einer Applikation in der Applikationenliste lassen
         sich weitere Informationen über die entsprechende Applikation 
@@ -298,7 +287,7 @@
           <li>Unter "Description" werden detaillierte Informationen über die
             betreffende Anwendung angezeigt</li>
           <li>Unter "Service Features" werden alle von der Applikation angebotene
-            Service-Features angezeigt und das Ändern dieser ermöglicht
+            Service Features angezeigt und das Ändern dieser ermöglicht
             (siehe <span class="reference" title="#apps_sl"></span>)</li>
           <li>Unter "Presets" werden alle der Applikation zugewiesene Presets angezeigt.
             Zudem ist es dort möglich, weitere Presets zu erstellen oder
@@ -314,12 +303,12 @@
       <h3 id="apps_uninst">Applikationen deinstallieren</h3>
       <p>
         Das Entfernen der Applikation aus der PMP erfolgt über den Eintrag
-        "Remove App" des Aktionsmenüs
+        "Remove app" des Aktionsmenüs
         (siehe <span class="reference" title="#apps_show"></span>) oder durch den
-        Menü-Eintrag "Unregister App"
+        Menü-Eintrag "Unregister app"
         (siehe <span class="reference" title="#apps_details"></span>), wodurch
         die Applikation  aus der PMP entfernt wird. Durch erneutes Starten
-        der Applikation über die Applikationenauswahl von Android lässt sich
+        der Applikation über die Applikationenauswahl von Android lässt sich die
         Applikation wieder in der PMP registrieren.
       </p>
       <p>
@@ -328,23 +317,36 @@
         (über die Deinstallationsfunktion von Android).
       </p>
       
-      <h3 id="apps_sl">Service-Feature anzeigen & einstellen</h3>
+      <h3 id="apps_sl">Service Feature anzeigen & einstellen</h3>
 	    <a href="images/pmp_apps_sf.png" class="fancybox">
         <img src="images/pmp_apps_sf.png" alt="Angebotene Service-Features" style="width:215px;" class="right">
 	    </a>
-      <p>
-        <b>Einfacher-Modus:</b> Service-Levels lassen sich nur ändern, wenn der Experten-Modus
-        deaktiviert ist.
+	    <p>
+        Alle Service Features, die von einer Applikation angeboten werden, lassen
+        sich durch Antippen der entsprechenden Applikation und Auswahl des Reiters
+        "Service Features" anzeigen. Service Features, die gegenwärtig aktiviert 
+        sind, werden grün unterlegt, deaktivierte Service Features rot. Service
+        Features, die eine momentan nicht installierte Ressource benötigen 
+        werden grau unterlegt.
       </p>
       <p>
-        Alle Service-Features, die von einer Applikation angeboten werden, lassen
-        sich durch Antippen der entsprechenden Applikation und Auswahl des Reiters
-        "Service Features" anzeigen. Service-Features, die gegenwärtig aktiviert 
-        sind, werden grün unterlegt. Durch Antippen eines Service-Features, werden
-        weitere Informationen sowie die benötigten Ressourcen angezeigt.
-        Sind alle benötigten Ressourcen installiert, kann das Service-Features
+        Durch Antippen eines Service Features werden weitere Informationen angezeigt.
+        Sollte eine vom Service Feature benötigte Ressource nicht vorhanden sein
+        (über die Schaltfläche "View missing resouces" können diese abgefragt werden),
+        kann diese über die Schaltfläche "1-Click Install" automatisch über das 
+        Internet heruntergeladen und auf dem Gerät installiert werden.
+      </p>
+      <p>
+        <b>Einfacher Modus:</b> Sind alle benötigten Ressourcen installiert, 
+        kann das Service Feature
         nun über die Schaltfläche "Enable" aktiviert werden bzw. wenn es bereits
         aktiviert ist, über die Schaltfläche "Disable" deaktiviert werden.
+      </p>
+      <p>
+        <b>Experten Modus:</b> Sind alle benötigten Ressourcen installiert, 
+        kann das Service Feature einem existierenden Preset hinzugefügt oder
+        ein neues Preset angelegt werden, wobei das Service Feature anschließend
+        automatisch diesem hinzugefügt wird.        
       </p>
       <!--
       <p>
@@ -383,34 +385,37 @@
       </p>    
       -->
       <p>
-        Um deaktivierte Service-Features verwenden zu können, müssen die von diesen
-        benötigten Ressourcen installiert sein (siehe 
+        Von Service Featuren benötigte Ressourcen lassen sich bei Bedarf auch manuell über die 
+        Ressourcen-Liste installieren (siehe 
         <span class="reference" title="#res_inst"></span>). Wurden die fehlenden
-        Ressourcen installiert, kann der Service-Feature-Dialog erneut geöffnet
-        und ein nun neu verfügbares Service-Feature ausgewählt werden.
+        Ressourcen installiert, kann der Service Feature-Dialog erneut geöffnet
+        und ein nun neu verfügbares Service Feature ausgewählt werden.
       </p>
       <div class="clear"></div>
 	    <a href="images/pmp_apps_sf_details.png" class="fancybox">
         <img src="images/pmp_apps_sf_details.png" alt="Details zu einem Service-Level" style="width:215px;" class="right">
       </a>
       <p>
-        Neben dem Setzen der Service-Feature durch das manuelle Auswählen 
-        der Applikation, lassen sich die Service-Features auch auf folgende Arten einstellen:
+        Neben dem Setzen der Service Feature durch das manuelle Auswählen 
+        der Applikation, lassen sich die Service Features auch auf folgende Arten einstellen:
         <ul>
-          <li>Beim ersten Starten der Applikation, wobei automatisch der obige Dialog geöffnet wird</li>
+          <li>Beim ersten Starten der Applikation, wobei anschließend über
+            die Schaltfläche "Set initial Service Features" 
+            automatisch der obige Dialog geöffnet wird</li>
           <li>Beim Aufrufen einer Funktion innerhalb der Applikation, die ein
-            bestimmtes Service-Feature benötigt, das noch nicht aktiviert ist. 
+            bestimmtes Service Feature benötigt, das noch nicht aktiviert ist. 
             Hierbei wird ein Abfrage-Dialog angezeigt, der den Benutzer auf das
-            nicht aktivierte Service-Feature hinweist. Über die Schaltfläche 
-            "Change" lässt sich dann über den obigen Dialog das Service-Feature ändern</li>
+            nicht aktivierte Service Feature hinweist. Über die Schaltfläche 
+            "Select Service Feature" lässt sich dann über den obigen Dialog das 
+            Service Feature ändern</li>
         </ul>
       </p>  
       
       
       <h2 id="presets">Presets</h2>
       <p>
-        <b>Experten-Modus:</b> Diese Funktionen sind nur zugänglich, wenn
-        der Experten-Modus aktiviert ist.
+        <b>Experten Modus:</b> Diese Funktionen sind nur zugänglich, wenn
+        der experten Modus aktiviert ist.
       </p>
       
       <h3 id="presets_show">Presets anzeigen, löschen & Aktionsmenü</h3>
@@ -424,12 +429,44 @@
         der Name und die Beschreibung des Presets geändert, oder das Preset
         gelöscht werden. Durch kurzes Tippen auf ein Preset werden alle Details
         zu diesem angezeigt. Diese beinhalten die dem Preset zugewiesenen
-        Applikationen (unter dem Reiter "Assigned Apps") sowie die zugewiesenen 
-        Privacy-Settings (unter dem Reiter "Assigned Privacy Settings").
-        Die Privacy-Settings werden hierbei nach ihrer zugehörigen Ressource
-        gruppiert. Um die Privacy-Settings einer Ressource anzuzeigen, muss auf
+        Applikationen (unter dem Reiter "Apps") sowie die zugewiesenen 
+        Privacy Settings (unter dem Reiter "Privacy Settings").
+        Die Privacy Settings werden hierbei nach ihrer zugehörigen Ressource
+        gruppiert. Um die Privacy Settings einer Ressource anzuzeigen, muss auf
         die entsprechende Ressource getippt werden.
-      </p>   
+      </p>                                            
+      <p>
+        Presets werden durch das Löschen zunächst in den Papierkorb verschoben,
+        so dass sie sich später wiederherstellen lassen.
+        Über den Eintrag "Clear trash bin" in dem der Preset-Liste zugeordneten
+        Menü (Geräte-Taste "Menü") kann der Papbierkorb bei Bedarf geleert werden,
+        wodurch die gelöschten Prests entgültig entfernt werden.
+      </p>
+      
+      <h3 id="presets_importexport">Presets im- und exportieren</h3>
+      <p>
+        Alle momentan angelegten Presets lassen sich über einen Webserver exportieren,
+        über den sie sich später wiederherstellen lassen. Hierüber ist z. B.
+        auch eine Übertragung der Presets auf ein anderes Gerät möglich.
+      </p>
+      <p>
+        Der Export wird über die Schalftläche "Export Presets" in dem der Preset-Liste 
+        zugeordneten Menü (Geräte-Taste "Menü") gestartet. Anschließend werden
+        alle Presets durch Antippen ausgewählt, die exportiert werden sollen.
+        War der Export erfolgreich, wird anschließend eine ID angezeigt. Diese
+        sollten Sie sich notieren, da sie für das spätere Importieren benötigt wird.
+      </p>
+      <p>        
+        Wurden alle Prests erfolgreich auf den Server übertragen, können diese über die
+        Schaltfläche "Import Presets" im Menü wiederhergestellt werden. Hierzu
+        muss zunächst die ID, die beim Export angezeigt wurde, angegeben werden.
+        Ist diese gültig, werden die Presets wiederhergestellt. Sollte es bereits
+        Presets auf dem Geät geben, die den selben Namen wie eines der zu importierenden
+        Presets haben, dann werden diese in einem weiteren Dialog aufgelistet.
+        Durch Auswahl der entsprechenden Einträge kann bestimmt werden, ob
+        die bestehenden Presets um die importierten Daten erweiter und ggf. überschrieben 
+        werden sollen.
+      </p>
                                                 
       <h3 id="presets_create">Preset hinzufügen</h3>
       <a href="images/pmp_presets_add.png" class="fancybox">
@@ -437,7 +474,7 @@
       </a>
       <p>
         Das der Preset-Liste zugeordnete Menü (Geräte-Taste "Menü") ermöglicht mit
-        "add Preset" das Hinzufügen bzw. Erstellen weiterer Presets.
+        "Add Preset" das Hinzufügen bzw. Erstellen weiterer Presets.
         Anschließend öffnet sich ein Dialog, in dem der Name und
         die Beschreibung des neuen Presets festgelegt werden können. Nach
         dem Bestätigen öffnet sich automatisch der unter 
@@ -452,21 +489,21 @@
       <p>
         Im Details-Dialog des entsprechenden Presets (durch kurzes Antippen des
         gewünschten Presets in der Preset-Liste) können innerhalb des Reiters 
-        "Assigned Apps" weitere Applikationen dem Preset hinzugefügt werden.
+        "Apps" weitere Applikationen dem Preset hinzugefügt werden.
         Hierzu wird das Menü (Geräte-Taste "Menü") geöffnet und die Schaltfläche
-        "Assign App" angetippt. In der sich darauf öffnenden Applikationen-Liste
+        "Assign app" angetippt. In der sich darauf öffnenden Applikationen-Liste
         werden die gewünschten Applikation durch Antippen selektiert, wobei gegenwärtig
         selektierte Applikationen grün hinterlegt werden. Über "Confirm" werden die
         selektierten Applikation schließlich dem Preset hinzugefügt.
       </p>
       <p> 
-        Sollen weitere Privacy-Settings hinzugefügt werden, so muss zunächst in den
-        Reiter "Assigned Privacy Settings" gewechselt werden. Durch Aufrufen des
+        Sollen weitere Privacy Settings hinzugefügt werden, so muss zunächst in den
+        Reiter "Privacy Settings" gewechselt werden. Durch Aufrufen des
         Menüs (Geräte-Taste "Menü") und Auswahl der Schaltfläche "Assign Privacy Setting"
         werden alle momentan installierte Ressourcen angezeigt. Die zu einer Ressource
-        gehörenden Privacy-Settings werden angezeigt, indem die entsprechende
+        gehörenden Privacy Settings werden angezeigt, indem die entsprechende
         Ressource durch Antippen "aufgeklappt" wird. Durch Antippen eines hierdurch 
-        angezeigten Privacy-Settings wird dieses dem Preset hinzugefügt.
+        angezeigten Privacy Settings wird dieses dem Preset hinzugefügt.
       </p>
       <div class="clear"></div>
       <a href="images/pmp_presets_ps_add.png" class="fancybox">
@@ -485,34 +522,89 @@
         "Remove" im sich öffnenden Aktionsmenü wird die gewählte Applikation aus
         dem Preset entfernt.
       </p>   
+      
       <p>
-        <b>Privacy-Setting Details:</b>
-        Durch Tippen auf ein Privacy-Setting und anschließendes Tippen auf
-        "Show Details" im sich öffnenden Aktionsmenü lassen sich weitere
-        Informationen zum entsprechende Privacy-Setting anzeigen.
+        Das nochfolgende Bedienkonzept unterscheidet sich je nach dem, ob das
+        Privacy Setting über Kontexte verfügt oder nicht (erkennbar am Pfeil "^" rechts
+        des Namens, siehe auch <span class="reference" title="#presets_context"></span>).
       </p>
       <p>
-        <b>Privacy-Setting ändern:</b>
-        Durch Tippen auf ein Privacy-Setting und anschließendes Tippen auf
-        "Change value" im sich öffnenden Aktionsmenü lässt sich das
-        entsprechende Privacy-Setting verändern (z. B. aktivieren/deaktivieren).
+        <b>Privacy Setting Details:</b>
+        Durch Tippen auf ein Privacy Setting und anschließendes Tippen auf
+        "Show Details" im sich öffnenden Aktionsmenü (keine Kontexte vorhanden) bzw.
+        auf die erste Schaltfläche von Links in der sich öffnenden Kontext-Liste, 
+        lassen sich weitere Informationen zum entsprechende Privacy Setting anzeigen.
       </p>
       <p>
-        <b>Privacy-Setting aus Preset entfernen:</b>
-        Durch Tippen auf ein Privacy-Setting und anschließendes Tippen auf
-        "Remove" wird das gewählte Privacy-Settings aus dem Preset
-        entfernt.
+        <b>Privacy Setting ändern:</b>
+        Durch Tippen auf ein Privacy Setting und anschließendes Tippen auf
+        "Change value" im sich öffnenden Aktionsmenü (keine Kontexte vorhanden) bzw.
+        auf die zweite Schaltfläche von Links in der sich öffnenden Kontext-Liste, lässt sich das
+        entsprechende Privacy Setting verändern (z. B. aktivieren/deaktivieren).
+      </p>
+      <p>
+        <b>Kontext dem Privacy Settings hinzufügen:</b>
+        Durch Tippen auf ein Privacy Setting und anschließendes Tippen auf
+        "Add context" im sich öffnenden Aktionsmenü (keine Kontexte vorhanden) bzw.
+        auf die dritte Schaltfläche von Links in der sich öffnenden Kontext-Liste, 
+        lässt sich dem entsprechenden Privacy Setting ein Kontext hinzufügen.
+        Details hierzu unter <span class="reference" title="#presets_context"></span>.
+      <p>
+        <b>Privacy Setting aus Preset entfernen:</b>
+        Durch Tippen auf ein Privacy Setting und anschließendes Tippen auf
+        "Remove" im sich öffnenden Aktionsmenü (keine Kontexte vorhanden) bzw.
+        auf die vierte Schaltfläche von Links in der sich öffnenden Kontext-Liste,
+        wird das gewählte Privacy Settings aus dem Preset entfernt.
       </p>
       
+      <h3 id="presets_context">Kontext</h3>
+      <a href="images/pmp_context_time.png" class="fancybox">
+        <img src="images/pmp_context_time.png" alt="Zeitpunkt bezogenen Kontext spezifizieren" style="width:215px;" class="right">
+      </a>
+      <p>
+        Über Kontexte lassen sich Privacy Settings automatisch abhängig von externen 
+        Bedingungen aktivieren bzw. deaktivieren (z. B. wenn ein Privacy Setting nur
+        an Werktagen aktiv sein soll). Gegenwärtig sind zwei Kontext-Typen verfügbar:
+        Zeitpunk bezogene Kontexte ("Time context") sowie Standpunkt bezogene 
+        Kontexte ("Location context"). Über die Schalfläche
+        "Change value", die beim Festlegen des Kontextes (siehe unten) im oberen rechten
+        Bereich angezeigt wird, kann der Wert bestimmt werden, den das Privacy Setting annehmen soll, wenn
+        der Kontext aktiv ist (d. h. wenn die spezifizierte Bedingungen erfüllt sind).
+        Über den bei vorhandenen Kontexten rechts des Namens des Privacy Settings
+        angezeigten Pfeil "^" lässt sich erkennen, ob das Privacy Setting bereits 
+        über Kontexte verfügt.
+      </p>
+      <p>
+        <b>Hinzufügen:</b>
+        Verfügt das Privacy Setting bereits über einen Kontext, so muss die 
+        Kontext-Liste zunächst durch Antippen des Privacy
+        Settings aufgeklappt werden. Anschließend kann über die "+"-Schaltfläche
+        ein weiterer Kontext hinzugefügt werden.
+        Verfügt das Privacy Setting nocht nicht über einen Kontext, so kann 
+        durch Antippen des Privacy Settings und Auswahl des Eintrags
+        "Add context" ein neuer Kontext hinzugefügt werden.
+        In beiden Fällen wird anschließend ein Auswahldialog angezeigt, in dem
+        der gewünschte Kontext-Typ ausgewählt wird. Darauf folgend wird der
+        Kontext spezifiziert und dem Privacy Setting hinzugefügt. 
+      </p>
+      <p>
+        <b>Ändern:</b>
+        Verfügt das Privacy Setting bereits über einen Kontext, so kann dieser
+        jederzeit geändert werden. Hierzu wird zunächst die Kontext-Liste
+        aufgeklappt (duch Tippen auf das entsprechende Privacy Setting).
+        Anschließen können durch Antippen des Kontexts dessen Parameter geändert werden.
+      </p>
+      <p>
+         
       <h2 id="res">Ressourcen</h2>
       <h3 id="res_inst">Ressourcen installieren</h3>
-	  <a href="images/res_inst.png" class="fancybox">
-        <img src="images/res_inst.png" alt="Installationsdialog einer Ressourcengruppe" style="width:215px;" class="right">
+	  <a href="images/pmp_res_inst.png" class="fancybox">
+        <img src="images/pmp_res_inst.png" alt="Installationsdialog einer Ressourcengruppe" style="width:215px;" class="right">
       </a><p>
         PMP-Ressourcen werden über den integrierten Marktplatz installiert.
         Dieser ist über die Schaltfläche "Resources" im Hauptmenü und anschließender
         Auswahl des Reiters "Available" zugänglich. Dort werden alle gegenwärtig
-        Online verfügbaren Ressourcen angezeigt (Dies setzt eine bestehende
+        online verfügbaren Ressourcen angezeigt (Dies setzt eine bestehende
         Internetverbindung vorraus). 
       </p>
       <p>
@@ -521,23 +613,6 @@
         "Install" auf dem Gerät installiert werden und steht dann anderen 
         Applikationen zur Verfügung.
       </p>
-        <!--werden in Form einer Android-Applikation, einer apk-Datei,
-        ausgeliefert. Der erste Schritt der Installation unterscheidet sich daher 
-        nicht von der Installation gewöhnlicher Android-Applikationen:
-        Die apk-Datei wird auf das Gerät übertragen und geöffnet oder die
-        Ressourcengruppe wird aus dem Android Market ausgewählt.     
-      </p>
-      <p>
-        Nach diesem Schritt muss sich die Applikation bei der PMP anmelden. Hierzu zeigt jede
-        Ressourcengruppe beim ersten Starten einen Installations-Dialog (siehe Bildschirmfoto)
-        an. Durch Antippen der Schaltfläche "Install" meldet sich die 
-        Ressourcengruppe bei der PMP an und kann anschließend von PMP-Applikationen
-        verwendet werden.
-      </p>   
-      <p>
-        Durch Betätigen der "Home"- oder "Zurück"-Taste kann der Installations-Dialog
-        nach erfolgreicher Installation und Registrierung verlassen werden.
-      </p>                                                     -->
       <div class="clear"></div>
       
       <h3 id="res_show">Ressourcen anzeigen und deinstallieren</h3>
@@ -556,19 +631,7 @@
         Hierzu genügt ein Tippen auf die Schaltfläche "Uninstall". Anschießend
         wird die Ressource vom Gerät entfernt. Wird die Ressource später 
         nochmals benötigt, lässt sie sich über den Marktplatz wieder installieren.
-      <div class="clear"></div>
-      <!--
-      <h3 id="res_uninst">Ressourcengruppen deinstallieren</h3>
-      <p>
-        Wie bereits unter "<span class="reference" title="#res_inst"></span>" erwähnt,
-        werden PMP-Ressourcengruppen ähnlich wie gewöhnliche Android-Applikationen ausgeliefert
-        und installiert. Daher erfolgt auch die Deinstallation wie bei normalen
-        Android-Applikationen: In der Anwendungsverwaltung von Android wird die 
-        zu deinstallierende Ressourcengruppe ausgewählt und über die 
-        Schaltfläche "Uninstall" vom Gerät entfernt.
-      </p>
-      -->
-      
+      <div class="clear"></div>      
       
       
       
@@ -1580,6 +1643,11 @@ getAppService().getInitialServiceLevel()
         
       
       <h1 id="versions">Versionshistorie</h1> 
+      
+      <h3>Version 3.0 (09.03.2012)</h3>
+      <ul>
+        <li>Beginnen der Anpassung des Anwenderkapitels an aktuelle Iteration.</li>
+      </ul>
       
       <h3>Version 1.3 (12.01.2012)</h3>
       <ul>

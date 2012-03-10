@@ -1,5 +1,5 @@
 /*
-v * Copyright 2012 pmp-android development team
+ * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
  *
@@ -32,8 +32,8 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ILocaleTableAction;
-import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
@@ -75,8 +75,8 @@ public class LocalizationDetailsPage implements IDetailsPage {
 
 	// Build view
 	FormToolkit toolkit = form.getToolkit();
-	Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE
-		| ExpandableComposite.TITLE_BAR);
+	Section section = toolkit.createSection(parent,
+		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
 	section.setText("Localization");
 	section.setExpanded(true);
 	section.setLayoutData(parentLayout);
