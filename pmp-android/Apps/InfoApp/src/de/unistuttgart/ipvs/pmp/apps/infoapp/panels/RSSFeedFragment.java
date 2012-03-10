@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class RSSFeed extends Fragment {
-	public static Location newInstance(String title) {
-		Location f = new Location();
+public class RSSFeedFragment extends Fragment {
+	public static LocationFragment newInstance(String title) {
+		LocationFragment f = new LocationFragment();
 		Bundle bundle = new Bundle();
 		bundle.putString("title", title);
 		f.setArguments(bundle);

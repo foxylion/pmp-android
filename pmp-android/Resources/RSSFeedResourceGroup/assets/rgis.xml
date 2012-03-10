@@ -3,7 +3,7 @@
 	<resourceGroupInformation 
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.rssfeed"
 		icon="res/drawable-hdpi/icon.png"
-		className="RSSFeed">
+		className="RSSFeedResourceGroup">
 		<name lang="en">RSS feeds</name>
 		<name lang="de">RSS-Feeds</name>
 		<description lang="en">Allows to fetch different RSS feeds.</description>

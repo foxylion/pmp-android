@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.Location;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.RSSFeed;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.Translation;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.LocationFragment;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.RSSFeedFragment;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.TranslationFragment;
 
 public class InfoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -20,9 +20,9 @@ public class InfoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 	private void initPanels() {
-		panels.add(Location.newInstance("Location Fragment"));
-		panels.add(Translation.newInstance("Translation Fragment"));
-		panels.add(RSSFeed.newInstance("RSS-Feed Fragment"));
+		panels.add(LocationFragment.newInstance("LocationFragment Fragment"));
+		panels.add(TranslationFragment.newInstance("TranslationFragment Fragment"));
+		panels.add(RSSFeedFragment.newInstance("RSS-Feed Fragment"));
 	}
 
 	@Override
