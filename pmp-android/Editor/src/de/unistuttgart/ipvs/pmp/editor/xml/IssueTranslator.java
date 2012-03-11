@@ -136,6 +136,8 @@ public class IssueTranslator {
                 return "Preset Identifier is missing";
             case VALUE_MISSING:
                 return "Value is missing";
+            case VALUE_CONFLICT:
+                return "Choose between an empty value or the value that is entered";
             case TYPE_MISSING:
                 return "Type is missing";
             case CONDITION_MISSING:
