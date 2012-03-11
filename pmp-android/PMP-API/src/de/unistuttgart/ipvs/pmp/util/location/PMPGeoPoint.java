@@ -20,9 +20,10 @@ public class PMPGeoPoint {
     // does not seem to be easy though
     // Sample Lengths Nashville to Los Angeles: Sphere - 2887.3 km <-> WGS84 - 2892.8 km
     
-    private static final double APPROX_SPHERE_RADIUS = (WGS84_SEMI_MAJOR_AXIS + WGS84_SEMI_MINOR_AXIS) / 2.0;
+    private static final double APPROX_SPHERE_RADIUS = (2.0 * WGS84_SEMI_MAJOR_AXIS + WGS84_SEMI_MINOR_AXIS) / 3.0;
     
     private static final double TWOPI = Math.PI * 2.0;
+    private static final double PIDIV2 = Math.PI / 2.0;
     private static final double DEG_TO_RAD = TWOPI / 360.0;
     private static final double RAD_TO_DEG = 360.0 / TWOPI;
     
@@ -56,8 +57,8 @@ public class PMPGeoPoint {
     
     
     public void setLongitude(double longitude) {
-        if ((longitude < 0.0) || (longitude >= 360.0)) {
-            throw new IllegalArgumentException("0.0 <= Longitude < 360.0");
+        if ((longitude < -180.0) || (longitude > 180.0)) {
+            throw new IllegalArgumentException("-180.0 <= Longitude <= 180.0");
         }
         this.longitude = longitude;
     }
@@ -177,17 +178,23 @@ public class PMPGeoPoint {
         // dN / U = angle / 2pi
         double angleDeltaN = TWOPI * (deltaN / APPROX_SPHERE_RADIUS);
         // in latitude, the circle is only cos(lat) * r long 
-        double angleDeltaE = TWOPI * (deltaE / Math.cos(getLatitude()) * APPROX_SPHERE_RADIUS);
+        double angleDeltaE = TWOPI * (deltaE / Math.cos(getLatitude() * DEG_TO_RAD) * APPROX_SPHERE_RADIUS);
         
-        double lonRad = (getLongitude() + angleDeltaE) % (TWOPI);
+        double lonRad = (getLongitude() + angleDeltaE);
+        while (lonRad > Math.PI) {
+            lonRad -= TWOPI;
+        }
+        while (lonRad < -Math.PI) {
+            lonRad += TWOPI;
+        }
         
         double latRad = getLatitude() + angleDeltaN;
         // if the latitude operation moves the geopoint to the other side of the earth
-        if (latRad > Math.PI) {
-            latRad = TWOPI - latRad;
+        if (latRad > PIDIV2) {
+            latRad = Math.PI - latRad;
             lonRad = (lonRad + Math.PI) % TWOPI;
-        } else if (latRad < -Math.PI) {
-            latRad = -TWOPI - latRad;
+        } else if (latRad < -PIDIV2) {
+            latRad = -Math.PI - latRad;
             lonRad = (lonRad + Math.PI) % TWOPI;
         }
         
