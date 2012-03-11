@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.util.location.PMPGeoPoint;
 
 /**
  * The parsed condition for a {@link LocationContext}.
@@ -45,10 +46,10 @@ public class LocationContextCondition {
                 throw new InvalidConditionException("LocationContextCondition was not formatted properly: " + condition);
             }
             
-            List<LocationContextGeoPoint> poly = new ArrayList<LocationContextGeoPoint>();
+            List<PMPGeoPoint> poly = new ArrayList<PMPGeoPoint>();
             for (int group = 4; group < match.groupCount(); group++) {
                 String[] coords = match.group(group).split("--")[0].split("~");
-                poly.add(new LocationContextGeoPoint(Double.valueOf(coords[0]), Double.valueOf(coords[1])));
+                poly.add(new PMPGeoPoint(Double.valueOf(coords[0]), Double.valueOf(coords[1])));
             }
             
             result = new LocationContextCondition(Double.parseDouble(match.group(1)),
@@ -83,7 +84,7 @@ public class LocationContextCondition {
      * The polygon that defines the area to select. The space which is selected is inside the order of the points. CW
      * mean the outside, CCW the inside.
      */
-    private List<LocationContextGeoPoint> polygon;
+    private List<PMPGeoPoint> polygon;
     
     /**
      * How far you can possibly be outside of the polygon (in meters)
@@ -109,8 +110,7 @@ public class LocationContextCondition {
     private boolean lastCheck;
     
     
-    public LocationContextCondition(double uncertainty, double hysteresis, boolean negate,
-            List<LocationContextGeoPoint> polygon) {
+    public LocationContextCondition(double uncertainty, double hysteresis, boolean negate, List<PMPGeoPoint> polygon) {
         if (hysteresis >= uncertainty) {
             throw new IllegalArgumentException("Hysteresis must not be equal or larger than uncertainty.");
         }
@@ -135,7 +135,7 @@ public class LocationContextCondition {
     @Override
     public String toString() {
         StringBuffer pointList = new StringBuffer();
-        for (LocationContextGeoPoint lcgp : this.polygon) {
+        for (PMPGeoPoint lcgp : this.polygon) {
             pointList.append(lcgp.getLatitude());
             pointList.append("~");
             pointList.append(lcgp.getLongitude());
@@ -180,7 +180,10 @@ public class LocationContextCondition {
      * @param dist
      * @return
      */
-    private boolean geoCircleIntersectsPolygon(LocationContextGeoPoint p, double dist) {
+    private boolean geoCircleIntersectsPolygon(PMPGeoPoint p, double dist) {
+        
+        // TODO this could be bogus, this is actually an ellipse-ray-intersection (for spheres)
+        // as defined by p.getNorthDistance() and p.getEastDistance()
         
         // convert dist from km in degrees (this is an approximation)
         double distDeg = dist / (2.0 * Math.PI * EARTH_RADIUS);
@@ -257,7 +260,7 @@ public class LocationContextCondition {
      * @param p
      * @return
      */
-    private boolean pointInPolygon(LocationContextGeoPoint p) {
+    private boolean pointInPolygon(PMPGeoPoint p) {
         /*
          * imagine a ray cast from p in direction (1,1) for simplicity's sake
          */
@@ -315,7 +318,7 @@ public class LocationContextCondition {
     }
     
     
-    public List<LocationContextGeoPoint> getPolygon() {
+    public List<PMPGeoPoint> getPolygon() {
         return this.polygon;
     }
     
@@ -345,7 +348,7 @@ public class LocationContextCondition {
     public String toHumanReadable() {
         StringBuilder result = new StringBuilder();
         
-        for (LocationContextGeoPoint point : this.polygon) {
+        for (PMPGeoPoint point : this.polygon) {
             result.append(point.toString());
             result.append(", ");
         }
