@@ -1,8 +1,9 @@
 package de.unistuttgart.ipvs.pmp.model.context.location;
 
 import android.location.Location;
+import de.unistuttgart.ipvs.pmp.util.location.PMPGeoPoint;
 
-public class LocationContextState extends LocationContextGeoPoint {
+public class LocationContextState extends PMPGeoPoint {
     
     /**
      * Last time of state

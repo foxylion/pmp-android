@@ -26,6 +26,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.context.IContextView;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
+import de.unistuttgart.ipvs.pmp.util.location.PMPGeoPoint;
 
 /**
  * View component for the {@link LocationContext}.
@@ -41,15 +42,15 @@ public class LocationContextView extends LinearLayout implements IContextView {
     
     class ExpandableGeoPointList extends BaseExpandableListAdapter {
         
-        private final List<LocationContextGeoPoint> data;
+        private final List<PMPGeoPoint> data;
         
         
         public ExpandableGeoPointList() {
-            this.data = new ArrayList<LocationContextGeoPoint>();
+            this.data = new ArrayList<PMPGeoPoint>();
         }
         
         
-        public void update(List<LocationContextGeoPoint> data) {
+        public void update(List<PMPGeoPoint> data) {
             this.data.clear();
             this.data.addAll(data);
             notifyDataSetInvalidated();
@@ -165,7 +166,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
                         LocationContextView.this.value.getPolygon().clear();
                         for (GeoPoint gp : LocationContextMapView.GEO_POINTS) {
                             LocationContextView.this.value.getPolygon().add(
-                                    new LocationContextGeoPoint(gp.getLatitudeE6() / 1E6, gp.getLongitudeE6() / 1E6));
+                                    new PMPGeoPoint(gp.getLatitudeE6() / 1E6, gp.getLongitudeE6() / 1E6));
                         }
                         // update view
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -215,8 +216,8 @@ public class LocationContextView extends LinearLayout implements IContextView {
     private void setup(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         
-        List<LocationContextGeoPoint> initialList = new ArrayList<LocationContextGeoPoint>();
-        initialList.add(new LocationContextGeoPoint(48.745161, 9.106774));
+        List<PMPGeoPoint> initialList = new ArrayList<PMPGeoPoint>();
+        initialList.add(new PMPGeoPoint(48.745161, 9.106774));
         
         this.value = new LocationContextCondition(1000.0, 100.0, false, initialList);
         
@@ -225,9 +226,9 @@ public class LocationContextView extends LinearLayout implements IContextView {
         this.points = (ExpandableListView) findViewById(R.id.coordinatesExpandableList);
         this.pointsList = new ExpandableGeoPointList();
         this.points.setAdapter(this.pointsList);
-        List<LocationContextGeoPoint> l = new ArrayList<LocationContextGeoPoint>();
-        l.add(new LocationContextGeoPoint(10, -10));
-        l.add(new LocationContextGeoPoint(-10, 10));
+        List<PMPGeoPoint> l = new ArrayList<PMPGeoPoint>();
+        l.add(new PMPGeoPoint(10, -10));
+        l.add(new PMPGeoPoint(-10, 10));
         this.pointsList.update(l);
         
         this.changeBtn = (Button) findViewById(R.id.changeCoordsBtn);
