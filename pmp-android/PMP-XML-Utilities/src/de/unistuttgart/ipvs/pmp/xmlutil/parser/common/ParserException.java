@@ -129,6 +129,13 @@ public class ParserException extends RuntimeException {
         UNEXPECTED_NODE,
         
         /**
+         * The parser found an attribute, which should be a boolean, as non boolean
+         */
+        EMPTY_VALUE_BOOLEAN_EXCEPTION,
+        EMPTY_OVERRIDE_VALUE_BOOLEAN_EXCEPTION,
+        EMPTY_CONDITION_BOOLEAN_EXCEPTION,
+        
+        /**
          * The parser crashed, unknown reason
          */
         CONFIGURATION_EXCEPTION,

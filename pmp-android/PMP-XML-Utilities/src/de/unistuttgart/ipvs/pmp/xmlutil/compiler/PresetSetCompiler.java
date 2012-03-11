@@ -157,12 +157,23 @@ public class PresetSetCompiler extends BasicISCompiler {
                 contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_TYPE_ATTR, context.getType()));
                 contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_CONDITION_ATTR, context.getCondition()));
                 
-                // Create the overrideValue-Node
-                if (context.getOverrideValue() != null) {
-                    XMLNode overrideValueNode = new XMLNode(XMLConstants.CONTEXT_OVERRIDE_VALUE);
-                    overrideValueNode.setCDATAContent(context.getOverrideValue());
-                    contextNode.addChild(overrideValueNode);
-                }
+                // Add the empty condition attribute
+                if (context.isEmptyCondition())
+                    contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_EMPTY_CONDITION_ATTR, "true"));
+                
+                /*
+                 *  Create the overrideValue-Node
+                 */
+                XMLNode overrideValueNode = new XMLNode(XMLConstants.CONTEXT_OVERRIDE_VALUE);
+                overrideValueNode.setCDATAContent(context.getOverrideValue());
+                
+                // Add the empty override value attribute
+                if (context.isEmptyOverrideValue())
+                    overrideValueNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_EMPTY_OVERRIDE_VALUE_ATTR,
+                            "true"));
+                
+                // Add the override value child to the context
+                contextNode.addChild(overrideValueNode);
                 
                 // Add it to his parent
                 privacySettingNode.addChild(contextNode);
