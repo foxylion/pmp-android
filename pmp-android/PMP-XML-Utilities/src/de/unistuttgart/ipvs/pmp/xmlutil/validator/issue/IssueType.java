@@ -43,6 +43,8 @@ public enum IssueType {
      */
     LOCALE_INVALID,
     LOCALE_MISSING,
+    VALUE_MISSING,
+    VALUE_CONFLICT,
     
     /**
      * Common for all classes implementing {@link IBasicIS}
@@ -106,14 +108,15 @@ public enum IssueType {
     RG_REVISION_MISSING,
     RG_REVISION_INVALID,
     PS_IDENTIFIER_MISSING,
-    VALUE_MISSING,
     
     /**
      * {@link IPresetPSContext}
      */
     TYPE_MISSING,
-    CONDITION_MISSING,
     OVERRIDE_VALUE_MISSING,
+    OVERRIDE_VALUE_CONFLICT,
+    CONDITION_MISSING,
+    CONDITION_CONFLICT,
     
     /**
      * Summary types

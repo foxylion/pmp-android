@@ -45,6 +45,7 @@ public class XMLConstants {
     public static final String RPS = "requiredPrivacySetting";
     
     public static final String MINREVISION_ATTR = "minRevision";
+    public static final String EMPTY_VALUE_ATTR = "emptyValue";
     
     /**
      * RGIS
@@ -78,6 +79,8 @@ public class XMLConstants {
     public static final String PS_IDENTIFIER_ATTR = "psIdentifier";
     public static final String CONTEXT_TYPE_ATTR = "type";
     public static final String CONTEXT_CONDITION_ATTR = "condition";
+    public static final String CONTEXT_EMPTY_CONDITION_ATTR = "emptyCondition";
+    public static final String CONTEXT_EMPTY_OVERRIDE_VALUE_ATTR = "emptyOverrideValue";
     
     /**
      * Common

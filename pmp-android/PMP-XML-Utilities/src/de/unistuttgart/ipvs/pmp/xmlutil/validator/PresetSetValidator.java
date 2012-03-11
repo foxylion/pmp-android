@@ -213,18 +213,28 @@ public class PresetSetValidator extends AbstractValidator {
             }
             
             /*
-             * Validate, if the condition is set
+             * Validate, if the condition is missing 
              */
-            if (!checkValueSet(context.getCondition())) {
+            if (!context.isEmptyCondition() && !checkValueSet(context.getCondition()))
                 issueList.add(new Issue(IssueType.CONDITION_MISSING, context));
-            }
             
             /*
-             * Validate, if the override value is set
+             * Validate, if an empty condition conflict occurred
              */
-            if (context.getOverrideValue() == null) {
+            if (context.isEmptyCondition() && checkValueSet(context.getCondition()))
+                issueList.add(new Issue(IssueType.CONDITION_CONFLICT, context));
+            
+            /*
+             * Validate, if the override value is missing 
+             */
+            if (!context.isEmptyOverrideValue() && !checkValueSet(context.getOverrideValue()))
                 issueList.add(new Issue(IssueType.OVERRIDE_VALUE_MISSING, context));
-            }
+            
+            /*
+             * Validate, if an empty override value conflict occurred
+             */
+            if (context.isEmptyOverrideValue() && checkValueSet(context.getOverrideValue()))
+                issueList.add(new Issue(IssueType.OVERRIDE_VALUE_CONFLICT, context));
             
         }
         

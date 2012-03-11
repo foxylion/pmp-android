@@ -45,4 +45,19 @@ public interface IAISRequiredPrivacySetting extends IIdentifierIS {
      */
     public abstract void setValue(String value);
     
+    
+    /**
+     * Check, whether it is an empty value or not
+     */
+    public boolean isEmptyValue();
+    
+    
+    /**
+     * Set empty value true or false
+     * 
+     * @param emptyValue
+     *            flag of empty value
+     */
+    public void setEmptyValue(boolean emptyValue);
+    
 }

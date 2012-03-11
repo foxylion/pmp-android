@@ -185,138 +185,144 @@ public class LocationAppActivity extends MapActivity {
             
             IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
             
-            boolean isActive = false;
-            boolean isAvailable = false;
-            boolean isFixed = false;
-            
-            double longitude = 0.0;
-            double latitude = 0.0;
-            float speed = 0.0F;
-            float accuracy = 0.0F;
-            
-            String country = "";
-            String countryCode = "";
-            String city = "";
-            String postalCode = "";
-            String address = "";
-            
             try {
-                try {
-                    isActive = loc.isActive();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    isAvailable = loc.isGpsEnabled();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    isFixed = loc.isFixed();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    longitude = loc.getLongitude();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    latitude = loc.getLatitude();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    speed = loc.getSpeed();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    accuracy = loc.getAccuracy();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    country = loc.getCountryName();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    countryCode = loc.getCountryCode();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    city = loc.getLocality();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    postalCode = loc.getPostalCode();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    address = loc.getAddress();
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                }
                 
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            
-            final boolean isActiveD = isActive;
-            final boolean isAvailableD = isAvailable;
-            final boolean isFixedD = isFixed;
-            
-            final double longitudeD = longitude;
-            final double latitudeD = latitude;
-            final float speedD = speed;
-            final float accuracyD = accuracy;
-            
-            final String countryD = country;
-            final String countryCodeD = countryCode;
-            final String cityD = city;
-            final String postalCodeD = postalCode;
-            final String addressD = address;
-            
-            LocationAppActivity.this.handler.post(new Runnable() {
+                boolean isActive = false;
+                boolean isAvailable = false;
+                boolean isFixed = false;
                 
-                public void run() {
-                    
-                    if (isFixedD) {
-                        MapController controller = ((MapView) findViewById(R.id.MapView)).getController();
-                        controller.animateTo(new GeoPoint((int) (latitudeD * 1E6), (int) (longitudeD * 1E6)));
-                        controller.setZoom(17);
+                double longitude = 0.0;
+                double latitude = 0.0;
+                float speed = 0.0F;
+                float accuracy = 0.0F;
+                
+                String country = "";
+                String countryCode = "";
+                String city = "";
+                String postalCode = "";
+                String address = "";
+                
+                try {
+                    try {
+                        isActive = loc.isActive();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        isAvailable = loc.isGpsEnabled();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        isFixed = loc.isFixed();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        longitude = loc.getLongitude();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        latitude = loc.getLatitude();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        speed = loc.getSpeed();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        accuracy = loc.getAccuracy();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        country = loc.getCountryName();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        countryCode = loc.getCountryCode();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        city = loc.getLocality();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        postalCode = loc.getPostalCode();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        address = loc.getAddress();
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
                     }
                     
-                    ((TextView) findViewById(R.id.TextView_Information)).setText(Html.fromHtml("<html>"
-                            + "<b>Longitude:</b> "
-                            + longitudeD
-                            + "<br/>"
-                            + "<b>Longitude:</b> "
-                            + latitudeD
-                            + "<br/>"
-                            + "<b>Speed:</b> "
-                            + speedD
-                            + "<br/>"
-                            + "<b>Accuracy:</b> "
-                            + accuracyD
-                            + "<br>"
-                            + "<b>Details to Location:</b><br/>"
-                            + countryD
-                            + "; "
-                            + countryCodeD
-                            + "<br/>"
-                            + cityD
-                            + "; " + postalCodeD + "<br/>" + addressD + "</html>"));
-                    
-                    ((ToggleButton) findViewById(R.id.ToggleButton_Active)).setChecked(isActiveD);
-                    ((ToggleButton) findViewById(R.id.ToggleButton_Avaiable)).setChecked(isAvailableD);
-                    ((ToggleButton) findViewById(R.id.ToggleButton_Fixed)).setChecked(isFixedD);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
-            });
+                
+                final boolean isActiveD = isActive;
+                final boolean isAvailableD = isAvailable;
+                final boolean isFixedD = isFixed;
+                
+                final double longitudeD = longitude;
+                final double latitudeD = latitude;
+                final float speedD = speed;
+                final float accuracyD = accuracy;
+                
+                final String countryD = country;
+                final String countryCodeD = countryCode;
+                final String cityD = city;
+                final String postalCodeD = postalCode;
+                final String addressD = address;
+                
+                LocationAppActivity.this.handler.post(new Runnable() {
+                    
+                    public void run() {
+                        
+                        if (isFixedD) {
+                            MapController controller = ((MapView) findViewById(R.id.MapView)).getController();
+                            controller.animateTo(new GeoPoint((int) (latitudeD * 1E6), (int) (longitudeD * 1E6)));
+                            controller.setZoom(17);
+                        }
+                        
+                        ((TextView) findViewById(R.id.TextView_Information)).setText(Html.fromHtml("<html>"
+                                + "<b>Longitude:</b> "
+                                + longitudeD
+                                + "<br/>"
+                                + "<b>Longitude:</b> "
+                                + latitudeD
+                                + "<br/>"
+                                + "<b>Speed:</b> "
+                                + speedD
+                                + "<br/>"
+                                + "<b>Accuracy:</b> "
+                                + accuracyD
+                                + "<br>"
+                                + "<b>Details to Location:</b><br/>"
+                                + countryD
+                                + "; "
+                                + countryCodeD
+                                + "<br/>"
+                                + cityD
+                                + "; " + postalCodeD + "<br/>" + addressD + "</html>"));
+                        
+                        ((ToggleButton) findViewById(R.id.ToggleButton_Active)).setChecked(isActiveD);
+                        ((ToggleButton) findViewById(R.id.ToggleButton_Avaiable)).setChecked(isAvailableD);
+                        ((ToggleButton) findViewById(R.id.ToggleButton_Fixed)).setChecked(isFixedD);
+                    }
+                });
+                
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
         }
     }
     

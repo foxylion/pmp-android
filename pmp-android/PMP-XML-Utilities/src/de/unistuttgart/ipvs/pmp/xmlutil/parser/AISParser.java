@@ -32,6 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParsedNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
@@ -149,13 +150,27 @@ public class AISParser extends AbstractParser {
                 
                 // Parse the required resource group
                 List<ParsedNode> privacySettingList = parseNodes(rrgElement, XMLConstants.RPS,
-                        XMLConstants.IDENTIFIER_ATTR);
+                        XMLConstants.IDENTIFIER_ATTR, XMLConstants.EMPTY_VALUE_ATTR);
                 
                 // Add to the app information set (building objects)
                 for (ParsedNode privacySettingNode : privacySettingList) {
-                    // Add identifier and value
-                    rrg.addRequiredPrivacySetting(new AISRequiredPrivacySetting(privacySettingNode
-                            .getAttribute(XMLConstants.IDENTIFIER_ATTR), privacySettingNode.getValue()));
+                    // Instantiate the rps with identifier and value
+                    IAISRequiredPrivacySetting ps = new AISRequiredPrivacySetting(
+                            privacySettingNode.getAttribute(XMLConstants.IDENTIFIER_ATTR),
+                            privacySettingNode.getValue());
+                    
+                    // Add the empty value attribute
+                    String evAttribute = privacySettingNode.getAttribute(XMLConstants.EMPTY_VALUE_ATTR);
+                    if (evAttribute.toLowerCase().equals("true")) {
+                        ps.setEmptyValue(true);
+                    } else if (!evAttribute.toLowerCase().equals("false") && !evAttribute.equals("")) {
+                        throw new ParserException(Type.EMPTY_VALUE_BOOLEAN_EXCEPTION,
+                                "The value of the attribute \"emptyValue\" of a required Privacy Setting is not a boolean.");
+                    }
+                    
+                    // Add it to the rrg
+                    rrg.addRequiredPrivacySetting(ps);
+                    
                 }
             }
         }
