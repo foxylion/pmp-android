@@ -1,11 +1,11 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-import de.unistuttgart.ipvs.pmp.R;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.R;
 
 /**
  * Dialog for a potential passenger who accepted an offer is awaiting to be picked up and confirm that his query search

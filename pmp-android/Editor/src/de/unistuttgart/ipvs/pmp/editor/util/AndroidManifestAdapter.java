@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.PMPServi
  * 
  */
 public class AndroidManifestAdapter {
-
+    
     /**
      * Calls the {@link AndroidManifestAdapter} to get the app identifier
      * 
@@ -66,20 +66,17 @@ public class AndroidManifestAdapter {
      * @throws ParserConfigurationException
      * @throws AppIdentifierNotFoundException
      */
-    public String getAppIdentifier(String xmlPath, String xmlFile)
-	    throws ParserConfigurationException, SAXException, IOException,
-	    AppIdentifierNotFoundException {
-
-	return new AndroidManifestParser().getAppIdentifier(getInputStream(
-		xmlPath, xmlFile));
+    public String getAppIdentifier(String xmlPath, String xmlFile) throws ParserConfigurationException, SAXException,
+            IOException, AppIdentifierNotFoundException {
+        
+        return new AndroidManifestParser().getAppIdentifier(getInputStream(xmlPath, xmlFile));
     }
-
+    
+    
     /**
      * Converts the main activity into a PMP registration activity in the
-     * AndroidManifest.xml. It only adopts the
-     * <code>android:label="@string/app_name"</code> and the attribute for the
-     * main activity
-     * <code>android:theme="@android:style/Theme.NoTitleBar"</code>
+     * AndroidManifest.xml. It only adopts the <code>android:label="@string/app_name"</code> and the attribute for the
+     * main activity <code>android:theme="@android:style/Theme.NoTitleBar"</code>
      * 
      * @param xmlPath
      *            path to the XML file
@@ -95,16 +92,15 @@ public class AndroidManifestAdapter {
      * @throws NoMainActivityException
      * @throws AppIdentifierNotFoundException
      */
-    public void addPMPActivityToManifest(String xmlPath, String xmlFile)
-	    throws FileNotFoundException, ParserConfigurationException,
-	    SAXException, IOException, TransformerFactoryConfigurationError,
-	    TransformerException, PMPActivityAlreadyExistsException,
-	    NoMainActivityException, AppIdentifierNotFoundException {
-
-	new AndroidManifestParser().addPMPActivity(
-		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
+    public void addPMPActivityToManifest(String xmlPath, String xmlFile) throws FileNotFoundException,
+            ParserConfigurationException, SAXException, IOException, TransformerFactoryConfigurationError,
+            TransformerException, PMPActivityAlreadyExistsException, NoMainActivityException,
+            AppIdentifierNotFoundException {
+        
+        new AndroidManifestParser().addPMPActivity(getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
     }
-
+    
+    
     /**
      * Adds the PMP service to the AndroidManifest.xml
      * 
@@ -123,17 +119,16 @@ public class AndroidManifestAdapter {
      * @throws AppIdentifierNotFoundException
      * @throws DOMException
      */
-    public void addPMPServiceToManifest(String xmlPath, String xmlFile)
-	    throws FileNotFoundException, ParserConfigurationException,
-	    SAXException, IOException, AndroidApplicationException,
-	    TransformerFactoryConfigurationError, TransformerException,
-	    PMPServiceAlreadyExists, DOMException,
-	    AppIdentifierNotFoundException {
-
-	new AndroidManifestParser().addPMPServiceToManifest(
-		getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
+    public void addPMPServiceToManifest(String xmlPath, String xmlFile) throws FileNotFoundException,
+            ParserConfigurationException, SAXException, IOException, AndroidApplicationException,
+            TransformerFactoryConfigurationError, TransformerException, PMPServiceAlreadyExists, DOMException,
+            AppIdentifierNotFoundException {
+        
+        new AndroidManifestParser()
+                .addPMPServiceToManifest(getInputStream(xmlPath, xmlFile), getFile(xmlPath, xmlFile));
     }
-
+    
+    
     /**
      * Gets an {@link InputStream} to an path and a file name
      * 
@@ -145,17 +140,16 @@ public class AndroidManifestAdapter {
      * @throws FileNotFoundException
      *             thrown when the file is not found
      */
-    private InputStream getInputStream(String xmlPath, String xmlFile)
-	    throws FileNotFoundException {
-	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-	IResource resource = root.findMember(new Path(xmlPath));
-	IContainer container = (IContainer) resource;
-	IFile file = container.getFile(new Path(xmlFile));
-	InputStream xmlInputStream = new FileInputStream(file.getLocation()
-		.toOSString());
-	return xmlInputStream;
+    private InputStream getInputStream(String xmlPath, String xmlFile) throws FileNotFoundException {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IResource resource = root.findMember(new Path(xmlPath));
+        IContainer container = (IContainer) resource;
+        IFile file = container.getFile(new Path(xmlFile));
+        InputStream xmlInputStream = new FileInputStream(file.getLocation().toOSString());
+        return xmlInputStream;
     }
-
+    
+    
     /**
      * Gets an {@link File} to an path and a file name
      * 
@@ -167,12 +161,11 @@ public class AndroidManifestAdapter {
      * @throws FileNotFoundException
      *             thrown when the file is not found
      */
-    private File getFile(String xmlPath, String xmlFile)
-	    throws FileNotFoundException {
-	IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-	IResource resource = root.findMember(new Path(xmlPath));
-	IContainer container = (IContainer) resource;
-	IFile file = container.getFile(new Path(xmlFile));
-	return new File(file.getLocation().toOSString());
+    private File getFile(String xmlPath, String xmlFile) throws FileNotFoundException {
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        IResource resource = root.findMember(new Path(xmlPath));
+        IContainer container = (IContainer) resource;
+        IFile file = container.getFile(new Path(xmlFile));
+        return new File(file.getLocation().toOSString());
     }
 }

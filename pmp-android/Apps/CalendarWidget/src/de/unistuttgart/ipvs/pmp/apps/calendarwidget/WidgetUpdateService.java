@@ -4,11 +4,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
-import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
 import android.app.Application;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -20,6 +15,11 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.RemoteViews;
+import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.resourcegroups.database.IDatabaseConnection;
 
 public class WidgetUpdateService extends Service {
     
@@ -123,11 +123,11 @@ class UIUpdateThread extends Thread {
     @Override
     public void run() {
         
-        PMP.get(app).getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
+        PMP.get(this.app).getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onBindingFailed() {
-                WidgetUpdateService.buildUpdate(context, null, true);
+                WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, null, true);
                 Log.d(WidgetUpdateService.class, "Failed to connect to PMP, onBindingFailed() was called.");
             }
             
@@ -135,7 +135,7 @@ class UIUpdateThread extends Thread {
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                 if (binder == null) {
-                    WidgetUpdateService.buildUpdate(context, null, true);
+                    WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, null, true);
                     Log.d(WidgetUpdateService.class, "Failed to use resource, pmp returned a NULL-Binder.");
                 } else {
                     IDatabaseConnection database = IDatabaseConnection.Stub.asInterface(binder);
@@ -161,20 +161,21 @@ class UIUpdateThread extends Thread {
                                 String name = columns[1];
                                 Date date = new Date(Long.valueOf(columns[4]));
                                 
-                                entries[itr][0] = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH).format(date);
+                                entries[itr][0] = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.ENGLISH).format(
+                                        date);
                                 entries[itr][1] = name;
                             }
-                            WidgetUpdateService.buildUpdate(context, entries, false);
+                            WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, entries, false);
                         } else {
-                            WidgetUpdateService.buildUpdate(context, new String[][] {}, false);
+                            WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, new String[][] {}, false);
                         }
                         
                         database.close();
                     } catch (SecurityException e) {
-                        WidgetUpdateService.buildUpdate(context, null, true);
+                        WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, null, true);
                         Log.d(WidgetUpdateService.class, "Failed to use resource, got a security exception.", e);
                     } catch (RemoteException e) {
-                        WidgetUpdateService.buildUpdate(context, null, true);
+                        WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, null, true);
                         Log.d(WidgetUpdateService.class, "Failed to use resource, got a remote exception.", e);
                     }
                     

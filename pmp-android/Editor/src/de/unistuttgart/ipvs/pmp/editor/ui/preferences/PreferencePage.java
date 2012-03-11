@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,20 +33,19 @@ import de.unistuttgart.ipvs.pmp.editor.Activator;
  * can use the field support built into JFace that allows us to create a page
  * that is small and knows how to save, restore and apply itself.
  * <p>
- * This page is used to modify preferences only. They are stored in the
- * preference store that belongs to the main plug-in class. That way,
- * preferences can be accessed directly via the preference store.
+ * This page is used to modify preferences only. They are stored in the preference store that belongs to the main
+ * plug-in class. That way, preferences can be accessed directly via the preference store.
  */
 
-public class PreferencePage extends FieldEditorPreferencePage implements
-	IWorkbenchPreferencePage {
-
+public class PreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+    
     public PreferencePage() {
-	super(GRID);
-	setPreferenceStore(Activator.getDefault().getPreferenceStore());
-	setDescription("Connection settings for the JPMPPS-Server");
+        super(GRID);
+        setPreferenceStore(Activator.getDefault().getPreferenceStore());
+        setDescription("Connection settings for the JPMPPS-Server");
     }
-
+    
+    
     /**
      * Creates the field editors. Field editors are abstractions of the common
      * GUI blocks needed to manipulate various types of preferences. Each field
@@ -54,15 +53,13 @@ public class PreferencePage extends FieldEditorPreferencePage implements
      */
     @Override
     public void createFieldEditors() {
-	addField(new StringFieldEditor(PreferenceConstants.JPMPPS_HOSTNAME,
-		"URL:", getFieldEditorParent()));
-	addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_PORT,
-		"Port:", getFieldEditorParent()));
-	addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_TIMEOUT,
-		"Timeout:", getFieldEditorParent(), 3));
-	addField(new TestButton("Test connection:", getFieldEditorParent()));
+        addField(new StringFieldEditor(PreferenceConstants.JPMPPS_HOSTNAME, "URL:", getFieldEditorParent()));
+        addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_PORT, "Port:", getFieldEditorParent()));
+        addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_TIMEOUT, "Timeout:", getFieldEditorParent(), 3));
+        addField(new TestButton("Test connection:", getFieldEditorParent()));
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -72,5 +69,5 @@ public class PreferencePage extends FieldEditorPreferencePage implements
     @Override
     public void init(IWorkbench workbench) {
     }
-
+    
 }

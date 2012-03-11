@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,12 +26,13 @@ package de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser;
  * 
  */
 public class AppIdentifierNotFoundException extends Exception {
-
+    
     /**
      * Auto generated serial
      */
     private static final long serialVersionUID = 5121971098708108147L;
-
+    
+    
     /**
      * Constructor to send a message
      * 
@@ -39,6 +40,6 @@ public class AppIdentifierNotFoundException extends Exception {
      *            message to display
      */
     public AppIdentifierNotFoundException(String msg) {
-	super(msg);
+        super(msg);
     }
 }

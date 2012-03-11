@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,14 +25,13 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
- * Interface that defines the method to update and download the list of
- * {@link RGIS} from the RG Server
+ * Interface that defines the method to update and download the list of {@link RGIS} from the RG Server
  * 
  * @author Thorsten Berberich
  * 
  */
 public interface IServerProvider {
-
+    
     /**
      * Returns a list of all available resource-groups. If this list hasn't been
      * fetched from the server before, a connection to the server will be
@@ -43,7 +42,8 @@ public interface IServerProvider {
      * @throws IOException
      */
     public List<RGIS> getAvailableRessourceGroups() throws IOException;
-
+    
+    
     /**
      * Contacts the server to to gather all currently available resource-groups
      * and update the RGIS-List.

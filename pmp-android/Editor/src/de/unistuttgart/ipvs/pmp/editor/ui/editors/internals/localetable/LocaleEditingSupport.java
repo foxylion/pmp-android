@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,24 +33,26 @@ import org.eclipse.jface.viewers.TextCellEditor;
  * @author Patrick Strobel
  */
 public abstract class LocaleEditingSupport extends EditingSupport {
-
+    
     // private ComboBoxViewerCellEditor editor;
     private TextCellEditor editor;
-
+    
+    
     public LocaleEditingSupport(TableViewer viewer) {
-	super(viewer);
-	editor = new AutocompleteTextCellEditor(viewer.getTable(),
-		Locale.getISOLanguages());
+        super(viewer);
+        this.editor = new AutocompleteTextCellEditor(viewer.getTable(), Locale.getISOLanguages());
     }
-
+    
+    
     @Override
     protected CellEditor getCellEditor(Object element) {
-	return editor;
+        return this.editor;
     }
-
+    
+    
     @Override
     protected boolean canEdit(Object element) {
-	return true;
+        return true;
     }
-
+    
 }

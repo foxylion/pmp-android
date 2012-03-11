@@ -22,9 +22,9 @@ public class AppTest extends InstrumentationTestCase {
     
     @Override
     protected void setUp() throws Exception {
-        app = new App(ModelTestUtils.App.PMP_TEST_APP_1.toString());
-        appPersistence = new MockAppPeristenceProvider(app);
-        app.setPersistenceProvider(appPersistence);
+        this.app = new App(ModelTestUtils.App.PMP_TEST_APP_1.toString());
+        this.appPersistence = new MockAppPeristenceProvider(this.app);
+        this.app.setPersistenceProvider(this.appPersistence);
         
         Locale.setDefault(Locale.GERMAN);
     }
@@ -50,16 +50,16 @@ public class AppTest extends InstrumentationTestCase {
         description_en.setLocale(Locale.ENGLISH);
         description_en.setString("Description");
         
-        assertNull("No name should be available", app.getName());
-        assertNull("No description should be available", app.getName());
+        assertNull("No name should be available", this.app.getName());
+        assertNull("No description should be available", this.app.getName());
         
-        appPersistence.ais.addName(name_en);
-        appPersistence.ais.addDescription(description_en);
-        assertEquals("Name is not in english version", app.getName(), name_en.getString());
-        assertEquals("Description is not in english version", app.getName(), name_en.getString());
+        this.appPersistence.ais.addName(name_en);
+        this.appPersistence.ais.addDescription(description_en);
+        assertEquals("Name is not in english version", this.app.getName(), name_en.getString());
+        assertEquals("Description is not in english version", this.app.getName(), name_en.getString());
         
-        appPersistence.ais.addName(name_de);
-        appPersistence.ais.addDescription(description_de);
-        assertEquals("Description is not in german version", app.getName(), name_de.getString());
+        this.appPersistence.ais.addName(name_de);
+        this.appPersistence.ais.addDescription(description_de);
+        assertEquals("Description is not in german version", this.app.getName(), name_de.getString());
     }
 }

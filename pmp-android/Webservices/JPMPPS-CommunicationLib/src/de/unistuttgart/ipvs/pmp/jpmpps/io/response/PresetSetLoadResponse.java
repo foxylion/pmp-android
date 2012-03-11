@@ -43,7 +43,7 @@ public class PresetSetLoadResponse extends AbstractResponse {
         }
         
         try {
-            return new ObjectInputStream(fromByteArray(presetSet)).readObject();
+            return new ObjectInputStream(fromByteArray(this.presetSet)).readObject();
         } catch (IOException e) {
             System.err.println("Failed to deserialize the preset set.");
             e.printStackTrace();

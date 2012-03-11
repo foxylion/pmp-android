@@ -147,8 +147,9 @@ public class AISCompiler extends BasicISCompiler {
             for (IAISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
                 XMLNode rpsNode = new XMLNode(XMLConstants.RPS);
                 rpsNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, rps.getIdentifier()));
-                if (rps.getValue() != null)
+                if (rps.getValue() != null) {
                     rpsNode.setCDATAContent(rps.getValue());
+                }
                 rrgNode.addChild(rpsNode);
             }
             

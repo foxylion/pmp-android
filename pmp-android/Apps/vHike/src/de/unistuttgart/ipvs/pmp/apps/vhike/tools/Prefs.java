@@ -11,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.R;
 
 public class Prefs extends PreferenceActivity implements OnSharedPreferenceChangeListener {
     
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.layout.prefs);

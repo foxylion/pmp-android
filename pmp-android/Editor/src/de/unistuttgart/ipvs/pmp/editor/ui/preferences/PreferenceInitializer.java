@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ import de.unistuttgart.ipvs.pmp.jpmpps.JPMPPSConstants;
  * Class used to initialize default preference values.
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -38,26 +38,28 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
      */
     @Override
     public void initializeDefaultPreferences() {
-	IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-	store.setDefault(PreferenceConstants.JPMPPS_HOSTNAME,
-		JPMPPSConstants.HOSTNAME);
-	store.setDefault(PreferenceConstants.JPMPPS_PORT, JPMPPSConstants.PORT);
-	store.setDefault(PreferenceConstants.JPMPPS_TIMEOUT, 10);
+        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        store.setDefault(PreferenceConstants.JPMPPS_HOSTNAME, JPMPPSConstants.HOSTNAME);
+        store.setDefault(PreferenceConstants.JPMPPS_PORT, JPMPPSConstants.PORT);
+        store.setDefault(PreferenceConstants.JPMPPS_TIMEOUT, 10);
     }
-
+    
+    
     public static String getJpmppsHostname() {
-	IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-	return store.getString(PreferenceConstants.JPMPPS_HOSTNAME);
+        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        return store.getString(PreferenceConstants.JPMPPS_HOSTNAME);
     }
-
+    
+    
     public static int getJpmppsPort() {
-	IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-	return store.getInt(PreferenceConstants.JPMPPS_PORT);
+        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        return store.getInt(PreferenceConstants.JPMPPS_PORT);
     }
-
+    
+    
     public static int getJpmppsTimeout() {
-	IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-	return store.getInt(PreferenceConstants.JPMPPS_TIMEOUT);
+        IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+        return store.getInt(PreferenceConstants.JPMPPS_TIMEOUT);
     }
-
+    
 }

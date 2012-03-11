@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,9 +31,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
  * @author Thorsten Berberich
  * 
  */
-public class DescriptionContentProvider implements IContentProvider,
-	IStructuredContentProvider {
-
+public class DescriptionContentProvider implements IContentProvider, IStructuredContentProvider {
+    
     /*
      * (non-Javadoc)
      * 
@@ -43,9 +42,10 @@ public class DescriptionContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((AISServiceFeature) arg0).getDescriptions().toArray();
+        return ((AISServiceFeature) arg0).getDescriptions().toArray();
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -54,7 +54,8 @@ public class DescriptionContentProvider implements IContentProvider,
     @Override
     public void dispose() {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -65,5 +66,5 @@ public class DescriptionContentProvider implements IContentProvider,
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
     }
-
+    
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,19 +28,21 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.ServerProviderDialog
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
-
+    
     // The plug-in ID
     public static final String PLUGIN_ID = "de.unistuttgart.ipvs.pmp.editor"; //$NON-NLS-1$
-
+    
     // The shared instance
     private static Activator plugin;
-
+    
+    
     /**
      * The constructor
      */
     public Activator() {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -50,10 +52,11 @@ public class Activator extends AbstractUIPlugin {
      */
     @Override
     public void start(BundleContext context) throws Exception {
-	super.start(context);
-	plugin = this;
+        super.start(context);
+        plugin = this;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -63,20 +66,21 @@ public class Activator extends AbstractUIPlugin {
      */
     @Override
     public void stop(BundleContext context) throws Exception {
-	plugin = null;
-	super.stop(context);
-
-	// Stops a running download job while closing the plugin
-	ServerProviderDialogWrapper.getInstance().cancelJob();
+        plugin = null;
+        super.stop(context);
+        
+        // Stops a running download job while closing the plugin
+        ServerProviderDialogWrapper.getInstance().cancelJob();
     }
-
+    
+    
     /**
      * Returns the shared instance
      * 
      * @return the shared instance
      */
     public static Activator getDefault() {
-	return plugin;
+        return plugin;
     }
-
+    
 }

@@ -14,7 +14,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
  * 
  */
 public class Model {
-   
+    
     /**
      * Instance of the Object {@link Model}
      */
@@ -24,8 +24,8 @@ public class Model {
      */
     private String sid;
     
-	private int					id				= -1;
-
+    private int id = -1;
+    
     /**
      * This is the trip id, in which the user participate at the moment
      */
@@ -35,9 +35,9 @@ public class Model {
      */
     private int queryId;
     
-	private Trip				openTrip		= null;
-	private ArrayList<Trip>	plannedTrips	= null;
-
+    private Trip openTrip = null;
+    private ArrayList<Trip> plannedTrips = null;
+    
     /**
      * Holds queries of the Driver, within are hitchhiker
      */
@@ -45,7 +45,7 @@ public class Model {
     
     
     public List<QueryObject> getQueryHolder() {
-        return queryHolder;
+        return this.queryHolder;
     }
     
     
@@ -57,7 +57,7 @@ public class Model {
     
     
     public List<HistoryRideObject> getHistoryObjHolder() {
-        return historyObjHolder;
+        return this.historyObjHolder;
     }
     
     
@@ -72,7 +72,7 @@ public class Model {
     
     
     public List<OfferObject> getOfferHolder() {
-        return offerHolder;
+        return this.offerHolder;
     }
     
     
@@ -82,7 +82,7 @@ public class Model {
     
     
     public int getQueryId() {
-        return queryId;
+        return this.queryId;
     }
     
     
@@ -91,14 +91,15 @@ public class Model {
     }
     
     
-	// TODO: Use Trip class instead
+    // TODO: Use Trip class instead
     public int getTripId() {
-        return tripId;
+        return this.tripId;
     }
     
-	// TODO: Use Trip class instead
+    
+    // TODO: Use Trip class instead
     public void setTripId(int tripId) {
-		// TODO Check trip id
+        // TODO Check trip id
         this.tripId = tripId;
     }
     
@@ -136,7 +137,7 @@ public class Model {
      * @return sid
      */
     public String getSid() {
-        return sid;
+        return this.sid;
     }
     
     
@@ -156,7 +157,7 @@ public class Model {
      * @return {@link Profile}
      */
     public Profile getOwnProfile() {
-        return ownProfile;
+        return this.ownProfile;
     }
     
     
@@ -168,34 +169,40 @@ public class Model {
     public void setOwnProfile(Profile ownProfile) {
         this.ownProfile = ownProfile;
     }
-
-	public void setOpenTrip(Trip trip) {
-		openTrip = trip;
-	}
-
-	public int getOpenTripId() {
-		return openTrip == null ? -1 : openTrip.getId();
-	}
-
-	/**
-	 * @return List is not sorted!!
-	 */
-	public ArrayList<Trip> getPlannedTrips() {
-		return plannedTrips;
-	}
-
-	public void addPlannedTrips(Trip trip) throws NullPointerException {
-		if (trip == null) {
-			throw new NullPointerException();
-		}
-		plannedTrips.add(trip);
-	}
-
-	public int getUserId() {
-		return id;
-	}
-
-	public void setUserId(int id) {
-		this.id = id;
-	}
+    
+    
+    public void setOpenTrip(Trip trip) {
+        this.openTrip = trip;
+    }
+    
+    
+    public int getOpenTripId() {
+        return this.openTrip == null ? -1 : this.openTrip.getId();
+    }
+    
+    
+    /**
+     * @return List is not sorted!!
+     */
+    public ArrayList<Trip> getPlannedTrips() {
+        return this.plannedTrips;
+    }
+    
+    
+    public void addPlannedTrips(Trip trip) throws NullPointerException {
+        if (trip == null) {
+            throw new NullPointerException();
+        }
+        this.plannedTrips.add(trip);
+    }
+    
+    
+    public int getUserId() {
+        return this.id;
+    }
+    
+    
+    public void setUserId(int id) {
+        this.id = id;
+    }
 }

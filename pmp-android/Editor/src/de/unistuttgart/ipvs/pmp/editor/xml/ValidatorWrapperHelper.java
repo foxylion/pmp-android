@@ -33,23 +33,26 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  * 
  */
 public class ValidatorWrapperHelper {
-
+    
     /**
      * Singleton stuff
      */
     private static ValidatorWrapperHelper instance = null;
-
+    
+    
     private ValidatorWrapperHelper() {
-
+        
     }
-
+    
+    
     protected static ValidatorWrapperHelper getInstance() {
-	if (instance == null) {
-	    instance = new ValidatorWrapperHelper();
-	}
-	return instance;
+        if (instance == null) {
+            instance = new ValidatorWrapperHelper();
+        }
+        return instance;
     }
-
+    
+    
     /**
      * INTERNAL USE ONLY! Extend the attachments of
      * "identifier occurred too often"
@@ -61,23 +64,24 @@ public class ValidatorWrapperHelper {
      * @param issueParameters
      *            the parameters of the issue
      */
-    protected void attachIIdentifierIS(List<IIdentifierIS> identifierISs,
-	    IssueType issueType, List<String> issueParameters) {
-	// Attach service features with issue
-	for (IIdentifierIS identifierIS : identifierISs) {
-	    String ident = identifierIS.getIdentifier();
-
-	    // if the identifier is the same, add the issue
-	    if ((issueParameters.size() == 1 && ident.equals(issueParameters
-		    .get(0)))
-		    || (issueParameters.size() == 0 && ident.equals(""))) {
-
-		if (!identifierIS.hasIssueType(issueType))
-		    identifierIS.addIssue(new Issue(issueType, identifierIS));
-	    }
-	}
+    protected void attachIIdentifierIS(List<IIdentifierIS> identifierISs, IssueType issueType,
+            List<String> issueParameters) {
+        // Attach service features with issue
+        for (IIdentifierIS identifierIS : identifierISs) {
+            String ident = identifierIS.getIdentifier();
+            
+            // if the identifier is the same, add the issue
+            if ((issueParameters.size() == 1 && ident.equals(issueParameters.get(0)))
+                    || (issueParameters.size() == 0 && ident.equals(""))) {
+                
+                if (!identifierIS.hasIssueType(issueType)) {
+                    identifierIS.addIssue(new Issue(issueType, identifierIS));
+                }
+            }
+        }
     }
-
+    
+    
     /**
      * INTERNAL USE ONLY! Extend the attachments of
      * "Name/Description/RGISChangeDescription occurred too often"
@@ -89,22 +93,21 @@ public class ValidatorWrapperHelper {
      * @param issueParameters
      *            the parameters of the issue
      */
-    protected void attachIBasicIS(List<ILocalizedString> localizedStrings,
-	    IssueType issueType, List<String> issueParameters) {
-	// Attach localized strings with issue
-	for (ILocalizedString localizedString : localizedStrings) {
-	    String locale = localizedString.getLocale().getLanguage();
-
-	    // if the locale is the same
-	    if ((issueParameters.size() == 1 && locale.equals(issueParameters
-		    .get(0)))
-		    || (issueParameters.size() == 0 && locale.equals(""))) {
-
-		if (!localizedString.hasIssueType(issueType))
-		    localizedString.addIssue(new Issue(issueType,
-			    localizedString));
-	    }
-	}
+    protected void attachIBasicIS(List<ILocalizedString> localizedStrings, IssueType issueType,
+            List<String> issueParameters) {
+        // Attach localized strings with issue
+        for (ILocalizedString localizedString : localizedStrings) {
+            String locale = localizedString.getLocale().getLanguage();
+            
+            // if the locale is the same
+            if ((issueParameters.size() == 1 && locale.equals(issueParameters.get(0)))
+                    || (issueParameters.size() == 0 && locale.equals(""))) {
+                
+                if (!localizedString.hasIssueType(issueType)) {
+                    localizedString.addIssue(new Issue(issueType, localizedString));
+                }
+            }
+        }
     }
-
+    
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,9 +23,9 @@ package de.unistuttgart.ipvs.pmp.editor.ui.preferences;
  * Constant definitions for plug-in preferences
  */
 public class PreferenceConstants {
-
+    
     public static final String JPMPPS_HOSTNAME = "jpmppsHostname";
     public static final String JPMPPS_PORT = "jpmppsPort";
     public static final String JPMPPS_TIMEOUT = "jpmppsTimeout";
-
+    
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,9 +34,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * @author Thorsten Berberich
  * 
  */
-public class ResourceGroupsDialogContentProvider implements IContentProvider,
-	IStructuredContentProvider {
-
+public class ResourceGroupsDialogContentProvider implements IContentProvider, IStructuredContentProvider {
+    
     /*
      * (non-Javadoc)
      * 
@@ -46,11 +45,12 @@ public class ResourceGroupsDialogContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	@SuppressWarnings("unchecked")
-	List<RGIS> list = (List<RGIS>) arg0;
-	return list.toArray(new RGIS[list.size()]);
+        @SuppressWarnings("unchecked")
+        List<RGIS> list = (List<RGIS>) arg0;
+        return list.toArray(new RGIS[list.size()]);
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -59,7 +59,8 @@ public class ResourceGroupsDialogContentProvider implements IContentProvider,
     @Override
     public void dispose() {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 

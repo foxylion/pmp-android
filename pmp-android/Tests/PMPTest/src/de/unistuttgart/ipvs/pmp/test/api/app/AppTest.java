@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.test.api.app;
 
-
 /*
  * public class AppTest extends ActivityInstrumentationTestCase2<ActivityMain> {
  * 

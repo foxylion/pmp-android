@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -70,27 +70,28 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
  * 
  */
 public class AISGeneralPage extends FormPage implements SelectionListener {
-
+    
     /**
      * ID of this page
      */
     private static final String ID = "ais_general";
-
+    
     /**
      * Path to the project that is opened
      */
     private String PROJECT_PATH;
-
+    
     /**
      * The model of this editor instance
      */
     private final AisModel model;
-
+    
     /**
      * Android manifest file name
      */
     private static String MANIFTEST = "AndroidManifest.xml";
-
+    
+    
     /**
      * Creates the general page
      * 
@@ -102,22 +103,24 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            the {@link AisModel} of this instance
      */
     public AISGeneralPage(FormEditor editor, String path, AisModel model) {
-	super(editor, ID, "General");
-	this.model = model;
-	PROJECT_PATH = path;
+        super(editor, ID, "General");
+        this.model = model;
+        this.PROJECT_PATH = path;
     }
-
+    
+    
     @Override
     protected void createFormContent(IManagedForm managedForm) {
-	ScrolledForm form = managedForm.getForm();
-	FormToolkit toolkit = managedForm.getToolkit();
-	form.setText("Define general information");
-
-	form.getBody().setLayout(new GridLayout(1, false));
-	addPropertiesSection(form.getBody(), toolkit);
-	addLocalizationSection(form.getBody(), toolkit);
+        ScrolledForm form = managedForm.getForm();
+        FormToolkit toolkit = managedForm.getToolkit();
+        form.setText("Define general information");
+        
+        form.getBody().setLayout(new GridLayout(1, false));
+        addPropertiesSection(form.getBody(), toolkit);
+        addLocalizationSection(form.getBody(), toolkit);
     }
-
+    
+    
     /**
      * Adds the properties section to the page
      * 
@@ -127,29 +130,27 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            {@link FormToolkit}
      */
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
-	// Set the section's parameters
-	Section section = createSectionWithDescription(parent,
-		"AndroidManifest.xml functions", toolkit,
-		"Add helpful parts to the AndroidManifest.xml of the project");
-
-	// Create elements stored inside this section
-	Composite client = toolkit.createComposite(section, SWT.WRAP);
-
-	client.setLayout(new GridLayout(2, false));
-
-	Button pmpReg = toolkit.createButton(client,
-		"Add PMP Registration activity...", SWT.PUSH);
-	pmpReg.setImage(Images.IMG_OBJ_ADD);
-
-	Button service = toolkit.createButton(client, "Add PMP service...",
-		SWT.PUSH);
-	service.setImage(Images.IMG_OBJ_ADD);
-	pmpReg.addSelectionListener(this);
-	service.addSelectionListener(this);
-
-	section.setClient(client);
+        // Set the section's parameters
+        Section section = createSectionWithDescription(parent, "AndroidManifest.xml functions", toolkit,
+                "Add helpful parts to the AndroidManifest.xml of the project");
+        
+        // Create elements stored inside this section
+        Composite client = toolkit.createComposite(section, SWT.WRAP);
+        
+        client.setLayout(new GridLayout(2, false));
+        
+        Button pmpReg = toolkit.createButton(client, "Add PMP Registration activity...", SWT.PUSH);
+        pmpReg.setImage(Images.IMG_OBJ_ADD);
+        
+        Button service = toolkit.createButton(client, "Add PMP service...", SWT.PUSH);
+        service.setImage(Images.IMG_OBJ_ADD);
+        pmpReg.addSelectionListener(this);
+        service.addSelectionListener(this);
+        
+        section.setClient(client);
     }
-
+    
+    
     /**
      * Adds the localization section to the page with the table
      * 
@@ -159,48 +160,47 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            {@link FormToolkit}
      */
     private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
-	// Set the section's parameters
-	Section section = createSection(parent, "Localization", toolkit);
-
-	// Create elements stored inside this section
-	Composite client = toolkit.createComposite(section);
-
-	client.setLayout(new GridLayout(2, false));
-
-	GridData layoutData = new GridData();
-	layoutData.horizontalAlignment = GridData.FILL;
-	layoutData.verticalAlignment = GridData.FILL;
-	layoutData.grabExcessHorizontalSpace = true;
-	layoutData.grabExcessVerticalSpace = true;
-
-	client.setLayoutData(layoutData);
-	section.setLayoutData(layoutData);
-
-	IAIS ais = model.getAis();
-	ILocaleTableAction dirtyAction = new ILocaleTableAction() {
-
-	    @Override
-	    public void doSetDirty(boolean dirty) {
-		model.setDirty(true);
-	    }
-
-	    @Override
-	    public void doValidate() {
-		AISValidatorWrapper.getInstance().validateAIS(model.getAis(),
-			true);
-	    }
-	};
-	LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME,
-		dirtyAction, toolkit);
-	nameTable.getComposite().setLayoutData(layoutData);
-
-	LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION,
-		dirtyAction, toolkit);
-	descTable.getComposite().setLayoutData(layoutData);
-
-	section.setClient(client);
+        // Set the section's parameters
+        Section section = createSection(parent, "Localization", toolkit);
+        
+        // Create elements stored inside this section
+        Composite client = toolkit.createComposite(section);
+        
+        client.setLayout(new GridLayout(2, false));
+        
+        GridData layoutData = new GridData();
+        layoutData.horizontalAlignment = GridData.FILL;
+        layoutData.verticalAlignment = GridData.FILL;
+        layoutData.grabExcessHorizontalSpace = true;
+        layoutData.grabExcessVerticalSpace = true;
+        
+        client.setLayoutData(layoutData);
+        section.setLayoutData(layoutData);
+        
+        IAIS ais = this.model.getAis();
+        ILocaleTableAction dirtyAction = new ILocaleTableAction() {
+            
+            @Override
+            public void doSetDirty(boolean dirty) {
+                AISGeneralPage.this.model.setDirty(true);
+            }
+            
+            
+            @Override
+            public void doValidate() {
+                AISValidatorWrapper.getInstance().validateAIS(AISGeneralPage.this.model.getAis(), true);
+            }
+        };
+        LocaleTable nameTable = new LocaleTable(client, ais, Type.NAME, dirtyAction, toolkit);
+        nameTable.getComposite().setLayoutData(layoutData);
+        
+        LocaleTable descTable = new LocaleTable(client, ais, Type.DESCRIPTION, dirtyAction, toolkit);
+        descTable.getComposite().setLayoutData(layoutData);
+        
+        section.setClient(client);
     }
-
+    
+    
     /**
      * Creates a default section which spans over the whole editor
      * 
@@ -214,24 +214,23 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            description of the Section
      * @return the created Section
      */
-    private Section createSectionWithDescription(Composite parent,
-	    String title, FormToolkit toolkit, String desc) {
-	Section section = toolkit.createSection(parent,
-		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
-			| Section.DESCRIPTION);
-	section.setDescription(desc);
-	section.setText(title);
-	section.setExpanded(true);
-
-	GridData layoutData = new GridData();
-	layoutData.horizontalAlignment = GridData.FILL;
-	layoutData.grabExcessHorizontalSpace = true;
-
-	section.setLayoutData(layoutData);
-
-	return section;
+    private Section createSectionWithDescription(Composite parent, String title, FormToolkit toolkit, String desc) {
+        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
+                | Section.DESCRIPTION);
+        section.setDescription(desc);
+        section.setText(title);
+        section.setExpanded(true);
+        
+        GridData layoutData = new GridData();
+        layoutData.horizontalAlignment = GridData.FILL;
+        layoutData.grabExcessHorizontalSpace = true;
+        
+        section.setLayoutData(layoutData);
+        
+        return section;
     }
-
+    
+    
     /**
      * Creates a default section which spans over the whole editor
      * 
@@ -243,22 +242,21 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            {@link FormToolkit}
      * @return the creatde Section
      */
-    private Section createSection(Composite parent, String title,
-	    FormToolkit toolkit) {
-	Section section = toolkit.createSection(parent,
-		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
-	section.setText(title);
-	section.setExpanded(true);
-
-	GridData layoutData = new GridData();
-	layoutData.horizontalAlignment = GridData.FILL;
-	layoutData.grabExcessHorizontalSpace = true;
-
-	section.setLayoutData(layoutData);
-
-	return section;
+    private Section createSection(Composite parent, String title, FormToolkit toolkit) {
+        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
+        section.setText(title);
+        section.setExpanded(true);
+        
+        GridData layoutData = new GridData();
+        layoutData.horizontalAlignment = GridData.FILL;
+        layoutData.grabExcessHorizontalSpace = true;
+        
+        section.setLayoutData(layoutData);
+        
+        return section;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -268,10 +266,11 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     @Override
     public void widgetDefaultSelected(SelectionEvent arg0) {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -281,143 +280,102 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     @Override
     public void widgetSelected(SelectionEvent event) {
-	if (event.getSource() instanceof Button) {
-	    AndroidManifestAdapter adapter = new AndroidManifestAdapter();
-	    Button clicked = (Button) event.getSource();
-
-	    /*
-	     * Add the activity or the service to the AndroidManifestxml and /
-	     * show the error warnings
-	     */
-	    if (clicked.getText().equals("Add PMP Registration activity...")) {
-		try {
-		    adapter.addPMPActivityToManifest(PROJECT_PATH, MANIFTEST);
-		    MessageDialog
-			    .openInformation(
-				    Display.getDefault().getActiveShell(),
-				    "Success",
-				    "The PMP Registration activity was successfully added to the AndroidManifest.xml.");
-		} catch (FileNotFoundException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "AndroidManifest.xml was not found.", status);
-		} catch (ParserConfigurationException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Parser configuration exception.", status);
-		} catch (SAXException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the activity.", status);
-		} catch (IOException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the activity.", status);
-		} catch (TransformerFactoryConfigurationError e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the activity.", status);
-		} catch (TransformerException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the activity.", status);
-		} catch (PMPActivityAlreadyExistsException e) {
-		    MessageDialog.openInformation(Display.getDefault()
-			    .getActiveShell(), "Information",
-			    "The PMP activity is already declared.");
-		} catch (NoMainActivityException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "No main activity declared.", status);
-		} catch (AppIdentifierNotFoundException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "The <application> node was not found.", status);
-		}
-	    } else {
-		try {
-		    adapter.addPMPServiceToManifest(PROJECT_PATH, MANIFTEST);
-		    MessageDialog
-			    .openInformation(Display.getDefault()
-				    .getActiveShell(), "Success",
-				    "The PMP Service was successfully added to the AndroidManifest.xml.");
-
-		} catch (FileNotFoundException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "AndroidManifest.xml was not found.", status);
-		} catch (DOMException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the PMP service.", status);
-		} catch (ParserConfigurationException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the PMP service.", status);
-		} catch (SAXException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the PMP service.", status);
-		} catch (IOException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the PMP service.", status);
-		} catch (AndroidApplicationException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "More than one <application> node found.", status);
-		} catch (TransformerFactoryConfigurationError e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the PMP service.", status);
-		} catch (TransformerException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "Could not add the PMP service.", status);
-		} catch (PMPServiceAlreadyExists e) {
-		    MessageDialog.openInformation(Display.getDefault()
-			    .getActiveShell(), "Information",
-			    "The PMP service is already declared.");
-		} catch (AppIdentifierNotFoundException e) {
-		    IStatus status = new Status(IStatus.ERROR, ID,
-			    "See details", e);
-		    ErrorDialog.openError(
-			    Display.getDefault().getActiveShell(), "Error",
-			    "The <application> node was not found.", status);
-		}
-	    }
-	}
+        if (event.getSource() instanceof Button) {
+            AndroidManifestAdapter adapter = new AndroidManifestAdapter();
+            Button clicked = (Button) event.getSource();
+            
+            /*
+             * Add the activity or the service to the AndroidManifestxml and /
+             * show the error warnings
+             */
+            if (clicked.getText().equals("Add PMP Registration activity...")) {
+                try {
+                    adapter.addPMPActivityToManifest(this.PROJECT_PATH, MANIFTEST);
+                    MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Success",
+                            "The PMP Registration activity was successfully added to the AndroidManifest.xml.");
+                } catch (FileNotFoundException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "AndroidManifest.xml was not found.", status);
+                } catch (ParserConfigurationException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Parser configuration exception.", status);
+                } catch (SAXException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the activity.", status);
+                } catch (IOException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the activity.", status);
+                } catch (TransformerFactoryConfigurationError e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the activity.", status);
+                } catch (TransformerException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the activity.", status);
+                } catch (PMPActivityAlreadyExistsException e) {
+                    MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information",
+                            "The PMP activity is already declared.");
+                } catch (NoMainActivityException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error", "No main activity declared.",
+                            status);
+                } catch (AppIdentifierNotFoundException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "The <application> node was not found.", status);
+                }
+            } else {
+                try {
+                    adapter.addPMPServiceToManifest(this.PROJECT_PATH, MANIFTEST);
+                    MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Success",
+                            "The PMP Service was successfully added to the AndroidManifest.xml.");
+                    
+                } catch (FileNotFoundException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "AndroidManifest.xml was not found.", status);
+                } catch (DOMException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the PMP service.", status);
+                } catch (ParserConfigurationException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the PMP service.", status);
+                } catch (SAXException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the PMP service.", status);
+                } catch (IOException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the PMP service.", status);
+                } catch (AndroidApplicationException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "More than one <application> node found.", status);
+                } catch (TransformerFactoryConfigurationError e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the PMP service.", status);
+                } catch (TransformerException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "Could not add the PMP service.", status);
+                } catch (PMPServiceAlreadyExists e) {
+                    MessageDialog.openInformation(Display.getDefault().getActiveShell(), "Information",
+                            "The PMP service is already declared.");
+                } catch (AppIdentifierNotFoundException e) {
+                    IStatus status = new Status(IStatus.ERROR, ID, "See details", e);
+                    ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error",
+                            "The <application> node was not found.", status);
+                }
+            }
+        }
     }
 }

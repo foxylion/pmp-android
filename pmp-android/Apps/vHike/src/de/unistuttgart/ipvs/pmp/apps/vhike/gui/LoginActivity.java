@@ -40,34 +40,34 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        PMP.get(this.getApplication());
+        PMP.get(getApplication());
         
         setContentView(R.layout.activity_login);
         
-        cb_remember = (CheckBox) findViewById(R.id.Checkbox_Remember);
+        this.cb_remember = (CheckBox) findViewById(R.id.Checkbox_Remember);
         Button btnLogin = (Button) findViewById(R.id.button_login);
-        et_username = (EditText) findViewById(R.id.edit_login);
-        et_pw = (EditText) findViewById(R.id.edit_password);
-        ctrl = new Controller();
+        this.et_username = (EditText) findViewById(R.id.edit_login);
+        this.et_pw = (EditText) findViewById(R.id.edit_password);
+        this.ctrl = new Controller();
         
         registerLink();
         
-        username = "";
-        pw = "";
+        this.username = "";
+        this.pw = "";
         
         btnLogin.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 
-                username = et_username.getText().toString();
-                pw = et_pw.getText().toString();
+                LoginActivity.this.username = LoginActivity.this.et_username.getText().toString();
+                LoginActivity.this.pw = LoginActivity.this.et_pw.getText().toString();
                 
-                if (username.equals("") || pw.equals("")) {
+                if (LoginActivity.this.username.equals("") || LoginActivity.this.pw.equals("")) {
                     Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
                 } else {
                     
-                    if (ctrl.login(username, pw)) {
+                    if (LoginActivity.this.ctrl.login(LoginActivity.this.username, LoginActivity.this.pw)) {
                         
                         vhikeDialogs.getInstance().getLoginPD(LoginActivity.this).show();
                         
@@ -90,16 +90,16 @@ public class LoginActivity extends Activity {
         super.onResume();
         
         SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
-        remember = settings.getBoolean("REMEMBER", false);
-        username = settings.getString("USERNAME", "");
-        pw = settings.getString("PASSWORD", "");
+        this.remember = settings.getBoolean("REMEMBER", false);
+        this.username = settings.getString("USERNAME", "");
+        this.pw = settings.getString("PASSWORD", "");
         
-        if (remember) {
-            et_username.setText(username);
-            et_pw.setText(pw);
-            cb_remember.setChecked(remember);
+        if (this.remember) {
+            this.et_username.setText(this.username);
+            this.et_pw.setText(this.pw);
+            this.cb_remember.setChecked(this.remember);
         } else {
-            cb_remember.setChecked(remember);
+            this.cb_remember.setChecked(this.remember);
         }
     }
     
@@ -108,45 +108,47 @@ public class LoginActivity extends Activity {
     protected void onStop() {
         super.onStop();
         
-        SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         
-        if (cb_remember.isChecked()) {
+        if (this.cb_remember.isChecked()) {
             
-            prefsEditor.putBoolean("REMEMBER", cb_remember.isChecked());
-            prefsEditor.putString("USERNAME", et_username.getText().toString());
-            prefsEditor.putString("PASSWORD", et_pw.getText().toString());
+            prefsEditor.putBoolean("REMEMBER", this.cb_remember.isChecked());
+            prefsEditor.putString("USERNAME", this.et_username.getText().toString());
+            prefsEditor.putString("PASSWORD", this.et_pw.getText().toString());
             
             prefsEditor.commit();
         } else {
-            remember = false;
+            this.remember = false;
             prefsEditor.putBoolean("REMEMBER", false);
             
             prefsEditor.commit();
         }
     }
     
+    
     @Override
     protected void onPause() {
         super.onStop();
         
-        SharedPreferences prefs = this.getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
         
-        if (cb_remember.isChecked()) {
+        if (this.cb_remember.isChecked()) {
             
-            prefsEditor.putBoolean("REMEMBER", cb_remember.isChecked());
-            prefsEditor.putString("USERNAME", et_username.getText().toString());
-            prefsEditor.putString("PASSWORD", et_pw.getText().toString());
+            prefsEditor.putBoolean("REMEMBER", this.cb_remember.isChecked());
+            prefsEditor.putString("USERNAME", this.et_username.getText().toString());
+            prefsEditor.putString("PASSWORD", this.et_pw.getText().toString());
             
             prefsEditor.commit();
         } else {
-            remember = false;
+            this.remember = false;
             prefsEditor.putBoolean("REMEMBER", false);
             
             prefsEditor.commit();
         }
     }
+    
     
     /**
      * Set up Button for registration, starts RegisterActivity

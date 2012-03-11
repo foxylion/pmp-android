@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,9 +31,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * @author Thorsten Berberich
  * 
  */
-public class PrivacySettingsDialogContentProvider implements
-	IStructuredContentProvider {
-
+public class PrivacySettingsDialogContentProvider implements IStructuredContentProvider {
+    
     /*
      * (non-Javadoc)
      * 
@@ -41,10 +40,11 @@ public class PrivacySettingsDialogContentProvider implements
      */
     @Override
     public void dispose() {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -54,10 +54,11 @@ public class PrivacySettingsDialogContentProvider implements
      */
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -67,7 +68,7 @@ public class PrivacySettingsDialogContentProvider implements
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((RGIS) arg0).getPrivacySettings().toArray();
+        return ((RGIS) arg0).getPrivacySettings().toArray();
     }
-
+    
 }

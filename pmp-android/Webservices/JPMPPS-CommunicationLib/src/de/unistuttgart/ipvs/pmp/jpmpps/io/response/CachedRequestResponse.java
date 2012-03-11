@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.response;
 
-
 /**
  * Returned when a request was cached.
  * 

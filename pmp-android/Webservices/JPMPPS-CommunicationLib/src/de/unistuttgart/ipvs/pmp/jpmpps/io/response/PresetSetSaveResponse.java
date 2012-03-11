@@ -33,7 +33,7 @@ public class PresetSetSaveResponse extends AbstractResponse {
      * @return Returns the success of the save request.
      */
     public boolean isSuccess() {
-        return success;
+        return this.success;
     }
     
     
@@ -41,11 +41,11 @@ public class PresetSetSaveResponse extends AbstractResponse {
      * @return Returns the failure message when the save request failed.
      */
     public String getMessage() {
-        if (success) {
+        if (this.success) {
             return null;
         }
         
-        return messageOrId;
+        return this.messageOrId;
     }
     
     
@@ -53,10 +53,10 @@ public class PresetSetSaveResponse extends AbstractResponse {
      * @return Returns the id of the saved preset set when saving succeeded.
      */
     public String getId() {
-        if (!success) {
+        if (!this.success) {
             return null;
         }
         
-        return messageOrId;
+        return this.messageOrId;
     }
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,57 +34,61 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class AutocompleteTextCellEditor extends TextCellEditor {
-
+    
     private ContentProposalAdapter adapter;
-
+    
+    
     // Other possible implementation:
     // http://dev.eclipse.org/viewcvs/viewvc.cgi/org.eclipse.jface.snippets/Eclipse%20JFace%20Snippets/org/eclipse/jface/snippets/viewers/Snippet060TextCellEditorWithContentProposal.java?revision=1.1&view=co
-
+    
     public AutocompleteTextCellEditor(Composite parent, String[] proposals) {
-	this(parent, new SimpleContentProposalProvider(proposals), null, null);
+        this(parent, new SimpleContentProposalProvider(proposals), null, null);
     }
-
-    public AutocompleteTextCellEditor(Composite parent,
-	    SimpleContentProposalProvider proposalProvider,
-	    KeyStroke keyStroke, char[] autoActivationCharacters) {
-	super(parent);
-
-	proposalProvider.setFiltering(true);
-	adapter = new ContentProposalAdapter(text, new TextContentAdapter(),
-		proposalProvider, keyStroke, autoActivationCharacters);
-	// adapter.setPropagateKeys(true);
-	adapter.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
-
-	// Listen for popup open/close events to be able to handle focus events
-	// correctly
-	adapter.addContentProposalListener(new IContentProposalListener2() {
-
-	    @Override
-	    public void proposalPopupClosed(ContentProposalAdapter adapter) {
-		if (!text.isFocusControl()) {
-		    focusLost();// fireApplyEditorValue();
-		}
-	    }
-
-	    @Override
-	    public void proposalPopupOpened(ContentProposalAdapter adapter) {
-	    }
-	});
+    
+    
+    public AutocompleteTextCellEditor(Composite parent, SimpleContentProposalProvider proposalProvider,
+            KeyStroke keyStroke, char[] autoActivationCharacters) {
+        super(parent);
+        
+        proposalProvider.setFiltering(true);
+        this.adapter = new ContentProposalAdapter(this.text, new TextContentAdapter(), proposalProvider, keyStroke,
+                autoActivationCharacters);
+        // adapter.setPropagateKeys(true);
+        this.adapter.setProposalAcceptanceStyle(ContentProposalAdapter.PROPOSAL_REPLACE);
+        
+        // Listen for popup open/close events to be able to handle focus events
+        // correctly
+        this.adapter.addContentProposalListener(new IContentProposalListener2() {
+            
+            @Override
+            public void proposalPopupClosed(ContentProposalAdapter adapter) {
+                if (!AutocompleteTextCellEditor.this.text.isFocusControl()) {
+                    focusLost();// fireApplyEditorValue();
+                }
+            }
+            
+            
+            @Override
+            public void proposalPopupOpened(ContentProposalAdapter adapter) {
+            }
+        });
     }
-
+    
+    
     @Override
     protected void focusLost() {
-
-	if (!adapter.isProposalPopupOpen()) {
-	    // this.fireApplyEditorValue();
-	    super.focusLost();
-	}
-
+        
+        if (!this.adapter.isProposalPopupOpen()) {
+            // this.fireApplyEditorValue();
+            super.focusLost();
+        }
+        
     }
-
+    
+    
     @Override
     protected boolean dependsOnExternalFocusListener() {
-	return false;
+        return false;
     }
-
+    
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,16 +56,18 @@ import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
  * 
  */
 public class WizardPageCreateRGIS extends WizardPage {
+    
     /**
      * {@link Text} for the project
      */
     private Text assetsFolderText;
-
+    
     /**
      * The identifier of the project
      */
     private Text identifier;
-
+    
+    
     /**
      * Constructor for the {@link WizardPageCreateRGIS}
      * 
@@ -73,171 +75,174 @@ public class WizardPageCreateRGIS extends WizardPage {
      *            {@link ISelection}
      */
     public WizardPageCreateRGIS(ISelection selection) {
-	super("Resourcegroup-Information-Set");
-	setTitle("Resourcegroup-Information-Set File");
-	setDescription("This wizard creates a new Resourcegroup-Information-Set for a PMP compatible Resources.");
+        super("Resourcegroup-Information-Set");
+        setTitle("Resourcegroup-Information-Set File");
+        setDescription("This wizard creates a new Resourcegroup-Information-Set for a PMP compatible Resources.");
     }
-
+    
+    
     /**
      * @see IDialogPage#createControl(Composite)
      */
     @Override
     public void createControl(Composite parent) {
-	Composite container = new Composite(parent, SWT.NULL);
-	GridLayout layout = new GridLayout();
-	container.setLayout(layout);
-	layout.numColumns = 3;
-	layout.verticalSpacing = 9;
-
-	// Project label
-	Label label = new Label(container, SWT.NULL);
-	label.setText("&Assets folder:");
-	assetsFolderText = new Text(container, SWT.BORDER | SWT.SINGLE);
-	GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-	assetsFolderText.setLayoutData(gd);
-	assetsFolderText.addModifyListener(new ModifyListener() {
-	    @Override
-	    public void modifyText(ModifyEvent e) {
-		dialogChanged();
-	    }
-	});
-
-	// Button to browse the project
-	Button button = new Button(container, SWT.PUSH);
-	button.setText("Browse...");
-	button.addSelectionListener(new SelectionAdapter() {
-	    @Override
-	    public void widgetSelected(SelectionEvent e) {
-		handleBrowse();
-	    }
-	});
-
-	label = new Label(container, SWT.NULL);
-	label.setText("File name:");
-
-	Text fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
-	fileText.setText("rgis.xml");
-	fileText.setEnabled(false);
-	gd = new GridData(GridData.FILL_HORIZONTAL);
-	fileText.setLayoutData(gd);
-	fileText.addKeyListener(new KeyListener() {
-
-	    @Override
-	    public void keyReleased(KeyEvent e) {
-	    }
-
-	    @Override
-	    public void keyPressed(KeyEvent e) {
-		dialogChanged();
-	    }
-	});
-
-	new Text(container, SWT.NULL).setVisible(false);
-
-	label = new Label(container, SWT.NULL);
-	label.setText("Identifier:");
-
-	identifier = new Text(container, SWT.BORDER | SWT.SINGLE);
-	identifier.setEnabled(false);
-	identifier.setLayoutData(gd);
-
-	dialogChanged();
-	setControl(container);
+        Composite container = new Composite(parent, SWT.NULL);
+        GridLayout layout = new GridLayout();
+        container.setLayout(layout);
+        layout.numColumns = 3;
+        layout.verticalSpacing = 9;
+        
+        // Project label
+        Label label = new Label(container, SWT.NULL);
+        label.setText("&Assets folder:");
+        this.assetsFolderText = new Text(container, SWT.BORDER | SWT.SINGLE);
+        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+        this.assetsFolderText.setLayoutData(gd);
+        this.assetsFolderText.addModifyListener(new ModifyListener() {
+            
+            @Override
+            public void modifyText(ModifyEvent e) {
+                dialogChanged();
+            }
+        });
+        
+        // Button to browse the project
+        Button button = new Button(container, SWT.PUSH);
+        button.setText("Browse...");
+        button.addSelectionListener(new SelectionAdapter() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                handleBrowse();
+            }
+        });
+        
+        label = new Label(container, SWT.NULL);
+        label.setText("File name:");
+        
+        Text fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
+        fileText.setText("rgis.xml");
+        fileText.setEnabled(false);
+        gd = new GridData(GridData.FILL_HORIZONTAL);
+        fileText.setLayoutData(gd);
+        fileText.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+            
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                dialogChanged();
+            }
+        });
+        
+        new Text(container, SWT.NULL).setVisible(false);
+        
+        label = new Label(container, SWT.NULL);
+        label.setText("Identifier:");
+        
+        this.identifier = new Text(container, SWT.BORDER | SWT.SINGLE);
+        this.identifier.setEnabled(false);
+        this.identifier.setLayoutData(gd);
+        
+        dialogChanged();
+        setControl(container);
     }
-
+    
+    
     /**
      * Uses the standard container selection dialog to choose the value for the
      * project field. Only the project path will be taken and "/assets" will be
      * appended
      */
     private void handleBrowse() {
-	ContainerSelectionDialog dialog = new ContainerSelectionDialog(
-		getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-		"Select the project");
-	if (dialog.open() == Window.OK) {
-	    Object[] result = dialog.getResult();
-	    if (result.length == 1) {
-		String[] split = ((Path) result[0]).toString().split("/");
-		assetsFolderText.setText("/" + split[1] + "/assets");
-		dialogChanged();
-	    }
-	}
+        ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace()
+                .getRoot(), false, "Select the project");
+        if (dialog.open() == Window.OK) {
+            Object[] result = dialog.getResult();
+            if (result.length == 1) {
+                String[] split = ((Path) result[0]).toString().split("/");
+                this.assetsFolderText.setText("/" + split[1] + "/assets");
+                dialogChanged();
+            }
+        }
     }
-
+    
+    
     /**
      * Checks the project field if it is correct
      */
     private void dialogChanged() {
-	// Split only the project out of the string
-	String[] projects = getProjectName().split("/");
-
-	// The project name
-	String project = "";
-	if (projects.length >= 2) {
-	    project = "/" + projects[1];
-	}
-
-	IResource iRes = ResourcesPlugin.getWorkspace().getRoot()
-		.findMember(new Path(project));
-
-	// Path doesn't start with a "/"
-	if (!getProjectName().startsWith("/")) {
-	    updateStatus("Path has to start with \"/\"");
-	    identifier.setText("");
-	    return;
-	}
-
-	// No project entered
-	if (getProjectName().length() == 0) {
-	    updateStatus("Project must be specified");
-	    identifier.setText("");
-	    return;
-	}
-
-	// Project doesn't exist
-	if (iRes == null
-		|| (iRes.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
-	    updateStatus("Project container must exist");
-	    identifier.setText("");
-	    return;
-	}
-
-	// Project isn't writable
-	if (!iRes.isAccessible()) {
-	    updateStatus("Project must be writable");
-	    identifier.setText("");
-	    return;
-	}
-
-	// Check if it's an Android-Project
-	try {
-	    String appIdentifier = new AndroidManifestAdapter()
-		    .getAppIdentifier(project + "/", "AndroidManifest.xml");
-	    identifier.setText(appIdentifier);
-	} catch (ParserConfigurationException e) {
-	    updateStatus("Project must be an Android-Project");
-	    return;
-	} catch (SAXException e) {
-	    updateStatus("Project must be an Android-Project");
-	    return;
-	} catch (IOException e) {
-	    updateStatus("Project must be an Android-Project");
-	    return;
-	} catch (AppIdentifierNotFoundException e) {
-	    updateStatus(e.getMessage());
-	    return;
-	}
-
-	// Assets folder is not specified at the path
-	if (!getProjectName().endsWith(project + "/assets")) {
-	    updateStatus("Assets folder must be specified at the root of your project");
-	    return;
-	}
-
-	// Everything correct
-	updateStatus(null);
+        // Split only the project out of the string
+        String[] projects = getProjectName().split("/");
+        
+        // The project name
+        String project = "";
+        if (projects.length >= 2) {
+            project = "/" + projects[1];
+        }
+        
+        IResource iRes = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(project));
+        
+        // Path doesn't start with a "/"
+        if (!getProjectName().startsWith("/")) {
+            updateStatus("Path has to start with \"/\"");
+            this.identifier.setText("");
+            return;
+        }
+        
+        // No project entered
+        if (getProjectName().length() == 0) {
+            updateStatus("Project must be specified");
+            this.identifier.setText("");
+            return;
+        }
+        
+        // Project doesn't exist
+        if (iRes == null || (iRes.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+            updateStatus("Project container must exist");
+            this.identifier.setText("");
+            return;
+        }
+        
+        // Project isn't writable
+        if (!iRes.isAccessible()) {
+            updateStatus("Project must be writable");
+            this.identifier.setText("");
+            return;
+        }
+        
+        // Check if it's an Android-Project
+        try {
+            String appIdentifier = new AndroidManifestAdapter().getAppIdentifier(project + "/", "AndroidManifest.xml");
+            this.identifier.setText(appIdentifier);
+        } catch (ParserConfigurationException e) {
+            updateStatus("Project must be an Android-Project");
+            return;
+        } catch (SAXException e) {
+            updateStatus("Project must be an Android-Project");
+            return;
+        } catch (IOException e) {
+            updateStatus("Project must be an Android-Project");
+            return;
+        } catch (AppIdentifierNotFoundException e) {
+            updateStatus(e.getMessage());
+            return;
+        }
+        
+        // Assets folder is not specified at the path
+        if (!getProjectName().endsWith(project + "/assets")) {
+            updateStatus("Assets folder must be specified at the root of your project");
+            return;
+        }
+        
+        // Everything correct
+        updateStatus(null);
     }
-
+    
+    
     /**
      * Sets the error message and if the page is complete
      * 
@@ -246,42 +251,45 @@ public class WizardPageCreateRGIS extends WizardPage {
      *            message to display
      */
     private void updateStatus(String message) {
-	setErrorMessage(message);
-	setPageComplete(message == null);
+        setErrorMessage(message);
+        setPageComplete(message == null);
     }
-
+    
+    
     /**
      * Returns the selected project with the /assets appended
      * 
      * @return project path + "/assets"
      */
     public String getProjectName() {
-	return assetsFolderText.getText();
+        return this.assetsFolderText.getText();
     }
-
+    
+    
     /**
      * Returns the app identifier out of the AndroidManifest.xml
      * 
      * @return App identifier
      */
     public String getIdentifier() {
-	return identifier.getText();
+        return this.identifier.getText();
     }
-
+    
+    
     /**
      * Returns the project without the "/assets"
      * 
      * @return project only
      */
     public String getProjectOnly() {
-	// Split only the project out of the string
-	String[] projects = getProjectName().split("/");
-
-	// The project name
-	String project = "";
-	if (projects.length >= 2) {
-	    project = projects[1];
-	}
-	return project;
+        // Split only the project out of the string
+        String[] projects = getProjectName().split("/");
+        
+        // The project name
+        String project = "";
+        if (projects.length >= 2) {
+            project = projects[1];
+        }
+        return project;
     }
 }

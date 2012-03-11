@@ -17,7 +17,6 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.view.IntegerView;
 public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
     
     private int worstValue;
-    private int bestValue;
     
     
     public IntegerPrivacySetting(final int worstValue, final int bestValue) {
@@ -34,7 +33,6 @@ public class IntegerPrivacySetting extends DefaultPrivacySetting<Integer> {
         });
         
         this.worstValue = worstValue;
-        this.bestValue = bestValue;
     }
     
     

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: App3
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,26 +26,27 @@ import android.support.v4.view.ViewPager;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class InfoAppActivity extends FragmentActivity {
-
-	private ViewPager mPager;
-	private InfoAppFragmentPagerAdapter mAdapter;
-	private CirclePageIndicator mIndicator;
-
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-
-		mPager = (ViewPager) findViewById(R.id.viewpager);
-		mAdapter = new InfoAppFragmentPagerAdapter(getSupportFragmentManager());
-		mPager.setAdapter(mAdapter);
-
-		mIndicator = (CirclePageIndicator) findViewById(R.id.navigation);
-		mIndicator.setViewPager(mPager);
-		mIndicator.setCurrentItem(0);
-
-		// You can also do: indicator.setViewPager(pager, initialPage);
-
-	}
+    
+    private ViewPager mPager;
+    private InfoAppFragmentPagerAdapter mAdapter;
+    private CirclePageIndicator mIndicator;
+    
+    
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        
+        this.mPager = (ViewPager) findViewById(R.id.viewpager);
+        this.mAdapter = new InfoAppFragmentPagerAdapter(getSupportFragmentManager());
+        this.mPager.setAdapter(this.mAdapter);
+        
+        this.mIndicator = (CirclePageIndicator) findViewById(R.id.navigation);
+        this.mIndicator.setViewPager(this.mPager);
+        this.mIndicator.setCurrentItem(0);
+        
+        // You can also do: indicator.setViewPager(pager, initialPage);
+        
+    }
 }

@@ -91,8 +91,9 @@ public class DialogInstalledDetails extends Dialog {
             
             @Override
             public void onClick(View v) {
-                new DialogConfirmDelete(getContext(), getContext().getString(R.string.rg_confirm_remove), getContext()
-                        .getString(R.string.rg_confirm_description, resourcegroup.getName()),
+                new DialogConfirmDelete(getContext(), getContext().getString(R.string.rg_confirm_remove),
+                        getContext().getString(R.string.rg_confirm_description,
+                                DialogInstalledDetails.this.resourcegroup.getName()),
                         new DialogConfirmDelete.ICallback() {
                             
                             @Override

@@ -161,18 +161,22 @@ public abstract class AbstractParser {
         // Add to the app information set
         for (ParsedNode nameNode : nameList) {
             LocalizedString name = new LocalizedString();
-            if (nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR) != null)
+            if (nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR) != null) {
                 name.setLocale(new Locale(nameNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-            if (nameNode.getValue() != null)
+            }
+            if (nameNode.getValue() != null) {
                 name.setString(nameNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
+            }
             is.addName(name);
         }
         for (ParsedNode descriptionNode : descriptionList) {
             LocalizedString descr = new LocalizedString();
-            if (descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR) != null)
+            if (descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR) != null) {
                 descr.setLocale(new Locale(descriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));
-            if (descriptionNode.getValue() != null)
+            }
+            if (descriptionNode.getValue() != null) {
                 descr.setString(descriptionNode.getValue().replaceAll("\t", "").replaceAll("\n", " ").trim());
+            }
             is.addDescription(descr);
         }
     }

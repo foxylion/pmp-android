@@ -30,91 +30,93 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
  * @author Alexander Wassiljew, Dang Huynh
  */
 public class JSonRequestProvider {
-
-	private static final String	TAG	= "JSonRequestProvider";
-
-	// private static final boolean debug = false;
-
-	/**
-	 * private constructor cause of singleton
-	 */
-	public JSonRequestProvider() {
-	}
-
-	/**
-	 * Sending a request to the WEBSERVICE_URL defined in {@link Constants}
-	 * 
-	 * @param listToParse
-	 *            contains all the parameters, which have to be parsed
-	 * @param url
-	 * @param debug
-	 *            mode true or false
-	 * @return JsonObject
-	 * @throws IOException
-	 * @throws ClientProtocolException
-	 */
-	public static JsonObject doRequest(List<ParamObject> listToParse, String url)
-		throws ClientProtocolException, IOException {
-
-		// GET REQUESTS
-		StringBuffer buf = new StringBuffer();
-		buf.append(url);
-		buf.append("?");
-
-		for (ParamObject object : listToParse) {
-
-			if (!(object.isPost())) {
-				buf.append(object.getKey() + "=" + object.getValue());
-				buf.append("&");
-				// getParam = getParam + object.getKey() + "=" +
-				// object.getValue();
-				// getParam = getParam + "&";
-			}
-		}
-		String getParam = buf.toString();
-		// Cut the last '&' out
-		getParam = getParam.substring(0, getParam.length() - 1);
-
-		Log.d(TAG, "Param: " + getParam);
-
-		// Create a new HttpClient and Post Header
-		HttpClient httpclient = new DefaultHttpClient();
-
-		HttpPost httppost = new HttpPost(Constants.WEBSERVICE_URL + getParam);
-
-		List<NameValuePair> namelist = new ArrayList<NameValuePair>(listToParse.size());
-
-		// Iterate over objects, which have to be post to the web service
-		// POST REQUESTS
-		for (ParamObject object : listToParse) {
-			if ((object.isPost())) {
-				namelist.add(new BasicNameValuePair(object.getKey(), object.getValue()));
-				// TODO: Remove this line
-				Log.d(TAG, "POST: " + object.getKey() + " - " + object.getValue());
-			}
-		}
-
-		httppost.setEntity(new UrlEncodedFormEntity(namelist, "UTF-8"));
-
-		// Execute HTTP Post Request
-		HttpResponse response;
-		JsonObject jsonObject = null;
-		response = httpclient.execute(httppost);
-		// for JSON:
-		if (response != null) {
-			InputStream is = response.getEntity().getContent();
-			BufferedReader r = new BufferedReader(new InputStreamReader(is));
-			try {
-				jsonObject = (new JsonParser()).parse(r).getAsJsonObject();
-				Log.d(TAG, "======DEBUG=====");
-				Log.d(TAG, jsonObject.toString());
-				Log.d(TAG, "======DEBUG=====");
-			} catch (Exception e) {
-				Log.d(TAG, e.getMessage());
-			}
-		} else {
-			Log.d(TAG, "No Response");
-		}
-		return jsonObject;
-	}
+    
+    private static final String TAG = "JSonRequestProvider";
+    
+    
+    // private static final boolean debug = false;
+    
+    /**
+     * private constructor cause of singleton
+     */
+    public JSonRequestProvider() {
+    }
+    
+    
+    /**
+     * Sending a request to the WEBSERVICE_URL defined in {@link Constants}
+     * 
+     * @param listToParse
+     *            contains all the parameters, which have to be parsed
+     * @param url
+     * @param debug
+     *            mode true or false
+     * @return JsonObject
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
+    public static JsonObject doRequest(List<ParamObject> listToParse, String url) throws ClientProtocolException,
+            IOException {
+        
+        // GET REQUESTS
+        StringBuffer buf = new StringBuffer();
+        buf.append(url);
+        buf.append("?");
+        
+        for (ParamObject object : listToParse) {
+            
+            if (!(object.isPost())) {
+                buf.append(object.getKey() + "=" + object.getValue());
+                buf.append("&");
+                // getParam = getParam + object.getKey() + "=" +
+                // object.getValue();
+                // getParam = getParam + "&";
+            }
+        }
+        String getParam = buf.toString();
+        // Cut the last '&' out
+        getParam = getParam.substring(0, getParam.length() - 1);
+        
+        Log.d(TAG, "Param: " + getParam);
+        
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        
+        HttpPost httppost = new HttpPost(Constants.WEBSERVICE_URL + getParam);
+        
+        List<NameValuePair> namelist = new ArrayList<NameValuePair>(listToParse.size());
+        
+        // Iterate over objects, which have to be post to the web service
+        // POST REQUESTS
+        for (ParamObject object : listToParse) {
+            if ((object.isPost())) {
+                namelist.add(new BasicNameValuePair(object.getKey(), object.getValue()));
+                // TODO: Remove this line
+                Log.d(TAG, "POST: " + object.getKey() + " - " + object.getValue());
+            }
+        }
+        
+        httppost.setEntity(new UrlEncodedFormEntity(namelist, "UTF-8"));
+        
+        // Execute HTTP Post Request
+        HttpResponse response;
+        JsonObject jsonObject = null;
+        response = httpclient.execute(httppost);
+        // for JSON:
+        if (response != null) {
+            InputStream is = response.getEntity().getContent();
+            BufferedReader r = new BufferedReader(new InputStreamReader(is));
+            try {
+                jsonObject = (new JsonParser()).parse(r).getAsJsonObject();
+                Log.d(TAG, "======DEBUG=====");
+                Log.d(TAG, jsonObject.toString());
+                Log.d(TAG, "======DEBUG=====");
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+        } else {
+            Log.d(TAG, "No Response");
+        }
+        return jsonObject;
+    }
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,19 +24,19 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
- * Extends the {@link AbstractModel} to realize the model for the
- * {@link RgisEditor}
+ * Extends the {@link AbstractModel} to realize the model for the {@link RgisEditor}
  * 
  * @author Thorsten Berberich
  * 
  */
 public class RgisModel extends AbstractModel {
-
+    
     /**
      * The stored {@link RGIS}
      */
     private IRGIS rgis;
-
+    
+    
     /**
      * Sets the {@link IRGIS} to store
      * 
@@ -44,16 +44,17 @@ public class RgisModel extends AbstractModel {
      *            {@link IRGIS} to store
      */
     public void setRgis(IRGIS rgis) {
-	this.rgis = rgis;
+        this.rgis = rgis;
     }
-
+    
+    
     /**
      * Get the stored {@link RGIS}
      * 
      * @return the {@link RGIS}
      */
     public IRGIS getRgis() {
-	return rgis;
+        return this.rgis;
     }
-
+    
 }

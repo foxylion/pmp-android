@@ -31,13 +31,13 @@ public class AdapterString extends BaseAdapter {
     
     @Override
     public int getCount() {
-        return items.size();
+        return this.items.size();
     }
     
     
     @Override
     public Object getItem(int position) {
-        return items.get(position);
+        return this.items.get(position);
     }
     
     
@@ -49,19 +49,19 @@ public class AdapterString extends BaseAdapter {
     
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        checkedMap.put(items.get(position), false);
+        this.checkedMap.put(this.items.get(position), false);
         
-        return new CheckableListItem(this.context, this, items.get(position));
+        return new CheckableListItem(this.context, this, this.items.get(position));
     }
     
     
     public void setChecked(String item, boolean checked) {
-        checkedMap.put(item, checked);
+        this.checkedMap.put(item, checked);
     }
     
     
     public boolean isChecked(int position) {
-        return checkedMap.get(items.get(position));
+        return this.checkedMap.get(this.items.get(position));
     }
 }
 
@@ -77,13 +77,13 @@ class CheckableListItem extends LinearLayout {
         this.adapter = adapter;
         this.item = item;
         
-        setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT,
-                AbsListView.LayoutParams.WRAP_CONTENT));
+        setLayoutParams(new AbsListView.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         
         LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View entryView = infalInflater.inflate(R.layout.listitem_checkable_string, null);
-        entryView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT,
-                AbsListView.LayoutParams.WRAP_CONTENT));
+        entryView.setLayoutParams(new AbsListView.LayoutParams(android.view.ViewGroup.LayoutParams.FILL_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         addView(entryView);
         
         refresh();
@@ -97,7 +97,7 @@ class CheckableListItem extends LinearLayout {
     
     
     private void addListener() {
-        this.setOnClickListener(new OnClickListener() {
+        setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
@@ -111,7 +111,7 @@ class CheckableListItem extends LinearLayout {
                     
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        adapter.setChecked(item, buttonView.isChecked());
+                        CheckableListItem.this.adapter.setChecked(CheckableListItem.this.item, buttonView.isChecked());
                     }
                 });
     }

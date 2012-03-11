@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
  * 
  */
 public class ServiceFeatureTreeProvider implements ITreeContentProvider {
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -43,9 +43,10 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public void dispose() {
-
+        
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -56,7 +57,8 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -66,19 +68,19 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getChildren(Object parent) {
-	// If it's an AIS then return the ServiceFeatures of this AIS
-	if (parent instanceof AIS) {
-	    return ((AIS) parent).getServiceFeatures().toArray();
-	}
-
-	// If it's a service feature return the Required Rescource Groups
-	if (parent instanceof AISServiceFeature) {
-	    return ((AISServiceFeature) parent).getRequiredResourceGroups()
-		    .toArray();
-	}
-	return null;
+        // If it's an AIS then return the ServiceFeatures of this AIS
+        if (parent instanceof AIS) {
+            return ((AIS) parent).getServiceFeatures().toArray();
+        }
+        
+        // If it's a service feature return the Required Rescource Groups
+        if (parent instanceof AISServiceFeature) {
+            return ((AISServiceFeature) parent).getRequiredResourceGroups().toArray();
+        }
+        return null;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -88,19 +90,19 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public Object[] getElements(Object input) {
-	// AIS elemtents are the Service Features
-	if (input instanceof AIS) {
-	    return ((AIS) input).getServiceFeatures().toArray();
-	}
-
-	// Elements of the Service Features are the Required Resource Groups
-	if (input instanceof AISServiceFeature) {
-	    return ((AISServiceFeature) input).getRequiredResourceGroups()
-		    .toArray();
-	}
-	return null;
+        // AIS elemtents are the Service Features
+        if (input instanceof AIS) {
+            return ((AIS) input).getServiceFeatures().toArray();
+        }
+        
+        // Elements of the Service Features are the Required Resource Groups
+        if (input instanceof AISServiceFeature) {
+            return ((AISServiceFeature) input).getRequiredResourceGroups().toArray();
+        }
+        return null;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -110,9 +112,10 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public Object getParent(Object parent) {
-	return null;
+        return null;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -122,21 +125,20 @@ public class ServiceFeatureTreeProvider implements ITreeContentProvider {
      */
     @Override
     public boolean hasChildren(Object input) {
-	if (input instanceof AIS) {
-	    return !((AIS) input).getServiceFeatures().isEmpty();
-	}
-
-	if (input instanceof AISServiceFeature) {
-	    return !((AISServiceFeature) input).getRequiredResourceGroups()
-		    .isEmpty();
-	}
-
-	// Resource Groups has no children, they will be display in a table
-	if (input instanceof AISRequiredResourceGroup) {
-	    return false;
-	}
-
-	return false;
+        if (input instanceof AIS) {
+            return !((AIS) input).getServiceFeatures().isEmpty();
+        }
+        
+        if (input instanceof AISServiceFeature) {
+            return !((AISServiceFeature) input).getRequiredResourceGroups().isEmpty();
+        }
+        
+        // Resource Groups has no children, they will be display in a table
+        if (input instanceof AISRequiredResourceGroup) {
+            return false;
+        }
+        
+        return false;
     }
-
+    
 }

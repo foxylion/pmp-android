@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,14 +32,14 @@ import org.eclipse.swt.widgets.TableItem;
  * @author Thorsten Berberich
  * 
  */
-public class TooltipTableLabelListener implements
-	org.eclipse.swt.widgets.Listener {
-
+public class TooltipTableLabelListener implements org.eclipse.swt.widgets.Listener {
+    
     /**
      * The {@link TableViewer} where the tool tips are placed
      */
     TableViewer tableViewer;
-
+    
+    
     /**
      * Creates a listener to display the labels
      * 
@@ -47,9 +47,10 @@ public class TooltipTableLabelListener implements
      *            {@link TableViewer} where the tool tips are displayed
      */
     public TooltipTableLabelListener(TableViewer table) {
-	this.tableViewer = table;
+        this.tableViewer = table;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -59,18 +60,18 @@ public class TooltipTableLabelListener implements
      */
     @Override
     public void handleEvent(Event event) {
-	Label label = (Label) event.widget;
-	Shell shell = label.getShell();
-	switch (event.type) {
-	case SWT.MouseDown:
-	    Event e = new Event();
-	    e.item = (TableItem) label.getData("_TABLEITEM");
-	    tableViewer.getTable().setSelection((TableItem) e.item);
-	    tableViewer.getTable().notifyListeners(SWT.Selection, e);
-	case SWT.MouseExit:
-	    shell.dispose();
-	    break;
-	}
+        Label label = (Label) event.widget;
+        Shell shell = label.getShell();
+        switch (event.type) {
+            case SWT.MouseDown:
+                Event e = new Event();
+                e.item = (TableItem) label.getData("_TABLEITEM");
+                this.tableViewer.getTable().setSelection((TableItem) e.item);
+                this.tableViewer.getTable().notifyListeners(SWT.Selection, e);
+            case SWT.MouseExit:
+                shell.dispose();
+                break;
+        }
     }
-
+    
 }

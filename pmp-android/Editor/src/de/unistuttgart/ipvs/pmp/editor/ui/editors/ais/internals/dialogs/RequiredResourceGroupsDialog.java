@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,14 +56,14 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  * @author Thorsten Berberich
  * 
  */
-public class RequiredResourceGroupsDialog extends SelectionDialog implements
-	ISelectionChangedListener, ICheckStateListener {
-
+public class RequiredResourceGroupsDialog extends SelectionDialog implements ISelectionChangedListener,
+        ICheckStateListener {
+    
     /**
      * The {@link RGISPrivacySetting}s to display
      */
     private List<RGIS> toDisplay;
-
+    
     /**
      * The text that is display on the left hand side
      */
@@ -72,23 +72,24 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
      * The list with the PrivacySettings
      */
     private CheckboxTableViewer listViewer;
-
+    
     /**
      * Stores the entered value
      */
     private HashMap<String, String> values = new HashMap<String, String>();
-
+    
     /**
      * The value text field
      */
     private Text valueText;
-
+    
     /**
      * Sizing constants
      */
     private final static int SIZING_SELECTION_WIDGET_HEIGHT = 250;
     private final static int SIZING_SELECTION_WIDGET_WIDTH = 300;
-
+    
+    
     /**
      * Constructor
      * 
@@ -98,127 +99,127 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
      *            {@link List} with {@link RGIS} that are displayed
      */
     public RequiredResourceGroupsDialog(Shell parentShell, List<RGIS> toDisplay) {
-	super(parentShell);
-	this.toDisplay = toDisplay;
+        super(parentShell);
+        this.toDisplay = toDisplay;
     }
-
+    
+    
     @Override
     protected void configureShell(Shell shell) {
-	super.configureShell(shell);
-	shell.setText("Select the required Resource Groups");
+        super.configureShell(shell);
+        shell.setText("Select the required Resource Groups");
     }
-
+    
+    
     @Override
     protected Control createDialogArea(Composite parent) {
-	// create composite
-	Composite composite = (Composite) super.createDialogArea(parent);
-	composite.setLayout(new GridLayout(2, false));
-
-	Label psLabel = new Label(composite, SWT.NULL);
-	psLabel.setText("Choose the required Resource Groups:");
-
-	Label descLabel = new Label(composite, SWT.NULL);
-	descLabel.setText("Information:");
-
-	// The CheckboxTableViewer for the PrivacySettings
-	listViewer = CheckboxTableViewer.newCheckList(composite, SWT.BORDER
-		| SWT.SINGLE | SWT.FULL_SELECTION);
-
-	listViewer.addCheckStateListener(this);
-
-	// Set the content provider and the label provider
-	listViewer
-		.setContentProvider(new ResourceGroupsDialogContentProvider());
-	listViewer.setLabelProvider(new ResourceGroupDialogLabelProvider());
-	listViewer.setInput(toDisplay);
-	listViewer.addSelectionChangedListener(this);
-
-	GridData data = new GridData(GridData.FILL_BOTH);
-	data.heightHint = SIZING_SELECTION_WIDGET_HEIGHT;
-	data.widthHint = convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH / 2);
-	listViewer.getTable().setLayoutData(data);
-
-	// The text that displays the description of the PS and the required
-	// Value
-	text = new StyledText(composite, SWT.BORDER | SWT.H_SCROLL
-		| SWT.V_SCROLL | SWT.WRAP);
-	text.setLayoutData(data);
-
-	data = new GridData(GridData.FILL_HORIZONTAL);
-	data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
-
-	// Composite that holds the value label and text f
-	Composite valueComp = new Composite(composite, SWT.BORDER);
-	valueComp.setLayout(new GridLayout(2, false));
-	valueComp.setLayoutData(data);
-
-	Label valueLabel = new Label(valueComp, SWT.NULL);
-	valueLabel.setText("Minimal revision:");
-	valueLabel.pack();
-
-	valueText = new Text(valueComp, SWT.BORDER);
-	valueText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-		| GridData.HORIZONTAL_ALIGN_FILL));
-	valueText.pack();
-
-	// FocusListener to store the entered value
-	valueText.addFocusListener(new org.eclipse.swt.events.FocusListener() {
-
-	    @Override
-	    public void focusLost(org.eclipse.swt.events.FocusEvent arg0) {
-
-		// Store the value out of the value field
-		RGIS ps = (RGIS) listViewer.getTable().getSelection()[0]
-			.getData();
-		if (!valueText.getText().isEmpty()) {
-		    values.put(ps.getIdentifier(), valueText.getText());
-		}
-	    }
-
-	    @Override
-	    public void focusGained(org.eclipse.swt.events.FocusEvent arg0) {
-	    }
-	});
-
-	// Set the initial selection and update the text
-	if (toDisplay.size() > 0) {
-	    listViewer.getTable().select(0);
-	    updateText();
-	}
-
-	applyDialogFont(composite);
-	return composite;
+        // create composite
+        Composite composite = (Composite) super.createDialogArea(parent);
+        composite.setLayout(new GridLayout(2, false));
+        
+        Label psLabel = new Label(composite, SWT.NULL);
+        psLabel.setText("Choose the required Resource Groups:");
+        
+        Label descLabel = new Label(composite, SWT.NULL);
+        descLabel.setText("Information:");
+        
+        // The CheckboxTableViewer for the PrivacySettings
+        this.listViewer = CheckboxTableViewer.newCheckList(composite, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
+        
+        this.listViewer.addCheckStateListener(this);
+        
+        // Set the content provider and the label provider
+        this.listViewer.setContentProvider(new ResourceGroupsDialogContentProvider());
+        this.listViewer.setLabelProvider(new ResourceGroupDialogLabelProvider());
+        this.listViewer.setInput(this.toDisplay);
+        this.listViewer.addSelectionChangedListener(this);
+        
+        GridData data = new GridData(GridData.FILL_BOTH);
+        data.heightHint = SIZING_SELECTION_WIDGET_HEIGHT;
+        data.widthHint = convertHorizontalDLUsToPixels(IDialogConstants.MINIMUM_MESSAGE_AREA_WIDTH / 2);
+        this.listViewer.getTable().setLayoutData(data);
+        
+        // The text that displays the description of the PS and the required
+        // Value
+        this.text = new StyledText(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.WRAP);
+        this.text.setLayoutData(data);
+        
+        data = new GridData(GridData.FILL_HORIZONTAL);
+        data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
+        
+        // Composite that holds the value label and text f
+        Composite valueComp = new Composite(composite, SWT.BORDER);
+        valueComp.setLayout(new GridLayout(2, false));
+        valueComp.setLayoutData(data);
+        
+        Label valueLabel = new Label(valueComp, SWT.NULL);
+        valueLabel.setText("Minimal revision:");
+        valueLabel.pack();
+        
+        this.valueText = new Text(valueComp, SWT.BORDER);
+        this.valueText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
+        this.valueText.pack();
+        
+        // FocusListener to store the entered value
+        this.valueText.addFocusListener(new org.eclipse.swt.events.FocusListener() {
+            
+            @Override
+            public void focusLost(org.eclipse.swt.events.FocusEvent arg0) {
+                
+                // Store the value out of the value field
+                RGIS ps = (RGIS) RequiredResourceGroupsDialog.this.listViewer.getTable().getSelection()[0].getData();
+                if (!RequiredResourceGroupsDialog.this.valueText.getText().isEmpty()) {
+                    RequiredResourceGroupsDialog.this.values.put(ps.getIdentifier(),
+                            RequiredResourceGroupsDialog.this.valueText.getText());
+                }
+            }
+            
+            
+            @Override
+            public void focusGained(org.eclipse.swt.events.FocusEvent arg0) {
+            }
+        });
+        
+        // Set the initial selection and update the text
+        if (this.toDisplay.size() > 0) {
+            this.listViewer.getTable().select(0);
+            updateText();
+        }
+        
+        applyDialogFont(composite);
+        return composite;
     }
-
+    
+    
     @Override
     protected void okPressed() {
-
-	Object[] children = listViewer.getCheckedElements();
-
-	// Build a list of selected children.
-	if (children != null) {
-	    ArrayList<AISRequiredResourceGroup> list = new ArrayList<AISRequiredResourceGroup>();
-
-	    for (int i = 0; i < children.length; ++i) {
-		RGIS element = (RGIS) children[i];
-		if (listViewer.getChecked(element)) {
-		    String value = "";
-		    // Add the entered values
-		    if (values.get(element.getIdentifier()) != null) {
-			if (!values.get(element.getIdentifier()).isEmpty()) {
-			    value = values.get(element.getIdentifier());
-			}
-		    }
-		    AISRequiredResourceGroup required = new AISRequiredResourceGroup(
-			    element.getIdentifier(), value);
-		    list.add(required);
-		}
-	    }
-	    setResult(list);
-	}
-	super.okPressed();
+        
+        Object[] children = this.listViewer.getCheckedElements();
+        
+        // Build a list of selected children.
+        if (children != null) {
+            ArrayList<AISRequiredResourceGroup> list = new ArrayList<AISRequiredResourceGroup>();
+            
+            for (int i = 0; i < children.length; ++i) {
+                RGIS element = (RGIS) children[i];
+                if (this.listViewer.getChecked(element)) {
+                    String value = "";
+                    // Add the entered values
+                    if (this.values.get(element.getIdentifier()) != null) {
+                        if (!this.values.get(element.getIdentifier()).isEmpty()) {
+                            value = this.values.get(element.getIdentifier());
+                        }
+                    }
+                    AISRequiredResourceGroup required = new AISRequiredResourceGroup(element.getIdentifier(), value);
+                    list.add(required);
+                }
+            }
+            setResult(list);
+        }
+        super.okPressed();
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -228,53 +229,55 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
      */
     @Override
     public void selectionChanged(SelectionChangedEvent event) {
-	updateText();
+        updateText();
     }
-
+    
+    
     /**
      * Updates the description and valid value {@link StyledText}
      */
     private void updateText() {
-	RGIS rg = (RGIS) listViewer.getTable().getSelection()[0].getData();
-	Locale enLocale = new Locale("en");
-
-	// Set the value text field
-	if (values.get(rg.getIdentifier()) != null) {
-	    valueText.setText(values.get(rg.getIdentifier()));
-	} else {
-	    valueText.setText("");
-	}
-
-	String nameString = rg.getNameForLocale(enLocale);
-	int nameLength = 0;
-	if (nameString == null || nameString.isEmpty()) {
-	    nameString = "No name available";
-	    nameLength = nameString.length();
-	} else {
-	    nameLength = nameString.length();
-	}
-
-	String descString = rg.getDescriptionForLocale(enLocale);
-	if (descString == null || nameString.isEmpty()) {
-	    descString = "No description available";
-	}
-
-	text.setText("Name:\n" + nameString + "\n\nDescription:\n" + descString);
-
-	// Set the text styles
-	StyleRange style = new StyleRange();
-	style.start = 0;
-	style.length = 4;
-	style.fontStyle = SWT.BOLD;
-	text.setStyleRange(style);
-
-	style = new StyleRange();
-	style.start = 6 + nameLength;
-	style.length = 15;
-	style.fontStyle = SWT.BOLD;
-	text.setStyleRange(style);
+        RGIS rg = (RGIS) this.listViewer.getTable().getSelection()[0].getData();
+        Locale enLocale = new Locale("en");
+        
+        // Set the value text field
+        if (this.values.get(rg.getIdentifier()) != null) {
+            this.valueText.setText(this.values.get(rg.getIdentifier()));
+        } else {
+            this.valueText.setText("");
+        }
+        
+        String nameString = rg.getNameForLocale(enLocale);
+        int nameLength = 0;
+        if (nameString == null || nameString.isEmpty()) {
+            nameString = "No name available";
+            nameLength = nameString.length();
+        } else {
+            nameLength = nameString.length();
+        }
+        
+        String descString = rg.getDescriptionForLocale(enLocale);
+        if (descString == null || nameString.isEmpty()) {
+            descString = "No description available";
+        }
+        
+        this.text.setText("Name:\n" + nameString + "\n\nDescription:\n" + descString);
+        
+        // Set the text styles
+        StyleRange style = new StyleRange();
+        style.start = 0;
+        style.length = 4;
+        style.fontStyle = SWT.BOLD;
+        this.text.setStyleRange(style);
+        
+        style = new StyleRange();
+        style.start = 6 + nameLength;
+        style.length = 15;
+        style.fontStyle = SWT.BOLD;
+        this.text.setStyleRange(style);
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -284,17 +287,17 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements
      */
     @Override
     public void checkStateChanged(CheckStateChangedEvent event) {
-	RGIS checkedElement = (RGIS) event.getElement();
-
-	// Search the item at the list that was checked
-	for (int itr = 0; itr < listViewer.getTable().getItemCount(); itr++) {
-	    TableItem item = listViewer.getTable().getItem(itr);
-
-	    // Select the table item and update the text
-	    if (item.getData().equals(checkedElement)) {
-		listViewer.getTable().select(itr);
-		updateText();
-	    }
-	}
+        RGIS checkedElement = (RGIS) event.getElement();
+        
+        // Search the item at the list that was checked
+        for (int itr = 0; itr < this.listViewer.getTable().getItemCount(); itr++) {
+            TableItem item = this.listViewer.getTable().getItem(itr);
+            
+            // Select the table item and update the text
+            if (item.getData().equals(checkedElement)) {
+                this.listViewer.getTable().select(itr);
+                updateText();
+            }
+        }
     }
 }

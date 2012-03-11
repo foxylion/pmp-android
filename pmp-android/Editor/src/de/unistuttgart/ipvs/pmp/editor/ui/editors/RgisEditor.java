@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,69 +45,75 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
  * 
  */
 public class RgisEditor extends FormEditor {
-
+    
     private final RgisModel model = new RgisModel();
-
+    
+    
     @Override
     protected void addPages() {
-	try {
-	    model.setEditor(this);
-	    RGUtil rgutil = XMLUtilityProxy.getRGUtil();
-
-	    // Parse XML-File
-	    FileEditorInput input = (FileEditorInput) this.getEditorInput();
-	    IRGIS rgis;
-	    try {
-		// Synchronize if out of sync (better: show message)
-		if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
-		    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
-		}
-		rgis = rgutil.parse(input.getFile().getContents());
-
-	    } catch (ParserException e) {
-		rgis = rgutil.createBlankRGIS();
-	    }
-	    model.setRgis(rgis);
-	    RGISValidatorWrapper.getInstance().validateRGIS(rgis, true);
-
-	    addPage(new GeneralPage(this, model));
-	    addPage(new PrivacySettingsPage(this, model));
-	} catch (PartInitException e) {
-	    e.printStackTrace();
-	} catch (CoreException e) {
-	    e.printStackTrace();
-	}
+        try {
+            this.model.setEditor(this);
+            RGUtil rgutil = XMLUtilityProxy.getRGUtil();
+            
+            // Parse XML-File
+            FileEditorInput input = (FileEditorInput) getEditorInput();
+            IRGIS rgis;
+            try {
+                // Synchronize if out of sync (better: show message)
+                if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
+                    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
+                }
+                rgis = rgutil.parse(input.getFile().getContents());
+                
+            } catch (ParserException e) {
+                rgis = rgutil.createBlankRGIS();
+            }
+            this.model.setRgis(rgis);
+            RGISValidatorWrapper.getInstance().validateRGIS(rgis, true);
+            
+            addPage(new GeneralPage(this, this.model));
+            addPage(new PrivacySettingsPage(this, this.model));
+        } catch (PartInitException e) {
+            e.printStackTrace();
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
     }
-
+    
+    
     public void firePropertyChangedDirty() {
-	firePropertyChange(IEditorPart.PROP_DIRTY);
+        firePropertyChange(IEditorPart.PROP_DIRTY);
     }
-
+    
+    
     @Override
     public boolean isDirty() {
-	return model.isDirty();
+        return this.model.isDirty();
     }
-
+    
+    
     @Override
     public void doSave(IProgressMonitor monitor) {
-	FileEditorInput input = (FileEditorInput) this.getEditorInput();
-	InputStream is = XMLUtilityProxy.getRGUtil().compile(model.getRgis());
-	try {
-	    input.getFile().setContents(is, false, true, monitor);
-	    model.setDirty(false);
-	} catch (CoreException e) {
-	    e.printStackTrace();
-	}
-
+        FileEditorInput input = (FileEditorInput) getEditorInput();
+        InputStream is = XMLUtilityProxy.getRGUtil().compile(this.model.getRgis());
+        try {
+            input.getFile().setContents(is, false, true, monitor);
+            this.model.setDirty(false);
+        } catch (CoreException e) {
+            e.printStackTrace();
+        }
+        
     }
-
+    
+    
     @Override
     public void doSaveAs() {
     }
-
+    
+    
     @Override
     public boolean isSaveAsAllowed() {
-	return false;
+        return false;
     }
-
+    
 }

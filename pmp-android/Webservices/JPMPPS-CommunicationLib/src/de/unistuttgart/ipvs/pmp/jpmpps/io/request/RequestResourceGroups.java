@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
-
 /**
  * Message should be submitted when a list of available {@link ResourceGroup}s
  * is requested.<br/>

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.internal.Model;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
@@ -35,17 +36,18 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
  * 
  */
 public class AISServiceFeaturesPage extends FormPage {
-
+    
     /**
      * ID of this page
      */
     public static final String ID = "ais_service_features";
-
+    
     /**
      * The model of this editor instance
      */
     private final AisModel model;
-
+    
+    
     /**
      * Constructor to get the model of this editor instance
      * 
@@ -55,16 +57,17 @@ public class AISServiceFeaturesPage extends FormPage {
      *            {@link Model} of this {@link AisEditor}
      */
     public AISServiceFeaturesPage(FormEditor editor, AisModel model) {
-	super(editor, ID, "Service Features");
-	this.model = model;
+        super(editor, ID, "Service Features");
+        this.model = model;
     }
-
+    
+    
     @Override
     protected void createFormContent(IManagedForm managedForm) {
-	ScrolledForm form = managedForm.getForm();
-	form.setText("Define the Service Features");
-
-	form.getBody().setLayout(new GridLayout(2, false));
-	new ServiceFeatureMasterBlock(model).createContent(managedForm);
+        ScrolledForm form = managedForm.getForm();
+        form.setText("Define the Service Features");
+        
+        form.getBody().setLayout(new GridLayout(2, false));
+        new ServiceFeatureMasterBlock(this.model).createContent(managedForm);
     }
 }

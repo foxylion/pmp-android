@@ -212,7 +212,7 @@ public class TabAvailable extends Activity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    filter = ((EditText) findViewById(R.id.EditText_Search)).getText().toString();
+                    TabAvailable.this.filter = ((EditText) findViewById(R.id.EditText_Search)).getText().toString();
                     updateDownloadList();
                     return true;
                 }
@@ -223,7 +223,7 @@ public class TabAvailable extends Activity {
             
             @Override
             public void onClick(View v) {
-                filter = ((EditText) findViewById(R.id.EditText_Search)).getText().toString();
+                TabAvailable.this.filter = ((EditText) findViewById(R.id.EditText_Search)).getText().toString();
                 updateDownloadList();
             }
         });

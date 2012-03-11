@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,8 +65,8 @@ public class DriverViewActivity extends MapActivity {
         
         PMP.get(getApplication());
         
-        handler = new Handler();
-        ctrl = new Controller();
+        this.handler = new Handler();
+        this.ctrl = new Controller();
         ViewModel.getInstance().initPassengersList();
         
         setMapView();
@@ -133,7 +132,7 @@ public class DriverViewActivity extends MapActivity {
         
         ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
         pLV.setClickable(true);
-        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(context, mapView));
+        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(this.context, this.mapView));
     }
     
     
@@ -144,7 +143,7 @@ public class DriverViewActivity extends MapActivity {
      */
     public void addHitchhiker(Profile hitchhiker) {
         ViewModel.getInstance().getHitchPassengers().add(hitchhiker);
-        ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+        ViewModel.getInstance().getDriverAdapter(this.context, this.mapView).notifyDataSetChanged();
     }
     
     
@@ -153,15 +152,15 @@ public class DriverViewActivity extends MapActivity {
      */
     @SuppressWarnings("deprecation")
     private void setMapView() {
-        mapView = (MapView) findViewById(R.id.driverMapView);
-        LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
+        this.mapView = (MapView) findViewById(R.id.driverMapView);
+        LinearLayout zoomView = (LinearLayout) this.mapView.getZoomControls();
         
         zoomView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         
         zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         zoomView.setVerticalScrollBarEnabled(true);
-        mapView.addView(zoomView);
+        this.mapView.addView(zoomView);
     }
     
     
@@ -198,6 +197,7 @@ public class DriverViewActivity extends MapActivity {
             Log.i(this, "Binder null");
             this.handler.post(new Runnable() {
                 
+                @Override
                 public void run() {
                     Toast.makeText(DriverViewActivity.this,
                             "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
@@ -213,6 +213,7 @@ public class DriverViewActivity extends MapActivity {
             
             this.handler.post(new Runnable() {
                 
+                @Override
                 public void run() {
                     Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
                 }
@@ -225,6 +226,7 @@ public class DriverViewActivity extends MapActivity {
             e.printStackTrace();
             this.handler.post(new Runnable() {
                 
+                @Override
                 public void run() {
                     Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
                             .show();
@@ -237,7 +239,7 @@ public class DriverViewActivity extends MapActivity {
     
     private void startContinousLookup(IBinder binder) {
         ViewModel.getInstance().getLocationTimer()
-                .schedule(new Check4Location(mapView, context, handler, binder), 4000, 4000);
+                .schedule(new Check4Location(this.mapView, this.context, this.handler, binder), 4000, 4000);
     }
     
     
@@ -252,7 +254,7 @@ public class DriverViewActivity extends MapActivity {
     @Override
     public void onBackPressed() {
         
-        switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+        switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
             case (Constants.STATUS_UPDATED): {
                 
                 ViewModel.getInstance().clearDriverOverlayList();
@@ -264,7 +266,7 @@ public class DriverViewActivity extends MapActivity {
                 stopRG();
                 
                 Log.i(this, "Trip ENDED");
-                this.finish();
+                finish();
                 break;
             }
             case (Constants.STATUS_UPTODATE): {
@@ -296,7 +298,7 @@ public class DriverViewActivity extends MapActivity {
         switch (item.getItemId()) {
             case (R.id.mi_endTrip):
                 
-                switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+                switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
                     case (Constants.STATUS_UPDATED): {
                         
                         ViewModel.getInstance().clearDriverOverlayList();
@@ -307,7 +309,7 @@ public class DriverViewActivity extends MapActivity {
                         stopRG();
                         
                         Log.i(this, "Trip ENDED");
-                        this.finish();
+                        finish();
                         break;
                     }
                     case (Constants.STATUS_UPTODATE): {
@@ -331,7 +333,7 @@ public class DriverViewActivity extends MapActivity {
                 break;
             
             case (R.id.mi_updateData):
-                vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(this.context).show();
                 break;
         }
         return true;

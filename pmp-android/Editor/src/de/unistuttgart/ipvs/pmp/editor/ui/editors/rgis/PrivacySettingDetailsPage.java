@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,148 +43,162 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
  * @author Patrick Strobel
  */
 public class PrivacySettingDetailsPage implements IDetailsPage {
-
+    
     private final PrivacySettingsBlock block;
     private IManagedForm form;
     private Text identifier;
     private Text values;
     private boolean dirty = false;
     private RGISPrivacySetting privacySetting;
-
+    
+    
     public PrivacySettingDetailsPage(PrivacySettingsBlock block) {
-	this.block = block;
+        this.block = block;
     }
-
+    
+    
     @Override
     public void initialize(IManagedForm form) {
-	this.form = form;
+        this.form = form;
     }
-
+    
+    
     @Override
     public void createContents(Composite parent) {
-	// Set parent's layout
-	GridData parentLayout = new GridData();
-	parentLayout.verticalAlignment = GridData.FILL;
-	parentLayout.grabExcessVerticalSpace = true;
-	parentLayout.horizontalAlignment = GridData.FILL;
-	parentLayout.grabExcessHorizontalSpace = true;
-	parent.setLayout(new GridLayout());
-	// parent.setLayoutData(parentLayout);
-
-	// Build view
-	// System.out.println("Draw");
-	FormToolkit toolkit = form.getToolkit();
-	Section section = toolkit.createSection(parent,
-		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
-	section.setText("Privacy Setting");
-	section.setExpanded(true);
-	section.setLayoutData(parentLayout);
-
-	// Add Textfields
-	Composite compo = toolkit.createComposite(section);
-	compo.setLayout(new GridLayout(2, false));
-	GridData textLayout = new GridData();
-	textLayout.horizontalAlignment = GridData.FILL;
-	textLayout.grabExcessHorizontalSpace = true;
-	toolkit.createLabel(compo, "Identifier");
-	identifier = toolkit.createText(compo, "Value");
-	identifier.setLayoutData(textLayout);
-	identifier.addFocusListener(new FocusListener() {
-
-	    private String before;
-
-	    @Override
-	    public void focusLost(FocusEvent e) {
-		// Mark as dirty and staled when text has been changed
-		if (!before.equals(identifier.getText())) {
-		    dirty = true;
-		}
-	    }
-
-	    @Override
-	    public void focusGained(FocusEvent e) {
-		before = identifier.getText();
-	    }
-	});
-	toolkit.createLabel(compo, "Valid values");
-	values = toolkit.createText(compo, "True/False");
-	values.setLayoutData(textLayout);
-	values.addFocusListener(new FocusListener() {
-
-	    private String before;
-
-	    @Override
-	    public void focusLost(FocusEvent e) {
-		// Mark as dirty and staled when text has been changed
-		if (!before.equals(values.getText())) {
-		    dirty = true;
-		}
-	    }
-
-	    @Override
-	    public void focusGained(FocusEvent e) {
-		before = values.getText();
-	    }
-	});
-	section.setClient(compo);
-
+        // Set parent's layout
+        GridData parentLayout = new GridData();
+        parentLayout.verticalAlignment = GridData.FILL;
+        parentLayout.grabExcessVerticalSpace = true;
+        parentLayout.horizontalAlignment = GridData.FILL;
+        parentLayout.grabExcessHorizontalSpace = true;
+        parent.setLayout(new GridLayout());
+        // parent.setLayoutData(parentLayout);
+        
+        // Build view
+        // System.out.println("Draw");
+        FormToolkit toolkit = this.form.getToolkit();
+        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
+        section.setText("Privacy Setting");
+        section.setExpanded(true);
+        section.setLayoutData(parentLayout);
+        
+        // Add Textfields
+        Composite compo = toolkit.createComposite(section);
+        compo.setLayout(new GridLayout(2, false));
+        GridData textLayout = new GridData();
+        textLayout.horizontalAlignment = GridData.FILL;
+        textLayout.grabExcessHorizontalSpace = true;
+        toolkit.createLabel(compo, "Identifier");
+        this.identifier = toolkit.createText(compo, "Value");
+        this.identifier.setLayoutData(textLayout);
+        this.identifier.addFocusListener(new FocusListener() {
+            
+            private String before;
+            
+            
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Mark as dirty and staled when text has been changed
+                if (!this.before.equals(PrivacySettingDetailsPage.this.identifier.getText())) {
+                    PrivacySettingDetailsPage.this.dirty = true;
+                }
+            }
+            
+            
+            @Override
+            public void focusGained(FocusEvent e) {
+                this.before = PrivacySettingDetailsPage.this.identifier.getText();
+            }
+        });
+        toolkit.createLabel(compo, "Valid values");
+        this.values = toolkit.createText(compo, "True/False");
+        this.values.setLayoutData(textLayout);
+        this.values.addFocusListener(new FocusListener() {
+            
+            private String before;
+            
+            
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Mark as dirty and staled when text has been changed
+                if (!this.before.equals(PrivacySettingDetailsPage.this.values.getText())) {
+                    PrivacySettingDetailsPage.this.dirty = true;
+                }
+            }
+            
+            
+            @Override
+            public void focusGained(FocusEvent e) {
+                this.before = PrivacySettingDetailsPage.this.values.getText();
+            }
+        });
+        section.setClient(compo);
+        
     }
-
+    
+    
     @Override
     public void dispose() {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     @Override
     public boolean isDirty() {
-	return dirty;
+        return this.dirty;
     }
-
+    
+    
     @Override
     public void commit(boolean onSave) {
-
-	privacySetting.setIdentifier(identifier.getText());
-	privacySetting.setValidValueDescription(values.getText());
-	block.refresh();
-	dirty = false;
-
-	// Mark page as dirty
-	block.setDirty(true);
-
+        
+        this.privacySetting.setIdentifier(this.identifier.getText());
+        this.privacySetting.setValidValueDescription(this.values.getText());
+        this.block.refresh();
+        this.dirty = false;
+        
+        // Mark page as dirty
+        this.block.setDirty(true);
+        
     }
-
+    
+    
     @Override
     public boolean setFormInput(Object input) {
-	return false;
+        return false;
     }
-
+    
+    
     @Override
     public void setFocus() {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     @Override
     public boolean isStale() {
-	return false;
+        return false;
     }
-
+    
+    
     @Override
     public void refresh() {
-	update();
+        update();
     }
-
+    
+    
     @Override
     public void selectionChanged(IFormPart part, ISelection selection) {
-	privacySetting = (RGISPrivacySetting) ((TreeSelection) selection)
-		.getFirstElement();
-	update();
+        this.privacySetting = (RGISPrivacySetting) ((TreeSelection) selection).getFirstElement();
+        update();
     }
-
+    
+    
     private void update() {
-	identifier.setText(privacySetting.getIdentifier());
-	values.setText(privacySetting.getValidValueDescription());
+        this.identifier.setText(this.privacySetting.getIdentifier());
+        this.values.setText(this.privacySetting.getValidValueDescription());
     }
-
+    
 }

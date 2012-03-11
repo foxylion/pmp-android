@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,70 +30,72 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
 /**
  * This class stores the downloaded {@link RGIS} from the server. This model is
- * a singleton because every opened editor instance should have the same
- * {@link RGIS} from the server and they should only be downloaded once.
+ * a singleton because every opened editor instance should have the same {@link RGIS} from the server and they should
+ * only be downloaded once.
  * 
  * @author Thorsten Berberich
  * 
  */
 public class DownloadedRGModel {
-
+    
     /**
      * The stored {@link RGIS} list that was downloaded from the server
      */
     private List<RGIS> rgisList = null;
-
+    
     /**
      * The only instance of this classe
      */
     private static DownloadedRGModel instance;
-
+    
+    
     /**
      * Private constructor because of singleton
      */
     private DownloadedRGModel() {
     }
-
+    
+    
     /**
      * Method to get the instance of this class
      * 
      * @return only instance of {@link DownloadedRGModel}
      */
     public static DownloadedRGModel getInstance() {
-	if (instance == null) {
-	    instance = new DownloadedRGModel();
-	}
-	return instance;
+        if (instance == null) {
+            instance = new DownloadedRGModel();
+        }
+        return instance;
     }
-
+    
+    
     /**
      * Gets the whole {@link RGIS} list from the server
      * 
      * @return the rgisList
      */
     public List<RGIS> getRgisList(Shell shell) {
-	if (rgisList == null) {
-	    updateRgisListWithDialog(shell);
-	}
-	return rgisList;
+        if (this.rgisList == null) {
+            updateRgisListWithDialog(shell);
+        }
+        return this.rgisList;
     }
-
+    
+    
     /**
-     * Updates the {@link RGIS} list and let the
-     * {@link ServerProviderDialogWrapper} show a dialogF
+     * Updates the {@link RGIS} list and let the {@link ServerProviderDialogWrapper} show a dialogF
      * 
      * @param shell
      *            shell to display errors
      */
     public void updateRgisListWithDialog(Shell shell) {
-	ServerProviderDialogWrapper.getInstance().updateServerListWithDialog(
-		shell);
-	rgisList = ServerProviderDialogWrapper.getInstance().getRGISList();
+        ServerProviderDialogWrapper.getInstance().updateServerListWithDialog(shell);
+        this.rgisList = ServerProviderDialogWrapper.getInstance().getRGISList();
     }
-
+    
+    
     /**
-     * Updates the {@link RGIS} list and let the
-     * {@link ServerProviderDialogWrapper} do this in a job that will be
+     * Updates the {@link RGIS} list and let the {@link ServerProviderDialogWrapper} do this in a job that will be
      * displayed
      * 
      * @param shell
@@ -102,34 +104,35 @@ public class DownloadedRGModel {
      *            true if errors should be shown, else if not
      */
     public void updateRgisListWithJob(Shell shell, Boolean showErrors) {
-	// The callback method inside a job listener
-	JobChangeAdapter changeAdapter = new JobChangeAdapter() {
-	    @Override
-	    public void done(IJobChangeEvent event) {
-		if (event.getResult().isOK()) {
-		    // Get the downloaded list
-		    rgisList = ServerProviderDialogWrapper.getInstance()
-			    .getRGISList();
-		}
-	    }
-	};
-	ServerProviderDialogWrapper.getInstance().updateServerListWithJob(
-		shell, showErrors, changeAdapter);
+        // The callback method inside a job listener
+        JobChangeAdapter changeAdapter = new JobChangeAdapter() {
+            
+            @Override
+            public void done(IJobChangeEvent event) {
+                if (event.getResult().isOK()) {
+                    // Get the downloaded list
+                    DownloadedRGModel.this.rgisList = ServerProviderDialogWrapper.getInstance().getRGISList();
+                }
+            }
+        };
+        ServerProviderDialogWrapper.getInstance().updateServerListWithJob(shell, showErrors, changeAdapter);
     }
-
+    
+    
     /**
      * Checks if the {@link RGIS} list of the server is cached locally
      * 
      * @return true if available
      */
     public Boolean isRGListAvailable() {
-	if (rgisList == null) {
-	    return false;
-	} else {
-	    return true;
-	}
+        if (this.rgisList == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
-
+    
+    
     /**
      * Sets the whole {@link RGIS} list from the server
      * 
@@ -137,7 +140,7 @@ public class DownloadedRGModel {
      *            the rgisList to set
      */
     public void setRgisList(List<RGIS> rgisList) {
-	this.rgisList = rgisList;
+        this.rgisList = rgisList;
     }
-
+    
 }

@@ -35,15 +35,15 @@ public class MainActivity extends Activity {
         Button btnProfile = (Button) findViewById(R.id.Button_Profile);
         Button btnHistory = (Button) findViewById(R.id.Button_History);
         Button btnSettings = (Button) findViewById(R.id.Button_Settings);
-        Button btnMyTrips = (Button) findViewById(R.id.Button_Trips);
-        Button btnMessage = (Button) findViewById(R.id.Button_Message);
+        findViewById(R.id.Button_Trips);
+        findViewById(R.id.Button_Message);
         Button btnPlan = (Button) findViewById(R.id.Button_Plan);
         
         btnRide.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, PlanTripActivity.class);
+                Intent intent = new Intent(MainActivity.this, PlanTripActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -77,24 +77,24 @@ public class MainActivity extends Activity {
             
         });
         
-//        btnMyTrips.setOnClickListener(new OnClickListener() {
-//            
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
-//                MainActivity.this.startActivity(intent);
-//            }
-//        });
-//        
-//        btnMessage.setOnClickListener(new OnClickListener() {
-//            
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
-//                MainActivity.this.startActivity(intent);
-//            }
-//        });
-
+        //        btnMyTrips.setOnClickListener(new OnClickListener() {
+        //            
+        //            @Override
+        //            public void onClick(View v) {
+        //                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
+        //                MainActivity.this.startActivity(intent);
+        //            }
+        //        });
+        //        
+        //        btnMessage.setOnClickListener(new OnClickListener() {
+        //            
+        //            @Override
+        //            public void onClick(View v) {
+        //                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
+        //                MainActivity.this.startActivity(intent);
+        //            }
+        //        });
+        
         btnPlan.setOnClickListener(new OnClickListener() {
             
             @Override

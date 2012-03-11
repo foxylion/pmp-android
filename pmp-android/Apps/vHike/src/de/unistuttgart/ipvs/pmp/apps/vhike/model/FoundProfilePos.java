@@ -1,12 +1,13 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
-
 public class FoundProfilePos {
-
+    
     int userid;
     float lat;
     float lon;
     int query_id;
+    
+    
     public FoundProfilePos(int userid, float lat, float lon, int query_id) {
         super();
         this.userid = userid;
@@ -15,21 +16,24 @@ public class FoundProfilePos {
         this.query_id = query_id;
     }
     
+    
     public int getUserid() {
-        return userid;
+        return this.userid;
     }
     
-    public int getQueyId(){
-        return query_id;
+    
+    public int getQueyId() {
+        return this.query_id;
     }
+    
+    
     public float getLat() {
-        return lat;
+        return this.lat;
     }
+    
     
     public float getLon() {
-        return lon;
+        return this.lon;
     }
     
-    
 }
-

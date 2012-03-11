@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,187 +67,184 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  * 
  */
 public class PrivacySettingsBlock extends MasterDetailsBlock {
-
+    
     private TreeViewer treeViewer;
     private final RgisModel model;
     private ControlDecoration treeDec;
-
+    
+    
     public PrivacySettingsBlock(PrivacySettingsPage form, RgisModel model) {
-	this.model = model;
+        this.model = model;
     }
-
+    
+    
     public void setDirty(boolean dirty) {
-	model.setDirty(true);
+        this.model.setDirty(true);
     }
-
+    
+    
     @Override
-    protected void createMasterPart(final IManagedForm managedForm,
-	    Composite parent) {
-	FormToolkit toolkit = managedForm.getToolkit();
-
-	// Create section
-	Section section = toolkit.createSection(parent,
-		ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
-	section.setText("Privacy Settings");
-	section.setExpanded(true);
-	section.marginWidth = 5;
-	section.marginHeight = 5;
-
-	Composite compo = toolkit.createComposite(section);
-	compo.setLayout(new GridLayout(2, false));
-
-	// Add tree
-	treeViewer = new TreeViewer(compo, SWT.BORDER);
-	treeViewer.setContentProvider(new PrivacySettingsContentProvider());
-	treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
-	treeViewer.setInput(model.getRgis());
-
-	// Add decoration
-	treeDec = new ControlDecoration(treeViewer.getControl(), SWT.TOP
-		| SWT.LEFT);
-	treeDec.setImage(Images.ERROR_DEC);
-	validate();
-
-	// Add tooltip listener
-	TooltipTreeListener tooltipListener = new TooltipTreeListener(
-		treeViewer, parent.getShell());
-	treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
-	treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
-	treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
-	treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
-
-	GridData treeLayout = new GridData();
-	treeLayout.verticalAlignment = GridData.FILL;
-	treeLayout.grabExcessVerticalSpace = true;
-	treeLayout.horizontalAlignment = GridData.FILL;
-	treeLayout.grabExcessHorizontalSpace = true;
-	treeViewer.getControl().setLayoutData(treeLayout);
-
-	// Create listener that handles selections of tree-items
-	final SectionPart spart = new SectionPart(section);
-	managedForm.addPart(spart);
-	managedForm.reflow(true);
-
-	// Add buttons
-	Composite buttonCompo = toolkit.createComposite(compo);
-	GridData buttonLayout = new GridData();
-	buttonLayout.verticalAlignment = SWT.BEGINNING;
-	buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
-	buttonCompo.setLayoutData(buttonLayout);
-	Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
-	addButton.setImage(Images.IMG_OBJ_ADD);
-
-	addButton.addSelectionListener(new SelectionAdapter() {
-
-	    @Override
-	    public void widgetSelected(SelectionEvent e) {
-		IRGIS rgis = model.getRgis();
-		RGISPrivacySetting ps = new RGISPrivacySetting();
-		rgis.addPrivacySetting(ps);
-		setDirty(true);
-		refresh();
-	    }
-
-	});
-
-	final Button removeButton = toolkit.createButton(buttonCompo, "Remove",
-		SWT.PUSH);
-	removeButton.setEnabled(false);
-	removeButton.setImage(Images.IMG_ETOOL_DELETE);
-	removeButton.addSelectionListener(new SelectionAdapter() {
-
-	    @Override
-	    public void widgetSelected(SelectionEvent e) {
-		// Get selected element
-		RGISPrivacySetting ps = null;
-		TreeSelection sel = (TreeSelection) treeViewer.getSelection();
-		if (sel.getFirstElement() instanceof RGISPrivacySetting) {
-		    ps = (RGISPrivacySetting) sel.getFirstElement();
-		} else {
-		    // Get parent if default name/desc is selected
-		    TreePath[] path = sel.getPaths();
-		    if (path.length < 1) {
-			return;
-		    }
-		    ps = (RGISPrivacySetting) path[0].getFirstSegment();
-		}
-
-		// Remove selected entry for model
-		IRGIS rgis = model.getRgis();
-		rgis.removePrivacySetting(ps);
-		setDirty(true);
-		refresh();
-	    }
-
-	});
-
-	treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-	    @Override
-	    public void selectionChanged(SelectionChangedEvent event) {
-		managedForm.fireSelectionChanged(spart, event.getSelection());
-		removeButton.setEnabled(!event.getSelection().isEmpty());
-	    }
-	});
-
-	section.setClient(compo);
+    protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
+        FormToolkit toolkit = managedForm.getToolkit();
+        
+        // Create section
+        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
+        section.setText("Privacy Settings");
+        section.setExpanded(true);
+        section.marginWidth = 5;
+        section.marginHeight = 5;
+        
+        Composite compo = toolkit.createComposite(section);
+        compo.setLayout(new GridLayout(2, false));
+        
+        // Add tree
+        this.treeViewer = new TreeViewer(compo, SWT.BORDER);
+        this.treeViewer.setContentProvider(new PrivacySettingsContentProvider());
+        this.treeViewer.setLabelProvider(new PrivacySettingsLabelProvider());
+        this.treeViewer.setInput(this.model.getRgis());
+        
+        // Add decoration
+        this.treeDec = new ControlDecoration(this.treeViewer.getControl(), SWT.TOP | SWT.LEFT);
+        this.treeDec.setImage(Images.ERROR_DEC);
+        validate();
+        
+        // Add tooltip listener
+        TooltipTreeListener tooltipListener = new TooltipTreeListener(this.treeViewer, parent.getShell());
+        this.treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
+        
+        GridData treeLayout = new GridData();
+        treeLayout.verticalAlignment = GridData.FILL;
+        treeLayout.grabExcessVerticalSpace = true;
+        treeLayout.horizontalAlignment = GridData.FILL;
+        treeLayout.grabExcessHorizontalSpace = true;
+        this.treeViewer.getControl().setLayoutData(treeLayout);
+        
+        // Create listener that handles selections of tree-items
+        final SectionPart spart = new SectionPart(section);
+        managedForm.addPart(spart);
+        managedForm.reflow(true);
+        
+        // Add buttons
+        Composite buttonCompo = toolkit.createComposite(compo);
+        GridData buttonLayout = new GridData();
+        buttonLayout.verticalAlignment = SWT.BEGINNING;
+        buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
+        buttonCompo.setLayoutData(buttonLayout);
+        Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+        addButton.setImage(Images.IMG_OBJ_ADD);
+        
+        addButton.addSelectionListener(new SelectionAdapter() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                IRGIS rgis = PrivacySettingsBlock.this.model.getRgis();
+                RGISPrivacySetting ps = new RGISPrivacySetting();
+                rgis.addPrivacySetting(ps);
+                setDirty(true);
+                refresh();
+            }
+            
+        });
+        
+        final Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+        removeButton.setEnabled(false);
+        removeButton.setImage(Images.IMG_ETOOL_DELETE);
+        removeButton.addSelectionListener(new SelectionAdapter() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                // Get selected element
+                RGISPrivacySetting ps = null;
+                TreeSelection sel = (TreeSelection) PrivacySettingsBlock.this.treeViewer.getSelection();
+                if (sel.getFirstElement() instanceof RGISPrivacySetting) {
+                    ps = (RGISPrivacySetting) sel.getFirstElement();
+                } else {
+                    // Get parent if default name/desc is selected
+                    TreePath[] path = sel.getPaths();
+                    if (path.length < 1) {
+                        return;
+                    }
+                    ps = (RGISPrivacySetting) path[0].getFirstSegment();
+                }
+                
+                // Remove selected entry for model
+                IRGIS rgis = PrivacySettingsBlock.this.model.getRgis();
+                rgis.removePrivacySetting(ps);
+                setDirty(true);
+                refresh();
+            }
+            
+        });
+        
+        this.treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                managedForm.fireSelectionChanged(spart, event.getSelection());
+                removeButton.setEnabled(!event.getSelection().isEmpty());
+            }
+        });
+        
+        section.setClient(compo);
     }
-
+    
+    
     private void validate() {
-	RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
-	validator.validateRGIS(model.getRgis(), true);
-
-	// Set decoration
-	treeDec.hide();
-	List<IIssue> dataIssues = model.getRgis().getIssues();
-	List<IIssue> treeIssues = new ArrayList<IIssue>();
-
-	for (IIssue i : dataIssues) {
-	    if (i.getType() == IssueType.NO_PS_EXISTS) {
-		treeDec.show();
-		treeIssues.add(i);
-	    }
-
-	    if (i.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN) {
-		treeDec.show();
-		treeIssues.add(i);
-	    }
-	}
-
-	treeDec.setDescriptionText(new IssueTranslator()
-		.translateIssues(treeIssues));
+        RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
+        validator.validateRGIS(this.model.getRgis(), true);
+        
+        // Set decoration
+        this.treeDec.hide();
+        List<IIssue> dataIssues = this.model.getRgis().getIssues();
+        List<IIssue> treeIssues = new ArrayList<IIssue>();
+        
+        for (IIssue i : dataIssues) {
+            if (i.getType() == IssueType.NO_PS_EXISTS) {
+                this.treeDec.show();
+                treeIssues.add(i);
+            }
+            
+            if (i.getType() == IssueType.PS_IDENTIFIER_OCCURRED_TOO_OFTEN) {
+                this.treeDec.show();
+                treeIssues.add(i);
+            }
+        }
+        
+        this.treeDec.setDescriptionText(new IssueTranslator().translateIssues(treeIssues));
     }
-
+    
+    
     protected void refresh() {
-	validate();
-	treeViewer.refresh();
-
+        validate();
+        this.treeViewer.refresh();
+        
     }
-
+    
+    
     @Override
     protected void registerPages(DetailsPart detailsPart) {
-	detailsPart.registerPage(RGISPrivacySetting.class,
-		new PrivacySettingDetailsPage(this));
-	detailsPart.registerPage(NameString.class, new LocalizationDetailsPage(
-		this, LocaleTable.Type.NAME));
-	detailsPart
-		.registerPage(DescriptionString.class,
-			new LocalizationDetailsPage(this,
-				LocaleTable.Type.DESCRIPTION));
-	detailsPart.registerPage(ChangeDescriptionString.class,
-		new LocalizationDetailsPage(this,
-			LocaleTable.Type.CHANGE_DESCRIPTION));
-
+        detailsPart.registerPage(RGISPrivacySetting.class, new PrivacySettingDetailsPage(this));
+        detailsPart.registerPage(NameString.class, new LocalizationDetailsPage(this, LocaleTable.Type.NAME));
+        detailsPart.registerPage(DescriptionString.class, new LocalizationDetailsPage(this,
+                LocaleTable.Type.DESCRIPTION));
+        detailsPart.registerPage(ChangeDescriptionString.class, new LocalizationDetailsPage(this,
+                LocaleTable.Type.CHANGE_DESCRIPTION));
+        
     }
-
+    
+    
     @Override
     protected void createToolBarActions(IManagedForm managedForm) {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     public RgisModel getModel() {
-	return model;
+        return this.model;
     }
-
+    
 }

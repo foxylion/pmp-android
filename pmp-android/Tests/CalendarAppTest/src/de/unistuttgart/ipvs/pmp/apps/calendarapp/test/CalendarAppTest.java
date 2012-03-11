@@ -62,7 +62,7 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
     @Override
     protected void setUp() throws Exception {
         // if dummy user is not complying
-        if (!verified) {
+        if (!this.verified) {
             assertTrue(getActivity().getApplication() instanceof CalendarApp);
             
             for (String sf : REQUIRED_SERVICE_FEATURES) {
@@ -70,15 +70,15 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
                     Log.e("Calendar-Test", "Service feature " + sf + " not enabled. Behavior undefined.");
                 }
             }
-            verified = true;
+            this.verified = true;
         }
         
-        solo = new Solo(getInstrumentation(), getActivity());
+        this.solo = new Solo(getInstrumentation(), getActivity());
         
         // prepare
-        solo.clickOnMenuItem("Delete");
-        assertTrue(solo.searchText("really want to delete"));
-        solo.clickOnText("Confirm");
+        this.solo.clickOnMenuItem("Delete");
+        assertTrue(this.solo.searchText("really want to delete"));
+        this.solo.clickOnText("Confirm");
         assertEquals(0, Model.getInstance().getAppointmentList().size());
         
     }
@@ -86,7 +86,7 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
     
     @Override
     protected void tearDown() throws Exception {
-        solo.finishOpenedActivities();
+        this.solo.finishOpenedActivities();
     }
     
     
@@ -100,25 +100,26 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      * @throws Exception
      */
     public void testNewAppointment() throws Exception {
-        solo.clickOnMenuItem("New");
+        this.solo.clickOnMenuItem("New");
         // new appointment dialog
-        assertTrue(solo.waitForText("Add new"));
-        assertEquals(1, solo.getCurrentDatePickers().size());
-        solo.setDatePicker(solo.getCurrentDatePickers().get(0), APPOINTMENT_YEAR, APPOINTMENT_MONTH, APPOINTMENT_DAY);
-        assertEquals(5, solo.getCurrentEditTexts().size());
-        solo.enterText(solo.getCurrentEditTexts().get(3), APPOINTMENT_NAME);
-        solo.enterText(solo.getCurrentEditTexts().get(4), APPOINTMENT_DESC);
-        assertEquals(3, solo.getCurrentRadioButtons().size());
-        solo.clickOnText("high");
-        solo.clickOnText("Confirm");
+        assertTrue(this.solo.waitForText("Add new"));
+        assertEquals(1, this.solo.getCurrentDatePickers().size());
+        this.solo.setDatePicker(this.solo.getCurrentDatePickers().get(0), APPOINTMENT_YEAR, APPOINTMENT_MONTH,
+                APPOINTMENT_DAY);
+        assertEquals(5, this.solo.getCurrentEditTexts().size());
+        this.solo.enterText(this.solo.getCurrentEditTexts().get(3), APPOINTMENT_NAME);
+        this.solo.enterText(this.solo.getCurrentEditTexts().get(4), APPOINTMENT_DESC);
+        assertEquals(3, this.solo.getCurrentRadioButtons().size());
+        this.solo.clickOnText("high");
+        this.solo.clickOnText("Confirm");
         
         // verify it's there
-        assertTrue(solo.searchText(String.valueOf(APPOINTMENT_YEAR)));
-        assertTrue(solo.searchText(String.valueOf(APPOINTMENT_DAY)));
-        assertTrue(solo.searchText(APPOINTMENT_NAME));
-        assertTrue(solo.searchText(APPOINTMENT_DESC));
+        assertTrue(this.solo.searchText(String.valueOf(APPOINTMENT_YEAR)));
+        assertTrue(this.solo.searchText(String.valueOf(APPOINTMENT_DAY)));
+        assertTrue(this.solo.searchText(APPOINTMENT_NAME));
+        assertTrue(this.solo.searchText(APPOINTMENT_DESC));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -129,22 +130,22 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testNewAppointmentRightChange() throws Exception {
         testNewAppointment();
-        solo.clickOnText(APPOINTMENT_NAME);
+        this.solo.clickOnText(APPOINTMENT_NAME);
         
         // change appointment dialog
-        assertTrue(solo.waitForText("Change"));
-        assertEquals(1, solo.getCurrentDatePickers().size());
-        assertEquals(APPOINTMENT_YEAR, solo.getCurrentDatePickers().get(0).getYear());
-        assertEquals(APPOINTMENT_MONTH, solo.getCurrentDatePickers().get(0).getMonth());
-        assertEquals(APPOINTMENT_DAY, solo.getCurrentDatePickers().get(0).getDayOfMonth());
-        assertEquals(5, solo.getCurrentEditTexts().size());
-        assertEquals(APPOINTMENT_NAME, solo.getCurrentEditTexts().get(3).getText().toString());
-        assertEquals(APPOINTMENT_DESC, solo.getCurrentEditTexts().get(4).getText().toString());
-        assertEquals(3, solo.getCurrentRadioButtons().size());
-        assertTrue(solo.isRadioButtonChecked("high"));
-        solo.clickOnText("Confirm");
+        assertTrue(this.solo.waitForText("Change"));
+        assertEquals(1, this.solo.getCurrentDatePickers().size());
+        assertEquals(APPOINTMENT_YEAR, this.solo.getCurrentDatePickers().get(0).getYear());
+        assertEquals(APPOINTMENT_MONTH, this.solo.getCurrentDatePickers().get(0).getMonth());
+        assertEquals(APPOINTMENT_DAY, this.solo.getCurrentDatePickers().get(0).getDayOfMonth());
+        assertEquals(5, this.solo.getCurrentEditTexts().size());
+        assertEquals(APPOINTMENT_NAME, this.solo.getCurrentEditTexts().get(3).getText().toString());
+        assertEquals(APPOINTMENT_DESC, this.solo.getCurrentEditTexts().get(4).getText().toString());
+        assertEquals(3, this.solo.getCurrentRadioButtons().size());
+        assertTrue(this.solo.isRadioButtonChecked("high"));
+        this.solo.clickOnText("Confirm");
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -155,32 +156,33 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testChangeAppointment() throws Exception {
         testNewAppointment();
-        solo.clickOnText(APPOINTMENT_NAME);
+        this.solo.clickOnText(APPOINTMENT_NAME);
         
         // change appointment dialog
-        assertTrue(solo.waitForText("Change"));
-        assertEquals(1, solo.getCurrentDatePickers().size());
-        solo.setDatePicker(solo.getCurrentDatePickers().get(0), APPOINTMENT2_YEAR, APPOINTMENT2_MONTH, APPOINTMENT2_DAY);
-        assertEquals(5, solo.getCurrentEditTexts().size());
-        solo.clearEditText(solo.getCurrentEditTexts().get(3));
-        solo.enterText(solo.getCurrentEditTexts().get(3), APPOINTMENT2_NAME);
-        solo.clearEditText(solo.getCurrentEditTexts().get(4));
-        solo.enterText(solo.getCurrentEditTexts().get(4), APPOINTMENT2_DESC);
-        assertEquals(3, solo.getCurrentRadioButtons().size());
-        solo.clickOnText("low");
-        solo.clickOnText("Confirm");
+        assertTrue(this.solo.waitForText("Change"));
+        assertEquals(1, this.solo.getCurrentDatePickers().size());
+        this.solo.setDatePicker(this.solo.getCurrentDatePickers().get(0), APPOINTMENT2_YEAR, APPOINTMENT2_MONTH,
+                APPOINTMENT2_DAY);
+        assertEquals(5, this.solo.getCurrentEditTexts().size());
+        this.solo.clearEditText(this.solo.getCurrentEditTexts().get(3));
+        this.solo.enterText(this.solo.getCurrentEditTexts().get(3), APPOINTMENT2_NAME);
+        this.solo.clearEditText(this.solo.getCurrentEditTexts().get(4));
+        this.solo.enterText(this.solo.getCurrentEditTexts().get(4), APPOINTMENT2_DESC);
+        assertEquals(3, this.solo.getCurrentRadioButtons().size());
+        this.solo.clickOnText("low");
+        this.solo.clickOnText("Confirm");
         
         // verify it's there
-        assertFalse(solo.searchText(String.valueOf(APPOINTMENT_YEAR)));
-        assertFalse(solo.searchText(String.valueOf(APPOINTMENT_DAY)));
-        assertFalse(solo.searchText(APPOINTMENT_NAME));
-        assertFalse(solo.searchText(APPOINTMENT_DESC));
-        assertTrue(solo.searchText(String.valueOf(APPOINTMENT2_YEAR)));
-        assertTrue(solo.searchText(String.valueOf(APPOINTMENT2_DAY)));
-        assertTrue(solo.searchText(APPOINTMENT2_NAME));
-        assertTrue(solo.searchText(APPOINTMENT2_DESC));
+        assertFalse(this.solo.searchText(String.valueOf(APPOINTMENT_YEAR)));
+        assertFalse(this.solo.searchText(String.valueOf(APPOINTMENT_DAY)));
+        assertFalse(this.solo.searchText(APPOINTMENT_NAME));
+        assertFalse(this.solo.searchText(APPOINTMENT_DESC));
+        assertTrue(this.solo.searchText(String.valueOf(APPOINTMENT2_YEAR)));
+        assertTrue(this.solo.searchText(String.valueOf(APPOINTMENT2_DAY)));
+        assertTrue(this.solo.searchText(APPOINTMENT2_NAME));
+        assertTrue(this.solo.searchText(APPOINTMENT2_DESC));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -191,15 +193,15 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testDeleteAppointment() throws Exception {
         testNewAppointment();
-        solo.clickLongOnText(APPOINTMENT_NAME);
-        solo.clickOnText("Delete");
+        this.solo.clickLongOnText(APPOINTMENT_NAME);
+        this.solo.clickOnText("Delete");
         
-        assertFalse(solo.searchText(String.valueOf(APPOINTMENT_YEAR)));
-        assertFalse(solo.searchText(String.valueOf(APPOINTMENT_DAY)));
-        assertFalse(solo.searchText(APPOINTMENT_NAME));
-        assertFalse(solo.searchText(APPOINTMENT_DESC));
+        assertFalse(this.solo.searchText(String.valueOf(APPOINTMENT_YEAR)));
+        assertFalse(this.solo.searchText(String.valueOf(APPOINTMENT_DAY)));
+        assertFalse(this.solo.searchText(APPOINTMENT_NAME));
+        assertFalse(this.solo.searchText(APPOINTMENT_DESC));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -210,8 +212,8 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testMailAppointment() throws Exception {
         testNewAppointment();
-        solo.clickLongOnText(APPOINTMENT_NAME);
-        solo.clickOnText("Send");
+        this.solo.clickLongOnText(APPOINTMENT_NAME);
+        this.solo.clickOnText("Send");
         
         /*
         assertTrue(solo.waitForText(String.valueOf(APPOINTMENT_YEAR)));
@@ -220,8 +222,8 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
         assertTrue(solo.searchText(APPOINTMENT_DESC));
         assertTrue(solo.searchText("Send"));
         */
-        solo.goBack();
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.goBack();
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -231,7 +233,7 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      * @throws Exception
      */
     public void testEmptyNotice() throws Exception {
-        assertTrue(solo.searchText("No appointments"));
+        assertTrue(this.solo.searchText("No appointments"));
     }
     
     
@@ -242,30 +244,30 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testExport() throws Exception {
         testNewAppointment();
-        solo.clickOnMenuItem("Export");
+        this.solo.clickOnMenuItem("Export");
         
         // export dialog
-        assertTrue(solo.waitForText("Export"));
-        assertEquals(1, solo.getCurrentEditTexts().size());
+        assertTrue(this.solo.waitForText("Export"));
+        assertEquals(1, this.solo.getCurrentEditTexts().size());
         try {
-            this.runTestOnUiThread(new Runnable() {
+            runTestOnUiThread(new Runnable() {
                 
                 @Override
                 public void run() {
                     //Quick and dirty fix because enterText() doesn't work
-                    solo.getCurrentEditTexts().get(0).setText(EXPORT_NAME);
+                    CalendarAppTest.this.solo.getCurrentEditTexts().get(0).setText(EXPORT_NAME);
                     //        solo.enterText(solo.getCurrentEditTexts().get(0), EXPORT_NAME);
                 }
             });
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        solo.clickOnText("Confirm");
-        if (solo.waitForText("Override")) {
-            solo.clickOnButton("Override");
+        this.solo.clickOnText("Confirm");
+        if (this.solo.waitForText("Override")) {
+            this.solo.clickOnButton("Override");
         }
-        solo.searchText("succeeded");
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.searchText("succeeded");
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -276,17 +278,17 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testImport() throws Exception {
         testExport();
-        solo.clickOnMenuItem("Import");
+        this.solo.clickOnMenuItem("Import");
         
         // import dialog
-        assertTrue(solo.waitForText("Import"));
-        solo.clickOnText(EXPORT_NAME);
-        assertTrue(solo.searchText("succeed"));
+        assertTrue(this.solo.waitForText("Import"));
+        this.solo.clickOnText(EXPORT_NAME);
+        assertTrue(this.solo.searchText("succeed"));
         
-        assertTrue(solo.searchText(APPOINTMENT_NAME, 2));
-        assertTrue(solo.searchText(APPOINTMENT_DESC, 2));
+        assertTrue(this.solo.searchText(APPOINTMENT_NAME, 2));
+        assertTrue(this.solo.searchText(APPOINTMENT_DESC, 2));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -300,10 +302,10 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      * @throws Exception
      */
     public void testEmptyExport() throws Exception {
-        solo.clickOnMenuItem("Export");
-        assertTrue(solo.searchText("no appointments"));
-        solo.clickOnText("OK");
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.clickOnMenuItem("Export");
+        assertTrue(this.solo.searchText("no appointments"));
+        this.solo.clickOnText("OK");
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -314,16 +316,16 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      */
     public void testEmptyExportName() throws Exception {
         testNewAppointment();
-        solo.clickOnMenuItem("Export");
+        this.solo.clickOnMenuItem("Export");
         
         // export dialog
-        assertTrue(solo.waitForText("Export"));
-        assertEquals(1, solo.getCurrentEditTexts().size());
-        solo.clickOnText("Confirm");
+        assertTrue(this.solo.waitForText("Export"));
+        assertEquals(1, this.solo.getCurrentEditTexts().size());
+        this.solo.clickOnText("Confirm");
         
-        assertTrue(solo.searchText("Please enter a filename"));
+        assertTrue(this.solo.searchText("Please enter a filename"));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -333,20 +335,21 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
      * @throws Exception
      */
     public void testAddEmpty() throws Exception {
-        solo.clickOnMenuItem("New");
+        this.solo.clickOnMenuItem("New");
         
         // new appointment dialog
-        assertTrue(solo.waitForText("Add new"));
-        assertEquals(1, solo.getCurrentDatePickers().size());
-        solo.setDatePicker(solo.getCurrentDatePickers().get(0), APPOINTMENT_YEAR, APPOINTMENT_MONTH, APPOINTMENT_DAY);
-        assertEquals(5, solo.getCurrentEditTexts().size());
-        assertEquals(3, solo.getCurrentRadioButtons().size());
-        solo.clickOnText("middle");
-        solo.clickOnText("Confirm");
+        assertTrue(this.solo.waitForText("Add new"));
+        assertEquals(1, this.solo.getCurrentDatePickers().size());
+        this.solo.setDatePicker(this.solo.getCurrentDatePickers().get(0), APPOINTMENT_YEAR, APPOINTMENT_MONTH,
+                APPOINTMENT_DAY);
+        assertEquals(5, this.solo.getCurrentEditTexts().size());
+        assertEquals(3, this.solo.getCurrentRadioButtons().size());
+        this.solo.clickOnText("middle");
+        this.solo.clickOnText("Confirm");
         
-        assertTrue(solo.searchText("add a name"));
+        assertTrue(this.solo.searchText("add a name"));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -387,17 +390,17 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
             fw.close();
         }
         
-        solo.clickOnMenuItem("Import");
+        this.solo.clickOnMenuItem("Import");
         
         // import dialog
-        assertTrue(solo.waitForText("Import"));
-        solo.clickOnText(EXPORT_NAME);
-        assertFalse(solo.searchText("succeeded"));
+        assertTrue(this.solo.waitForText("Import"));
+        this.solo.clickOnText(EXPORT_NAME);
+        assertFalse(this.solo.searchText("succeeded"));
         
-        assertFalse(solo.searchText(IL_APPOINTMENT_NAME));
-        assertFalse(solo.searchText(IL_APPOINTMENT_DESC));
+        assertFalse(this.solo.searchText(IL_APPOINTMENT_NAME));
+        assertFalse(this.solo.searchText(IL_APPOINTMENT_DESC));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -436,17 +439,17 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
             fw.close();
         }
         
-        solo.clickOnMenuItem("Import");
+        this.solo.clickOnMenuItem("Import");
         
         // import dialog
-        assertTrue(solo.waitForText("Import"));
-        solo.clickOnText(EXPORT_NAME);
-        assertFalse(solo.searchText("succeeded"));
+        assertTrue(this.solo.waitForText("Import"));
+        this.solo.clickOnText(EXPORT_NAME);
+        assertFalse(this.solo.searchText("succeeded"));
         
-        assertFalse(solo.searchText(IL_APPOINTMENT_NAME));
-        assertFalse(solo.searchText(IL_APPOINTMENT_DESC));
+        assertFalse(this.solo.searchText(IL_APPOINTMENT_NAME));
+        assertFalse(this.solo.searchText(IL_APPOINTMENT_DESC));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
     
@@ -485,17 +488,17 @@ public class CalendarAppTest extends ActivityInstrumentationTestCase2<CalendarAp
             fw.close();
         }
         
-        solo.clickOnMenuItem("Import");
+        this.solo.clickOnMenuItem("Import");
         
         // import dialog
-        assertTrue(solo.waitForText("Import"));
-        solo.clickOnText(EXPORT_NAME);
-        assertFalse(solo.searchText("succeeded"));
+        assertTrue(this.solo.waitForText("Import"));
+        this.solo.clickOnText(EXPORT_NAME);
+        assertFalse(this.solo.searchText("succeeded"));
         
-        assertFalse(solo.searchText(IL_APPOINTMENT_NAME));
-        assertFalse(solo.searchText(IL_APPOINTMENT_DESC));
+        assertFalse(this.solo.searchText(IL_APPOINTMENT_NAME));
+        assertFalse(this.solo.searchText(IL_APPOINTMENT_DESC));
         
-        solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
+        this.solo.assertCurrentActivity("Not CalendarAppActivity", CalendarAppActivity.class);
     }
     
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,19 +24,19 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
- * Extends the {@link AbstractModel} to realize the model for the
- * {@link AisEditor}
+ * Extends the {@link AbstractModel} to realize the model for the {@link AisEditor}
  * 
  * @author Thorsten Berberich
  * 
  */
 public class AisModel extends AbstractModel {
-
+    
     /**
      * The stored {@link AIS}
      */
     private IAIS ais;
-
+    
+    
     /**
      * Sets the {@link IAIS} to store
      * 
@@ -44,15 +44,16 @@ public class AisModel extends AbstractModel {
      *            {@link IAIS} to store
      */
     public void setAis(IAIS ais) {
-	this.ais = ais;
+        this.ais = ais;
     }
-
+    
+    
     /**
      * Gets the stored {@link AIS}
      * 
      * @return the ais
      */
     public IAIS getAis() {
-	return ais;
+        return this.ais;
     }
 }

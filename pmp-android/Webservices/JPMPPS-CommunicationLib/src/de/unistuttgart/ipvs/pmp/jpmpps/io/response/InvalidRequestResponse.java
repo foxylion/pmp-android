@@ -17,6 +17,6 @@ public class InvalidRequestResponse extends AbstractResponse {
     
     
     public String getMessage() {
-        return message;
+        return this.message;
     }
 }

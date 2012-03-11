@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.internal.Model;
 import org.eclipse.ui.part.FileEditorInput;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
@@ -41,29 +42,29 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 
 /**
- * The editor for App-Information-Sets that contains the {@link AISGeneralPage}
- * and the {@link AISServiceFeaturesPage}
+ * The editor for App-Information-Sets that contains the {@link AISGeneralPage} and the {@link AISServiceFeaturesPage}
  * 
  * @author Thorsten Berberich
  * 
  */
 public class AisEditor extends FormEditor {
-
+    
     /**
      * The {@link AISGeneralPage}
      */
     private AISGeneralPage generalPage;
-
+    
     /**
      * The model of this editor instance
      */
     private AisModel model;
-
+    
     /**
      * The {@link AISServiceFeaturesPage}
      */
     private AISServiceFeaturesPage sfPage;
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -71,61 +72,56 @@ public class AisEditor extends FormEditor {
      */
     @Override
     protected void addPages() {
-	model = new AisModel();
-
-	// Download the RGs from the server at startup if it's not done
-	if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
-	    DownloadedRGModel.getInstance().updateRgisListWithJob(
-		    Display.getCurrent().getActiveShell(), false);
-	}
-	try {
-	    // Parse XML-File
-	    FileEditorInput input = (FileEditorInput) this.getEditorInput();
-	    try {
-		// Synchronize if out of sync (better: show message)
-		if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
-		    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
-		}
-		IAIS ais = XMLUtilityProxy.getAppUtil().parse(
-			input.getFile().getContents());
-
-		// Get the path to the project
-		String[] split = input.getFile().getFullPath().toString()
-			.split("/");
-		String project = "/" + split[1];
-
-		// Store ais in the Model
-		model.setAis(ais);
-
-		AISValidatorWrapper.getInstance().validateAIS(model.getAis(),
-			true);
-
-		// Create the pages
-		generalPage = new AISGeneralPage(this, project, model);
-		sfPage = new AISServiceFeaturesPage(this, model);
-	    } catch (ParserException e) {
-		generalPage = new AISGeneralPage(this, null, model);
-		sfPage = new AISServiceFeaturesPage(this, model);
-	    }
-	    /*
-	     * Reset the dirty flag in the model and store this instance of this
-	     * editor that the model can call the firepropertyChanged
-	     */
-	    model.setEditor(this);
-	    model.setDirty(false);
-
-	    // Add the pages
-	    addPage(generalPage);
-	    addPage(sfPage);
-	} catch (PartInitException e) {
-	    MessageDialog.openError(this.getSite().getShell(), "Error",
-		    "Could not open file.");
-	} catch (CoreException e) {
-	    MessageDialog.openError(this.getSite().getShell(), "Error",
-		    "Could not open file.");
-	}
+        this.model = new AisModel();
+        
+        // Download the RGs from the server at startup if it's not done
+        if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
+            DownloadedRGModel.getInstance().updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
+        }
+        try {
+            // Parse XML-File
+            FileEditorInput input = (FileEditorInput) getEditorInput();
+            try {
+                // Synchronize if out of sync (better: show message)
+                if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
+                    input.getFile().refreshLocal(IResource.DEPTH_ONE, null);
+                }
+                IAIS ais = XMLUtilityProxy.getAppUtil().parse(input.getFile().getContents());
+                
+                // Get the path to the project
+                String[] split = input.getFile().getFullPath().toString().split("/");
+                String project = "/" + split[1];
+                
+                // Store ais in the Model
+                this.model.setAis(ais);
+                
+                AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
+                
+                // Create the pages
+                this.generalPage = new AISGeneralPage(this, project, this.model);
+                this.sfPage = new AISServiceFeaturesPage(this, this.model);
+            } catch (ParserException e) {
+                this.generalPage = new AISGeneralPage(this, null, this.model);
+                this.sfPage = new AISServiceFeaturesPage(this, this.model);
+            }
+            /*
+             * Reset the dirty flag in the model and store this instance of this
+             * editor that the model can call the firepropertyChanged
+             */
+            this.model.setEditor(this);
+            this.model.setDirty(false);
+            
+            // Add the pages
+            addPage(this.generalPage);
+            addPage(this.sfPage);
+        } catch (PartInitException e) {
+            MessageDialog.openError(getSite().getShell(), "Error", "Could not open file.");
+        } catch (CoreException e) {
+            MessageDialog.openError(getSite().getShell(), "Error", "Could not open file.");
+        }
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -134,20 +130,20 @@ public class AisEditor extends FormEditor {
      */
     @Override
     public void doSave(IProgressMonitor mon) {
-	FileEditorInput input = (FileEditorInput) this.getEditorInput();
-	InputStream is = XMLUtilityProxy.getAppUtil().compile(model.getAis());
-	try {
-	    // Save the file
-	    input.getFile().setContents(is, true, true, mon);
-
-	    // Set the dirty flag to false because it was just saved
-	    model.setDirty(false);
-	} catch (CoreException e) {
-	    MessageDialog.openError(this.getSite().getShell(), "Error",
-		    "Could not save file.");
-	}
+        FileEditorInput input = (FileEditorInput) getEditorInput();
+        InputStream is = XMLUtilityProxy.getAppUtil().compile(this.model.getAis());
+        try {
+            // Save the file
+            input.getFile().setContents(is, true, true, mon);
+            
+            // Set the dirty flag to false because it was just saved
+            this.model.setDirty(false);
+        } catch (CoreException e) {
+            MessageDialog.openError(getSite().getShell(), "Error", "Could not save file.");
+        }
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -155,14 +151,16 @@ public class AisEditor extends FormEditor {
      */
     @Override
     public void doSaveAs() {
-	// Not allowed
+        // Not allowed
     }
-
+    
+    
     @Override
     public boolean isDirty() {
-	return model.isDirty();
+        return this.model.isDirty();
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -170,15 +168,15 @@ public class AisEditor extends FormEditor {
      */
     @Override
     public boolean isSaveAsAllowed() {
-	return false;
+        return false;
     }
-
+    
+    
     /**
      * Called from the {@link Model} if the model is dirty to update the view
-     * and show that sth. has changed. This only calls
-     * {@link FormEditor#firePropertyChange(FormEditor.PROP_DIRTY)}
+     * and show that sth. has changed. This only calls {@link FormEditor#firePropertyChange(FormEditor.PROP_DIRTY)}
      */
     public void firePropertyChangedDirty() {
-	firePropertyChange(IEditorPart.PROP_DIRTY);
+        firePropertyChange(IEditorPart.PROP_DIRTY);
     }
 }

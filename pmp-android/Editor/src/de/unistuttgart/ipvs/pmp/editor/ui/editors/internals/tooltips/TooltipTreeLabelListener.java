@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,14 +32,14 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author Thorsten Berberich
  * 
  */
-public class TooltipTreeLabelListener implements
-	org.eclipse.swt.widgets.Listener {
-
+public class TooltipTreeLabelListener implements org.eclipse.swt.widgets.Listener {
+    
     /**
      * The {@link TreeViewer} where the tool tips are placed
      */
     TreeViewer treeViewer;
-
+    
+    
     /**
      * Creates a listener to display the labels
      * 
@@ -47,9 +47,10 @@ public class TooltipTreeLabelListener implements
      *            {@link TreeViewer} where the tool tips are displayed
      */
     public TooltipTreeLabelListener(TreeViewer tree) {
-	this.treeViewer = tree;
+        this.treeViewer = tree;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -59,19 +60,19 @@ public class TooltipTreeLabelListener implements
      */
     @Override
     public void handleEvent(Event event) {
-	Label label = (Label) event.widget;
-	Shell shell = label.getShell();
-	switch (event.type) {
-	case SWT.MouseDown:
-	    Event e = new Event();
-	    e.item = (TreeItem) label.getData("_TREEITEM");
-	    treeViewer.getTree().setSelection((TreeItem) e.item);
-	    treeViewer.getTree().notifyListeners(SWT.Selection, e);
-	case SWT.MouseExit:
-	    shell.dispose();
-	    break;
-	}
-
+        Label label = (Label) event.widget;
+        Shell shell = label.getShell();
+        switch (event.type) {
+            case SWT.MouseDown:
+                Event e = new Event();
+                e.item = (TreeItem) label.getData("_TREEITEM");
+                this.treeViewer.getTree().setSelection((TreeItem) e.item);
+                this.treeViewer.getTree().notifyListeners(SWT.Selection, e);
+            case SWT.MouseExit:
+                shell.dispose();
+                break;
+        }
+        
     }
-
+    
 }

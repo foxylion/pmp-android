@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@ import org.osgi.framework.Bundle;
  * 
  */
 public class Images {
-
+    
     public static final Image INFO16;
     public static final Image ERROR16;
     public static final Image FOLDER16;
@@ -49,23 +49,23 @@ public class Images {
     public static final Image IMG_DEC_FIELD_ERROR;
     public static final Image IMG_OBJ_ADD;
     public static final Image IMG_ETOOL_DELETE;
-
+    
     static {
-	ISharedImages si = PlatformUI.getWorkbench().getSharedImages();
-	INFO16 = si.getImage(ISharedImages.IMG_OBJS_INFO_TSK);
-	ERROR16 = si.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
-	FOLDER16 = si.getImage(ISharedImages.IMG_OBJ_FOLDER);
-	FILE16 = si.getImage(ISharedImages.IMG_OBJ_FILE);
-	IMG_ELCL_SYNCED = si.getImage(ISharedImages.IMG_ELCL_SYNCED);
-	IMG_DEC_FIELD_ERROR = si.getImage(ISharedImages.IMG_DEC_FIELD_ERROR);
-	IMG_OBJ_ADD = si.getImage(ISharedImages.IMG_OBJ_ADD);
-	IMG_ETOOL_DELETE = si.getImage(ISharedImages.IMG_ETOOL_DELETE);
-
-	FieldDecorationRegistry fdr = FieldDecorationRegistry.getDefault();
-	ERROR_DEC = fdr.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR)
-		.getImage();
+        ISharedImages si = PlatformUI.getWorkbench().getSharedImages();
+        INFO16 = si.getImage(ISharedImages.IMG_OBJS_INFO_TSK);
+        ERROR16 = si.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
+        FOLDER16 = si.getImage(ISharedImages.IMG_OBJ_FOLDER);
+        FILE16 = si.getImage(ISharedImages.IMG_OBJ_FILE);
+        IMG_ELCL_SYNCED = si.getImage(ISharedImages.IMG_ELCL_SYNCED);
+        IMG_DEC_FIELD_ERROR = si.getImage(ISharedImages.IMG_DEC_FIELD_ERROR);
+        IMG_OBJ_ADD = si.getImage(ISharedImages.IMG_OBJ_ADD);
+        IMG_ETOOL_DELETE = si.getImage(ISharedImages.IMG_ETOOL_DELETE);
+        
+        FieldDecorationRegistry fdr = FieldDecorationRegistry.getDefault();
+        ERROR_DEC = fdr.getFieldDecoration(FieldDecorationRegistry.DEC_ERROR).getImage();
     }
-
+    
+    
     /**
      * Gets an {@link ImageDescriptor} to a path and icon name inside this
      * plugin
@@ -76,11 +76,10 @@ public class Images {
      *            name of the icon with the file ending e.g. "sample.gif"
      * @return the {@link ImageDescriptor}
      */
-    public static ImageDescriptor getImageDescriptor(String path,
-	    String iconName) {
-	Bundle bundle = Platform.getBundle("de.unistuttgart.ipvs.pmp.editor");
-	URL fullPathString = BundleUtility.find(bundle, path + "/" + iconName);
-	return ImageDescriptor.createFromURL(fullPathString);
+    public static ImageDescriptor getImageDescriptor(String path, String iconName) {
+        Bundle bundle = Platform.getBundle("de.unistuttgart.ipvs.pmp.editor");
+        URL fullPathString = BundleUtility.find(bundle, path + "/" + iconName);
+        return ImageDescriptor.createFromURL(fullPathString);
     }
-
+    
 }

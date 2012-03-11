@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.jpmpps.io.request;
 
-
 /**
  * Request for a preset set saved on the server.
  * 
@@ -23,6 +22,6 @@ public class RequestPresetSetLoad extends AbstractRequest {
     
     
     public String getPresetSetId() {
-        return presetSetId;
+        return this.presetSetId;
     }
 }

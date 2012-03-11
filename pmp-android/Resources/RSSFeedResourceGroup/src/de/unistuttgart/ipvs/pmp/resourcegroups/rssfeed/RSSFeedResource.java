@@ -8,11 +8,11 @@ import de.unistuttgart.ipvs.pmp.resource.Resource;
  * 
  */
 public class RSSFeedResource extends Resource {
-
-	@Override
-	public IBinder getAndroidInterface(String appIdentifier) {
-		RSSFeedResourceGroup ressFeed = (RSSFeedResourceGroup) getResourceGroup();
+    
+    @Override
+    public IBinder getAndroidInterface(String appIdentifier) {
+        RSSFeedResourceGroup ressFeed = (RSSFeedResourceGroup) getResourceGroup();
         return new RSSFeedAdapter(ressFeed.getContext(), this, appIdentifier);
-	}
-
+    }
+    
 }

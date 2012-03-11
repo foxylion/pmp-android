@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,17 +31,18 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor;
  * 
  */
 public abstract class AbstractModel {
-
+    
     /**
      * Flag to represent if the model is dirty or not
      */
     private Boolean isDirty = false;
-
+    
     /**
      * The {@link AisEditor} or {@link RgisEditor}
      */
     private FormEditor editor;
-
+    
+    
     /**
      * Sets an editor to fire changes
      * 
@@ -49,9 +50,10 @@ public abstract class AbstractModel {
      *            {@link FormEditor}
      */
     public void setEditor(FormEditor editor) {
-	this.editor = editor;
+        this.editor = editor;
     }
-
+    
+    
     /**
      * Sets the dirty status
      * 
@@ -59,37 +61,38 @@ public abstract class AbstractModel {
      *            true if dirty, false otherwise
      */
     public void setDirty(Boolean dirty) {
-	this.isDirty = dirty;
-
-	/*
-	 * Try to cast the editor to an ais editor and fire the property changed
-	 */
-	try {
-	    AisEditor aisEditor = (AisEditor) editor;
-	    aisEditor.firePropertyChangedDirty();
-	} catch (ClassCastException e) {
-	    // ignore
-	}
-
-	/*
-	 * Try to cast the editor to an rgis editor and fire the property
-	 * changed
-	 */
-	try {
-	    RgisEditor rgisEditor = (RgisEditor) editor;
-	    rgisEditor.firePropertyChangedDirty();
-	} catch (ClassCastException e) {
-	    // ignore
-	}
+        this.isDirty = dirty;
+        
+        /*
+         * Try to cast the editor to an ais editor and fire the property changed
+         */
+        try {
+            AisEditor aisEditor = (AisEditor) this.editor;
+            aisEditor.firePropertyChangedDirty();
+        } catch (ClassCastException e) {
+            // ignore
+        }
+        
+        /*
+         * Try to cast the editor to an rgis editor and fire the property
+         * changed
+         */
+        try {
+            RgisEditor rgisEditor = (RgisEditor) this.editor;
+            rgisEditor.firePropertyChangedDirty();
+        } catch (ClassCastException e) {
+            // ignore
+        }
     }
-
+    
+    
     /**
      * Get the dirty status of the model
      * 
      * @return true if dirty, false otherwise
      */
     public Boolean isDirty() {
-	return isDirty;
+        return this.isDirty;
     }
-
+    
 }

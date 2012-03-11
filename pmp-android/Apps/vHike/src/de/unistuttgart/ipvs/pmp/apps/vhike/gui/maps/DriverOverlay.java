@@ -7,8 +7,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Paint.Style;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
@@ -40,8 +40,8 @@ public class DriverOverlay extends ItemizedOverlay {
      */
     public DriverOverlay(Drawable defaultMarker, Context context, GeoPoint gps) {
         super(boundCenterBottom(defaultMarker));
-        mContext = context;
-        mGps = gps;
+        this.mContext = context;
+        this.mGps = gps;
     }
     
     
@@ -51,14 +51,14 @@ public class DriverOverlay extends ItemizedOverlay {
     
     
     public void addOverlay(OverlayItem overlay) {
-        mOverlays.add(overlay);
+        this.mOverlays.add(overlay);
         populate();
     }
     
     
     // Removes overlay item i
     public void removeOverlay(int i) {
-        mOverlays.remove(i);
+        this.mOverlays.remove(i);
         populate();
     }
     
@@ -69,8 +69,8 @@ public class DriverOverlay extends ItemizedOverlay {
      */
     @Override
     protected boolean onTap(int i) {
-        OverlayItem item = mOverlays.get(i);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        OverlayItem item = this.mOverlays.get(i);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
         dialog.setTitle(item.getTitle());
         dialog.setMessage(item.getSnippet());
         dialog.show();
@@ -86,7 +86,7 @@ public class DriverOverlay extends ItemizedOverlay {
         super.draw(canvas, mapView, shadow);
         // convert point to pixels
         Point screenPts = new Point();
-        mapView.getProjection().toPixels(mGps, screenPts);
+        mapView.getProjection().toPixels(this.mGps, screenPts);
         
         Paint myCircle = new Paint();
         myCircle.setColor(Color.BLUE);
@@ -105,7 +105,7 @@ public class DriverOverlay extends ItemizedOverlay {
      */
     @Override
     protected OverlayItem createItem(int i) {
-        return mOverlays.get(i);
+        return this.mOverlays.get(i);
     }
     
     
@@ -114,7 +114,7 @@ public class DriverOverlay extends ItemizedOverlay {
      */
     @Override
     public int size() {
-        return mOverlays.size();
+        return this.mOverlays.size();
     }
     
 }

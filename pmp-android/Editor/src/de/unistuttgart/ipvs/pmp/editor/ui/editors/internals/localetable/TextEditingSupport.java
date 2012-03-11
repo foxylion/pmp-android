@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,22 +31,25 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public abstract class TextEditingSupport extends EditingSupport {
-
+    
     protected TextCellEditor editor;
-
+    
+    
     public TextEditingSupport(ColumnViewer viewer) {
-	super(viewer);
-	editor = new TextCellEditor((Composite) viewer.getControl());
+        super(viewer);
+        this.editor = new TextCellEditor((Composite) viewer.getControl());
     }
-
+    
+    
     @Override
     protected CellEditor getCellEditor(Object element) {
-	return editor;
+        return this.editor;
     }
-
+    
+    
     @Override
     protected boolean canEdit(Object element) {
-	return true;
+        return true;
     }
-
+    
 }

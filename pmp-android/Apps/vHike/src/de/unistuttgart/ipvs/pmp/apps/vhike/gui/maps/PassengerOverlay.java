@@ -30,12 +30,12 @@ public class PassengerOverlay extends ItemizedOverlay {
      */
     public PassengerOverlay(Drawable defaultMarker, Context context) {
         super(boundCenterBottom(defaultMarker));
-        mContext = context;
+        this.mContext = context;
     }
     
     
     public void addOverlay(OverlayItem overlay) {
-        mOverlays.add(overlay);
+        this.mOverlays.add(overlay);
         populate();
     }
     
@@ -45,8 +45,8 @@ public class PassengerOverlay extends ItemizedOverlay {
      */
     @Override
     protected boolean onTap(int i) {
-        OverlayItem item = mOverlays.get(i);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        OverlayItem item = this.mOverlays.get(i);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
         dialog.setTitle(item.getTitle());
         dialog.setMessage(item.getSnippet());
         dialog.show();
@@ -56,13 +56,13 @@ public class PassengerOverlay extends ItemizedOverlay {
     
     @Override
     protected OverlayItem createItem(int i) {
-        return mOverlays.get(i);
+        return this.mOverlays.get(i);
     }
     
     
     @Override
     public int size() {
-        return mOverlays.size();
+        return this.mOverlays.size();
     }
     
 }

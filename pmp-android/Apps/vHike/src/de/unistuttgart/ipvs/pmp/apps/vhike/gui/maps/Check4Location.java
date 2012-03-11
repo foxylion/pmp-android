@@ -40,18 +40,18 @@ public class Check4Location extends TimerTask {
         this.context = context;
         this.handler = handler;
         this.binder = binder;
-        ctrl = new Controller();
+        this.ctrl = new Controller();
     }
     
     
     @Override
     public void run() {
         
-        if (binder == null) {
+        if (this.binder == null) {
             return;
         }
         
-        loc = IAbsoluteLocation.Stub.asInterface(binder);
+        this.loc = IAbsoluteLocation.Stub.asInterface(this.binder);
         
         boolean isFixed = false;
         
@@ -64,34 +64,34 @@ public class Check4Location extends TimerTask {
         
         try {
             try {
-                isFixed = loc.isFixed();
+                isFixed = this.loc.isFixed();
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
-                longitude = loc.getLongitude();
-                Log.i(this, "Longitude: " + (float) loc.getLongitude());
+                longitude = this.loc.getLongitude();
+                Log.i(this, "Longitude: " + (float) this.loc.getLongitude());
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
-                latitude = loc.getLatitude();
-                Log.i(this, "Latitude: " + (float) loc.getLatitude());
+                latitude = this.loc.getLatitude();
+                Log.i(this, "Latitude: " + (float) this.loc.getLatitude());
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
-                country = loc.getCountryName();
+                country = this.loc.getCountryName();
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
-                city = loc.getLocality();
+                city = this.loc.getLocality();
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
             try {
-                address = loc.getAddress();
+                address = this.loc.getAddress();
             } catch (SecurityException e) {
                 e.printStackTrace();
             }
@@ -110,39 +110,44 @@ public class Check4Location extends TimerTask {
         final String cityD = city;
         final String addressD = address;
         
-        handler.post(new Runnable() {
+        this.handler.post(new Runnable() {
             
+            @Override
             public void run() {
                 
                 if (isFixedD) {
-                    MapController controller = mapView.getController();
+                    MapController controller = Check4Location.this.mapView.getController();
                     try {
                         ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD, 0);
                         /**
                          * send server updated latitude and longitude
                          */
-                        switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) loc.getLatitude(),
-                                (float) loc.getLongitude())) {
+                        switch (Check4Location.this.ctrl.userUpdatePos(Model.getInstance().getSid(),
+                                (float) Check4Location.this.loc.getLatitude(),
+                                (float) Check4Location.this.loc.getLongitude())) {
                             case Constants.STATUS_UPDATED:
                                 Log.i(this, "SEND LOCATION, STATUS UPDATED");
                                 break;
                             case Constants.STATUS_UPTODATE:
-                                Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Check4Location.this.context, "Status up to date", Toast.LENGTH_SHORT)
+                                        .show();
                                 break;
                             case Constants.STATUS_ERROR:
-                                Toast.makeText(context, "Error Update position", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Check4Location.this.context, "Error Update position", Toast.LENGTH_SHORT)
+                                        .show();
                                 break;
                         }
                         
-                        controller.animateTo(new GeoPoint((int) (loc.getLatitude() * 1E6),
-                                (int) (loc.getLongitude() * 1E6)));
+                        controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
+                                (int) (Check4Location.this.loc.getLongitude() * 1E6)));
                         controller.setZoom(17);
                         
                         // display address only once
-                        if (showAddress == 0)
-                            Toast.makeText(context, countryD + ", " + cityD + ", " + addressD, Toast.LENGTH_SHORT)
-                                    .show();
-                        showAddress++;
+                        if (Check4Location.this.showAddress == 0) {
+                            Toast.makeText(Check4Location.this.context, countryD + ", " + cityD + ", " + addressD,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        Check4Location.this.showAddress++;
                         
                         // Start Check4Queries Class to check for queries
                         Check4Queries c4q = new Check4Queries();

@@ -22,20 +22,20 @@ public class Check4Offers extends TimerTask {
     
     
     public Check4Offers() {
-        handler = new Handler();
-        ctrl = new Controller();
+        this.handler = new Handler();
+        this.ctrl = new Controller();
     }
     
     
     @Override
     public void run() {
-        handler.post(new Runnable() {
+        this.handler.post(new Runnable() {
             
             @Override
             public void run() {
                 
-                loo = ctrl.viewOffers(Model.getInstance().getSid());
-                ViewModel.getInstance().updateLOO(loo);
+                Check4Offers.this.loo = Check4Offers.this.ctrl.viewOffers(Model.getInstance().getSid());
+                ViewModel.getInstance().updateLOO(Check4Offers.this.loo);
             }
         });
     }

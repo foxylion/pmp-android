@@ -1,11 +1,11 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import de.unistuttgart.ipvs.pmp.R;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import de.unistuttgart.ipvs.pmp.R;
 
 /**
  * Will be removed after fully connected vHike to PMP
@@ -27,8 +27,8 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         
-        perimeter = (EditText) findViewById(R.id.et_perimeter);
-        unanimous = (CheckBox) findViewById(R.id.cb_unanimous);
+        this.perimeter = (EditText) findViewById(R.id.et_perimeter);
+        this.unanimous = (CheckBox) findViewById(R.id.cb_unanimous);
         
     }
     
@@ -38,15 +38,15 @@ public class SettingsActivity extends Activity {
         super.onResume();
         
         SharedPreferences settings = getSharedPreferences("vHikePrefs", MODE_PRIVATE);
-        sPerimeter = settings.getString("PERIMETER", "10");
-        bUnanimous = settings.getBoolean("UNANIMOUS", false);
+        this.sPerimeter = settings.getString("PERIMETER", "10");
+        this.bUnanimous = settings.getBoolean("UNANIMOUS", false);
         
-        if (sPerimeter.equals("")) {
-            sPerimeter = "10";
+        if (this.sPerimeter.equals("")) {
+            this.sPerimeter = "10";
         }
         
-        perimeter.setText(sPerimeter);
-        unanimous.setChecked(bUnanimous);
+        this.perimeter.setText(this.sPerimeter);
+        this.unanimous.setChecked(this.bUnanimous);
         
     }
     
@@ -55,10 +55,10 @@ public class SettingsActivity extends Activity {
     protected void onStop() {
         super.onStop();
         
-        SharedPreferences prefs = this.getSharedPreferences("vHikePrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("vHikePrefs", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putString("PERIMETER", perimeter.getText().toString());
-        prefsEditor.putBoolean("UNANIMOUS", unanimous.isChecked());
+        prefsEditor.putString("PERIMETER", this.perimeter.getText().toString());
+        prefsEditor.putBoolean("UNANIMOUS", this.unanimous.isChecked());
         prefsEditor.commit();
     }
     

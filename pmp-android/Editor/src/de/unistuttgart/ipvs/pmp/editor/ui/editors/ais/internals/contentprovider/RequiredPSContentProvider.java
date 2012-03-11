@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,9 +31,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
  * @author Thorsten Berberich
  * 
  */
-public class RequiredPSContentProvider implements IContentProvider,
-	IStructuredContentProvider {
-
+public class RequiredPSContentProvider implements IContentProvider, IStructuredContentProvider {
+    
     /*
      * (non-Javadoc)
      * 
@@ -43,10 +42,10 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public Object[] getElements(Object arg0) {
-	return ((AISRequiredResourceGroup) arg0).getRequiredPrivacySettings()
-		.toArray();
+        return ((AISRequiredResourceGroup) arg0).getRequiredPrivacySettings().toArray();
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -54,10 +53,11 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public void dispose() {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -67,8 +67,8 @@ public class RequiredPSContentProvider implements IContentProvider,
      */
     @Override
     public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
-	// TODO Auto-generated method stub
-
+        // TODO Auto-generated method stub
+        
     }
-
+    
 }

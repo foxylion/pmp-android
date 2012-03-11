@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.location;
 
-
 /**
  * Class to calculate the distance between two points in arbitrary units.
  * 

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +20,10 @@
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable;
 
 public interface ILocaleTableAction {
-
+    
     public void doSetDirty(boolean dirty);
-
+    
+    
     public void doValidate();
-
+    
 }

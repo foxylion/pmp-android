@@ -39,7 +39,7 @@ public class ModelTestUtils {
         
         
         public int getServiceFeaturesCount() {
-            return serviceFeaturesCount;
+            return this.serviceFeaturesCount;
         }
     }
     

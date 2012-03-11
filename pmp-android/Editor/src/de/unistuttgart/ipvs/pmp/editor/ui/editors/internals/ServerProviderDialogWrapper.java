@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,40 +45,43 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ServerProviderDialogWrapper {
-
+    
     /**
      * The downloaded list
      */
     private List<RGIS> rgisList;
-
+    
     /**
      * The instance of this class
      */
     private static ServerProviderDialogWrapper instance;
-
+    
     /**
      * The update job
      */
     Job job;
-
+    
+    
     /**
      * Private constructor because of singleton
      */
     private ServerProviderDialogWrapper() {
     }
-
+    
+    
     /**
      * Returns the instance of this class
      * 
      * @return instance of {@link ServerProviderDialogWrapper}
      */
     public static ServerProviderDialogWrapper getInstance() {
-	if (instance == null) {
-	    instance = new ServerProviderDialogWrapper();
-	}
-	return instance;
+        if (instance == null) {
+            instance = new ServerProviderDialogWrapper();
+        }
+        return instance;
     }
-
+    
+    
     /**
      * Downloads the RG list in a job
      * 
@@ -90,147 +93,120 @@ public class ServerProviderDialogWrapper {
      *            an {@link IJobChangeListener} where the caller can indicate
      *            the status of this job
      */
-    public void updateServerListWithJob(final Shell shell,
-	    final Boolean showErrors, IJobChangeListener listener) {
-	job = new Job("Downloading Resource Groups") {
-
-	    @Override
-	    protected IStatus run(IProgressMonitor monitor) {
-		monitor.beginTask("Downloading Resource Groups", 2);
-		ServerProvider server = ServerProvider.getInstance();
-
-		// Refresh the list
-		try {
-		    server.updateResourceGroupList();
-		    monitor.worked(1);
-		    rgisList = server.getAvailableRessourceGroups();
-		    monitor.done();
-		} catch (final IOException e) {
-		    monitor.done();
-
-		    // Show the error message if wanted
-		    if (showErrors) {
-			Display.getDefault().asyncExec(
-				new Thread(new Runnable() {
-
-				    @Override
-				    public void run() {
-					IStatus status = new Status(
-						IStatus.ERROR, "PROGRESS_JOB",
-						"See details", e);
-					ErrorDialog
-						.openError(
-							shell,
-							"Error",
-							"A error happend while downloading the "
-								+ "Resource Groups from the server.",
-							status);
-				    }
-				}));
-			return Status.CANCEL_STATUS;
-		    }
-		}
-
-		// Everything was ok
-		return Status.OK_STATUS;
-	    }
-	};
-	job.addJobChangeListener(listener);
-	job.schedule();
+    public void updateServerListWithJob(final Shell shell, final Boolean showErrors, IJobChangeListener listener) {
+        this.job = new Job("Downloading Resource Groups") {
+            
+            @Override
+            protected IStatus run(IProgressMonitor monitor) {
+                monitor.beginTask("Downloading Resource Groups", 2);
+                ServerProvider server = ServerProvider.getInstance();
+                
+                // Refresh the list
+                try {
+                    server.updateResourceGroupList();
+                    monitor.worked(1);
+                    ServerProviderDialogWrapper.this.rgisList = server.getAvailableRessourceGroups();
+                    monitor.done();
+                } catch (final IOException e) {
+                    monitor.done();
+                    
+                    // Show the error message if wanted
+                    if (showErrors) {
+                        Display.getDefault().asyncExec(new Thread(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                IStatus status = new Status(IStatus.ERROR, "PROGRESS_JOB", "See details", e);
+                                ErrorDialog.openError(shell, "Error", "A error happend while downloading the "
+                                        + "Resource Groups from the server.", status);
+                            }
+                        }));
+                        return Status.CANCEL_STATUS;
+                    }
+                }
+                
+                // Everything was ok
+                return Status.OK_STATUS;
+            }
+        };
+        this.job.addJobChangeListener(listener);
+        this.job.schedule();
     }
-
+    
+    
     /**
-     * Updates the {@link RGIS} list from the server, while downloading a
-     * {@link ProgressMonitorDialog} is displayed
+     * Updates the {@link RGIS} list from the server, while downloading a {@link ProgressMonitorDialog} is displayed
      * 
      * @param shell
      *            {@link Shell} to display the {@link ProgressMonitorDialog}
      */
     public void updateServerListWithDialog(final Shell shell) {
-
-	// Create the dialog
-	ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
-	try {
-
-	    // Run the dialog, not cancelable because the timeout is set to 1000
-	    dialog.run(true, false, new IRunnableWithProgress() {
-
-		@Override
-		public void run(IProgressMonitor monitor)
-			throws InvocationTargetException, InterruptedException {
-
-		    // Start the task
-		    monitor.beginTask("Downloading Resource Groups...", 2);
-		    ServerProvider server = ServerProvider.getInstance();
-		    try {
-
-			// Refresh the list
-			server.updateResourceGroupList();
-			monitor.worked(1);
-			rgisList = server.getAvailableRessourceGroups();
-			monitor.done();
-		    } catch (final IOException e) {
-
-			// Show the error message in an asyncExectuable
-			Display.getDefault().asyncExec(
-				new Thread(new Runnable() {
-
-				    @Override
-				    public void run() {
-					IStatus status = new Status(
-						IStatus.ERROR,
-						"PROGRESS_DIALOG",
-						"See details", e);
-					ErrorDialog
-						.openError(
-							shell,
-							"Error",
-							"A error happend while downloading the "
-								+ "Resource Groups from the server.",
-							status);
-				    }
-				}));
-
-		    }
-
-		}
-	    });
-	} catch (InvocationTargetException e) {
-	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
-		    "See details", e);
-	    ErrorDialog
-		    .openError(
-			    shell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server.",
-			    status);
-	} catch (InterruptedException e) {
-	    IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG",
-		    "See details", e);
-	    ErrorDialog
-		    .openError(
-			    shell,
-			    "Error",
-			    "A error happend while downloading the Resource Groups from the server.",
-			    status);
-	}
+        
+        // Create the dialog
+        ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+        try {
+            
+            // Run the dialog, not cancelable because the timeout is set to 1000
+            dialog.run(true, false, new IRunnableWithProgress() {
+                
+                @Override
+                public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+                    
+                    // Start the task
+                    monitor.beginTask("Downloading Resource Groups...", 2);
+                    ServerProvider server = ServerProvider.getInstance();
+                    try {
+                        
+                        // Refresh the list
+                        server.updateResourceGroupList();
+                        monitor.worked(1);
+                        ServerProviderDialogWrapper.this.rgisList = server.getAvailableRessourceGroups();
+                        monitor.done();
+                    } catch (final IOException e) {
+                        
+                        // Show the error message in an asyncExectuable
+                        Display.getDefault().asyncExec(new Thread(new Runnable() {
+                            
+                            @Override
+                            public void run() {
+                                IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", "See details", e);
+                                ErrorDialog.openError(shell, "Error", "A error happend while downloading the "
+                                        + "Resource Groups from the server.", status);
+                            }
+                        }));
+                        
+                    }
+                    
+                }
+            });
+        } catch (InvocationTargetException e) {
+            IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", "See details", e);
+            ErrorDialog.openError(shell, "Error",
+                    "A error happend while downloading the Resource Groups from the server.", status);
+        } catch (InterruptedException e) {
+            IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", "See details", e);
+            ErrorDialog.openError(shell, "Error",
+                    "A error happend while downloading the Resource Groups from the server.", status);
+        }
     }
-
+    
+    
     /**
      * Get the list that was downloaded
      * 
      * @return the downlaoded {@link RGIS} list
      */
     public List<RGIS> getRGISList() {
-	return rgisList;
+        return this.rgisList;
     }
-
+    
+    
     /**
      * Cancels a running job
      */
     public void cancelJob() {
-	if (job != null) {
-	    job.cancel();
-	}
+        if (this.job != null) {
+            this.job.cancel();
+        }
     }
 }

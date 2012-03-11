@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,37 +33,38 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
  * 
  */
 public class ServiceFeatureTreeLabelProvider extends LabelProvider {
-
+    
     @Override
     public String getText(Object input) {
-	if (input instanceof AISServiceFeature) {
-	    return ((AISServiceFeature) input).getIdentifier();
-	}
-
-	if (input instanceof AISRequiredResourceGroup) {
-	    return ((AISRequiredResourceGroup) input).getIdentifier();
-	}
-
-	return (String) input;
+        if (input instanceof AISServiceFeature) {
+            return ((AISServiceFeature) input).getIdentifier();
+        }
+        
+        if (input instanceof AISRequiredResourceGroup) {
+            return ((AISRequiredResourceGroup) input).getIdentifier();
+        }
+        
+        return (String) input;
     }
-
+    
+    
     @Override
     public Image getImage(Object element) {
-	// Check for errors and return the correct image
-	if (element instanceof AISServiceFeature) {
-	    AISServiceFeature sf = (AISServiceFeature) element;
-	    if (!sf.getIssues().isEmpty()) {
-		return Images.ERROR16;
-	    }
-	}
-
-	if (element instanceof AISRequiredResourceGroup) {
-	    AISRequiredResourceGroup rg = (AISRequiredResourceGroup) element;
-	    if (!rg.getIssues().isEmpty()) {
-		return Images.ERROR16;
-	    }
-	}
-
-	return null;
+        // Check for errors and return the correct image
+        if (element instanceof AISServiceFeature) {
+            AISServiceFeature sf = (AISServiceFeature) element;
+            if (!sf.getIssues().isEmpty()) {
+                return Images.ERROR16;
+            }
+        }
+        
+        if (element instanceof AISRequiredResourceGroup) {
+            AISRequiredResourceGroup rg = (AISRequiredResourceGroup) element;
+            if (!rg.getIssues().isEmpty()) {
+                return Images.ERROR16;
+            }
+        }
+        
+        return null;
     }
 }

@@ -78,8 +78,9 @@ public abstract class IssueLocation implements IIssueLocation {
     public boolean hasIssueType(IssueType issueType) {
         boolean hasIssueType = false;
         for (IIssue issue : getIssues()) {
-            if (issue.getType().equals(issueType))
+            if (issue.getType().equals(issueType)) {
                 hasIssueType = true;
+            }
         }
         return hasIssueType;
     }

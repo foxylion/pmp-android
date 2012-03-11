@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +22,9 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 public class NameString extends EncapsulatedString {
-
+    
     public NameString(String value, RGISPrivacySetting ps) {
-	super(value, ps);
+        super(value, ps);
     }
-
+    
 }

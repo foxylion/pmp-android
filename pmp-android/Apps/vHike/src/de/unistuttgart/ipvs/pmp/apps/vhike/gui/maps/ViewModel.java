@@ -53,56 +53,56 @@ public class ViewModel {
     
     
     public List<ViewObject> getLVO() {
-        return lvo;
+        return this.lvo;
     }
     
     
     private ViewModel() {
-        lvo = new ArrayList<ViewObject>();
-        banned = new ArrayList<ViewObject>();
+        this.lvo = new ArrayList<ViewObject>();
+        this.banned = new ArrayList<ViewObject>();
     }
     
     
     public Timer getLocationTimer() {
-        if (locationTimer == null) {
-            locationTimer = new Timer();
+        if (this.locationTimer == null) {
+            this.locationTimer = new Timer();
         }
-        return locationTimer;
+        return this.locationTimer;
     }
     
     
     public Timer getQueryTimer() {
-        if (queryTimer == null) {
-            queryTimer = new Timer();
+        if (this.queryTimer == null) {
+            this.queryTimer = new Timer();
         }
-        return queryTimer;
+        return this.queryTimer;
     }
     
     
     public void stopTimers() {
-        if (queryTimer != null) {
-            queryTimer.cancel();
-            queryTimer = null;
+        if (this.queryTimer != null) {
+            this.queryTimer.cancel();
+            this.queryTimer = null;
         }
-        if (locationTimer != null) {
-            locationTimer.cancel();
-            locationTimer = null;
+        if (this.locationTimer != null) {
+            this.locationTimer.cancel();
+            this.locationTimer = null;
         }
     }
     
     
     public void addToBanned(ViewObject vObject) {
-        banned.add(vObject);
+        this.banned.add(vObject);
         removeFromlvo(vObject);
     }
     
     
     private void removeFromlvo(ViewObject toRMVvObject) {
         int i = 0;
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : this.lvo) {
             
             if (vObject.getProfile().getID() == toRMVvObject.getProfile().getID()) {
-                lvo.remove(i);
+                this.lvo.remove(i);
             }
             i++;
         }
@@ -112,12 +112,12 @@ public class ViewModel {
     public void updateView(int whichHitcher) {
         if (whichHitcher == 0) {
             updateLQO(new ArrayList<QueryObject>());
-            ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+            ViewModel.getInstance().getDriverAdapter(this.context, this.mapView).notifyDataSetChanged();
         } else {
             updateLOO(new ArrayList<OfferObject>());
-            ViewModel.getInstance().getPassengerAdapter(context, mapView).notifyDataSetChanged();
+            ViewModel.getInstance().getPassengerAdapter(this.context, this.mapView).notifyDataSetChanged();
         }
-        mapView.invalidate();
+        this.mapView.invalidate();
     }
     
     
@@ -129,25 +129,25 @@ public class ViewModel {
     
     
     public float getMy_lat() {
-        return my_lat;
+        return this.my_lat;
     }
     
     
     public float getMy_lon() {
-        return my_lon;
+        return this.my_lon;
     }
     
     
     public void clearViewModel() {
         clearlvo();
         clearBanList();
-        my_lat = 0;
-        my_lon = 0;
+        this.my_lat = 0;
+        this.my_lon = 0;
     }
     
     
     private void clearlvo() {
-        lvo.clear();
+        this.lvo.clear();
     }
     
     
@@ -155,13 +155,14 @@ public class ViewModel {
         
         ViewModel.getInstance().clearDriverOverlayList();
         ViewModel.getInstance().getHitchPassengers().clear();
-        newFound = false;
+        this.newFound = false;
         
         // Add me to the mapView
-        int my_new_lat = (int) (my_lat * 1E6);
-        int my_new_lon = (int) (my_lon * 1E6);
+        int my_new_lat = (int) (this.my_lat * 1E6);
+        int my_new_lon = (int) (this.my_lon * 1E6);
         GeoPoint my_point = new GeoPoint(my_new_lat, my_new_lon);
-        ViewModel.getInstance().add2DriverOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0);
+        ViewModel.getInstance().add2DriverOverlay(this.context, my_point, Model.getInstance().getOwnProfile(),
+                this.mapView, 0);
         
         try {
             for (QueryObject queryObject : queries) {
@@ -171,33 +172,35 @@ public class ViewModel {
                     if (isInLVO(queryObject.getUserid())) {
                         updateViewObject(queryObject.getUserid(), lat, lon);
                     } else {
-                        Profile profile = ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
+                        Profile profile = this.ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
                         ViewObject vObject = new ViewObject(lat, lon, profile);
                         vObject.setqObject(queryObject);
-                        lvo.add(vObject);
-                        newFound = true;
+                        this.lvo.add(vObject);
+                        this.newFound = true;
                     }
                 }
             }
         } catch (Exception ex) {
         }
         
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : this.lvo) {
             int lat = (int) (vObject.getLat() * 1E6);
             int lng = (int) (vObject.getLon() * 1E6);
             GeoPoint gpsPassenger = new GeoPoint(lat, lng);
-            if (vObject.getStatus() != Constants.V_OBJ_SATUS_PICKED_UP)
-                ViewModel.getInstance().add2DriverOverlay(context, gpsPassenger, vObject.getProfile(), mapView, 1);
+            if (vObject.getStatus() != Constants.V_OBJ_SATUS_PICKED_UP) {
+                ViewModel.getInstance().add2DriverOverlay(this.context, gpsPassenger, vObject.getProfile(),
+                        this.mapView, 1);
+            }
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
             
             // Popup slider if new found
-            if (newFound) {
-                ViewModel.getInstance().fireNotification(context, vObject.getProfile(), vObject.getProfile().getID(),
-                        1, mapView, 0);
+            if (this.newFound) {
+                ViewModel.getInstance().fireNotification(this.context, vObject.getProfile(),
+                        vObject.getProfile().getID(), 1, this.mapView, 0);
             }
-            getDriverAdapter(context, mapView).notifyDataSetChanged();
-            mapView.invalidate();
-            mapView.postInvalidate();
+            getDriverAdapter(this.context, this.mapView).notifyDataSetChanged();
+            this.mapView.invalidate();
+            this.mapView.postInvalidate();
         }
     }
     
@@ -206,14 +209,14 @@ public class ViewModel {
         
         clearPassengerOverlayList();
         getHitchDrivers().clear();
-        newFound = false;
+        this.newFound = false;
         
         // Add me to the mapView
-        int my_new_lat = (int) (my_lat * 1E6);
-        int my_new_lon = (int) (my_lon * 1E6);
+        int my_new_lat = (int) (this.my_lat * 1E6);
+        int my_new_lon = (int) (this.my_lon * 1E6);
         GeoPoint my_point = new GeoPoint(my_new_lat, my_new_lon);
-        add2PassengerOverlay(context, my_point, Model.getInstance().getOwnProfile(), mapView, 0, Model.getInstance()
-                .getOwnProfile().getID());
+        add2PassengerOverlay(this.context, my_point, Model.getInstance().getOwnProfile(), this.mapView, 0, Model
+                .getInstance().getOwnProfile().getID());
         
         try {
             for (OfferObject offerObject : loo) {
@@ -223,31 +226,32 @@ public class ViewModel {
                     if (isInLVO(offerObject.getUser_id())) {
                         updateViewObject(offerObject.getUser_id(), lat, lng);
                     } else {
-                        Profile driver = ctrl.getProfile(Model.getInstance().getSid(), offerObject.getUser_id());
+                        Profile driver = this.ctrl.getProfile(Model.getInstance().getSid(), offerObject.getUser_id());
                         ViewObject vObject = new ViewObject(lat, lng, driver);
                         vObject.setoObject(offerObject);
-                        lvo.add(vObject);
-                        newFound = true;
+                        this.lvo.add(vObject);
+                        this.newFound = true;
                     }
                 }
             }
         } catch (Exception ex) {
         }
         
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : this.lvo) {
             int lat = (int) (vObject.getLat() * 1E6);
             int lng = (int) (vObject.getLon() * 1E6);
             GeoPoint gpsDriver = new GeoPoint(lat, lng);
-            add2PassengerOverlay(context, gpsDriver, vObject.getProfile(), mapView, 1, vObject.getProfile().getID());
+            add2PassengerOverlay(this.context, gpsDriver, vObject.getProfile(), this.mapView, 1, vObject.getProfile()
+                    .getID());
             getHitchDrivers().add(vObject.getProfile());
             
             // notify user on hitchhiker found
-            if (newFound) {
-                fireNotification(context, vObject.getProfile(), vObject.getProfile().getID(), 0, mapView, 1);
+            if (this.newFound) {
+                fireNotification(this.context, vObject.getProfile(), vObject.getProfile().getID(), 0, this.mapView, 1);
             }
-            getPassengerAdapter(context, mapView).notifyDataSetChanged();
-            mapView.invalidate();
-            mapView.postInvalidate();
+            getPassengerAdapter(this.context, this.mapView).notifyDataSetChanged();
+            this.mapView.invalidate();
+            this.mapView.postInvalidate();
         }
     }
     
@@ -256,7 +260,7 @@ public class ViewModel {
      * Updates the viewObject
      */
     private void updateViewObject(int userid, float lat, float lon) {
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : this.lvo) {
             if (vObject.getProfile().getID() == userid) {
                 vObject.updatePos(lat, lon);
             }
@@ -265,13 +269,13 @@ public class ViewModel {
     
     
     private void clearBanList() {
-        banned.clear();
+        this.banned.clear();
     }
     
     
     private boolean isInBanned(int userid) {
         boolean isInBanned = false;
-        for (ViewObject vObject : banned) {
+        for (ViewObject vObject : this.banned) {
             if (vObject.getProfile().getID() == userid) {
                 isInBanned = true;
             }
@@ -282,7 +286,7 @@ public class ViewModel {
     
     private boolean isInLVO(int userid) {
         boolean isInLVO = false;
-        for (ViewObject vObject : lvo) {
+        for (ViewObject vObject : this.lvo) {
             if (vObject.getProfile().getID() == userid) {
                 isInLVO = true;
             }
@@ -324,15 +328,16 @@ public class ViewModel {
         /**
          * send server updated latitude and longitude
          */
-        switch (ctrl.userUpdatePos(Model.getInstance().getSid(), (float) loc.getLatitude(), (float) loc.getLongitude())) {
+        switch (this.ctrl.userUpdatePos(Model.getInstance().getSid(), (float) loc.getLatitude(),
+                (float) loc.getLongitude())) {
             case Constants.STATUS_UPDATED:
-                Toast.makeText(context, "Status updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Status updated", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.STATUS_UPTODATE:
-                Toast.makeText(context, "Status up to date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Status up to date", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.STATUS_ERROR:
-                Toast.makeText(context, "Error Update position", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.context, "Error Update position", Toast.LENGTH_SHORT).show();
                 break;
         }
         
@@ -350,12 +355,12 @@ public class ViewModel {
     
     
     public void setClickedSpinner(Spinner spinner) {
-        clickedSpinner = spinner;
+        this.clickedSpinner = spinner;
     }
     
     
     public Spinner getClickedSpinner() {
-        return clickedSpinner;
+        return this.clickedSpinner;
     }
     
     
@@ -366,17 +371,17 @@ public class ViewModel {
      * @return
      */
     public List<Overlay> getDriverOverlayList(MapView mapView) {
-        if (mapDriverOverlays == null) {
-            mapDriverOverlays = mapView.getOverlays();
+        if (this.mapDriverOverlays == null) {
+            this.mapDriverOverlays = mapView.getOverlays();
         }
-        return mapDriverOverlays;
+        return this.mapDriverOverlays;
     }
     
     
     public void clearDriverOverlayList() {
-        if (mapDriverOverlays != null) {
-            mapDriverOverlays.clear();
-            mapDriverOverlays = null;
+        if (this.mapDriverOverlays != null) {
+            this.mapDriverOverlays.clear();
+            this.mapDriverOverlays = null;
         }
     }
     
@@ -388,17 +393,17 @@ public class ViewModel {
      * @return
      */
     public List<Overlay> getPassengerOverlayList(MapView mapView) {
-        if (mapPassengerOverlays == null) {
-            mapPassengerOverlays = mapView.getOverlays();
+        if (this.mapPassengerOverlays == null) {
+            this.mapPassengerOverlays = mapView.getOverlays();
         }
-        return mapPassengerOverlays;
+        return this.mapPassengerOverlays;
     }
     
     
     public void clearPassengerOverlayList() {
-        if (mapPassengerOverlays != null) {
-            mapPassengerOverlays.clear();
-            mapPassengerOverlays = null;
+        if (this.mapPassengerOverlays != null) {
+            this.mapPassengerOverlays.clear();
+            this.mapPassengerOverlays = null;
         }
         
     }
@@ -410,21 +415,21 @@ public class ViewModel {
      * @param spDestination
      */
     public void setDestination(Spinner spDestination) {
-        destination = "";
-        for (int i = 0; i < spinnersDest.size(); i++) {
-			destination += ";" + spinnersDest.get(i).getSelectedItem().toString();
+        this.destination = "";
+        for (int i = 0; i < this.spinnersDest.size(); i++) {
+            this.destination += ";" + this.spinnersDest.get(i).getSelectedItem().toString();
         }
-        destination = destination + ";";
+        this.destination = this.destination + ";";
     }
     
     
     public void setDestination4Passenger(Spinner spDestination) {
-        destinationPassenger = spDestination.getSelectedItem().toString();
+        this.destinationPassenger = spDestination.getSelectedItem().toString();
     }
     
     
     public String getDestination4Passenger() {
-        return destinationPassenger;
+        return this.destinationPassenger;
     }
     
     
@@ -434,15 +439,15 @@ public class ViewModel {
      * @param spNumSeats
      */
     public void setNumSeats(Spinner spNumSeats) {
-        numSeats = spNumSeats.getSelectedItemPosition() + 1;
-        if (numSeats == 0) {
-            numSeats = 1;
+        this.numSeats = spNumSeats.getSelectedItemPosition() + 1;
+        if (this.numSeats == 0) {
+            this.numSeats = 1;
         }
     }
     
     
     public void setNewNumSeats(int newSeatNumber) {
-        numSeats = newSeatNumber;
+        this.numSeats = newSeatNumber;
     }
     
     
@@ -452,7 +457,7 @@ public class ViewModel {
      * @return
      */
     public String getDestination() {
-        return destination;
+        return this.destination;
     }
     
     
@@ -463,17 +468,17 @@ public class ViewModel {
      * @return
      */
     public int getNumSeats() {
-        return numSeats;
+        return this.numSeats;
     }
     
     
     public void initDriversList() {
-        hitchDrivers = new ArrayList<Profile>();
+        this.hitchDrivers = new ArrayList<Profile>();
     }
     
     
     public void initPassengersList() {
-        hitchPassengers = new ArrayList<Profile>();
+        this.hitchPassengers = new ArrayList<Profile>();
     }
     
     
@@ -483,17 +488,17 @@ public class ViewModel {
      * @return
      */
     public List<Profile> getHitchDrivers() {
-        if (hitchDrivers == null) {
-            hitchDrivers = new ArrayList<Profile>();
+        if (this.hitchDrivers == null) {
+            this.hitchDrivers = new ArrayList<Profile>();
         }
-        return hitchDrivers;
+        return this.hitchDrivers;
     }
     
     
     public void clearHitchDrivers() {
-        if (hitchDrivers != null) {
-            hitchDrivers.clear();
-            hitchDrivers = null;
+        if (this.hitchDrivers != null) {
+            this.hitchDrivers.clear();
+            this.hitchDrivers = null;
         }
     }
     
@@ -504,17 +509,17 @@ public class ViewModel {
      * @return
      */
     public List<Profile> getHitchPassengers() {
-        if (hitchPassengers == null) {
-            hitchPassengers = new ArrayList<Profile>();
+        if (this.hitchPassengers == null) {
+            this.hitchPassengers = new ArrayList<Profile>();
         }
-        return hitchPassengers;
+        return this.hitchPassengers;
     }
     
     
     public void clearHitchPassengers() {
-        if (hitchPassengers != null) {
-            hitchPassengers.clear();
-            hitchPassengers = null;
+        if (this.hitchPassengers != null) {
+            this.hitchPassengers.clear();
+            this.hitchPassengers = null;
         }
     }
     
@@ -528,17 +533,17 @@ public class ViewModel {
     public NotificationAdapter getDriverAdapter(Context context, MapView mapView) {
         this.context = context;
         this.mapView = mapView;
-        if (driverAdapter == null) {
-            driverAdapter = new NotificationAdapter(context, getHitchPassengers(), 0);
+        if (this.driverAdapter == null) {
+            this.driverAdapter = new NotificationAdapter(context, getHitchPassengers(), 0);
         }
-        return driverAdapter;
+        return this.driverAdapter;
     }
     
     
     public void clearDriverNotificationAdapter() {
-        if (driverAdapter != null) {
-            driverAdapter = null;
-            slider_Driver = null;
+        if (this.driverAdapter != null) {
+            this.driverAdapter = null;
+            this.slider_Driver = null;
         }
     }
     
@@ -552,16 +557,16 @@ public class ViewModel {
     public NotificationAdapter getPassengerAdapter(Context context, MapView mapView) {
         this.context = context;
         this.mapView = mapView;
-        if (passengerAdapter == null) {
-            passengerAdapter = new NotificationAdapter(context, getHitchDrivers(), 1);
+        if (this.passengerAdapter == null) {
+            this.passengerAdapter = new NotificationAdapter(context, getHitchDrivers(), 1);
         }
-        return passengerAdapter;
+        return this.passengerAdapter;
     }
     
     
     public void clearPassengerNotificationAdapter() {
-        if (passengerAdapter != null) {
-            passengerAdapter = null;
+        if (this.passengerAdapter != null) {
+            this.passengerAdapter = null;
         }
     }
     
@@ -610,13 +615,13 @@ public class ViewModel {
         mNotificationManager.notify(0, notification);
         
         if (whichSlider == 0) {
-            slider_Driver = (SlidingDrawer) ((Activity) context).findViewById(R.id.notiSlider);
-            slider_Driver.open();
+            this.slider_Driver = (SlidingDrawer) ((Activity) context).findViewById(R.id.notiSlider);
+            this.slider_Driver.open();
             Log.i(this, "Slider opened");
             getDriverAdapter(context, mapView).notifyDataSetChanged();
         } else {
-            slider_Passenger = (SlidingDrawer) ((Activity) context).findViewById(R.id.slidingDrawer);
-            slider_Passenger.open();
+            this.slider_Passenger = (SlidingDrawer) ((Activity) context).findViewById(R.id.slidingDrawer);
+            this.slider_Passenger.open();
             getPassengerAdapter(context, mapView).notifyDataSetChanged();
         }
         

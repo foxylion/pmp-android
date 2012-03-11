@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,22 +32,24 @@ import de.unistuttgart.ipvs.pmp.editor.model.RgisModel;
  * @author Patrick Strobel
  */
 public class PrivacySettingsPage extends FormPage {
-
+    
     public static final String ID = "rgis_ps";
     private final PrivacySettingsBlock privacySettingsBlock;
-
+    
+    
     public PrivacySettingsPage(FormEditor parent, RgisModel model) {
-	super(parent, ID, "Privacy Settings");
-	privacySettingsBlock = new PrivacySettingsBlock(this, model);
-
+        super(parent, ID, "Privacy Settings");
+        this.privacySettingsBlock = new PrivacySettingsBlock(this, model);
+        
     }
-
+    
+    
     @Override
     protected void createFormContent(IManagedForm managedForm) {
-	ScrolledForm form = managedForm.getForm();
-	form.setText("Defines the Privacy Setting");
-
-	privacySettingsBlock.createContent(managedForm);
+        ScrolledForm form = managedForm.getForm();
+        form.setText("Defines the Privacy Setting");
+        
+        this.privacySettingsBlock.createContent(managedForm);
     }
-
+    
 }

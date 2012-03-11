@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: Editor
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
  * 
  */
 public class ResourceGroupDialogLabelProvider implements ILabelProvider {
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -44,7 +44,8 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider {
     @Override
     public void addListener(ILabelProviderListener arg0) {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -53,7 +54,8 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider {
     @Override
     public void dispose() {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -63,9 +65,10 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider {
      */
     @Override
     public boolean isLabelProperty(Object arg0, String arg1) {
-	return false;
+        return false;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -76,7 +79,8 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider {
     @Override
     public void removeListener(ILabelProviderListener arg0) {
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -84,9 +88,10 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider {
      */
     @Override
     public Image getImage(Object arg0) {
-	return null;
+        return null;
     }
-
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -94,7 +99,7 @@ public class ResourceGroupDialogLabelProvider implements ILabelProvider {
      */
     @Override
     public String getText(Object arg0) {
-	return ((RGIS) arg0).getIdentifier();
+        return ((RGIS) arg0).getIdentifier();
     }
-
+    
 }
