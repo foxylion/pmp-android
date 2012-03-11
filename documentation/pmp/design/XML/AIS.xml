@@ -23,6 +23,7 @@
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="2012-02-16 14:46:55 GMT+01:00">
 				<requiredPrivacySetting identifier="read">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="complexPS" emptyValue="true" />
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="write">

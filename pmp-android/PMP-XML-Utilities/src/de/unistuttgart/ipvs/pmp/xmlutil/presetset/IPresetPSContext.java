@@ -63,6 +63,21 @@ public interface IPresetPSContext extends IIssueLocation {
     
     
     /**
+     * Check, whether it is an empty condition or not
+     */
+    public boolean isEmptyCondition();
+    
+    
+    /**
+     * Set empty condition true or false
+     * 
+     * @param emptyCondition
+     *            flag of empty condition
+     */
+    public void setEmptyCondition(boolean emptyCondition);
+    
+    
+    /**
      * Get the override value
      * 
      * @return the overrideValue
@@ -77,5 +92,20 @@ public interface IPresetPSContext extends IIssueLocation {
      *            the overrideValue to set
      */
     public abstract void setOverrideValue(String overrideValue);
+    
+    
+    /**
+     * Check, whether it is an empty override value or not
+     */
+    public boolean isEmptyOverrideValue();
+    
+    
+    /**
+     * Set empty override value true or false
+     * 
+     * @param emptyOverrideValue
+     *            flag of empty override value
+     */
+    public void setEmptyOverrideValue(boolean emptyOverrideValue);
     
 }

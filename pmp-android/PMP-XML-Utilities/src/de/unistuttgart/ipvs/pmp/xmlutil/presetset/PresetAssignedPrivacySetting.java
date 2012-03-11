@@ -29,14 +29,19 @@ public class PresetAssignedPrivacySetting extends IssueLocation implements Seria
     private String rgRevision = "";
     
     /**
-     * The privacy setting identifier
+     * The {@link IPresetAssignedPrivacySetting} identifier
      */
     private String psIdentifier = "";
     
     /**
      * The value
      */
-    private String value = null;
+    private String value = "";
+    
+    /**
+     * The flag, if its an empty value
+     */
+    private boolean emptyValue = false;
     
     /**
      * List of {@link IPresetPSContext}s
@@ -109,6 +114,18 @@ public class PresetAssignedPrivacySetting extends IssueLocation implements Seria
     @Override
     public void setValue(String value) {
         this.value = value;
+    }
+    
+    
+    @Override
+    public boolean isEmptyValue() {
+        return this.emptyValue;
+    }
+    
+    
+    @Override
+    public void setEmptyValue(boolean emptyValue) {
+        this.emptyValue = emptyValue;
     }
     
     

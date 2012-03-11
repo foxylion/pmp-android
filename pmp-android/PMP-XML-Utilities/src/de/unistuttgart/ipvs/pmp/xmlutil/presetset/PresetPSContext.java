@@ -27,9 +27,19 @@ public class PresetPSContext extends IssueLocation implements Serializable, IPre
     private String condition = "";
     
     /**
+     * The flag, if its an empty condition
+     */
+    private boolean emptyCondition = false;
+    
+    /**
      * The override value
      */
-    private String overrideValue = null;
+    private String overrideValue = "";
+    
+    /**
+     * The flag, if its an empty override value
+     */
+    private boolean emptyOverrideValue = false;
     
     
     /**
@@ -82,6 +92,30 @@ public class PresetPSContext extends IssueLocation implements Serializable, IPre
     @Override
     public void setOverrideValue(String overrideValue) {
         this.overrideValue = overrideValue;
+    }
+    
+    
+    @Override
+    public boolean isEmptyOverrideValue() {
+        return this.emptyOverrideValue;
+    }
+    
+    
+    @Override
+    public void setEmptyOverrideValue(boolean emptyOverrideValue) {
+        this.emptyOverrideValue = emptyOverrideValue;
+    }
+    
+    
+    @Override
+    public boolean isEmptyCondition() {
+        return this.emptyCondition;
+    }
+    
+    
+    @Override
+    public void setEmptyCondition(boolean emptyCondition) {
+        this.emptyCondition = emptyCondition;
     }
     
 }
