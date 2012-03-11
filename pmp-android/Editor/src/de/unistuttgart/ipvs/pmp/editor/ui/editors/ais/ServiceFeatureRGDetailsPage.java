@@ -559,37 +559,18 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             }
             
             // Show the input dialog;
-            String[] resultArray = new String[1];
+            Object[] resultArray = new Object[2];
             RequiredPrivacySettingChangeValueDialog dialog = new RequiredPrivacySettingChangeValueDialog(
-                    this.parentShell, selected.getValue(), message, resultArray);
+                    this.parentShell, selected.getValue(), message, resultArray, selected.isEmptyValue());
             
             if (dialog.open() == Window.OK) {
+                Boolean emptyValueResult = (Boolean) resultArray[0];
+                String valueResult = (String) resultArray[1];
                 
-                String result = resultArray[0];
-                
-                if (result != null) {
-                    if (!result.equals(selected.getValue())) {
-                        selected.setValue(result);
-                        
-                        AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
-                        
-                        this.parentTree.refresh();
-                        
-                        // Update the view
-                        this.psTableViewer.refresh();
-                        this.psTableViewer.getTable().setRedraw(false);
-                        this.identifierColumn.pack();
-                        this.valueColumn.pack();
-                        this.psTableViewer.getTable().redraw();
-                        this.psTableViewer.getTable().setRedraw(true);
-                        
-                        markEmptyCells();
-                        this.model.setDirty(true);
-                    }
-                } else {
-                    // The value is not empty but nothing was entered
-                    selected.setValue(null);
-                    
+                // Either the checked empty value has changed or the value
+                if (emptyValueResult != selected.isEmptyValue() || !selected.getValue().equals(valueResult)) {
+                    selected.setEmptyValue(emptyValueResult);
+                    selected.setValue(valueResult);
                     AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
                     
                     this.parentTree.refresh();
@@ -602,9 +583,9 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                     this.psTableViewer.getTable().redraw();
                     this.psTableViewer.getTable().setRedraw(true);
                     
-                    markEmptyCells();
                     this.model.setDirty(true);
                 }
+                markEmptyCells();
             }
         }
         
@@ -838,10 +819,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         TableItem[] items = this.psTableViewer.getTable().getItems();
         for (TableItem item : items) {
             AISRequiredPrivacySetting rps = (AISRequiredPrivacySetting) item.getData();
-            if (rps.getValue() != null) {
-                if (rps.getValue().isEmpty()) {
-                    item.setBackground(1, Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
-                }
+            if (rps.isEmptyValue()) {
+                item.setBackground(1, Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
             }
         }
     }

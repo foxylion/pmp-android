@@ -237,8 +237,9 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
         if (children != null) {
             ArrayList<AISRequiredPrivacySetting> list = new ArrayList<AISRequiredPrivacySetting>();
             for (int i = 0; i < children.length; ++i) {
-                
                 RGISPrivacySetting element = (RGISPrivacySetting) children[i];
+                AISRequiredPrivacySetting toAdd = new AISRequiredPrivacySetting(element.getIdentifier(), "");
+                toAdd.setEmptyValue(false);
                 if (this.listViewer.getChecked(element)) {
                     String value = null;
                     // Add the entered values
@@ -247,14 +248,15 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
                     // Check if the empty value was set
                     if (empty != null) {
                         if (empty) {
-                            value = "";
+                            toAdd.setEmptyValue(true);
                         }
                     } else if (this.values.get(element.getIdentifier()) != null) {
                         if (!this.values.get(element.getIdentifier()).isEmpty()) {
                             value = this.values.get(element.getIdentifier());
+                            toAdd.setValue(value);
                         }
                     }
-                    list.add(new AISRequiredPrivacySetting(element.getIdentifier(), value));
+                    list.add(toAdd);
                 }
             }
             setResult(list);

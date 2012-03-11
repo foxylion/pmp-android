@@ -63,9 +63,14 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
     private String value;
     
     /**
+     * Flag to indicate the empty value of the dialog
+     */
+    private Boolean emptyValue;
+    
+    /**
      * The result
      */
-    private String[] result;
+    private Object[] result;
     
     /**
      * Message that is shown
@@ -84,12 +89,16 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
      *            message to display
      * @param result
      *            String {@link Array} to return the result
+     * @param emptyValue
+     *            true if the empty value was set
      */
-    public RequiredPrivacySettingChangeValueDialog(Shell parentShell, String value, String message, String[] result) {
+    public RequiredPrivacySettingChangeValueDialog(Shell parentShell, String value, String message, Object[] result,
+            Boolean emptyValue) {
         super(parentShell);
         this.message = message;
         this.value = value;
         this.result = result;
+        this.emptyValue = emptyValue;
     }
     
     
@@ -145,16 +154,8 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
     
     @Override
     public void okPressed() {
-        // Set the results if ok is pressed
-        if (this.valueText.getText().isEmpty()) {
-            this.result[0] = null;
-        } else {
-            this.result[0] = this.valueText.getText();
-        }
-        
-        if (this.checked.getSelection()) {
-            this.result[0] = "";
-        }
+        result[0] = checked.getSelection();
+        result[1] = valueText.getText();
         close();
     }
     
@@ -174,15 +175,16 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
          * Add the value to the dialog, or enable the empty value checkbox and
          * disable the text field
          */
+        if (emptyValue) {
+            this.checked.setSelection(true);
+            this.valueText.setEnabled(false);
+        } else if (this.value != null) {
+            this.valueText.setFocus();
+        }
+        
         if (this.value != null) {
-            if (this.value.isEmpty()) {
-                this.checked.setSelection(true);
-                this.valueText.setEnabled(false);
-            }
             this.valueText.setText(this.value);
         }
-        this.valueText.setFocus();
-        
     }
     
     
