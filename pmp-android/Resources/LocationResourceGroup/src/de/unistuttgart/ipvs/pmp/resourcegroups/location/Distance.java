@@ -35,7 +35,7 @@ public class Distance {
 	 *            Longitude of point B
 	 * @return
 	 */
-	public static double calclateArc(double aLat, double aLong, double bLat, double bLong, int units) {
+	public static double calculateArc(double aLat, double aLong, double bLat, double bLong, int units) {
 		/*
 		 * Convert location a and b's lattitude and longitude
 		 * from degrees to radians
