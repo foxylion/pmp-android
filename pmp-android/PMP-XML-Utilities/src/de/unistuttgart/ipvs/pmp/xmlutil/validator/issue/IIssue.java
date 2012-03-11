@@ -29,35 +29,35 @@ import java.util.List;
 public interface IIssue {
     
     /**
-     * Get the location object for the issue
+     * Get the {@link IIssueLocation} for the issue
      * 
-     * @return the location
+     * @return the {@link IIssueLocation}
      */
     public abstract IIssueLocation getLocation();
     
     
     /**
-     * Set the location object for the issue
+     * Set the {@link IIssueLocation} for the issue
      * 
      * @param location
-     *            the location to set
+     *            the {@link IIssueLocation} to set
      */
     public abstract void setLocation(IIssueLocation location);
     
     
     /**
-     * Get the type of the issue
+     * Get the {@link IssueType} of the issue
      * 
-     * @return the type
+     * @return the {@link IssueType}
      */
     public abstract IssueType getType();
     
     
     /**
-     * Set the type of the issue
+     * Set the {@link IssueType} of the issue
      * 
      * @param type
-     *            the type to set
+     *            the {@link IssueType} to set
      */
     public abstract void setType(IssueType type);
     

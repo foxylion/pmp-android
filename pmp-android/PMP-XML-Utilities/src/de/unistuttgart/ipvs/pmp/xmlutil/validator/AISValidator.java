@@ -38,7 +38,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
- * Validator for AIS
+ * Validator for {@link IAIS}
  * 
  * @author Marcus Vetter
  * 
@@ -46,13 +46,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 public class AISValidator extends AbstractValidator {
     
     /**
-     * Validate the whole AIS
+     * Validate the whole {@link IAIS}
      * 
      * @param ais
-     *            the ais
+     *            the {@link IAIS}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateAIS(IAIS ais, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -76,10 +76,10 @@ public class AISValidator extends AbstractValidator {
      * Validate the app information
      * 
      * @param ais
-     *            the ais
+     *            the {@link IAIS}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateAppInformation(IAIS ais, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -103,13 +103,13 @@ public class AISValidator extends AbstractValidator {
     
     
     /**
-     * Validate all service features of the given AIS
+     * Validate all {@link IAISServiceFeature}s of the given {@link IAIS}
      * 
      * @param ais
-     *            the ais
+     *            the {@link IAIS}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateServiceFeatures(IAIS ais, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -163,13 +163,13 @@ public class AISValidator extends AbstractValidator {
     
     
     /**
-     * Validate the given service feature
+     * Validate the given {@link IAISServiceFeature}
      * 
      * @param sf
-     *            the service feature
+     *            the {@link IAISServiceFeature}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateServiceFeature(IAISServiceFeature sf, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -229,13 +229,13 @@ public class AISValidator extends AbstractValidator {
     
     
     /**
-     * Validate a given required resource grouop
+     * Validate a given {@link IAISRequiredResourceGroup}
      * 
      * @param rrg
-     *            the required resource group to validate
+     *            the {@link IAISRequiredResourceGroup} to validate
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateRequiredResourceGroup(IAISRequiredResourceGroup rrg, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -307,13 +307,13 @@ public class AISValidator extends AbstractValidator {
     
     
     /**
-     * Validate a given required privacy setting
+     * Validate a given {@link IAISRequiredPrivacySetting}
      * 
      * @param rps
-     *            the required privacy setting to validate
+     *            the {@link IAISRequiredPrivacySetting} to validate
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateRequiredPrivacySetting(IAISRequiredPrivacySetting rps, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -345,13 +345,13 @@ public class AISValidator extends AbstractValidator {
     
     
     /**
-     * Validate the given AppInformationSet (ais) Check, that there are no
-     * different Service Features which address the same Privacy Settings and
-     * the same required values of those Privacy Settings.
+     * Validate the given {@link IAIS}. Check, that there are no different {@link IAISServiceFeature} which address the
+     * same {@link IAISRequiredPrivacySetting}s within the same {@link IAISRequiredResourceGroup}s and the same required
+     * values of those {@link IAISRequiredPrivacySetting}s.
      * 
      * @param ais
-     *            the AppInformationSet
-     * @return List with issues as result of the validation
+     *            the {@link IAIS}
+     * @return List with {@link IIssue}s as result of the validation
      */
     private List<IIssue> validateAISDiffPSValuesForDiffSFs(IAIS ais) {
         // Temporary list if invalid sf sets
@@ -429,10 +429,10 @@ public class AISValidator extends AbstractValidator {
     
     
     /**
-     * Clear all issues, begin at the given IAIS and propagate
+     * Clear all {@link IIssue}s, begin with the given {@link IAIS} and propagate
      * 
      * @param ais
-     *            the IAIS
+     *            the {@link IAIS}
      */
     public void clearIssuesAndPropagate(IAIS ais) {
         ais.clearIssues();

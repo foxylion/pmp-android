@@ -30,39 +30,39 @@ import java.util.List;
 public interface IIssueLocation extends Serializable {
     
     /**
-     * Get the issues
+     * Get the {@link IIssue}s
      * 
-     * @return list of issues
+     * @return list of {@link IIssue}s
      */
     public abstract List<IIssue> getIssues();
     
     
     /**
-     * Add an issue
+     * Add an {@link IIssue}
      * 
      * @param issue
-     *            issue to add
+     *            {@link IIssue} to add
      */
     public abstract void addIssue(IIssue issue);
     
     
     /**
-     * Remove an issue
+     * Remove an {@link IIssue}
      * 
      * @param issue
-     *            issue to remove
+     *            {@link IIssue} to remove
      */
     public abstract void removeIssue(IIssue issue);
     
     
     /**
-     * Clear all issues
+     * Clear all {@link IIssue}s
      */
     public abstract void clearIssues();
     
     
     /**
-     * Check, whether the issue with the given type is present or not
+     * Check, whether the {@link IIssue} with the given {@link IssueType} is present or not
      */
     public abstract boolean hasIssueType(IssueType issueType);
     

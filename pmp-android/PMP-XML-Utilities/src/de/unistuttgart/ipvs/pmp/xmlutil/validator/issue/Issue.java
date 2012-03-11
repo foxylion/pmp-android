@@ -28,12 +28,12 @@ import java.util.List;
 public class Issue implements IIssue {
     
     /**
-     * The location of the issue
+     * The {@link IIssueLocation}
      */
     private IIssueLocation location;
     
     /**
-     * The type of the issue
+     * The {@link IssueType}
      */
     private IssueType type;
     
@@ -44,12 +44,12 @@ public class Issue implements IIssue {
     
     
     /**
-     * The constructor to set the type and location of the issue
+     * The constructor to set the {@link IssueType} and location
      * 
      * @param type
-     *            type of the issue
+     *            {@link IssueType} of the issue
      * @param location
-     *            location of the issue
+     *            {@link IIssueLocation} of the issue
      */
     public Issue(IssueType type, IIssueLocation location) {
         this.type = type;
@@ -57,54 +57,36 @@ public class Issue implements IIssue {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#getLocation()
-     */
     @Override
     public IIssueLocation getLocation() {
         return this.location;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#setLocation(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation)
-     */
     @Override
     public void setLocation(IIssueLocation location) {
         this.location = location;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#getType()
-     */
     @Override
     public IssueType getType() {
         return this.type;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#setType(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType)
-     */
     @Override
     public void setType(IssueType type) {
         this.type = type;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#getParameters()
-     */
     @Override
     public List<String> getParameters() {
         return this.parameters;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue#addParameter(java.lang.String)
-     */
     @Override
     public void addParameter(String parameter) {
         this.parameters.add(parameter);

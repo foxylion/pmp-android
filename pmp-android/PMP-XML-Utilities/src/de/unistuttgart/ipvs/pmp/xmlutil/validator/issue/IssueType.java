@@ -19,8 +19,19 @@
  */
 package de.unistuttgart.ipvs.pmp.xmlutil.validator.issue;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPreset;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetAssignedPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetPSContext;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+
 /**
- * Here are listed all possible types of AISIssues
+ * Here are listed all possible types of {@link IIssue}s
  * 
  * @author Marcus Vetter
  * 
@@ -34,7 +45,7 @@ public enum IssueType {
     LOCALE_MISSING,
     
     /**
-     * Common for all objects extending BasicIS
+     * Common for all classes implementing {@link IBasicIS}
      */
     NAME_LOCALE_OCCURRED_TOO_OFTEN,
     NAME_LOCALE_EN_MISSING,
@@ -42,25 +53,25 @@ public enum IssueType {
     DESCRIPTION_LOCALE_EN_MISSING,
     
     /**
-     * Common for all objects having an identifier
+     * Common for all classes implementing {@link IIdentifierIS}
      */
     IDENTIFIER_MISSING,
     
     /**
-     * AIS
+     * {@link IAIS}
      */
     SF_IDENTIFIER_OCCURRED_TOO_OFTEN,
     NO_SF_EXISTS,
     SFS_CONTAIN_SAME_RRG_AND_RPS_WITH_SAME_VALUE,
     
     /**
-     * AISServiceFeature
+     * {@link IAISServiceFeature}
      */
     RRG_IDENTIFIER_OCCURRED_TOO_OFTEN,
     NO_RRG_EXISTS,
     
     /**
-     * AISRequiredResourceGroups
+     * {@link IAISRequiredResourceGroup}
      */
     MINREVISION_MISSING,
     MINREVISION_INVALID,
@@ -68,7 +79,7 @@ public enum IssueType {
     NO_RPS_EXISTS,
     
     /**
-     * RGIS
+     * {@link IRGIS}
      */
     ICON_MISSING,
     CLASSNAME_MISSING,
@@ -76,20 +87,20 @@ public enum IssueType {
     NO_PS_EXISTS,
     
     /**
-     * RGISPrivacySetting
+     * {@link IRGISPrivacySetting}
      */
     VALID_VALUE_DESCRIPTION_MISSING,
     CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN,
     CHANGE_DESCRIPTION_LOCALE_EN_MISSING,
     
     /**
-     * Preset
+     * {@link IPreset}
      */
     CREATOR_MISSING,
     NAME_MISSING,
     
     /**
-     * PresetSetAssignedPrivacySetting
+     * {@link IPresetAssignedPrivacySetting}
      */
     RG_IDENTIFIER_MISSING,
     RG_REVISION_MISSING,
@@ -98,7 +109,7 @@ public enum IssueType {
     VALUE_MISSING,
     
     /**
-     * PresetPSContext
+     * {@link IPresetPSContext}
      */
     TYPE_MISSING,
     CONDITION_MISSING,
