@@ -153,7 +153,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 		double currentLatitude = this.absoluteLocationR.getLatitude();
 		double currentLongitude = this.absoluteLocationR.getLongitude();
 		
-		double distance = Distance.calclateArc(this.lastLatitude, this.lastLongitude, currentLatitude,
+		double distance = Distance.calculateDistance(this.lastLatitude, this.lastLongitude, currentLatitude,
 				currentLongitude, Distance.KILOMETERS);
 		
 		boolean update = false;
@@ -310,7 +310,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
 		double newLatitude = this.absoluteLocationR.getLatitude();
 		double newLongitude = this.absoluteLocationR.getLongitude();
 		
-		double distanceToLastPosition = Distance.calclateArc(this.lastRILatitude, this.lastRILongitude, newLatitude,
+		double distanceToLastPosition = Distance.calculateDistance(this.lastRILatitude, this.lastRILongitude, newLatitude,
 				newLongitude, Distance.KILOMETERS) / 1000;
 		
 		/* 
