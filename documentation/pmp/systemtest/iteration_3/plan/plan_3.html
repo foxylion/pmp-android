@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Systemtest-Plan für die 3. Iteration - Privacy Management Platform</title>
+	<script type="text/javascript" src="../../../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../../../_layout/script.js"></script>
+	<script type="text/javascript" src="../../../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="../../../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../../../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">11. März 2012</div>
+		<div id="page-head-title">Privacy Management Platform</div>
+		<div id="page-title">Systemtest-Plan für die<br/>3. Iteration</div>
+		<div id="page-version">Version 1.0</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the system test plan -->
+		<h1 id="versionshistorie">Versionshistorie</h1>
+		
+				<h3>Version 1.0 (11.03.2012)</h3>
+					<ul>
+						<li>Übernahme &amp; Anpassung des Testplans für I2</li>
+						<li>Durchführen der Änderungen der Spezifikation von I2 auf I3</li>
+					</ul>
+					
+			<h1 id="einleitung">Einleitung</h1>
+			<p></p>
+			
+				<h2 id="zweck">Zweck</h2>
+				<p>Dieses Dokument stellt den Systemtestplan des Projektes "Privacy Management Platform" dar. Es spezifiziert, wie der System-Test der jeweiligen Iteration durchzuführen ist. Im Sinne des Regressionstests für weitere Iterationen sollte der fertige Systemtestplan nicht mehr gravierend geändert werden.</p>
+				<p>Dabei wird einzeln auf die Testkriterien und Soll-Werte der Tests für funktionale sowie für nicht-funktionale Anforderungen eingegangen. Anhand der Test-Durchführungsbeschreibung wird später ein konkreter Systemtest durchgeführt, dessen Ergebnis im zugehörigen Systemtestprotokoll festgehalten wird.</p>
+			
+				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
+				<p>Die rasche Entwicklung in der Kommunikationsindustrie mit ihren unzähligen Möglichkeiten übersteigt die heutige Konfigurationssoftware. Nicht jeder kennt alle Anwendungen auf seinem Smartphone, ganz davon abgesehen welche Rechte die einzelnen Programme besitzen, ob diese auf den Internetanschluss zugreifen oder sogar Ihre E-Mails weiterleiten.</p>
+				<p>Im Rahmen des Studienprojekts "Privacy Management Platform" kurz "PMP" an der Universität Stuttgart wird eine Software entwickelt, die dem Benutzer das sichere Benutzen eines Android-Systems erlauben könnte.</p>
+				<p>Der Benutzer wird alle Apps und Ressourcen auf dem Android-System schnell und einfach verwalten können. Mittels einer ansprechenden grafischen Bedienungsoberfläche wird es möglich sein jeder einzelnen Anwendung, die mit PMP kompatibel ist, bestimmte Rechte zuzuweisen bzw. diese zu entziehen.</p>
+
+				<h2 id="leserkreis">Leserkreis</h2>
+				<p>Dieser Systemtestplan dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+				<ul>
+					<li>den Entwicklern von PMP</li>          
+					<li>den Entwicklern von Androidapps bzw. zur PMP kompatiblen Ressourcen</li>
+					<li>dem Kunden</li>
+					<li>den Betreuern des Studienprojekts</li>
+				</ul>
+			
+				<h2 id="konventionen">Konventionen</h2>
+				<p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
+				<ul>
+					<li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
+					<li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
+					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
+					<li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
+				</ul>
+				
+			<h1 id="testvorgaben">Allgemeine Testvorgaben</h1>
+				<h2 id="revisions">Revisionsvorgaben</h2>
+					<table>
+						<tr><th class="left">Spezifikation unter Test</th><td>trunk: 4bb1f6507ca7ee6cb94763be7a311ba59b466f14</td></tr>
+					</table>
+					
+				<h2 id="umgebung">Umgebung</h2>
+					<p>Für die Tests soll generell ein AVD mit API-Level 7 verwendet werden, soweit nicht anders angegeben.</p>
+					
+				<h2 id="testende">Test-Ende-Kriterium</h2>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 20.03.2012 definiert.</p>
+					
+				<h2 id="testende">Test-Erstellungsmethodik</h2>
+					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
+					
+					<p>Für Anforderungen in natürlicher Sprache muss einzeln überprüft werden, ob die Anforderung objektivierbar und testbar ist. Ist sie dies nicht, so ist dies ausdrücklich mit Hilfe eines &lt;div class="criticism"&gt; zu kritisieren. Andernfalls müssen ein oder mehrere Testfälle zur Überprüfung der beschriebenen Anforderung entwickelt werden. Unter Umständen bietet sich ein Test mit einem Zustandsdiagramm nach LL10, 19.5.3 an, bei dem Transitionsüberdeckung erreicht werden sollte.</p>
+					
+					<p>Unter Umständen erfordern Tests zusätzliche große Datenmengen oder Programmcode. Diese sind zusätzlich zum Testplan zu entwickeln und der Konfigurationsverwaltung zu unterstellen.</p>
+					
+					<p>Die nicht-funktionale Bedienungs-Anforderungen der Spezifikation, das heißt:
+					<ul>
+					<li>"Wo möglich, wird PMP gute Standardeingaben vorgeben"</li>
+					<li>"Wo möglich, wird PMP [...] direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen"</li>
+					<li>"Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können."</li>
+					<li>"Ungewollte Aktionen wird der Benutzer abbrechen können."</li>
+					<li>"Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt."</li>					
+					</ul>
+					müssen im Laufe jedes Tests überprüft werden. Ein Verstoß gegen diese Anforderungen in einem Test sollte berichtet werden.</p>				
+					
+				<h2 id="testende">Grenzen des Tests</h2>
+					<p>Der Testplan kritisiert Stellen der Spezifikation, die dazu führten, dass kein ausreichender Test erstellt werden konnte.</p>
+					<p>Des Weiteren sind die Beispiel-Anwendungen und -Ressourcengruppen nirgends spezifiziert, sie können also nicht getestet werden.</p>
+			
+			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
+				<h2 id="usecases">Anwendungsfälle</h2>
+				Die Anwendungsfälle sind in einem separaten Dokument ausgelagert und werden per Identifier adressiert.<br>
+				Der Tester führt die Anwendungsfälle Schritt für Schritt durch. Sollte PMP nicht wie spezifiziert reagieren oder der Tester spezifizierte Eingaben nicht vornehmen können, gilt der Test als nicht bestanden.
+				<table>
+					<tr>
+						<th>Testfall</th>
+						<th>UseCase Identifier</th>
+						<th>UseCase Name</th>
+					</tr>
+					<tr>
+						<td>FT-1</td>
+						<td>100</td>
+						<td>Service Features einer App ändern</td>
+					</tr>
+					<tr>
+						<td>FT-2</td>
+						<td>101</td>
+						<td>Details einer Ressourcengruppe anzeigen</td>
+					</tr>
+					<tr>
+						<td>FT-3</td>
+						<td>102</td>
+						<td>In simplen Modus wechseln</td>
+					</tr>
+					<tr>
+						<td>FT-4</td>
+						<td>200</td>
+						<td>In Expertenmodus wechseln</td>
+					</tr>
+					<tr>
+						<td>FT-5</td>
+						<td>201</td>
+						<td>Details eines Presets anzeigen</td>
+					</tr>
+					<tr>
+						<td>FT-6</td>
+						<td>202</td>
+						<td>Preset erstellen</td>
+					</tr>
+					<tr>
+						<td>FT-7</td>
+						<td>203</td>
+						<td>App zu einem Preset hinzufügen</td>
+					</tr>
+					<tr>
+						<td>FT-8</td>
+						<td>204</td>
+						<td>Privacy Setting zu einem Preset hinzufügen</td>
+					</tr>
+					<tr>
+						<td>FT-9</td>
+						<td>205</td>
+						<td>App aus einem Preset entfernen</td>
+					</tr>
+					<tr>
+						<td>FT-10</td>
+						<td>206</td>
+						<td>Privacy Setting aus einem Preset entfernen</td>
+					</tr>
+					<tr>
+						<td>FT-11</td>
+						<td>207</td>
+						<td>Preset-Name/Preset-Beschreibung ändern</td>
+					</tr>
+					<tr>
+						<td>FT-12</td>
+						<td>-</td>
+						<td>-</td>
+					</tr>
+					<tr>
+						<td>FT-13</td>
+						<td>208</td>
+						<td>Privacy-Setting-Wert ändern</td>
+					</tr>
+					<tr>
+						<td>FT-14</td>
+						<td>300</td>
+						<td>Ressourcengruppe installieren</td>
+					</tr>
+					<tr>
+						<td>FT-15</td>
+						<td>301</td>
+						<td>Ressourcengruppe deinstallieren</td>
+					</tr>
+					<tr>
+						<td>FT-16</td>
+						<td>210</td>
+						<td>Presets exportieren</td>
+					</tr>
+					<tr>
+						<td>FT-17</td>
+						<td>211</td>
+						<td>Presets importieren</td>
+					</tr>
+					<tr>
+						<td>FT-18</td>
+						<td>250</td>
+						<td>Preset löschen</td>
+					</tr>
+					<tr>
+						<td>FT-19</td>
+						<td>251</td>
+						<td>Preset wiederherstellen</td>
+					</tr>
+					<tr>
+						<td>FT-20</td>
+						<td>252</td>
+						<td>Preset-Papierkorb leeren</td>
+					</tr>
+					<tr>
+						<td>FT-21</td>
+						<td>270</td>
+						<td>Kontext zu Privacy-Setting-Wert hinzufügen</td>
+					</tr>
+					<tr>
+						<td>FT-22</td>
+						<td>271</td>
+						<td>Kontext ändern</td>
+					</tr>
+					<tr>
+						<td>FT-23</td>
+						<td>272</td>
+						<td>Kontext aus Privacy-Setting-Wert entfernen</td>
+					</tr>
+					
+				</table>
+
+				
+				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
+			
+					<h3 id="oberflaeche">Oberfläche</h3>
+						<h4 id="ft-24">FT-24</h4>
+						<p>Es lässt sich hier kaum ein algorithmisches Vorgehen angeben. Der Tester sollte die <a href="http://developer.android.com/guide/practices/ui_guidelines/index.html">Android User Interface Guidelines</a> in den relevanten Teilen durchlesen und sich durch Betrachtung und funktionale Testfälle ein Bild der GUI machen. Falls er keine Abweichungen feststellen kann, gilt der Test als "OK". Gibt es Abweichungen, ist der Test "Nicht Bestanden".</p>
+
+					<h3 id="import-export">Import/Export</h3>
+					<p>Die Tests für Preset-Import/Export werden in FT-16 und FT-17 durchgeführt.</p>
+					
+					<h3 id="import-export">Protokollierung</h3>
+					<p>Für Unklarheiten werfe man einen Blick in die Spezifikation, Kapitel 3.2.3.</p>
+					<h4 id="ft-25">FT-25</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester aktiviert alle Logs in den Einstellungen.</td><td>Alle vier Protokollierungsarten sind aktiv.</td></tr>
+						<tr><td>3.</td><td>Der Tester installiert und deinstalliert eine Ressourcengrouppe.</td><td>(siehe unten)</td></tr>
+						<tr><td>4.</td><td>Der Tester registriert und deregistriert Apps.</td><td>(siehe unten)</td></tr>
+						<tr><td>5.</td><td>Der Tester ändert Service-.Features im Simple Mode.</td><td>(siehe unten)</td></tr>
+						<tr><td>6.</td><td>Der Tester ändert Presets, Privacy Settings und Kontexte im Expert Mode.</td><td>(siehe unten)</td></tr>
+						<tr><td>7.</td><td>Der Tester verändert die Rahmenbedingungen so, dass eine Kontext-Annotation aktiviert und deaktiviert wird (und sich dadurch ein Privacy-Setting-Wert ändert).</td><td>(siehe unten)</td></tr>
+						<tr><td>8.</td><td>Der Tester führt App-Funktionalität aus, die ihre Service Features von PMP anfragt.</td><td>(siehe unten)</td></tr>
+						<tr><td>9.</td><td>Der Tester führt Ressourcengruppen-Funktionalität aus, die die gesetzten Privacy-Setting-Werte von PMP anfragt</td><td>(siehe unten)</td></tr>
+						<tr><td>10.</td><td>Der Tester lädt das Protokoll vom Device herunter.</td><td>Das Protokoll enthält alle getätigten Aktionen aus 3. bis 9..</td></tr>
+						
+					</table>
+					
+					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
+					<h4 id="ft-25">FT-25</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester startet PMP.</td><td>PMP ist gestartet und erfordert zur weiteren Benutzung keine Konfiguration von Seiten des Testers.</td></tr>
+					</table>
+					
+					<h3 id="pmp-sonstiges">Sonstiges</h3>
+					
+					<p>Da Ressourcengruppen vom Entwickler-Team geprüft werden, kann davon ausgegangen werden, dass sie keine fehlerhaften Schnittstellen aufweisen. Ein Test für Ressourcengruppen ist also nicht notwendig.</p>
+					<p>Apps können ausschließlich Fehler in der AppInformationSet-Definition (XML-Datei) enthalten.
+					Der XML-Parser wurde bereits im Modultest ausreichend getestet, sodass ein Test an dieser Stelle nicht notwendig ist.</p>
+					<p>Weiterhin existieren momentan keine Apps, die selbst Presets mitbringen. Dies kann somit ebenfalls nicht getestet werden.</p>
+					<p>Die Funktion des "Zurück"-Buttons wird mit FT-26 getestet.</p>
+				
+					<h4 id="ft-26">FT-26</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester startet PMP, öffnet jede Unter-Bildschirmmaske von PMP und betätigt jeweils den "Zurück"-Button</td><td>PMP ist gestartet und erfüllt folgende Semantik bzgl. der "Zurück-Button-Funktion": Die gegebenenfalls vorgenommen Einstellungen oder Modifikationen werden gespeichert, die Bildschirmmaske wird verlassen und die vorhergehende Bildschirmmaske angezeigt.</td></tr>
+						
+					<h4 id="ft-27">FT-27</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester installiert und registriert (bei PMP) eine App.</td><td>App ist installiert und bei PMP registriert.</td></tr>
+						<tr><td>3.</td><td>Der Tester deinstalliert die App über Android.</td><td>Die App ist deinstalliert.</td></tr>
+						<tr><td>4.</td><td>Der Tester lässt sich die bei PMP installierten Apps anzeigen.</td><td>Die zuvor deinstallierte App wird nicht mehr angezeigt.</td></tr>
+						<tr><td>5.</td><td>Der Tester installiert die App erneut.</td><td>Die App ist wieder installiert und hat die gleichen Einstellungen (Privacy Settings, Service Features, ...) wie vor der Deinstallation.</td></tr>
+					</table>
+					
+			<h1 id="testnichtfunktanf">Tests der nicht-funktionalen Anforderungen</h1>
+
+		
+				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
+				
+					<div class="criticism">
+					<h3 style="color: red;">Anmerkung</h3>
+					<p>Die Anforderungen an PMP im Kapitel "Bedienbarkeit" der Spezifikation können nicht quantifiziert und damit nicht getestet werden.</p>
+					</div>
+			
+				<h2 id="quantitative-anforderungen">Quantitative Anforderungen</h2>
+			
+					<h3 id="leistungsanforderungen">Leistungsanforderungen</h3>
+					Für diesen Test wird ein LG Optimus 2X Smartphone, sowie eine Stoppuhr benötigt.
+					<h4 id="nft-1">NFT-1</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP auf einem LG Optimus 2X Smartphone.</td><td>PMP ist auf dem LG Optimus 2X Smartphone installiert.</td></tr>
+						<tr><td>2.</td><td>Der Tester startet PMP, öffnet jede Unter-Bildschirmmaske von PMP und misst jeweils die Antwortzeit.</td><td>PMP wird 
+						Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt. </td></tr>
+					</table>
+					
+					<h3 id="mengengeruest">Mengengerüst</h3>
+					<p>Für diesen Test ist die Entwicklung einer System-Test-App mit 5 verschiedenen Service Features nötig. Die App muss keine GUI aufweisen. Die App ist als "ST-Mengengeruest-1" zu kennzeichnen und anschließend 9 mal zu kopieren, wobei lediglich der Name der App und das Package sich ändern sollte, sodass zum Schluss 10 Mengengerüst-Test-Apps vorliegen.</p>
+					<h4 id="nft-2">NFT-2</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+						<tr><td>1.</td><td>Der Tester installiert PMP, die 10 ST-Mengengeruest-Apps und die benötigten Ressourcengruppen.</td><td>PMP und die genannten Komponenten sind installiert, aber nicht konfiguriert.</td></tr>
+						<tr><td>2.</td><td>Der Tester aktiviert alle 5 Service Features aller ST-Mengengeruest-Apps.</td><td>Es tritt kein Fehler auf und bei allen ST-Mengengeruest-Apps sind alle 5 Service Features aktiviert.</td></tr> 
+						<tr><td>3.</td><td>Der Tester deaktiviert alle 5 Service Features aller ST-Mengengeruest-Apps.</td><td>Es tritt kein Fehler auf und bei allen ST-Mengengeruest-Apps sind alle 5 Service Features deaktiviert.</td></tr>
+					</table> 
+					
+				<h2 id="robustheit">Robustheit</h2>
+				
+				<p>Da Ressourcengruppen vom Entwickler-Team geprüft werden, kann davon ausgegangen werden, dass sie keine fehlerhaften Schnittstellen aufweisen. Ein Test für Ressourcengruppen ist also nicht notwendig.</p>
+				<p>Apps können ausschließlich Fehler in der AppInformationSet-Definition (XML-Datei) enthalten.
+				Der XML-Parser wurde bereits im Modultest ausreichend getestet, sodass ein Test an dieser Stelle nicht notwendig ist.</p>
+								
+				<h2 id="sicherheit">Sicherheit</h2>
+				<p>Kein Test notwendig.</p>
+				
+				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+				<p>Dieser Test soll auf einem AVD mit der Android-Version 2.3.3 durchgeführt werden.</p>
+				<h3 id="nft-3">NFT-3</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester führt FT-1 durch.</td><td>FT-1 war erfolgreich.</td></tr>
+					<tr><td>2.</td><td>Der Tester führt FT-6 durch.</td><td>FT-6 war erfolgreich.</td></tr>
+				</table> 
+				
+				<h2 id="internationalisierung">Internationalisierung</h2>
+				
+				<h3 id="nft-4">NFT-4</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht das Handbuch.</td><td>Der Tester findet das Handbuch.</td></tr>
+					<tr><td>2.</td><td>Der Tester öffnet das Handbuch.</td><td>Das Handbuch ist in Deutsch verfasst.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht den Abschnitt, wie Sprachen hinzugefügt werden können.</td><td>Der Tester findet diesen Abschnitt.</td></tr>
+					<tr><td>4.</td><td>Der Tester liest den Abschnitt.</td><td>Der Tester findet den Abschnitt verständlich.</td></tr>
+				</table> 
+				
+				<h3 id="nft-5">NFT-5</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert, aber nicht konfiguriert.</td></tr>
+					<tr><td>2.</td><td>Der Tester stellt die in der AVD verwendete Sprache (Einstellungen > Sprache & Tastatur) auf Deutsch und aktiviert die Deutsch-IME.</td><td>Die AVD steht auf Deutsch, PMP enthält keine Deutsch-Lokalisierung.</td></tr>
+					<tr><td>3.</td><td>Der Tester startet PMP.</td><td>Die Buttons von PMP zeigen den englischen Standard-Text.</td></tr>
+					<tr><td>4.</td><td>Der Tester findet heraus, wie eine neue Sprache hinzugefügt werden kann.</td><td>Der Tester weiß, wie eine neue Sprache hinzugefügt werden kann.</td></tr>
+					<tr><td>5.</td><td>Der Tester übersetzt einige Texte auf deutsch.</td><td>Der Tester hat eine deutsche Sprach-Erweiterungs-Definitions-Datei.</td></tr>  
+					<tr><td>6.</td><td>Der Tester fügt die eben übersetzten Texte als neue Sprache "Deutsch" (Locale: "de") hinzu.</td><td>PMP enthält die Sprache Deutsch/de für einige Texte.</td></tr>
+					<tr><td>7.</td><td>Der Tester startet PMP.</td><td>Einige Texte von PMP sind deutsch.</td></tr>
+				</table> 
+				
+				<h2 id="protokollierung">Protokollierung</h2>
+				<p>Siehe FT-25.</p>
+				
+				<h2 id="installation">Installation</h2>
+				<h3 id="nft-6">NFT-6</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht das Handbuch.</td><td>Der Tester findet das Handbuch.</td></tr>
+					<tr><td>2.</td><td>Der Tester öffnet das Handbuch.</td><td>Das Handbuch ist in Deutsch verfasst.</td></tr>
+					<tr><td>3.</td><td>Der Tester sucht den Abschnitt, wie PMP installiert wird.</td><td>Der Tester findet diesen Abschnitt.</td></tr>
+					<tr><td>4.</td><td>Der Tester liest den Abschnitt.</td><td>Der Tester findet den Abschnitt verständlich.</td></tr>
+				</table> 
+				
+				<h2 id="erweiterbarkeit">Erweiterbarkeit</h2>
+				<p>Die Erweiterbarkeit zur Internationalisierung wird im entsprechenden Kapitel getestet. Ressourcengruppen und verwaltete Apps werden im funktionalen Test bzw. im Mengengerüst getestet.</p>
+
+				<h2 id="wartbarkeit">Wartbarkeit</h2>
+				<h3 id="nft-7">NFT-7</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht den Code.</td><td>Der Tester findet den Code.</td></tr>
+					<tr><td>2.</td><td>Der Tester untersucht, ob der Code modular aufgebaut ist (enthält z.B. viele einzelne Klassen).</td><td>Der Tester hält den Code für modular aufgebaut.</td></tr>
+					<tr><td>3.</td><td>Der Tester untersucht, ob der Code ausführliche Dokumentation in Form von (Javadoc-)Kommentaren aufweist.</td><td>Der Tester hält den Code für angemessen dokumentiert.</td></tr>
+				</table> 
+			
+				<h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
+				<p>Die Abgeschlossenheit ist bereits durch die Tests auf einem AVD mit den entsprechenden Versionen abgedeckt. Diese erfordern alle keine externen Abhängigkeiten.</p>
+				
+				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+				<p>Kein Test notwendig.</p>
+				
+		</div>
+	
+		<!-- // end of system test plan's content -->
+	</div>
+</body>
+</html>
