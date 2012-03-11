@@ -20,12 +20,12 @@ import de.unistuttgart.ipvs.pmp.test.ModelTestUtils;
 import de.unistuttgart.ipvs.pmp.test.ModelTestUtils.App;
 import de.unistuttgart.ipvs.pmp.test.ModelTestUtils.ResourceGroup;
 
-public class ModelAppTest extends ApplicationTestCase<PMPApplication> {
+public class ModelTest extends ApplicationTestCase<PMPApplication> {
     
     private static boolean isSetUpCompleted = false;
     
     
-    public ModelAppTest() {
+    public ModelTest() {
         super(PMPApplication.class);
     }
     
