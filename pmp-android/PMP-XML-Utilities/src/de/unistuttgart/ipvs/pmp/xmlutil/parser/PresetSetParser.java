@@ -77,6 +77,10 @@ public class PresetSetParser extends AbstractParser {
             parsePreset((Element) presetNodes.item(itr));
         }
         
+        // Check, if there are a maximum of maxValid child nodes of the root node
+        checkMaxNumberOfNodes(presetNodes.getLength(), (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET)
+                .item(0));
+        
         return this.presetSet;
     }
     
@@ -120,7 +124,7 @@ public class PresetSetParser extends AbstractParser {
                     + XMLConstants.ASSIGNED_PRIVACY_SETTINGS + " occurred too often!");
         }
         
-        // Check, if there are a maximum of maxValid child nodes of the root node
+        // Check, if there are a maximum of maxValid child nodes of the preset node
         checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET).item(0));
         
         // Add preset to Preset Set

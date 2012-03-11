@@ -212,25 +212,6 @@ public class PresetParserTest extends TestCase implements TestConstants {
     
     
     @Test
-    public void testPresetMissingDesc() throws Exception {
-        TestUtil.makePresetSet();
-        XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, null);
-        TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
-        TestUtil.main.addChild(preset);
-        
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
-        TestUtil.debug(ste.getMethodName());
-        
-        IPresetSet pset = XMLUtilityProxy.getPresetUtil().parse(XMLCompiler.compileStream(TestUtil.main));
-        
-        assertTrue("Validator accepted Preset with missing description.",
-                TestUtil.assertPSValidation(pset, IPreset.class, PRESET1_IDENTIFIER, IssueType.VALUE_MISSING));
-    }
-    
-    
-    @Test
     public void testPresetAAEmptyId() throws Exception {
         TestUtil.makePresetSet();
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
@@ -327,7 +308,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         TestUtil.makePresetSet();
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, "", new ContextBean[] {});
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, " ", new ContextBean[] {});
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -341,7 +322,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         assertEquals(1, p.getAssignedPrivacySettings().size());
         IPresetAssignedPrivacySetting aps = p.getAssignedPrivacySettings().get(0);
         
-        assertEquals("", aps.getValue());
+        assertEquals(" ", aps.getValue());
         
         assertTrue("Validator did not accept Preset with empty APS value.", TestUtil.assertPresetValidationEmpty(pset));
     }
