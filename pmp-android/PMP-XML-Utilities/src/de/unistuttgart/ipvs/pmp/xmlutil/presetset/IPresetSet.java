@@ -31,27 +31,27 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 public interface IPresetSet extends IIssueLocation {
     
     /**
-     * Get all Presets
+     * Get all {@link IPreset}s
      * 
-     * @return list with all Presets
+     * @return list with all {@link IPreset}s
      */
     public abstract List<IPreset> getPresets();
     
     
     /**
-     * Add a Preset
+     * Add a {@link IPreset}
      * 
      * @param preset
-     *            Preset to add
+     *            {@link IPreset} to add
      */
     public abstract void addPreset(IPreset preset);
     
     
     /**
-     * Remove a Preset
+     * Remove a {@link IPreset}
      * 
      * @param preset
-     *            Preset to remove
+     *            {@link IPreset} to remove
      */
     public abstract void removePreset(IPreset preset);
     

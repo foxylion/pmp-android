@@ -83,53 +83,53 @@ public interface IPreset extends IIssueLocation, IIdentifierIS {
     
     
     /**
-     * Get all assigned apps
+     * Get all {@link IPresetAssignedApp}s
      * 
-     * @return assigned apps
+     * @return {@link IPresetAssignedApp}s
      */
     public abstract List<IPresetAssignedApp> getAssignedApps();
     
     
     /**
-     * Add an assigned app
+     * Add an {@link IPresetAssignedApp}
      * 
      * @param assignedApp
-     *            assigned app to add
+     *            {@link IPresetAssignedApp} to add
      */
     public abstract void addAssignedApp(IPresetAssignedApp assignedApp);
     
     
     /**
-     * Remove an assigned app
+     * Remove an {@link IPresetAssignedApp}
      * 
      * @param assignedApp
-     *            assigned app to remove
+     *            {@link IPresetAssignedApp} to remove
      */
     public abstract void removeAssignedApp(IPresetAssignedApp assignedApp);
     
     
     /**
-     * Get all assigned privacy settings
+     * Get all {@link IPresetAssignedPrivacySetting}s
      * 
-     * @return assigned privacy settings
+     * @return assigned {@link IPresetAssignedPrivacySetting}s
      */
     public abstract List<IPresetAssignedPrivacySetting> getAssignedPrivacySettings();
     
     
     /**
-     * Add an assigned privacy setting
+     * Add an {@link IPresetAssignedPrivacySetting}
      * 
      * @param assignedPrivacySetting
-     *            assigned privacy setting to add
+     *            {@link IPresetAssignedPrivacySetting} to add
      */
     public abstract void addAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting);
     
     
     /**
-     * Remove an assigned privacy setting
+     * Remove an {@link IPresetAssignedPrivacySetting}
      * 
      * @param assignedPrivacySetting
-     *            assigned privacy setting to remove
+     *            {@link IPresetAssignedPrivacySetting} to remove
      */
     public abstract void removeAssignedPrivacySetting(IPresetAssignedPrivacySetting assignedPrivacySetting);
     

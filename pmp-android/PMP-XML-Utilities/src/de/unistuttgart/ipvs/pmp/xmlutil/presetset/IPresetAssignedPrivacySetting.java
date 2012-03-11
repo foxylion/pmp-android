@@ -99,27 +99,27 @@ public interface IPresetAssignedPrivacySetting extends IIssueLocation {
     
     
     /**
-     * Get the list of contexts
+     * Get the list of {@link IPresetPSContext}s
      * 
-     * @return the contexts
+     * @return {@link IPresetPSContext}s
      */
     public abstract List<IPresetPSContext> getContexts();
     
     
     /**
-     * Add a context
+     * Add a {@link IPresetPSContext}
      * 
      * @param context
-     *            Context to add
+     *            {@link IPresetPSContext} to add
      */
     public abstract void addContext(IPresetPSContext context);
     
     
     /**
-     * Remove a context
+     * Remove a {@link IPresetPSContext}
      * 
      * @param context
-     *            Context to remove
+     *            {@link IPresetPSContext} to remove
      */
     public abstract void removeContext(IPresetPSContext context);
     
