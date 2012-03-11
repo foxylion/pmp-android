@@ -237,7 +237,11 @@ public class LocationContextView extends LinearLayout implements IContextView {
         
         this.hysteresisSeek = (SeekBar) findViewById(R.id.hysteresisSeekBar);
         this.hysteresisText = (TextView) findViewById(R.id.hysteresisTextView);
+        
         addListeners();
+        
+        this.uncertaintySeek.setProgress(metersToSeekBarValue(1000.0));
+        this.hysteresisSeek.setProgress(metersToSeekBarValue(100.0));
     }
     
     
@@ -348,10 +352,10 @@ public class LocationContextView extends LinearLayout implements IContextView {
     
     
     protected int metersToSeekBarValue(double meters) {
-        int log = (int) Math.round(Math.log10(meters));
+        int log = (int) (Math.floor(Math.log10(meters)) - 1);
         double mantissa = meters / Math.pow(10.0, log);
-        int modulo = (int) Math.round(mantissa - 10.0);
-        return modulo + 90 * log;
+        int modulo = (int) Math.floor(mantissa - 10.0);
+        return 90 * log + modulo;
     }
     
     

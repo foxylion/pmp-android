@@ -16,7 +16,7 @@
 			    android:layout_width="86dp"
 			    android:layout_height="fill_parent"
 			    android:text="@string/dev_con_launcher_activity" >
-</Button>
+			</Button>
 			<TextView
 				android:text="@string/dev_con_description"
 				android:layout_height="wrap_content" android:paddingLeft="5dp"
@@ -251,11 +251,6 @@
 		    </LinearLayout>
 
 		</LinearLayout>
-
-		<de.unistuttgart.ipvs.pmp.model.context.location.LocationContextView
-		    android:id="@+id/timeContextView1"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content" />
 
 	</LinearLayout>
 </ScrollView>
