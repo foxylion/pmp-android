@@ -60,6 +60,7 @@
 --> 
 <!-- This should copy all libraries to the main PMP classpath so that the test can actually be compiled -->
     <target name="-pre-compile">
+		<echo message="Adding API classes..." />
 		<copy toDir="../../PMP/bin/classes">
 		  <fileset dir="../../PMP-API/bin/classes">
 			<include name="**/*.*" />
