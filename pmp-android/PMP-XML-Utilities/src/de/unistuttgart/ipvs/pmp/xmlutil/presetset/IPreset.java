@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil.presetset;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
@@ -28,24 +29,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
  * @author Marcus Vetter
  * 
  */
-public interface IPreset extends IIssueLocation {
-    
-    /**
-     * Get the identifier
-     * 
-     * @return the identifier
-     */
-    public abstract String getIdentifier();
-    
-    
-    /**
-     * Set the identifier
-     * 
-     * @param identifier
-     *            the identifier to set
-     */
-    public abstract void setIdentifier(String identifier);
-    
+public interface IPreset extends IIssueLocation, IIdentifierIS {
     
     /**
      * Get the creator
