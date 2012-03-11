@@ -154,8 +154,17 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
     
     @Override
     public void okPressed() {
+        // The empty value boolean
         result[0] = checked.getSelection();
-        result[1] = valueText.getText();
+        
+        // Set the value to an empty string if the empty value is checked
+        if (checked.getSelection()) {
+            String empty = "";
+            result[1] = empty;
+        } else {
+            // Set the value as result
+            result[1] = valueText.getText();
+        }
         close();
     }
     
@@ -221,6 +230,8 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
      */
     @Override
     public void widgetSelected(SelectionEvent arg0) {
+        
+        // Dis- and enables the texfield
         if (this.checked.getSelection()) {
             this.valueText.setEnabled(false);
         } else {

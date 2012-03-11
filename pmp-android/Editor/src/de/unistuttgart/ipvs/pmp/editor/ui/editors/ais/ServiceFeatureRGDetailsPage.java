@@ -567,8 +567,17 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                 Boolean emptyValueResult = (Boolean) resultArray[0];
                 String valueResult = (String) resultArray[1];
                 
+                Boolean changed = false;
+                if (selected.getValue() == null) {
+                    if (!valueResult.isEmpty()) {
+                        changed = true;
+                    }
+                } else if (!selected.getValue().equals(valueResult)) {
+                    changed = true;
+                }
+                
                 // Either the checked empty value has changed or the value
-                if (emptyValueResult != selected.isEmptyValue() || !selected.getValue().equals(valueResult)) {
+                if (emptyValueResult != selected.isEmptyValue() || changed) {
                     selected.setEmptyValue(emptyValueResult);
                     selected.setValue(valueResult);
                     AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
