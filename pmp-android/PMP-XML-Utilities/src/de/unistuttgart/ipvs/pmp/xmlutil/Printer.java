@@ -108,6 +108,7 @@ public class Printer {
                 p("   > Privacy Settings:");
                 for (IAISRequiredPrivacySetting rps : rrg.getRequiredPrivacySettings()) {
                     p("      > " + rps.getIdentifier() + ": " + rps.getValue());
+                    p("      > Empty Value: " + rps.isEmptyValue());
                     printIssues(rps, "      > ");
                 }
             }
@@ -185,7 +186,9 @@ public class Printer {
                     printIssues(context, "   > ");
                     p("   > Type: " + context.getType());
                     p("   > Condition: " + context.getCondition());
+                    p("   > Empty Condition: " + context.isEmptyCondition());
                     p("   > Override-Value: " + context.getOverrideValue());
+                    p("   > Empty Override-Value: " + context.isEmptyOverrideValue());
                 }
                 p("");
             }
