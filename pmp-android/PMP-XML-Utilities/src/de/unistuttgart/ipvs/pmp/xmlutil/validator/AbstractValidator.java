@@ -240,6 +240,25 @@ public class AbstractValidator {
     
     
     /**
+     * Check, if a conflict between the value and the boolean "emptyValue" exists
+     * 
+     * @param value
+     *            value to check
+     * @param emptyValue
+     *            flag, if the value should be empty
+     * @return true if conflict, false otherwise
+     */
+    protected boolean checkEmptyValueConflict(String value, boolean emptyValue) {
+        if (!checkValueSet(value) && !emptyValue) {
+            return true;
+        } else if (checkValueSet(value) && emptyValue) {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
      * Attach the {@link IIssue}s to the data
      * 
      * @param issueList
