@@ -32,72 +32,72 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 public interface IRGIS extends IBasicIS, IIdentifierIS {
     
     /**
-     * Add a privacy setting to the resourcegroup
+     * Add a {@link IRGISPrivacySetting} to the {@link IRGIS}
      * 
      * @param privacySetting
-     *            privacy setting to add
+     *            {@link IRGISPrivacySetting} to add
      */
     public abstract void addPrivacySetting(IRGISPrivacySetting privacySetting);
     
     
     /**
-     * Get the list which contains all privacy settings
+     * Get the list which contains all {@link IRGISPrivacySetting}s
      * 
-     * @return list with privacy settings
+     * @return list with {@link IRGISPrivacySetting}s
      */
     public abstract List<IRGISPrivacySetting> getPrivacySettings();
     
     
     /**
-     * Remove a privacy setting from resource group
+     * Remove a {@link IRGISPrivacySetting} from the {@link IRGIS}
      * 
      * @param privacySetting
-     *            privacy setting to remove
+     *            {@link IRGISPrivacySetting} to remove
      */
     public abstract void removePrivacySetting(IRGISPrivacySetting privacySetting);
     
     
     /**
-     * Get a privacy setting for a given identifier. Null, if no privacy setting
-     * exists for the given identifier.
+     * Get a{@link IRGISPrivacySetting} for a given identifier. Null, if no {@link IRGISPrivacySetting} exists for the
+     * given identifier.
      * 
      * @param identifier
-     *            identifier of the privacy setting
-     * @return privacy setting with given identifier, null if none exists.
+     *            identifier of the {@link IRGISPrivacySetting}
+     * @return {@link IRGISPrivacySetting} with given identifier, null if none exists.
      */
     public abstract IRGISPrivacySetting getPrivacySettingForIdentifier(String identifier);
     
     
     /**
-     * Get the location of the icon of the resource group
+     * Get the location of the icon of the {@link IRGIS}
      * 
-     * @return location of the icon of the resource group
+     * @return location of the icon of the {@link IRGIS}
      */
     public abstract String getIconLocation();
     
     
     /**
-     * Set the location of the icon of the resource group
+     * Set the location of the icon of the {@link IRGIS}
      * 
      * @param iconLocation
-     *            the location of the icon of the resource group
+     *            the location of the icon of the {@link IRGIS}
      */
     public abstract void setIconLocation(String iconLocation);
     
     
     /**
-     * Get the class name of the resource group
+     * Get the class name of the {@link IRGIS}
      * 
-     * @return class name of the resource group
+     * @return class name of the {@link IRGIS}
      */
     public abstract String getClassName();
     
     
     /**
-     * Set the class name of the resource group
+     * Set the class name of the {@link IRGIS}
      * 
      * @param className
-     *            class name of the resource group
+     *            class name of the {@link IRGIS}
      */
     public abstract void setClassName(String className);
     
@@ -109,7 +109,7 @@ public interface IRGIS extends IBasicIS, IIdentifierIS {
     
     
     /**
-     * Clear only issues referring to the privacy settings
+     * Clear only issues referring to the {@link IRGISPrivacySetting}s
      */
     public abstract void clearPSIssues();
     
