@@ -23,9 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IIdentifierIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
@@ -34,7 +37,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueLocation;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
- * AbstractValidator for AIS, RGIS and PresetSet
+ * AbstractValidator for {@link IAIS}, {@link IRGIS} and {@link IPresetSet}
  * 
  * @author Marcus Vetter
  * 
@@ -45,8 +48,8 @@ public class AbstractValidator {
      * Validates names
      * 
      * @param location
-     *            IBasicIS
-     * @return List with issues as result of the validation
+     *            {@link IBasicIS}
+     * @return List with {@link IIssue}s as result of the validation
      */
     protected List<IIssue> validateNames(IBasicIS location) {
         return validateLocalizedStrings(location.getNames(), location, IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN,
@@ -58,8 +61,8 @@ public class AbstractValidator {
      * Validates descriptions
      * 
      * @param location
-     *            IBasicIS
-     * @return List with issues as result of the validation
+     *            {@link IBasicIS}
+     * @return List with {@link IIssue}s as result of the validation
      */
     protected List<IIssue> validateDescriptions(IBasicIS location) {
         return validateLocalizedStrings(location.getDescriptions(), location,
@@ -71,8 +74,8 @@ public class AbstractValidator {
      * Validates change descriptions
      * 
      * @param location
-     *            IRGISPrivacySettings
-     * @return List with issues as result of the validation
+     *            {@link IRGISPrivacySetting}
+     * @return List with {@link IIssue}s as result of the validation
      */
     protected List<IIssue> validateChangeDescriptions(IRGISPrivacySetting location) {
         return validateLocalizedStrings(location.getChangeDescriptions(), location,
@@ -84,15 +87,15 @@ public class AbstractValidator {
      * Validate the names of a given {@link IssueLocation}
      * 
      * @param lStrings
-     *            the list of localized string to validate
+     *            the list of {@link ILocalizedString}s to validate
      * @param location
-     *            location of the issue
+     *            the {@link IIssueLocation} of the {@link IIssue}s
      * @param localeOccurredTooOftenIssueType
-     *            the issue type for "locale occurred too often"
+     *            the {@link IssueType} for "locale occurred too often"
      * @param localeEnMissingIssueType
-     *            the issue type for "locale en missing"
+     *            the {@link IssueType} for "locale en missing"
      * 
-     * @return List with issues as result of the validation
+     * @return List with {@link IIssue}s as result of the validation
      */
     private List<IIssue> validateLocalizedStrings(List<ILocalizedString> lStrings, IIssueLocation location,
             IssueType localeOccurredTooOftenIssueType, IssueType localeEnMissingIssueType) {
@@ -178,7 +181,7 @@ public class AbstractValidator {
      * Validate the occurrences of identifier.
      * 
      * @param locationWithIdentifier
-     *            the data to validate (with an identifier)
+     *            list of {@link IIdentifierIS}s
      * @return a list with all identifier, which occurred at least twice
      */
     protected List<String> validateOccurrenceOfIdentifier(List<IIdentifierIS> locationWithIdentifier) {
@@ -200,7 +203,7 @@ public class AbstractValidator {
      * Check, if the lang attribute value of a given lang attribute equals "en"
      * 
      * @param locale
-     *            the locale to validate
+     *            the {@link Locale} to validate
      */
     protected boolean checkLocaleAttributeEN(Locale locale) {
         return locale.getLanguage().equals("en");
@@ -208,11 +211,11 @@ public class AbstractValidator {
     
     
     /**
-     * Check, if the given locale is valid.
+     * Check, if the given {@link Locale} is valid.
      * 
      * @param givenLocale
-     *            locale to check
-     * @return flag, if the given local is valid or not.
+     *            {@link Locale} to check
+     * @return flag, if the given {@link Locale} is valid or not.
      */
     protected boolean checkLocale(Locale givenLocale) {
         for (String locale : Locale.getISOLanguages()) {
@@ -237,12 +240,31 @@ public class AbstractValidator {
     
     
     /**
-     * Attach the issues to the data
+     * Check, if a conflict between the value and the boolean "emptyValue" exists
+     * 
+     * @param value
+     *            value to check
+     * @param emptyValue
+     *            flag, if the value should be empty
+     * @return true if conflict, false otherwise
+     */
+    protected boolean checkEmptyValueConflict(String value, boolean emptyValue) {
+        if (!checkValueSet(value) && !emptyValue) {
+            return true;
+        } else if (checkValueSet(value) && emptyValue) {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Attach the {@link IIssue}s to the data
      * 
      * @param issueList
-     *            given issues
+     *            given {@link IIssue}s
      * @param attachData
-     *            true, if the data should be attached with the issues
+     *            true, if the data should be attached with the {@link IIssue}s
      */
     protected void attachData(List<IIssue> issueList, boolean attachData) {
         if (attachData) {

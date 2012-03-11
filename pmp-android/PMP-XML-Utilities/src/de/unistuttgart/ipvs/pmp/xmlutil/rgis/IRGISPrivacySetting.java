@@ -60,18 +60,18 @@ public interface IRGISPrivacySetting extends IBasicIS, IIdentifierIS {
     
     
     /**
-     * Get the list which contains all change descriptions
+     * Get the list which contains all change descriptions as {@link ILocalizedString}s
      * 
-     * @return list with change descriptions
+     * @return list with change descriptions as {@link ILocalizedString}s
      */
     public abstract List<ILocalizedString> getChangeDescriptions();
     
     
     /**
-     * Remove a change description from the privacy setting
+     * Remove a change description from the {@link IRGISPrivacySetting} as {@link ILocalizedString}s
      * 
      * @param changeDescription
-     *            change description to remove
+     *            change description as {@link ILocalizedString} to remove
      */
     public abstract void removeChangeDescription(ILocalizedString changeDescription);
     

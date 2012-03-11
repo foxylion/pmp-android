@@ -30,7 +30,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
- * Validator for RGIS
+ * Validator for {@link IRGIS}
  * 
  * @author Marcus Vetter
  * 
@@ -38,13 +38,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 public class RGISValidator extends AbstractValidator {
     
     /**
-     * Validate the whole RGIS
+     * Validate the whole {@link IRGIS}
      * 
      * @param rgis
-     *            the rgis
+     *            the {@link IRGIS}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateRGIS(IRGIS rgis, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -68,10 +68,10 @@ public class RGISValidator extends AbstractValidator {
      * Validate the resource group information
      * 
      * @param rgis
-     *            the rgis
+     *            the {@link IRGIS}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validateRGInformation(IRGIS rgis, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -115,13 +115,13 @@ public class RGISValidator extends AbstractValidator {
     
     
     /**
-     * Validate all privacy settings of the given RGIS
+     * Validate all {@link IRGISPrivacySetting}s of the given {@link IRGIS}
      * 
      * @param rgis
-     *            the rgis
+     *            the {@link IRGIS}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validatePrivacySettings(IRGIS rgis, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -169,13 +169,13 @@ public class RGISValidator extends AbstractValidator {
     
     
     /**
-     * Validate the given privacy setting
+     * Validate the given {@link IRGISPrivacySetting}
      * 
      * @param ps
-     *            the privacy setting
+     *            the {@link IRGISPrivacySetting}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validatePrivacySetting(IRGISPrivacySetting ps, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -214,10 +214,10 @@ public class RGISValidator extends AbstractValidator {
     
     
     /**
-     * Clear all issues, begin at the given rgis and propagate
+     * Clear all {@link IIssue}s, begin with the given {@link IRGIS} and propagate
      * 
      * @param rgis
-     *            the IRGIS
+     *            the {@link IRGIS}
      */
     public void clearIssuesAndPropagate(IRGIS rgis) {
         rgis.clearIssues();

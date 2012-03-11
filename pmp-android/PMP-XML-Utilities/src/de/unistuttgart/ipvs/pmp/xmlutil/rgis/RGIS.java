@@ -29,7 +29,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 /**
  * 
  * The resource group information set contains all basic information about the
- * resource group. It also contains all provided privacy settings
+ * resource group. It also contains all provided {@link IRGISPrivacySetting}s.
  * 
  * @author Marcus Vetter
  * 
@@ -47,12 +47,12 @@ public class RGIS extends BasicIS implements IRGIS {
     private String identifier = "";
     
     /**
-     * The icon of the resource group
+     * The icon
      */
     private String iconLocation = "";
     
     /**
-     * The class name of the resource group
+     * The class name
      */
     private String className = "";
     

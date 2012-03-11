@@ -38,7 +38,7 @@ public class PresetSet extends IssueLocation implements Serializable, IPresetSet
     private static final long serialVersionUID = -3603193651021108354L;
     
     /**
-     * All {@link IPreset}s
+     * List of {@link IPreset}s
      */
     private List<IPreset> presets = new ArrayList<IPreset>();
     

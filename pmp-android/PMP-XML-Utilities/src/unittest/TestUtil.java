@@ -320,6 +320,14 @@ public class TestUtil implements TestConstants {
         List<IIssue> result = XMLUtilityProxy.getAppUtil().getValidator().validateAIS(ais, true);
         
         for (IIssue i : result) {
+            String debug = "Issue (" + i.getType().toString() + ") at " + i.getLocation().getClass().getSimpleName();
+            if (i.getLocation() instanceof IIdentifierIS) {
+                debug += " with identifier '" + ((IIdentifierIS) i.getLocation()).getIdentifier() + "'";
+            } else if (atIdentifier != null) {
+                debug += " AND CLASS IS NOT IMPLEMENTING IIdentifierIS!";
+            }
+            System.out.println(debug);
+            
             // the class and...
             if (atClass.isAssignableFrom(i.getLocation().getClass())) {
                 // either the type suffices
@@ -356,6 +364,14 @@ public class TestUtil implements TestConstants {
         List<IIssue> result = XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, true);
         
         for (IIssue i : result) {
+            String debug = "Issue (" + i.getType().toString() + ") at " + i.getLocation().getClass().getSimpleName();
+            if (i.getLocation() instanceof IIdentifierIS) {
+                debug += " with identifier '" + ((IIdentifierIS) i.getLocation()).getIdentifier() + "'";
+            } else if (atIdentifier != null) {
+                debug += " AND CLASS IS NOT IMPLEMENTING IIdentifierIS!";
+            }
+            System.out.println(debug);
+            
             // the class and...
             if (atClass.isAssignableFrom(i.getLocation().getClass())) {
                 // either the type suffices
@@ -392,6 +408,14 @@ public class TestUtil implements TestConstants {
         List<IIssue> result = XMLUtilityProxy.getPresetUtil().getValidator().validatePresetSet(pset, true);
         
         for (IIssue i : result) {
+            String debug = "Issue (" + i.getType().toString() + ") at " + i.getLocation().getClass().getSimpleName();
+            if (i.getLocation() instanceof IIdentifierIS) {
+                debug += " with identifier '" + ((IIdentifierIS) i.getLocation()).getIdentifier() + "'";
+            } else if (atIdentifier != null) {
+                debug += " AND CLASS IS NOT IMPLEMENTING IIdentifierIS!";
+            }
+            System.out.println(debug);
+            
             // the class and...
             if (atClass.isAssignableFrom(i.getLocation().getClass())) {
                 // either the type suffices

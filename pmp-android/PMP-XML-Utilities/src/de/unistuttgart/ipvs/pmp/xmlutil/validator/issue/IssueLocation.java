@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the abstract class for an issue location
+ * This is the abstract class for an {@link IIssueLocation}
  * 
  * @author Marcus Vetter
  * 
@@ -36,32 +36,23 @@ public abstract class IssueLocation implements IIssueLocation {
     private static final long serialVersionUID = 814952109838292372L;
     
     /**
-     * This list contains all issues appeared in this object
+     * This list contains all {@link IIssue}s
      */
     private List<IIssue> issues = new ArrayList<IIssue>();
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation#getIssues()
-     */
     @Override
     public List<IIssue> getIssues() {
         return this.issues;
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation#addIssue(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue)
-     */
     @Override
     public void addIssue(IIssue issue) {
         this.issues.add(issue);
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation#removeIssue(de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue)
-     */
     @Override
     public void removeIssue(IIssue issue) {
         this.issues.remove(issue);

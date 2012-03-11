@@ -49,7 +49,7 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     private String validValueDescription = "";
     
     /**
-     * List of change descriptions
+     * List of change descriptions as {@link ILocalizedString}s
      */
     private List<ILocalizedString> changeDescriptions = new ArrayList<ILocalizedString>();
     

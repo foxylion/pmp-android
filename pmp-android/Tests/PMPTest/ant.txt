@@ -1,0 +1,628 @@
+Buildfile: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\build.xml
+
+-setup:
+     [echo] Gathering info for PMP-API...
+    [setup] Android SDK Tools Revision 16
+    [setup] Project Target: Google APIs
+    [setup] Vendor: Google Inc.
+    [setup] Platform Version: 2.1
+    [setup] API level: 7
+    [setup] 
+    [setup] ------------------
+    [setup] Resolving library dependencies:
+    [setup] No library dependencies.
+    [setup] 
+    [setup] ------------------
+    [setup] 
+
+all:
+
+-pre-clean:
+
+clean:
+
+-setup:
+     [echo] Gathering info for PMP...
+    [setup] Android SDK Tools Revision 16
+    [setup] Project Target: Google APIs
+    [setup] Vendor: Google Inc.
+    [setup] Platform Version: 2.1
+    [setup] API level: 7
+    [setup] 
+    [setup] ------------------
+    [setup] Resolving library dependencies:
+    [setup] D:\Projects\PMP\pmp-android\pmp-android\PMP: ../PMP-API => D:\Projects\PMP\pmp-android\pmp-android\PMP-API
+    [setup] ------------------
+    [setup] Ordered libraries:
+    [setup] D:\Projects\PMP\pmp-android\pmp-android\PMP-API
+    [setup] ------------------
+    [setup] 
+
+all:
+
+-pre-clean:
+
+clean:
+   [delete] Deleting directory D:\Projects\PMP\pmp-android\pmp-android\PMP\bin
+   [delete] Deleting directory D:\Projects\PMP\pmp-android\pmp-android\PMP\gen
+
+-setup:
+     [echo] Gathering info for PMPAPI...
+    [setup] Android SDK Tools Revision 16
+    [setup] Project Target: Google APIs
+    [setup] Vendor: Google Inc.
+    [setup] Platform Version: 2.1
+    [setup] API level: 7
+    [setup] Project Type: Android Library
+    [setup] 
+    [setup] ------------------
+    [setup] Resolving library dependencies:
+    [setup] No library dependencies.
+    [setup] 
+    [setup] ------------------
+    [setup] 
+
+all:
+
+-pre-clean:
+
+clean:
+   [delete] Deleting directory D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin
+   [delete] Deleting directory D:\Projects\PMP\pmp-android\pmp-android\PMP-API\gen
+
+emma:
+
+-set-mode-check:
+
+-set-debug-files:
+
+-set-debug-mode:
+
+-debug-obfuscation-check:
+
+-setup:
+
+-build-setup:
+     [echo] Building tested project at D:\Projects\PMP\pmp-android\pmp-android\PMP
+
+-set-mode-check:
+
+-set-instrumented-mode:
+
+-set-debug-mode:
+
+-debug-obfuscation-check:
+
+-setup:
+     [echo] Gathering info for PMP...
+    [setup] Android SDK Tools Revision 16
+    [setup] Project Target: Google APIs
+    [setup] Vendor: Google Inc.
+    [setup] Platform Version: 2.1
+    [setup] API level: 7
+    [setup] 
+    [setup] ------------------
+    [setup] Resolving library dependencies:
+    [setup] D:\Projects\PMP\pmp-android\pmp-android\PMP: ../PMP-API => D:\Projects\PMP\pmp-android\pmp-android\PMP-API
+    [setup] ------------------
+    [setup] Ordered libraries:
+    [setup] D:\Projects\PMP\pmp-android\pmp-android\PMP-API
+    [setup] ------------------
+    [setup] 
+
+-build-setup:
+     [echo] Building Libraries
+
+nodeps:
+
+-set-mode-check:
+
+-set-debug-files:
+
+-set-debug-mode:
+
+-debug-obfuscation-check:
+
+-setup:
+     [echo] Gathering info for PMPAPI...
+    [setup] Android SDK Tools Revision 16
+    [setup] Project Target: Google APIs
+    [setup] Vendor: Google Inc.
+    [setup] Platform Version: 2.1
+    [setup] API level: 7
+    [setup] Project Type: Android Library
+    [setup] 
+    [setup] ------------------
+    [setup] Resolving library dependencies:
+    [setup] No library dependencies.
+    [setup] 
+    [setup] ------------------
+    [setup] 
+
+-build-setup:
+     [echo] Creating output directories if needed...
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\gen
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\classes
+
+-pre-build:
+
+-code-gen:
+     [echo] ----------
+     [echo] Handling aidl files...
+     [aidl] Found 3 AIDL files.
+     [aidl] Compiling 3 AIDL files.
+     [echo] ----------
+     [echo] Handling RenderScript files...
+[renderscript] No RenderScript files to compile.
+     [echo] ----------
+     [echo] Handling Resources...
+     [aapt] Generating resource IDs...
+
+-pre-compile:
+
+-compile:
+    [javac] Compiling 58 source files to D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\classes
+     [echo] Creating library output jar file...
+      [jar] Building jar: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\classes.jar
+
+-post-compile:
+
+-obfuscate:
+
+-dex:
+     [echo] Library project: do not convert bytecode...
+
+-crunch:
+   [crunch] Crunching PNG Files in source dir: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res
+   [crunch] To destination dir: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_add_small.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_add_small.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_add_small.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_arrow_left.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_arrow_left.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_arrow_left.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_back.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_back.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_back.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_delete_small.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_delete_small.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_delete_small.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_failed.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_failed.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_failed.png: 56% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_semi_success.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_semi_success.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_semi_success.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_success.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_success.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_success.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\res\drawable-hdpi\pmp_api_icon_undefined.png => D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_undefined.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\res\drawable-hdpi\pmp_api_icon_undefined.png: 0% size of source)
+   [crunch] Crunched 9 PNG files to update cache
+
+-package-resources:
+     [echo] Library project: do not package resources...
+
+-package:
+     [echo] Library project: do not package apk...
+
+-do-debug:
+     [echo] Library project: do not create apk...
+
+debug:
+[propertyfile] Creating new property file: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\PMP-API\bin\build.prop
+     [echo] 
+     [echo] ############################################
+     [echo] **** Back to project PMP ****
+     [echo] ############################################
+     [echo] Creating output directories if needed...
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP\gen
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\classes
+
+-pre-build:
+
+-code-gen:
+     [echo] ----------
+     [echo] Handling aidl files...
+     [aidl] No AIDL files to compile.
+     [echo] ----------
+     [echo] Handling RenderScript files...
+[renderscript] No RenderScript files to compile.
+     [echo] ----------
+     [echo] Handling Resources...
+     [aapt] Generating resource IDs...
+     [aapt]     (skipping hidden file 'D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\.directory')
+
+-pre-compile:
+     [echo] Adding XMLU classes...
+    [unzip] Expanding: D:\Projects\PMP\pmp-android\pmp-android\PMP-XML-Utilities\dist\xml-util-latest.jar into D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\classes
+     [echo] Adding JPMPPS classes...
+    [unzip] Expanding: D:\Projects\PMP\pmp-android\pmp-android\Webservices\JPMPPS-CommunicationLib\dist\jpmpps-lib-latest.jar into D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\classes
+
+-compile:
+    [javac] Compiling 152 source files to D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\classes
+    [javac] Note: Some input files use or override a deprecated API.
+    [javac] Note: Recompile with -Xlint:deprecation for details.
+     [echo] Instrumenting classes from D:\Projects\PMP\pmp-android\pmp-android\PMP\bin/classes...
+
+-post-compile:
+
+-obfuscate:
+
+-dex:
+      [dex] Converting compiled files and external libraries into D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\classes.dex...
+
+-crunch:
+   [crunch] Crunching PNG Files in source dir: D:\Projects\PMP\pmp-android\pmp-android\PMP\res
+   [crunch] To destination dir: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\bigicon_apps.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_apps.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_apps.png: 76% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\bigicon_presets.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_presets.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_presets.png: 51% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\bigicon_rgs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_rgs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_rgs.png: 40% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\bigicon_settings.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_settings.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\bigicon_settings.png: 76% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\contexts_location_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\contexts_location_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\contexts_location_icon.png: 84% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\contexts_time_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\contexts_time_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\contexts_time_icon.png: 87% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_add.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_add.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_add.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_apps.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_apps.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_apps.png: 35% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_arrow_left.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_arrow_left.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_arrow_left.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_delete.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_delete.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_delete.png: 56% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_dev_console.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_dev_console.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_dev_console.png: 67% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_edit.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_edit.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_edit.png: 59% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_expand_closed.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_expand_closed.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_expand_closed.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_expand_opened.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_expand_opened.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_expand_opened.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_expertmode.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_expertmode.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_expertmode.png: 51% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_help.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_help.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_help.png: 46% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_info.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_info.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_info.png: 48% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_presets.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_presets.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_presets.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_rgs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_rgs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_rgs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_search.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_search.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_search.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_settings.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_settings.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_settings.png: 34% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_sfs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_sfs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_sfs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_statistics.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_statistics.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_statistics.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\icon_success.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_success.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\icon_success.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_add.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_add.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_add.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_change.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_change.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_change.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_close_clear_cancel.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_close_clear_cancel.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_close_clear_cancel.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_delete.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_delete.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_delete.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_delete_bin.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_delete_bin.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_delete_bin.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_export.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_export.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_export.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_import.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_import.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_import.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_info.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_info.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_info.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_refresh.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_refresh.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_refresh.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_search.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_search.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_search.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_show_deleted.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_show_deleted.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_show_deleted.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\menu_view.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_view.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\menu_view.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\svc_nfc_bound.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\svc_nfc_bound.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\svc_nfc_bound.png: 57% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\svc_nfc_bound_working.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\svc_nfc_bound_working.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\svc_nfc_bound_working.png: 47% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\svc_nfc_working.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\svc_nfc_working.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\svc_nfc_working.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon1.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon1.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon1.png: 49% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon10.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon10.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon10.png: 61% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon2.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon2.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon2.png: 57% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon3.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon3.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon3.png: 33% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon4.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon4.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon4.png: 60% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon5.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon5.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon5.png: 62% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon6.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon6.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon6.png: 34% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon7.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon7.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon7.png: 62% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon8.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon8.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon8.png: 56% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\test_icon9.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon9.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-hdpi\test_icon9.png: 61% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\bigicon_apps.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_apps.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_apps.png: 45% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\bigicon_presets.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_presets.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_presets.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\bigicon_rgs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_rgs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_rgs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\bigicon_settings.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_settings.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\bigicon_settings.png: 43% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\contexts_location_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\contexts_location_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\contexts_location_icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\contexts_time_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\contexts_time_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\contexts_time_icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_add.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_add.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_add.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_apps.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_apps.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_apps.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_delete.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_delete.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_delete.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_dev_console.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_dev_console.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_dev_console.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_edit.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_edit.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_edit.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_expertmode.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_expertmode.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_expertmode.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_help.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_help.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_help.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_info.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_info.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_info.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_presets.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_presets.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_presets.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_rgs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_rgs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_rgs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_search.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_search.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_search.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_settings.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_settings.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_settings.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_sfs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_sfs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_sfs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_statistics.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_statistics.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_statistics.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_success.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_success.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_success.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\icon_undefined.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_undefined.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\icon_undefined.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_add.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_add.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_add.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_close_clear_cancel.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_close_clear_cancel.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_close_clear_cancel.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_delete.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_delete.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_delete.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_info.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_info.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_info.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_refresh.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_refresh.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_refresh.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_show_deleted.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_show_deleted.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_show_deleted.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\menu_view.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_view.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\menu_view.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\svc_nfc_bound.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\svc_nfc_bound.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\svc_nfc_bound.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\svc_nfc_bound_working.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\svc_nfc_bound_working.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\svc_nfc_bound_working.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\svc_nfc_working.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\svc_nfc_working.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\svc_nfc_working.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon1.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon1.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon1.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon10.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon10.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon10.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon2.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon2.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon2.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon3.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon3.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon3.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon4.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon4.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon4.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon5.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon5.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon5.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon6.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon6.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon6.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon7.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon7.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon7.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon8.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon8.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon8.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-ldpi\test_icon9.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon9.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-ldpi\test_icon9.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\bigicon_apps.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_apps.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_apps.png: 59% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\bigicon_presets.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_presets.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_presets.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\bigicon_rgs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_rgs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_rgs.png: 51% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\bigicon_settings.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_settings.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\bigicon_settings.png: 57% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\contexts_location_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\contexts_location_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\contexts_location_icon.png: 93% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\contexts_time_icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\contexts_time_icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\contexts_time_icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_add.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_add.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_add.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_apps.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_apps.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_apps.png: 53% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_delete.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_delete.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_delete.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_dev_console.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_dev_console.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_dev_console.png: 52% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_edit.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_edit.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_edit.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_expertmode.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_expertmode.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_expertmode.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_help.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_help.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_help.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_info.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_info.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_info.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_presets.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_presets.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_presets.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_rgs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_rgs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_rgs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_search.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_search.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_search.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_settings.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_settings.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_settings.png: 51% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_sfs.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_sfs.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_sfs.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_statistics.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_statistics.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_statistics.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_success.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_success.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_success.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\icon_undefined.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_undefined.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\icon_undefined.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_add.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_add.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_add.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_close_clear_cancel.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_close_clear_cancel.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_close_clear_cancel.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_delete.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_delete.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_delete.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_info.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_info.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_info.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_refresh.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_refresh.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_refresh.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_show_deleted.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_show_deleted.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_show_deleted.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\menu_view.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_view.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\menu_view.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\svc_nfc_bound.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\svc_nfc_bound.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-a
+   [crunch] ndroid\pmp-android\PMP\bin\res\drawable-mdpi\svc_nfc_bound.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\svc_nfc_bound_working.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\svc_nfc_bound_working.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\svc_nfc_bound_working.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\svc_nfc_working.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\svc_nfc_working.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\svc_nfc_working.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon1.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon1.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon1.png: 41% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon10.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon10.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon10.png: 48% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon2.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon2.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon2.png: 46% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon3.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon3.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon3.png: 52% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon4.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon4.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon4.png: 49% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon5.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon5.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon5.png: 50% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon6.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon6.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon6.png: 53% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon7.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon7.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon7.png: 50% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon8.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon8.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon8.png: 46% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-mdpi\test_icon9.png => D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon9.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\res\drawable-mdpi\test_icon9.png: 48% size of source)
+   [crunch] Crunched 136 PNG files to update cache
+
+-package-resources:
+     [aapt] Creating full resource package...
+     [aapt]     (skipping hidden file 'D:\Projects\PMP\pmp-android\pmp-android\PMP\assets\.gitignore')
+     [aapt]     (skipping hidden file 'D:\Projects\PMP\pmp-android\pmp-android\PMP\res\drawable-hdpi\.directory')
+
+-package:
+[apkbuilder] Current build type is different than previous build: forced apkbuilder run.
+[apkbuilder] Creating PMP-instrumented-unaligned.apk and signing it with a debug key...
+
+-do-debug:
+ [zipalign] Running zip align on final apk...
+     [echo] Debug Package: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\PMP-instrumented.apk
+
+instrument:
+ [zipalign] No changes. No need to run zip-align on the apk.
+     [echo] Instrumented Package: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\PMP-instrumented.apk
+[propertyfile] Creating new property file: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\build.prop
+     [echo] 
+     [echo] ############################################
+     [echo] **** Back to project PMP-API ****
+     [echo] ############################################
+     [echo] Creating output directories if needed...
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\gen
+    [mkdir] Created dir: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\classes
+
+-pre-build:
+
+-code-gen:
+     [echo] ----------
+     [echo] Handling aidl files...
+     [aidl] No AIDL files to compile.
+     [echo] ----------
+     [echo] Handling RenderScript files...
+[renderscript] No RenderScript files to compile.
+     [echo] ----------
+     [echo] Handling Resources...
+     [aapt] Generating resource IDs...
+
+-pre-compile:
+     [echo] Adding API classes...
+     [copy] Copying 92 files to D:\Projects\PMP\pmp-android\pmp-android\PMP\bin\classes
+
+-compile:
+    [javac] Compiling 10 source files to D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\classes
+
+-post-compile:
+
+-obfuscate:
+
+-dex:
+      [dex] Converting compiled files and external libraries into D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\classes.dex...
+
+-crunch:
+   [crunch] Crunching PNG Files in source dir: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res
+   [crunch] To destination dir: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res\drawable-hdpi\ic_launcher.png => D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-hdpi\ic_launcher.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-hdpi\ic_launcher.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res\drawable-hdpi\icon.png => D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-hdpi\icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-hdpi\icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res\drawable-ldpi\ic_launcher.png => D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-ldpi\ic_launcher.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-ldpi\ic_launcher.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res\drawable-ldpi\icon.png => D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-ldpi\icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-ldpi\icon.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res\drawable-mdpi\ic_launcher.png => D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-mdpi\ic_launcher.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-mdpi\ic_launcher.png: 0% size of source)
+   [crunch] Processing image to cache: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\res\drawable-mdpi\icon.png => D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-mdpi\icon.png
+   [crunch]   (processed image to cache entry D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\res\drawable-mdpi\icon.png: 0% size of source)
+   [crunch] Crunched 6 PNG files to update cache
+
+-package-resources:
+     [aapt] Creating full resource package...
+
+-package:
+[apkbuilder] Current build type is different than previous build: forced apkbuilder run.
+[apkbuilder] Creating PMP-API-debug-unaligned.apk and signing it with a debug key...
+
+-do-debug:
+ [zipalign] Running zip align on final apk...
+     [echo] Debug Package: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\PMP-API-debug.apk
+
+debug:
+[propertyfile] Creating new property file: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\build.prop
+[propertyfile] Updating property file: D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\build.prop
+
+install:
+     [echo] Installing D:\Projects\PMP\pmp-android\pmp-android\Tests\PMPTest\bin\PMP-API-debug.apk onto default emulator or device...
+     [exec] error: device not found

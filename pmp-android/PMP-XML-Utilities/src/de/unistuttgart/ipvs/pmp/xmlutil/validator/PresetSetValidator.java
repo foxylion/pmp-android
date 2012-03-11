@@ -32,7 +32,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.Issue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
- * Validator for PresetSet
+ * Validator for {@link IPresetSet}
  * 
  * @author Marcus Vetter
  * 
@@ -40,13 +40,13 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 public class PresetSetValidator extends AbstractValidator {
     
     /**
-     * Validate the whole PresetSet
+     * Validate the whole {@link IPresetSet}
      * 
      * @param presetSet
-     *            the PresetSet
+     *            the {@link IPresetSet}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     public List<IIssue> validatePresetSet(IPresetSet presetSet, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -101,13 +101,13 @@ public class PresetSetValidator extends AbstractValidator {
     
     
     /**
-     * Validate the assigned apps
+     * Validate the {@link IPresetAssignedApp}s
      * 
      * @param preset
-     *            the preset
+     *            the {@link IPreset}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     private List<IIssue> validateAssignedApps(IPreset preset, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -130,13 +130,13 @@ public class PresetSetValidator extends AbstractValidator {
     
     
     /**
-     * Validate the assigned privacy settings
+     * Validate the {@link IPresetAssignedPrivacySetting}s
      * 
      * @param preset
-     *            the preset
+     *            the {@link IPreset}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     private List<IIssue> validateAssignedPrivacySettings(IPreset preset, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -193,13 +193,13 @@ public class PresetSetValidator extends AbstractValidator {
     
     
     /**
-     * Validate the contexts of a assigned privacy setting
+     * Validate the {@link IPresetPSContext}s of a {@link IPresetAssignedPrivacySetting}
      * 
      * @param assignedPS
-     *            the assigned privacy setting
+     *            the {@link IPresetAssignedPrivacySetting}
      * @param attachData
-     *            set this flag true, if the given data should be attached with the issues
-     * @return List with issues as result of the validation
+     *            set this flag true, if the given data should be attached with the {@link IIssue}s
+     * @return List with {@link IIssue}s as result of the validation
      */
     private List<IIssue> validatePSContexts(IPresetAssignedPrivacySetting assignedPS, boolean attachData) {
         List<IIssue> issueList = new ArrayList<IIssue>();
@@ -215,16 +215,28 @@ public class PresetSetValidator extends AbstractValidator {
             /*
              * Validate, if the condition is set
              */
-            if (!checkValueSet(context.getCondition())) {
+            if (!checkValueSet(context.getCondition()) && !context.isEmptyCondition()) {
                 issueList.add(new Issue(IssueType.CONDITION_MISSING, context));
             }
             
             /*
+             * Validate, if an empty condition conflict occurred
+             */
+            if (checkEmptyValueConflict(context.getCondition(), context.isEmptyCondition()))
+                issueList.add(new Issue(IssueType.CONDITION_CONFLICT, context));
+            
+            /*
              * Validate, if the override value is set
              */
-            if (context.getOverrideValue() == null) {
+            if (!checkValueSet(context.getOverrideValue()) && !context.isEmptyOverrideValue()) {
                 issueList.add(new Issue(IssueType.OVERRIDE_VALUE_MISSING, context));
             }
+            
+            /*
+             * Validate, if an empty override value conflict occurred
+             */
+            if (checkEmptyValueConflict(context.getOverrideValue(), context.isEmptyOverrideValue()))
+                issueList.add(new Issue(IssueType.OVERRIDE_VALUE_CONFLICT, context));
             
         }
         
@@ -233,10 +245,10 @@ public class PresetSetValidator extends AbstractValidator {
     
     
     /**
-     * Clear all issues, begin at the given presetSet and propagate
+     * Clear all {@link IIssue}s, begin with the given {@link IPresetSet} and propagate
      * 
      * @param presetSet
-     *            The IPresetSet
+     *            The {@link IPresetSet}
      */
     public void clearIssuesAndPropagate(IPresetSet presetSet) {
         presetSet.clearIssues();

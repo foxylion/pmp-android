@@ -39,12 +39,12 @@ public class Preset extends IssueLocation implements Serializable, IPreset {
     private String description = "";
     
     /**
-     * The assigned apps
+     * List of {@link IIPresetAssignedApp}s
      */
     private List<IPresetAssignedApp> assignedApps = new ArrayList<IPresetAssignedApp>();
     
     /**
-     * The assigned privacy settings
+     * List of {@link IPresetAssignedPrivacySetting}s
      */
     private List<IPresetAssignedPrivacySetting> assignedPrivacySettings = new ArrayList<IPresetAssignedPrivacySetting>();
     

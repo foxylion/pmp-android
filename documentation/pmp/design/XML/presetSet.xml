@@ -12,11 +12,16 @@
 			<privacySetting 
 				rgIdentifier="de.unistuttgart.ipvs.pmp.resourcegroups.database"
 				rgRevision="2012-02-16 14:46:55 GMT+01:00"
-				psIdentifier="read">
-				<value>true</value>
+				psIdentifier="complexPS">
+				<value emptyValue="true"></value>
 				<context 
 					type="time" 
 					condition="Every Monday">
+					<overrideValue emptyValue="true" />
+				</context>
+				<context 
+					type="complexContext" 
+					emptyCondition="true">
 					<overrideValue>false</overrideValue>
 				</context>
 			</privacySetting>

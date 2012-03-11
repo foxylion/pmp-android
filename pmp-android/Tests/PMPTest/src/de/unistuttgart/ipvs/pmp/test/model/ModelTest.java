@@ -16,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.simple.SimpleModel;
+import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.test.ModelTestUtils;
 import de.unistuttgart.ipvs.pmp.test.ModelTestUtils.App;
 import de.unistuttgart.ipvs.pmp.test.ModelTestUtils.ResourceGroup;
@@ -53,10 +54,8 @@ public class ModelTest extends ApplicationTestCase<PMPApplication> {
         int appCount = 0;
         
         for (App app : ModelTestUtils.App.values()) {
-            ModelProxy.get().registerApp(app.toString());
-            
-            // Wait until registration should be succeeded.
-            Thread.sleep(1000L);
+            RegistrationResult rr = ModelProxy.get().registerApp(app.toString());
+            assertTrue(rr.getSuccess());
             
             appCount++;
             

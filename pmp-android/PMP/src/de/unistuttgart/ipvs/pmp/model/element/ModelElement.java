@@ -152,9 +152,8 @@ public abstract class ModelElement {
      * 
      * <p>
      * <b>You should NEVER need to call this method outside of the model.</b> It will be automatically called for you by
-     * the {@link PersistenceProvider}.
+     * the {@link PersistenceProvider}. All calls on the object after it was deleted, will result in undefined behavior.
      * </p>
-     * 
      */
     public void delete() {
         if (this.persistenceProvider == null) {

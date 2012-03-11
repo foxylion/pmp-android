@@ -38,7 +38,12 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
     /**
      * The value of the {@link AISRequiredPrivacySetting}
      */
-    private String value = null;
+    private String value = "";
+    
+    /**
+     * The flag, if its an empty value
+     */
+    private boolean emptyValue = false;
     
     
     /**
@@ -64,5 +69,17 @@ public class AISRequiredPrivacySetting extends IdentifierIS implements IAISRequi
     @Override
     public void setValue(String value) {
         this.value = value;
+    }
+    
+    
+    @Override
+    public boolean isEmptyValue() {
+        return this.emptyValue;
+    }
+    
+    
+    @Override
+    public void setEmptyValue(boolean emptyValue) {
+        this.emptyValue = emptyValue;
     }
 }
