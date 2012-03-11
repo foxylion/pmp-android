@@ -271,7 +271,7 @@ public class DriverViewActivity extends MapActivity {
                 Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
                 break;
             }
-            case (Constants.STATUS_NOTRIP): {
+            case (Constants.STATUS_NO_TRIP): {
                 Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
                 DriverViewActivity.this.finish();
                 break;
@@ -314,7 +314,7 @@ public class DriverViewActivity extends MapActivity {
                         Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
                         break;
                     }
-                    case (Constants.STATUS_NOTRIP): {
+                    case (Constants.STATUS_NO_TRIP): {
                         Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
                         DriverViewActivity.this.finish();
                         break;

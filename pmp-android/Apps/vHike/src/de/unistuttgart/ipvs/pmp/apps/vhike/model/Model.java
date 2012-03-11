@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
@@ -25,15 +24,20 @@ public class Model {
      */
     private String sid;
     
+	private int					id				= -1;
+
     /**
      * This is the trip id, in which the user participate at the moment
      */
-    private int tripId;
+    private int tripId = -1;
     /**
      * This is the query id of an user
      */
     private int queryId;
     
+	private Trip				openTrip		= null;
+	private ArrayList<Trip>	plannedTrips	= null;
+
     /**
      * Holds queries of the Driver, within are hitchhiker
      */
@@ -87,12 +91,14 @@ public class Model {
     }
     
     
+	// TODO: Use Trip class instead
     public int getTripId() {
         return tripId;
     }
     
-    
+	// TODO: Use Trip class instead
     public void setTripId(int tripId) {
+		// TODO Check trip id
         this.tripId = tripId;
     }
     
@@ -162,5 +168,34 @@ public class Model {
     public void setOwnProfile(Profile ownProfile) {
         this.ownProfile = ownProfile;
     }
-    
+
+	public void setOpenTrip(Trip trip) {
+		openTrip = trip;
+	}
+
+	public int getOpenTripId() {
+		return openTrip == null ? -1 : openTrip.getId();
+	}
+
+	/**
+	 * @return List is not sorted!!
+	 */
+	public ArrayList<Trip> getPlannedTrips() {
+		return plannedTrips;
+	}
+
+	public void addPlannedTrips(Trip trip) throws NullPointerException {
+		if (trip == null) {
+			throw new NullPointerException();
+		}
+		plannedTrips.add(trip);
+	}
+
+	public int getUserId() {
+		return id;
+	}
+
+	public void setUserId(int id) {
+		this.id = id;
+	}
 }

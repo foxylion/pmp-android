@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RideActivity.class);
+				Intent intent = new Intent(MainActivity.this, PlanTripActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MyTripActivity.class);
+                Intent intent = new Intent(v.getContext(), PlanTripActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });

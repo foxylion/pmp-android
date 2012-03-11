@@ -52,7 +52,7 @@ class Json {
 		if ($message == '') {
 			self::printError("invalid_input", "At least one POST-Parameter is invalid", $exit);
 		} else {
-			self::printError("invalid_input", "$message is invalid", $exit);
+			self::printError("invalid_input", "Invalid argument(s): $message", $exit);
 		}
 	}
 

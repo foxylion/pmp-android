@@ -98,7 +98,7 @@
 </form>
 <h2>End/Close trip</h2>
 
-<form action="../trip_ended.php" method="post" target="r">
+<form action="../trip_end.php" method="post" target="r">
     <table>
         <tr>
             <td>Trip-ID:</td>
@@ -111,6 +111,20 @@
         </tr>
     </table>
 </form>
+
+<h2><a href="../trip_get_open.php" target="r">Get open trip</a> </h2>
+
+<h2>End/Close trip without ID</h2>
+
+<form action="../trip_end.php" method="post" target="r">
+    <table>
+        <tr>
+            <td>Buttons:</td>
+            <td colspan="2"><input type="submit"/></td>
+        </tr>
+    </table>
+</form>
+
 <h2>Search for requests</h2>
 
 <form action="../query_search.php" method="post" target="r">

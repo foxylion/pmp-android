@@ -77,7 +77,7 @@ public class UpdateData extends Dialog {
 							Toast.LENGTH_SHORT).show();
 					cancel();
 					break;
-				case Constants.STATUS_NOTRIP:
+				case Constants.STATUS_NO_TRIP:
 					Toast.makeText(v.getContext(), "No trip",
 							Toast.LENGTH_SHORT).show();
 					cancel();

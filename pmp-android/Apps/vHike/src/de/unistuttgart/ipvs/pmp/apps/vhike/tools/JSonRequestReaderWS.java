@@ -8,14 +8,13 @@ import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Trip;
 
 /**
  * JSonRequestReader makes it possible to read requested JSON Objects easily It
@@ -31,22 +30,21 @@ public class JSonRequestReaderWS {
     static List<ParamObject> listToParse = new ArrayList<ParamObject>();
     
     /**
-     * This method send a request to the webservice to register an user in the
-     * database
-     * 
-     * @param username
-     * @param password
-     * @param email
-     * @param firstname
-     * @param lastname
-     * @param tel
-     * @param description
-     * @param email_public
-     * @param firstname_public
-     * @param lastname_public
-     * @param tel_public
-     * @return status (see vHike/webservice/design.html)
-     */
+	 * This method send a request to the web service to register an user in the database
+	 * 
+	 * @param username
+	 * @param password
+	 * @param email
+	 * @param firstname
+	 * @param lastname
+	 * @param tel
+	 * @param description
+	 * @param email_public
+	 * @param firstname_public
+	 * @param lastname_public
+	 * @param tel_public
+	 * @return status (see vHike/webservice/design.html)
+	 */
     public static String register(String username, String password, String email, String firstname, String lastname,
             String tel, String description, boolean email_public, boolean firstname_public, boolean lastname_public,
             boolean tel_public) {
@@ -67,7 +65,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "register.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "register.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -105,7 +103,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "login.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "login.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -143,7 +141,7 @@ public class JSonRequestReaderWS {
         listToParse.add(new ParamObject("sid", session_id, false));
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "logout.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "logout.php");
             
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -178,7 +176,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "own_profile.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "own_profile.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -251,7 +249,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "get_profile.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "get_profile.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -333,7 +331,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_announce.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "trip_announce.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -381,7 +379,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_update_pos.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "trip_update_pos.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -408,7 +406,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "user_update_pos.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "user_update_pos.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -436,7 +434,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "getPosition.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "getPosition.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -477,7 +475,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_update_data.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "trip_update_data.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -497,7 +495,7 @@ public class JSonRequestReaderWS {
     
     
     //TODO
-    public static List<TripObject> getTripPassengers() {
+    public static List<Trip> getTripPassengers() {
         
         return null;
         
@@ -519,7 +517,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "trip_ended.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "trip_ended.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -564,7 +562,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "query_start.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "query_start.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -601,7 +599,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "query_delete.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "query_delete.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -645,7 +643,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "query_search.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "query_search.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -718,7 +716,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "ride_search.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "ride_search.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -787,7 +785,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "offer.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "offer.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -821,7 +819,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "offer_view.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "offer_view.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -879,7 +877,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "offer_handle.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "offer_handle.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -916,7 +914,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "pick_up.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "pick_up.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -940,7 +938,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "isPicked.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "isPicked.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -967,7 +965,7 @@ public class JSonRequestReaderWS {
         JsonObject object = null;
         
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "offer_status.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "offer_status.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1006,7 +1004,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "ride_history.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "ride_history.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -1098,7 +1096,7 @@ public class JSonRequestReaderWS {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "ride_rate.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "ride_rate.php");
             
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -1133,7 +1131,7 @@ public class JSonRequestReaderWS {
         String out_pos = null;
         String out_get = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "test.php", false);
+			object = JSonRequestProvider.doRequest(listToParse, "test.php");
             
         } catch (ClientProtocolException e) {
             e.printStackTrace();

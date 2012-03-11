@@ -1,13 +1,13 @@
 <?php
-if (!defined('INCLUDE')) {
-	exit;
-}
+	if (!defined('INCLUDE')) {
+		exit;
+	}
 
-/**
- * Allows to create a new trip and gives access to existing trips and their data
- * @author  Dang Huynh, Patrick Strobel
- * @version 1.0.1
- */
+	/**
+	 * Allows to create a new trip and gives access to existing trips and their data
+	 * @author  Dang Huynh, Patrick Strobel
+	 * @version 1.0.1
+	 */
 class Trip {
 	const OPEN_TRIP_EXISTS = 1;
 
@@ -160,8 +160,8 @@ class Trip {
                                AND `driver` = " . $this->driver->getId() . "
                                AND `ending` = 0");
 
-//		$this->currentLat = $currentLat;
-//		$this->currentLon = $currentLon;
+		//		$this->currentLat = $currentLat;
+		//		$this->currentLon = $currentLon;
 
 		return ($updated && $db->getAffectedRows() > 0);
 	}
@@ -193,23 +193,33 @@ class Trip {
 	}
 
 	/**
-	 * Ends/closes the trip so that rating is now activated
+	 * Ends an active trip
 	 *
-	 * @internal param int $tripid The driver's id
+	 * @param int $driver_id ID of the driver
+	 * @param int $trip_id
 	 *
-	 * @return boolean  True, if data was updated successfully
+	 * @return string Status of the action
 	 */
-	public function endTrip() {
-		$ending = time();
-		$db = Database::getInstance();
-		$updated = $db->query("UPDATE `" . DB_PREFIX . "_trip`
-                               SET `ending` = from_unixtime(" . $ending . ")
-                               WHERE `id` = " . $this->id . "
-                               AND `driver` = " . $this->driver->getId() . "
-                               AND `ending` = 0");
+	public static function endTrip($driver_id = -1, $trip_id = -1) {
+		if ($driver_id == -1) {
+			return 'invalid_user';
+		}
 
-		$this->ending = Date(Database::DATE_TIME_FORMAT, $ending);
-		return ($updated && $db->getAffectedRows() > 0);
+		$query = "UPDATE `" . DB_PREFIX . "_trip`
+				  SET `ending` = NOW()
+                  WHERE `driver` = $driver_id
+                  AND `ending` = 0";
+		if ($trip_id > -1) {
+			$query .= "\nAND `id` = $trip_id";
+		}
+
+		$db = Database::getInstance();
+		$db->query($query);
+		if ($db->getAffectedRows() == 0) {
+			return 'nothing_to_update';
+		} else {
+			return 'trip_ended';
+		}
 	}
 
 	/**
@@ -314,6 +324,23 @@ class Trip {
 	 */
 	public function hasEnded() {
 		return !($this->ending == Database::DATA_NULL);
+	}
+
+	public static function get_open_trip($user_id) {
+		$db = Database::getInstance();
+
+		$result = $db->query("SELECT " . DB_PREFIX . "_trip.id,\n" .
+											DB_PREFIX . "_trip.driver,\n" .
+											DB_PREFIX . "_trip.avail_seats,\n" .
+											DB_PREFIX . "_trip.destination,\n" .
+											"UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.creation) AS creation " .
+											"FROM `" . DB_PREFIX . "_trip` " .
+											"WHERE `driver` = $user_id AND `ending` = 0 LIMIT 1");
+		if ($db->getNumRows($result) > 0) {
+			return $db->fetch($result);
+		} else {
+			return NULL;
+		}
 	}
 }
 

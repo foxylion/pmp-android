@@ -44,6 +44,7 @@ class General {
 	 * @param String $post_key The key of the variable in $_POST that need to be checked
 	 *
 	 * @return boolean True, if parameter is a valid id
+	 * @deprecated
 	 */
 	public static function validId($post_key) {
 		return (isset($post_key) && is_numeric($post_key) && $post_key > 0);
@@ -52,12 +53,12 @@ class General {
 	/**
 	 * Checks if the given parameter is a valid id
 	 *
-	 * @param String $input Input
+	 * @param String $post_key Input post key
 	 *
 	 * @return boolean  True, if parameter is a valid id
 	 */
-	public static function validateId($input) {
-		return (isset($_POST[$input]) && is_numeric($_POST[$input]) && $_POST[$input] > 0);
+	public static function validateId($post_key) {
+		return (isset($_POST[$post_key]) && is_numeric($_POST[$post_key]) && $_POST[$post_key] > 0);
 	}
 
 	/**

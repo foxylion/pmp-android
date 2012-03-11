@@ -94,5 +94,10 @@
     <string name="date_in_past">vHike cannot create a new trip in the past unless you, Sir, have a time machine</string>
     <string name="date_get_error">Error in getting the date. Please try again!</string>
     <string name="destination_max_reached">Really? More destinations than available options to choose from?</string>
+    <string name="default_yes">Yes</string>
+    <string name="default_no">No</string>
+    <string name="confirm_end_trip">You already have an open trip. Do you want to end this and start a new one?</string>
+    <string name="error_unknown">Unknown Error</string>
+    <string name="error_announcing_trip">vHike cannot anounce your trip</string>
 
 </resources>

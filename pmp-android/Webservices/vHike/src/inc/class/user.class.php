@@ -518,6 +518,12 @@ class user {
 		return $this->passwordHash;
 	}
 
+	/**
+	 * get open trip
+	 *
+	 * @return null|int The trip ID
+	 * @deprecated Use {@link Trip::getOpenTrip() instead.
+	 */
 	public function getCurrentTripId() {
 		$db = Database::getInstance();
 		$result = $db->fetch($db->query("SELECT `id` FROM `" . DB_PREFIX . "_trip` " .

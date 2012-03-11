@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +13,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 
 /**
  * Users can register an account when register form is filled in correctly
@@ -207,13 +207,13 @@ public class RegisterActivity extends Activity {
                         case Constants.REG_STAT_USED_MAIL:
                             Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             break;
-                        case Constants.REG_STAT_REGISTERED:
+                        case Constants.STATUS_SUCCESS:
                             Toast.makeText(RegisterActivity.this,
                                     "Registration send.\nValidate your email to finish registration",
                                     Toast.LENGTH_SHORT).show();
                             RegisterActivity.this.finish();
                             break;
-                        case Constants.REG_NOT_SUCCESSFUL:
+					case Constants.STATUS_ERROR:
                             Toast.makeText(RegisterActivity.this, "Registration failed. Please check input",
                                     Toast.LENGTH_SHORT).show();
                             break;

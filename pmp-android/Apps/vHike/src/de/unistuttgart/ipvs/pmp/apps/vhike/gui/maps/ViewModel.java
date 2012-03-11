@@ -412,7 +412,7 @@ public class ViewModel {
     public void setDestination(Spinner spDestination) {
         destination = "";
         for (int i = 0; i < spinnersDest.size(); i++) {
-            destination = destination + ";" + spinnersDest.get(i).getSelectedItem().toString();
+			destination += ";" + spinnersDest.get(i).getSelectedItem().toString();
         }
         destination = destination + ";";
     }
