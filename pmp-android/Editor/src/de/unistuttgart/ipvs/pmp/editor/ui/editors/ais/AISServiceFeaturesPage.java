@@ -24,7 +24,6 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.internal.Model;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
@@ -54,7 +53,7 @@ public class AISServiceFeaturesPage extends FormPage {
      * @param editor
      *            {@link FormEditor}
      * @param model
-     *            {@link Model} of this {@link AisEditor}
+     *            {@link AisModel} of this {@link AisEditor}
      */
     public AISServiceFeaturesPage(FormEditor editor, AisModel model) {
         super(editor, ID, "Service Features");

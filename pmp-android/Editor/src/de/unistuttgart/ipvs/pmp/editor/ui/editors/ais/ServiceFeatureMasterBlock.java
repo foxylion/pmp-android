@@ -55,7 +55,6 @@ import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.internal.Model;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
@@ -110,7 +109,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
      * Constructor to get the model instance
      * 
      * @param model
-     *            {@link Model} of this {@link AisEditor} instance
+     *            {@link AisModel} of this {@link AisEditor} instance
      */
     public ServiceFeatureMasterBlock(AisModel model) {
         this.model = model;

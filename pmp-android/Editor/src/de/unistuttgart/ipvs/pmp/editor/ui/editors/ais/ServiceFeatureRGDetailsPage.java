@@ -61,7 +61,6 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.internal.Model;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
@@ -174,7 +173,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
      * Constructor to get the model of this editor instance
      * 
      * @param model
-     *            {@link Model} of this {@link AisEditor}
+     *            {@link AisModel} of this {@link AisEditor}
      * @param tree
      *            the {@link TreeViewer} of the parent view to refresh it
      */

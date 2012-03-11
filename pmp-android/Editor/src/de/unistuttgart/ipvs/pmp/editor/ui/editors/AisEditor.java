@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
-import org.eclipse.ui.internal.Model;
 import org.eclipse.ui.part.FileEditorInput;
 
 import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
@@ -173,7 +172,7 @@ public class AisEditor extends FormEditor {
     
     
     /**
-     * Called from the {@link Model} if the model is dirty to update the view
+     * Called from the {@link AisModel} if the model is dirty to update the view
      * and show that sth. has changed. This only calls {@link FormEditor#firePropertyChange(FormEditor.PROP_DIRTY)}
      */
     public void firePropertyChangedDirty() {
