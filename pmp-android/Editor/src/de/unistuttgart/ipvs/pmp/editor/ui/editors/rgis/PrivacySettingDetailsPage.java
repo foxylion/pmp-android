@@ -19,10 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -34,7 +38,13 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
+import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
+import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Defines the details page that allows the user to edit the privacy setting's
@@ -46,9 +56,10 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     
     private final PrivacySettingsBlock block;
     private IManagedForm form;
+    private ControlDecoration identifierDec;
+    private ControlDecoration valuesDec;
     private Text identifier;
     private Text values;
-    private boolean dirty = false;
     private RGISPrivacySetting privacySetting;
     
     
@@ -75,6 +86,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         // parent.setLayoutData(parentLayout);
         
         // Build view
+        IssueTranslator it = new IssueTranslator();
         // System.out.println("Draw");
         FormToolkit toolkit = this.form.getToolkit();
         Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
@@ -91,47 +103,54 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         toolkit.createLabel(compo, "Identifier");
         this.identifier = toolkit.createText(compo, "Value");
         this.identifier.setLayoutData(textLayout);
-        this.identifier.addFocusListener(new FocusListener() {
+        this.identifier.addKeyListener(new KeyAdapter() {
             
-            private String before;
-            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (!privacySetting.getIdentifier().equals(identifier.getText())) {
+                    privacySetting.setIdentifier(identifier.getText());
+                    block.setDirty(true);
+                }
+                
+            }
+        });
+        this.identifier.addFocusListener(new FocusAdapter() {
             
             @Override
             public void focusLost(FocusEvent e) {
-                // Mark as dirty and staled when text has been changed
-                if (!this.before.equals(PrivacySettingDetailsPage.this.identifier.getText())) {
-                    PrivacySettingDetailsPage.this.dirty = true;
-                }
+                validate();
             }
             
-            
-            @Override
-            public void focusGained(FocusEvent e) {
-                this.before = PrivacySettingDetailsPage.this.identifier.getText();
-            }
         });
+        this.identifierDec = new ControlDecoration(this.identifier, SWT.TOP | SWT.LEFT);
+        this.identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
+        this.identifierDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.PS_IDENTIFIER_MISSING));
+        
         toolkit.createLabel(compo, "Valid values");
         this.values = toolkit.createText(compo, "True/False");
         this.values.setLayoutData(textLayout);
-        this.values.addFocusListener(new FocusListener() {
+        this.values.addKeyListener(new KeyAdapter() {
             
-            private String before;
-            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (!privacySetting.getValidValueDescription().equals(values.getText())) {
+                    privacySetting.setValidValueDescription(values.getText());
+                    block.setDirty(true);
+                }
+                
+            }
+        });
+        this.values.addFocusListener(new FocusAdapter() {
             
             @Override
             public void focusLost(FocusEvent e) {
-                // Mark as dirty and staled when text has been changed
-                if (!this.before.equals(PrivacySettingDetailsPage.this.values.getText())) {
-                    PrivacySettingDetailsPage.this.dirty = true;
-                }
-            }
-            
-            
-            @Override
-            public void focusGained(FocusEvent e) {
-                this.before = PrivacySettingDetailsPage.this.values.getText();
+                validate();
             }
         });
+        this.valuesDec = new ControlDecoration(this.values, SWT.TOP | SWT.LEFT);
+        this.valuesDec.setImage(Images.IMG_DEC_FIELD_ERROR);
+        this.valuesDec
+                .setDescriptionText(it.getTranslationWithoutParameters(IssueType.VALID_VALUE_DESCRIPTION_MISSING));
         section.setClient(compo);
         
     }
@@ -146,20 +165,14 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     
     @Override
     public boolean isDirty() {
-        return this.dirty;
+        return false;
     }
     
     
     @Override
     public void commit(boolean onSave) {
         
-        this.privacySetting.setIdentifier(this.identifier.getText());
-        this.privacySetting.setValidValueDescription(this.values.getText());
         this.block.refresh();
-        this.dirty = false;
-        
-        // Mark page as dirty
-        this.block.setDirty(true);
         
     }
     
@@ -199,6 +212,29 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     private void update() {
         this.identifier.setText(this.privacySetting.getIdentifier());
         this.values.setText(this.privacySetting.getValidValueDescription());
+        validate();
+    }
+    
+    
+    private void validate() {
+        block.refresh();
+        RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
+        IRGIS rgis = this.block.getModel().getRgis();
+        validator.validateRGIS(rgis, true);
+        
+        this.identifierDec.hide();
+        this.valuesDec.hide();
+        
+        for (IIssue i : privacySetting.getIssues()) {
+            switch (i.getType()) {
+                case IDENTIFIER_MISSING:
+                    this.identifierDec.show();
+                    break;
+                case VALID_VALUE_DESCRIPTION_MISSING:
+                    this.valuesDec.show();
+                    break;
+            }
+        }
     }
     
 }

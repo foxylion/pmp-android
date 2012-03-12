@@ -85,27 +85,21 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
             // Show icon only if this field is invalid
             for (IIssue i : ps.getIssues()) {
                 IssueType type = i.getType();
-                if (es instanceof NameString
-                        && (type == IssueType.NAME_LOCALE_EN_MISSING
-                                || type == IssueType.NAME_LOCALE_OCCURRED_TOO_OFTEN || type == IssueType.NAME_MISSING)) {
+                if (es instanceof NameString && type == IssueType.RGIS_PS_NAME_ISSUES) {
                     return Images.ERROR16;
                 }
                 
-                if (es instanceof DescriptionString
-                        && (type == IssueType.DESCRIPTION_LOCALE_EN_MISSING || type == IssueType.DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)) {
+                if (es instanceof DescriptionString && type == IssueType.RGIS_PS_DESCRIPTION_ISSUES) {
                     return Images.ERROR16;
                 }
                 
-                if (es instanceof ChangeDescriptionString
-                        && (type == IssueType.CHANGE_DESCRIPTION_LOCALE_EN_MISSING || type == IssueType.CHANGE_DESCRIPTION_LOCALE_OCCURRED_TOO_OFTEN)) {
+                if (es instanceof ChangeDescriptionString && type == IssueType.RGIS_PS_CHANGE_DESCRIPTION_ISSUES) {
                     return Images.ERROR16;
                 }
-                // System.out.println("Issue: " + i.getType());
             }
             return Images.INFO16;
         }
         
         return null;
     }
-    
 }
