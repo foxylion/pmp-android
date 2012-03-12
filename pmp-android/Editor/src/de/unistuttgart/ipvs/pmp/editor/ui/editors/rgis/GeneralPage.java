@@ -21,10 +21,10 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -106,7 +106,7 @@ public class GeneralPage extends FormPage {
         toolkit.createLabel(client, "Class name");
         final Text classname = toolkit.createText(client, rgis.getClassName());
         classname.setLayoutData(textLayout);
-        classname.addKeyListener(new KeyListener() {
+        classname.addKeyListener(new KeyAdapter() {
             
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -116,31 +116,12 @@ public class GeneralPage extends FormPage {
                     setDirty(true);
                 }
             }
-            
-            
-            @Override
-            public void keyPressed(KeyEvent arg0) {
-            }
         });
-        classname.addFocusListener(new FocusListener() {
-            
-            private String before;
-            
+        classname.addFocusListener(new FocusAdapter() {
             
             @Override
             public void focusLost(FocusEvent e) {
-                String input = classname.getText();
-                if (!input.equals(this.before)) {
-                    setDirty(true);
-                    validatePreferences();
-                }
-            }
-            
-            
-            @Override
-            public void focusGained(FocusEvent e) {
-                this.before = classname.getText();
-                
+                validatePreferences();
             }
         });
         this.classnameDec = new ControlDecoration(classname, SWT.TOP | SWT.LEFT);
@@ -151,7 +132,7 @@ public class GeneralPage extends FormPage {
         toolkit.createLabel(client, "Icon");
         final Text icon = toolkit.createText(client, rgis.getIconLocation());
         icon.setLayoutData(textLayout);
-        icon.addKeyListener(new KeyListener() {
+        icon.addKeyListener(new KeyAdapter() {
             
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -161,31 +142,12 @@ public class GeneralPage extends FormPage {
                     setDirty(true);
                 }
             }
-            
-            
-            @Override
-            public void keyPressed(KeyEvent arg0) {
-            }
         });
-        icon.addFocusListener(new FocusListener() {
-            
-            private String before;
-            
+        icon.addFocusListener(new FocusAdapter() {
             
             @Override
             public void focusLost(FocusEvent e) {
-                String input = icon.getText();
-                if (!input.equals(this.before)) {
-                    setDirty(true);
-                    validatePreferences();
-                }
-            }
-            
-            
-            @Override
-            public void focusGained(FocusEvent e) {
-                this.before = icon.getText();
-                
+                validatePreferences();
             }
         });
         this.iconDec = new ControlDecoration(icon, SWT.TOP | SWT.LEFT);
@@ -195,7 +157,7 @@ public class GeneralPage extends FormPage {
         // Identifier
         toolkit.createLabel(client, "Identifier");
         final Text identifier = toolkit.createText(client, rgis.getIdentifier());
-        identifier.addKeyListener(new KeyListener() {
+        identifier.addKeyListener(new KeyAdapter() {
             
             @Override
             public void keyReleased(KeyEvent arg0) {
@@ -205,31 +167,12 @@ public class GeneralPage extends FormPage {
                     setDirty(true);
                 }
             }
-            
-            
-            @Override
-            public void keyPressed(KeyEvent arg0) {
-            }
         });
-        identifier.addFocusListener(new FocusListener() {
-            
-            private String before;
-            
+        identifier.addFocusListener(new FocusAdapter() {
             
             @Override
             public void focusLost(FocusEvent e) {
-                String input = identifier.getText();
-                if (!input.equals(this.before)) {
-                    setDirty(true);
-                    validatePreferences();
-                }
-            }
-            
-            
-            @Override
-            public void focusGained(FocusEvent e) {
-                this.before = identifier.getText();
-                
+                validatePreferences();
             }
         });
         identifier.setLayoutData(textLayout);

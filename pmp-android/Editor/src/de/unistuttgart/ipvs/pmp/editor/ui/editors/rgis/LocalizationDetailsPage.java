@@ -47,7 +47,6 @@ public class LocalizationDetailsPage implements IDetailsPage {
     
     private final PrivacySettingsBlock block;
     private IManagedForm form;
-    // private InformationTable localizationTable;
     private RGISPrivacySetting privacySetting;
     private LocaleTable localeTable;
     private final LocaleTable.Type type;
@@ -96,6 +95,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
             public void doValidate() {
                 RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
                 validator.validateRGIS(LocalizationDetailsPage.this.block.getModel().getRgis(), true);
+                block.refresh();
             }
             
         };
@@ -116,31 +116,12 @@ public class LocalizationDetailsPage implements IDetailsPage {
     
     @Override
     public boolean isDirty() {
-        return this.localeTable.isDirty();
+        return false;
     }
     
     
     @Override
     public void commit(boolean onSave) {
-        // Write data form locale-table into model
-        /*
-         * privacySetting.getNames().clear();
-         * privacySetting.getDescriptions().clear();
-         * 
-         * for (Information info : localizationTable.getStoredInformation()
-         * .getMap().values()) { ILocalizedString name = new LocalizedString();
-         * name.setLocale(new Locale(info.getLocale()));
-         * name.setString(info.getName()); privacySetting.addName(name); }
-         * 
-         * for (Information info : localizationTable.getStoredInformation()
-         * .getMap().values()) { LocalizedString desc = new LocalizedString();
-         * desc.setLocale(new Locale(info.getLocale()));
-         * desc.setString(info.getDescription());
-         * privacySetting.addDescription(desc); }
-         * 
-         * block.refresh(); localizationTable.setDirty(false);
-         * block.setDirty(true);
-         */
         this.block.refresh();
     }
     

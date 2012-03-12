@@ -557,6 +557,11 @@ public class LocaleTable {
                     }
                     break;
             }
+            if (t == IssueType.VALUE_MISSING) {
+                this.tableDec.show();
+                tableIssues.add(i);
+            }
+            //System.out.println("I: " + i.getType());
         }
         
         this.tableDec.setDescriptionText(new IssueTranslator().translateIssues(tableIssues));
