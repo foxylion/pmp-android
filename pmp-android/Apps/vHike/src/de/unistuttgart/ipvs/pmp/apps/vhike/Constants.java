@@ -3,7 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike;
 /**
  * Constants used by vHike
  * 
- * @author Alexander Wassiljew
+ * @author Alexander Wassiljew, Dang Huynh
  */
 public class Constants {
     
@@ -16,8 +16,6 @@ public class Constants {
      */
     public static final String USER = "demo";
     public static final String PW = "test";
-    // public static final String WEBSERVICE_URL
-    // ="http://10.0.2.2/jsontest/call.php";
     
     public static final int STATUS_ERROR = 0;
     public static final int STATUS_SUCCESS = 1;
@@ -34,7 +32,6 @@ public class Constants {
     public static final int REG_STAT_INVALID_TEL = 24;
     
     // STATUS MSG
-    // public static final int STATUS_SUCCESS = 0;
     public static final int STATUS_UPDATED = 50;
     public static final int STATUS_UPTODATE = 51;
     public static final int STATUS_NO_TRIP = 52;
@@ -63,11 +60,18 @@ public class Constants {
     public static final int V_OBJ_SATUS_PICKED_UP = 74;
     public static final int V_OBJ_SATUS_BANNED = 75;
     
-    // ERRORS
-    public static final int QUERY_ID_ERROR = 998;
-    
     public static final String ROLE_DRIVER = "driver";
     public static final String ROLE_PASSENGER = "passenger";
     
+    // ERRORS
+    public static final int QUERY_ID_ERROR = 998;
     public static final float COORDINATE_INVALID = 999f;
+    
+    // Service Features
+    public static final int SF_USE_ABSOLUTE_LOCATION = 0;
+    public static final int SF_HIDE_EXACT_LOCATION = 1;
+    public static final int SF_HIDE_CONTACT_INFO = 2;
+    public static final int SF_CONTACT_PREMIUM = 3;
+    public static final int SF_NOTIFICATION = 4;
+    public static final int SF_VHIKE_WEB_SERVICE = 5;
 }

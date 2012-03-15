@@ -135,31 +135,19 @@ public class JSonRequestReader {
      * @param session_id
      * @return true, if logout succeeded
      */
-    public static String logout(String session_id) {
-        
+    public static boolean logout(String session_id) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", session_id, false));
         JsonObject object = null;
         try {
             object = JSonRequestProvider.doRequest(listToParse, "logout.php");
-            
+            return object.get("successful").getAsBoolean();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean suc = false;
-        String status = null;
-        if (object != null) {
-            suc = object.get("successful").getAsBoolean();
-            status = object.get("status").getAsString();
-        }
-        
-        if (suc) {
-            return status;
-        } else {
-            return status;
-        }
+        return false;
     }
     
     

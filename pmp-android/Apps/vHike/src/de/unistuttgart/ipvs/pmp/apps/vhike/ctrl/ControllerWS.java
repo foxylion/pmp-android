@@ -184,9 +184,9 @@ public class ControllerWS {
      * @param sid
      * @return true if succeed
      */
-    public boolean logout(final String sid) {
-        final String status = JSonRequestReader.logout(sid);
-        if (status.equals("logged_out")) {
+    public boolean logout(String sid) {
+        if (JSonRequestReader.logout(sid)) {
+            Model.getInstance().logout();
             return true;
         } else {
             return false;

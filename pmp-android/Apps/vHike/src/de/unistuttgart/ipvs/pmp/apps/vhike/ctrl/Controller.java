@@ -73,8 +73,8 @@ public class Controller {
      * @return true if succeed
      */
     public boolean logout(String sid) {
-        String status = JSonRequestReader.logout(sid);
-        if (status.equals("logged_out")) {
+        if (JSonRequestReader.logout(sid)) {
+            Model.getInstance().logout();
             return true;
         } else {
             return false;
@@ -83,7 +83,7 @@ public class Controller {
     
     
     /**
-     * Registar an user
+     * Register a new user
      * 
      * @return code specified in {@link Constants}
      */
@@ -493,5 +493,4 @@ public class Controller {
         Log.v(this, "CONTROLLER STATUS AFTER RATING:" + status);
         return status;
     }
-    
 }

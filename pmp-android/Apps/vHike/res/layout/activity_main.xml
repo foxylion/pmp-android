@@ -17,94 +17,98 @@
         pmp:borderColor="@color/dark_blue" >
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/Button_Ride"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:drawableTop="@drawable/main_ride"
-            android:paddingTop="25sp"
-            android:text="@string/main_ride" >
-        </Button>
-
-        <Button
-            android:id="@+id/Button_Profile"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:drawableTop="@drawable/icon_profile"
-            android:paddingTop="25sp"
-            android:text="@string/main_profile" >
-        </Button>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/Button_History"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:drawableTop="@drawable/icon_history"
-            android:paddingTop="25sp"
-            android:text="@string/main_history" >
-        </Button>
-
-        <Button
-            android:id="@+id/Button_Settings"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:drawablePadding="10dp"
-            android:drawableTop="@drawable/icon_settings"
-            android:paddingTop="25sp"
-            android:text="@string/main_settings" >
-        </Button>
-    </LinearLayout>
-
     <TableLayout
+        android:id="@+id/tableLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
-        <TableRow>
-            
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/Button_Ride"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:paddingTop="25sp"
+                android:text="@string/main_ride" android:layout_width="0dip" android:layout_height="fill_parent" android:drawableTop="@drawable/icon_ride"/>
+
+            <Button
+                android:id="@+id/Button_Profile"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/icon_profile"
+                android:paddingTop="25sp"
+                android:text="@string/main_profile" android:layout_width="0dip" android:layout_height="fill_parent"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/Button_History"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/icon_history"
+                android:paddingTop="25sp"
+                android:text="@string/main_history" android:layout_width="0dip" android:layout_height="fill_parent"/>
+
+            <Button
+                android:id="@+id/Button_Settings"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/icon_settings"
+                android:paddingTop="25sp"
+                android:text="@string/main_settings" android:layout_width="0dip" android:layout_height="fill_parent"/>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
             <Button
                 android:id="@+id/Button_Trips"
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:paddingTop="25sp"
-                android:text="@string/main_trips" >
-            </Button>
+                android:text="@string/main_trips" />
 
             <Button
                 android:id="@+id/Button_Message"
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:paddingTop="25sp"
-                android:text="@string/main_messages" >
-            </Button>
+                android:text="@string/main_messages" />
+
         </TableRow>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dip"
+                android:layout_height="fill_parent"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall" android:layout_weight="1"/>
+
             <Button
-                android:id="@+id/Button_Plan"
-                android:layout_width="wrap_content"
+                android:id="@+id/Button_Logout"
+                android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:paddingTop="25sp"
-                android:text="@string/main_plan" >
-            </Button>            
+                android:text="@string/main_logout" />
 
         </TableRow>
     </TableLayout>

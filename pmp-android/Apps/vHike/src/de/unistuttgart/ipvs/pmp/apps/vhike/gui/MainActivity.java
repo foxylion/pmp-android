@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
  * The main menu after user logged in and the main activity to start other activities
@@ -37,7 +39,7 @@ public class MainActivity extends Activity {
         Button btnSettings = (Button) findViewById(R.id.Button_Settings);
         findViewById(R.id.Button_Trips);
         findViewById(R.id.Button_Message);
-        Button btnPlan = (Button) findViewById(R.id.Button_Plan);
+        Button btnLogout = (Button) findViewById(R.id.Button_Logout);
         
         btnRide.setOnClickListener(new OnClickListener() {
             
@@ -95,14 +97,18 @@ public class MainActivity extends Activity {
         //            }
         //        });
         
-        btnPlan.setOnClickListener(new OnClickListener() {
+        btnLogout.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), PlanTripActivity.class);
-                MainActivity.this.startActivity(intent);
+                try {
+                    Controller ctrl = new Controller();
+                    ctrl.logout(Model.getInstance().getSid());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                MainActivity.this.finish();
             }
         });
     }
-    
 }

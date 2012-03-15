@@ -163,6 +163,8 @@ public class vhikeDialogs extends Activity {
     public AlertDialog getDateTimePicker(final Activity inActivity, final int ID, Calendar cal) {
         final Context mContext = inActivity;
         
+        // TODO If dialog already exists
+        
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.dialog_ride_datetime, null); // , (ViewGroup)
                                                                              // findViewById(R.id.layout_root)
@@ -200,49 +202,34 @@ public class vhikeDialogs extends Activity {
     private static AlertDialog confirm;
     
     
-    public static AlertDialog getConfirmationDialog(final Activity inActivity, int titleId, int message,
+    public static AlertDialog getConfirmationDialog(final Activity inActivity, int titleId, int messageId,
             int positiveTextId, int negativeTextId, final int callBackFunctionID) {
         final Context mContext = inActivity;
         
         if (confirm == null) {
             Builder builder = new Builder(mContext);
-            builder.setTitle(titleId).setPositiveButton(positiveTextId, new DialogInterface.OnClickListener() {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
-                    callback.confirmDialogPositive(callBackFunctionID);
-                }
-            }).setNegativeButton(negativeTextId, new DialogInterface.OnClickListener() {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
-                    callback.confirmDialogNegative(callBackFunctionID);
-                }
-            });
             confirm = builder.create();
-        } else {
-            confirm.setTitle(titleId);
-            confirm.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getText(positiveTextId),
-                    new DialogInterface.OnClickListener() {
-                        
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
-                            callback.confirmDialogPositive(callBackFunctionID);
-                        }
-                    });
-            confirm.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getText(negativeTextId),
-                    new DialogInterface.OnClickListener() {
-                        
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
-                            callback.confirmDialogNegative(callBackFunctionID);
-                        }
-                    });
         }
+        confirm.setTitle(titleId);
+        confirm.setMessage(mContext.getText(messageId));
+        confirm.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getText(positiveTextId),
+                new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
+                        callback.confirmDialogPositive(callBackFunctionID);
+                    }
+                });
+        confirm.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getText(negativeTextId),
+                new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
+                        callback.confirmDialogNegative(callBackFunctionID);
+                    }
+                });
         
         return confirm;
     }
