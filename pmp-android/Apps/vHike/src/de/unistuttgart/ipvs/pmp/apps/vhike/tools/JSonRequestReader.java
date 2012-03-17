@@ -311,13 +311,15 @@ public class JSonRequestReader {
      * @return true if succeeded
      */
     public static String announceTrip(String session_id, String destination, float current_lat, float current_lon,
-            int avail_seats) {
+            int avail_seats, Date date) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", session_id, false));
         
         listToParse.add(new ParamObject("destination", destination, true));
         listToParse.add(new ParamObject("avail_seats", String.valueOf(avail_seats), true));
-        
+        if(date != null){
+            listToParse.add(new ParamObject("date", String.valueOf(date.getTime()), true));
+        }
         if (current_lat < Constants.COORDINATE_INVALID) {
             listToParse.add(new ParamObject("current_lat", String.valueOf(current_lat), true));
         }

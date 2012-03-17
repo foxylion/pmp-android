@@ -1,8 +1,16 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import android.os.RemoteException;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
@@ -10,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -26,8 +35,12 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
  * 
  */
 public class ControllerWS {
+    public static String ERROR = "error";
+    private static String error = "";
+    private static final String TAG = "ControllerWS";
     
     IvHikeWebservice ws = null;
+    JsonParser parser = new JsonParser();
     /**
      * Constructor
      */
@@ -46,18 +59,52 @@ public class ControllerWS {
     public int announceTrip(final String session_id, final String destination, final float current_lat,
             final float current_lon, final int avail_seats) {
         Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
-        final String status = JSonRequestReader.announceTrip(session_id, destination, current_lat, current_lon,
-                avail_seats);
+        String ret = "";
+        try {
+            ret = ws.announceTrip(session_id, destination, current_lat, current_lon,
+                    avail_seats);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
-        if (status.equals("announced")) {
-            return Constants.TRIP_STATUS_ANNOUNCED;
-        } else if (status.equals("open_trip_exists")) {
-            return Constants.TRIP_STATUS_OPEN_TRIP;
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        int tripId = -1;
+        JsonElement status = object.get("status");
+        
+        if (object != null && object.get(ERROR) == null && status != null) {
+            JsonElement id = object.get("id");
+            if (status.getAsString().equals("announced") && id != null) {
+                tripId = id.getAsInt();
+                Model.getInstance().setTripId(tripId);
+                Log.d(TAG, String.valueOf(Model.getInstance().getTripId()));
+                return Constants.STATUS_SUCCESS;
+            }
+            if(status.getAsString().equals("open_trip_exists")){
+                return Constants.TRIP_STATUS_OPEN_TRIP;
+            }
+        } else {
+            setError(object);
+            return Constants.STATUS_ERROR;
         }
         return Constants.STATUS_ERROR;
         
     }
     
+    public static String getError() {
+        return error;
+    }
+    
+    private static void setError(JsonObject e) {
+        if (e == null) {
+            return;
+        }
+        try {
+            error = e.get(ERROR).getAsString() + ": " + e.get("msg").getAsString();
+        } catch (NullPointerException ex) {
+        }
+    }
     
     /**
      * End the active trip
@@ -68,20 +115,29 @@ public class ControllerWS {
      *         STATUS_INVALID_USER see {@link Constants} and design.html
      */
     public int endTrip(final String sid, final int trip_id) {
-        final String status = JSonRequestReader.endTrip(sid, trip_id);
-        
-        if (status.equals("updated")) {
-            return Constants.STATUS_UPDATED;
-        } else if (status.equals("already_uptodate")) {
-            return Constants.STATUS_UPTODATE;
-        } else if (status.equals("no_trip")) {
-            return Constants.STATUS_NO_TRIP;
-        } else if (status.equals("has_ended")) {
-            return Constants.STATUS_HASENDED;
-        } else if (status.equals("invalid_user")) {
-            return Constants.STATUS_INVALID_USER;
+        String ret = null;
+        try {
+            ret = ws.endTrip(sid, trip_id);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        return 0;
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        JsonElement status = object.get("status");
+        
+        
+        if (status.equals("invalid_id")) {
+            return Constants.STATUS_INVALID_USER;
+        } else if (status.equals("nothing_to_update")) {
+            return Constants.STATUS_NO_TRIP;
+        } else if (status.equals("trip_ended")) {
+            return Constants.STATUS_SUCCESS;
+        } else {
+            Log.w(this, "End trip status: " + status);
+            return Constants.STATUS_ERROR;
+        }
     }
     
     
@@ -93,9 +149,89 @@ public class ControllerWS {
      * @return
      */
     public List<HistoryRideObject> getHistory(final String sid, final String role) {
-        final List<HistoryRideObject> list = JSonRequestReader.getHistory(sid, role);
-        Log.i(this, "getHistory history size: " + list.size());
-        return list;
+        String ret = "";
+        try {
+            ret = ws.getHistory(sid, role);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        List<HistoryRideObject> historyObjects = null;
+        List<HistoryPersonObject> historyPersons = null;
+        boolean suc = false;
+        JsonArray array_rides;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                array_rides = object.get("rides").getAsJsonArray();
+                Log.d(TAG, "Array rides: " + array_rides.toString());
+                Log.d(TAG, "Array rides: " + array_rides.size());
+                historyObjects = new ArrayList<HistoryRideObject>();
+                
+                for (int i = 0; i < array_rides.size(); i++) {
+                    historyPersons = new ArrayList<HistoryPersonObject>();
+                    JsonObject IObject = array_rides.get(i).getAsJsonObject();
+                    int tripid = IObject.get("trip").getAsInt();
+                    int avail_seats = IObject.get("avail_seats").getAsInt();
+                    String destination = IObject.get("destination").getAsString();
+                    String creation = IObject.get("creation").getAsString();
+                    String ending = IObject.get("ending").getAsString();
+                    
+                    if (role.equals(Constants.ROLE_DRIVER)) {
+                        JsonArray array_passengers = IObject.get("passengers").getAsJsonArray();
+                        for (int j = 0; j < array_passengers.size(); j++) {
+                            JsonObject passObjects = array_passengers.get(j).getAsJsonObject();
+                            
+                            int userid = passObjects.get("userid").getAsInt();
+                            String username = passObjects.get("username").getAsString();
+                            float rating = passObjects.get("rating").getAsFloat();
+                            int rating_num = passObjects.get("rating_num").getAsInt();
+                            boolean rated = passObjects.get("rated").getAsBoolean();
+                            
+                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                                    rated);
+                            historyPersons.add(person);
+                        }
+                    } else {
+                        JsonArray array_drivers = IObject.get("passengers").getAsJsonArray();
+                        for (int j = 0; j < array_drivers.size(); j++) {
+                            JsonObject passObjects = array_drivers.get(j).getAsJsonObject();
+                            
+                            int userid = passObjects.get("userid").getAsInt();
+                            String username = passObjects.get("username").getAsString();
+                            float rating = passObjects.get("rating").getAsFloat();
+                            int rating_num = passObjects.get("rating_num").getAsInt();
+                            boolean rated = passObjects.get("rated").getAsBoolean();
+                            
+                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                                    rated);
+                            historyPersons.add(person);
+                        }
+                        JsonObject driver = IObject.get("driver").getAsJsonObject();
+                        
+                        int userid = driver.get("userid").getAsInt();
+                        String username = driver.get("username").getAsString();
+                        float rating = driver.get("rating").getAsFloat();
+                        int rating_num = driver.get("rating_num").getAsInt();
+                        boolean rated = driver.get("rated").getAsBoolean();
+                        
+                        HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                                rated);
+                        historyPersons.add(person);
+                    }
+                    Log.d(null, "IN READER HISTORYPERSONS" + historyPersons.size());
+                    HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination,
+                            historyPersons);
+                    historyObjects.add(ride);
+                }
+            }
+            Model.getInstance().setHistoryObjHolder(historyObjects);
+        }
+        
+        return historyObjects;
     }
     
     
@@ -106,16 +242,97 @@ public class ControllerWS {
      * @return {@link Profile}
      */
     public Profile getProfile(final String session_id, final int user_id) {
-        final Profile profile = JSonRequestReader.getProfile(session_id, user_id);
-        Log.i(this, "Controller->Profile->Description:" + profile.getDescription());
-        return profile;
+        String ret = "";
+        try {
+            ret = ws.getProfile(session_id, user_id);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String username = null;
+        String email = "xxx";
+        String firstname = "xxx";
+        String lastname = "xxx";
+        String tel = "xxx";
+        String description = null;
+        boolean email_public = false;
+        boolean firstname_public = false;
+        boolean lastname_public = false;
+        boolean tel_public = false;
+        int userid = 0;
+        double rating_avg = 0;
+        int rating_num = 0;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            userid = object.get("id").getAsInt();
+            email_public = object.get("email_public").getAsBoolean();
+            firstname_public = object.get("firstname_public").getAsBoolean();
+            lastname_public = object.get("lastname_public").getAsBoolean();
+            tel_public = object.get("tel_public").getAsBoolean();
+            
+            if (email_public) {
+                email = object.get("email").getAsString();
+            }
+            if (firstname_public) {
+                firstname = object.get("firstname").getAsString();
+            }
+            if (lastname_public) {
+                lastname = object.get("lastname").getAsString();
+            }
+            if (tel_public) {
+                tel = object.get("tel").getAsString();
+            }
+            username = object.get("username").getAsString();
+            description = object.get("description").getAsString();
+            Log.d(TAG, "GETPROFILE_: description:" + description);
+            object.get("regdate").getAsString();
+            rating_avg = object.get("rating_avg").getAsFloat();
+            rating_num = object.get("rating_num").getAsInt();
+            
+        }
+        
+        // String userid = object.get("id").getAsString();
+        // TODO
+        // String regdate = object.get("regdate").getAsString();
+        Profile profile;
+        
+        Date date = new Date();
+        if (suc) {
+            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date, email_public,
+                    firstname_public, lastname_public, tel_public, rating_avg, rating_num);
+            return profile;
+        }
+        return null;
     }
     
     
     public PositionObject getUserPosition(final String sid, final int user_id) {
-        final PositionObject object = JSonRequestReader.getUserPosition(sid, user_id);
+        String ret="";
+        try {
+            ret = ws.getUserPosition(sid, user_id);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
-        return object;
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        JsonArray array;
+        PositionObject posObj = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                array = object.get("position").getAsJsonArray();
+                float lat = array.get(0).getAsFloat();
+                float lon = array.get(1).getAsFloat();
+                posObj = new PositionObject(lat, lon);
+            }
+            
+        }
+        return posObj;
     }
     
     
@@ -129,8 +346,28 @@ public class ControllerWS {
      *         STATUS_ERROR
      */
     public int handleOffer(final String sid, final int offer_id, final boolean accept) {
-        final String status = JSonRequestReader.handleOffer(sid, offer_id, accept);
+       String ret = "";
+       
+       try {
+        ret = ws.handleOffer(sid, offer_id, accept);
+    } catch (RemoteException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+       
+       JsonObject object = parser.parse(ret).getAsJsonObject();
         
+       boolean suc = false;
+       String status = "";
+       if (object != null) {
+           suc = object.get("successful").getAsBoolean();
+           if (suc) {
+               status = object.get("status").getAsString();
+               Log.d(null, "STATUS after handleOFFER: " + status);
+           }
+       }
+       Log.d(null, "STATUS after handleOFFER: " + status);
+       
         if (!status.equals("")) {
             if (status.equals("accepted")) {
                 return Constants.STATUS_HANDLED;
@@ -155,8 +392,25 @@ public class ControllerWS {
      * @return true if picked up, false otherwise
      */
     public boolean isPicked(final String sid) {
-        final boolean bool = JSonRequestReader.isPicked(sid);
-        return bool;
+        String ret = "";
+        
+        try {
+            ret = ws.isPicked(sid);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        boolean picked = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                picked = object.get("picked").getAsBoolean();
+            }
+        }
+        return picked;
     }
     
     
@@ -169,10 +423,33 @@ public class ControllerWS {
      */
     public boolean login(final String username, final String pw) {
         
-        Log.i(this, "USERNAME: " + username);
-        Log.i(this, "PASSSWORD: " + pw);
-        final String status = JSonRequestReader.login(username, pw);
-        Log.i(this, "Status im CTRL: " + status);
+      String ret ="";
+      
+      try {
+        ret = ws.login(username, pw);
+    } catch (RemoteException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+      
+      JsonObject object = parser.parse(ret).getAsJsonObject();
+      
+      boolean suc = false;
+      if (object != null) {
+          suc = object.get("successful").getAsBoolean();
+      }
+      String sid = null;
+      String status = null;
+      if (suc) {
+          status = object.get("status").getAsString();
+          Log.d(TAG, "STATUS NACH DEM LOGIN:" + status);
+          if (!status.equals("invalid")) {
+              sid = object.get("sid").getAsString();
+              Model.getInstance().setSid(sid);
+              Model.getInstance().setOwnProfile(getOwnProfile(sid));
+          }
+      }
+      
         if (status.equals("logged_in")) {
             return true;
         } else {
@@ -181,6 +458,67 @@ public class ControllerWS {
     }
     
     
+    private Profile getOwnProfile(String sid) {
+        String ret ="";
+        
+        try {
+            ret = ws.getOwnProfile(sid);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        int id = 0;
+        String username = null;
+        String email = null;
+        String firstname = null;
+        String lastname = null;
+        String tel = null;
+        String description = null;
+        boolean email_public = false;
+        boolean firstname_public = false;
+        boolean lastname_public = false;
+        boolean tel_public = false;
+        
+        double rating_avg = 0;
+        int rating_num = 0;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            id = object.get("id").getAsInt();
+            username = object.get("username").getAsString();
+            Log.d(TAG, "USERNAME:" + username);
+            email = object.get("email").getAsString();
+            firstname = object.get("firstname").getAsString();
+            lastname = object.get("lastname").getAsString();
+            tel = object.get("tel").getAsString();
+            description = object.get("description").getAsString();
+            object.get("regdate").getAsString();
+            rating_avg = object.get("rating_avg").getAsFloat();
+            rating_num = object.get("rating_num").getAsInt();
+            email_public = object.get("email_public").getAsBoolean();
+            firstname_public = object.get("firstname_public").getAsBoolean();
+            lastname_public = object.get("lastname_public").getAsBoolean();
+            tel_public = object.get("tel_public").getAsBoolean();
+        }
+        
+        // String userid = object.get("id").getAsString();
+        // TODO
+        // String regdate = object.get("regdate").getAsString();
+        Profile profile;
+        
+        Date date = new Date();
+        if (suc) {
+            profile = new Profile(id, username, email, firstname, lastname, tel, description, date, email_public,
+                    firstname_public, lastname_public, tel_public, rating_avg, rating_num);
+            return profile;
+        }
+        return null;
+    }
+
+
     /**
      * Log out an user
      * 
@@ -188,7 +526,19 @@ public class ControllerWS {
      * @return true if succeed
      */
     public boolean logout(String sid) {
-        if (JSonRequestReader.logout(sid)) {
+        
+        String ret ="";
+        
+        try {
+            ret = ws.logout(sid);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        boolean suc =  object.get("successful").getAsBoolean();
+        if (suc) {
             Model.getInstance().logout();
             return true;
         } else {
@@ -220,7 +570,26 @@ public class ControllerWS {
      * @return List of {@link PassengerObject}
      */
     public int offer_accepted(final String sid, final int offer_id) {
-        final String status = JSonRequestReader.offer_accepted(sid, offer_id);
+        String ret = "";
+        
+        try {
+            ret = ws.offer_accepted(sid, offer_id);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                status = object.get("status").getAsString();
+            }
+        }
+        
         if (status.equals("unread")) {
             return Constants.STATUS_UNREAD;
         } else if (status.equals("accepted")) {
