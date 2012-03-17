@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.Timer;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,12 +60,14 @@ public class DriverViewActivity extends MapActivity {
     
     private Controller ctrl;
     
+    private Timer locationTimer;
+    private Timer queryTimer;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driverview);
-        
         
         PMP.get(getApplication());
         
@@ -114,6 +118,7 @@ public class DriverViewActivity extends MapActivity {
         IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
         try {
             loc.endLocationLookup();
+            Log.i(this, "endLocationLookup");
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -240,13 +245,15 @@ public class DriverViewActivity extends MapActivity {
     
     
     private void startContinousLookup(IBinder binder) {
-        ViewModel.getInstance().getLocationTimer()
-                .schedule(new Check4Location(this.mapView, this.context, this.handler, binder), 4000, 4000);
-     // Start Check4Queries Class to check for queries
+        locationTimer = new Timer();
+        queryTimer = new Timer();
+        locationTimer.schedule(new Check4Location(this.mapView, this.context, this.handler, binder), 4000, 4000);
+        // Start Check4Queries Class to check for queries
         
         Check4Queries c4q = new Check4Queries(handler);
-        ViewModel.getInstance().getQueryTimer().schedule(c4q, 10000, 10000);
+        queryTimer.schedule(c4q, 10000, 10000);
     }
+    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -269,7 +276,6 @@ public class DriverViewActivity extends MapActivity {
                 //  locationManager.removeUpdates(luh);
                 
                 stopRG();
-                ViewModel.getInstance().getLocationTimer().cancel();
                 
                 Log.i(this, "Trip ENDED");
                 finish();
@@ -281,6 +287,9 @@ public class DriverViewActivity extends MapActivity {
             }
             case (Constants.STATUS_NO_TRIP): {
                 Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
+                
+                stopRG();
+                
                 DriverViewActivity.this.finish();
                 break;
             }
@@ -313,7 +322,6 @@ public class DriverViewActivity extends MapActivity {
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         
                         stopRG();
-                        ViewModel.getInstance().getLocationTimer().cancel();
                         
                         Log.i(this, "Trip ENDED");
                         finish();
@@ -325,6 +333,9 @@ public class DriverViewActivity extends MapActivity {
                     }
                     case (Constants.STATUS_NO_TRIP): {
                         Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
+                        
+                        stopRG();
+                        
                         DriverViewActivity.this.finish();
                         break;
                     }
@@ -349,8 +360,11 @@ public class DriverViewActivity extends MapActivity {
     
     private void stopContinousLookup() {
         
-        ViewModel.getInstance().stopTimers();
-        ViewModel.getInstance().getLocationTimer().cancel();
+        locationTimer.cancel();
+        locationTimer = null;
+        queryTimer.cancel();
+        queryTimer = null;
+        Log.i(this, "Timer canceled");
         
     }
     
