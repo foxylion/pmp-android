@@ -26,6 +26,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -241,8 +242,10 @@ public class DriverViewActivity extends MapActivity {
     private void startContinousLookup(IBinder binder) {
         ViewModel.getInstance().getLocationTimer()
                 .schedule(new Check4Location(this.mapView, this.context, this.handler, binder), 4000, 4000);
+     // Start Check4Queries Class to check for queries
+        Check4Queries c4q = new Check4Queries(handler);
+        ViewModel.getInstance().getQueryTimer().schedule(c4q, 10000, 10000);
     }
-    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
