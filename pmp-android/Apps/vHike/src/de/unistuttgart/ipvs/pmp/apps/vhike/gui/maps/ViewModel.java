@@ -82,10 +82,12 @@ public class ViewModel {
     public void stopTimers() {
         if (this.queryTimer != null) {
             this.queryTimer.cancel();
+            Log.i(this, "QueryTimer canceled");
             this.queryTimer = null;
         }
         if (this.locationTimer != null) {
             this.locationTimer.cancel();
+            Log.i(this, "LocationTimer canceled");
             this.locationTimer = null;
         }
     }

@@ -151,7 +151,7 @@ public class Check4Location extends TimerTask {
                         
                         // Start Check4Queries Class to check for queries
                         Check4Queries c4q = new Check4Queries();
-                        ViewModel.getInstance().getQueryTimer().schedule(c4q, 300, 10000);
+                        ViewModel.getInstance().getQueryTimer().schedule(c4q, 10000, 10000);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

@@ -20,7 +20,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.JSonRequestReader;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
@@ -610,15 +609,47 @@ public class ControllerWS {
      * @return true if succeeded, false otherwise
      */
     public boolean pick_up(final String sid, final int user_id) {
-        final boolean bool = JSonRequestReader.pick_up(sid, user_id);
+        String ret ="";
         
-        return bool;
+        try {
+            ret = ws.pick_up(sid, user_id);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                return true;
+            }
+        }
+        return false;
     }
     
     
     public String rateUser(final String sid, final int userid, final int tripid, final int rating) {
-        final String status = JSonRequestReader.rateUser(sid, userid, tripid, rating);
-        Log.i(this, "CONTROLLER STATUS AFTER RATING:" + status);
+        String ret = "";
+        
+        try {
+            ret = ws.rateUser(sid, userid, tripid, rating);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                status = object.get("status").getAsString();
+            }
+        }
         return status;
     }
     
@@ -630,11 +661,29 @@ public class ControllerWS {
      */
     public int register(final Map<String, String> list) {
         
-        final String status = JSonRequestReader.register(list.get("username"), list.get("password"), list.get("email"),
-                list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
-                Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
-                Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
+       String ret = "";
+       
+       try {
+        ret = ws.register(list.get("username"), list.get("password"), list.get("email"),
+                   list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
+                   Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
+                   Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
+    } catch (RemoteException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
         
+       JsonObject object = parser.parse(ret).getAsJsonObject();
+       
+       String status = "";
+       if (object != null) {
+           boolean suc = object.get("successful").getAsBoolean();
+           if (suc) {
+               status = object.get("status").getAsString();
+           }
+           
+       }
+       
         if (status.equals("registered")) {
             return Constants.STATUS_SUCCESS;
         } else if (status.contains("username_exists")) {
@@ -667,9 +716,63 @@ public class ControllerWS {
      * @return List if QueryObjects otherwise, null
      */
     public List<QueryObject> searchQuery(final String sid, final float lat, final float lon, final int perimeter) {
-        final List<QueryObject> queryList = JSonRequestReader.searchQuery(sid, lat, lon, perimeter);
+        String ret = "";
         
-        return queryList;
+        try {
+            ret = ws.searchQuery(sid, lat, lon, perimeter);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        
+        boolean suc = false;
+        List<QueryObject> queryObjects = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                String status = object.get("status").getAsString();
+                if (status.equals("result")) {
+                    JsonArray array = object.get("queries").getAsJsonArray();
+                    Log.d(TAG, array.toString());
+                    queryObjects = new ArrayList<QueryObject>();
+                    
+                    /*
+                     * "queryid": Integer, "userid": Integer, "username": String, "rating": Float,
+                     * "lat": Float, "lon": Float, "seats": Integer, distance: Float
+                     */
+                    
+                    for (int i = 0; i < array.size(); i++) {
+                        JsonObject Iobject = array.get(i).getAsJsonObject();
+                        int queryid = Iobject.get("queryid").getAsInt();
+                        
+                        int userid = Iobject.get("userid").getAsInt();
+                        
+                        String username = Iobject.get("username").getAsString();
+                        // float rating = Iobject.get("rating").getAsFloat();
+                        
+                        float cur_lat = Iobject.get("lat").getAsFloat();
+                        float cur_lon = Iobject.get("lon").getAsFloat();
+                        int seats = Iobject.get("seats").getAsInt();
+                        float distance = Iobject.get("distance").getAsFloat();
+                        
+                        QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat, cur_lon, seats,
+                                distance);
+                        queryObjects.add(qObject);
+                    }
+                    if (queryObjects != null) {
+                        Model.getInstance().setQueryHolder(queryObjects);
+                    }
+                    return queryObjects;
+                }
+            }
+        }
+        if (queryObjects != null) {
+            Model.getInstance().setQueryHolder(queryObjects);
+        }
+        return queryObjects;
         
     }
     
@@ -684,9 +787,51 @@ public class ControllerWS {
      * @return List if QueryObjects otherwise, null
      */
     public List<RideObject> searchRides(final String sid, final float lat, final float lon, final int perimeter) {
-        final List<RideObject> queryList = JSonRequestReader.searchRides(sid, lat, lon, perimeter);
+        String ret = "";
         
-        return queryList;
+        try {
+            ret = ws.searchRides(sid, lat, lon, perimeter);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        List<RideObject> rideObjects = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                
+                JsonArray array = object.get("queries").getAsJsonArray();
+                
+                rideObjects = new ArrayList<RideObject>();
+                
+                for (int i = 0; i < array.size(); i++) {
+                    
+                    JsonObject Iobject = array.get(i).getAsJsonObject();
+                    int tripid = Iobject.get("tripid").getAsInt();
+                    int seats = Iobject.get("seats").getAsInt();
+                    float cur_lat = Iobject.get("lat").getAsFloat();
+                    float cur_lon = Iobject.get("lon").getAsFloat();
+                    
+                    String destination = Iobject.get("destination").getAsString();
+                    int driverid = Iobject.get("driverid").getAsInt();
+                    
+                    String username = Iobject.get("username").getAsString();
+                    float rating = Iobject.get("rating").getAsFloat();
+                    
+                    float distance = Iobject.get("distance").getAsFloat();
+                    
+                    RideObject qObject = new RideObject(tripid, seats, cur_lat, cur_lon, destination, driverid,
+                            username, rating, distance);
+                    rideObjects.add(qObject);
+                }
+                
+                return rideObjects;
+            }
+        }
+        return rideObjects;
         
     }
     
@@ -702,7 +847,28 @@ public class ControllerWS {
      *         STATUS_ALREADY_SENT see {@link Constants}
      */
     public int sendOffer(final String sid, final int trip_id, final int query_id, final String message) {
-        final String status = JSonRequestReader.sendOffer(sid, trip_id, query_id, message);
+        String ret = "";
+        
+        try {
+            ret = ws.sendOffer(sid, trip_id, query_id, message);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                status = object.get("status").getAsString();
+                if (status.equals("sent")) {
+                    status = String.valueOf(object.get("offer_id").getAsInt());
+                }
+            }
+        }
         
         if (!status.equals("")) {
             
@@ -732,10 +898,32 @@ public class ControllerWS {
      */
     public int startQuery(final String sid, final String destination, final float current_lat, final float current_lon,
             final int avail_seats) {
-        final int queryId = JSonRequestReader.startQuery(sid, destination, current_lat, current_lon, avail_seats);
-        if (queryId != Constants.QUERY_ID_ERROR) {
-            Model.getInstance().setQueryId(queryId);
-            return queryId;
+        
+        String ret ="";
+        
+        try {
+            ret = ws.startQuery(sid, destination, current_lat, current_lon, avail_seats);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        int id = Constants.QUERY_ID_ERROR;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                id = object.get("id").getAsInt();
+                Log.d(TAG, String.valueOf(id));
+            }
+        }
+        
+        
+        if (id != Constants.QUERY_ID_ERROR) {
+            Model.getInstance().setQueryId(id);
+            return id;
         } else {
             return Constants.QUERY_ID_ERROR;
         }
@@ -751,7 +939,28 @@ public class ControllerWS {
      *         STATUS_QUERY_DELETED,STATUS_NO_QUERY,STATUS_INVALID_USER,STATUS_ERROR
      */
     public int stopQuery(final String sid, final int queryId) {
-        final String status = JSonRequestReader.stopQuery(sid, queryId);
+        String ret = "";
+        
+        try {
+            ret = ws.stopQuery(sid, queryId);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String status = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                // status = object.get("status").getAsString();
+                status = "deleted";
+                Log.d(TAG, "STATUS AFTER STOPQUERY:" + status);
+            }
+            Log.d(TAG, "Status after STOPQUERY:" + status + ", suc" + suc);
+        }
         
         if (status != null) {
             if (status.equals("deleted")) {
@@ -776,7 +985,22 @@ public class ControllerWS {
      *         STATUS_INVALID_USER see {@link Constants} and design.html
      */
     public int tripUpdateData(final String sid, final int trip_id, final int avail_seats) {
-        final String status = JSonRequestReader.tripUpdateData(sid, trip_id, avail_seats);
+        String ret = "";
+        
+        try {
+            ret = ws.tripUpdateData(sid, trip_id, avail_seats);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        String status = null;
+        if (object != null) {
+            object.get("successful").getAsBoolean();
+            status = object.get("status").getAsString();
+        }
         
         if (status.equals("updated")) {
             return Constants.STATUS_UPDATED;
@@ -802,7 +1026,25 @@ public class ControllerWS {
      * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_ERROR
      */
     public int userUpdatePos(final String sid, final float lat, final float lon) {
-        final String status = JSonRequestReader.userUpdatePos(sid, lat, lon);
+        String ret ="";
+        
+        try {
+            ret = ws.userUpdatePos(sid, lat, lon);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String status = "update_fail";
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                status = object.get("status").getAsString();
+            }
+        }
         
         if (status.equals("updated")) {
             return Constants.STATUS_UPDATED;
@@ -821,8 +1063,48 @@ public class ControllerWS {
      * @return List if OfferObjects otherwise, null
      */
     public List<OfferObject> viewOffers(final String sid) {
-        final List<OfferObject> offerList = JSonRequestReader.viewOffer(sid);
-        return offerList;
+        String ret = "";
+        
+        try {
+            ret = ws.viewOffer(sid);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        List<OfferObject> offerObjects = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                JsonArray array;
+                try {
+                    array = object.get("offers").getAsJsonArray();
+                    offerObjects = new ArrayList<OfferObject>();
+                    for (int i = 0; i < array.size(); i++) {
+                        JsonObject Iobject = array.get(i).getAsJsonObject();
+                        int offer_id = Iobject.get("offer").getAsInt();
+                        int user_id = Iobject.get("userid").getAsInt();
+                        String username = Iobject.get("username").getAsString();
+                        float rating = Iobject.get("rating").getAsFloat();
+                        float rating_num = Iobject.get("rating_num").getAsFloat();
+                        float lat = Iobject.get("lat").getAsFloat();
+                        float lon = Iobject.get("lon").getAsFloat();
+                        
+                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
+                        offerObjects.add(oObject);
+                    }
+                    Model.getInstance().setOfferHolder(offerObjects);
+                } catch (Exception ex) {
+                    offerObjects = new ArrayList<OfferObject>();
+                }
+                
+                return offerObjects;
+            }
+        }
+        Model.getInstance().setOfferHolder(offerObjects);
+        return offerObjects;
         
     }
     

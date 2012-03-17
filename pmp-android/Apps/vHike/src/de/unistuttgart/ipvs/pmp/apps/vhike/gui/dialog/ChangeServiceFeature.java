@@ -41,8 +41,7 @@ public class ChangeServiceFeature extends Dialog {
             @Override
             public void onClick(View v) {
                 // Open PMP
-                vHikeService.getInstance()
-                        .requestServiceFeature((Activity) context, 0);
+                vHikeService.getInstance().requestServiceFeature((Activity) context, 0);
             }
         });
     }

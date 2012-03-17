@@ -64,7 +64,7 @@ public class Constants {
     public static final String ROLE_PASSENGER = "passenger";
     
     // ERRORS
-    public static final int QUERY_ID_ERROR = 998;
+    public static final int QUERY_ID_ERROR = -1;
     public static final float COORDINATE_INVALID = 999f;
     
     // Service Features
