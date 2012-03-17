@@ -131,24 +131,31 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             @Override
             public void onClick(final View v) {
                 
-                // TODO IF NOW
-                // See if an open trip is open
-                switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
-                    case Constants.STATUS_ERROR:
-                        // TODO ERROR
-                        Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG).show();
-                        return;
-                    case Constants.TRUE:
-                        // Confirm end trip
-                        vhikeDialogs.getConfirmationDialog(PlanTripActivity.this, R.string.confirm_end_trip_title,
-                                R.string.confirm_end_trip, R.string.default_yes, R.string.default_no,
-                                PlanTripActivity.CONFIRM_END_TRIP);
-                        
-                    case Constants.FALSE:
-                        PlanTripActivity.this.announceTrip();
-                        
-                    default:
-                        Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
+                if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
+                    // TODO IF NOW
+                    // See if an open trip is open
+                    switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
+                        case Constants.STATUS_ERROR:
+                            // TODO ERROR
+                            Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG)
+                                    .show();
+                            return;
+                        case Constants.TRUE:
+                            // Confirm end trip
+                            vhikeDialogs.getConfirmationDialog(PlanTripActivity.this, R.string.confirm_end_trip_title,
+                                    R.string.confirm_end_trip, R.string.default_yes, R.string.default_no,
+                                    PlanTripActivity.CONFIRM_END_TRIP);
+                            
+                        case Constants.FALSE:
+                            PlanTripActivity.this.announceTrip();
+                            
+                        default:
+                            Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
+                    }
+                } else {
+                    vHikeService.getInstance().requestServiceFeature(PlanTripActivity.this,
+                            Constants.SF_USE_ABSOLUTE_LOCATION);
+//                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
                 }
                 
                 // TODO IF NOTNOW
@@ -163,19 +170,19 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             @Override
             public void onClick(View v) {
                 
-//                Log.i(this, "SIZE: " + ViewModel.getInstance().getDestinationSpinners().size());
-//                
-//                if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
-//                    Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
-//                    ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
-//                    
-//                    vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
-//                    Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
-//                    PlanTripActivity.this.startActivity(intent);
-//                }
+                //                Log.i(this, "SIZE: " + ViewModel.getInstance().getDestinationSpinners().size());
+                //                
+                //                if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+                //                    Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
+                //                            Toast.LENGTH_SHORT).show();
+                //                } else {
+                //                    ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
+                //                    ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
+                //                    
+                //                    vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
+                //                    Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
+                //                    PlanTripActivity.this.startActivity(intent);
+                //                }
                 
                 if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
                     Log.v(this, "Enable");
