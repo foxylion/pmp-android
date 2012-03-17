@@ -17,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Controls the behavior of vHike
@@ -26,15 +27,17 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
  */
 public class ControllerWS {
     
+    IvHikeWebservice ws = null;
     /**
      * Constructor
      */
     public ControllerWS() {
+        
     }
     
     
     /**
-     * Announce a trip to the web service
+     * Announce a trip to the web servprintStackTraceice
      * 
      * @param session_id
      * @param destination
