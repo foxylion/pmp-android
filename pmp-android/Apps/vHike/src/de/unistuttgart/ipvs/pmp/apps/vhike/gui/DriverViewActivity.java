@@ -65,6 +65,9 @@ public class DriverViewActivity extends MapActivity {
     private Timer locationTimer;
     private Timer queryTimer;
     
+    private Check4Location c4l;
+    private Check4Queries c4q;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,27 @@ public class DriverViewActivity extends MapActivity {
         });
     }
     
+    @Override
+    protected void onPause() {
+        super.onPause();
+        
+        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            return;
+        }
+        
+        stopContinousLookup();
+        
+        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
+        try {
+            loc.endLocationLookup();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
     
     private void stopRG() {
         
@@ -251,10 +275,12 @@ public class DriverViewActivity extends MapActivity {
     private void startContinousLookup(IBinder binder) {
         locationTimer = new Timer();
         queryTimer = new Timer();
-        locationTimer.schedule(new Check4Location(this.mapView, this.context, this.locationHandler, binder), 4000, 4000);
+        
+        c4l = new Check4Location(mapView, this.context, this.locationHandler, binder);
+        locationTimer.schedule(c4l, 10000, 10000);
         // Start Check4Queries Class to check for queries
         
-        Check4Queries c4q = new Check4Queries(queryHandler);
+        c4q = new Check4Queries(queryHandler);
         queryTimer.schedule(c4q, 10000, 10000);
     }
     
@@ -327,24 +353,25 @@ public class DriverViewActivity extends MapActivity {
                         
                         stopRG();
                         
-                        Log.i(this, "Trip ENDED BACK");
+                        Log.i(this, "trip_ended: STATUS_UPDATED");
                         finish();
                         break;
                     }
                     case (Constants.STATUS_UPTODATE): {
                         Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "trip_ended: STATUS_UPTODATE");
                         break;
                     }
                     case (Constants.STATUS_NO_TRIP): {
                         Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
                         
                         stopRG();
-                        
+                        Log.i(this, "trip_ended: NO_TRIP");
                         DriverViewActivity.this.finish();
                         break;
                     }
                     case (Constants.STATUS_HASENDED): {
-                        Log.i(this, "Trip ENDED");
+                        Log.i(this, "trip_ended: HAS_ENDED");
                         DriverViewActivity.this.finish();
                         break;
                     }
@@ -362,12 +389,14 @@ public class DriverViewActivity extends MapActivity {
     }
     
     
-    private void stopContinousLookup() {
+    private void stopContinousLookup() {  
         
-        locationTimer.cancel();
-        locationTimer.purge();
-        queryTimer.cancel();
-        queryTimer.purge();
+        if (this.locationTimer != null)
+        DriverViewActivity.this.locationTimer.cancel();
+        
+        if(this.queryTimer != null) 
+        DriverViewActivity.this.queryTimer.cancel();
+        
         Log.i(this, "Timer canceled");
         
     }
