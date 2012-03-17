@@ -47,6 +47,24 @@ public class ViewModel {
     private float my_lon;
     private boolean newFound = false;
     
+    private boolean locationIsCanceled = false;
+    private boolean queryIsCanceled = false;
+    
+    public void cancelLocation() {
+        locationIsCanceled = true;
+    }
+    
+    public void cancelQuery() {
+        queryIsCanceled = true;
+    }
+    
+    public boolean locationIsCanceled() {
+        return locationIsCanceled;
+    }
+    
+    public boolean queryIsCanceled() {
+        return queryIsCanceled;
+    }
     
     public List<ViewObject> getLVO() {
         return this.lvo;

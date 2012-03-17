@@ -62,6 +62,11 @@ public class Check4Queries extends TimerTask {
                 
                 // send ViewModel new list of hitchhikers
                 ViewModel.getInstance().updateLQO(Check4Queries.this.lqo);
+                
+                if (ViewModel.getInstance().queryIsCanceled()) {
+                    cancel();
+                    Log.i(this, "CANCELED QUERY MOTHERF***");
+                }
             }
         });
     }

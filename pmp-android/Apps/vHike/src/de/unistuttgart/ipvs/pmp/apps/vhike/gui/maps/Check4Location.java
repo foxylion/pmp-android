@@ -149,6 +149,11 @@ public class Check4Location extends TimerTask {
                         }
                         Check4Location.this.showAddress++;
                         
+                        if (ViewModel.getInstance().locationIsCanceled()) {
+                            cancel();
+                            Log.i(this, "CANCELED LOCATION MOTHERF***");
+                        }
+                        
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

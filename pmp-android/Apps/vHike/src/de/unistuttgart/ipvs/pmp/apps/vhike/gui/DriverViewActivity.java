@@ -111,27 +111,6 @@ public class DriverViewActivity extends MapActivity {
         });
     }
     
-    @Override
-    protected void onPause() {
-        super.onPause();
-        
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            return;
-        }
-        
-        stopContinousLookup();
-        
-        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
-        try {
-            loc.endLocationLookup();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
     
     private void stopRG() {
         
@@ -378,15 +357,21 @@ public class DriverViewActivity extends MapActivity {
     }
     
     
-    private void stopContinousLookup() {  
+    private void stopContinousLookup() {
         
-        if (this.locationTimer != null)
-        DriverViewActivity.this.locationTimer.cancel();
+        if (this.locationTimer != null) {
+            DriverViewActivity.this.locationTimer.cancel();
+            ViewModel.getInstance().cancelLocation();
+            Log.i(this, "Timer Location cancel");
+        }
         
-        if(this.queryTimer != null) 
-        DriverViewActivity.this.queryTimer.cancel();
+        if (this.queryTimer != null) {
+            DriverViewActivity.this.queryTimer.cancel();
+            ViewModel.getInstance().cancelQuery();
+            Log.i(this, "Timer Query cancel");
+        }
         
-        Log.i(this, "Timer canceled");
+        
         
     }
     
