@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS" icon="res/drawable-hdpi/icon.png"
+		className="vHikeWSResourceGroup">
+		<name lang="en">vHike Webservice</name>
+		<name lang="de">vHike Webservice</name>
+		<description lang="en">Obtains access to the methods of vHike Webservice.</description>
+		<description lang="de">Erlaubt Zugriff auf die Methoden von dem vHike Webservice.</description>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="usevHikeWS"
+			validValueDescription="'true', 'false'">
+			<name lang="en">vHikeWS</name>
+			<name lang="de">vHikeWS</name>
+			<description lang="en">Use vHike Webservice.</description>
+			<description lang="de">Benutzt den vHike Webservice.</description>
+			<changeDescription lang="en">By ticking off the checkbox the assigned Apps are allowed to use the vHike Webservice.</changeDescription>
+			<changeDescription lang="de">Durch aktivieren der Checkbox wird den zugewiesenen Apps die Nutzung des vHike Webservices erlaubt.</changeDescription>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>
