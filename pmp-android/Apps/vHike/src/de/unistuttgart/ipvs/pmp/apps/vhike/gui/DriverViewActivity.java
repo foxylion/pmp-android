@@ -243,6 +243,7 @@ public class DriverViewActivity extends MapActivity {
         ViewModel.getInstance().getLocationTimer()
                 .schedule(new Check4Location(this.mapView, this.context, this.handler, binder), 4000, 4000);
      // Start Check4Queries Class to check for queries
+        
         Check4Queries c4q = new Check4Queries(handler);
         ViewModel.getInstance().getQueryTimer().schedule(c4q, 10000, 10000);
     }
@@ -268,6 +269,7 @@ public class DriverViewActivity extends MapActivity {
                 //  locationManager.removeUpdates(luh);
                 
                 stopRG();
+                ViewModel.getInstance().getLocationTimer().cancel();
                 
                 Log.i(this, "Trip ENDED");
                 finish();
@@ -311,6 +313,7 @@ public class DriverViewActivity extends MapActivity {
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         
                         stopRG();
+                        ViewModel.getInstance().getLocationTimer().cancel();
                         
                         Log.i(this, "Trip ENDED");
                         finish();
@@ -347,6 +350,7 @@ public class DriverViewActivity extends MapActivity {
     private void stopContinousLookup() {
         
         ViewModel.getInstance().stopTimers();
+        ViewModel.getInstance().getLocationTimer().cancel();
         
     }
     
