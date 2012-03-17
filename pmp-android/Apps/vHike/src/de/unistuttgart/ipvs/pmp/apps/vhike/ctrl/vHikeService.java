@@ -6,12 +6,14 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 import de.unistuttgart.ipvs.pmp.api.IPMP;
 import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 
 /**
@@ -21,10 +23,14 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 public class vHikeService extends Service {
     
     private static vHikeService instance;
-    private static String TAG = "vHikeService";
-    private static String[] serviceFeatures = {
+    private static final String TAG = "vHikeService";
+    private static final String[] serviceFeatures = {
             "useAbsoluteLocation", "hideExactLocation", "hideContactInfo",
             "contactPremium", "notification", "vhikeWebService" };
+    private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
+            "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
+    private static final PMPResourceIdentifier[] resourceGroups = {RGLocationID};
+    
     
     /**
      * 
@@ -109,9 +115,9 @@ public class vHikeService extends Service {
      *            See {@link Constants}.SF_
      * @return True if the service features are enabled, false otherwise
      */
-    public boolean areServiceFeatureEnabled(ArrayList<Integer> serviceFeatureIDs) {
+    public boolean areServiceFeatureEnabled(int[] serviceFeatureIDs) {
         try {
-            List<String> l = new ArrayList<String>(serviceFeatureIDs.size());
+            List<String> l = new ArrayList<String>(serviceFeatureIDs.length);
             for (Integer i : serviceFeatureIDs) {
                 l.add(serviceFeatures[i]);
             }
@@ -123,8 +129,52 @@ public class vHikeService extends Service {
     }
     
     
+    /**
+     * Show the activity to request a service feature
+     * 
+     * @param activity
+     *            (this)
+     * @param serviceFeatureID
+     *            See {@link Constants}.SF_
+     */
+    public void requestServiceFeature(Activity activity, int serviceFeatureID) {
+        pmp.requestServiceFeatures(activity, serviceFeatures[serviceFeatureID]);
+    }
+    
+    
+    /**
+     * Show the activity to request a set of service features
+     * 
+     * @param activity
+     * @param serviceFeatureIDs
+     */
+    public void requestServiceFeatures(Activity activity, int[] serviceFeatureIDs) {
+        List<String> l = new ArrayList<String>(serviceFeatureIDs.length);
+        for (int i : serviceFeatureIDs) {
+            l.add(serviceFeatures[i]);
+        }
+        pmp.requestServiceFeatures(activity, l);
+    }
+    
+//    private IBinder binder;
+//    private IAbsoluteLocation loc;
+    
+    
+//    public IAbsoluteLocation getLocationResourceGroup() {
+//        if (loc == null) {
+//            try {
+//                binder = PMP.get().getResourceFromCache();
+//            } catch (RemoteException re) {
+//                // TODO: handle exception
+//            }
+//        }
+//        return loc;
+//    }
+    
+    
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+    
 }
