@@ -297,7 +297,7 @@ public class DriverViewActivity extends MapActivity {
     public void onBackPressed() {
         
         switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
-            case (Constants.STATUS_UPDATED): {
+            case (Constants.STATUS_SUCCESS): {
                 
                 ViewModel.getInstance().clearDriverOverlayList();
                 ViewModel.getInstance().clearViewModel();
@@ -311,8 +311,8 @@ public class DriverViewActivity extends MapActivity {
                 DriverViewActivity.this.finish();
                 break;
             }
-            case (Constants.STATUS_UPTODATE): {
-                Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
+            case (Constants.STATUS_ERROR): {
+                Toast.makeText(DriverViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 break;
             }
             case (Constants.STATUS_NO_TRIP): {
@@ -320,12 +320,6 @@ public class DriverViewActivity extends MapActivity {
                 
                 stopRG();
                 
-                DriverViewActivity.this.finish();
-                break;
-            }
-            case (Constants.STATUS_HASENDED): {
-                Toast.makeText(DriverViewActivity.this, "Trip ended", Toast.LENGTH_SHORT).show();
-                Log.i(this, "Trip ENDED");
                 DriverViewActivity.this.finish();
                 break;
             }
@@ -344,34 +338,29 @@ public class DriverViewActivity extends MapActivity {
             case (R.id.mi_endTrip):
                 
                 switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
-                    case (Constants.STATUS_UPDATED): {
+                    case (Constants.STATUS_SUCCESS): {
                         
                         ViewModel.getInstance().clearDriverOverlayList();
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
+                        //  locationManager.removeUpdates(luh);
                         
                         stopRG();
                         
-                        Log.i(this, "trip_ended: STATUS_UPDATED");
-                        finish();
+                        Log.i(this, "Trip ENDED");
+                        DriverViewActivity.this.finish();
                         break;
                     }
-                    case (Constants.STATUS_UPTODATE): {
-                        Toast.makeText(DriverViewActivity.this, "Up to date", Toast.LENGTH_SHORT).show();
-                        Log.i(this, "trip_ended: STATUS_UPTODATE");
+                    case (Constants.STATUS_ERROR): {
+                        Toast.makeText(DriverViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case (Constants.STATUS_NO_TRIP): {
                         Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
                         
                         stopRG();
-                        Log.i(this, "trip_ended: NO_TRIP");
-                        DriverViewActivity.this.finish();
-                        break;
-                    }
-                    case (Constants.STATUS_HASENDED): {
-                        Log.i(this, "trip_ended: HAS_ENDED");
+                        
                         DriverViewActivity.this.finish();
                         break;
                     }
