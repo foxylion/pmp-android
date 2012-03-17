@@ -63,6 +63,7 @@ public class DriverViewActivity extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driverview);
         
+        
         PMP.get(getApplication());
         
         this.handler = new Handler();

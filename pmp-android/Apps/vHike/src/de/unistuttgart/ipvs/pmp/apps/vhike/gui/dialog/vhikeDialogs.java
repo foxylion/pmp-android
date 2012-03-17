@@ -37,6 +37,7 @@ public class vhikeDialogs extends Activity {
     private Wait4PickUp w4pu;
     private RateProfileConfirm rpc;
     
+    private ChangeServiceFeature csf;
     
     public static vhikeDialogs getInstance() {
         if (instance == null) {
@@ -68,6 +69,10 @@ public class vhikeDialogs extends Activity {
         this.dLogin = null;
     }
     
+    public ChangeServiceFeature getChangeSF(Context context) {
+        csf = new ChangeServiceFeature(context);
+        return csf;
+    }
     
     /**
      * ProgressDialog for driver when announcing a trip and calculating current position
