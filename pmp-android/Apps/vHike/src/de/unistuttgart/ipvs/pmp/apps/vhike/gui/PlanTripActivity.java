@@ -289,7 +289,8 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         Log.d(this, "Destination and StopOvers: " + ViewModel.getInstance().getDestination());
         
         Date date = null;
-        if (!pickDate.isChecked()) {
+        if (!now.isChecked()) {
+            Log.i(this, "isChecked");
             date = plannedDate.getTime();
         }
         
