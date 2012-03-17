@@ -57,6 +57,8 @@ public class DriverViewActivity extends MapActivity {
     //    private LocationUpdateHandler luh;
     
     private Handler handler;
+    private Handler locationHandler;
+    private Handler queryHandler;
     
     private Controller ctrl;
     
@@ -71,6 +73,8 @@ public class DriverViewActivity extends MapActivity {
         
         PMP.get(getApplication());
         
+        this.locationHandler = new Handler();
+        this.queryHandler = new Handler();
         this.handler = new Handler();
         this.ctrl = new Controller();
         ViewModel.getInstance().initPassengersList();
@@ -247,10 +251,10 @@ public class DriverViewActivity extends MapActivity {
     private void startContinousLookup(IBinder binder) {
         locationTimer = new Timer();
         queryTimer = new Timer();
-        locationTimer.schedule(new Check4Location(this.mapView, this.context, this.handler, binder), 4000, 4000);
+        locationTimer.schedule(new Check4Location(this.mapView, this.context, this.locationHandler, binder), 4000, 4000);
         // Start Check4Queries Class to check for queries
         
-        Check4Queries c4q = new Check4Queries(handler);
+        Check4Queries c4q = new Check4Queries(queryHandler);
         queryTimer.schedule(c4q, 10000, 10000);
     }
     
@@ -278,7 +282,7 @@ public class DriverViewActivity extends MapActivity {
                 stopRG();
                 
                 Log.i(this, "Trip ENDED");
-                finish();
+                DriverViewActivity.this.finish();
                 break;
             }
             case (Constants.STATUS_UPTODATE): {
@@ -323,7 +327,7 @@ public class DriverViewActivity extends MapActivity {
                         
                         stopRG();
                         
-                        Log.i(this, "Trip ENDED");
+                        Log.i(this, "Trip ENDED BACK");
                         finish();
                         break;
                     }
@@ -361,9 +365,9 @@ public class DriverViewActivity extends MapActivity {
     private void stopContinousLookup() {
         
         locationTimer.cancel();
-        locationTimer = null;
+        locationTimer.purge();
         queryTimer.cancel();
-        queryTimer = null;
+        queryTimer.purge();
         Log.i(this, "Timer canceled");
         
     }
