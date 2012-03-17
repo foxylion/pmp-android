@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
@@ -17,8 +18,8 @@ public class vHikeWSResourceGroup extends ResourceGroup {
 		super(PACKAGE_NAME, pmpci);
 		
 		
-		registerResource(R_vHIKE_WEBSERVICE, new vHikeWebserviceResource());
-		
+		registerResource(R_vHIKE_WEBSERVICE, new vHikeWebserviceResource(this));
+		Log.i(this, "registerResource");
 		registerPrivacySetting(PS_USE_vHIKE_WEBSERVICE, new BooleanPrivacySetting());
 	}
 

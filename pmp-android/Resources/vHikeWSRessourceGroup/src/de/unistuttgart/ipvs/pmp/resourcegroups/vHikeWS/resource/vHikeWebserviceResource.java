@@ -9,11 +9,21 @@ import org.apache.http.client.ClientProtocolException;
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.vHikeWSResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 public class vHikeWebserviceResource extends Resource{
 
 	static List<ParamObject> listToParse = new ArrayList<ParamObject>();
+	
+	vHikeWSResourceGroup vHikeRG;
+	
+	public vHikeWebserviceResource(vHikeWSResourceGroup vHikeRG) {
+		this.vHikeRG = vHikeRG;
+	}
+	public IBinder getAndroidInterface(String identifier){
+		return new vHikeWebserviceImpl(this.vHikeRG, this, identifier);
+	}
 	
 	public String register(String username, String password, String email,
 			String firstname, String lastname, String tel, String description,
@@ -487,12 +497,6 @@ public class vHikeWebserviceResource extends Resource{
   			e.printStackTrace();
   		}
   		return ret;
-	}
-
-	@Override
-	public IBinder getAndroidInterface(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
