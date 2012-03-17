@@ -626,8 +626,9 @@
         soll. Wurde das Verzeichnis angelegt, sollte aus dem <code>values</code>
         Verzeichnis (unter <code>res</code>) die Datei <code>strings.xml</code>
         in das neu angelegte Verzeichnis kopiert werden. Diese Kopie kann
-        dann mit einem Text-Editor geöffnet und die einzelnen Abschnitte 
-        übersetzt werden.
+        dann mit einem Editor geöffnet und die einzelnen Abschnitte 
+        übersetzt werden. Weitere Informationen zu String-Ressoucen finden Sie
+        in der Dokumentation des Android-SDK.
       </p>
       <p>
         Nach Fertigstellung der Übersetzung werden mit Hilfe des Android-SDK 
@@ -645,7 +646,7 @@
       <p>
         Inhaltlich zusammengehörende Ressourcen werden in der PMP intern in einer 
         Ressourcengruppe zusammengefasst. Diese Ressourcengruppe kann dann als
-        ganzes ausgeliefert und auf dem Gerät installiert werden.
+        Ganzes ausgeliefert und auf dem Gerät installiert werden.
         
         Das Erstellen einer Ressourcengruppe und deren Ressourcen gliedert sich 
         in folgende Schritte:
@@ -665,7 +666,7 @@
         In den nachfolgenden Unterabschnitten werden die einzelnen Phasen genauer
         beschrieben und anhand von Beispielen erläutert.<br /> 
         Alle für das Erstellen einer Ressourcengruppe benötigten Klassen befinden sich im 
-        Paket &quot;de.unistuttgart.ipvs.pmp.resource&quot; der API-Bibliothek.<br />
+        Paket <code>de.unistuttgart.ipvs.pmp.resource</code> der API-Bibliothek.<br />
 
         Neben den implementierten Klassen beinhaltet eine Ressourcengruppe zusätzlich
         eine Definitions-Datei. Diese XML-Datei (typischerweise im <code>asset</code>
@@ -678,18 +679,19 @@
       </p>
       <div class="clear"></div>
 
-      <h3 id="devres_xml">Definitions-Datei</h3>
+      <h3 id="devres_xml">Resource Group Information Set</h3>
 
       <p>
-        Wie bereits erwähnt, legt die Definitions-Datei die Informationen der Ressourcengruppe
-        und ihre Privacy Settings fest. Bei dieser Datei handelt es sich um eine XML-Datei mit
+        Über das &quot;Resource Group Information Set&quot;, nachfolgend als RGIS
+        abgekürzt, werden die Informationen zur Ressourcengruppe
+        und ihren Privacy Settings fest. Bei dieser Datei handelt es sich um eine XML-Datei mit
         nachfolgendem Aufbau:
       </p>
 <pre>
 &lt;?xml version="1.0" encoding="utf-8"?>
 
 &lt;resourceGroupInformationSet>
-  &lt;resourceGroupInformation identifier="String">
+  &lt;resourceGroupInformation identifier="String" icon="String" className="String">
     &lt;!-- Informationen über diese Ressourcengruppe (siehe <span class="reference" title="#devres_xml_info"></span>) -->
     ...
   &lt;/resourceGroupInformation>
@@ -702,12 +704,16 @@
 &lt;/resourceGroupInformationSet>
 </pre>
       <p>
-        Diese XML-Datei trägt den Namen der Klasse, die später die Klasse <code>ResourceGroup</code>
-        erweitern wird  (siehe <span class="reference" title="#devres_res"></span>).
-        Die Datei wird im <code>asset</code> Verzeichniss abgelegt, so das sie in die 
+        Diese XML-Datei trägt den Namen <code>rgis.xml</code> und muss sich zwingend
+        im asset-Verzeichnis der Ressourcenguppe befinden, so das sie in die 
         generierte apk-Datei mit eingebunden wird.
       </p>
-
+      <p>
+        Mit dem &quot;Editor for Information Sets&quot; steht ein PlugIn für die
+        Entwicklungsumgebung Eclispe beretis, mit dem das RGIS über eine einfache
+        Oberfläche erstellt und bearbeitet werden kann.
+      </p>
+      
       <h4 id="devres_xml_info">Informationen</h4>
       <p>
 
@@ -715,30 +721,36 @@
         Informationen über die Ressourcengruppe hinterlegt.
         Diese sind:
         <ul>
-          <li>Im Attribut <code>identifier</code> ein eindeutiger Schlüssel zur <b>Identifikation
-            der Ressourcengruppe</b>. Dieser muss dem vollständigen Paket-Pfad entsprechen,
-            unter dem sich die (später) implementierten Klassen befinden.
+          <li>Im Attribut <code>identifier</code> ein eindeutiger Schlüssel zur Identifikation
+            der Ressourcengruppe. Dieser muss dem vollständigen Paket-Pfad entsprechen,
+            unterhalb dem sich alle (später) implementierten Klassen befinden (ggf. in weiteren
+            Unterpakteten).
             Im untenstehnden Beispiel bedeutet dies, dass sich alle Klassen unter
             <code>de.unistuttgart.ipvs.pmp.resourcegroups.filesystem</code> zu befinden haben.</li>
             
-          <li>Einen Verweis auf ein Icon im Element <code>icon</code>. Dieses sich im 
+          <li>Im Attribut <code>icon</code> einen Verweis auf ein Icon. Dieses sich im 
             <code>res</code>-Verzeichnis befindende Symbol wird bei der Auflistung/Anzeige
             der Ressourcengruppen verwendet.</li>
             
-          <li>Der Name der Ressourcengruppe. Dieser besteht aus genau einem Element
-            <code>defaultName</code> sowie beliebig vielen Elementen <code>name</code>.
-            Beide Typen müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in die der Name verfasst wurde.</li>
+          <li>Im Attribut <code>class</code> wird die Klasse verwendet, die zum Initialisieren
+            der Ressourcengruppe benötigt wird. Hierbei handelt es sich um den Namen 
+            der Klasse, die <code>ResourceGroup</code> erweiter. Mehr zu dieser Klasse
+            im Abschnitt <span class="reference" title="#devres_resgroup"></span>.
+            
+          <li>Der Name der Ressourcengruppe. Dieser besteht aus mindestens einem Element
+            <code>name</code>. Jedes Element muss das Attribut <code>lang</code> 
+            besitzen, über das die Sprache festgelegt wird, in die der Name verfasst wurde.
+            Ein Eintrag mit der <code>lang</code> &quot;en&quot; muss zwingend vorhanden sein.</li>
 
-          <li>Die Beschreibung der Ressourcengruppe. Diese besteht aus genau einem Element
-            <code>defaultDescription</code> sowie beliebig vielen Elementen <code>description</code>.
-            Beide müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in der die Beschreibung verfasst wurde. Dieses Attribut sollte
-            bei <code>defaultName</code> und <code>defaultDescription</code> übereinstimmen.</li>
-
+          <li>Die Beschreibung der Ressourcengruppe. Diese besteht aus mindestens einem Element
+            <code>description</code>. Jedes Element muss das Attribut <code>lang</code> 
+            besitzen, über das die Sprache festgelegt wird, in der die Beschreibung verfasst wurde.
+            Ein Eintrag mit der <code>lang</code> &quot;en&quot; muss zwingend vorhanden sein.</li>
+          <!--
           <li>Zuletzt muss im Element <code>revision</code> die Version notiert werden,
             in der sich die Ressourcengruppe momentan befindet. Daher sollte dieser Wert bei
             jeder Auslieferung einer neuen bzw. geänderten Version der Gruppe erhöht werden.</li>
+          -->
         </ul>
 
         Dieser Beschreibung folgend könnte der Beschreibungsabschnitt einer Dateisystem-Ressourcengruppe
@@ -746,13 +758,12 @@
       </p>
 <pre>
 ...
-  &lt;resourceGroupInformation identifier="String">
-    &lt;icon>res/drawable-xhdpi/icon.png&lt;/icon>
-    &lt;defaultName lang="en">Filesystem&lt;/defaultName>
+  &lt;resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.filesystem" 
+      icon="res/drawable-xhdpi/icon.png" className="Filesystem">
+    &lt;name lang="en">Filesystem&lt;/name>
     &lt;name lang="de">Dateisystem&lt;/name>
-    &lt;defaultDescription lang="en">Resource to read and write files.&lt;/defaultDescription>
+    &lt;description lang="en">Resource to read and write files.&lt;/description>
     &lt;description lang="de">Ressource zum Dateien lesen und schreiben.&lt;/description>
-    &lt;revision>2&lt;/revision>
   &lt;/resourceGroupInformation>
 ...
 
@@ -774,16 +785,25 @@
             aktiviert ist, möglich. Daher muss jeder identifier innerhalb einer
             Ressourcengruppe eindeutig sein.</li>
             
-         <li>Den Name des Privacy Settings. Dieser besteht aus genau einem Element
-            <code>defaultName</code> sowie beliebig vielen Elementen <code>name</code>.
-            Beide müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in der der Name verfasst wurde.</li>
+          <li>Das Attribut <code>validValueDescription</code>. Hierbei handelt es
+            sich um eine menschen-lesbare Beschreibung der möglichen Werte,
+            die das Privacy Setting annehmen kann.
+            
+         <li>Den Name des Privacy Settings. Dieser besteht aus mindestens einem Element
+            <code>name</code>. Jedes Element muss das Attribut <code>lang</code> 
+            besitzen, über das die Sprache festgelegt wird, in die der Name verfasst wurde.
+            Ein Eintrag mit der <code>lang</code> &quot;en&quot; muss zwingend vorhanden sein.</li>
 
-          <li>Die Beschreibung des Privacy Settings. Diese besteht aus genau einem Element
-            <code>defaultDescription</code> sowie beliebig vielen Elementen <code>description</code>.
-            Beide müssen das Attribut <code>lang</code> besitzen, über das die Sprache
-            festgelegt wird, in der die Beschreibung verfasst wurde. Dieses Attribut sollte
-            bei <code>defaultName</code> und <code>defaultDescription</code> übereinstimmen.</li>
+          <li>Die Beschreibung des Privacy Settings. Diese besteht aus mindestens einem Element
+            <code>description</code>. Jedes Element muss das Attribut <code>lang</code> 
+            besitzen, über das die Sprache festgelegt wird, in die die Beschreibung verfasst wurde.
+            Ein Eintrag mit der <code>lang</code> &quot;en&quot; muss zwingend vorhanden sein.</li>
+            
+          <li>Die Beschreibung des der Fähigkeit, die über das Privacy Setting geändert
+            wird. Diese besteht aus mindestens einem Element
+            <code>changeDescription</code>. Jedes Element muss das Attribut <code>lang</code> 
+            besitzen, über das die Sprache festgelegt wird, in die die Beschreibung verfasst wurde.
+            Ein Eintrag mit der <code>lang</code> &quot;en&quot; muss zwingend vorhanden sein.</li>
 
         </ul>
 
@@ -793,17 +813,22 @@
 <pre>
 ...
   &lt;privacySettings>
-    &lt;privacySetting identifier="gen_r">
-      &lt;defaultName lang="en">Generic read&lt;/defaultName>
+  
+    &lt;privacySetting identifier="gen_r" validValueDescription="'true', 'false'">
+      &lt;name lang="en">Generic read&lt;/name>
       &lt;name lang="de">Generisches lesen&lt;/name>
-      &lt;defaultDescription lang="en">Allows the app to read every file.&lt;/defaultDescription>
-      &lt;description lang="de">Erlaubt es alle Dateien auf dem Gerät zu lesen.&lt;/description>
+      &lt;description lang="en">Allows the app to read every file.&lt;/description>
+      &lt;description lang="de">Erlaubt es alle Dateien dem Gerät zu lesen.&lt;/description>
+      &lt;changeDescription lang="en">If set, allows the app to read.&lt;/changeDescription>
+      &lt;changeDescription lang="de">Wenn gesetzt, darf die App lesen.&lt;/changeDescription>
     &lt;/privacySetting>
-    &lt;privacySetting identifier="gen_w">
-      &lt;defaultName lang="en">Generic write&lt;/defaultName>
+    &lt;privacySetting identifier="gen_w" validValueDescription="'true', 'false'">
+      &lt;name lang="en">Generic write&lt;/name>
       &lt;name lang="de">Generisches schreiben&lt;/name>
-      &lt;defaultDescription lang="en">Allows the app to write everywhere.&lt;/defaultDescription>
-      &lt;description lang="de">Erlaubt es auf dem ganzen Gerät zu schreiben.&lt;/description>
+      &lt;description lang="en">Allows the app to write files everywhere.&lt;/description>
+      &lt;description lang="de">Erlaubt es Dateien überall zu schreiben.&lt;/description>
+      &lt;changeDescription lang="en">It set, allows the app to write.&lt;/changeDescription> 
+      &lt;changeDescription lang="de">Wenn gesetzt, darf die App schreiben.&lt;/changeDescription>
     &lt;/privacySetting>
     ...
   &lt;/privacySettings>
@@ -842,14 +867,14 @@
         die Methode <code>getPrivacySetting()</code>. Dieser wird der Name das abzufragenden
         Privacy Settings übergeben (siehe <span class="reference" title="#devres_xml_ps"></span>)
         und liefert, wenn das Privacy Setting existiert, eine Referenz auf dieses 
-        zurück. Damit ist das Abfragen des gesetzten Wertes möglich.
+        zurück. Über die Methode <code>permits()</code> lässt sich dann abfragen ob
+        das entsprechende Privacy Setting gesetzt ist.
       </p>
       <p>
         Ist das Ausführen der Funktion nicht möglich, da das dafür nötige
         Privacy Setting nicht gesetzt ist, muss die Ressource eine <code>SecurityException</code>
         werfen. Innerhalb der Funktions-Implementierung dürfen keine anderen
-        Exception-Typen geworfen werden. Da dies zum Absturz der Applikation führt,
-        die auf eine solche Funktion zugreift.
+        Exception-Typen geworfen werden, da dies zu einem Absturz führen kann.
       </p>
       
       <h3 id="devres_resgroup">Erstellen einer Ressourcengruppe</h3>
@@ -859,21 +884,9 @@
         erweitert. Die Klasse <code>ResourceGroup</code> besitzt zwei abstrakte 
         Methoden die implementiert werden müssen.
       </p>
-
-<!--
-      <p>
-        Die zwei Methoden <code>getName()</code> und <code>getDescription()</code> 
-        liefern dem Anwender den <b>Namen</b> der Ressourcengruppe und eine 
-        <b>Beschreibung</b> dieser. Zwar wird den Methoden im Parameter die
-        Benutzersprache mit übergeben (ISO-639 Norm), aus Gründen der 
-        Internationalisierbarkeit sollte dieser jedoch ignoriert werden und 
-        stattdessen der Namen bzw. die Beschreibung aus der String-Ressource geladen
-        werden.
-      </p>
--->
       <p>
         Damit Anwendungen auf die Ressourcengruppe zugreifen können, muss eine 
-        <b>Identifikation</b> der Gruppe geliefert werden.
+        Identifikation der Gruppe geliefert werden.
         Diese Identifikation muss mit dem Wert übereinstimmen, der zuvor in der 
         Definitions-Datei festgelegt wurde (siehe <span class="reference" title="#devres_xml_info"></span>).
         Hierzu wird ein Konstruktor angelegt, der als Parameter genau ein Objekt 
@@ -882,23 +895,9 @@
         aufgerufen werden, wobei neben einer Referenz auf das erhaltene 
         <code>IPMPConnectionInterface</code>-Objekt eben diese Identifikation
         übermittelt wird.
-
-<!--  die Methode <code>getServiceAndroidName()</code>, die diesen 
-        Namen liefert. Wichtig ist hierbei, dass der von dieser 
-        Methode gelieferte Wert mit der Angabe in der Android-Manifest-Datei 
-        übereinstimmen. Andernfalls ist ein Zugriff auf die Gruppe nicht möglich.     
-        (siehe <span class="reference" title="#devres_resgroup_manifest"></span>).
-        <br />
-        Um Komplikationen mit anderen Ressourcengruppen zu vermeiden, die
-        u. U. denselben Wert verwenden, sollte dieser auf den Namen des Basis-Paketes 
-        gesetzt werden, unterhalb dessen sich alle Klassen der Applikation befinden 
-        (Befinden sich alle Klassen unterhalb von 
-        <code>de.unistuttgart.ipvs.pmp.resources.filesystem</code>, sollte der 
-        Eintrag <code>&lt;action android:name="de.unistuttgart.ipvs.pmp.resources.filesystem" /></code> 
-        lauten). 
--->
       </p>
 
+      <!--
       <p>
         Um auf eine <b>erfolgreiche oder fehlgeschlagene Registrierung</b> der 
         Ressourcengruppe in der PMP reagieren zu können, stehen die beiden 
@@ -909,24 +908,7 @@
         vom System aufgerufen, konnte die Gruppe dem System nicht hinzugefügt werden. 
         Über den String-Parameter wird der Grund des Fehlschlags übermittelt.
       </p>
-
-<!--
-      <h4 id="devres_resgroup_manifest">Manifest-Datei</h4>
-      <p>
-        Damit die PMP mit der erstellten Ressourcengruppe kommunizieren kann,
-        muss in der Manifest-Datei der so genannte <code>ResourceGroupService</code>
-        eingetragen werden. Diesem Service wird ein <code>action</code>-Intentfilter
-        zugewiesen, der als Name denselben Wert enthält, wie er von der Methode
-        <code>getServiceAndroidName()</code> der <code>ResourceGroup</code>
-        zurück gegeben wird (siehe <span class="reference" title="#devres_resgroup_example"></span>).
-      </p>
-      <p>
-        Damit sich die Ressourcengruppe beim ersten Starten bei der PMP registrieren
-        kann, muss im Namensattribut des Hauptactivities (<code>action</code>-Intentfilter "MAIN", 
-        <code>category</code>-Intentfilter "LAUNCHER") 
-        <code>de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity</code> eingetragen werden.
-      </p>
--->
+      -->
 
       <p>
         Unter Berücksichtigung des oben Erwähnten, könnte eine Ressourcengruppe
@@ -942,45 +924,8 @@ public class Filesystem extends ResourceGroup {
     super(PACKAGAE_NAME, pmpci);
     ...
   }
-
-  public void onRegistrationSuccess() {
-    Log.d("Registration was successfull");
-  }
-
-  public void onRegistrationFailed(String message) {
-    Log.d("Registration failed: " + message);
-  }
 }
 </pre>
-<!--
-      <p>
-        Die zugehörige Manifest-Datei (bereiche, die sich abhängig von der erstellten
-        Ressourcengruppe verändern können, sind <i>kursiv</i> dargestellt):
-<pre>
-&lt;?xml version="1.0" encoding="utf-8"?>
-&lt;manifest ...>
-  ...
-  &lt;application ...>
-    ...
-    &lt;activity android:label="@string/app_name" 
-      android:name="de.unistuttgart.ipvs.pmp.resource.ResourceGroupActivity">
-      &lt;intent-filter>
-        &lt;action android:name="android.intent.action.MAIN" />
-        &lt;category android:name="android.intent.category.LAUNCHER" />
-      &lt;/intent-filter>
-    &lt;/activity>
-    
-    &lt;service android:exported="true" 
-      android:name="de.unistuttgart.ipvs.pmp.service.resource.ResourceGroupService">
-      &lt;intent-filter>
-        &lt;action android:name="<i>de.unistuttgart.ipvs.pmp.resourcegroups.filesystem</i>" />
-      &lt;/intent-filter>
-    &lt;/service>
-    ...
-  &lt;/application>  
-&lt;/manifest>
-</pre>
--->
       
       <h3 id="devres_addres">Hinzufügen der Ressourcen zur Gruppe</h3>
       <p>
@@ -1048,7 +993,7 @@ public class FileSystemResourceGroup extends ResourceGroup {
         (siehe <span class="reference" title="#devres_xml_ps"></span>).
       </p>
       <p>
-        Da eine Gruppe viele Privacy Levels enthalten kann, kann auch hier eine
+        Da eine Gruppe viele Privacy Settings enthalten kann, kann auch hier eine
         Auslagerung der Objekt-Instanziierung in eine eigene Klasse sinnvoll sein.
       </p>
 <pre>
@@ -1072,7 +1017,9 @@ public class Filesystem extends ResourceGroup {
         Über den zweiten Parameter wird der Typ des Privacy Settings festgelegt.
         Um den 
         Implementierungsaufwand zu verringern, bietet die API für häufig wiederkehrende
-        Einsatzgebiete Standartimplementierungen an:
+        Einsatzgebiete im Packet <code>de.unistuttgart.ipvs.pmp.resource.privacysetting.library</code>
+        Standartimplementierungen für häufig benötigte Privacy Settings an. Mehr Informationen
+        hierzu finden sie in der API-Dokumentation.
       </p>
 
       <h4 id="devres_addps_boolean">Für Wahrheitswerte</h4>
