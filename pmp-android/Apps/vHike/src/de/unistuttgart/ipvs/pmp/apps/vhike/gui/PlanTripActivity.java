@@ -178,19 +178,19 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             @Override
             public void onClick(View v) {
                 
-                //                Log.i(this, "SIZE: " + ViewModel.getInstance().getDestinationSpinners().size());
-                //                
-                //                if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
-                //                    Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
-                //                            Toast.LENGTH_SHORT).show();
-                //                } else {
-                //                    ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
-                //                    ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
-                //                    
-                //                    vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
-                //                    Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
-                //                    PlanTripActivity.this.startActivity(intent);
-                //                }
+                Log.i(this, "SIZE: " + ViewModel.getInstance().getDestinationSpinners().size());
+                
+                if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+                    Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
+                    ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
+                    
+                    vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
+                    Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
+                    PlanTripActivity.this.startActivity(intent);
+                }
                 
                 if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
                     Log.v(this, "Enable");
