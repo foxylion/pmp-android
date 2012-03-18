@@ -137,7 +137,6 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
                 
                 if (now.isChecked()) {
                     if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
-                        // TODO IF NOW
                         // See if an open trip is open
                         switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
                             case Constants.STATUS_ERROR:
@@ -290,7 +289,6 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         
         Date date = null;
         if (!now.isChecked()) {
-            Log.i(this, "isChecked");
             date = plannedDate.getTime();
         }
         
@@ -299,13 +297,18 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
                         Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
         
             case Constants.STATUS_SUCCESS:
+                // TODO inform
                 Log.d(this, "Trip announced succesfully");
                 
-                // Show progress dialog for getting position
-                vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();
-                
-                final Intent intent = new Intent(PlanTripActivity.this, DriverViewActivity.class);
-                PlanTripActivity.this.startActivity(intent);
+                if (now.isChecked()) {
+                    // TODO Check RG Location
+                    // Show progress dialog for getting position
+                    vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();
+                    final Intent intent = new Intent(PlanTripActivity.this, DriverViewActivity.class);
+                    PlanTripActivity.this.startActivity(intent);
+                } else {
+                    
+                }
                 break;
             
             case Constants.TRIP_STATUS_OPEN_TRIP:

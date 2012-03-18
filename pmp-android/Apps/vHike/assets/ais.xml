@@ -18,9 +18,8 @@
 				Access for vHike services on the web
 			</description>
 			<requiredResourceGroup
-				idenidentifier="de.unistuttgart.ipvs.pmp.resourcegroups.vhikewebservice"
-				minRevision="2012-01-01 00:00:00 GMT+01:00">
-				<requiredPrivacySetting identifier="enable">true</requiredPrivacySetting>
+				idenidentifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS">
+				<requiredPrivacySetting identifier="usevHikeWS">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="useAbsoluteLocation">
