@@ -9,6 +9,7 @@
  * - <b>id</b> <i>(optional)</i> The trip ID. If trip ID is not provided, this script will end all open trips of the logged in user (which there should not be more than one).<br/>
  * - current_lat (optional)
  * - current_lon (optional)
+ * - date Long in milisecond
  * - avail_seats
  * - destination
  *

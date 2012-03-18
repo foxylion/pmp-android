@@ -17,6 +17,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
@@ -88,7 +89,7 @@ public class LoginActivity extends Activity {
                 public void run() {
                     login();
                 }
-            }, 1500);
+            }, 1000);
         } else {
             cbAutologin.setChecked(false);
             findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
@@ -156,6 +157,8 @@ public class LoginActivity extends Activity {
                 prefsEditor.putBoolean("ERROR", false);
                 
                 Log.v(this, "LOGIN successfull");
+                Intent intent2 = new Intent(this, vHikeService.class);
+                startService(intent2);
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
                 if (cbAutologin.isChecked()) {
@@ -186,7 +189,6 @@ public class LoginActivity extends Activity {
             return false;
         }
     }
-    
     //    public boolean isConnected() {
     //        @SuppressWarnings("static-access")
     //        ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);

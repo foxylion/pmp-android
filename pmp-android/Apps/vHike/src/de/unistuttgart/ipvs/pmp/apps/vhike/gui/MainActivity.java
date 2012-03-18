@@ -3,13 +3,17 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
  * The main menu after user logged in and the main activity to start other activities
@@ -80,22 +84,53 @@ public class MainActivity extends Activity {
         });
         
         //        btnMyTrips.setOnClickListener(new OnClickListener() {
-        //            
+        //
         //            @Override
         //            public void onClick(View v) {
         //                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
         //                MainActivity.this.startActivity(intent);
         //            }
         //        });
-        //        
+        //
         //        btnMessage.setOnClickListener(new OnClickListener() {
-        //            
+        //
         //            @Override
         //            public void onClick(View v) {
         //                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
         //                MainActivity.this.startActivity(intent);
         //            }
         //        });
+        
+        
+        Button btnMessage = (Button) findViewById(R.id.Button_Message);
+        btnMessage.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Log.d(this, "btnMessaged clicked");
+                
+                IAbsoluteLocation loc = vHikeService.getInstance().getLocationResourceGroup();
+                if (loc == null) {
+                    Log.d(this, "RG null");
+                } else {
+                    try {
+                        Log.d(this, " " + loc.getAddress());
+                    } catch (RemoteException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        
+        Button btnmytrips = (Button) findViewById(R.id.Button_Trips);
+        btnmytrips.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                vHikeService.getInstance().requestServiceFeature(MainActivity.this, 0);
+            }
+        });
         
         btnLogout.setOnClickListener(new OnClickListener() {
             
