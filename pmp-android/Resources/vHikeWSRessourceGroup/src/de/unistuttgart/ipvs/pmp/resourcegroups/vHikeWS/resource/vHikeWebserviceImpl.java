@@ -217,4 +217,11 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub{
 		return vHikeRes.announceTrip(session_id, destination, current_lat, current_lon, avail_seats);
 	}
 
+	@Override
+	public String getOpenTrip(String sessionID) throws RemoteException {
+		this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+		
+		return vHikeRes.getOpenTrip(sessionID);
+	}
+
 }

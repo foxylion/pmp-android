@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
+import com.google.gson.JsonObject;
+
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
@@ -497,6 +499,22 @@ public class vHikeWebserviceResource extends Resource{
   			e.printStackTrace();
   		}
   		return ret;
+	}
+	public String getOpenTrip(String sessionID) {
+		
+		listToParse.clear();
+        listToParse.add(new ParamObject("sid", sessionID, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "trip_get_open.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+        }
+		
+		return ret;
 	}
 
 }
