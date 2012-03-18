@@ -51,6 +51,39 @@
         </tr>
     </table>
 </form>
+
+<h2>Announce trip</h2>
+
+<form action="../trip_announce.php" method="post" target="r">
+    <table>
+        <tr>
+            <td>Destination</td>
+            <td><input name="destination" type="text" value="Berlin"/></td>
+        </tr>
+        <tr>
+            <td>Current lat.:</td>
+            <td><input name="current_lat" type="text" value="48.782954"/></td>
+        </tr>
+        <tr>
+            <td>Current lon.:</td>
+            <td><input name="current_lon" type="text" value="9.179733"/></td>
+        </tr>
+        <tr>
+            <td>Available seats:</td>
+            <td><input name="avail_seats" type="text" value="3"/></td>
+        </tr>
+        <tr>
+            <td>Date:</td>
+            <td><input name="avail_seats" type="text" value="<?php echo time()+2000; ?>"/> (<?php echo strftime("%c", time()+2000 ); ?>)</td>
+        </tr>
+        <tr>
+            <td>Buttons:</td>
+            <td colspan="2"><input type="submit"/>
+                <input type="reset"/></td>
+        </tr>
+    </table>
+</form>
+
 <h2 class="auto-style1">Update position</h2>
 
 <div>Deprecated.

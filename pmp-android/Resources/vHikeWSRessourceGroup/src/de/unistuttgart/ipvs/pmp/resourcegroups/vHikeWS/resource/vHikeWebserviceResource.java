@@ -6,13 +6,10 @@ import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
 
-import com.google.gson.JsonObject;
-
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.vHikeWSResourceGroup;
-import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 public class vHikeWebserviceResource extends Resource{
 
@@ -478,7 +475,7 @@ public class vHikeWebserviceResource extends Resource{
 			throws RemoteException {
 		 listToParse.clear();
 	        listToParse.add(new ParamObject("sid", session_id, false));
-	        if(date == 0){
+	        if(date != 0){
 	            listToParse.add(new ParamObject("date", String.valueOf(date), true));
 	        }
 	        listToParse.add(new ParamObject("destination", destination, true));

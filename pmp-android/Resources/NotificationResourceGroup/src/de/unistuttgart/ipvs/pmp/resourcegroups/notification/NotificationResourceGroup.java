@@ -12,7 +12,7 @@ public class NotificationResourceGroup extends ResourceGroup {
 
 	public static final String R_NOTIFICATION= "notificationResource";
 
-	public static final String PS_USE_NOTIFY = "notify";
+	public static final String PS_USE_NOTIFY = "allowNotification";
 
 	public NotificationResourceGroup(IPMPConnectionInterface pmpci) {
 		super(PACKAGE_NAME, pmpci);

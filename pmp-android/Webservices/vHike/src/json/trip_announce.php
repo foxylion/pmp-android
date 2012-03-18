@@ -6,10 +6,9 @@
  * - sid Session ID
  *
  * POST Parameters:<br/>
- * - <b>id</b> <i>(optional)</i> The trip ID. If trip ID is not provided, this script will end all open trips of the logged in user (which there should not be more than one).<br/>
  * - current_lat (optional)
  * - current_lon (optional)
- * - date Long in milisecond
+ * - date (optional) long - in milliseconds
  * - avail_seats
  * - destination
  *
@@ -45,9 +44,12 @@ try {
 		$driver->updatePosition($_POST['current_lat'], $_POST['current_lon']);
 	}
 	if (!General::validateId('avail_seats')) {
-		throw new InvalidArgumentException('avail_seats');
+		throw new InputException('avail_seats');
 	}
-	$trip = Trip::create($driver, $_POST['avail_seats'], $_POST['destination']);
+	if (isset($_POST['date']) && is_numeric($_POST['date'])) {
+		$date = $_POST['date'];
+	}
+	$trip = Trip::create($driver, $_POST['avail_seats'], $_POST['destination'], $date);
 
 	$output = array('status' => 'announced',
 					'id'	 => $trip->getId());
