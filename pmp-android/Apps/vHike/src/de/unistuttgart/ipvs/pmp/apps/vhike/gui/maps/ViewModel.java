@@ -54,10 +54,15 @@ public class ViewModel {
         locationIsCanceled = true;
     }
     
+    public void startLocation(){
+        locationIsCanceled = false;
+    }
     public void cancelQuery() {
         queryIsCanceled = true;
     }
-    
+    public void startQuery() {
+        queryIsCanceled = false;
+    }
     public boolean locationIsCanceled() {
         return locationIsCanceled;
     }
