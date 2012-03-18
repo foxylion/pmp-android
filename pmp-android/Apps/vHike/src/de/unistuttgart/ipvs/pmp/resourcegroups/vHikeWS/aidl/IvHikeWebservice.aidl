@@ -110,6 +110,7 @@ interface IvHikeWebservice{
      **/
 	String announceTrip(String session_id, String destination, float current_lat,
 	float current_lon, int avail_seats);
-
+	
+	String getOpenTrip(String sessionID);
 	
 }

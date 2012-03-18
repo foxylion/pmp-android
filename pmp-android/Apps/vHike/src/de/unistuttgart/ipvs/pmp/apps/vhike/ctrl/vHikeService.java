@@ -6,12 +6,12 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
 import de.unistuttgart.ipvs.pmp.api.IPMP;
@@ -173,15 +173,19 @@ public class vHikeService extends Service {
         PMP.get(app).requestServiceFeatures(activity, l);
     }
     
-    private IBinder binder = null;
+    private IBinder binder;
     private IAbsoluteLocation loc;
     private IvHikeWebservice ws;
     private CountDownLatch latch;
+    private boolean binderLock = true;
     
     private void resourceReady() {
         System.out.println("resource ready");
-        latch.countDown();
+        //        latch.countDown();
+        
     }
+    
+    String sync = "";
     
     private IBinder getResourceGroup(final PMPResourceIdentifier id) {
         try {
@@ -190,26 +194,56 @@ public class vHikeService extends Service {
             if (PMP.get(app).isResourceCached(id)) {
                 binder = PMP.get(app).getResourceFromCache(id);
             } else {
-                PMP.get(app).getResource(id, new PMPRequestResourceHandler() {
-                    @Override
-                    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                        super.onReceiveResource(resource, binder);
-                        Log.i(TAG, "on receiving");
-                        resourceReady();
-                        
-                    }
-                });
-                latch = new CountDownLatch(1);
-                ResourceGroupBinder rgb = new ResourceGroupBinder(id, latch);
-                new Thread(rgb).start();
-                Log.i(TAG, "waiting...");
-                latch.await(20, TimeUnit.SECONDS);
-                Log.v(TAG, "returned");
-                //                synchronized (Thread.currentThread()) {
-                //                    wait(10000);
+//                Handler handler = new Handler();
+//                latch = new CountDownLatch(1);
+//                handler.postAtFrontOfQueue(new ResourceGroupBinder(id, latch));
+//                latch.await(2, TimeUnit.SECONDS);
+//                Log.v(TAG, "latch wait");
+                
+                
+                BinderTask t = new BinderTask();
+                t.execute(id);
+//                if (t.getStatus() != null) {
+//                    Log.v(TAG, "task" + t.getStatus().toString());
+//                } else {
+//                    System.out.println("task status");
+//                }
+                System.out.println("waiting");
+                int wait = 10;
+                while (binderLock && (wait > 0)) {
+                    System.out.println("wait");
+                    Thread.currentThread().wait(1000);
+                    System.out.println("wake");
+                    wait--;
+                }
+                System.out.println("wait over");
+                
+                //                PMP.get(app).getResource(id, new PMPRequestResourceHandler() {
+                //                    
+                //                    @Override
+                //                    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                //                        super.onReceiveResource(resource, binder);
+                //                        Log.i(TAG, "on receiving");
+                //                        resourceReady();
+                //                    }
+                //                });
+                ////                latch = new CountDownLatch(1);
+                //                ResourceGroupBinder rgb = new ResourceGroupBinder(id, latch);
+                //                (new Thread(rgb)).start();
+                //                Log.i(TAG, "waiting...");
+                //                latch.await(20, TimeUnit.SECONDS);
+                //                Log.v(TAG, "returned");
+                //                synchronized (binder) {
+                //                    binder.wait(1000);
                 //                }
-//                binder = rgb.getBinder();
-                binder = PMP.get(app).getResourceFromCache(id);
+                //                
+                //                //                synchronized (Thread.currentThread()) {
+                //                //                    wait(10000);
+                //                //                }
+                //                //                binder = rgb.getBinder();
+                if (PMP.get(app).isResourceCached(id)) {
+                    binder = PMP.get(app).getResourceFromCache(id);
+                }
             }
         } catch (Exception e) {
             // TODO handle exception
@@ -262,6 +296,7 @@ public class vHikeService extends Service {
         PMPResourceIdentifier id;
         CountDownLatch latch;
         IBinder binder;
+        boolean ready = false;
         
         
         public ResourceGroupBinder(PMPResourceIdentifier id, CountDownLatch latch) {
@@ -281,14 +316,32 @@ public class vHikeService extends Service {
                 Log.i(TAG, "getting");
                 Log.i(TAG, app.getPackageName());
                 Log.i(TAG, id.getResourceGroup());
+                //                while (!PMP.get(app).isResourceCached(id) && wait > 0) {
+                //                    System.out.println("sleeping");
+                //                    Thread.sleep(100);
+                //                    System.out.println("wake");
+                //                    wait--;
+                //                }
+                PMP.get(app).getResource(id, new PMPRequestResourceHandler() {
+                    
+                    @Override
+                    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                        super.onReceiveResource(resource, binder);
+                        Log.i(TAG, "on receiving");
+                        ready = true;
+                        //                        resourceReady();
+                    }
+                });
+                
                 int wait = 100;
-                while (!PMP.get(app).isResourceCached(id) && wait > 0) {
-                    System.out.println("sleeping");
+                while (!ready && wait > 100) {
                     Thread.sleep(100);
-                    System.out.println("wake");
                     wait--;
                 }
-                vHikeService.this.resourceReady();
+//                latch.countDown();
+//                Log.i(TAG, "wait over");
+                //                System.out.println("wait over");
+                //                vHikeService.this.resourceReady();
                 
                 //                PMP.get(app).getResource(id, new PMPRequestResourceHandler() {
                 //
@@ -310,6 +363,24 @@ public class vHikeService extends Service {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    private class BinderTask extends AsyncTask<PMPResourceIdentifier, Boolean, IBinder> {
+
+        @Override
+        protected IBinder doInBackground(PMPResourceIdentifier... params) {
+            System.out.println("doing background");
+            PMP.get(app).getResource(params[0], new PMPRequestResourceHandler() {
+                
+                @Override
+                public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                    super.onReceiveResource(resource, binder);
+                    Log.i(TAG, "on receiving");
+                    binderLock = false;
+                }
+            });
+            return null;
         }
     }
 }
