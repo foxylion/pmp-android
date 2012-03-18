@@ -18,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Trip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -104,6 +105,46 @@ public class ControllerWS {
         } catch (NullPointerException ex) {
         }
     }
+    
+    /**
+     * Get the open trip if available
+     * 
+     * @param sessionID
+     * @return STATUS_ERROR, TRUE see {@link Constants}
+     */
+    public int getOpenTrip(String sessionID) {
+        Log.d(this, "getOpentrip " + sessionID);
+        String ret="";
+        try {
+            ret = ws.getOpenTrip(sessionID);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject json = parser.parse(ret).getAsJsonObject();
+        String status ="";
+        if (json != null && json.get(ERROR) == null) {
+            if (json.get("trip_id") != null) {
+                Trip trip = new Trip(json.get("trip_id").getAsInt(), Model.getInstance().getUserId(), json.get(
+                        "avail_seats").getAsInt(), json.get("destination").getAsString(), json.get("creation")
+                        .getAsLong(), 0);
+                Model.getInstance().setOpenTrip(trip);
+                status =  "TRUE";
+            } else {
+                status =  "FALSE";
+            }
+        }
+        if (status.equals("FALSE")) {
+            return Constants.FALSE;
+        } else if (status.equals("TRUE")) {
+            return Constants.TRUE;
+        }
+        
+        return Constants.STATUS_ERROR;
+    }
+    
+    
     
     /**
      * End the active trip
