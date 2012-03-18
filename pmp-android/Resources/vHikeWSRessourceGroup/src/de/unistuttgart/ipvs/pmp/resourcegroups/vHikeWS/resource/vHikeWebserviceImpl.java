@@ -211,10 +211,10 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub{
 
 	@Override
 	public String announceTrip(String session_id, String destination,
-			float current_lat, float current_lon, int avail_seats)
+			float current_lat, float current_lon, int avail_seats, long date)
 			throws RemoteException {
 		this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
-		return vHikeRes.announceTrip(session_id, destination, current_lat, current_lon, avail_seats);
+		return vHikeRes.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, date);
 	}
 
 	@Override

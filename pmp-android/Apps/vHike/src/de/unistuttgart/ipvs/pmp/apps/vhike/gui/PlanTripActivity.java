@@ -292,8 +292,7 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             date = plannedDate.getTime();
         }
         
-        switch (this.ctrl
-                .announceTrip(this.sid, ViewModel.getInstance().getDestination(), Constants.COORDINATE_INVALID,
+        switch (this.ctrl.announceTrip(this.sid, ViewModel.getInstance().getDestination(), Constants.COORDINATE_INVALID,
                         Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
         
             case Constants.STATUS_SUCCESS:
