@@ -18,7 +18,7 @@
 				Access for vHike services on the web
 			</description>
 			<requiredResourceGroup
-				idenidentifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS" minRevision="2012-01-01 00:00:00 GMT+01:00">
 				<requiredPrivacySetting identifier="usevHikeWS">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
