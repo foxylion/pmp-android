@@ -474,11 +474,13 @@ public class vHikeWebserviceResource extends Resource{
 	}
 
 	public String announceTrip(String session_id, String destination,
-			float current_lat, float current_lon, int avail_seats)
+			float current_lat, float current_lon, int avail_seats, long date)
 			throws RemoteException {
 		 listToParse.clear();
 	        listToParse.add(new ParamObject("sid", session_id, false));
-	        
+	        if(date == 0){
+	            listToParse.add(new ParamObject("date", String.valueOf(date), true));
+	        }
 	        listToParse.add(new ParamObject("destination", destination, true));
 	        listToParse.add(new ParamObject("avail_seats", String.valueOf(avail_seats), true));
 	        

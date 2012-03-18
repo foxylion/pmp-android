@@ -438,7 +438,7 @@ public class JSonRequestReader {
         
         JsonObject object = null;
         try {
-            object = JSonRequestProvider.doRequest(listToParse, "getPosition.php");
+            object = JSonRequestProvider.doRequest(listToParse, "get_position.php");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

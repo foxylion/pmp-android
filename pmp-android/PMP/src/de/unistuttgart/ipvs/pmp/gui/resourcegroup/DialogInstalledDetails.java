@@ -35,6 +35,7 @@ import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.util.Restarter;
+import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
 
 /**
  * The {@link DialogAvailableDetails} displays informations about an at PMP registered Resourcegroup.
@@ -73,6 +74,9 @@ public class DialogInstalledDetails extends Dialog {
         
         TextView tv = (TextView) findViewById(R.id.TextView_Description);
         tv.setText(resourcegroup.getDescription());
+        
+        TextView tvRev = (TextView) findViewById(R.id.TextView_Revision);
+        tvRev.setText(RevisionReader.get().toHumanReadable(resourcegroup.getRevision()));
         
         LinearLayout psList = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettings);
         for (IPrivacySetting privacySetting : resourcegroup.getPrivacySettings()) {

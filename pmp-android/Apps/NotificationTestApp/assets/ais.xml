@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<name lang="en">NotificationTestApp</name>
+		<name lang="de">Benachrichtigung Testapp</name>
+		<description lang="en">App for testing the location resource.</description>
+		<description lang="de">App um die Ortungsressource zu testen.</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="notify">
+			<name lang="en">Notification</name>
+			<name lang="de">Benachrichtigung</name>
+			<description lang="en">Shows the detailed location of the device.</description>
+			<description lang="de">Zeigt die genaue Position des Geräts an.</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification" minRevision="1">
+				<requiredPrivacySetting identifier="notify">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>

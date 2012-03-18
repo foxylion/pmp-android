@@ -12,7 +12,7 @@
         android:id="@+id/passengerMapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
+        android:apiKey="0PjtgG2gTXaJOpQIv9e2nFDcrnFWEvWKVHb0pLA"
         android:clickable="true" />
 
     <Button
@@ -26,9 +26,9 @@
     <SlidingDrawer
         android:id="@+id/slidingDrawer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="400dip"
         android:content="@+id/contentLayout"
-        android:handle="@+id/drawerHandle" >
+        android:handle="@+id/drawerHandle" android:layout_alignBottom="@id/passengerMapView">
 
         <ImageView
             android:id="@+id/drawerHandle"

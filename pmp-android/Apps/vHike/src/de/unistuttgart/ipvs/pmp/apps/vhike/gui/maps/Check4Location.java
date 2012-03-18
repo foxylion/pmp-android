@@ -137,6 +137,7 @@ public class Check4Location extends TimerTask {
                                         .show();
                                 break;
                         }
+                        Log.i(this,"Latitude: "+ Check4Location.this.loc.getLatitude() * 1E6 + ", "+"Longtitude: " + Check4Location.this.loc.getLongitude() * 1E6);
                         
                         controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
                                 (int) (Check4Location.this.loc.getLongitude() * 1E6)));
