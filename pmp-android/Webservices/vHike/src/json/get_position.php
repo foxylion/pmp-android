@@ -25,6 +25,8 @@ try {
 							'msg'        => 'No users were found');
 		}
 		echo Json::arrayToJson($output);
+	} else {
+		throw new InvalidArgumentException('user_id');		
 	}
 } catch (InvalidArgumentException $iae) {
 	Json::printInvalidInputError();
