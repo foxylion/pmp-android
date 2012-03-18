@@ -484,7 +484,7 @@ class user {
 	 */
 	public function get_offer_status($offer_id) {
 		$db = Database::getInstance();
-		$result = $db->query("SELECT status, sender, recipient, time FROM " . DB_PREFIX . "_offer AS offer ".
+		$result = $db->query("SELECT status, sender, recipient, time FROM " . DB_PREFIX . "_offer AS offer " .
 								 "WHERE offer.id={$offer_id} AND (sender={$this->id} OR recipient={$this->id})");
 		if ($db->getNumRows($result) == 1) {
 			return $db->fetch($result);
@@ -498,10 +498,11 @@ class user {
 	 * @param int $offer_id ID of the offer
 	 *
 	 * @return int Number of affected rows
-	 */public function set_offer_read($offer_id) {
+	 */
+	public function set_offer_read($offer_id) {
 		$db = Database::getInstance();
-		$db->query("UPDATE " . DB_PREFIX . "_offer SET status=(status | 2), time=NOW() ".
-								 "WHERE offer.id={$offer_id} AND sender={$this->id}");
+		$db->query("UPDATE " . DB_PREFIX . "_offer SET status=(status | 2), time=NOW() " .
+					   "WHERE offer.id={$offer_id} AND sender={$this->id}");
 
 		return $db->getAffectedRows();
 	}
@@ -632,6 +633,24 @@ class user {
 			$db->query("UPDATE `" . DB_PREFIX . "_position` " .
 						   "SET latitude=$lat, longitude=$lon, last_update=NOW() WHERE user=" . $this->id);
 		}
+	}
+
+	/**
+	 * @param null|int $user_id
+	 *
+	 * @return null|array DB row
+	 */
+	public function get_pos($user_id = null) {
+		if ($user_id == null)
+			$uid = $this->id;
+		else $uid = $user_id;
+
+		$db = Database::getInstance();
+		$result = $db->query("SELECT latitude, longitude, last_update FROM `" . DB_PREFIX . "_position` WHERE user=$uid LIMIT 1");
+		if ($db->getNumRows($result) > 0) {
+			return $db->fetch($result);
+		}
+		return null;
 	}
 
 	public function getFirstname() {
