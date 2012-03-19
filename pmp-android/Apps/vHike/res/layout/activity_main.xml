@@ -33,10 +33,11 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_ride"
+                android:drawableTop="@drawable/main_ride"
                 android:paddingTop="25sp"
                 android:text="@string/main_ride" />
 
+            
             <Button
                 android:id="@+id/Button_Profile"
                 android:layout_width="0dip"
