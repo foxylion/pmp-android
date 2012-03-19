@@ -71,6 +71,11 @@ public class ViewModel {
         return queryIsCanceled;
     }
     
+    public void resetTimers() {
+        locationIsCanceled = false;
+        queryIsCanceled = false;
+    }
+    
     public List<ViewObject> getLVO() {
         return this.lvo;
     }
