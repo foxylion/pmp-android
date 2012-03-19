@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -16,9 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * LoginActivity: the startup activity for vHike and starts the registration on PMP to load
@@ -39,11 +45,19 @@ public class LoginActivity extends Activity {
     
     private Controller ctrl;
     
+    private static final String RG_vHike_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS";
+    private static final String R_vHike_NAME = "vHikeWebserviceResource";
+    
+    private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_vHike_NAME, R_vHike_NAME);
+    
+    Handler handler;
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        PMP.get(getApplication());
+        handler = new Handler();
         // Show the main activity if already logged in
         if (Model.getInstance().isLoggedIn()) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -61,13 +75,25 @@ public class LoginActivity extends Activity {
         
         registerListeners();
         
-        ctrl = new Controller();
     }
     
     
     @Override
     protected void onResume() {
         super.onResume();
+        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                login();
+            }
+            
+            
+            @Override
+            public void onBindingFailed() {
+                Toast.makeText(LoginActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
+            }
+        });
         
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         username = settings.getString("USERNAME", "");
@@ -146,10 +172,35 @@ public class LoginActivity extends Activity {
     
     
     private boolean login() {
+        
+        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        if (binder == null) {
+            
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(LoginActivity.this,
+                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
+        }
+        
+        IvHikeWebservice ws = IvHikeWebservice.Stub.asInterface(binder);
+        ctrl = new Controller(ws);
         try {
             findViewById(R.id.layout_login).setVisibility(View.GONE);
             findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
+            this.handler.post(new Runnable() {
+                
+                public void run() {
+                    Toast.makeText(LoginActivity.this, "vHikeWS Resource loaded.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            
             boolean loggedin = ctrl.login(username, pw);
+            
             SharedPreferences prefs = getPreferences(MODE_PRIVATE);
             SharedPreferences.Editor prefsEditor = prefs.edit();
             

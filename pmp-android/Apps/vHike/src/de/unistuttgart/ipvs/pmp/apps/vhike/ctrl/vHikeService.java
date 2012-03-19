@@ -32,7 +32,7 @@ public class vHikeService extends Service {
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
     private static final PMPResourceIdentifier RGVHikeID = PMPResourceIdentifier.make(
-            "de.unistuttgart.ipvs.pmp.resourcegroups.vhikewebservice", "enable");
+            "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS", "enable");
 //    private static final PMPResourceIdentifier[] resourceGroups = { RGLocationID };
     
     

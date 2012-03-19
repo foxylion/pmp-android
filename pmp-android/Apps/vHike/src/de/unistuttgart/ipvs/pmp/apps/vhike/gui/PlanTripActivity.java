@@ -136,7 +136,6 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             public void onClick(final View v) {
                 
                 if (now.isChecked()) {
-                    if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
                         // See if an open trip is open
                         switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
                             case Constants.STATUS_ERROR:
@@ -156,11 +155,7 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
                             default:
                                 Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
                         }
-                    } else {
-                        vHikeService.getInstance().requestServiceFeature((Activity) PlanTripActivity.this,
-                                Constants.SF_USE_ABSOLUTE_LOCATION);
                         //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
-                    }
                 } else {
                     PlanTripActivity.this.announceTrip();
                 }
