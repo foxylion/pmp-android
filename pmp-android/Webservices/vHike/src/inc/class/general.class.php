@@ -29,7 +29,7 @@ class General {
 	public static function validLength($input) {
 		$length = strlen($input);
 
-		if ($length > 2 && $length <= 100) {
+		if ($length > 2 && $length <= 200) {
 			return true;
 		} else {
 			return false;

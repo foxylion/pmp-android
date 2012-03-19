@@ -16,10 +16,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.util.Log;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * Provides all the JSonRequests that are possible between vHike and web service outside. It connects to the
@@ -106,9 +106,16 @@ public class JSonRequestProvider {
             InputStream is = response.getEntity().getContent();
             BufferedReader r = new BufferedReader(new InputStreamReader(is));
             try {
-                jsonObject = (new JsonParser()).parse(r).getAsJsonObject();
+                StringBuffer sb = new StringBuffer();
+                String s = null;
+                while ((s = r.readLine()) != null) {
+                    sb.append(s).append(System.getProperty("line.separator"));
+                }
+                s = sb.toString();
+
+                jsonObject = (new JsonParser()).parse(s).getAsJsonObject();
                 Log.d(TAG, "======DEBUG=====");
-                Log.d(TAG, jsonObject.toString());
+                Log.d(TAG, s);
                 Log.d(TAG, "======DEBUG=====");
             } catch (Exception e) {
                 Log.d(TAG, e.getMessage());

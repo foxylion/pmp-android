@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resourceGroupInformationSet>
-	<resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification"
-		icon="res/drawable-hdpi/ic_launcher.png" className="NotificationResourceGroup">
+	<resourceGroupInformation 
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification"
+		icon="res/drawable-hdpi/ic_launcher.png" 
+		className="NotificationResourceGroup">
 		<name lang="en">Notification</name>
 		<name lang="de">Benachrichtigung</name>
 		<description lang="en">Obtains access to the notification bar.</description>
@@ -9,7 +11,7 @@
 		</description>
 	</resourceGroupInformation>
 	<privacySettings>
-		<privacySetting identifier="allowNotification" validValueDescription="'allow', 'not allow'">
+		<privacySetting identifier="allowNotification" validValueDescription="'true', 'false'">
 			<name lang="en">Notify</name>
 			<name lang="de">Benachrichtigung</name>
 			<description lang="en">Throws a notification.</description>
