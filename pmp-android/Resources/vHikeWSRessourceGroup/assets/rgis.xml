@@ -2,7 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation 
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS"
-		icon="res/drawable-hdpi/icon.png"
+		icon="res/drawable-hdpi/vhike_ws.png"
 		className="vHikeWSResourceGroup">
 		<name lang="en">vHike Webservice</name>
 		<name lang="de">vHike Webservice</name>
