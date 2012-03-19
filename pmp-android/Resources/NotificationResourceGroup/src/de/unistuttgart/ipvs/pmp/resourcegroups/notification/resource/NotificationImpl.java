@@ -19,8 +19,7 @@ public class NotificationImpl extends INotification.Stub {
 		this.appIdentifier = appIdentifier;
 		this.psv = new PermissionValidator(RG, appIdentifier);
 	}
-
-	@Override
+	
 	public void notify(String tickerText, String title, String message) throws RemoteException {
 		this.psv.validate(NotificationResourceGroup.PS_USE_NOTIFY, "true");
 		RES.notify(tickerText, title, message);

@@ -85,7 +85,7 @@ public class NotificationTestAppActivity extends Activity {
             this.handler.post(new Runnable() {
                 
                 public void run() {
-                    Toast.makeText(NotificationTestAppActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationTestAppActivity.this, "Notification Resource loaded.", Toast.LENGTH_SHORT).show();
                 }
             });
             
