@@ -39,7 +39,7 @@ public class Controller {
     private static String error = "";
     private static final String TAG = "ControllerWS";
     
-    IvHikeWebservice ws = vHikeService.getInstance().getVHikeWebServiceResourceGroup();
+    IvHikeWebservice ws = null; // HikeService.getInstance().getVHikeWebServiceResourceGroup(); 
     JsonParser parser = new JsonParser();
     /**
      * Constructor

@@ -74,4 +74,9 @@ public class Constants {
     public static final int SF_CONTACT_PREMIUM = 3;
     public static final int SF_NOTIFICATION = 4;
     public static final int SF_VHIKE_WEB_SERVICE = 5;
+    
+    // Resource Group
+    public static final int RG_LOCATION = 0;
+    public static final int RG_VHIKE_WEBSERVICE = 1;
+    public static final int RG_NOTIFICATION = 2;
 }

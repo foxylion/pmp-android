@@ -109,7 +109,8 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Log.d(this, "btnMessaged clicked");
                 
-                IAbsoluteLocation loc = vHikeService.getInstance().getLocationResourceGroup();
+                // TODO richtig implementieren;
+                IAbsoluteLocation loc = null;// vHikeService.getInstance().getLocationResourceGroup();
                 if (loc == null) {
                     Log.d(this, "RG null");
                 } else {
