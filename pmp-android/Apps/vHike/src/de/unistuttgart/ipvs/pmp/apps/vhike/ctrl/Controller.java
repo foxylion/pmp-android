@@ -44,10 +44,12 @@ public class Controller {
     /**
      * Constructor
      */
-    public Controller() {
+    public Controller(IvHikeWebservice ws) {
+        this.ws = ws;
+    }
+    public Controller(){
         
     }
-    
     
     /**
      * Announce a trip to the web servprintStackTraceice
