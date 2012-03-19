@@ -2,7 +2,7 @@
 <resourceGroupInformationSet>
 	<resourceGroupInformation 
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification"
-		icon="res/drawable-hdpi/ic_launcher.png" 
+		icon="res/drawable-hdpi/icon_notification.png" 
 		className="NotificationResourceGroup">
 		<name lang="en">Notification</name>
 		<name lang="de">Benachrichtigung</name>

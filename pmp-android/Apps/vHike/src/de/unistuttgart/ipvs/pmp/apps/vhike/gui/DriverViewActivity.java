@@ -81,6 +81,7 @@ public class DriverViewActivity extends MapActivity {
         handler = new Handler();
         ctrl = new Controller();
         ViewModel.getInstance().initPassengersList();
+        ViewModel.getInstance().resetTimers();
         
         setMapView();
         showHitchhikers();

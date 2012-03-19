@@ -14,7 +14,7 @@
 			<description lang="de">Zeigt die genaue Position des Geräts an.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification" minRevision="1">
-				<requiredPrivacySetting identifier="notify">true</requiredPrivacySetting>
+				<requiredPrivacySetting identifier="allowNotification">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 	</serviceFeatures>
