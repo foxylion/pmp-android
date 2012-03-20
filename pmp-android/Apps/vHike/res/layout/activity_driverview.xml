@@ -14,7 +14,7 @@
         android:id="@+id/driverMapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
+        android:apiKey="0PjtgG2gTXaJOpQIv9e2nFDcrnFWEvWKVHb0pLA"
         android:clickable="true" />
     <!--
     <HorizontalScrollView

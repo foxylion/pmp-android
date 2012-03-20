@@ -64,6 +64,7 @@
     <string name="resource_group">Resource</string>
     <string name="resource_groups">Resource groups</string>
     <string name="restore_preset">Restore preset</string>
+    <string name="revision">Revision</string>
     <string name="save">Save</string>
     <string name="search">Search</string>
     <string name="send_email">Send email</string>

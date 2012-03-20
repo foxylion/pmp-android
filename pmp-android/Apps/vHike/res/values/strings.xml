@@ -5,7 +5,6 @@
     <string name="main_title">vHike</string>
     <string name="main_profile">Profile</string>
     <string name="main_history">History</string>
-    <string name="main_settings">Settings</string>
     <string name="main_drive">Drive</string>
     <string name="main_ride">Ride</string>
     <string name="main_searchingpassenger">Search</string>
@@ -53,7 +52,7 @@
     <string name="settings_unanimous_description">Hide profile information to others</string>
     <string name="perimeter_default">10</string>
     <string name="default_rating">0.0</string>
-    <string name="rememberMe">Remember me</string>
+    <string name="autologin">Login automatically</string>
     <string name="login_username">Username</string>
     <string name="login_pw">Password </string>
     <string name="login_login">Login</string>
@@ -87,7 +86,7 @@
     <string name="default_new">New destination</string>
     <string name="main_trips">My Trips</string>
     <string name="main_messages">My Messages</string>
-    <string name="main_plan">Plan a new Trip</string>
+    <string name="main_logout">Log out</string>
     <string name="dialog_now">Now</string>
     <string name="dialog_choose_date">Choose date&#8230;</string>
     <string name="dialog_pick_date_and_time">Pick date and time</string>
@@ -98,6 +97,10 @@
     <string name="default_no">No</string>
     <string name="confirm_end_trip">You already have an open trip. Do you want to end this and start a new one?</string>
     <string name="error_unknown">Unknown Error</string>
-    <string name="error_announcing_trip">vHike cannot anounce your trip</string>
+    <string name="error_announcing_trip">vHike cannot announce your trip</string>
+    <string name="confirm_end_trip_title">End an open trip</string>
+    <string name="logging_in">logging in&#8230;</string>
+    <string name="plan_enable_sf">Service Location is not enabled. Do you want to enable Service Feature?</string>
+    <string name="open_pmp">Open PMP</string>
 
 </resources>

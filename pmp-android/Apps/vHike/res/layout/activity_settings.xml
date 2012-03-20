@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-        pmp:name="@string/main_settings"
+        pmp:name="@string/main_trips"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:icon="@drawable/logo_rd"

@@ -1,87 +1,91 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IInterface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.ResourceGroupReadyActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
- * LoginActivity: the startup activity for vHike and starts the registration on PMP to load resource groups
+ * LoginActivity: the startup activity for vHike and starts the registration on PMP to load
+ * resource groups
  * 
- * @author Andre Nguyen
+ * @author Andre Nguyen, Dang Huynh
  * 
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends ResourceGroupReadyActivity {
     
-    private String username;
-    private String pw;
-    private boolean remember = false;
+    private String username = "";
+    private String pw = "";
     
-    private EditText et_username;
-    private EditText et_pw;
-    private CheckBox cb_remember;
+    private EditText etUsername;
+    private EditText etPW;
+    private CheckBox cbAutologin;
+    private ProgressBar pbLogin;
     
     private Controller ctrl;
+    
+    //    private static final String RG_vHike_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS";
+    //    private static final String R_vHike_NAME = "vHikeWebserviceResource";
+    
+    //    private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_vHike_NAME, R_vHike_NAME);
+    
+    Handler handler;
     
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //        PMP.get(getApplication());
+        handler = new Handler();
         
-        PMP.get(getApplication());
+        // Show the main activity if already logged in
+        if (Model.getInstance().isLoggedIn()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
+            finish();
+            return;
+        }
         
         setContentView(R.layout.activity_login);
         
-        this.cb_remember = (CheckBox) findViewById(R.id.Checkbox_Remember);
-        Button btnLogin = (Button) findViewById(R.id.button_login);
-        this.et_username = (EditText) findViewById(R.id.edit_login);
-        this.et_pw = (EditText) findViewById(R.id.edit_password);
-        this.ctrl = new Controller();
+        cbAutologin = (CheckBox) findViewById(R.id.Checkbox_Remember);
+        etUsername = (EditText) findViewById(R.id.edit_login);
+        etPW = (EditText) findViewById(R.id.edit_password);
+        pbLogin = (ProgressBar) findViewById(R.id.pb_login);
         
-        registerLink();
-        
-        this.username = "";
-        this.pw = "";
-        
-        btnLogin.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                
-                LoginActivity.this.username = LoginActivity.this.et_username.getText().toString();
-                LoginActivity.this.pw = LoginActivity.this.et_pw.getText().toString();
-                
-                if (LoginActivity.this.username.equals("") || LoginActivity.this.pw.equals("")) {
-                    Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
-                } else {
-                    
-                    if (LoginActivity.this.ctrl.login(LoginActivity.this.username, LoginActivity.this.pw)) {
-                        
-                        vhikeDialogs.getInstance().getLoginPD(LoginActivity.this).show();
-                        
-                        Log.i(this, "LOGIN successfull");
-                        Intent intent = new Intent(v.getContext(), MainActivity.class);
-                        v.getContext().startActivity(intent);
-                        
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Login failed. Username or password not valid.",
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
+        registerListeners();
+    }
+    
+    
+    @Override
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        switch (resourceGroupId) {
+            case Constants.RG_LOCATION:
+                Log.i(this, "Location RG received");
+                break;
+        }
+        Log.i(this, "RG read" + resourceGroup);
     }
     
     
@@ -89,63 +93,33 @@ public class LoginActivity extends Activity {
     protected void onResume() {
         super.onResume();
         
-        SharedPreferences settings = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
-        this.remember = settings.getBoolean("REMEMBER", false);
-        this.username = settings.getString("USERNAME", "");
-        this.pw = settings.getString("PASSWORD", "");
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        username = settings.getString("USERNAME", "");
+        pw = settings.getString("PASSWORD", "");
         
-        if (this.remember) {
-            this.et_username.setText(this.username);
-            this.et_pw.setText(this.pw);
-            this.cb_remember.setChecked(this.remember);
+        if (settings.getBoolean("AUTOLOGIN", false) && !settings.getBoolean("ERROR", false)) {
+            cbAutologin.setChecked(true);
+            findViewById(R.id.layout_login).setVisibility(View.GONE);
+            findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
+            etUsername.setEnabled(false);
+            etPW.setEnabled(false);
+            etUsername.setText(username);
+            etPW.setText(pw);
+            pbLogin.setVisibility(View.VISIBLE);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                
+                @Override
+                public void run() {
+                    login();
+                }
+            }, 1000);
         } else {
-            this.cb_remember.setChecked(this.remember);
-        }
-    }
-    
-    
-    @Override
-    protected void onStop() {
-        super.onStop();
-        
-        SharedPreferences prefs = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        
-        if (this.cb_remember.isChecked()) {
-            
-            prefsEditor.putBoolean("REMEMBER", this.cb_remember.isChecked());
-            prefsEditor.putString("USERNAME", this.et_username.getText().toString());
-            prefsEditor.putString("PASSWORD", this.et_pw.getText().toString());
-            
-            prefsEditor.commit();
-        } else {
-            this.remember = false;
-            prefsEditor.putBoolean("REMEMBER", false);
-            
-            prefsEditor.commit();
-        }
-    }
-    
-    
-    @Override
-    protected void onPause() {
-        super.onStop();
-        
-        SharedPreferences prefs = getSharedPreferences("vHikeLoginPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        
-        if (this.cb_remember.isChecked()) {
-            
-            prefsEditor.putBoolean("REMEMBER", this.cb_remember.isChecked());
-            prefsEditor.putString("USERNAME", this.et_username.getText().toString());
-            prefsEditor.putString("PASSWORD", this.et_pw.getText().toString());
-            
-            prefsEditor.commit();
-        } else {
-            this.remember = false;
-            prefsEditor.putBoolean("REMEMBER", false);
-            
-            prefsEditor.commit();
+            cbAutologin.setChecked(false);
+            findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout_autologin).setVisibility(View.GONE);
+            etUsername.setEnabled(true);
+            etPW.setEnabled(true);
         }
     }
     
@@ -153,7 +127,7 @@ public class LoginActivity extends Activity {
     /**
      * Set up Button for registration, starts RegisterActivity
      */
-    private void registerLink() {
+    private void registerListeners() {
         Button button_register = (Button) findViewById(R.id.button_register);
         button_register.setOnClickListener(new OnClickListener() {
             
@@ -163,13 +137,116 @@ public class LoginActivity extends Activity {
                 LoginActivity.this.startActivity(intent);
             }
         });
+        
+        Button btnCancel = (Button) findViewById(R.id.button_cancel);
+        btnCancel.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
+                findViewById(R.id.layout_autologin).setVisibility(View.GONE);
+                etUsername.setEnabled(true);
+                etPW.setEnabled(true);
+            }
+        });
+        
+        Button btnLogin = (Button) findViewById(R.id.button_login);
+        btnLogin.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                
+                username = etUsername.getText().toString();
+                pw = etPW.getText().toString();
+                
+                if (username.equals("") || pw.equals("")) {
+                    Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
+                } else {
+                    login();
+                }
+            }
+        });
     }
     
     
-    public boolean isConnected() {
-        @SuppressWarnings("static-access")
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo().isConnected();
+    private boolean login() {
+        
+        //        IBinder binder = PMP.get().getResourceFromCache(R_ID);
+        
+        //        if (binder == null) {
+        //            
+        //            this.handler.post(new Runnable() {
+        //                
+        //                public void run() {
+        //                    Toast.makeText(LoginActivity.this,
+        //                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
+        //                }
+        //            });
+        //            
+        //        }
+        
+        //        IvHikeWebservice ws = IvHikeWebservice.Stub.asInterface(binder);
+        try {
+            IvHikeWebservice ws = getvHikeRG(this);
+            if (ws == null) {
+                requestResourceGroup(this, Constants.RG_VHIKE_WEBSERVICE);
+            } else {
+                ctrl = new Controller(ws);
+                findViewById(R.id.layout_login).setVisibility(View.GONE);
+                findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
+                this.handler.post(new Runnable() {
+                    
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, "vHikeWS Resource loaded.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                
+                boolean loggedin = ctrl.login(username, pw);
+                
+                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor prefsEditor = prefs.edit();
+                
+                if (loggedin) {
+                    prefsEditor.putBoolean("ERROR", false);
+                    
+                    Log.v(this, "LOGIN successfull");
+                    Intent intent2 = new Intent(this, vHikeService.class);
+                    startService(intent2);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
+                    if (cbAutologin.isChecked()) {
+                        prefsEditor.putBoolean("AUTOLOGIN", cbAutologin.isChecked());
+                        prefsEditor.putString("USERNAME", etUsername.getText().toString());
+                        prefsEditor.putString("PASSWORD", etPW.getText().toString());
+                        prefsEditor.commit();
+                    } else {
+                        prefsEditor.putBoolean("AUTOLOGIN", false);
+                        prefsEditor.putString("USERNAME", "");
+                        prefsEditor.putString("PASSWORD", "");
+                        prefsEditor.commit();
+                    }
+                    LoginActivity.this.finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login failed. Username or password not valid.",
+                            Toast.LENGTH_LONG).show();
+                    prefsEditor.putBoolean("AUTOLOGIN", false);
+                    prefsEditor.putString("USERNAME", "");
+                    prefsEditor.putString("PASSWORD", "");
+                    prefsEditor.commit();
+                }
+                return loggedin;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
+            findViewById(R.id.layout_autologin).setVisibility(View.GONE);
+            return false;
+        }
+        return false;
     }
-    
+    //    public boolean isConnected() {
+    //        @SuppressWarnings("static-access")
+    //        ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
+    //        return cm.getActiveNetworkInfo().isConnected();
+    //    }
 }

@@ -137,6 +137,7 @@ public class Check4Location extends TimerTask {
                                         .show();
                                 break;
                         }
+                        Log.i(this,"Latitude: "+ Check4Location.this.loc.getLatitude() * 1E6 + ", "+"Longtitude: " + Check4Location.this.loc.getLongitude() * 1E6);
                         
                         controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
                                 (int) (Check4Location.this.loc.getLongitude() * 1E6)));
@@ -149,9 +150,11 @@ public class Check4Location extends TimerTask {
                         }
                         Check4Location.this.showAddress++;
                         
-                        // Start Check4Queries Class to check for queries
-                        Check4Queries c4q = new Check4Queries();
-                        ViewModel.getInstance().getQueryTimer().schedule(c4q, 300, 10000);
+                        if (ViewModel.getInstance().locationIsCanceled()) {
+                            cancel();
+                            Log.i(this, "CANCELED LOCATION MOTHERF***");
+                        }
+                        
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

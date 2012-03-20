@@ -32,8 +32,8 @@ public class Check4Queries extends TimerTask {
     /**
      * Check for queries every given interval
      */
-    public Check4Queries() {
-        this.handler = new Handler();
+    public Check4Queries(Handler handler) {
+        this.handler = handler;
         this.ctrl = new Controller();
         
         // get my Profile to retrieve latitude and longitude later
@@ -62,6 +62,11 @@ public class Check4Queries extends TimerTask {
                 
                 // send ViewModel new list of hitchhikers
                 ViewModel.getInstance().updateLQO(Check4Queries.this.lqo);
+                
+                if (ViewModel.getInstance().queryIsCanceled()) {
+                    cancel();
+                    Log.i(this, "CANCELED QUERY MOTHERF***");
+                }
             }
         });
     }

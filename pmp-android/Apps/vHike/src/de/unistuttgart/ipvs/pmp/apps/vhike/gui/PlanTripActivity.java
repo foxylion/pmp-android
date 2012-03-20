@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -22,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.AddStopOverListener;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IConfirmDialogFinishedCallBack;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IDialogFinishedCallBack;
@@ -40,7 +42,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 public class PlanTripActivity extends Activity implements IDialogFinishedCallBack, IConfirmDialogFinishedCallBack {
     
     // Function call back ID(s)
-    private static final int CONFIRM_END_TRIP = 0;
+    private static final byte CONFIRM_END_TRIP = 0;
     
     private final int DIALOG_DATE_TIME_PICKER = 1;
     private SparseArray<Dialog> dialogs;
@@ -49,6 +51,7 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
     private final String sid = Model.getInstance().getSid();
     
     private RadioButton pickDate;
+    private RadioButton now;
     private Spinner spinner;
     private Spinner spinnerSeats;
     private Button addButton;
@@ -73,7 +76,7 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         super.onResume();
         
         // TODO Check date!
-        // Model.getInstance().
+        Log.i(this, "OnResume");
     }
     
     
@@ -125,28 +128,36 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         
         // Button Drive and Search
         Button btnDrive = (Button) findViewById(R.id.Button_Drive);
+        now = (RadioButton) findViewById(R.id.radio_now);
+        
         btnDrive.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(final View v) {
                 
-                // TODO IF NOW
-                // See if an open trip is open
-                switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
-                    case Constants.STATUS_ERROR:
-                        Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG).show();
-                        return;
-                    case Constants.TRUE:
-                        // Confirm end trip
-                        vhikeDialogs.getConfirmationDialog(PlanTripActivity.this, R.string.confirm_end_trip,
-                                R.string.confirm_end_trip, R.string.default_yes, R.string.default_no,
-                                PlanTripActivity.CONFIRM_END_TRIP);
-                        
-                    case Constants.FALSE:
-                        PlanTripActivity.this.announceTrip();
-                        
-                    default:
-                        Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
+                if (now.isChecked()) {
+                        // See if an open trip is open
+                        switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
+                            case Constants.STATUS_ERROR:
+                                // TODO ERROR
+                                Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG)
+                                        .show();
+                                return;
+                            case Constants.TRUE:
+                                // Confirm end trip
+                                vhikeDialogs.getConfirmationDialog(PlanTripActivity.this,
+                                        R.string.confirm_end_trip_title, R.string.confirm_end_trip,
+                                        R.string.default_yes, R.string.default_no, PlanTripActivity.CONFIRM_END_TRIP);
+                                
+                            case Constants.FALSE:
+                                PlanTripActivity.this.announceTrip();
+                                
+                            default:
+                                Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
+                        }
+                        //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
+                } else {
+                    PlanTripActivity.this.announceTrip();
                 }
                 
                 // TODO IF NOTNOW
@@ -175,6 +186,11 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
                     PlanTripActivity.this.startActivity(intent);
                 }
                 
+                if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
+                    Log.v(this, "Enable");
+                } else {
+                    Log.v(this, "disable");
+                }
             }
         });
     }
@@ -216,6 +232,7 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
                     TimePicker t = (TimePicker) getDialog(dialogId).findViewById(R.id.tpicker);
                     if (this.plannedDate == null) {
                         this.plannedDate = Calendar.getInstance();
+                        Log.i(this, "Planned :" + plannedDate.toString());
                     }
                     this.plannedDate.set(d.getYear(), d.getMonth(), d.getDayOfMonth(), t.getCurrentHour(),
                             t.getCurrentMinute(), 0);
@@ -251,7 +268,7 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             case Constants.STATUS_SUCCESS:
                 return true;
             case Constants.STATUS_ERROR:
-                // TODO get error message
+                // TODO get and show error message
                 throw new Exception();
             default:
                 return false;
@@ -265,21 +282,31 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         
         Log.d(this, "Destination and StopOvers: " + ViewModel.getInstance().getDestination());
         
-        switch (this.ctrl.announceTrip(this.sid, ViewModel.getInstance().getDestination(),
-                Constants.COORDINATE_INVALID, Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats())) {
+        Date date = null;
+        if (!now.isChecked()) {
+            date = plannedDate.getTime();
+        }
+        
+        switch (this.ctrl.announceTrip(this.sid, ViewModel.getInstance().getDestination(), Constants.COORDINATE_INVALID,
+                        Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
         
             case Constants.STATUS_SUCCESS:
+                // TODO inform
                 Log.d(this, "Trip announced succesfully");
                 
-                // Show progress dialog for getting position
-                vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();
-                
-                final Intent intent = new Intent(PlanTripActivity.this, DriverViewActivity.class);
-                PlanTripActivity.this.startActivity(intent);
+                if (now.isChecked()) {
+                    // TODO Check RG Location
+                    // Show progress dialog for getting position
+                    vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();
+                    final Intent intent = new Intent(PlanTripActivity.this, DriverViewActivity.class);
+                    PlanTripActivity.this.startActivity(intent);
+                } else {
+                    
+                }
                 break;
             
             case Constants.TRIP_STATUS_OPEN_TRIP:
-                vhikeDialogs.getConfirmationDialog(PlanTripActivity.this, R.string.confirm_end_trip,
+                vhikeDialogs.getConfirmationDialog(PlanTripActivity.this, R.string.confirm_end_trip_title,
                         R.string.confirm_end_trip, R.string.default_yes, R.string.default_no,
                         PlanTripActivity.CONFIRM_END_TRIP).show();
                 break;

@@ -10,7 +10,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 /**
  * Model for vHike, it holds all necessary informations to work with
  * 
- * @author Alexander Wassiljew
+ * @author Alexander Wassiljew, Dang Huynh
  * 
  */
 public class Model {
@@ -22,20 +22,22 @@ public class Model {
     /**
      * Session ID
      */
-    private String sid;
+    private String sid = "";
     
     private int id = -1;
     
     /**
      * This is the trip id, in which the user participate at the moment
      */
+    // TODO: replace the tripId with the openTrip object
     private int tripId = -1;
+    private Trip openTrip = null;
+    
     /**
      * This is the query id of an user
      */
     private int queryId;
     
-    private Trip openTrip = null;
     private ArrayList<Trip> plannedTrips = null;
     
     /**
@@ -204,5 +206,14 @@ public class Model {
     
     public void setUserId(int id) {
         this.id = id;
+    }
+    
+    public boolean isLoggedIn() {
+        return sid != null && !sid.equals("");
+    }
+
+
+    public void logout() {
+        theInstance = null;
     }
 }

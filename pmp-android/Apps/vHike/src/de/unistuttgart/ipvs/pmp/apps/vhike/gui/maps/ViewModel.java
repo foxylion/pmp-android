@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -48,9 +47,34 @@ public class ViewModel {
     private float my_lon;
     private boolean newFound = false;
     
-    private Timer locationTimer;
-    private Timer queryTimer;
+    private boolean locationIsCanceled = false;
+    private boolean queryIsCanceled = false;
     
+    public void cancelLocation() {
+        locationIsCanceled = true;
+    }
+    
+    public void startLocation(){
+        locationIsCanceled = false;
+    }
+    public void cancelQuery() {
+        queryIsCanceled = true;
+    }
+    public void startQuery() {
+        queryIsCanceled = false;
+    }
+    public boolean locationIsCanceled() {
+        return locationIsCanceled;
+    }
+    
+    public boolean queryIsCanceled() {
+        return queryIsCanceled;
+    }
+    
+    public void resetTimers() {
+        locationIsCanceled = false;
+        queryIsCanceled = false;
+    }
     
     public List<ViewObject> getLVO() {
         return this.lvo;
@@ -60,34 +84,6 @@ public class ViewModel {
     private ViewModel() {
         this.lvo = new ArrayList<ViewObject>();
         this.banned = new ArrayList<ViewObject>();
-    }
-    
-    
-    public Timer getLocationTimer() {
-        if (this.locationTimer == null) {
-            this.locationTimer = new Timer();
-        }
-        return this.locationTimer;
-    }
-    
-    
-    public Timer getQueryTimer() {
-        if (this.queryTimer == null) {
-            this.queryTimer = new Timer();
-        }
-        return this.queryTimer;
-    }
-    
-    
-    public void stopTimers() {
-        if (this.queryTimer != null) {
-            this.queryTimer.cancel();
-            this.queryTimer = null;
-        }
-        if (this.locationTimer != null) {
-            this.locationTimer.cancel();
-            this.locationTimer = null;
-        }
     }
     
     

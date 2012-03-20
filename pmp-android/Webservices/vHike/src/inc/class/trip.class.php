@@ -1,13 +1,13 @@
 <?php
-	if (!defined('INCLUDE')) {
-		exit;
-	}
+if (!defined('INCLUDE')) {
+	exit;
+}
 
-	/**
-	 * Allows to create a new trip and gives access to existing trips and their data
-	 * @author  Dang Huynh, Patrick Strobel
-	 * @version 1.0.1
-	 */
+/**
+ * Allows to create a new trip and gives access to existing trips and their data
+ * @author  Dang Huynh, Patrick Strobel
+ * @version 1.0.1
+ */
 class Trip {
 	const OPEN_TRIP_EXISTS = 1;
 
@@ -92,40 +92,51 @@ class Trip {
 	/**
 	 * Creates a new trip using
 	 *
-	 * @param User   $driver
-	 * @param int	$availSeats
-	 * @param float  $current_lat
-	 * @param float  $current_lon
-	 * @param String $destination
+	 * @param User             $driver
+	 * @param int              $availSeats
+	 * @param String           $destination
 	 *
+	 * @param null|int|float   $date
+	 *
+	 * @internal param float $current_lat
+	 * @internal param float $current_lon
 	 * @return Trip The created trip
 	 * @throws InvalidArgumentException Thrown, if input data is invalid
 	 */
-	public static function create($driver, $availSeats, $destination) {
+	public static function create($driver, $availSeats, $destination, $date = null) {
 		// Cancel if important information is missing
 		if (!($driver instanceof User) || $availSeats <= 0 || $availSeats >= 100 || !General::validLength($destination)) {
 			throw new InvalidArgumentException("At least one parameter is of wrong type or format");
 		}
 
 		// Cancel if there's already an opened trip
-		if (self::openTripExists($driver)) {
+		if (self::openTripExists($driver) && $date == null) {
 			throw new InvalidArgumentException("At least one parameter is of wrong type or format", self::OPEN_TRIP_EXISTS);
+		}
+
+		if ($date == null) {
+			$started = 1;
+			$d = 'NOW()';
+		} else {
+			$started = 0;
+			$d = 'FROM_UNIXTIME(' . $date / 1000 . ')';
 		}
 
 		// Write data into table
 		$db = Database::getInstance();
-		$creation = time();
 
 		$db->query("INSERT INTO `" . DB_PREFIX . "_trip` (
                         `driver`,
                         `avail_seats`,
                         `destination`,
-                        `creation`
+                        `creation`,
+                        `started`
                     ) VALUES (
                         \"" . $driver->getId() . "\",
                         \"" . $availSeats . "\",
                         \"" . $destination . "\",
-                        from_unixtime(" . $creation . ")
+                        $d,
+                        $started
                     )");
 
 		$trip = new Trip();
@@ -133,7 +144,7 @@ class Trip {
 		$trip->driver = $driver;
 		$trip->availSeats = $availSeats;
 		$trip->destination = $destination;
-		$trip->creation = Date(Database::DATE_TIME_FORMAT, $creation);
+		$trip->creation = Date(Database::DATE_TIME_FORMAT, time());
 
 		return $trip;
 	}
@@ -330,12 +341,12 @@ class Trip {
 		$db = Database::getInstance();
 
 		$result = $db->query("SELECT " . DB_PREFIX . "_trip.id,\n" .
-											DB_PREFIX . "_trip.driver,\n" .
-											DB_PREFIX . "_trip.avail_seats,\n" .
-											DB_PREFIX . "_trip.destination,\n" .
-											"UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.creation) AS creation " .
-											"FROM `" . DB_PREFIX . "_trip` " .
-											"WHERE `driver` = $user_id AND `ending` = 0 LIMIT 1");
+								 DB_PREFIX . "_trip.driver,\n" .
+								 DB_PREFIX . "_trip.avail_seats,\n" .
+								 DB_PREFIX . "_trip.destination,\n" .
+								 "UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.creation) AS creation " .
+								 "FROM `" . DB_PREFIX . "_trip` " .
+								 "WHERE `driver` = $user_id AND `ending` = 0 LIMIT 1");
 		if ($db->getNumRows($result) > 0) {
 			return $db->fetch($result);
 		} else {
