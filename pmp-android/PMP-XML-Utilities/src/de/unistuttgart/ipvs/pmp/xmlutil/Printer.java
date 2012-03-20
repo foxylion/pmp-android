@@ -37,7 +37,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 
 /**
- * This Class provides static methods to print a given AIS, RGIS and PresetSet.
+ * This Class provides static methods to print a given {@link IAIS}, {@link IRGIS} and {@link IPresetSet}.
  * 
  * @author Marcus Vetter
  * 
@@ -45,47 +45,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssueLocation;
 public class Printer {
     
     /**
-     * Method for printing
-     * 
-     * @param s
-     *            String to print
-     */
-    private static void p(String s) {
-        System.out.println(s);
-    }
-    
-    
-    /**
-     * Print the issues
-     * 
-     * @param location
-     *            location of the issues
-     * @param preString
-     *            the string before the print out
-     */
-    private static void printIssues(IIssueLocation location, String preString) {
-        for (IIssue issue : location.getIssues()) {
-            StringBuilder sb = new StringBuilder(preString + "!! Issue: " + issue.getType().toString());
-            if (issue.getParameters().size() > 0) {
-                sb.append(" (Parameter: ");
-                for (int itr = 0; itr < issue.getParameters().size(); itr++) {
-                    sb.append(issue.getParameters().get(itr));
-                    if (itr < issue.getParameters().size() - 1) {
-                        sb.append(", ");
-                    }
-                }
-                sb.append(")");
-            }
-            p(sb.toString());
-        }
-    }
-    
-    
-    /**
-     * Print the app information set to the console
+     * Print the {@link IAIS} to the console
      * 
      * @param ais
-     *            the app information set for printing
+     *            the {@link IAIS} for printing
      */
     public static void printAIS(IAIS ais) {
         p("------------------------------------");
@@ -118,10 +81,10 @@ public class Printer {
     
     
     /**
-     * Print the rgis set to the console
+     * Print the {@link IRGIS} to the console
      * 
      * @param rgis
-     *            the rg information set for printing
+     *            the {@link IRGIS} for printing
      */
     public static void printRGIS(IRGIS rgis) {
         p("------------------------------------");
@@ -151,10 +114,10 @@ public class Printer {
     
     
     /**
-     * Print the presetSet set to the console
+     * Print the {@link IPresetSet} to the console
      * 
      * @param presetSet
-     *            the presetSet set for printing
+     *            the {@link IPresetSet} for printing
      */
     public static void printPresetSet(IPresetSet presetSet) {
         p("------------------------------------");
@@ -199,6 +162,68 @@ public class Printer {
     
     
     /**
+     * Print {@link IIssue}s
+     * 
+     * @param issueList
+     *            list of {@link IIssue}s
+     */
+    public static void printIssues(List<IIssue> issueList) {
+        p("------------------------------------");
+        p("- Printout of the issue list -------");
+        p("------------------------------------");
+        for (IIssue issue : issueList) {
+            p("> Location: " + issue.getLocation());
+            p("> Type: " + issue.getType().toString());
+            for (String parameter : issue.getParameters()) {
+                p("> Parameter: " + parameter);
+            }
+            p("");
+        }
+        p("------------------------------------");
+    }
+    
+    
+    /**
+     * INTERNAL USE ONLY
+     * Print the issues
+     * 
+     * @param location
+     *            {@link IIssueLocation}
+     * @param preString
+     *            the string before the print out
+     */
+    private static void printIssues(IIssueLocation location, String preString) {
+        for (IIssue issue : location.getIssues()) {
+            StringBuilder sb = new StringBuilder(preString + "!! Issue: " + issue.getType().toString());
+            if (issue.getParameters().size() > 0) {
+                sb.append(" (Parameter: ");
+                for (int itr = 0; itr < issue.getParameters().size(); itr++) {
+                    sb.append(issue.getParameters().get(itr));
+                    if (itr < issue.getParameters().size() - 1) {
+                        sb.append(", ");
+                    }
+                }
+                sb.append(")");
+            }
+            p(sb.toString());
+        }
+    }
+    
+    
+    /**
+     * INTERNAL USE ONLY
+     * Method for printing
+     * 
+     * @param s
+     *            String to print
+     */
+    private static void p(String s) {
+        System.out.println(s);
+    }
+    
+    
+    /**
+     * INTERAL USE ONLY
      * Print names
      * 
      * @param names
@@ -215,28 +240,6 @@ public class Printer {
             p("   > " + descr.getLocale().getLanguage() + ": " + descr.getString());
             printIssues(descr, "   > ");
         }
-    }
-    
-    
-    /**
-     * Print issues
-     * 
-     * @param issueList
-     *            list of issues
-     */
-    public static void printIssues(List<IIssue> issueList) {
-        p("------------------------------------");
-        p("- Printout of the issue list -------");
-        p("------------------------------------");
-        for (IIssue issue : issueList) {
-            p("> Location: " + issue.getLocation());
-            p("> Type: " + issue.getType().toString());
-            for (String parameter : issue.getParameters()) {
-                p("> Parameter: " + parameter);
-            }
-            p("");
-        }
-        p("------------------------------------");
     }
     
 }

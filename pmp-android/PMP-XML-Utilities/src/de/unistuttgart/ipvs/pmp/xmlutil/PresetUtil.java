@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.PresetSetValidator;
 public class PresetUtil {
     
     /**
-     * The PresetSetParser, -Compiler and -Validator
+     * The {@link PresetSetParser}, {@link PresetSetCompiler} and {@link PresetSetValidator}
      */
     private PresetSetParser presetSetParser = new PresetSetParser();
     private PresetSetCompiler presetSetCompiler = new PresetSetCompiler();
@@ -44,11 +44,11 @@ public class PresetUtil {
     
     
     /**
-     * This method creates a PresetSet for a given xml url.
+     * This method creates a {@link IPresetSet} for a given xml url.
      * 
      * @param xmlURL
      *            url to the xml file
-     * @return PresetSet
+     * @return {@link IPresetSet}
      */
     public IPresetSet parse(InputStream xmlStream) {
         return this.presetSetParser.parse(xmlStream);
@@ -56,10 +56,10 @@ public class PresetUtil {
     
     
     /**
-     * This method creates an xml file for a given PresetSet
+     * This method creates an xml file for a given {@link IPresetSet}
      * 
      * @param presetSet
-     *            RGIS to compile
+     *            {@link IPresetSet} to compile
      * @return compiled xml file
      */
     public InputStream compile(IPresetSet presetSet) {
@@ -68,9 +68,9 @@ public class PresetUtil {
     
     
     /**
-     * Get the validator for PresetSet
+     * Get the validator for {@link IPresetSet}
      * 
-     * @return PresetSetValidator
+     * @return {@link PresetSetValidator}
      */
     public PresetSetValidator getValidator() {
         return this.presetSetValidator;
@@ -78,9 +78,9 @@ public class PresetUtil {
     
     
     /**
-     * Create a blank PresetSet-Object
+     * Create a blank {@link IPresetSet}-Object
      * 
-     * @return blank PresetSet-Object
+     * @return blank {@link IPresetSet}-Object
      */
     public IPresetSet createBlankPresetSet() {
         return new PresetSet();
@@ -88,10 +88,10 @@ public class PresetUtil {
     
     
     /**
-     * Print a PresetSet
+     * Print a {@link IPresetSet}
      * 
      * @param presetSet
-     *            PresetSet to print
+     *            {@link IPresetSet} to print
      */
     public void print(IPresetSet presetSet) {
         Printer.printPresetSet(presetSet);

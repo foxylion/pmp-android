@@ -28,7 +28,7 @@ package de.unistuttgart.ipvs.pmp.xmlutil;
 public class XMLUtilityProxy {
     
     /**
-     * The util classes AppUtil, RGUtil and PresetUtil
+     * The util classes {@link AppUtil}, {@link RGUtil} and {@link PresetUtil}
      */
     private static AppUtil appUtil = new AppUtil();
     private static RGUtil rgUtil = new RGUtil();
@@ -43,9 +43,9 @@ public class XMLUtilityProxy {
     
     
     /**
-     * Get the app utilities
+     * Get the {@link AppUtil}
      * 
-     * @return app utilities
+     * @return {@link AppUtil}
      */
     public static AppUtil getAppUtil() {
         return appUtil;
@@ -53,9 +53,9 @@ public class XMLUtilityProxy {
     
     
     /**
-     * Get the resource group utilities
+     * Get the {@link RGUtil}
      * 
-     * @return resource group utilities
+     * @return {@link RGUtil}
      */
     public static RGUtil getRGUtil() {
         return rgUtil;
@@ -63,9 +63,9 @@ public class XMLUtilityProxy {
     
     
     /**
-     * Get the preset utilities
+     * Get the {@link PresetUtil}
      * 
-     * @return preset utilities
+     * @return {@link PresetUtil}
      */
     public static PresetUtil getPresetUtil() {
         return presetUtil;
