@@ -352,6 +352,14 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
             
             // Remove was clicked
             if (clicked.getText().equals("Remove")) {
+                // Show confirmation message before removing
+                boolean remove = MessageDialog.openConfirm(parentShell, "Remove Service Feature",
+                        "This will remove the selected Service Feature from the AIS.");
+                
+                if (!remove) {
+                    return;
+                }
+                
                 Tree tree = treeViewer.getTree();
                 TreeItem[] selection = tree.getSelection();
                 int selectionCount = tree.getSelectionCount();

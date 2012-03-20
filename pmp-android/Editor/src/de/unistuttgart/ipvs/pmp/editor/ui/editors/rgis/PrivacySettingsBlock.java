@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -84,7 +85,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
     
     
     @Override
-    protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
+    protected void createMasterPart(final IManagedForm managedForm, final Composite parent) {
         FormToolkit toolkit = managedForm.getToolkit();
         
         // Create section
@@ -170,11 +171,17 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
                     ps = (RGISPrivacySetting) path[0].getFirstSegment();
                 }
                 
-                // Remove selected entry for model
-                IRGIS rgis = PrivacySettingsBlock.this.model.getRgis();
-                rgis.removePrivacySetting(ps);
-                setDirty(true);
-                refresh();
+                // Show confirmation message before removing
+                boolean remove = MessageDialog.openConfirm(parent.getShell(), "Remove Privacy Setting",
+                        "This will remove the selected Privacy Setting from the RGIS.");
+                
+                if (remove) {
+                    // Remove selected entry from model
+                    IRGIS rgis = PrivacySettingsBlock.this.model.getRgis();
+                    rgis.removePrivacySetting(ps);
+                    setDirty(true);
+                    refresh();
+                }
             }
             
         });
