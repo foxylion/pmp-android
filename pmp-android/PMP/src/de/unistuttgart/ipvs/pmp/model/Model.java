@@ -55,6 +55,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 /**
  * <p>
@@ -158,6 +159,26 @@ public class Model implements IModel, Observer {
                     .getResourcesForApplication(appPackage).getAssets().open(PersistenceConstants.APP_XML_NAME);
             
             IAIS ais = XMLUtilityProxy.getAppUtil().parse(xmlStream);
+            
+            List<IIssue> validation = XMLUtilityProxy.getAppUtil().getValidator().validateAIS(ais, false);
+            if (validation.size() > 0) {
+                /* error during XML validation */
+                FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                        "App '%s' has failed registration with PMP: XML file contains errors.", appPackage);
+                
+                StringBuilder sb = new StringBuilder();
+                boolean notFirst = false;
+                for (IIssue issue : validation) {
+                    if (notFirst) {
+                        sb.append(", ");
+                    }
+                    notFirst = true;
+                    
+                    sb.append(issue.toString());
+                }
+                
+                return new RegistrationResult(false, sb.toString());
+            }
             
             // check service availability
             IPCConnection ipcc = new IPCConnection(PMPApplication.getContext());
@@ -352,6 +373,26 @@ public class Model implements IModel, Observer {
             
             // get the RGIS
             IRGIS rgis = PluginProvider.getInstance().getRGIS(rgPackage);
+            
+            // check it is correct
+            List<IIssue> validation = XMLUtilityProxy.getRGUtil().getValidator().validateRGIS(rgis, false);
+            if (validation.size() > 0) {
+                FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                        "ResourceGroup '%s' has failed registration with PMP: XML contains errors.", rgPackage);
+                
+                StringBuilder sb = new StringBuilder();
+                boolean notFirst = false;
+                for (IIssue issue : validation) {
+                    if (notFirst) {
+                        sb.append(", ");
+                    }
+                    notFirst = true;
+                    
+                    sb.append(issue.toString());
+                }
+                
+                throw new InvalidXMLException(sb.toString());
+            }
             
             // check it is valid
             de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
