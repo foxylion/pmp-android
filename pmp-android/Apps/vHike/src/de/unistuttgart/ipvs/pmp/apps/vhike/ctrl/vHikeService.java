@@ -35,9 +35,9 @@ public class vHikeService extends Service {
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
     private static final PMPResourceIdentifier RGVHikeID = PMPResourceIdentifier.make(
-            "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS", "enable");
+            "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS", "vHikeWebserviceResource");
     private static final PMPResourceIdentifier RGNotificationID = PMPResourceIdentifier.make(
-            "de.unistuttgart.ipvs.pmp.resourcegroups.notification", "allowNotification");
+            "de.unistuttgart.ipvs.pmp.resourcegroups.notification", "NotificationResource");
     private static final PMPResourceIdentifier[] resourceGroupIDs = { RGLocationID, RGVHikeID, RGNotificationID };
     
     
@@ -178,90 +178,90 @@ public class vHikeService extends Service {
     private INotification noti;
     
     
-//    private IBinder getResourceGroup(final PMPResourceIdentifier id) {
-//        try {
-//            binder = null;
-//            //            PMP.get(app) = PMP.get(getApplication());
-//            if (PMP.get(app).isResourceCached(id)) {
-//                binder = PMP.get(app).getResourceFromCache(id);
-//            } else {
-//                //                Handler handler = new Handler();
-//                //                latch = new CountDownLatch(1);
-//                //                handler.postAtFrontOfQueue(new ResourceGroupBinder(id, latch));
-//                //                latch.await(2, TimeUnit.SECONDS);
-//                //                Log.v(TAG, "latch wait");
-//                
-//                //                BinderTask t = new BinderTask();
-//                //                t.execute(id);
-//                ////                if (t.getStatus() != null) {
-//                ////                    Log.v(TAG, "task" + t.getStatus().toString());
-//                ////                } else {
-//                ////                    System.out.println("task status");
-//                ////                }
-//                //                System.out.println("waiting");
-//                ////                int wait = 100;
-//                ////                while (binderLock && (wait > 0)) {
-//                ////                    System.out.println("wait");
-//                ////                    Thread.sleep(1000);
-//                ////                    System.out.println("wake");
-//                ////                    wait--;
-//                ////                }
-//                //                synchronized (sync) {
-//                //                                        
-//                //                }
-//                //                System.out.println("wait over");
-//                //                
-//                //                //                PMP.get(app).getResource(id, new PMPRequestResourceHandler() {
-//                //                //                    
-//                //                //                    @Override
-//                //                //                    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-//                //                //                        super.onReceiveResource(resource, binder);
-//                //                //                        Log.i(TAG, "on receiving");
-//                //                //                        resourceReady();
-//                //                //                    }
-//                //                //                });
-//                //                ////                latch = new CountDownLatch(1);
-//                //                //                ResourceGroupBinder rgb = new ResourceGroupBinder(id, latch);
-//                //                //                (new Thread(rgb)).start();
-//                //                //                Log.i(TAG, "waiting...");
-//                //                //                latch.await(20, TimeUnit.SECONDS);
-//                //                //                Log.v(TAG, "returned");
-//                //                //                synchronized (binder) {
-//                //                //                    binder.wait(1000);
-//                //                //                }
-//                //                //                
-//                //                //                //                synchronized (Thread.currentThread()) {
-//                //                //                //                    wait(10000);
-//                //                //                //                }
-//                //                //                //                binder = rgb.getBinder();
-//                //                if (PMP.get(app).isResourceCached(id)) {
-//                //                    binder = PMP.get(app).getResourceFromCache(id);
-//                //                }
-//            }
-//        } catch (Exception e) {
-//            // TODO handle exception
-//            e.printStackTrace();
-//        }
-//        return binder;
-//    }
-    
-    
-    //    private IBinder getRG(PMPResourceIdentifier id) {
+    /*    private IBinder getResourceGroup(final PMPResourceIdentifier id) {
     //        try {
-    //            PMP.get(app).getResource(id);
-    //            int wait = 100;
-    //            while (!PMP.get(app).isResourceCached(id) && wait > 0) {
-    //                Thread.currentThread().wait(100);
-    //                wait--;
-    //            }
+    //            binder = null;
+    //            //            PMP.get(app) = PMP.get(getApplication());
     //            if (PMP.get(app).isResourceCached(id)) {
-    //                return PMP.get(app).getResourceFromCache(id);
+    //                binder = PMP.get(app).getResourceFromCache(id);
+    //            } else {
+    //                //                Handler handler = new Handler();
+    //                //                latch = new CountDownLatch(1);
+    //                //                handler.postAtFrontOfQueue(new ResourceGroupBinder(id, latch));
+    //                //                latch.await(2, TimeUnit.SECONDS);
+    //                //                Log.v(TAG, "latch wait");
+    //                
+    //                //                BinderTask t = new BinderTask();
+    //                //                t.execute(id);
+    //                ////                if (t.getStatus() != null) {
+    //                ////                    Log.v(TAG, "task" + t.getStatus().toString());
+    //                ////                } else {
+    //                ////                    System.out.println("task status");
+    //                ////                }
+    //                //                System.out.println("waiting");
+    //                ////                int wait = 100;
+    //                ////                while (binderLock && (wait > 0)) {
+    //                ////                    System.out.println("wait");
+    //                ////                    Thread.sleep(1000);
+    //                ////                    System.out.println("wake");
+    //                ////                    wait--;
+    //                ////                }
+    //                //                synchronized (sync) {
+    //                //                                        
+    //                //                }
+    //                //                System.out.println("wait over");
+    //                //                
+    //                //                //                PMP.get(app).getResource(id, new PMPRequestResourceHandler() {
+    //                //                //                    
+    //                //                //                    @Override
+    //                //                //                    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+    //                //                //                        super.onReceiveResource(resource, binder);
+    //                //                //                        Log.i(TAG, "on receiving");
+    //                //                //                        resourceReady();
+    //                //                //                    }
+    //                //                //                });
+    //                //                ////                latch = new CountDownLatch(1);
+    //                //                //                ResourceGroupBinder rgb = new ResourceGroupBinder(id, latch);
+    //                //                //                (new Thread(rgb)).start();
+    //                //                //                Log.i(TAG, "waiting...");
+    //                //                //                latch.await(20, TimeUnit.SECONDS);
+    //                //                //                Log.v(TAG, "returned");
+    //                //                //                synchronized (binder) {
+    //                //                //                    binder.wait(1000);
+    //                //                //                }
+    //                //                //                
+    //                //                //                //                synchronized (Thread.currentThread()) {
+    //                //                //                //                    wait(10000);
+    //                //                //                //                }
+    //                //                //                //                binder = rgb.getBinder();
+    //                //                if (PMP.get(app).isResourceCached(id)) {
+    //                //                    binder = PMP.get(app).getResourceFromCache(id);
+    //                //                }
     //            }
-    //        } catch (InterruptedException e) {
+    //        } catch (Exception e) {
+    //            // TODO handle exception
     //            e.printStackTrace();
     //        }
-    //        return null;
+    //        return binder;
     //    }
+        
+        
+        //    private IBinder getRG(PMPResourceIdentifier id) {
+        //        try {
+        //            PMP.get(app).getResource(id);
+        //            int wait = 100;
+        //            while (!PMP.get(app).isResourceCached(id) && wait > 0) {
+        //                Thread.currentThread().wait(100);
+        //                wait--;
+        //            }
+        //            if (PMP.get(app).isResourceCached(id)) {
+        //                return PMP.get(app).getResourceFromCache(id);
+        //            }
+        //        } catch (InterruptedException e) {
+        //            e.printStackTrace();
+        //        }
+        //        return null;
+        //    }*/
     
     public IInterface requestResourceGroup(ResourceGroupReadyActivity activity, int resourceGroupId) {
         switch (resourceGroupId) {
@@ -296,26 +296,30 @@ public class vHikeService extends Service {
                 reloadResourceGroup(activity, resourceGroupId);
                 break;
         }
-//    }
-//    
-//    
-//    private void resourceGroupReady(ResourceGroupReadyActivity activity, int resourceGroupId) {
-//        switch (resourceGroupId) {
-//            case Constants.RG_LOCATION:
-//                activity.onResourceGroupReady(loc, resourceGroupId);
-//                break;
-//            case Constants.RG_VHIKE_WEBSERVICE:
-//                activity.onResourceGroupReady(ws, resourceGroupId);
-//                break;
-//            case Constants.RG_NOTIFICATION:
-//                activity.onResourceGroupReady(noti, resourceGroupId);
-//                break;
-//        }
+        //    }
+        //    
+        //    
+        //    private void resourceGroupReady(ResourceGroupReadyActivity activity, int resourceGroupId) {
+        //        switch (resourceGroupId) {
+        //            case Constants.RG_LOCATION:
+        //                activity.onResourceGroupReady(loc, resourceGroupId);
+        //                break;
+        //            case Constants.RG_VHIKE_WEBSERVICE:
+        //                activity.onResourceGroupReady(ws, resourceGroupId);
+        //                break;
+        //            case Constants.RG_NOTIFICATION:
+        //                activity.onResourceGroupReady(noti, resourceGroupId);
+        //                break;
+        //        }
     }
     
     
-    private void getResourceFromCache(ResourceGroupReadyActivity activity, int resourceGroupId) {
-        binder = PMP.get(app).getResourceFromCache(resourceGroupIDs[resourceGroupId]);
+    private void getResourceFromCache(ResourceGroupReadyActivity activity, int resourceGroupId, IBinder binder) {
+        if (binder == null) {
+            this.binder = PMP.get(app).getResourceFromCache(resourceGroupIDs[resourceGroupId]);
+        } else {
+            this.binder = binder;
+        }
         switch (resourceGroupId) {
             case Constants.RG_LOCATION:
                 loc = IAbsoluteLocation.Stub.asInterface(binder);
@@ -335,7 +339,7 @@ public class vHikeService extends Service {
     
     private void reloadResourceGroup(final ResourceGroupReadyActivity activity, final int resourceGroupId) {
         if (PMP.get(app).isResourceCached(resourceGroupIDs[resourceGroupId])) {
-            getResourceFromCache(activity, resourceGroupId);
+            getResourceFromCache(activity, resourceGroupId, null);
         } else {
             PMP.get(app).getResource(resourceGroupIDs[resourceGroupId], new PMPRequestResourceHandler() {
                 
@@ -343,7 +347,7 @@ public class vHikeService extends Service {
                 public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
                     super.onReceiveResource(resource, binder);
                     Log.i(TAG, "on receiving");
-                    getResourceFromCache(activity, resourceGroupId);
+                    getResourceFromCache(activity, resourceGroupId, binder);
                 }
             });
         }

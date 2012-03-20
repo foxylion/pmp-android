@@ -23,7 +23,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * LoginActivity: the startup activity for vHike and starts the registration on PMP to load
@@ -85,7 +84,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 Log.i(this, "Location RG received");
                 break;
         }
-        Log.i(this, "RG read" + resourceGroup);
+        Log.i(this, "RG ready: " + resourceGroup);
     }
     
     
@@ -187,11 +186,13 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         
         //        IvHikeWebservice ws = IvHikeWebservice.Stub.asInterface(binder);
         try {
-            IvHikeWebservice ws = getvHikeRG(this);
-            if (ws == null) {
-                requestResourceGroup(this, Constants.RG_VHIKE_WEBSERVICE);
+            if (rgvHike == null && getvHikeRG(this) == null) {
+                System.out.println("Waiting for resource to load");
             } else {
-                ctrl = new Controller(ws);
+                // resource ready
+                System.out.println("Resource preloaded");
+                
+                ctrl = new Controller(rgvHike);
                 findViewById(R.id.layout_login).setVisibility(View.GONE);
                 findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
                 this.handler.post(new Runnable() {
