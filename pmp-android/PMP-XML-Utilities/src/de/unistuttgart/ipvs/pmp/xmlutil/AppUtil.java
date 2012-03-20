@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 public class AppUtil {
     
     /**
-     * The AISParser, -Compiler and -Validator
+     * The {@link AISParser}, {@link AISCompiler} and {@link AISValidator}
      */
     private static AISParser aisParser = new AISParser();
     private static AISCompiler aisCompiler = new AISCompiler();
@@ -44,11 +44,11 @@ public class AppUtil {
     
     
     /**
-     * This method creates an app information set for a given xml url.
+     * This method creates an {@link IAIS} for a given xml url.
      * 
      * @param xmlURL
      *            url to the xml file
-     * @return app information set
+     * @return {@link IAIS}
      */
     public IAIS parse(InputStream xmlStream) {
         return aisParser.parse(xmlStream);
@@ -56,10 +56,10 @@ public class AppUtil {
     
     
     /**
-     * This method creates an xml file for a given AIS
+     * This method creates an xml file for a given {@link IAIS}
      * 
      * @param ais
-     *            AIS to compile
+     *            {@link IAIS} to compile
      * @return compiled xml file
      */
     public InputStream compile(IAIS ais) {
@@ -68,9 +68,9 @@ public class AppUtil {
     
     
     /**
-     * Get the validator for AIS
+     * Get the validator for an {@link IAIS}
      * 
-     * @return AISValidator
+     * @return {@link AISValidator}
      */
     public AISValidator getValidator() {
         return aisValidator;
@@ -78,9 +78,9 @@ public class AppUtil {
     
     
     /**
-     * Create a blank AIS-Object
+     * Create a blank {@link IAIS}-Object
      * 
-     * @return blank AIS-Object
+     * @return blank {@link IAIS}-Object
      */
     public IAIS createBlankAIS() {
         return new AIS();
@@ -88,10 +88,10 @@ public class AppUtil {
     
     
     /**
-     * Print an AIS
+     * Print an {@link IAIS}
      * 
      * @param ais
-     *            AIS to print
+     *            {@link IAIS} to print
      */
     public void print(IAIS ais) {
         Printer.printAIS(ais);

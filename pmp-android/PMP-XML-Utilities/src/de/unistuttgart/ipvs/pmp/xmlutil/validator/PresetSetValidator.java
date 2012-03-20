@@ -177,11 +177,16 @@ public class PresetSetValidator extends AbstractValidator {
             }
             
             /*
-             * Validate, if the value is set
+             * Validate, if the value is missing 
              */
-            if (assignedPS.getValue() == null) {
+            if (!assignedPS.isEmptyValue() && !checkValueSet(assignedPS.getValue()))
                 issueList.add(new Issue(IssueType.VALUE_MISSING, assignedPS));
-            }
+            
+            /*
+             * Validate, if an empty value conflict occurred
+             */
+            if (assignedPS.isEmptyValue() && checkValueSet(assignedPS.getValue()))
+                issueList.add(new Issue(IssueType.VALUE_CONFLICT, assignedPS));
             
             // Validate all contexts
             issueList.addAll(validatePSContexts(assignedPS, attachData));

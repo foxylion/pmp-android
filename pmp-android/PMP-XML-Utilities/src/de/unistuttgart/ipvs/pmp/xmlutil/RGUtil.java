@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
 public class RGUtil {
     
     /**
-     * The RGISParser, -Compiler and -Validator
+     * The {@link RGISParser}, {@link RGISCompiler} and {@link RGISValidator}
      */
     private static RGISParser rgisParser = new RGISParser();
     private static RGISCompiler rgisCompiler = new RGISCompiler();
@@ -44,11 +44,11 @@ public class RGUtil {
     
     
     /**
-     * This method creates an resourcegroup information set for a given xml url.
+     * This method creates a {@link IRGIS} for a given xml url.
      * 
      * @param xmlURL
      *            url to the xml file
-     * @return resourcegroup information set
+     * @return {@link IRGIS}
      */
     public IRGIS parse(InputStream xmlStream) {
         return rgisParser.parse(xmlStream);
@@ -56,10 +56,10 @@ public class RGUtil {
     
     
     /**
-     * This method creates an xml file for a given ARG
+     * This method creates an xml file for a given {@link IRGIS}
      * 
      * @param rgis
-     *            RGIS to compile
+     *            {@link IRGIS} to compile
      * @return compiled xml file
      */
     public InputStream compile(IRGIS rgis) {
@@ -68,9 +68,9 @@ public class RGUtil {
     
     
     /**
-     * Get the validator for RGIS
+     * Get the validator for {@link IRGIS}
      * 
-     * @return RGISValidator
+     * @return {@link RGISValidator}
      */
     public RGISValidator getValidator() {
         return rgisValidator;
@@ -78,9 +78,9 @@ public class RGUtil {
     
     
     /**
-     * Create a blank RGIS-Object
+     * Create a blank {@link IRGIS}-Object
      * 
-     * @return blank RGIS-Object
+     * @return blank {@link IRGIS}-Object
      */
     public IRGIS createBlankRGIS() {
         return new RGIS();
@@ -88,10 +88,10 @@ public class RGUtil {
     
     
     /**
-     * Print a RGIS
+     * Print a {@link IRGIS}
      * 
      * @param rgis
-     *            RGIS to print
+     *            {@link IRGIS} to print
      */
     public void print(IRGIS rgis) {
         Printer.printRGIS(rgis);

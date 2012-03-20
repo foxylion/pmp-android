@@ -35,7 +35,7 @@
 // * See the License for the specific language governing permissions and
 // * limitations under the License.
 // */
-package unittest;
+package de.unistuttgart.ipvs.pmp.xmlutil.unittest;
 
 import java.util.Locale;
 
@@ -43,7 +43,6 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import unittest.TestUtil.EmptyValueHandling;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
@@ -54,6 +53,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLNode;
 import de.unistuttgart.ipvs.pmp.xmlutil.parser.common.ParserException;
+import de.unistuttgart.ipvs.pmp.xmlutil.unittest.TestUtil.EmptyValueHandling;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
