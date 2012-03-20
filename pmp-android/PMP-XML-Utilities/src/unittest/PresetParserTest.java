@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import unittest.TestUtil.ContextBean;
+import unittest.TestUtil.EmptyValueHandling;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.compiler.common.XMLCompiler;
@@ -44,7 +45,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -87,7 +88,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -132,7 +134,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         TestUtil.main.addChild(new XMLNode(XML_CONTEXT));
@@ -155,7 +157,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, "", PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -174,7 +176,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, "", PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -193,7 +195,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, "");
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -217,7 +219,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, "");
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -235,7 +237,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, (String) null);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -253,7 +255,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, "", RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -271,7 +273,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         TestUtil.makePresetSet();
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, "", RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, new ContextBean[] {});
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, "", RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, new ContextBean[] {},
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -290,7 +293,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
         TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_INVALID_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE,
-                new ContextBean[] {});
+                new ContextBean[] {}, EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -308,7 +311,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         TestUtil.makePresetSet();
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, " ", new ContextBean[] {});
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, "", new ContextBean[] {},
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -322,7 +326,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         assertEquals(1, p.getAssignedPrivacySettings().size());
         IPresetAssignedPrivacySetting aps = p.getAssignedPrivacySettings().get(0);
         
-        assertEquals(" ", aps.getValue());
+        assertEquals("", aps.getValue());
         
         assertTrue("Validator did not accept Preset with empty APS value.", TestUtil.assertPresetValidationEmpty(pset));
     }
@@ -333,7 +337,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         TestUtil.makePresetSet();
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, null, new ContextBean[] {});
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, null, new ContextBean[] {},
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -353,7 +358,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -385,7 +391,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -405,7 +412,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -437,7 +445,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -457,7 +466,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset("", PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, "");
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, "", APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, "", APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
@@ -482,7 +492,8 @@ public class PresetParserTest extends TestCase implements TestConstants {
         
         XMLNode preset = TestUtil.makePreset(PRESET1_IDENTIFIER, PRESET1_CREATOR, PRESET1_NAME, PRESET1_DESCRIPTION);
         TestUtil.addAssignedApps(preset, PRESET1_APP1_IDENTIFIER);
-        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts);
+        TestUtil.addAssignedPrivacySetting(preset, RG_ID, RG_REVISION, RG_PS1_ID, APP_SF1_REQ_PS1_VALUE, contexts,
+                EmptyValueHandling.CORRECT);
         TestUtil.main.addChild(preset);
         
         StackTraceElement ste = Thread.currentThread().getStackTrace()[1];
