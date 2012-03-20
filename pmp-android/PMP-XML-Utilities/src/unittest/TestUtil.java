@@ -75,6 +75,31 @@ public class TestUtil implements TestConstants {
         
     }
     
+    static enum EmptyValueHandling {
+        CORRECT,
+        ALWAYS_FALSE,
+        ALWAYS_TRUE,
+        OMIT;
+        
+        public void applyToXMLNode(XMLNode node, String attribName) {
+            switch (this) {
+                case CORRECT:
+                    Boolean empty = (node.getContent() == null) || (node.getContent().isEmpty());
+                    node.addAttribute(new XMLAttribute(attribName, empty.toString()));
+                    break;
+                case ALWAYS_FALSE:
+                    node.addAttribute(new XMLAttribute(attribName, Boolean.FALSE.toString()));
+                    break;
+                case ALWAYS_TRUE:
+                    node.addAttribute(new XMLAttribute(attribName, Boolean.TRUE.toString()));
+                    break;
+                case OMIT:
+                    // do nothing
+                    break;
+            }
+        }
+    }
+    
     private static final boolean debugInput = true;
     
     /*
@@ -201,7 +226,7 @@ public class TestUtil implements TestConstants {
     
     
     protected static void addAssignedPrivacySetting(XMLNode atPreset, String rgId, String rgRev, String psId,
-            String value, ContextBean[] contexts) {
+            String value, ContextBean[] contexts, EmptyValueHandling emptyValueHandling) {
         // find assingPS node
         XMLNode aPS = null;
         for (XMLNode child : atPreset.getChildren()) {
@@ -222,6 +247,7 @@ public class TestUtil implements TestConstants {
         
         if (value != null) {
             XMLNode valu = new XMLNode(XML_VALUE);
+            emptyValueHandling.applyToXMLNode(valu, XML_EMPTY_VALUE);
             valu.setCDATAContent(value);
             ps.addChild(valu);
         }
@@ -231,11 +257,13 @@ public class TestUtil implements TestConstants {
             ctx.addAttribute(new XMLAttribute(XML_TYPE, context.getType()));
             if (context.getCondition() != null) {
                 ctx.addAttribute(new XMLAttribute(XML_CONDITION, context.getCondition()));
+                emptyValueHandling.applyToXMLNode(ctx, XML_EMPTY_CONDITION);
             }
             
             if (context.getOverrideValue() != null) {
                 XMLNode ovrVal = new XMLNode(XML_OVERRIDE_VALUE);
                 ovrVal.setCDATAContent(context.getOverrideValue());
+                emptyValueHandling.applyToXMLNode(ovrVal, XML_EMPTY_OVERRIDE_VALUE);
                 ctx.addChild(ovrVal);
             }
             
@@ -246,20 +274,26 @@ public class TestUtil implements TestConstants {
     }
     
     
-    protected static void addRequiredRG(XMLNode sf, String rgId, String[] psId, String[] psValue, String minRevision) {
+    protected static void addRequiredRG(XMLNode sf, String rgId, String[] psId, String[] psValue, String minRevision,
+            EmptyValueHandling emptyValueHandling) {
         XMLNode reqRG = new XMLNode(XML_REQUIRED_RESOURCE_GROUP);
         reqRG.addAttribute(new XMLAttribute(XML_IDENTIFIER, rgId));
         reqRG.addAttribute(new XMLAttribute(XML_REQUIRED_RESOURCE_GROUP_REVISION, minRevision));
         
+        // for each argument
         for (int i = 0; i < Math.min(psId.length, psValue.length); i++) {
             if (psId[i] == null) {
                 continue;
             }
+            
+            // add reqPS
             XMLNode reqPS = new XMLNode(XML_REQUIRED_PRIVACY_SETTING);
             reqPS.addAttribute(new XMLAttribute(XML_IDENTIFIER, psId[i]));
             if (psValue[i] != null) {
                 reqPS.setCDATAContent(psValue[i]);
             }
+            // empty value sh*t
+            emptyValueHandling.applyToXMLNode(reqPS, XML_EMPTY_VALUE);
             reqRG.addChild(reqPS);
         }
         

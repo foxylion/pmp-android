@@ -145,6 +145,9 @@ public interface TestConstants {
     static final String XML_CONDITION = "condition";
     static final String XML_VALUE = "value";
     static final String XML_OVERRIDE_VALUE = "overrideValue";
+    static final String XML_EMPTY_VALUE = "emptyValue";
+    static final String XML_EMPTY_CONDITION = "emptyCondition";
+    static final String XML_EMPTY_OVERRIDE_VALUE = "emptyOverrideValue";
     
     static final Locale XML_DEFAULT_EN_LOCALE = Locale.ENGLISH;
 }
