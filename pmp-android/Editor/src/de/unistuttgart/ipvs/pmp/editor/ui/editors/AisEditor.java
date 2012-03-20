@@ -77,6 +77,7 @@ public class AisEditor extends FormEditor {
         if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
             DownloadedRGModel.getInstance().updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
         }
+        
         try {
             // Parse XML-File
             FileEditorInput input = (FileEditorInput) getEditorInput();

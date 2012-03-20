@@ -105,7 +105,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
         
         // Add decoration
         this.treeDec = new ControlDecoration(this.treeViewer.getControl(), SWT.TOP | SWT.LEFT);
-        this.treeDec.setImage(Images.ERROR_DEC);
+        this.treeDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         validate();
         
         // Add tooltip listener
