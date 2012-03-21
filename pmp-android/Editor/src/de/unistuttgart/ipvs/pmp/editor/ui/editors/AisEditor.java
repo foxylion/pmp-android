@@ -80,6 +80,10 @@ public class AisEditor extends FormEditor {
         // Parse XML-File
         FileEditorInput input = (FileEditorInput) getEditorInput();
         
+        // Get the path to the project
+        String[] split = input.getFile().getFullPath().toString().split("/");
+        String project = "/" + split[1];
+        
         try {
             try {
                 // Synchronize if out of sync (better: show message)
@@ -88,28 +92,25 @@ public class AisEditor extends FormEditor {
                 }
                 IAIS ais = XMLUtilityProxy.getAppUtil().parse(input.getFile().getContents());
                 
-                // Get the path to the project
-                String[] split = input.getFile().getFullPath().toString().split("/");
-                String project = "/" + split[1];
-                
                 // Store ais in the Model
                 this.model.setAis(ais);
                 
                 AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
-                
-                // Create the pages
-                this.generalPage = new AISGeneralPage(this, project, this.model);
-                this.sfPage = new AISServiceFeaturesPage(this, this.model);
             } catch (ParserException e) {
                 model.setAis(XMLUtilityProxy.getAppUtil().createBlankAIS());
-                this.generalPage = new AISGeneralPage(this, null, this.model);
-                this.sfPage = new AISServiceFeaturesPage(this, this.model);
+                
             }
             /*
              * Reset the dirty flag in the model and store this instance of this
              * editor that the model can call the firepropertyChanged
              */
             this.model.setDirty(false);
+            
+            /*
+             * Add the pages
+             */
+            this.generalPage = new AISGeneralPage(this, project, this.model);
+            this.sfPage = new AISServiceFeaturesPage(this, this.model);
             
             // Add the pages
             addPage(this.generalPage);
