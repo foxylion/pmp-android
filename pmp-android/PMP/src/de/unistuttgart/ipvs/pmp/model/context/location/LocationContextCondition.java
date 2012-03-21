@@ -159,7 +159,7 @@ public class LocationContextCondition {
         
         // we do this first because the point-in-polygon test might suffer problems
         // if the single point is too close to the polygon
-        if (geoCircleIntersectsPolygon(state, (state.getAccuracy() + uncertainty) / 1000f)) {
+        if (geoEllipseIntersectsPolygon(state, state.getAccuracy() + uncertainty)) {
             this.lastCheck = true;
             return true;
             
@@ -174,19 +174,23 @@ public class LocationContextCondition {
     
     
     /**
-     * Tests whether a circle around p with diameter dist kilometers does intersect the polygon.
+     * Tests whether a circle around p with diameter dist meters does intersect the polygon.
      * 
      * @param p
      * @param dist
      * @return
+     * @deprecated I believe {@link #geoEllipseIntersectsPolygon(PMPGeoPoint, double)} works better, but I'm not sure
+     *             yet.
      */
+    @SuppressWarnings("unused")
+    @Deprecated
     private boolean geoCircleIntersectsPolygon(PMPGeoPoint p, double dist) {
         
         // TODO this could be bogus, this is actually an ellipse-ray-intersection (for spheres)
         // as defined by p.getNorthDistance() and p.getEastDistance()
         
         // convert dist from km in degrees (this is an approximation)
-        double distDeg = dist / (2.0 * Math.PI * EARTH_RADIUS);
+        double distDeg = dist / (2.0 * 1000.0 * Math.PI * EARTH_RADIUS);
         if (distDeg > 180.0) {
             distDeg -= 180.0;
         }
@@ -219,6 +223,58 @@ public class LocationContextCondition {
             }
         }
         return false;
+    }
+    
+    
+    /**
+     * Tests whether a lat/lon correct ellipse around p with half axes dist meters does intersect the polygon.
+     * 
+     * @param p
+     * @param dist
+     * @return
+     */
+    private boolean geoEllipseIntersectsPolygon(PMPGeoPoint p, double dist) {
+        
+        // convert dist from km in degrees
+        double latDistDeg = p.getNorthDistance(dist);
+        double lonDistDeg = p.getEastDistance(dist);
+        
+        // for each line in the polygon
+        for (int i = 0; i < this.polygon.size() - 1; i++) {
+            double latOrig = this.polygon.get(i).getLatitude();
+            double lonOrig = this.polygon.get(i).getLongitude();
+            double latDir = this.polygon.get(i + 1).getLatitude() - latOrig;
+            double lonDir = this.polygon.get(i + 1).getLongitude() - lonOrig;
+            
+            // transform the ray into the MCS of p
+            latOrig -= p.getLatitude();
+            lonOrig -= p.getLongitude();
+            
+            // o + t*d where t needs to be in [0;1] to be the polygon's edge
+            // (centered in p)
+            // x²/a² + y²/b² = 1 (ellipse)
+            // p = (x,y):
+            // t² ( dx²/a² + dy²/b²) + 2t (ox*dx/a² + oy*dy/b²) + (ox²/a² + oy²/b² - 1) = 0
+            // note that x = Longitude and y = Latitude
+            // thus a = lonDistDeg, b = latDistDeg
+            
+            double a = sqr(lonDir / lonDistDeg) + sqr(latDir / latDistDeg);
+            double b = 2.0 * (((lonOrig * lonDir) / sqr(lonDistDeg)) + ((latOrig * latDir) / sqr(latDistDeg)));
+            double c = sqr(lonOrig / lonDistDeg) + sqr(latOrig / latDistDeg) - 1.0;
+            
+            double[] t = solveQE(a, b, c);
+            for (double solution : t) {
+                if ((solution >= 0.0) && (solution <= 1.0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    private double sqr(double arg) {
+        return arg * arg;
     }
     
     
