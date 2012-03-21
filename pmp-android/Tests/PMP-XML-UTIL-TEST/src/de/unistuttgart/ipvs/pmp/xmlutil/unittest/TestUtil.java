@@ -98,6 +98,24 @@ public class TestUtil implements TestConstants {
                     break;
             }
         }
+        
+        
+        public void applyToXMLNode(XMLNode node, String attribName, Boolean isEmpty) {
+            switch (this) {
+                case CORRECT:
+                    node.addAttribute(new XMLAttribute(attribName, isEmpty.toString()));
+                    break;
+                case ALWAYS_FALSE:
+                    node.addAttribute(new XMLAttribute(attribName, Boolean.FALSE.toString()));
+                    break;
+                case ALWAYS_TRUE:
+                    node.addAttribute(new XMLAttribute(attribName, Boolean.TRUE.toString()));
+                    break;
+                case OMIT:
+                    // do nothing
+                    break;
+            }
+        }
     }
     
     private static final boolean debugInput = true;
@@ -257,7 +275,7 @@ public class TestUtil implements TestConstants {
             ctx.addAttribute(new XMLAttribute(XML_TYPE, context.getType()));
             if (context.getCondition() != null) {
                 ctx.addAttribute(new XMLAttribute(XML_CONDITION, context.getCondition()));
-                emptyValueHandling.applyToXMLNode(ctx, XML_EMPTY_CONDITION);
+                emptyValueHandling.applyToXMLNode(ctx, XML_EMPTY_CONDITION, context.getCondition().isEmpty());
             }
             
             if (context.getOverrideValue() != null) {
