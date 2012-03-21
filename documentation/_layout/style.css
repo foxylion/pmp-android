@@ -359,3 +359,10 @@ iframe {
 p.print_only {
 	display: none;
 }
+
+span.highlight {
+	font-family: monospace;
+	font-size: 90%;
+	padding-bottom: 0.1em;
+	color: orange;
+}
