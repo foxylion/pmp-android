@@ -112,7 +112,6 @@ public abstract class AbstractParser {
         for (int nodeListItr = 0; nodeListItr < nodeList.getLength(); nodeListItr++) {
             // Get the element
             Element element = (Element) nodeList.item(nodeListItr);
-            
             // Instantiate the parsed node
             ParsedNode parsedNode = new ParsedNode();
             
