@@ -28,7 +28,6 @@ import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -291,8 +290,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         });
         
         // Picture can be added also to the actions
-        Action refresh = new Action("Refresh Resource Group List from server",
-                ImageDescriptor.createFromImage(Images.IMG_ELCL_SYNCED)) {
+        Action refresh = new Action("Refresh Resource Group List from server", Images.getImageDescriptor("icons",
+                "update.gif")) {
             
             @Override
             public void run() {
