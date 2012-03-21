@@ -56,7 +56,7 @@ public class AisEditor extends FormEditor {
     /**
      * The model of this editor instance
      */
-    private AisModel model;
+    private AisModel model = new AisModel();
     
     /**
      * The {@link AISServiceFeaturesPage}
@@ -71,16 +71,16 @@ public class AisEditor extends FormEditor {
      */
     @Override
     protected void addPages() {
-        this.model = new AisModel();
+        model.setEditor(this);
         
         // Download the RGs from the server at startup if it's not done
         if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
             DownloadedRGModel.getInstance().updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
         }
+        // Parse XML-File
+        FileEditorInput input = (FileEditorInput) getEditorInput();
         
         try {
-            // Parse XML-File
-            FileEditorInput input = (FileEditorInput) getEditorInput();
             try {
                 // Synchronize if out of sync (better: show message)
                 if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
@@ -101,6 +101,7 @@ public class AisEditor extends FormEditor {
                 this.generalPage = new AISGeneralPage(this, project, this.model);
                 this.sfPage = new AISServiceFeaturesPage(this, this.model);
             } catch (ParserException e) {
+                model.setAis(XMLUtilityProxy.getAppUtil().createBlankAIS());
                 this.generalPage = new AISGeneralPage(this, null, this.model);
                 this.sfPage = new AISServiceFeaturesPage(this, this.model);
             }
@@ -108,7 +109,6 @@ public class AisEditor extends FormEditor {
              * Reset the dirty flag in the model and store this instance of this
              * editor that the model can call the firepropertyChanged
              */
-            this.model.setEditor(this);
             this.model.setDirty(false);
             
             // Add the pages
