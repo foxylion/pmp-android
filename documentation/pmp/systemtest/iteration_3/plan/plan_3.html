@@ -13,10 +13,10 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="page-head-date">11. März 2012</div>
+		<div id="page-head-date">21. März 2012</div>
 		<div id="page-head-title">Privacy Management Platform</div>
 		<div id="page-title">Systemtest-Plan für die<br/>3. Iteration</div>
-		<div id="page-version">Version 1.0</div>
+		<div id="page-version">Version 1.1</div>
 		
 		<nav>
 			<div class="title">Inhaltsverzeichnis</div>
@@ -26,6 +26,11 @@
 		
 		<!-- here comes the content of the system test plan -->
 		<h1 id="versionshistorie">Versionshistorie</h1>
+		
+				<h3>Version 1.1 (21.03.2012)</h3>
+					<ul>
+						<li>Umnummerierung &amp; kleine Korrekturen</li>
+					</ul>
 		
 				<h3>Version 1.0 (11.03.2012)</h3>
 					<ul>
@@ -73,7 +78,7 @@
 					<p>Für die Tests soll generell ein AVD mit API-Level 7 verwendet werden, soweit nicht anders angegeben.</p>
 					
 				<h2 id="testende">Test-Ende-Kriterium</h2>
-					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 20.03.2012 definiert.</p>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 23.03.2012 definiert.</p>
 					
 				<h2 id="testende">Test-Erstellungsmethodik</h2>
 					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
@@ -163,61 +168,56 @@
 					</tr>
 					<tr>
 						<td>FT-12</td>
-						<td>-</td>
-						<td>-</td>
-					</tr>
-					<tr>
-						<td>FT-13</td>
 						<td>208</td>
 						<td>Privacy-Setting-Wert ändern</td>
 					</tr>
 					<tr>
-						<td>FT-14</td>
+						<td>FT-13</td>
 						<td>300</td>
 						<td>Ressourcengruppe installieren</td>
 					</tr>
 					<tr>
-						<td>FT-15</td>
+						<td>FT-14</td>
 						<td>301</td>
 						<td>Ressourcengruppe deinstallieren</td>
 					</tr>
 					<tr>
-						<td>FT-16</td>
+						<td>FT-15</td>
 						<td>210</td>
 						<td>Presets exportieren</td>
 					</tr>
 					<tr>
-						<td>FT-17</td>
+						<td>FT-16</td>
 						<td>211</td>
 						<td>Presets importieren</td>
 					</tr>
 					<tr>
-						<td>FT-18</td>
+						<td>FT-17</td>
 						<td>250</td>
 						<td>Preset löschen</td>
 					</tr>
 					<tr>
-						<td>FT-19</td>
+						<td>FT-18</td>
 						<td>251</td>
 						<td>Preset wiederherstellen</td>
 					</tr>
 					<tr>
-						<td>FT-20</td>
+						<td>FT-19</td>
 						<td>252</td>
 						<td>Preset-Papierkorb leeren</td>
 					</tr>
 					<tr>
-						<td>FT-21</td>
+						<td>FT-20</td>
 						<td>270</td>
 						<td>Kontext zu Privacy-Setting-Wert hinzufügen</td>
 					</tr>
 					<tr>
-						<td>FT-22</td>
+						<td>FT-21</td>
 						<td>271</td>
 						<td>Kontext ändern</td>
 					</tr>
 					<tr>
-						<td>FT-23</td>
+						<td>FT-22</td>
 						<td>272</td>
 						<td>Kontext aus Privacy-Setting-Wert entfernen</td>
 					</tr>
@@ -228,15 +228,15 @@
 				<h2 id="anforderungen-an-pmp">Anforderungen an PMP</h2>
 			
 					<h3 id="oberflaeche">Oberfläche</h3>
-						<h4 id="ft-24">FT-24</h4>
+						<h4 id="ft-23">FT-23</h4>
 						<p>Es lässt sich hier kaum ein algorithmisches Vorgehen angeben. Der Tester sollte die <a href="http://developer.android.com/guide/practices/ui_guidelines/index.html">Android User Interface Guidelines</a> in den relevanten Teilen durchlesen und sich durch Betrachtung und funktionale Testfälle ein Bild der GUI machen. Falls er keine Abweichungen feststellen kann, gilt der Test als "OK". Gibt es Abweichungen, ist der Test "Nicht Bestanden".</p>
 
 					<h3 id="import-export">Import/Export</h3>
-					<p>Die Tests für Preset-Import/Export werden in FT-16 und FT-17 durchgeführt.</p>
+					<p>Die Tests für Preset-Import/Export werden in FT-15 und FT-16 durchgeführt.</p>
 					
 					<h3 id="import-export">Protokollierung</h3>
 					<p>Für Unklarheiten werfe man einen Blick in die Spezifikation, Kapitel 3.2.3.</p>
-					<h4 id="ft-25">FT-25</h4>
+					<h4 id="ft-24">FT-24</h4>
 					<table>
 						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
 						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
@@ -253,7 +253,7 @@
 					</table>
 					
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
-					<h4 id="ft-26">FT-26</h4>
+					<h4 id="ft-25">FT-25</h4>
 					<table>
 						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
 						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
@@ -266,15 +266,16 @@
 					<p>Apps können ausschließlich Fehler in der AppInformationSet-Definition (XML-Datei) enthalten.
 					Der XML-Parser wurde bereits im Modultest ausreichend getestet, sodass ein Test an dieser Stelle nicht notwendig ist.</p>
 					<p>Weiterhin existieren momentan keine Apps, die selbst Presets mitbringen. Dies kann somit ebenfalls nicht getestet werden.</p>
-					<p>Die Funktion des "Zurück"-Buttons wird mit FT-27 getestet.</p>
+					<p>Die Funktion des "Zurück"-Buttons wird mit FT-26 getestet.</p>
 				
-					<h4 id="ft-27">FT-27</h4>
+					<h4 id="ft-26">FT-26</h4>
 					<table>
 						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
 						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
 						<tr><td>2.</td><td>Der Tester startet PMP, öffnet jede Unter-Bildschirmmaske von PMP und betätigt jeweils den "Zurück"-Button</td><td>PMP ist gestartet und erfüllt folgende Semantik bzgl. der "Zurück-Button-Funktion": Die gegebenenfalls vorgenommen Einstellungen oder Modifikationen werden gespeichert, die Bildschirmmaske wird verlassen und die vorhergehende Bildschirmmaske angezeigt.</td></tr>
-						
-					<h4 id="ft-28">FT-28</h4>
+					</table>
+					
+					<h4 id="ft-27">FT-27</h4>
 					<table>
 						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
 						<tr><td>1.</td><td>Der Tester installiert PMP.</td><td>PMP ist installiert.</td></tr>
@@ -358,7 +359,7 @@
 				</table> 
 				
 				<h2 id="protokollierung">Protokollierung</h2>
-				<p>Siehe FT-25.</p>
+				<p>Siehe FT-24.</p>
 				
 				<h2 id="installation">Installation</h2>
 				<h3 id="nft-6">NFT-6</h3>
