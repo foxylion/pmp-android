@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/de.unistuttgart.ipvs.pmp.editor_1.0.0.0.jar" id="de.unistuttgart.ipvs.pmp.editor" version="1.0.0.0">
+      <category name="eis"/>
+   </feature>
+   <category-def name="eis" label="Editor for Information Sets"/>
+</site>
