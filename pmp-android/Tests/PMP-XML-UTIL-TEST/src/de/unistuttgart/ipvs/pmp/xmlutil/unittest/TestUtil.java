@@ -265,8 +265,8 @@ public class TestUtil implements TestConstants {
         
         if (value != null) {
             XMLNode valu = new XMLNode(XML_VALUE);
-            emptyValueHandling.applyToXMLNode(valu, XML_EMPTY_VALUE);
             valu.setCDATAContent(value);
+            emptyValueHandling.applyToXMLNode(valu, XML_EMPTY_VALUE);
             ps.addChild(valu);
         }
         
