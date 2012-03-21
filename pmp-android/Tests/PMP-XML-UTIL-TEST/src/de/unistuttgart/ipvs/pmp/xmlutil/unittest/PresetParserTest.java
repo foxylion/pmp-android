@@ -513,7 +513,7 @@ public class PresetParserTest extends TestCase implements TestConstants {
         assertTrue(compilation.contains(RG_REVISION)
                 || compilation.contains(XMLConstants.REVISION_DATE_FORMAT.format(RG_REVISION_DATE)));
         assertTrue(compilation.contains(RG_PS1_ID));
-        assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE));
+        assertTrue(compilation.contains(APP_SF1_REQ_PS1_VALUE.replace("]]>", "]]]]><![CDATA[>")));
         assertTrue(compilation.contains(CONTEXT1_TYPE));
         assertTrue(compilation.contains(CONTEXT1_CONDITION));
         assertTrue(compilation.contains(CONTEXT1_OVERRIDE));
