@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appInformationSet>
+   <appInformation>
+      <name lang="en">PMP-SystemtestApp01</name>
+      <description lang="en">This App is for testing ONLY</description>
+   </appInformation>
+   <serviceFeatures>
+      <serviceFeature identifier="sf01">
+         <name lang="en">sf</name>
+         <description lang="en">sf</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1970-01-01 01:00:00 GMT">
+            <requiredPrivacySetting identifier="read"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+      <serviceFeature identifier="sf02">
+         <name lang="en">sf</name>
+         <description lang="en">sf</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.database" minRevision="1970-01-01 01:00:00 GMT">
+            <requiredPrivacySetting identifier="modify"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+   </serviceFeatures>
+</appInformationSet>
