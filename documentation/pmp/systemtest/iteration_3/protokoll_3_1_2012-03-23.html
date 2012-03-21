@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Systemtest-Protokoll für die 3. Iteration - Privacy Management Platform</title>
@@ -60,12 +60,12 @@
 				<tr><td>FT-14</td><td>Thorsten Berberich</td><td class="success">OK</td></tr>
 				<tr><td>FT-15</td><td>Patrick Strobel</td><td>?</td></tr>
 				<tr><td>FT-16</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-17</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-18</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-19</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-20</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-21</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-22</td><td>Patrick Strobel</td><td>?</td></tr>
+				<tr><td>FT-17</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
+				<tr><td>FT-18</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
+				<tr><td>FT-19</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
+				<tr><td>FT-20</td><td>Patrick Strobel</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-21</td><td>Patrick Strobel</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-22</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
 				<tr><td>FT-23</td><td>Patrick Strobel</td><td>?</td></tr>
 				<tr><td>FT-24</td><td>Patrick Strobel</td><td>?</td></tr>
 				<tr><td>FT-25</td><td>Patrick Strobel</td><td>?</td></tr>
@@ -93,8 +93,29 @@
 			<p>FT-9 wurde als nicht bestanden markiert, da im Use Case205 "App aus einem Preset entfernen" im Schritt 8 dieser mit dem Pattern "Warnung" annotiert ist, jedoch wird keine Warnung angezeigt, sondern die App einfach entfernt.</p> 
 			
 			<h2 id="tester2">Patrick Strobel</h2>
-			<p>-</p>
-			
+			<p>
+        FT-18 wurde als bestanden markiert, obwohl der Use-Case 251 das Anzeigen
+        eines Hinweises bei leerem Papierkorb verlangt. Dies ist jedoch nicht 
+        der Fall (wenn Papierkorb leer, dann keine Änderung beim Anzeigen/Verbergen 
+        des Pabierkorbs. Auch kein Hinweisfenster).
+      </p>
+      <p>
+        FT-20 wurde als nicht bestanden markiert, weil die direkte Validierung 
+        nicht überprüft werden konnte: Wenn einem Boolean Privacy Setting
+        zwei Zeit-Kontexte hinzugefügt werden mit jeweils gleichem Zeitraum, 
+        einmal jedoch mit Wert "true" und das andere mal mit "false", so 
+        wird kein Fehler angezeigt.<br />
+        Auch änderte sich der Wert des Privacy Settings nicht abhängig von 
+        der Uhrzeit (TODO: Nochmals testen!).
+      </p>
+      <p>
+        FT-21 wurd als nicht bestanden markiert, weil die direkte Validierung 
+        nicht überprüft werden konnte. Ausgangssituation: Boolean Privacy Setting
+        hat zwei Zeit-Kontexte. Werden beide Kontexte auf den gleichen Zeitraum gesetzt,
+        einmal jedoch mit Wert "true" und das andere mal mit "false", so 
+        wird kein Fehler angezeigt.
+      </p>
+      
 			<h2 id="tester3">Marcus Vetter</h2>
 			<p>-</p>
 
