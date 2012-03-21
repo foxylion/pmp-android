@@ -33,7 +33,6 @@ public class JSonRequestProvider {
     private static final String TAG = "JSonRequestProvider";
     
     
-    
     // private static final boolean debug = false;
     
     /**
@@ -113,7 +112,7 @@ public class JSonRequestProvider {
                     sb.append(s).append(System.getProperty("line.separator"));
                 }
                 s = sb.toString();
-
+                
                 jsonObject = (new JsonParser()).parse(s).getAsJsonObject();
                 Log.d(TAG, "======DEBUG=====");
                 Log.d(TAG, s);

@@ -4,7 +4,6 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.EnumPrivacySetting;
 
 /**
  * Simple PrivacySetting verification.

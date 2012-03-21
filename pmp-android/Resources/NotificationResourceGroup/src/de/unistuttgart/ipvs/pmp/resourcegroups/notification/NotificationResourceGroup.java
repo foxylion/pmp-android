@@ -7,20 +7,20 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySe
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.resource.NotificationResource;
 
 public class NotificationResourceGroup extends ResourceGroup {
-
-	public static final String PACKAGE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.notification";
-
-	public static final String R_NOTIFICATION= "notificationResource";
-
-	public static final String PS_USE_NOTIFY = "allowNotification";
-
-	public NotificationResourceGroup(IPMPConnectionInterface pmpci) {
-		super(PACKAGE_NAME, pmpci);
-		
-		
-		registerResource(R_NOTIFICATION, new NotificationResource(this));
-		Log.i(this, "registerResource");
-		registerPrivacySetting(PS_USE_NOTIFY, new BooleanPrivacySetting());
-	}
-
+    
+    public static final String PACKAGE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.notification";
+    
+    public static final String R_NOTIFICATION = "notificationResource";
+    
+    public static final String PS_USE_NOTIFY = "allowNotification";
+    
+    
+    public NotificationResourceGroup(IPMPConnectionInterface pmpci) {
+        super(PACKAGE_NAME, pmpci);
+        
+        registerResource(R_NOTIFICATION, new NotificationResource(this));
+        Log.i(this, "registerResource");
+        registerPrivacySetting(PS_USE_NOTIFY, new BooleanPrivacySetting());
+    }
+    
 }
