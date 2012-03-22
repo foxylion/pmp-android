@@ -1,0 +1,162 @@
+package de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils;
+
+import android.os.IInterface;
+
+import com.google.android.maps.MapActivity;
+
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
+import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
+
+/**
+ * This class provides easy access to all the needed resource groups
+ * 
+ * @author Dang Huynh
+ * 
+ */
+public abstract class ResourceGroupReadyMapActivity extends MapActivity implements IResourceGroupReady {
+    
+    protected static IAbsoluteLocation rgLocation;
+    protected static IvHikeWebservice rgvHike;
+    protected static INotification rgNotification;
+    
+    
+    /**
+     * Callback function when your requested resource group is ready. This method set the local resource group variables
+     * to real RG-object by default. Override this method and add your own logic.
+     * 
+     * Remember to catch Exceptions.
+     * 
+     * @param resourceGroup
+     *            The returned resource group
+     * @param resourceGroupId
+     *            The ID of that resource group
+     */
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
+        switch (resourceGroupId) {
+            case Constants.RG_LOCATION:
+                rgLocation = (IAbsoluteLocation) resourceGroup;
+                break;
+            case Constants.RG_NOTIFICATION:
+                rgNotification = (INotification) resourceGroup;
+                break;
+            case Constants.RG_VHIKE_WEBSERVICE:
+                rgvHike = (IvHikeWebservice) resourceGroup;
+                break;
+        }
+    }
+    
+    
+    /**
+     * Returns a resource group if it's available or null if the resource group is being cached. If you get a
+     * null variable from this method, your activity will be informed by calling the function onResourceGroupReady.
+     * Override that method and implement your own logic.
+     * 
+     * Remember to check permission and catch Exceptions.
+     * 
+     * @param activity
+     *            Your ResourceGroupReadyActivity
+     * @param resourceGroupId
+     *            The resource group's ID. See {@link Constants}.RG_***
+     * @return null or a IInterface
+     */
+    protected IInterface requestResourceGroup(ResourceGroupReadyMapActivity activity, int resourceGroupId) {
+        switch (resourceGroupId) {
+            case Constants.RG_LOCATION:
+                if (rgLocation == null) {
+                    rgLocation = (IAbsoluteLocation) vHikeService.getInstance().requestResourceGroup(activity,
+                            resourceGroupId);
+                }
+                return rgLocation;
+            case Constants.RG_NOTIFICATION:
+                if (rgNotification == null) {
+                    rgNotification = (INotification) vHikeService.getInstance().requestResourceGroup(activity,
+                            resourceGroupId);
+                }
+                return rgNotification;
+            case Constants.RG_VHIKE_WEBSERVICE:
+                if (rgvHike == null) {
+                    rgvHike = (IvHikeWebservice) vHikeService.getInstance().requestResourceGroup(activity,
+                            resourceGroupId);
+                }
+                return rgvHike;
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Returns an Absolute Location resource group if it's available or null if the resource group is being cached. If
+     * you get a null variable from this method, your activity will be informed by calling the function
+     * onResourceGroupReady. Override that method and implement your own logic.
+     * 
+     * Remember to check permission and catch Exceptions.
+     * 
+     * @param activity
+     *            Your ResourceGroupReadyActivity
+     * @return Null or an {@link IAbsoluteLocation} object
+     */
+    protected IAbsoluteLocation getLocationRG(ResourceGroupReadyMapActivity activity) {
+        if (rgLocation == null) {
+            rgLocation = (IAbsoluteLocation) vHikeService.getInstance().requestResourceGroup(activity,
+                    Constants.RG_LOCATION);
+        }
+        return rgLocation;
+    }
+    
+    
+    /**
+     * Returns a Notification resource group if it's available or null if the resource group is being cached. If
+     * you get a null variable from this method, your activity will be informed by calling the function
+     * onResourceGroupReady. Override that method and implement your own logic.
+     * 
+     * Remember to check permission and catch Exceptions.
+     * 
+     * @param activity
+     *            Your ResourceGroupReadyActivity
+     * @return Null or an {@link INotification} object
+     */
+    protected INotification getNotificationRG(ResourceGroupReadyMapActivity activity) {
+        if (rgNotification == null) {
+            rgNotification = (INotification) vHikeService.getInstance().requestResourceGroup(activity,
+                    Constants.RG_NOTIFICATION);
+        }
+        return rgNotification;
+    }
+    
+    
+    /**
+     * Returns a vHike Web Service resource group if it's available or null if the resource group is being cached. If
+     * you get a null variable from this method, your activity will be informed by calling the function
+     * onResourceGroupReady. Override that method and implement your own logic.
+     * 
+     * Remember to check permission and catch Exceptions.
+     * 
+     * @param activity
+     *            Your ResourceGroupReadyActivity
+     * @return Null or an {@link IvHikeWebservice} object
+     */
+    protected IvHikeWebservice getvHikeRG(ResourceGroupReadyMapActivity activity) {
+        if (rgvHike == null) {
+            rgvHike = (IvHikeWebservice) vHikeService.getInstance().requestResourceGroup(activity,
+                    Constants.RG_VHIKE_WEBSERVICE);
+        }
+        return rgvHike;
+    }
+    
+    
+    /**
+     * Reload a resource group even when it's cached. This method should be called when your resource group returns a
+     * strange error.
+     * 
+     * Remember to check permission and catch Exceptions.
+     * 
+     * @param activity
+     *            Your ResourceGroupReadyActivity
+     */
+    protected void reloadResourceGroup(ResourceGroupReadyMapActivity activity, int resourceGroupId) {
+        vHikeService.getInstance().loadResourceGroup(activity, resourceGroupId);
+    }
+}
