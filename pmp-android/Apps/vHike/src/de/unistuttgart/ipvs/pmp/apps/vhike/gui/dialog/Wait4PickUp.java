@@ -18,6 +18,7 @@ public class Wait4PickUp extends Dialog {
     
     public Wait4PickUp(final Context context) {
         super(context);
+        setTitle("Goodbye");
         setContentView(R.layout.dialog_query_finito);
         
         Button btn = (Button) findViewById(R.id.btn_query_finish);

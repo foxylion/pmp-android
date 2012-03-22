@@ -102,5 +102,6 @@
     <string name="logging_in">logging in&#8230;</string>
     <string name="plan_enable_sf">Service Location is not enabled. Do you want to enable Service Feature?</string>
     <string name="open_pmp">Open PMP</string>
+    <string name="close_map">Return to planning menu</string>
 
 </resources>
