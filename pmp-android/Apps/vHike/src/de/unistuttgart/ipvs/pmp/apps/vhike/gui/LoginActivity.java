@@ -112,7 +112,13 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void run() {
-                    login();
+                    handler.post(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            login();
+                        }
+                    });
                 }
             }, 1500);
         } else {
@@ -199,7 +205,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         if (isCanceled)
             return;
         try {
-            ((Button)findViewById(R.id.button_cancel)).setVisibility(View.GONE);
+            ((Button) findViewById(R.id.button_cancel)).setEnabled(false);
             // Get resource group 
             if (getvHikeRG(this) != null) {
                 Log.v(this, "Logging in");
@@ -244,6 +250,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                             Toast.LENGTH_LONG).show();
                     findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
                     findViewById(R.id.layout_autologin).setVisibility(View.GONE);
+                    ((Button) findViewById(R.id.button_cancel)).setEnabled(false);
                     prefsEditor.putBoolean("AUTOLOGIN", false);
                     prefsEditor.putString("USERNAME", "");
                     prefsEditor.putString("PASSWORD", "");
