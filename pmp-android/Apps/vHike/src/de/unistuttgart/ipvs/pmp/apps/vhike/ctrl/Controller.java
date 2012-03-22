@@ -69,8 +69,12 @@ public class Controller {
         Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
         String ret = "";
         try {
-            ret = ws.announceTrip(session_id, destination, current_lat, current_lon,
-                    avail_seats, date.getTime());
+            if (date == null)
+                ret = ws.announceTrip(session_id, destination, current_lat, current_lon,
+                        avail_seats, 0);
+            else
+                ret = ws.announceTrip(session_id, destination, current_lat, current_lon,
+                        avail_seats, date.getTime());
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

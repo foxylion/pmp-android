@@ -7,6 +7,7 @@ import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Check for incoming offers from drivers
@@ -20,6 +21,10 @@ public class Check4Offers extends TimerTask {
     private Controller ctrl;
     private List<OfferObject> loo;
     
+    public Check4Offers(IvHikeWebservice ws){
+        this.handler = new Handler();
+        this.ctrl = new Controller(ws);
+    }
     
     public Check4Offers() {
         this.handler = new Handler();

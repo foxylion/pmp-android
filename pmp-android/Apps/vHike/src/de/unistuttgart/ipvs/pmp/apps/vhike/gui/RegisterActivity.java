@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 
 /**
  * Users can register an account when register form is filled in correctly
@@ -23,7 +26,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
  * @author Andre Nguyen
  * 
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends ResourceGroupReadyActivity {
     
     EditText et_username;
     EditText et_email;
@@ -39,7 +42,7 @@ public class RegisterActivity extends Activity {
     boolean correctPw = false;
     boolean cMobile = false;
     boolean registrationSuccessfull = false;
-    
+    private Handler handler;
     private final Pattern email_pattern = Pattern.compile("[a-zA-Z0-9+._%-+]{1,256}" + "@"
             + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "." + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+");
     private final Pattern mobile_pattern = Pattern.compile("^[+]?[0-9]{10,13}$");
@@ -47,10 +50,26 @@ public class RegisterActivity extends Activity {
     
     
     @Override
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        Log.i(this, "RG ready: " + resourceGroup);
+        if (rgvHike != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    register();
+                }
+            });
+        }
+    }
+    
+    
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        
+        this.handler = new Handler();
         this.et_username = (EditText) findViewById(R.id.et_username);
         this.et_email = (EditText) findViewById(R.id.et_email);
         this.et_password = (EditText) findViewById(R.id.et_pw);
@@ -61,7 +80,8 @@ public class RegisterActivity extends Activity {
         this.et_desc = (EditText) findViewById(R.id.et_description);
         
         validator();
-        register();
+        if (getvHikeRG(this) != null)
+            register();
         
     }
     
@@ -186,7 +206,7 @@ public class RegisterActivity extends Activity {
             
             @Override
             public void onClick(View arg0) {
-                Controller ctrl = new Controller();
+                Controller ctrl = new Controller(rgvHike);
                 Map<String, String> map = new HashMap<String, String>();
                 
                 EditText et_username = (EditText) findViewById(R.id.et_username);
