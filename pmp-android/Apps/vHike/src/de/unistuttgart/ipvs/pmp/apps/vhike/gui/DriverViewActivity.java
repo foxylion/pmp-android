@@ -181,7 +181,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         locationTimer = new Timer();
         queryTimer = new Timer();
         
-        c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler);
+        c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, 0);
         locationTimer.schedule(c4l, 10000, 10000);
         // Start Check4Queries Class to check for queries
         

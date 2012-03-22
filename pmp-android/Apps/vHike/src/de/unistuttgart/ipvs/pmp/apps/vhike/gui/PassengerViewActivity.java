@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
+import android.os.RemoteException;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -187,9 +188,6 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         //        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
         //        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
-        if (ctrl == null) {
-            Log.i(this, "Controller nnull");    
-        }
         
         switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(),
                 ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
@@ -202,7 +200,13 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 break;
         }
         
-        Check4Location c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler);
+        try {
+            rgLocation.startLocationLookup(5000, 20.0F);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        Check4Location c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, 1);
         locationTimer.schedule(c4l, 10000, 10000);
         
         // check for offers every 10 seconds
@@ -220,6 +224,17 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     }
     
     
+    private void stopContinousLookup() {
+        
+        if (locationTimer != null) {
+            locationTimer.cancel();
+            ViewModel.getInstance().cancelLocation();
+            Log.i(this, "Timer Location cancel");
+        }
+        
+    }
+    
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -234,6 +249,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 this.locationTimer.cancel();
+                stopContinousLookup();
                 
                 break;
             case Constants.STATUS_NO_QUERY:
@@ -273,6 +289,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 this.timer.cancel();
                 this.locationTimer.cancel();
                 ViewModel.getInstance().clearViewModel();
+                stopContinousLookup();
                 
                 PassengerViewActivity.this.finish();
                 break;
@@ -315,6 +332,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearPassengerNotificationAdapter();
                         //                        this.locationManager.removeUpdates(this.luh);
+                        stopContinousLookup();
                         this.timer.cancel();
                         this.locationTimer.cancel();
                         ViewModel.getInstance().clearViewModel();
