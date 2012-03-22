@@ -233,6 +233,8 @@ public class DialogContextChange extends Dialog {
             try {
                 if (this.contextCondition != null) {
                     this.usedView.setViewCondition(this.contextCondition);
+                } else {
+                    // TODO set a null value to remove old settings.
                 }
             } catch (InvalidConditionException e) {
                 Log.e(this, "The condition which should be assigned seems to be an invalid one.", e);
