@@ -124,12 +124,12 @@ public class ActivitySettings extends Activity {
         // Get the ListView
         this.settingsListView = (ListView) findViewById(R.id.ListView_Settings);
         
-        // Add all available Settings
-        addSettings();
-        
         // Instantiate and add the adapter
         SettingsAdapter settingsAdapter = new SettingsAdapter(this, this.settingsList);
         this.settingsListView.setAdapter(settingsAdapter);
+        
+        // Add all available Settings
+        addSettings(settingsAdapter);
         
         /* Initiating the ActivityKillReceiver. */
         this.akr = new ActivityKillReceiver(this);
@@ -147,26 +147,27 @@ public class ActivitySettings extends Activity {
     /**
      * Add all Settings to the settingsList
      */
-    private void addSettings() {
+    private void addSettings(SettingsAdapter sa) {
         // add the ExpertMode-SettingCheckBox
-        this.settingsList.add(new SettingCheckBox(R.string.expert_mode, R.string.settings_expertmode_description,
+        this.settingsList.add(new SettingCheckBox(sa, R.string.expert_mode, R.string.settings_expertmode_description,
                 R.drawable.icon_expertmode, new ExpertModeSettingEvaluator()));
         
         // add the log granularities
-        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_component_change,
+        this.settingsList.add(new SettingCheckBox(sa, R.string.settings_log_granularity_component_change,
                 R.string.settings_log_granularity_component_change_desc, R.drawable.icon_edit,
                 new LogGranularityEvaluator(FileLog.GRANULARITY_COMPONENT_CHANGES)));
         
-        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_setting_change,
+        this.settingsList.add(new SettingCheckBox(sa, R.string.settings_log_granularity_setting_change,
                 R.string.settings_log_granularity_setting_change_desc, R.drawable.icon_sfs,
                 new LogGranularityEvaluator(FileLog.GRANULARITY_SETTING_CHANGES)));
         
-        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_context_change,
+        this.settingsList.add(new SettingCheckBox(sa, R.string.settings_log_granularity_context_change,
                 R.string.settings_log_granularity_context_change_desc, R.drawable.contexts_location_icon,
                 new LogGranularityEvaluator(FileLog.GRANULARITY_CONTEXT_CHANGES)));
         
-        this.settingsList.add(new SettingCheckBox(R.string.settings_log_granularity_setting_request,
+        this.settingsList.add(new SettingCheckBox(sa, R.string.settings_log_granularity_setting_request,
                 R.string.settings_log_granularity_setting_request_desc, R.drawable.icon_statistics,
                 new LogGranularityEvaluator(FileLog.GRANULARITY_SETTING_REQUESTS)));
     }
+    
 }

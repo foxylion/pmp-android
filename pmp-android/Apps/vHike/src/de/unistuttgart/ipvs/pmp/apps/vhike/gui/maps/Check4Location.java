@@ -17,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * 
@@ -30,28 +31,23 @@ public class Check4Location extends TimerTask {
     private Controller ctrl;
     private Context context;
     private Handler handler;
-    private IBinder binder;
     
     private int showAddress = 0;
     
     
-    public Check4Location(MapView mapView, Context context, Handler handler, IBinder binder) {
+    public Check4Location(IvHikeWebservice ws, IAbsoluteLocation loc, MapView mapView, Context context,
+            Handler handler, IBinder binder) {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
-        this.binder = binder;
-        this.ctrl = new Controller();
+        this.handler = new Handler();
+        this.ctrl = new Controller(ws);
+        this.loc = loc;
     }
     
     
     @Override
     public void run() {
-        
-        if (this.binder == null) {
-            return;
-        }
-        
-        this.loc = IAbsoluteLocation.Stub.asInterface(this.binder);
         
         boolean isFixed = false;
         
@@ -137,7 +133,8 @@ public class Check4Location extends TimerTask {
                                         .show();
                                 break;
                         }
-                        Log.i(this,"Latitude: "+ Check4Location.this.loc.getLatitude() * 1E6 + ", "+"Longtitude: " + Check4Location.this.loc.getLongitude() * 1E6);
+                        Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
+                                + Check4Location.this.loc.getLongitude() * 1E6);
                         
                         controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
                                 (int) (Check4Location.this.loc.getLongitude() * 1E6)));

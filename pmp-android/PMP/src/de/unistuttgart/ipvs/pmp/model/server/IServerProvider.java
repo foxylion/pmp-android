@@ -20,7 +20,8 @@ public interface IServerProvider {
      * 
      * @param searchPattern
      *            the string for which shall be searched
-     * @return an array of {@link LocalizedResourceGroup} for all resource groups fitting that pattern
+     * @return an array of {@link LocalizedResourceGroup} for all resource groups fitting that pattern, or null, if an
+     *         error occurred
      */
     public LocalizedResourceGroup[] findResourceGroups(String searchPattern);
     

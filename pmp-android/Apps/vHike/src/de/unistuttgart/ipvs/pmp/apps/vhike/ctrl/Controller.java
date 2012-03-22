@@ -962,6 +962,7 @@ public class Controller {
         }
         
         JsonObject object = parser.parse(ret).getAsJsonObject();
+        Log.i(this, ret);
         
         boolean suc = false;
         int id = Constants.QUERY_ID_ERROR;

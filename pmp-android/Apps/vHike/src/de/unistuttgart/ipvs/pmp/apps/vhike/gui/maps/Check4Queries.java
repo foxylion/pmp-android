@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Check for ride queries every given time interval
@@ -32,9 +33,9 @@ public class Check4Queries extends TimerTask {
     /**
      * Check for queries every given interval
      */
-    public Check4Queries(Handler handler) {
+    public Check4Queries(IvHikeWebservice ws, Handler handler) {
         this.handler = handler;
-        this.ctrl = new Controller();
+        this.ctrl = new Controller(ws);
         
         // get my Profile to retrieve latitude and longitude later
         this.me = Model.getInstance().getOwnProfile();

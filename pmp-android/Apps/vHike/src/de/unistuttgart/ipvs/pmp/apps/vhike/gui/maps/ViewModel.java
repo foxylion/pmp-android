@@ -29,6 +29,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * MapModel grants access to all elements needed to work with the map view
@@ -39,42 +40,60 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 public class ViewModel {
     
     private List<ViewObject> lvo;
-    Controller ctrl = new Controller();
+    Controller ctrl;
     private List<ViewObject> banned;
     MapView mapView;
     Context context;
-    private float my_lat;
-    private float my_lon;
+    private float my_lat = 0;
+    private float my_lon = 0;
     private boolean newFound = false;
     
     private boolean locationIsCanceled = false;
     private boolean queryIsCanceled = false;
+    private IvHikeWebservice ws;
+    
+    
+    public void setvHikeWSRGandCreateController(IvHikeWebservice ws) {
+        this.ws = ws;
+        ctrl = new Controller(ws);
+    }
+    
     
     public void cancelLocation() {
         locationIsCanceled = true;
     }
     
-    public void startLocation(){
+    
+    public void startLocation() {
         locationIsCanceled = false;
     }
+    
+    
     public void cancelQuery() {
         queryIsCanceled = true;
     }
+    
+    
     public void startQuery() {
         queryIsCanceled = false;
     }
+    
+    
     public boolean locationIsCanceled() {
         return locationIsCanceled;
     }
+    
     
     public boolean queryIsCanceled() {
         return queryIsCanceled;
     }
     
+    
     public void resetTimers() {
         locationIsCanceled = false;
         queryIsCanceled = false;
     }
+    
     
     public List<ViewObject> getLVO() {
         return this.lvo;
@@ -169,7 +188,7 @@ public class ViewModel {
                         updateViewObject(queryObject.getUserid(), lat, lon);
                     } else {
                         Profile profile = this.ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
-                        ViewObject vObject = new ViewObject(lat, lon, profile);
+                        ViewObject vObject = new ViewObject(ws, lat, lon, profile);
                         vObject.setqObject(queryObject);
                         this.lvo.add(vObject);
                         this.newFound = true;
@@ -223,7 +242,7 @@ public class ViewModel {
                         updateViewObject(offerObject.getUser_id(), lat, lng);
                     } else {
                         Profile driver = this.ctrl.getProfile(Model.getInstance().getSid(), offerObject.getUser_id());
-                        ViewObject vObject = new ViewObject(lat, lng, driver);
+                        ViewObject vObject = new ViewObject(ws, lat, lng, driver);
                         vObject.setoObject(offerObject);
                         this.lvo.add(vObject);
                         this.newFound = true;

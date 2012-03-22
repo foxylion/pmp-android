@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 public class ViewObject {
     
@@ -22,10 +23,11 @@ public class ViewObject {
     private OfferObject oObject;
     int status;
     ViewObject me;
+    private Controller ctrl;
     
-    
-    public ViewObject(float lat, float lon, Profile profile) {
+    public ViewObject(IvHikeWebservice ws, float lat, float lon, Profile profile) {
         super();
+        ctrl = new Controller(ws);
         this.status = Constants.V_OBJ_SATUS_FOUND;
         this.lat = lat;
         this.lon = lon;
@@ -98,12 +100,10 @@ public class ViewObject {
         
         listener = new OnClickListener() {
             
-            Controller ctrl = new Controller();
-            
             
             @Override
             public void onClick(View v) {
-                this.ctrl.handleOffer(Model.getInstance().getSid(), ViewObject.this.oObject.getOffer_id(), false);
+                ctrl.handleOffer(Model.getInstance().getSid(), ViewObject.this.oObject.getOffer_id(), false);
                 ViewObject.this.status = Constants.V_OBJ_SATUS_BANNED;
                 ViewModel.getInstance().addToBanned(ViewObject.this.me);
                 ViewModel.getInstance().updateView(1);
@@ -123,8 +123,6 @@ public class ViewObject {
             case Constants.V_OBJ_SATUS_FOUND:
                 listener = new OnClickListener() {
                     
-                    Controller ctrl = new Controller();
-                    
                     
                     @Override
                     public void onClick(View v) {
@@ -139,7 +137,7 @@ public class ViewObject {
                     public void listenerForDriver() {
                         
                         //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT
-                        int result = this.ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
+                        int result = ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance().getTripId(),
                                 ViewObject.this.qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!");
                         switch (result) {
                             case Constants.STATUS_INVALID_TRIP:
@@ -168,7 +166,7 @@ public class ViewObject {
                         if (ViewObject.this.oObject == null) {
                             Log.i(this, "oObject is Null");
                         }
-                        switch (this.ctrl.handleOffer(Model.getInstance().getSid(),
+                        switch (ctrl.handleOffer(Model.getInstance().getSid(),
                                 ViewObject.this.oObject.getOffer_id(), true)) {
                         //                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
                             case Constants.STATUS_HANDLED:
@@ -212,7 +210,6 @@ public class ViewObject {
                     
                     @Override
                     public void onClick(View v) {
-                        Controller ctrl = new Controller();
                         if (ctrl.pick_up(Model.getInstance().getSid(), ViewObject.this.profile.getID())) {
                             Log.i(this, "Picked up user: " + ViewObject.this.profile.getID());
                             ViewObject.this.status = Constants.V_OBJ_SATUS_PICKED_UP;
