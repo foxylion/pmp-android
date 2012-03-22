@@ -184,7 +184,7 @@ public class vHikeWebserviceResource extends Resource {
         
         String ret = "";
         try {
-            ret = JSonRequestProvider.doRequest(listToParse, "getPosition.php").toString();
+            ret = JSonRequestProvider.doRequest(listToParse, "get_position.php").toString();
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

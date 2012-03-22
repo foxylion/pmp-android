@@ -40,7 +40,6 @@ public class Check4Location extends TimerTask {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
-        this.handler = new Handler();
         this.ctrl = new Controller(ws);
         this.loc = loc;
     }
@@ -112,7 +111,13 @@ public class Check4Location extends TimerTask {
             public void run() {
                 
                 if (isFixedD) {
-                    MapController controller = Check4Location.this.mapView.getController();
+                    
+                    if (mapView == null) {
+                        Log.i(this, "MapView null");
+                    } else {
+                        Log.i(this, "MapView not null");
+                    }
+                    MapController controller = mapView.getController();
                     try {
                         ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD, 0);
                         /**

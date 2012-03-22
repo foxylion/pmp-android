@@ -127,7 +127,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:gravity="center" android:paddingRight="20dip">
+                android:layout_height="wrap_content" android:gravity="center" android:paddingRight="20dip" android:paddingBottom="10dip" android:paddingTop="10dip">
 
                 <ProgressBar
                     android:id="@+id/pb_login"
