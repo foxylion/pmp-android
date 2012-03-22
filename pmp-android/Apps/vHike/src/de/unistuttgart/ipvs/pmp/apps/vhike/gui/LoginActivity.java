@@ -97,9 +97,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         username = settings.getString("USERNAME", "");
         pw = settings.getString("PASSWORD", "");
         
-        // TODO Check this in oncreate
-        
-        if (settings.getBoolean("AUTOLOGIN", false) && !settings.getBoolean("ERROR", false)) {
+        if (settings.getBoolean("AUTOLOGIN", false) && !settings.getBoolean("ERROR", false)
+                && vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE)) {
             cbAutologin.setChecked(true);
             findViewById(R.id.layout_login).setVisibility(View.GONE);
             findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
@@ -122,6 +121,10 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             findViewById(R.id.layout_autologin).setVisibility(View.GONE);
             etUsername.setEnabled(true);
             etPW.setEnabled(true);
+            if (settings.getBoolean("AUTOLOGIN", false)) {
+                etUsername.setText(username);
+                etPW.setText(pw);
+            }
         }
     }
     
@@ -196,6 +199,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         if (isCanceled)
             return;
         try {
+            ((Button)findViewById(R.id.button_cancel)).setVisibility(View.GONE);
             // Get resource group 
             if (getvHikeRG(this) != null) {
                 Log.v(this, "Logging in");
@@ -246,7 +250,6 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                     prefsEditor.commit();
                 }
             }
-            System.out.println(Thread.currentThread().getId());
         } catch (SecurityException se) {
             se.printStackTrace();
             findViewById(R.id.layout_login).setVisibility(View.VISIBLE);

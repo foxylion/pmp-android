@@ -1,24 +1,23 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
  * The main menu after user logged in and the main activity to start other activities
  * 
- * @author Andre Nguyen
+ * @author Andre Nguyen, Dang Huynh
  * 
  */
 public class MainActivity extends ResourceGroupReadyActivity {
@@ -101,50 +100,72 @@ public class MainActivity extends ResourceGroupReadyActivity {
         //            }
         //        });
         
+        //        Button btnMessage = (Button) findViewById(R.id.Button_Message);
+        //        btnMessage.setOnClickListener(new OnClickListener() {
+        //            
+        //            @Override
+        //            public void onClick(View v) {
+        //                Log.d(this, "btnMessaged clicked");
+        //                
+        //                // TODO richtig implementieren;
+        //                IAbsoluteLocation loc = null;// vHikeService.getInstance().getLocationResourceGroup();
+        //                if (loc == null) {
+        //                    Log.d(this, "RG null");
+        //                } else {
+        //                    try {
+        //                        Log.d(this, " " + loc.getAddress());
+        //                    } catch (RemoteException e) {
+        //                        // TODO Auto-generated catch block
+        //                        e.printStackTrace();
+        //                    }
+        //                }
+        //            }
+        //        });
         
-        Button btnMessage = (Button) findViewById(R.id.Button_Message);
-        btnMessage.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                Log.d(this, "btnMessaged clicked");
-                
-                // TODO richtig implementieren;
-                IAbsoluteLocation loc = null;// vHikeService.getInstance().getLocationResourceGroup();
-                if (loc == null) {
-                    Log.d(this, "RG null");
-                } else {
-                    try {
-                        Log.d(this, " " + loc.getAddress());
-                    } catch (RemoteException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        
-        Button btnmytrips = (Button) findViewById(R.id.Button_Trips);
-        btnmytrips.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                vHikeService.getInstance().requestServiceFeature(MainActivity.this, 0);
-            }
-        });
+        //        Button btnmytrips = (Button) findViewById(R.id.Button_Trips);
+        //        btnmytrips.setOnClickListener(new OnClickListener() {
+        //            
+        //            @Override
+        //            public void onClick(View v) {
+        //                vHikeService.requestServiceFeature(MainActivity.this, 0);
+        //            }
+        //        });
         
         btnLogout.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 try {
-                    Controller ctrl = new Controller();
-                    ctrl.logout(Model.getInstance().getSid());
+                    ((Button) findViewById(R.id.Button_Logout)).setEnabled(false);
+                    if (logoutTimer == null)
+                        logoutTimer = new Timer();
+                    if (getvHikeRG(MainActivity.this) != null) {
+                        logoutTimer.schedule(logoutTask, 0);
+                    } else {
+                        logoutTimer.schedule(logoutTask, 10);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                MainActivity.this.finish();
             }
         });
     }
+    
+    private Timer logoutTimer;
+    
+    private TimerTask logoutTask = new TimerTask() {
+        
+        @Override
+        public void run() {
+            if (rgvHike != null) {
+                Controller ctrl = new Controller(rgvHike);
+                if (ctrl.logout(Model.getInstance().getSid()))
+                    MainActivity.this.finish();
+                else
+                    ((Button) findViewById(R.id.Button_Logout)).setEnabled(true);
+            } else {
+                logoutTimer.schedule(logoutTask, 10);
+            }
+        }
+    };
 }
