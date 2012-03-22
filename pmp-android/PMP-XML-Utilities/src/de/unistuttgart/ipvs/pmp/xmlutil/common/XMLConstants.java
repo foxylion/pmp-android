@@ -32,7 +32,7 @@ public class XMLConstants {
     /**
      * The simple date format for the revision
      */
-    public static final SimpleDateFormat REVISION_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+    public static final SimpleDateFormat REVISION_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS z");
     
     /**
      * AIS
