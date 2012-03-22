@@ -3,31 +3,53 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ListActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IInterface;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.HistoryRideAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyListActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 
-public class HistoryRideActivity extends ListActivity {
+public class HistoryRideActivity extends ResourceGroupReadyListActivity {
     
     HistoryRideAdapter adapter;
     List<HistoryPersonObject> hPersonObjects;
     Controller ctrl;
     int tripid;
+    Handler handler;
     
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        Log.i(this, "RG ready: " + resourceGroup);
+        if (rgvHike != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    goForward();
+                }
+            });
+        }
+    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        setContentView(de.unistuttgart.ipvs.pmp.apps.vhike.R.layout.activity_history_profile_list);
+        if(getvHikeRG(this)!= null)
+            goForward();
+    }
+    
+    public void goForward(){
+        ctrl = new Controller(rgvHike);
+        handler = new Handler();
         int id = getIntent().getExtras().getInt("ID");
         String role = getIntent().getExtras().getString("ROLE");
-        this.ctrl = new Controller();
-        setContentView(de.unistuttgart.ipvs.pmp.apps.vhike.R.layout.activity_history_profile_list);
+       
         List<HistoryRideObject> historyRides = this.ctrl.getHistory(Model.getInstance().getSid(), role);
         if (historyRides.size() == 0) {
             this.hPersonObjects = new ArrayList<HistoryPersonObject>();
