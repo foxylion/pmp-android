@@ -4,7 +4,6 @@ import java.util.TimerTask;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
@@ -36,7 +35,7 @@ public class Check4Location extends TimerTask {
     
     
     public Check4Location(IvHikeWebservice ws, IAbsoluteLocation loc, MapView mapView, Context context,
-            Handler handler, IBinder binder) {
+            Handler handler) {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
