@@ -263,7 +263,7 @@ public class ServerProvider implements IServerProvider {
         // get response
         AbstractResponse response = getResponseFor(searchPattern, CommunicationType.REQUEST_SEARCH_RESULTS);
         if ((response == null) || !(response instanceof ResourceGroupsResponse)) {
-            return new LocalizedResourceGroup[0];
+            return null;
         }
         
         ResourceGroupsResponse rgr = (ResourceGroupsResponse) response;
