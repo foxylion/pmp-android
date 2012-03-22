@@ -178,7 +178,7 @@ public class PMPGeoPoint {
         // dN / U = angle / 2pi
         double angleDeltaN = TWOPI * (deltaN / APPROX_SPHERE_RADIUS);
         // in latitude, the circle is only cos(lat) * r long 
-        double angleDeltaE = TWOPI * (deltaE / Math.cos(getLatitude() * DEG_TO_RAD) * APPROX_SPHERE_RADIUS);
+        double angleDeltaE = TWOPI * deltaE / (Math.cos(getLatitude() * DEG_TO_RAD) * APPROX_SPHERE_RADIUS);
         
         double lonRad = (getLongitude() + angleDeltaE);
         while (lonRad > Math.PI) {
