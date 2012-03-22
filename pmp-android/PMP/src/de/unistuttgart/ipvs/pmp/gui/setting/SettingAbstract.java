@@ -35,6 +35,7 @@ import de.unistuttgart.ipvs.pmp.PMPApplication;
  */
 public abstract class SettingAbstract<T> implements ISettingEvaluator<T> {
     
+    protected SettingsAdapter adapter;
     protected String name;
     protected String description;
     protected Drawable icon;
@@ -50,7 +51,8 @@ public abstract class SettingAbstract<T> implements ISettingEvaluator<T> {
      * @param icon
      *            the icon resource id
      */
-    public SettingAbstract(int name, int description, int icon) {
+    public SettingAbstract(SettingsAdapter adapter, int name, int description, int icon) {
+        this.adapter = adapter;
         this.name = PMPApplication.getContext().getString(name);
         this.description = PMPApplication.getContext().getString(name);
         this.icon = PMPApplication.getContext().getResources().getDrawable(icon);

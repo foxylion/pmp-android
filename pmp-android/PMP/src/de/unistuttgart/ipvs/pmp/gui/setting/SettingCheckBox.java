@@ -27,7 +27,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 
 /**
@@ -54,8 +53,9 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
     private LinearLayout linlay;
     
     
-    public SettingCheckBox(int name, int description, int icon, ISettingEvaluator<Boolean> evaluator) {
-        super(name, description, icon);
+    public SettingCheckBox(SettingsAdapter adapter, int name, int description, int icon,
+            ISettingEvaluator<Boolean> evaluator) {
+        super(adapter, name, description, icon);
         this.evaluator = evaluator;
     }
     
@@ -109,9 +109,8 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
      *            true, if the CheckBox is now selected
      */
     private void checkBoxChanged(boolean checked) {
-        Log.d(this, "check Box Checked now " + checked);
         setValue(checked);
-        this.linlay.invalidate();
+        adapter.notifyDataSetChanged();
     }
     
     
@@ -123,12 +122,9 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
             
             @Override
             public void onClick(View v) {
-                Log.d(this, "onClick(), checkBox was " + SettingCheckBox.this.checkBox.isChecked() + ", getValue was "
-                        + getValue());
-                
                 boolean newState = !getValue();
-                checkBoxChanged(newState);
                 SettingCheckBox.this.checkBox.setChecked(newState);
+                checkBoxChanged(newState);
             }
         };
         

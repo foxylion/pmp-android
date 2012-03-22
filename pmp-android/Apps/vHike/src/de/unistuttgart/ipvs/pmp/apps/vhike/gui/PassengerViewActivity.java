@@ -27,6 +27,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyMapActivity;
@@ -49,7 +50,9 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     //    private LocationManager locationManager;
     
     private Handler handler;
+    private Handler locationHandler;
     private Timer timer;
+    private Timer locationTimer;
     private Controller ctrl;
     
     double lat;
@@ -61,8 +64,9 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passengerview);
         
-        this.ctrl = new Controller();
         handler = new Handler();
+        locationHandler = new Handler();
+        locationTimer = new Timer();
         ViewModel.getInstance().initDriversList();
         
         vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
@@ -183,8 +187,11 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         //        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         //        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
         //        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
+        if (ctrl == null) {
+            Log.i(this, "Controller nnull");    
+        }
         
-        switch (this.ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(),
+        switch (ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(),
                 ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
                         .getNumSeats())) {
             case (Constants.QUERY_ID_ERROR):
@@ -195,8 +202,11 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 break;
         }
         
+        Check4Location c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, null);
+        locationTimer.schedule(c4l, 10000, 10000);
+        
         // check for offers every 10 seconds
-        Check4Offers c4o = new Check4Offers();
+        Check4Offers c4o = new Check4Offers(rgvHike);
         this.timer = new Timer();
         this.timer.schedule(c4o, 300, 10000);
     }
