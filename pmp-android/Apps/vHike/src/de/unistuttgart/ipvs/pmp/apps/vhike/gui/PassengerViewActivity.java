@@ -45,8 +45,8 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     
     private Context context;
     private MapView mapView;
-//    private MapController mapController;
-//    private LocationManager locationManager;
+    //    private MapController mapController;
+    //    private LocationManager locationManager;
     
     private Handler handler;
     private Timer timer;
@@ -62,6 +62,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         setContentView(R.layout.activity_passengerview);
         
         this.ctrl = new Controller();
+        handler = new Handler();
         ViewModel.getInstance().initDriversList();
         
         vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
@@ -141,7 +142,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         zoomView.setVerticalScrollBarEnabled(true);
         this.mapView.addView(zoomView);
-//        this.mapController = this.mapView.getController();
+        //        this.mapController = this.mapView.getController();
         
         // check for offers manually
         Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
