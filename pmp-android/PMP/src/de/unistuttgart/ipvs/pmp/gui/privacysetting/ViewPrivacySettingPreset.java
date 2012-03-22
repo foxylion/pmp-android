@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.gui.privacysetting;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +34,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.context.DialogConflictingContexts;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPrivacySettings;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.OnShortLongClickListener;
+import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
@@ -290,8 +295,43 @@ public class ViewPrivacySettingPreset extends LinearLayout {
                 R.string.context_value_when_active)
                 + ": " + context.getOverridePrivacySettingValue());
         ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context.getContextCondition());
-        ((ImageView) v.findViewById(R.id.ImageView_Context_State)).setVisibility(context.isActive() ? View.GONE
-                : View.VISIBLE);
+        
+        /*
+         * Determine between, active, inactive and problems 'cause it is overridden by another preset
+         */
+        /* Count all conflicting presets */
+        final List<IPreset> conflictingPrivacySettings = new ArrayList<IPreset>();
+        for (IPreset pr : ModelProxy.get().getPresets()) {
+            if (context.isPrivacySettingConflicting(pr) && !pr.equals(preset)) {
+                conflictingPrivacySettings.add(pr);
+            }
+        }
+        
+        /* get all conflicting context annotations */
+        final List<IContextAnnotation> conflictingContextAnnotations = context.getConflictingContextAnnotations(preset);
+        
+        OnClickListener oclConflicting = new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                new DialogConflictingContexts(getContext(), preset, context, conflictingPrivacySettings,
+                        conflictingContextAnnotations).show();
+            }
+        };
+        
+        ImageView state = (ImageView) v.findViewById(R.id.ImageView_Context_State);
+        if (context.isActive()) {
+            state.setImageResource(R.drawable.icon_success);
+            state.setVisibility(View.VISIBLE);
+            state.setOnClickListener(null);
+        } else if (conflictingContextAnnotations.size() > 0 || conflictingPrivacySettings.size() > 0) {
+            state.setImageResource(R.drawable.icon_alert);
+            state.setVisibility(View.VISIBLE);
+            state.setOnClickListener(oclConflicting);
+        } else {
+            state.setVisibility(View.GONE);
+            state.setOnClickListener(null);
+        }
         
         /*
          * On click listener which reacts on shor and long clicks.

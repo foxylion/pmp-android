@@ -59,7 +59,7 @@ public class TabAvailable extends Activity {
      * Linear Layouts to show or hide header informations.
      */
     private LinearLayout updateProgressContainer;
-    private LinearLayout updateFailedContainer;
+    private TextView updateInfoText;
     private LinearLayout lastUpdateContainer;
     
     /**
@@ -96,7 +96,7 @@ public class TabAvailable extends Activity {
         
         this.updateTaskProgressBar = (ProgressBar) findViewById(R.id.ProgressBar_TaskState);
         this.lastUpdateTextView = (TextView) findViewById(R.id.TextView_LastUpdate);
-        this.updateFailedContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingFailed);
+        this.updateInfoText = (TextView) findViewById(R.id.TextView_UpdateInfoText);
         this.updateProgressContainer = (LinearLayout) findViewById(R.id.LinearLayout_UpdatingList);
         this.lastUpdateContainer = (LinearLayout) findViewById(R.id.LinearLayout_Refresh);
         this.rgisViewList = (ListView) findViewById(R.id.ListView_RGs);
@@ -132,7 +132,7 @@ public class TabAvailable extends Activity {
     public void updateDownloadList() {
         
         this.lastUpdateContainer.setVisibility(View.GONE);
-        this.updateFailedContainer.setVisibility(View.GONE);
+        this.updateInfoText.setVisibility(View.GONE);
         this.updateProgressContainer.setVisibility(View.VISIBLE);
         this.rgisViewList.setAdapter(null);
         
@@ -182,7 +182,14 @@ public class TabAvailable extends Activity {
         this.lastUpdateContainer.setVisibility(View.VISIBLE);
         this.updateProgressContainer.setVisibility(View.GONE);
         
-        if (informationSets != null && informationSets.length > 0) {
+        if (informationSets == null) {
+            this.updateInfoText.setText(getString(R.string.rg_server_not_available));
+            this.updateInfoText.setVisibility(View.VISIBLE);
+        } else if (informationSets.length == 0) {
+            this.updateInfoText.setText(getString(R.string.rg_no_matching_rgs_found));
+            this.updateInfoText.setVisibility(View.VISIBLE);
+        } else {
+            this.updateInfoText.setVisibility(View.GONE);
             this.lastUpdateTextView.setText(getResources().getString(R.string.last_update_at) + ": "
                     + ServerProvider.getInstance().getFindResourceGroupsCacheDate(this.filter).toGMTString());
             
@@ -190,8 +197,6 @@ public class TabAvailable extends Activity {
             
             this.rgisViewList.setAdapter(new AdapterAvailable(this, this.rgisList));
             
-        } else {
-            this.updateFailedContainer.setVisibility(View.VISIBLE);
         }
     }
     
