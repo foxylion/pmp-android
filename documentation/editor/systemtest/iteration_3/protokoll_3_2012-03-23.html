@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Systemtest-Protokoll für die 3. Iteration - Editor for Information Sets</title>
+	<script type="text/javascript" src="../../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../../_layout/script.js"></script>
+	<script type="text/javascript" src="../../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="../../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">23. März 2012</div>
+		<div id="page-head-title">Editor for Information Sets</div>
+		<div id="page-title">Systemtest-Protokoll für die<br/>3. Iteration</div>
+
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+
+		<!-- here comes the content of the system test protocol -->
+		<h1 id="versionshistorie">Versionshistorie</h1>
+			<p>Ein Protokoll hat keine Versionshistorie, da es nach dem Festhalten (also Protokollieren) der Ergebnisse und dem Bericht der Tester <b>nicht mehr</b> geändert werden darf, alles andere wäre Urkundenfälschung! Für ein neues Ergebnis <b>muss</b> ein neuer Test durchgeführt und eine neues Protokoll angelegt werden, eine falsche Information darf nur im Kapitel <span class="reference noIndex" title="#kommentare"></span> kommentiert werden.</p>
+
+			<h2 id="reveisions">Revisionsvorgaben</h2>
+				<table>
+					<tr><th class="left">Gültiger Prüfplan</th><td>trunk:0569941fc61879e21a8585081e6fab1f522aa6b8</td></tr>
+					<tr><th class="left">Spezifikation unter Test</th><td>trunk:79227bf6996e32cf80e166b90ce25f3e473494cd</td></tr>
+					<tr><th class="left">Programm-Code unter Test</th><td>trunk:3c575959934176b50e727a44479270bf6f6a9e1a</td></tr>
+				</table>
+
+
+		<h1 id="protokoll">Protokoll</h1>
+			<p>Dieses Kapitel dokumentiert die Durchführung jedes einzelnen Testfalls. Ein Testfall wird entweder mit "<span class="success">OK</span>" markiert, falls die Durchführung möglich war und Soll- und Ist-Wert übereinstimmen, oder andernfalls mit "<span class="fail">Nicht Bestanden</span>". Insbesondere im letzteren Fall oder wenn allgemein Auffälligkeiten auftreten (die nicht Teil des Tests sein müssen) ist ein detaillierterer Bericht erforderlich.</p>
+
+			<h2 id="protokollfr">Funktionale Anforderungstests</h2>
+
+			<!-- <td class="success">OK</td> -->
+			<!-- <td class="fail">NICHT BESTANDEN</td> -->
+			<table>
+				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
+				<tr><td>FT-1</td><td>Jakob Jarosch</td><td><span class="success">OK</span></td></tr>
+				<tr><td>FT-2</td><td>Jakob Jarosch</td><td><span class="fail">NICHT BESTANDEN</span></td></tr>
+				<tr><td>FT-3</td><td>Jakob Jarosch</td><td><span class="success">OK</span></td></tr>
+				<tr><td>FT-4</td><td>Jakob Jarosch</td><td><span class="success">OK</span></td></tr>
+				<tr><td>FT-5</td><td>Jakob Jarosch</td><td><span class="success">OK</span></td></tr>
+				<tr><td>FT-6</td><td>Tobias Kuhn</td><td class="success">OK</td></tr>
+				<tr><td>FT-7</td><td>Tobias Kuhn</td><td class="success">OK</td></tr>
+				<tr><td>FT-8</td><td>Tobias Kuhn</td><td class="success">OK</td></tr>
+				<tr><td>FT-9</td><td>Tobias Kuhn</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-10</td><td>Tobias Kuhn</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-11</td><td>Tobias Kuhn</td><td class="fail">NICHT BESTANDEN</td></tr>
+			</table>
+
+			<h2 id="protokollnfr">Nicht-funktionale Anforderungstests</h2>
+
+			<table>
+				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
+				<tr><td>NFT-1</td><td>Jakob Jarosch</td><td><span class="success">OK</span></td></tr>
+				<tr><td>NFT-2</td><td>Jakob Jarosch</td><td><span class="success">OK</span></td></tr>
+				<tr><td>NFT-3</td><td>Tobias Kuhn</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>NFT-4</td><td>Tobias Kuhn</td><td class="success">OK</td></tr>
+			</table>
+
+		<h1 id="bericht">Bericht</h1>
+			<p>In diesem Kapitel finden sich die Abschlussberichte der einzelnen Tester.</p>
+
+			<h2 id="tester1">Jakob Jarosch</h2>
+			<p><b>FT-2</b> lässt sich nicht 1:1 wie im Use-Case beschrieben durchführen, weil man nur eine Ressourcengruppe hinzufügen kann und keine Privacy-Settings (Use-Case fordert aber Privacy-Setting hinzufügen).<br/>
+				Desweiteren wird, bei nichtvorhandener Internetverbindung, keine Fehlermeldung angezeigt, sondern die Ressourcengruppen des letzten Abrufs(?) werden angezeigt.</p>
+			
+			<h2 id="tester2">Tobias Kuhn</h2>
+			<ul>
+				<li>FT-9 wurde nicht bestanden, da es qualitative Unterschiede zwischen dem XML-Editor des ADT-Plugins und EIS gibt:
+					<ul>
+						<li>EIS übertitelt das RGIS mit uneindeutigem "Defines general information", vgl. ADT "Android Manifest Application".</li>
+						<li>EIS benannt den RGIS-Haupttab "General", vgl. ADT "Manifest".</li>
+						<li>ADT bietet beim Überfahren der Beschreibungen eine genauere Erklärung, welche Daten hier eingetragen werden, z.B. "A Drawable resource, providing a graphical representation[...]", bei EIS fehlt dies.</li>
+						<li>In ADT sind Icons oder Klassen mit Hilfe der "Browse"-Funktion leicht automatisch auswählbar, dies fehlt in EIS.</li>
+						<li>ADT beschreibt mit Text über ("The application tag describes application-level components [...]") und unter ("The content of the Android Manifest is made up of three sections[...]") den eigentlichen Einstellungen. EIS zeigt nur die nackten Einstellungen mit wenig Erklärung.</li>
+						<li>ADT nutzt häufige eindeutige Icons wie "blaues A", "rotes P" oder "grünes I", um eindeutig zu kennzeichnen, welcher Tab und welche Einstellung wozu gehört; EIS bietet diesen Support nicht.</li>
+						<li>ADT unterstützt die Änderung der Reihenfolge mittels "Up"- und "Down"-Buttons, auch dies fehlt in EIS.</li>
+						<li>ADT bietet auch einen XML-Editor-Tab mit Syntax-Highlighting um selbst manuell an der XML zu arbeiten, dies fehlt EIS ebenfalls.</li>
+						<li>ADT-XMLs enthalten eine korrekte XML-Schema-Definition, EIS-XMLs wirken wie hingek**zt und hingesch***en.</li>
+						<li>Fügt man in ADT ein neuen Datensatz in eine Liste ein, so öffnet sich ein Dialog, der die gewünschten Daten auswählen/eingeben lässt. Bei EIS fällt einfach ein neuer Datensatz vom Himmel, der im Initialzustand semantisch inkorrekt ist (Locale "-"). Hier wäre zudem die Möglichkeit gewesen, den Nutzer als erstes zur Eingabe der "en"-Locale zu zwingen, gewesen; stattdessen eröffnet EIS den Benutzern ungeahnte Möglichkeiten Fehler zu machen.</li>
+						<li>In EIS enthalten nicht-verfügbare Tabs (leere XML, "Service Features") einfach gar nichts; in ADT sind alle Tabs immer verfüg- und editierbar.</li>
+						<li>In EIS gibt es Buttons, die für leere XMLs keine Funktion haben und besser als Checkboxen umgesetzt wären ("PMP Registration Activity", "PMP service"), in ADT gibt es Checkboxen ("Application Tag") und alle Buttons und Checkboxen sind immer korrekt funktionstüchtig.</li>
+						<li>In EIS funktioniert der AIS-Editor nicht mit einer leeren XML. ADT enthält keine nicht-funktionierenden Editoren.</li>
+						<li>In EIS werden Änderungen, die aus anderen Editoren (Eclipse-nativer XML-Editor) stammen, nicht übernommen, in ADT schon.</li>
+						<li>EIS zeigt seltsame, unbegründete Fehler wie "Revision invalid: 1325372400000". Alle ADT-Fehler sind begründet.</li>
+						<li>ADT nutzt mehr Icons, wie stilisiertes XML oder das Android-Maskottchen. EIS scheint keine PMP-Logos oder -Maskottchen zu benutzen.</li>
+						<li>EIS zeigt keine nützlichen Informationen beim Ändern für Privacy-Setting-Werten an ("Valid Values", "Change Description", etc.). ADT zeigt stets alle hilfreichen Informationen an.</li>
+						<li>EIS ermöglicht zunächst Ressourcengruppen nur nach Checkbox-Logik hinzuzufügen. Nachher lässt sich aber der Identifier modifizieren ohne Auto-Complete bzw. Restriktion auf eine ComboBox. ADT bietet stets Restriktion einer kleineren, endlichen Wertemenge auf Combo-Boxen mit Auto-Complete.</li>
+						<li>ADT verwendet orthografisch, grammatikalisch und sofern angebracht stilistisch korrektes Englisch. Von EIS lässt sich dies nicht gerade behaupten.</li>
+						<li>In EIS gibt es versteckte Editiermöglichkeiten ("Required Privacy Setting": Edit per Doppelklick), in ADT sind alle Editiermöglichkeiten immer auch über einen offensichtlichen Weg (z.B. Button) zu erreichen.</li>
+					</ul>
+				</li>
+				<li>FT-10 wurde nicht bestanden, da im AIS "1970-01-01 01:00:00 MEZ" auftauchte, obwohl nur "1" eingegeben wurde.</li>
+				<li>FT-11 wurde nicht bestanden, da Änderungen vorgenommen wurden:
+					<ul>
+						<li>Es änderte sich <span class="highlight">encoding="utf-8"</span> nach <span class="highlight">encoding="UTF-8"</span>.</li>
+						<li>Es änderte sich <span class="highlight">&lt;requiredPrivacySetting identifier="usevHikeWS">true&lt;/requiredPrivacySetting></span> nach <span class="highlight">&lt;requiredPrivacySetting identifier="usevHikeWS">&lt;![CDATA[true]]>&lt;/requiredPrivacySetting></span>.</li>
+						<li>Es änderte sich <span class="highlight">minRevision="2012-01-01 00:00:00 GMT+01:00"</span> nach <span class="highlight">minRevision="2012-01-01 00:00:00 MEZ"</span>.</li>
+						<li>Es wurden umgebrochene Zeilen neu und anders umgebrochen.</li>
+						<li>Es änderte sich <span class="highlight">&lt;requiredPrivacySetting identifier="allowNotification">allow <i><b>LINEBREAK</b></i>&lt;/requiredPrivacySetting></span> nach <span class="highlight">&lt;![CDATA[allow <i><b>LINEBREAK</b></i> ]]>&lt;/requiredPrivacySetting></span> => Beim ersten werden meines Wissens White-Spaces entfernt, beim zweiten nicht.</li>
+					</ul>
+				</li>
+				<li>NFT-3 wurde nicht bestanden, da kein Handbuch existiert.</li>
+			</ul>
+
+
+		<h1 id="kommentare">Kommentare</h1>
+			<p>In diesem Kapitel finden sich Kommentare über Sachverhalte, die nach Fertigstellung des Protokolls festgestellt wurden.</p>
+
+		</div>
+
+	</div>
+</body>
+</html>

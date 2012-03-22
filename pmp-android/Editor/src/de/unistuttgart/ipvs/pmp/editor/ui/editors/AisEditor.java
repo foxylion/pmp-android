@@ -56,7 +56,7 @@ public class AisEditor extends FormEditor {
     /**
      * The model of this editor instance
      */
-    private AisModel model;
+    private AisModel model = new AisModel();
     
     /**
      * The {@link AISServiceFeaturesPage}
@@ -71,15 +71,20 @@ public class AisEditor extends FormEditor {
      */
     @Override
     protected void addPages() {
-        this.model = new AisModel();
+        model.setEditor(this);
         
         // Download the RGs from the server at startup if it's not done
         if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
             DownloadedRGModel.getInstance().updateRgisListWithJob(Display.getCurrent().getActiveShell(), false);
         }
+        // Parse XML-File
+        FileEditorInput input = (FileEditorInput) getEditorInput();
+        
+        // Get the path to the project
+        String[] split = input.getFile().getFullPath().toString().split("/");
+        String project = "/" + split[1];
+        
         try {
-            // Parse XML-File
-            FileEditorInput input = (FileEditorInput) getEditorInput();
             try {
                 // Synchronize if out of sync (better: show message)
                 if (!input.getFile().isSynchronized(IResource.DEPTH_ONE)) {
@@ -87,28 +92,25 @@ public class AisEditor extends FormEditor {
                 }
                 IAIS ais = XMLUtilityProxy.getAppUtil().parse(input.getFile().getContents());
                 
-                // Get the path to the project
-                String[] split = input.getFile().getFullPath().toString().split("/");
-                String project = "/" + split[1];
-                
                 // Store ais in the Model
                 this.model.setAis(ais);
                 
                 AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
-                
-                // Create the pages
-                this.generalPage = new AISGeneralPage(this, project, this.model);
-                this.sfPage = new AISServiceFeaturesPage(this, this.model);
             } catch (ParserException e) {
-                this.generalPage = new AISGeneralPage(this, null, this.model);
-                this.sfPage = new AISServiceFeaturesPage(this, this.model);
+                model.setAis(XMLUtilityProxy.getAppUtil().createBlankAIS());
+                
             }
             /*
              * Reset the dirty flag in the model and store this instance of this
              * editor that the model can call the firepropertyChanged
              */
-            this.model.setEditor(this);
             this.model.setDirty(false);
+            
+            /*
+             * Add the pages
+             */
+            this.generalPage = new AISGeneralPage(this, project, this.model);
+            this.sfPage = new AISServiceFeaturesPage(this, this.model);
             
             // Add the pages
             addPage(this.generalPage);

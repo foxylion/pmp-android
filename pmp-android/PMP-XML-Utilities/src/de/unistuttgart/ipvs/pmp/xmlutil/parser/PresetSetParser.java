@@ -193,10 +193,28 @@ public class PresetSetParser extends AbstractParser {
             
             // Get the value
             int maxValid = 0;
-            List<ParsedNode> valueList = parseNodes(psElement, XMLConstants.VALUE);
+            List<ParsedNode> valueList = parseNodes(psElement, XMLConstants.VALUE, XMLConstants.EMPTY_VALUE_ATTR);
+            
             if (valueList.size() == 1) {
+                // The valueNode
+                ParsedNode valueNode = valueList.get(0);
+                
                 // Set the value
-                assignedPS.setValue(valueList.get(0).getValue());
+                assignedPS.setValue(valueNode.getValue());
+                
+                // Add the empty value attribute
+                String emptyValueAttr = valueNode.getAttribute(XMLConstants.EMPTY_VALUE_ATTR);
+                
+                if (emptyValueAttr.toLowerCase().equals("true")) {
+                    assignedPS.setEmptyValue(true);
+                    // Set the value to "", if it is null
+                    if (assignedPS.getValue() == null)
+                        assignedPS.setValue("");
+                } else if (!emptyValueAttr.toLowerCase().equals("false") && !emptyValueAttr.equals("")) {
+                    throw new ParserException(Type.EMPTY_CONDITION_BOOLEAN_EXCEPTION,
+                            "The value of the attribute \"emptyValue\" of a assigned privacy setting is not a boolean.");
+                }
+                
                 maxValid++;
             } else if (valueList.size() > 1) {
                 throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node " + XMLConstants.VALUE
@@ -246,6 +264,9 @@ public class PresetSetParser extends AbstractParser {
             String emptyConditionAttr = contextNode.getAttribute(XMLConstants.CONTEXT_EMPTY_CONDITION_ATTR);
             if (emptyConditionAttr.toLowerCase().equals("true")) {
                 context.setEmptyCondition(true);
+                // Set the condition to "", if it is null
+                if (context.getCondition() == null)
+                    context.setCondition("");
             } else if (!emptyConditionAttr.toLowerCase().equals("false") && !emptyConditionAttr.equals("")) {
                 throw new ParserException(Type.EMPTY_CONDITION_BOOLEAN_EXCEPTION,
                         "The value of the attribute \"emptyCondition\" of a context is not a boolean.");
@@ -265,6 +286,10 @@ public class PresetSetParser extends AbstractParser {
                         XMLConstants.CONTEXT_EMPTY_OVERRIDE_VALUE_ATTR);
                 if (emptyOverrideValueAttr.toLowerCase().equals("true")) {
                     context.setEmptyOverrideValue(true);
+                    // Set the override value to "", if it is null
+                    if (context.getOverrideValue() == null)
+                        context.setOverrideValue("");
+                    
                 } else if (!emptyOverrideValueAttr.toLowerCase().equals("false") && !emptyOverrideValueAttr.equals("")) {
                     throw new ParserException(Type.EMPTY_OVERRIDE_VALUE_BOOLEAN_EXCEPTION,
                             "The value of the attribute \"emptyOverrideValue\" of a override value is not a boolean.");

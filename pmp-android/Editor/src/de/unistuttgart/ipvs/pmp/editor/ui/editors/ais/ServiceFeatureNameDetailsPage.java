@@ -244,7 +244,6 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
             @Override
             public void doSetDirty(boolean dirty) {
                 ServiceFeatureNameDetailsPage.this.model.setDirty(true);
-                
             }
             
             

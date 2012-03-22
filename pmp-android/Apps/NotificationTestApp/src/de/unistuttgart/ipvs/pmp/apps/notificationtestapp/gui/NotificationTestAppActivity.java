@@ -1,18 +1,11 @@
 package de.unistuttgart.ipvs.pmp.apps.notificationtestapp.gui;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.text.Html;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -27,6 +20,8 @@ public class NotificationTestAppActivity extends Activity {
     
     public Handler handler;
     public int nee;
+    
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +80,8 @@ public class NotificationTestAppActivity extends Activity {
             this.handler.post(new Runnable() {
                 
                 public void run() {
-                    Toast.makeText(NotificationTestAppActivity.this, "Notification Resource loaded.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NotificationTestAppActivity.this, "Notification Resource loaded.",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
             
@@ -96,8 +92,8 @@ public class NotificationTestAppActivity extends Activity {
             this.handler.post(new Runnable() {
                 
                 public void run() {
-                    Toast.makeText(NotificationTestAppActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(NotificationTestAppActivity.this, "Please enable the Service Feature.",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         }

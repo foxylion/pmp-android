@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.unistuttgart.ipvs.pmp.systemtest.mengengeruest.app03"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="7" />
+    
+        <application
+        android:label="@string/app_name" >
+        <activity android:name="de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="mainActivity"
+                android:value="de.unistuttgart.ipvs.pmp.systemtest.mengengeruest.app03.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <!-- The service of the app where pmp connects to -->
+        <service
+            android:name="de.unistuttgart.ipvs.pmp.service.app.AppService">
+            <intent-filter>
+                <action android:name="de.unistuttgart.ipvs.pmp.systemtest.mengengeruest.app03" >
+                </action>
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

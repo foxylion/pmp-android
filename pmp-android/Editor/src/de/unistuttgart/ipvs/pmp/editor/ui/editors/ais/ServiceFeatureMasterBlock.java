@@ -27,7 +27,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -65,10 +65,12 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.Se
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips.TooltipTreeListener;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
+import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
 
 /**
  * Represents the {@link MasterDetailsBlock} with a tree of all service features
@@ -82,7 +84,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
     /**
      * The {@link TreeViewer} of this block
      */
-    private static TreeViewer treeViewer;
+    private TreeViewer treeViewer;
     
     /**
      * {@link Shell} of the parent composite
@@ -98,6 +100,11 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
      * The add resource group button
      */
     private Button addRGButton;
+    
+    /**
+     * Error decoration of the tree
+     */
+    private ControlDecoration treeDec;
     
     /**
      * The model of this editor
@@ -141,6 +148,12 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         treeViewer.setContentProvider(new ServiceFeatureTreeProvider());
         treeViewer.setLabelProvider(new ServiceFeatureTreeLabelProvider());
         treeViewer.setInput(this.model.getAis());
+        
+        // Add decoration
+        this.treeDec = new ControlDecoration(treeViewer.getControl(), SWT.TOP | SWT.LEFT);
+        this.treeDec.setImage(Images.IMG_DEC_FIELD_ERROR);
+        
+        validate();
         
         // Add all buttons
         Composite rgButtonsComp = toolkit.createComposite(compo);
@@ -211,6 +224,21 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
     }
     
     
+    /**
+     * Adds the decoration to the tree
+     */
+    private void validate() {
+        // Set decoration
+        this.treeDec.hide();
+        
+        if (model.getAis().hasIssueType(IssueType.NO_SF_EXISTS)) {
+            this.treeDec.show();
+            this.treeDec.setDescriptionText(new IssueTranslator()
+                    .getTranslationWithoutParameters(IssueType.NO_SF_EXISTS));
+        }
+    }
+    
+    
     /*
      * (non-Javadoc)
      * 
@@ -262,8 +290,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         });
         
         // Picture can be added also to the actions
-        Action refresh = new Action("Refresh Resource Group List from server",
-                ImageDescriptor.createFromImage(Images.IMG_ELCL_SYNCED)) {
+        Action refresh = new Action("Refresh Resource Group List from server", Images.getImageDescriptor("icons",
+                "update.gif")) {
             
             @Override
             public void run() {
@@ -316,12 +344,21 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                     String result = dialog.getValue();
                     this.model.getAis().addServiceFeature(new AISServiceFeature(result));
                     AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
+                    validate();
                     treeViewer.refresh();
                 }
             }
             
             // Remove was clicked
             if (clicked.getText().equals("Remove")) {
+                // Show confirmation message before removing
+                boolean remove = MessageDialog.openConfirm(parentShell, "Remove Service Feature",
+                        "This will remove the selected Service Feature from the AIS.");
+                
+                if (!remove) {
+                    return;
+                }
+                
                 Tree tree = treeViewer.getTree();
                 TreeItem[] selection = tree.getSelection();
                 int selectionCount = tree.getSelectionCount();
@@ -366,6 +403,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                 // tree
                 if (deleted) {
                     AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
+                    validate();
                     this.model.setDirty(true);
                     treeViewer.refresh();
                 }
@@ -426,6 +464,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                             }
                             this.model.setDirty(true);
                             AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
+                            validate();
                             treeViewer.refresh();
                         }
                     }
