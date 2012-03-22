@@ -361,7 +361,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 }
                 break;
             case R.id.mi_passenger_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(this.context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike,this.context).show();
                 break;
         }
         return true;

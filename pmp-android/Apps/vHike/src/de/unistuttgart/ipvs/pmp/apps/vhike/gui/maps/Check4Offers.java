@@ -26,12 +26,6 @@ public class Check4Offers extends TimerTask {
         this.ctrl = new Controller(ws);
     }
     
-    public Check4Offers() {
-        this.handler = new Handler();
-        this.ctrl = new Controller();
-    }
-    
-    
     @Override
     public void run() {
         this.handler.post(new Runnable() {

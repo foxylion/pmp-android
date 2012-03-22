@@ -8,6 +8,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * After editing the rating bar user has to confirm is rating through this dialog
@@ -25,14 +26,14 @@ public class RateProfileConfirm extends Dialog {
     private int tripID;
     
     
-    public RateProfileConfirm(Context context, final int profileID, final int rating, final int tripID) {
+    public RateProfileConfirm(IvHikeWebservice ws, Context context, final int profileID, final int rating, final int tripID) {
         super(context);
         setContentView(R.layout.dialog_rate_profile);
         setTitle("Confirm rating");
         this.profileID = profileID;
         this.rating = rating;
         this.tripID = tripID;
-        
+        final Controller ctrl = new Controller(ws);
         Button cancel = (Button) findViewById(R.id.btn_cancel_rate);
         cancel.setOnClickListener(new View.OnClickListener() {
             
@@ -48,7 +49,6 @@ public class RateProfileConfirm extends Dialog {
             @Override
             public void onClick(View v) {
                 // rate
-                Controller ctrl = new Controller();
                 String rate = ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating);
                 if (rate.equals("rated")) {
                     Log.i(this, "RATED " + profileID + ", WITH " + rating + ", TripID " + tripID);

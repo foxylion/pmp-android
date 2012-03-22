@@ -51,12 +51,6 @@ public class Controller {
         this.ws = ws;
     }
     
-    
-    public Controller() {
-        
-    }
-    
-    
     /**
      * Announce a trip to the web servprintStackTraceice
      * 

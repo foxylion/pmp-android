@@ -167,13 +167,13 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     
     private void resourceCached() {
-            try {
-                rgLocation.startLocationLookup(5000, 20.0F);
-            } catch (RemoteException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            startContinousLookup();
+        try {
+            rgLocation.startLocationLookup(5000, 20.0F);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        startContinousLookup();
     };
     
     
@@ -221,7 +221,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
             }
             case Constants.STATUS_NO_TRIP: {
                 Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
-                
                 
                 DriverViewActivity.this.finish();
                 break;
@@ -271,7 +270,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 break;
             
             case R.id.mi_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, context).show();
                 break;
         }
         return true;

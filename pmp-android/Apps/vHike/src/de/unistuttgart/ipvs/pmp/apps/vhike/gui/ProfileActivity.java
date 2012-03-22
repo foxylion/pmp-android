@@ -107,7 +107,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                         vhikeDialogs.getInstance()
-                                .getRateProfileConfirmation(ProfileActivity.this, profileID, (int) rating, tripID).show();
+                                .getRateProfileConfirmation(rgvHike, ProfileActivity.this, profileID, (int) rating, tripID).show();
                     }
                 });
             } else {

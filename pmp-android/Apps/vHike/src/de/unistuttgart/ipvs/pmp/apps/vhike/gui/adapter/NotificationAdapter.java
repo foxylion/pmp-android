@@ -23,6 +23,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Handles list elements where drivers or passengers are added/removed through
@@ -44,13 +45,14 @@ public class NotificationAdapter extends BaseAdapter {
     private int mWhichHitcher;
     private int userID;
     private Controller ctrl;
+    IvHikeWebservice ws;
     
-    
-    public NotificationAdapter(Context context, List<Profile> hitchhikers, int whichHitcher) {
+    public NotificationAdapter(IvHikeWebservice ws,Context context, List<Profile> hitchhikers, int whichHitcher) {
         this.context = context;
         this.hitchhikers = hitchhikers;
         this.mWhichHitcher = whichHitcher;
-        this.ctrl = new Controller();
+        this.ws = ws;
+        this.ctrl = new Controller(ws);
     }
     
     
@@ -103,7 +105,7 @@ public class NotificationAdapter extends BaseAdapter {
                 Log.i(this, "ProfileID: " + NotificationAdapter.this.userID + ", Position: " + position);
                 
                 vhikeDialogs.getInstance()
-                        .getProfileDialog(NotificationAdapter.this.context, NotificationAdapter.this.userID).show();
+                        .getProfileDialog(ws, NotificationAdapter.this.context, NotificationAdapter.this.userID).show();
             }
         });
         

@@ -14,6 +14,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Through this dialog a rides available/needed seat count can be updated
@@ -31,6 +32,10 @@ public class UpdateData extends Dialog {
     private Button apply;
     private Button cancel;
     
+    public UpdateData(Context context, IvHikeWebservice ws){
+        super(context);
+        ctrl = new Controller(ws);
+    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class UpdateData extends Dialog {
         setContentView(R.layout.dialog_update_data);
         setTitle("Change trip");
         
-        this.ctrl = new Controller();
+        
         this.spinner_destination = (Spinner) findViewById(R.id.update_spinner);
         this.spinner_numSeats = (Spinner) findViewById(R.id.update_spinner_numSeats);
         this.apply = (Button) findViewById(R.id.dialog_update_apply);
