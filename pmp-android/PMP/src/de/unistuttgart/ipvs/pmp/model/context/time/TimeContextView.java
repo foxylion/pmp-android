@@ -91,7 +91,9 @@ public class TimeContextView extends LinearLayout implements IContextView {
         
         // set fields
         this.beginPicker = (TimePicker) findViewById(R.id.beginPicker);
+        this.beginPicker.setIs24HourView(Boolean.TRUE);
         this.endPicker = (TimePicker) findViewById(R.id.endPicker);
+        this.endPicker.setIs24HourView(Boolean.TRUE);
         this.dayBox = (CheckBox) findViewById(R.id.dayBox);
         
         this.timeWithPhone = (RadioButton) findViewById(R.id.kindWithPhone);
