@@ -54,8 +54,9 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
     private LinearLayout linlay;
     
     
-    public SettingCheckBox(int name, int description, int icon, ISettingEvaluator<Boolean> evaluator) {
-        super(name, description, icon);
+    public SettingCheckBox(SettingsAdapter adapter, int name, int description, int icon,
+            ISettingEvaluator<Boolean> evaluator) {
+        super(adapter, name, description, icon);
         this.evaluator = evaluator;
     }
     
@@ -111,7 +112,7 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
     private void checkBoxChanged(boolean checked) {
         Log.d(this, "check Box Checked now " + checked);
         setValue(checked);
-        this.linlay.invalidate();
+        adapter.notifyDataSetChanged();
     }
     
     
@@ -127,8 +128,8 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
                         + getValue());
                 
                 boolean newState = !getValue();
-                checkBoxChanged(newState);
                 SettingCheckBox.this.checkBox.setChecked(newState);
+                checkBoxChanged(newState);
             }
         };
         
