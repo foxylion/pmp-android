@@ -104,6 +104,7 @@ public class TabAvailable extends Activity {
         this.rgisViewList.setClickable(true);
         
         this.filter = GUITools.getRgFilterFromIntent(getIntent());
+        ((EditText) findViewById(R.id.EditText_Search)).setText(this.filter);
         
         addListener();
     }
