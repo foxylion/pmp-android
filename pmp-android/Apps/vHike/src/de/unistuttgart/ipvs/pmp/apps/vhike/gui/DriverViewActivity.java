@@ -80,18 +80,18 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         locationHandler = new Handler();
         queryHandler = new Handler();
         handler = new Handler();
-        ctrl = new Controller();
         ViewModel.getInstance().initPassengersList();
         ViewModel.getInstance().resetTimers();
         
         vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearAnnouncPD();
         
+        setMapView();
+        
         if (getvHikeRG(this) != null && getLocationRG(this) != null) {
             ctrl = new Controller(rgvHike);
             ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
             
-            setMapView();
             showHitchhikers();
             startTripByUpdating();
         }
@@ -131,7 +131,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                     ctrl = new Controller(rgvHike);
                     ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
                     
-                    setMapView();
                     showHitchhikers();
                     startTripByUpdating();
                 }
@@ -196,6 +195,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     @SuppressWarnings("deprecation")
     private void setMapView() {
         mapView = (MapView) findViewById(R.id.driverMapView);
+        
         LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
         
         zoomView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,

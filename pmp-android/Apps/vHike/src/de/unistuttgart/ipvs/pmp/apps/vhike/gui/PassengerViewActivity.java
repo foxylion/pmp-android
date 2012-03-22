@@ -233,6 +233,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
                 //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
+                this.locationTimer.cancel();
                 
                 break;
             case Constants.STATUS_NO_QUERY:
@@ -270,6 +271,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
                 //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
+                this.locationTimer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
                 PassengerViewActivity.this.finish();
@@ -314,6 +316,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().clearPassengerNotificationAdapter();
                         //                        this.locationManager.removeUpdates(this.luh);
                         this.timer.cancel();
+                        this.locationTimer.cancel();
                         ViewModel.getInstance().clearViewModel();
                         
                         PassengerViewActivity.this.finish();
