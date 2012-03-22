@@ -27,7 +27,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 
 /**
@@ -110,7 +109,6 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
      *            true, if the CheckBox is now selected
      */
     private void checkBoxChanged(boolean checked) {
-        Log.d(this, "check Box Checked now " + checked);
         setValue(checked);
         adapter.notifyDataSetChanged();
     }
@@ -124,9 +122,6 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
             
             @Override
             public void onClick(View v) {
-                Log.d(this, "onClick(), checkBox was " + SettingCheckBox.this.checkBox.isChecked() + ", getValue was "
-                        + getValue());
-                
                 boolean newState = !getValue();
                 SettingCheckBox.this.checkBox.setChecked(newState);
                 checkBoxChanged(newState);
