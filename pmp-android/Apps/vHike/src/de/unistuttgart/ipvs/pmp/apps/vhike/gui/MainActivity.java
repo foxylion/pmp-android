@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -12,6 +11,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
@@ -21,7 +21,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
  * @author Andre Nguyen
  * 
  */
-public class MainActivity extends Activity {
+public class MainActivity extends ResourceGroupReadyActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

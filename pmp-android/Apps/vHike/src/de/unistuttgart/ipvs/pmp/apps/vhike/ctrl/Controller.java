@@ -35,21 +35,27 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
  * 
  */
 public class Controller {
+    
     public static String ERROR = "error";
     private static String error = "";
     private static final String TAG = "ControllerWS";
     
     IvHikeWebservice ws = null; // HikeService.getInstance().getVHikeWebServiceResourceGroup(); 
     JsonParser parser = new JsonParser();
+    
+    
     /**
      * Constructor
      */
     public Controller(IvHikeWebservice ws) {
         this.ws = ws;
     }
-    public Controller(){
+    
+    
+    public Controller() {
         
     }
+    
     
     /**
      * Announce a trip to the web servprintStackTraceice
@@ -59,7 +65,7 @@ public class Controller {
      * @return TRIP_STATUS_ANNOUNCED, TRIP_STATUS_OPEN_TRIP,STATUS_ERROR
      */
     public int announceTrip(final String session_id, final String destination, final float current_lat,
-            final float current_lon, final int avail_seats,Date date) {
+            final float current_lon, final int avail_seats, Date date) {
         Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
         String ret = "";
         try {
@@ -83,7 +89,7 @@ public class Controller {
                 Log.d(TAG, String.valueOf(Model.getInstance().getTripId()));
                 return Constants.STATUS_SUCCESS;
             }
-            if(status.getAsString().equals("open_trip_exists")){
+            if (status.getAsString().equals("open_trip_exists")) {
                 return Constants.TRIP_STATUS_OPEN_TRIP;
             }
         } else {
@@ -94,9 +100,11 @@ public class Controller {
         
     }
     
+    
     public static String getError() {
         return error;
     }
+    
     
     private static void setError(JsonObject e) {
         if (e == null) {
@@ -108,6 +116,7 @@ public class Controller {
         }
     }
     
+    
     /**
      * Get the open trip if available
      * 
@@ -116,7 +125,7 @@ public class Controller {
      */
     public int getOpenTrip(String sessionID) {
         Log.d(this, "getOpentrip " + sessionID);
-        String ret="";
+        String ret = "";
         try {
             ret = ws.getOpenTrip(sessionID);
         } catch (RemoteException e) {
@@ -125,16 +134,16 @@ public class Controller {
         }
         
         JsonObject json = parser.parse(ret).getAsJsonObject();
-        String status ="";
+        String status = "";
         if (json != null && json.get(ERROR) == null) {
             if (json.get("trip_id") != null) {
                 Trip trip = new Trip(json.get("trip_id").getAsInt(), Model.getInstance().getUserId(), json.get(
                         "avail_seats").getAsInt(), json.get("destination").getAsString(), json.get("creation")
                         .getAsLong(), 0);
                 Model.getInstance().setOpenTrip(trip);
-                status =  "TRUE";
+                status = "TRUE";
             } else {
-                status =  "FALSE";
+                status = "FALSE";
             }
         }
         if (status.equals("FALSE")) {
@@ -145,7 +154,6 @@ public class Controller {
         
         return Constants.STATUS_ERROR;
     }
-    
     
     
     /**
@@ -168,7 +176,6 @@ public class Controller {
         JsonObject object = parser.parse(ret).getAsJsonObject();
         
         JsonElement status = object.get("status");
-        
         
         if (status.equals("invalid_id")) {
             return Constants.STATUS_INVALID_USER;
@@ -352,7 +359,7 @@ public class Controller {
     
     
     public PositionObject getUserPosition(final String sid, final int user_id) {
-        String ret="";
+        String ret = "";
         try {
             ret = ws.getUserPosition(sid, user_id);
         } catch (RemoteException e) {
@@ -388,28 +395,28 @@ public class Controller {
      *         STATUS_ERROR
      */
     public int handleOffer(final String sid, final int offer_id, final boolean accept) {
-       String ret = "";
-       
-       try {
-        ret = ws.handleOffer(sid, offer_id, accept);
-    } catch (RemoteException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-       
-       JsonObject object = parser.parse(ret).getAsJsonObject();
+        String ret = "";
         
-       boolean suc = false;
-       String status = "";
-       if (object != null) {
-           suc = object.get("successful").getAsBoolean();
-           if (suc) {
-               status = object.get("status").getAsString();
-               Log.d(null, "STATUS after handleOFFER: " + status);
-           }
-       }
-       Log.d(null, "STATUS after handleOFFER: " + status);
-       
+        try {
+            ret = ws.handleOffer(sid, offer_id, accept);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        String status = "";
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                status = object.get("status").getAsString();
+                Log.d(null, "STATUS after handleOFFER: " + status);
+            }
+        }
+        Log.d(null, "STATUS after handleOFFER: " + status);
+        
         if (!status.equals("")) {
             if (status.equals("accepted")) {
                 return Constants.STATUS_HANDLED;
@@ -465,33 +472,33 @@ public class Controller {
      */
     public boolean login(final String username, final String pw) {
         
-      String ret ="";
-      
-      try {
-        ret = ws.login(username, pw);
-    } catch (RemoteException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
-      
-      JsonObject object = parser.parse(ret).getAsJsonObject();
-      
-      boolean suc = false;
-      if (object != null) {
-          suc = object.get("successful").getAsBoolean();
-      }
-      String sid = null;
-      String status = null;
-      if (suc) {
-          status = object.get("status").getAsString();
-          Log.d(TAG, "STATUS NACH DEM LOGIN:" + status);
-          if (!status.equals("invalid")) {
-              sid = object.get("sid").getAsString();
-              Model.getInstance().setSid(sid);
-              Model.getInstance().setOwnProfile(getOwnProfile(sid));
-          }
-      }
-      
+        String ret = "";
+        
+        try {
+            ret = ws.login(username, pw);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        boolean suc = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+        }
+        String sid = null;
+        String status = null;
+        if (suc) {
+            status = object.get("status").getAsString();
+            Log.d(TAG, "STATUS NACH DEM LOGIN:" + status);
+            if (!status.equals("invalid")) {
+                sid = object.get("sid").getAsString();
+                Model.getInstance().setSid(sid);
+                Model.getInstance().setOwnProfile(getOwnProfile(sid));
+            }
+        }
+        
         if (status.equals("logged_in")) {
             return true;
         } else {
@@ -501,7 +508,7 @@ public class Controller {
     
     
     private Profile getOwnProfile(String sid) {
-        String ret ="";
+        String ret = "";
         
         try {
             ret = ws.getOwnProfile(sid);
@@ -559,8 +566,8 @@ public class Controller {
         }
         return null;
     }
-
-
+    
+    
     /**
      * Log out an user
      * 
@@ -569,7 +576,7 @@ public class Controller {
      */
     public boolean logout(String sid) {
         
-        String ret ="";
+        String ret = "";
         
         try {
             ret = ws.logout(sid);
@@ -579,7 +586,7 @@ public class Controller {
         }
         
         JsonObject object = parser.parse(ret).getAsJsonObject();
-        boolean suc =  object.get("successful").getAsBoolean();
+        boolean suc = object.get("successful").getAsBoolean();
         if (suc) {
             Model.getInstance().logout();
             return true;
@@ -652,7 +659,7 @@ public class Controller {
      * @return true if succeeded, false otherwise
      */
     public boolean pick_up(final String sid, final int user_id) {
-        String ret ="";
+        String ret = "";
         
         try {
             ret = ws.pick_up(sid, user_id);
@@ -704,29 +711,29 @@ public class Controller {
      */
     public int register(final Map<String, String> list) {
         
-       String ret = "";
-       
-       try {
-        ret = ws.register(list.get("username"), list.get("password"), list.get("email"),
-                   list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
-                   Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
-                   Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
-    } catch (RemoteException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-    }
+        String ret = "";
         
-       JsonObject object = parser.parse(ret).getAsJsonObject();
-       
-       String status = "";
-       if (object != null) {
-           boolean suc = object.get("successful").getAsBoolean();
-           if (suc) {
-               status = object.get("status").getAsString();
-           }
-           
-       }
-       
+        try {
+            ret = ws.register(list.get("username"), list.get("password"), list.get("email"),
+                    list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
+                    Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
+                    Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = parser.parse(ret).getAsJsonObject();
+        
+        String status = "";
+        if (object != null) {
+            boolean suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                status = object.get("status").getAsString();
+            }
+            
+        }
+        
         if (status.equals("registered")) {
             return Constants.STATUS_SUCCESS;
         } else if (status.contains("username_exists")) {
@@ -769,7 +776,6 @@ public class Controller {
         }
         
         JsonObject object = parser.parse(ret).getAsJsonObject();
-        
         
         boolean suc = false;
         List<QueryObject> queryObjects = null;
@@ -942,7 +948,7 @@ public class Controller {
     public int startQuery(final String sid, final String destination, final float current_lat, final float current_lon,
             final int avail_seats) {
         
-        String ret ="";
+        String ret = "";
         
         try {
             ret = ws.startQuery(sid, destination, current_lat, current_lon, avail_seats);
@@ -962,7 +968,6 @@ public class Controller {
                 Log.d(TAG, String.valueOf(id));
             }
         }
-        
         
         if (id != Constants.QUERY_ID_ERROR) {
             Model.getInstance().setQueryId(id);
@@ -1069,7 +1074,7 @@ public class Controller {
      * @return STATUS_UPDATED, STATUS_UPTODATE, STATUS_ERROR
      */
     public int userUpdatePos(final String sid, final float lat, final float lon) {
-        String ret ="";
+        String ret = "";
         
         try {
             ret = ws.userUpdatePos(sid, lat, lon);

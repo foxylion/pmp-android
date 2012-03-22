@@ -20,8 +20,8 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
@@ -42,6 +42,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     private ProgressBar pbLogin;
     
     private Controller ctrl;
+    private Timer loginTimer;
     
     //    private static final String RG_vHike_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS";
     //    private static final String R_vHike_NAME = "vHikeWebserviceResource";
@@ -60,8 +61,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         // Show the main activity if already logged in
         if (Model.getInstance().isLoggedIn()) {
             Intent intent = new Intent(this, MainActivity.class);
-            startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
             finish();
+            startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
             return;
         }
         
@@ -79,12 +80,16 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
-        switch (resourceGroupId) {
-            case Constants.RG_LOCATION:
-                Log.i(this, "Location RG received");
-                break;
-        }
         Log.i(this, "RG ready: " + resourceGroup);
+        if (rgvHike != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                   login();
+                }
+            });
+        }
     }
     
     
@@ -96,6 +101,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         username = settings.getString("USERNAME", "");
         pw = settings.getString("PASSWORD", "");
         
+        // TODO Check this in oncreate
+        
         if (settings.getBoolean("AUTOLOGIN", false) && !settings.getBoolean("ERROR", false)) {
             cbAutologin.setChecked(true);
             findViewById(R.id.layout_login).setVisibility(View.GONE);
@@ -105,14 +112,14 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             etUsername.setText(username);
             etPW.setText(pw);
             pbLogin.setVisibility(View.VISIBLE);
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
+            loginTimer = new Timer();
+            loginTimer.schedule(new TimerTask() {
                 
                 @Override
                 public void run() {
                     login();
                 }
-            }, 1000);
+            }, 1500);
         } else {
             cbAutologin.setChecked(false);
             findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
@@ -142,6 +149,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void onClick(View v) {
+                if (loginTimer != null)
+                    loginTimer.cancel();
                 findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
                 findViewById(R.id.layout_autologin).setVisibility(View.GONE);
                 etUsername.setEnabled(true);
@@ -161,6 +170,13 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 if (username.equals("") || pw.equals("")) {
                     Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
                 } else {
+                    
+                    // Check service feature
+                    if (!vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE)) {
+                        vHikeService.requestServiceFeature(LoginActivity.this, Constants.SF_VHIKE_WEB_SERVICE);
+                        return;
+                    }
+                    
                     login();
                 }
             }
@@ -168,39 +184,14 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     }
     
     
-    private boolean login() {
-        
-        //        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        //        if (binder == null) {
-        //            
-        //            this.handler.post(new Runnable() {
-        //                
-        //                public void run() {
-        //                    Toast.makeText(LoginActivity.this,
-        //                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
-        //                }
-        //            });
-        //            
-        //        }
-        
-        //        IvHikeWebservice ws = IvHikeWebservice.Stub.asInterface(binder);
+    private void login() {
         try {
-            if (rgvHike == null && getvHikeRG(this) == null) {
-                System.out.println("Waiting for resource to load");
-            } else {
-                // resource ready
-                System.out.println("Resource preloaded");
-                
+            // Get resource group 
+            if (getvHikeRG(this) != null) {
+                Log.v(this, "Logging in");
                 ctrl = new Controller(rgvHike);
-                findViewById(R.id.layout_login).setVisibility(View.GONE);
-                findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
-                this.handler.post(new Runnable() {
-                    
-                    public void run() {
-                        Toast.makeText(LoginActivity.this, "vHikeWS Resource loaded.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                LoginActivity.this.findViewById(R.id.layout_login).setVisibility(View.GONE);
+//                LoginActivity.this.findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
                 
                 boolean loggedin = ctrl.login(username, pw);
                 
@@ -208,19 +199,26 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 SharedPreferences.Editor prefsEditor = prefs.edit();
                 
                 if (loggedin) {
+                    // Do not login automatically if ERROR is true
                     prefsEditor.putBoolean("ERROR", false);
                     
-                    Log.v(this, "LOGIN successfull");
+                    Log.v(this, "Successfully logged in");
+
+                    
+                    // Start vHikeService
                     Intent intent2 = new Intent(this, vHikeService.class);
                     startService(intent2);
+                    
+                    // Start MainActivity
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
-                    if (cbAutologin.isChecked()) {
+                    
+                    if (cbAutologin.isChecked()) { // Save password
                         prefsEditor.putBoolean("AUTOLOGIN", cbAutologin.isChecked());
                         prefsEditor.putString("USERNAME", etUsername.getText().toString());
                         prefsEditor.putString("PASSWORD", etPW.getText().toString());
                         prefsEditor.commit();
-                    } else {
+                    } else { // Clear saved password
                         prefsEditor.putBoolean("AUTOLOGIN", false);
                         prefsEditor.putString("USERNAME", "");
                         prefsEditor.putString("PASSWORD", "");
@@ -228,26 +226,21 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                     }
                     LoginActivity.this.finish();
                 } else {
+                    // Login failed
                     Toast.makeText(LoginActivity.this, "Login failed. Username or password not valid.",
                             Toast.LENGTH_LONG).show();
+//                    findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
+//                    findViewById(R.id.layout_autologin).setVisibility(View.GONE);
                     prefsEditor.putBoolean("AUTOLOGIN", false);
                     prefsEditor.putString("USERNAME", "");
                     prefsEditor.putString("PASSWORD", "");
                     prefsEditor.commit();
                 }
-                return loggedin;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
-            findViewById(R.id.layout_autologin).setVisibility(View.GONE);
-            return false;
+//            findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
+//            findViewById(R.id.layout_autologin).setVisibility(View.GONE);
         }
-        return false;
     }
-    //    public boolean isConnected() {
-    //        @SuppressWarnings("static-access")
-    //        ConnectivityManager cm = (ConnectivityManager) getSystemService(LoginActivity.this.CONNECTIVITY_SERVICE);
-    //        return cm.getActiveNetworkInfo().isConnected();
-    //    }
 }
