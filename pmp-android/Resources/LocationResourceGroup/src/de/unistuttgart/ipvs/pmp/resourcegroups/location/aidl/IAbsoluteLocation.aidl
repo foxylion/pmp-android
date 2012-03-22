@@ -78,6 +78,25 @@ interface IAbsoluteLocation {
 	 */
 	double getLatitude();
 	
+	/**
+	 * Returns the accuracy of the GPS signal. The accuracy will never be better than the
+	 * Privacy Setting "locationPrecision". Better precision means the user is better traceable,
+	 * but he may rejects a more detailed location.
+	 *
+	 * Requires: useAbsoluteLocation=true, useAccuracy=true
+	 *
+	 * @return Returns the current accuracy of the GPS signal.
+	 */
+	float getAccuracy();
+	
+	/**
+	 * Returns the current speed of the device.
+	 *
+	 * Requires: useAbsoluteLocation=true, useSpeed=true
+	 * 
+	 * @return Returns the current speed of the device, in kilometers per hour.
+	 */
+	float getSpeed();
 	
 	/**
 	 * Requires: useAbsoluteLocation=true, useLocationDescription >= COUNTRY
@@ -103,6 +122,13 @@ interface IAbsoluteLocation {
 	 */
 	String getLocality();
 	
+	/**
+	 * Requires: useAbsoluteLocation=true, useLocationDescription >= CITY
+	 *
+	 * @return Returns the current postal code of the city, or null of no postal code
+	 *         could be fetched, could be possible if the IO failed.
+	 */
+	String getPostalCode();
 	
 	/**
 	 * Requires: useAbsoluteLocation=true, useLocationDescription = STREET

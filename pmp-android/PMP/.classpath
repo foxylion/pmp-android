@@ -6,6 +6,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="/JPMPPS-CommunicationLib/dist/jpmpps-lib-latest.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/PMP-API"/>
-	<classpathentry kind="lib" path="/PMP-XML-UTILITIES/dist/pmp-xml-util-v3-0-stable.jar"/>
+	<classpathentry kind="lib" path="/PMP-XML-UTILITIES/dist/pmp-xml-util-stable-latest.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

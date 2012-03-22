@@ -179,8 +179,9 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         updateLastRequest();
         
         PMPGeoPoint point = calculateRandomInaccuracyGeoPoint();
-        
         return point.getLongitude();
+        
+        //return this.absoluteLocationR.getLongitude();
     }
     
     
@@ -190,8 +191,9 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         updateLastRequest();
         
         PMPGeoPoint point = calculateRandomInaccuracyGeoPoint();
-        
         return point.getLatitude();
+        
+        //return this.absoluteLocationR.getLatitude();
     }
     
     
@@ -226,6 +228,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
+            Log.v(this, "getCountryCode() : " + this.lastAddress.getCountryCode());
             return this.lastAddress.getCountryCode();
         }
     }
@@ -240,6 +243,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
+            Log.v(this, "getCountryName() : " + this.lastAddress.getCountryName());
             return this.lastAddress.getCountryName();
         }
     }
@@ -254,6 +258,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
+            Log.v(this, "getLocality() : " + this.lastAddress.getLocality());
             return this.lastAddress.getLocality();
         }
     }
@@ -268,6 +273,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
+            Log.v(this, "getPostalCode() : " + this.lastAddress.getPostalCode());
             return this.lastAddress.getPostalCode();
         }
     }
@@ -282,6 +288,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
+            Log.v(this, "getAddress() : " + this.lastAddress.getAddressLine(0));
             return this.lastAddress.getAddressLine(0);
         }
     }
@@ -306,6 +313,12 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         PMPGeoPoint newLocation = new PMPGeoPoint(this.absoluteLocationR.getLatitude(),
                 this.absoluteLocationR.getLongitude());
         
+        /* Avoid smearing of startup location (0,0). */
+        if (newLocation.getDistance(new PMPGeoPoint(0.0, 0.0)) < 10.0) {
+            return newLocation;
+        }
+        
+        /* Calculate distance to last position. */
         double distanceToLastPosition = 100000000000.0;
         if (lastRILocation != null) {
             distanceToLastPosition = newLocation.getDistance(lastRILocation);

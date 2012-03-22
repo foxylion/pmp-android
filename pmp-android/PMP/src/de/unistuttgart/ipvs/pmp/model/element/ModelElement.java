@@ -81,7 +81,7 @@ public abstract class ModelElement {
     
     @Override
     public String toString() {
-        return getClass().getName() + '@' + getIdentifier();
+        return getClass().getSimpleName() + '@' + getIdentifier();
     }
     
     

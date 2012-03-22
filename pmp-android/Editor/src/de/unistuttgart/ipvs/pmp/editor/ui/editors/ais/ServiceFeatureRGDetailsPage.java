@@ -19,7 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -75,6 +77,7 @@ import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -291,10 +294,23 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             @Override
             public void keyReleased(org.eclipse.swt.events.KeyEvent arg0) {
                 // The old value of this text field
-                String oldValue = ServiceFeatureRGDetailsPage.this.displayed.getMinRevision();
+                String oldValue;
+                try {
+                    Long value = Long.valueOf(displayed.getMinRevision());
+                    oldValue = XMLConstants.REVISION_DATE_FORMAT.format(new Date(value));
+                } catch (NumberFormatException e) {
+                    oldValue = displayed.getMinRevision();
+                }
+                
                 if (!ServiceFeatureRGDetailsPage.this.revisionField.getText().equals(oldValue)) {
-                    ServiceFeatureRGDetailsPage.this.displayed
-                            .setMinRevision(ServiceFeatureRGDetailsPage.this.revisionField.getText());
+                    try {
+                        Date date = XMLConstants.REVISION_DATE_FORMAT
+                                .parse(ServiceFeatureRGDetailsPage.this.revisionField.getText());
+                        ServiceFeatureRGDetailsPage.this.displayed.setMinRevision(String.valueOf(date.getTime()));
+                    } catch (ParseException e) {
+                        ServiceFeatureRGDetailsPage.this.displayed
+                                .setMinRevision(ServiceFeatureRGDetailsPage.this.revisionField.getText());
+                    }
                     ServiceFeatureRGDetailsPage.this.model.setDirty(true);
                 }
             }
@@ -461,7 +477,14 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // Set the identifier and minimal revision
         this.identifierField.setText(this.displayed.getIdentifier());
-        this.revisionField.setText(this.displayed.getMinRevision());
+        
+        // Set the min revision field
+        try {
+            Long value = Long.valueOf(this.displayed.getMinRevision());
+            this.revisionField.setText(XMLConstants.REVISION_DATE_FORMAT.format(new Date(value)));
+        } catch (NumberFormatException e) {
+            this.revisionField.setText(this.displayed.getMinRevision());
+        }
         
         // Update all decorations
         updateIdentifierDec();
