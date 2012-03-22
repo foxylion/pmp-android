@@ -284,7 +284,7 @@ public class AISValidator extends AbstractValidator {
              * Validate, if the minrevision is valid
              */
             try {
-                Integer.valueOf(rrg.getMinRevision());
+                Long.valueOf(rrg.getMinRevision());
             } catch (NumberFormatException nfe) {
                 Issue issue = new Issue(IssueType.MINREVISION_INVALID, rrg);
                 issue.addParameter(rrg.getMinRevision());

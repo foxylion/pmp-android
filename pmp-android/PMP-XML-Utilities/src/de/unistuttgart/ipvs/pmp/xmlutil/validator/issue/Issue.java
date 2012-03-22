@@ -92,4 +92,23 @@ public class Issue implements IIssue {
         this.parameters.add(parameter);
     }
     
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Issue: \"" + this.getType() + "\"");
+        sb.append(" at " + "\"" + this.getLocation().getClass().getSimpleName() + "\"");
+        if (this.getParameters().size() > 0) {
+            sb.append(" with Parameters: ");
+            boolean notFirst = false;
+            for (String param : this.getParameters()) {
+                if (notFirst)
+                    sb.append(", ");
+                sb.append(param);
+                notFirst = true;
+            }
+        }
+        return sb.toString();
+    }
+    
 }

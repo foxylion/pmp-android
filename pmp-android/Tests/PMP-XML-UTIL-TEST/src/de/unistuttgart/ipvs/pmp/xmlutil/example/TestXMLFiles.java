@@ -20,7 +20,6 @@
 package de.unistuttgart.ipvs.pmp.xmlutil.example;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -39,7 +38,8 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 public class TestXMLFiles {
     
-    private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
+    //private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
+    private static String ais3URL = "http://mvvt.de/ais3.xml";
     private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
     private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
     
@@ -64,13 +64,12 @@ public class TestXMLFiles {
         
         try {
             // Test AIS
-            IAIS ais = appUtil.parse(new URL(aisURL).openStream());
+            IAIS ais = appUtil.parse(new URL(ais3URL).openStream());
             appUtil.print(ais);
-            InputStream compiledXML = appUtil.compile(ais);
-            ais = appUtil.parse(compiledXML);
-            appUtil.print(ais);
+            appUtil.print(appUtil.parse(appUtil.compile(ais)));
             aisValidator.validateAIS(ais, true);
             appUtil.print(ais);
+            Printer.printIssues(ais.getIssues());
             
             // Test RGIS
             IRGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
