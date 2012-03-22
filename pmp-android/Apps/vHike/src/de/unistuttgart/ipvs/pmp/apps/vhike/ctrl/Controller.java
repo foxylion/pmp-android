@@ -370,7 +370,6 @@ public class Controller {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
         JsonObject object = parser.parse(ret).getAsJsonObject();
         boolean suc = false;
         JsonArray array;

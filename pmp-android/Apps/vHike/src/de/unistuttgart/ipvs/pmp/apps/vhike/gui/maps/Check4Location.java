@@ -40,7 +40,6 @@ public class Check4Location extends TimerTask {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
-        this.handler = new Handler();
         this.ctrl = new Controller(ws);
         this.loc = loc;
     }
