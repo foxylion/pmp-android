@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JPMPPS-CommunicationLib"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Daten/Studium/StudienProjekt/pmp-android/pmp-android/PMP-XML-Utilities/dist/pmp-xml-util-v3-0-stable.jar"/>
+	<classpathentry kind="lib" path="/PMP-XML-UTILITIES/dist/pmp-xml-util-v3-0-stable.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

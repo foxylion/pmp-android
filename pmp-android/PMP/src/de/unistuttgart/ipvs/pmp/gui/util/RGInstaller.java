@@ -35,6 +35,7 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
+import de.unistuttgart.ipvs.pmp.model.exception.PluginNotFoundException;
 import de.unistuttgart.ipvs.pmp.model.server.IServerDownloadCallback;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
 
@@ -128,6 +129,8 @@ public class RGInstaller {
                                 error = e.getMessage();
                             } catch (InvalidPluginException e) {
                                 error = e.getMessage();
+                            } catch (PluginNotFoundException e) {
+                                error = context.getString(R.string.rg_not_found, resourceGroups[i]);
                             }
                             
                             final String message = (success ? "Installed the Resource successfully."

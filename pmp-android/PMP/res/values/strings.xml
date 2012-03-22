@@ -157,6 +157,7 @@
     <string name="rgs_installed_no_rgs">Currently there are no resources installed. Install a resource using the \'Available\' tab to fill the list.</string>
     <string name="install_progress_overall">Overall progress</string>
     <string name="install_progress_task">Progress of current task</string>
+    <string name="rg_not_found">The Resource \'%1$s\' was not found on the server and can\'t be installed.</string>
 
     <!-- Overview of Presets -->
     <string name="presets_description">All existing presets are listed here. Select a preset to view more information.</string>

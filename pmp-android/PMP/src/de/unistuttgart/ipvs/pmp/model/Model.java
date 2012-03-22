@@ -42,6 +42,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeaturePersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidPluginException;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidXMLException;
+import de.unistuttgart.ipvs.pmp.model.exception.PluginNotFoundException;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
@@ -343,7 +344,7 @@ public class Model implements IModel, Observer {
             if (!dontDownload) {
                 // download the plugin
                 File temp = ServerProvider.getInstance().downloadResourceGroup(rgPackage);
-                Assert.nonNull(temp, ModelMisuseError.class, Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage);
+                Assert.nonNull(temp, PluginNotFoundException.class, Assert.ILLEGAL_PACKAGE, "rgPackage", rgPackage);
                 
                 // add it
                 FileInputStream fis;
