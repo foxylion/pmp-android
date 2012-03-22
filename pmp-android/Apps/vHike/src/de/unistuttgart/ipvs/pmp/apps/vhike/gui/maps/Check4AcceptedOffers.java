@@ -7,6 +7,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Check for ride queries every given time interval
@@ -22,6 +23,14 @@ public class Check4AcceptedOffers extends TimerTask {
     private ViewObject object;
     private int offer_id;
     
+    
+    public Check4AcceptedOffers(IvHikeWebservice ws,ViewObject object, int offer_id) {
+        this.handler = new Handler();
+        this.ctrl = new Controller(ws);
+        this.object = object;
+        this.offer_id = offer_id;
+        
+    }
     
     /**
      * 
