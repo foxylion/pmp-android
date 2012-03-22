@@ -22,6 +22,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
@@ -47,7 +48,8 @@ public class NotificationAdapter extends BaseAdapter {
     private Controller ctrl;
     IvHikeWebservice ws;
     
-    public NotificationAdapter(IvHikeWebservice ws,Context context, List<Profile> hitchhikers, int whichHitcher) {
+    
+    public NotificationAdapter(IvHikeWebservice ws, Context context, List<Profile> hitchhikers, int whichHitcher) {
         this.context = context;
         this.hitchhikers = hitchhikers;
         this.mWhichHitcher = whichHitcher;
@@ -100,9 +102,15 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 
-                List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-                NotificationAdapter.this.userID = lqo.get(position).getUserid();
-                Log.i(this, "ProfileID: " + NotificationAdapter.this.userID + ", Position: " + position);
+                if (mWhichHitcher == 0) {
+                    List<QueryObject> lqo = Model.getInstance().getQueryHolder();
+                    
+                    userID = lqo.get(position).getUserid();
+                    Log.i(this, "ProfileID: " + NotificationAdapter.this.userID + ", Position: " + position);
+                } else {
+                    List<OfferObject> loo = Model.getInstance().getOfferHolder();
+                    userID = loo.get(position).getUser_id();
+                }
                 
                 vhikeDialogs.getInstance()
                         .getProfileDialog(ws, NotificationAdapter.this.context, NotificationAdapter.this.userID).show();
