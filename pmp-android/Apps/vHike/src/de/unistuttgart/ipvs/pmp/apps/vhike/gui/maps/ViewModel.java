@@ -439,6 +439,7 @@ public class ViewModel {
     
     
     public void setDestination4Passenger(Spinner spDestination) {
+        destinationPassenger = "";
         this.destinationPassenger = spDestination.getSelectedItem().toString();
     }
     

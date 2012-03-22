@@ -4,16 +4,10 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 /**
@@ -81,23 +75,23 @@ public class DriverOverlay extends ItemizedOverlay {
     /**
      * custom draw implementation to draw the perimeter
      */
-    @Override
-    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-        super.draw(canvas, mapView, shadow);
-        // convert point to pixels
-        Point screenPts = new Point();
-        mapView.getProjection().toPixels(this.mGps, screenPts);
-        
-        Paint myCircle = new Paint();
-        myCircle.setColor(Color.BLUE);
-        myCircle.setAntiAlias(true);
-        myCircle.setStyle(Style.FILL);
-        myCircle.setAlpha(30);
-        
-        canvas.drawCircle(screenPts.x, screenPts.y - 15, 100, myCircle);
-        
-        return true;
-    }
+//    @Override
+//    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+//        super.draw(canvas, mapView, shadow);
+//        // convert point to pixels
+//        Point screenPts = new Point();
+//        mapView.getProjection().toPixels(this.mGps, screenPts);
+//        
+//        Paint myCircle = new Paint();
+//        myCircle.setColor(Color.BLUE);
+//        myCircle.setAntiAlias(true);
+//        myCircle.setStyle(Style.FILL);
+//        myCircle.setAlpha(30);
+//        
+//        canvas.drawCircle(screenPts.x, screenPts.y - 15, 100, myCircle);
+//        
+//        return true;
+//    }
     
     
     /**
