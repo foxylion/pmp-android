@@ -180,8 +180,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         
         PMPGeoPoint point = calculateRandomInaccuracyGeoPoint();
         return point.getLongitude();
-        
-        //return this.absoluteLocationR.getLongitude();
     }
     
     
@@ -192,8 +190,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         
         PMPGeoPoint point = calculateRandomInaccuracyGeoPoint();
         return point.getLatitude();
-        
-        //return this.absoluteLocationR.getLatitude();
     }
     
     
@@ -228,7 +224,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
-            Log.v(this, "getCountryCode() : " + this.lastAddress.getCountryCode());
             return this.lastAddress.getCountryCode();
         }
     }
@@ -243,7 +238,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
-            Log.v(this, "getCountryName() : " + this.lastAddress.getCountryName());
             return this.lastAddress.getCountryName();
         }
     }
@@ -258,7 +252,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
-            Log.v(this, "getLocality() : " + this.lastAddress.getLocality());
             return this.lastAddress.getLocality();
         }
     }
@@ -273,7 +266,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
-            Log.v(this, "getPostalCode() : " + this.lastAddress.getPostalCode());
             return this.lastAddress.getPostalCode();
         }
     }
@@ -288,7 +280,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         if (this.lastAddress == null) {
             return null;
         } else {
-            Log.v(this, "getAddress() : " + this.lastAddress.getAddressLine(0));
             return this.lastAddress.getAddressLine(0);
         }
     }
@@ -335,15 +326,10 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
             this.lastRILocation = newLocation;
         }
         
-        System.out.println("current location: " + newLocation);
-        System.out.println("long-rand: " + this.randomInaccuracyLong);
-        System.out.println("lat-rand: " + this.randomInaccuracyLat);
-        
         PMPGeoPoint newPoint = newLocation;
         
         try {
             newPoint = newLocation.inDistance(this.randomInaccuracyLat, this.randomInaccuracyLong);
-            System.out.println("smeared location: " + newPoint);
         } catch (IllegalArgumentException e) {
             Log.e(this, "Catched illegal argument exception during caluculation of smeared location", e);
         }
