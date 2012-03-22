@@ -78,4 +78,12 @@ public interface IIssue {
      */
     public abstract void addParameter(String parameter);
     
+    
+    /**
+     * Get the string representation of the {@link IIssue}
+     * 
+     * @return the string representation of the {@link IIssue}
+     */
+    public abstract String toString();
+    
 }

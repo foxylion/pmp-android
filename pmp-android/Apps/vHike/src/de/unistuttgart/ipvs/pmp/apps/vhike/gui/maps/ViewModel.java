@@ -549,7 +549,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (this.driverAdapter == null) {
-            this.driverAdapter = new NotificationAdapter(context, getHitchPassengers(), 0);
+            this.driverAdapter = new NotificationAdapter(ws, context, getHitchPassengers(), 0);
         }
         return this.driverAdapter;
     }
@@ -573,7 +573,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (this.passengerAdapter == null) {
-            this.passengerAdapter = new NotificationAdapter(context, getHitchDrivers(), 1);
+            this.passengerAdapter = new NotificationAdapter(ws, context, getHitchDrivers(), 1);
         }
         return this.passengerAdapter;
     }

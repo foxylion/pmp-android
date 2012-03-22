@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 public class ProfileDialog extends Dialog {
     
@@ -18,12 +19,12 @@ public class ProfileDialog extends Dialog {
     
     
     @SuppressWarnings("static-access")
-    public ProfileDialog(Context context, int profileID) {
+    public ProfileDialog(IvHikeWebservice ws,Context context, int profileID) {
         super(context);
         requestWindowFeature(getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_profile);
         this.profileID = profileID;
-        this.ctrl = new Controller();
+        this.ctrl = new Controller(ws);
         
         setUpProfile();
     }

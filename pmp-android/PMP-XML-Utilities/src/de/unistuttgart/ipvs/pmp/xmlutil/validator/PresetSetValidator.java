@@ -161,7 +161,7 @@ public class PresetSetValidator extends AbstractValidator {
                  * Validate, if the rgMinRevision is valid
                  */
                 try {
-                    Integer.valueOf(assignedPS.getRgRevision());
+                    Long.valueOf(assignedPS.getRgRevision());
                 } catch (NumberFormatException nfe) {
                     Issue issue = new Issue(IssueType.RG_REVISION_INVALID, assignedPS);
                     issue.addParameter(assignedPS.getRgRevision());

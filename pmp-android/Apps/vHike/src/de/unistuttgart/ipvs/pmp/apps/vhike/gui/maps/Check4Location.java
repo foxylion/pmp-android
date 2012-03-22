@@ -4,7 +4,6 @@ import java.util.TimerTask;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.RemoteException;
 import android.widget.Toast;
 
@@ -31,17 +30,19 @@ public class Check4Location extends TimerTask {
     private Controller ctrl;
     private Context context;
     private Handler handler;
+    private int whichHitcher;
     
     private int showAddress = 0;
     
     
     public Check4Location(IvHikeWebservice ws, IAbsoluteLocation loc, MapView mapView, Context context,
-            Handler handler, IBinder binder) {
+            Handler handler, int whichHitcher) {
         this.mapView = mapView;
         this.context = context;
         this.handler = handler;
         this.ctrl = new Controller(ws);
         this.loc = loc;
+        this.whichHitcher = whichHitcher;
     }
     
     
@@ -119,7 +120,7 @@ public class Check4Location extends TimerTask {
                     }
                     MapController controller = mapView.getController();
                     try {
-                        ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD, 0);
+                        ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD, whichHitcher);
                         /**
                          * send server updated latitude and longitude
                          */

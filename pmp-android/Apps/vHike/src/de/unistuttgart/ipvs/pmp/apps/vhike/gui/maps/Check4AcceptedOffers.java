@@ -32,18 +32,6 @@ public class Check4AcceptedOffers extends TimerTask {
         
     }
     
-    /**
-     * 
-     */
-    public Check4AcceptedOffers(ViewObject object, int offer_id) {
-        this.handler = new Handler();
-        this.ctrl = new Controller();
-        this.object = object;
-        this.offer_id = offer_id;
-        
-    }
-    
-    
     @Override
     public void run() {
         this.handler.post(new Runnable() {

@@ -5,7 +5,6 @@ import java.util.Timer;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.IInterface;
 import android.os.RemoteException;
 import android.view.Gravity;
@@ -23,7 +22,6 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
@@ -33,7 +31,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyMapActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 
 /**
  * DriverViewActivity displays driver with his perimeter, found hitchhikers, a list of found hitchhikers, the
@@ -91,9 +88,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         if (getvHikeRG(this) != null && getLocationRG(this) != null) {
             ctrl = new Controller(rgvHike);
             ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
-            
+            resourceCached();
             showHitchhikers();
-            startTripByUpdating();
         }
     }
     
@@ -101,20 +97,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
-        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
-            
-            @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                resourceCached();
-            }
-            
-            
-            @Override
-            public void onBindingFailed() {
-                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
-            }
-        });
     }
     
     
@@ -130,35 +112,12 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 public void run() {
                     ctrl = new Controller(rgvHike);
                     ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
-                    
+                    resourceCached();
                     showHitchhikers();
-                    startTripByUpdating();
                 }
             });
         }
         
-    }
-    
-    
-    private void stopRG() {
-        
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            return;
-        }
-        
-        stopContinousLookup();
-        
-        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
-        try {
-            loc.endLocationLookup();
-            Log.i(this, "endLocationLookup");
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
     }
     
     
@@ -207,84 +166,22 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     }
     
     
-    /**
-     * get current location and notify server that a trip was announced for
-     * possible passengers to search for
-     */
-    private void startTripByUpdating() {
-        //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //        luh = new LocationUpdateHandler(context, locationManager, mapView, mapController, 0);
-        //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, luh);
-        
-        PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
-            
-            @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                resourceCached();
-            }
-            
-            
-            @Override
-            public void onBindingFailed() {
-                Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
-            }
-        });
-        
-    }
-    
-    
     private void resourceCached() {
-        IBinder binder = PMP.get().getResourceFromCache(R_ID);
-        
-        if (binder == null) {
-            Log.i(this, "Binder null");
-            handler.post(new Runnable() {
-                
-                @Override
-                public void run() {
-                    Toast.makeText(DriverViewActivity.this,
-                            "PMP said something like 'resource group does not exists'.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            
-            return;
-        }
-        
-        IAbsoluteLocation loc = IAbsoluteLocation.Stub.asInterface(binder);
         try {
-            loc.startLocationLookup(5000, 20.0F);
-            
-            handler.post(new Runnable() {
-                
-                @Override
-                public void run() {
-                    Toast.makeText(DriverViewActivity.this, "Location Resource loaded.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            
-            startContinousLookup(binder);
+            rgLocation.startLocationLookup(5000, 20.0F);
         } catch (RemoteException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-            handler.post(new Runnable() {
-                
-                @Override
-                public void run() {
-                    Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            });
         }
-        
+        startContinousLookup();
     };
     
     
-    private void startContinousLookup(IBinder binder) {
+    private void startContinousLookup() {
         locationTimer = new Timer();
         queryTimer = new Timer();
         
-        c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, binder);
+        c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, 0);
         locationTimer.schedule(c4l, 10000, 10000);
         // Start Check4Queries Class to check for queries
         
@@ -312,8 +209,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearHitchPassengers();
                 ViewModel.getInstance().clearDriverNotificationAdapter();
                 //  locationManager.removeUpdates(luh);
-                
-                stopRG();
+                stopContinousLookup();
                 
                 Log.i(this, "Trip ENDED");
                 DriverViewActivity.this.finish();
@@ -325,8 +221,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
             }
             case Constants.STATUS_NO_TRIP: {
                 Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
-                
-                stopRG();
                 
                 DriverViewActivity.this.finish();
                 break;
@@ -353,8 +247,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         //  locationManager.removeUpdates(luh);
-                        
-                        stopRG();
+                        stopContinousLookup();
                         
                         Log.i(this, "Trip ENDED");
                         DriverViewActivity.this.finish();
@@ -367,8 +260,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                     case Constants.STATUS_NO_TRIP: {
                         Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
                         
-                        stopRG();
-                        
                         DriverViewActivity.this.finish();
                         break;
                     }
@@ -379,7 +270,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 break;
             
             case R.id.mi_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, context).show();
                 break;
         }
         return true;

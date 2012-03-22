@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * This class provides access to all dialogs in vHike
@@ -45,7 +46,6 @@ public class vhikeDialogs extends Activity {
         }
         return instance;
     }
-    
     
     /**
      * ProgressDialog when logging in
@@ -122,8 +122,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public Dialog getUpdateDataDialog(Context mContext) {
-        this.dUpdateData = new UpdateData(mContext);
+    public Dialog getUpdateDataDialog(IvHikeWebservice ws, Context mContext) {
+        this.dUpdateData = new UpdateData(mContext, ws);
         
         return this.dUpdateData;
     }
@@ -136,8 +136,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public RateProfileConfirm getRateProfileConfirmation(Context context, int profileID, int rating, int tripID) {
-        this.rpc = new RateProfileConfirm(context, profileID, rating, tripID);
+    public RateProfileConfirm getRateProfileConfirmation(IvHikeWebservice ws,Context context, int profileID, int rating, int tripID) {
+        this.rpc = new RateProfileConfirm(ws, context, profileID, rating, tripID);
         return this.rpc;
     }
     
@@ -147,8 +147,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public ProfileDialog getProfileDialog(Context context, int profileID) {
-        return new ProfileDialog(context, profileID);
+    public ProfileDialog getProfileDialog(IvHikeWebservice ws,Context context, int profileID) {
+        return new ProfileDialog(ws, context, profileID);
     }
     
     
