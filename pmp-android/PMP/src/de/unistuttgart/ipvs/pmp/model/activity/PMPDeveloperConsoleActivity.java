@@ -53,7 +53,10 @@ import de.unistuttgart.ipvs.pmp.model.ModelCache;
 import de.unistuttgart.ipvs.pmp.model.PersistenceProvider;
 import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.App;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
+import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
@@ -321,6 +324,48 @@ public class PMPDeveloperConsoleActivity extends Activity {
                 }
             }
             
+        });
+        
+        /*
+         * total debug conflicts
+         */
+        Button tocConflicts = (Button) findViewById(R.id.pdc_toc_conflicts);
+        tocConflicts.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                try {
+                    
+                    Log.d(this, ":: LIST OF CONFLICTS ::");
+                    for (IPreset p : Model.getInstance().getPresets()) {
+                        Log.d(this, "PRESET ('" + p.getIdentifier() + "')");
+                        
+                        for (IPrivacySetting ps : p.getGrantedPrivacySettings()) {
+                            Log.d(this, "   # PS ('" + ps.getIdentifier() + "')");
+                            for (IContextAnnotation ca : p.getContextAnnotations(ps)) {
+                                Log.d(this, "   #   - CA ('" + ca + "')");
+                                
+                                // actual check here
+                                for (IPreset other : Model.getInstance().getPresets()) {
+                                    if (!other.equals(p)) {
+                                        for (IContextAnnotation otherCA : ca.getConflictingContextAnnotations(other)) {
+                                            Log.d(this, "   #   -   CA/CA conflict ('" + other.getIdentifier()
+                                                    + "' : '" + otherCA + "')");
+                                        }
+                                        
+                                        if (ca.isPrivacySettingConflicting(other)) {
+                                            Log.d(this, "   #   -   CA/PS conflict ('" + other.getIdentifier() + "')");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                } catch (Throwable t) {
+                    Log.e(this, "While debugging db: ", t);
+                }
+            }
         });
         
         /*

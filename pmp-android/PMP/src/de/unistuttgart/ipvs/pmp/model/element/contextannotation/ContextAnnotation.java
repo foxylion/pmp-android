@@ -58,6 +58,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     @Override
     public String toString() {
+        checkCached();
         return super.toString()
                 + String.format(" [ctx = %s, cond = %s, ovrd = %s]", this.context.getName(), this.condition,
                         this.overrideValue);
