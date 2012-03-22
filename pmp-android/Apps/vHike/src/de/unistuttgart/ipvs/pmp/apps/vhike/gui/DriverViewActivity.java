@@ -361,7 +361,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                         break;
                     }
                     case Constants.STATUS_ERROR: {
-                        Toast.makeText(DriverViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DriverViewActivity.this, "STATUS_Error", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case Constants.STATUS_NO_TRIP: {
