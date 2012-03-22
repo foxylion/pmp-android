@@ -177,20 +177,19 @@ public class Controller {
             e.printStackTrace();
         }
         
+        Log.i(TAG, "End trip: " + ret);
         JsonObject object = parser.parse(ret).getAsJsonObject();
         
-        JsonElement status = object.get("status");
-        
+        String status = object.get("status").getAsString();
+        int retStatus = Constants.STATUS_ERROR;
         if (status.equals("invalid_id")) {
-            return Constants.STATUS_INVALID_USER;
+            retStatus = Constants.STATUS_INVALID_USER; 
         } else if (status.equals("nothing_to_update")) {
-            return Constants.STATUS_NO_TRIP;
+            retStatus = Constants.STATUS_NO_TRIP; 
         } else if (status.equals("trip_ended")) {
-            return Constants.STATUS_SUCCESS;
-        } else {
-            Log.w(this, "End trip status: " + status);
-            return Constants.STATUS_ERROR;
-        }
+            retStatus = Constants.STATUS_SUCCESS;
+        } 
+        return retStatus;
     }
     
     
