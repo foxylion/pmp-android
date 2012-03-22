@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.IInterface;
 import android.os.RemoteException;
 import android.view.Gravity;
 import android.view.Menu;
@@ -16,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -30,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyMapActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
@@ -43,7 +44,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
  * @author Andre Nguyen
  * 
  */
-public class DriverViewActivity extends MapActivity {
+public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     // Resource
     private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
@@ -83,12 +84,17 @@ public class DriverViewActivity extends MapActivity {
         ViewModel.getInstance().initPassengersList();
         ViewModel.getInstance().resetTimers();
         
-        setMapView();
-        showHitchhikers();
-        startTripByUpdating();
-        
         vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearAnnouncPD();
+        
+        if (getvHikeRG(this) != null && getLocationRG(this) != null) {
+            ctrl = new Controller(rgvHike);
+            ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
+            
+            setMapView();
+            showHitchhikers();
+            startTripByUpdating();
+        }
     }
     
     
@@ -109,6 +115,29 @@ public class DriverViewActivity extends MapActivity {
                 Toast.makeText(DriverViewActivity.this, "Binding Resource failed", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    
+    
+    @Override
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        
+        Log.i(this, "RG ready: " + resourceGroup);
+        if (rgvHike != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    ctrl = new Controller(rgvHike);
+                    ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
+                    
+                    setMapView();
+                    showHitchhikers();
+                    startTripByUpdating();
+                }
+            });
+        }
+        
     }
     
     
@@ -243,7 +272,7 @@ public class DriverViewActivity extends MapActivity {
                 @Override
                 public void run() {
                     Toast.makeText(DriverViewActivity.this, "Please enable the Service Feature.", Toast.LENGTH_SHORT)
-                    .show();
+                            .show();
                 }
             });
         }
@@ -348,7 +377,7 @@ public class DriverViewActivity extends MapActivity {
                         break;
                 }
                 break;
-                
+            
             case R.id.mi_updateData:
                 vhikeDialogs.getInstance().getUpdateDataDialog(context).show();
                 break;
@@ -370,8 +399,6 @@ public class DriverViewActivity extends MapActivity {
             ViewModel.getInstance().cancelQuery();
             Log.i(this, "Timer Query cancel");
         }
-        
-        
         
     }
     
