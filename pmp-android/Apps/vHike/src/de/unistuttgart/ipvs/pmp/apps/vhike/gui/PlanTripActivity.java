@@ -4,10 +4,11 @@ import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IInterface;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IConfirmDialogFinishedCall
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IDialogFinishedCallBack;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
@@ -39,7 +41,8 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  * @author Andre Nguyen, Dang Huynh
  * 
  */
-public class PlanTripActivity extends Activity implements IDialogFinishedCallBack, IConfirmDialogFinishedCallBack {
+public class PlanTripActivity extends ResourceGroupReadyActivity implements IDialogFinishedCallBack,
+        IConfirmDialogFinishedCallBack {
     
     // Function call back ID(s)
     private static final byte CONFIRM_END_TRIP = 0;
@@ -47,7 +50,6 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
     private final int DIALOG_DATE_TIME_PICKER = 1;
     private SparseArray<Dialog> dialogs;
     
-    private Controller ctrl;
     private final String sid = Model.getInstance().getSid();
     
     private RadioButton pickDate;
@@ -58,6 +60,9 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
     
     private Calendar plannedDate;
     
+    private Controller ctrl;
+    private Handler handler;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,8 +71,12 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         // TODO if not logged in
         
         setContentView(R.layout.activity_trip);
-        this.ctrl = new Controller();
+        handler = new Handler();
         registerListener();
+        
+        if (getvHikeRG(this) != null) {
+         ctrl = new Controller(rgvHike);   
+        }
     }
     
     
@@ -77,6 +86,27 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
         
         // TODO Check date!
         Log.i(this, "OnResume");
+    }
+    
+    
+    @Override
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        
+        Log.i(this, "RG ready: " + resourceGroup);
+        if (rgvHike != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    ctrl = new Controller(rgvHike);
+                    Log.i(this, "OnRGReady: Controller");
+                }
+            });
+        } else {
+            Log.i(this, "OnRGReady: NULL");
+        }
+        
     }
     
     
@@ -135,9 +165,11 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             @Override
             public void onClick(final View v) {
                 
-                if (now.isChecked()) {
+                if (vHikeService.isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
+                    Log.v(this, "Enable");
+                    if (now.isChecked()) {
                         // See if an open trip is open
-                        switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
+                        switch (ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
                             case Constants.STATUS_ERROR:
                                 // TODO ERROR
                                 Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG)
@@ -156,8 +188,12 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
                                 Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
                         }
                         //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
+                    } else {
+                        PlanTripActivity.this.announceTrip();
+                    }
                 } else {
-                    PlanTripActivity.this.announceTrip();
+                    Log.v(this, "disable");
+                    vHikeService.requestServiceFeature(PlanTripActivity.this, Constants.SF_USE_ABSOLUTE_LOCATION);
                 }
                 
                 // TODO IF NOTNOW
@@ -172,25 +208,24 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             @Override
             public void onClick(View v) {
                 
-                Log.i(this, "SIZE: " + ViewModel.getInstance().getDestinationSpinners().size());
-                
-                if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
-                    Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
-                    ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
+                if (vHikeService.isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
                     
-                    vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
-                    Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
-                    PlanTripActivity.this.startActivity(intent);
-                }
-                
-                if (vHikeService.getInstance().isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
-                    Log.v(this, "Enable");
+                    if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+                        Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
+                        ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
+                        
+                        vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
+                        Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
+                        PlanTripActivity.this.startActivity(intent);
+                    }
                 } else {
                     Log.v(this, "disable");
+                    vHikeService.requestServiceFeature(PlanTripActivity.this, Constants.SF_USE_ABSOLUTE_LOCATION);
                 }
+                
             }
         });
     }
@@ -287,8 +322,9 @@ public class PlanTripActivity extends Activity implements IDialogFinishedCallBac
             date = plannedDate.getTime();
         }
         
-        switch (this.ctrl.announceTrip(this.sid, ViewModel.getInstance().getDestination(), Constants.COORDINATE_INVALID,
-                        Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
+        switch (this.ctrl.announceTrip(this.sid, ViewModel.getInstance().getDestination(),
+                Constants.COORDINATE_INVALID,
+                Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
         
             case Constants.STATUS_SUCCESS:
                 // TODO inform

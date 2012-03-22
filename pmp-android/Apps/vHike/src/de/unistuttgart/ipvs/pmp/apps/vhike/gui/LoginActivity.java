@@ -190,8 +190,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             if (getvHikeRG(this) != null) {
                 Log.v(this, "Logging in");
                 ctrl = new Controller(rgvHike);
-//                LoginActivity.this.findViewById(R.id.layout_login).setVisibility(View.GONE);
-//                LoginActivity.this.findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
+                LoginActivity.this.findViewById(R.id.layout_login).setVisibility(View.GONE);
+                LoginActivity.this.findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
                 
                 boolean loggedin = ctrl.login(username, pw);
                 
