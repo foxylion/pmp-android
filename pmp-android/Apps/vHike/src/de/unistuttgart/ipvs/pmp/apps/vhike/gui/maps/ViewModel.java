@@ -44,8 +44,8 @@ public class ViewModel {
     private List<ViewObject> banned;
     MapView mapView;
     Context context;
-    private float my_lat;
-    private float my_lon;
+    private float my_lat = 0;
+    private float my_lon = 0;
     private boolean newFound = false;
     
     private boolean locationIsCanceled = false;
