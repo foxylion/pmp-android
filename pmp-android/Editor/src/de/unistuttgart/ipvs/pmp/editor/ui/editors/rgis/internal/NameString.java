@@ -19,12 +19,21 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
 public class NameString extends EncapsulatedString {
     
     public NameString(String value, RGISPrivacySetting ps) {
         super(value, ps);
+    }
+    
+    
+    @Override
+    public List<ILocalizedString> getStringList() {
+        return ps.getNames();
     }
     
 }
