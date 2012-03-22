@@ -24,9 +24,11 @@ public class ViewObject {
     int status;
     ViewObject me;
     private Controller ctrl;
+    IvHikeWebservice ws;
     
     public ViewObject(IvHikeWebservice ws, float lat, float lon, Profile profile) {
         super();
+        this.ws = ws;
         ctrl = new Controller(ws);
         this.status = Constants.V_OBJ_SATUS_FOUND;
         this.lat = lat;
@@ -152,7 +154,7 @@ public class ViewObject {
                             default:
                                 ViewObject.this.status = Constants.V_OBJ_SATUS_AWAIT_ACCEPTION;
                                 // START TIMER HIER
-                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(getViewObjectToBann(), result);
+                                Check4AcceptedOffers c4ao = new Check4AcceptedOffers(ws,getViewObjectToBann(), result);
                                 Timer timer = new Timer();
                                 timer.schedule(c4ao, 300, 10000);
                                 Log.i(this, "Offer sent.");
