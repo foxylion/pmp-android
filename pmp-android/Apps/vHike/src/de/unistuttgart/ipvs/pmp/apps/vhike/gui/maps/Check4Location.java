@@ -17,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * 
@@ -34,6 +35,10 @@ public class Check4Location extends TimerTask {
     
     private int showAddress = 0;
     
+    public Check4Location(IvHikeWebservice ws){
+        this.handler = new Handler();
+        this.ctrl = new Controller(ws);
+    }
     
     public Check4Location(MapView mapView, Context context, Handler handler, IBinder binder) {
         this.mapView = mapView;

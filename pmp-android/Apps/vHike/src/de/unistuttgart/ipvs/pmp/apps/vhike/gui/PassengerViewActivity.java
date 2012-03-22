@@ -29,7 +29,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.LocationUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -48,7 +47,6 @@ public class PassengerViewActivity extends MapActivity {
     private MapView mapView;
     private MapController mapController;
     private LocationManager locationManager;
-    private LocationUpdateHandler luh;
     
     private Timer timer;
     private Controller ctrl;
@@ -152,9 +150,9 @@ public class PassengerViewActivity extends MapActivity {
      * server
      */
     private void startQuery() {
-        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
-        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
+//        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
+//        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
         
         switch (this.ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(),
                 ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
@@ -193,7 +191,7 @@ public class PassengerViewActivity extends MapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
-                this.locationManager.removeUpdates(this.luh);
+//                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 
                 break;
@@ -211,7 +209,7 @@ public class PassengerViewActivity extends MapActivity {
                 Log.i(this, "QUERY DELeTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
-                this.locationManager.removeUpdates(this.luh);
+//                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
@@ -230,7 +228,7 @@ public class PassengerViewActivity extends MapActivity {
                 ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
-                this.locationManager.removeUpdates(this.luh);
+//                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
@@ -250,7 +248,7 @@ public class PassengerViewActivity extends MapActivity {
                 Log.i(this, "QUERY DELeTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
-                this.locationManager.removeUpdates(this.luh);
+//                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
@@ -274,7 +272,7 @@ public class PassengerViewActivity extends MapActivity {
                         ViewModel.getInstance().getHitchDrivers().clear();
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearPassengerNotificationAdapter();
-                        this.locationManager.removeUpdates(this.luh);
+//                        this.locationManager.removeUpdates(this.luh);
                         this.timer.cancel();
                         ViewModel.getInstance().clearViewModel();
                         
@@ -294,7 +292,7 @@ public class PassengerViewActivity extends MapActivity {
                         Log.i(this, "QUERY DELeTED");
                         ViewModel.getInstance().clearPassengerOverlayList();
                         ViewModel.getInstance().getHitchDrivers().clear();
-                        this.locationManager.removeUpdates(this.luh);
+//                        this.locationManager.removeUpdates(this.luh);
                         this.timer.cancel();
                         ViewModel.getInstance().clearViewModel();
                         

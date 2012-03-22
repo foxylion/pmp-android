@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Check for ride queries every given time interval
@@ -28,6 +29,10 @@ public class Check4Queries extends TimerTask {
     private float lng;
     private int perimeter = 10000;
     
+    public Check4Queries(IvHikeWebservice ws){
+        this.handler = new Handler();
+        this.ctrl = new Controller(ws);
+    }
     
     /**
      * Check for queries every given interval
