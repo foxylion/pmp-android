@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Timer;
 
 import android.content.Context;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IInterface;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +20,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -30,6 +29,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyMapActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -41,13 +41,14 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
  * @author Andre Nguyen
  * 
  */
-public class PassengerViewActivity extends MapActivity {
+public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     
     private Context context;
     private MapView mapView;
-    private MapController mapController;
-    private LocationManager locationManager;
+//    private MapController mapController;
+//    private LocationManager locationManager;
     
+    private Handler handler;
     private Timer timer;
     private Controller ctrl;
     
@@ -63,17 +64,45 @@ public class PassengerViewActivity extends MapActivity {
         this.ctrl = new Controller();
         ViewModel.getInstance().initDriversList();
         
-        setMapView();
-        showHitchhikers();
-        startQuery();
-        
         vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearSearchPD();
+        
+        if (getvHikeRG(this) != null && getLocationRG(this) != null) {
+            ctrl = new Controller(rgvHike);
+            ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
+            
+            setMapView();
+            showHitchhikers();
+            startQuery();
+        }
     }
     
     
     public PassengerViewActivity() {
         this.context = PassengerViewActivity.this;
+    }
+    
+    
+    @Override
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        
+        Log.i(this, "RG ready: " + resourceGroup);
+        if (rgvHike != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    ctrl = new Controller(rgvHike);
+                    ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
+                    
+                    setMapView();
+                    showHitchhikers();
+                    startQuery();
+                }
+            });
+        }
+        
     }
     
     
@@ -112,7 +141,7 @@ public class PassengerViewActivity extends MapActivity {
         zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         zoomView.setVerticalScrollBarEnabled(true);
         this.mapView.addView(zoomView);
-        this.mapController = this.mapView.getController();
+//        this.mapController = this.mapView.getController();
         
         // check for offers manually
         Button simulation = (Button) findViewById(R.id.Button_SimulateFoundDriver);
@@ -150,9 +179,9 @@ public class PassengerViewActivity extends MapActivity {
      * server
      */
     private void startQuery() {
-//        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
-//        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
+        //        this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
+        //        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
         
         switch (this.ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(),
                 ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
@@ -191,7 +220,7 @@ public class PassengerViewActivity extends MapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
-//                this.locationManager.removeUpdates(this.luh);
+                //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 
                 break;
@@ -209,7 +238,7 @@ public class PassengerViewActivity extends MapActivity {
                 Log.i(this, "QUERY DELeTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
-//                this.locationManager.removeUpdates(this.luh);
+                //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
@@ -228,7 +257,7 @@ public class PassengerViewActivity extends MapActivity {
                 ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
-//                this.locationManager.removeUpdates(this.luh);
+                //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
@@ -248,7 +277,7 @@ public class PassengerViewActivity extends MapActivity {
                 Log.i(this, "QUERY DELeTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
-//                this.locationManager.removeUpdates(this.luh);
+                //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
                 
@@ -272,7 +301,7 @@ public class PassengerViewActivity extends MapActivity {
                         ViewModel.getInstance().getHitchDrivers().clear();
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearPassengerNotificationAdapter();
-//                        this.locationManager.removeUpdates(this.luh);
+                        //                        this.locationManager.removeUpdates(this.luh);
                         this.timer.cancel();
                         ViewModel.getInstance().clearViewModel();
                         
@@ -292,7 +321,7 @@ public class PassengerViewActivity extends MapActivity {
                         Log.i(this, "QUERY DELeTED");
                         ViewModel.getInstance().clearPassengerOverlayList();
                         ViewModel.getInstance().getHitchDrivers().clear();
-//                        this.locationManager.removeUpdates(this.luh);
+                        //                        this.locationManager.removeUpdates(this.luh);
                         this.timer.cancel();
                         ViewModel.getInstance().clearViewModel();
                         
