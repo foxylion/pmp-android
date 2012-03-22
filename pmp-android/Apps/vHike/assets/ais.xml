@@ -10,7 +10,7 @@
 		<serviceFeature identifier="vhikeWebService">
 			<name lang="en">vHike Web Service</name>
 			<description lang="en">Access for vHike services on the web</description>
-			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS" minRevision="2012-01-01 00:00:00 GMT+01:00">
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS" minRevision="0">
 				<requiredPrivacySetting identifier="usevHikeWS">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
@@ -18,7 +18,7 @@
 			<name lang="en">Exact Location</name>
 			<description lang="en">Provides information about your position for several features of vHike like searching for a ride or a hiker, sharing your location for other members in your trip, making finding each other much easier.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="2012-01-01 00:00:00 GMT+01:00">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="0">
 				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="useCoordinates">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="useSpeed">true</requiredPrivacySetting>
@@ -29,7 +29,7 @@
 			<name lang="en">Location Privacy +</name>
 			<description lang="en">This premium feature is only for our premium users. Unless you want to, your exact location will not be available for others so your house will be safe. A random coordinate close to your true position will be used instead to make sure you don't miss a chance of being found and have fun on vHike :-)</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="2012-01-01 00:00:00 GMT+01:00">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="0">
 				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="useCoordinates">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="useSpeed">true</requiredPrivacySetting>
@@ -42,7 +42,7 @@
 			<name lang="en">Profile Privacy +</name>
 			<description lang="en">Hide your contact information from curious eyes. Who want to share his email address if we got 5 star rating, right? Of course you can always share them with serious users with whom you contact.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vhikewebservice" minRevision="2012-01-01 00:00:00 GMT+01:00">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vhikewebservice" minRevision="0">
 				<requiredPrivacySetting identifier="anonymous">hide</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
@@ -50,7 +50,7 @@
 			<name lang="en">Contact +</name>
 			<description lang="en">Direct contact with other user via phone call, SMS and email, right here in vHike.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email" minRevision="2012-01-01 00:00:00 GMT+01:00">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.email" minRevision="0">
 				<requiredPrivacySetting identifier="canSendEmail">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
@@ -58,7 +58,7 @@
 			<name lang="en">Notification +</name>
 			<description lang="en">Notify you about new messages on vHike, even when you're using other apps.</description>
 			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification" minRevision="2012-01-01 00:00:00 GMT+01:00">
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification" minRevision="0">
 				<requiredPrivacySetting identifier="allowNotification">allow
 				</requiredPrivacySetting>
 			</requiredResourceGroup>
