@@ -21,7 +21,6 @@ import com.google.android.maps.MapView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
-import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
@@ -42,12 +41,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
  * 
  */
 public class DriverViewActivity extends ResourceGroupReadyMapActivity {
-    
-    // Resource
-    private static final String RG_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.location";
-    private static final String R_NAME = "absoluteLocationResource";
-    
-    private static final PMPResourceIdentifier R_ID = PMPResourceIdentifier.make(RG_NAME, R_NAME);
     
     private Context context;
     private MapView mapView;

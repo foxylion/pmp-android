@@ -179,7 +179,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         updateLastRequest();
         
         PMPGeoPoint point = calculateRandomInaccuracyGeoPoint();
-        
         return point.getLongitude();
     }
     
@@ -190,7 +189,6 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         updateLastRequest();
         
         PMPGeoPoint point = calculateRandomInaccuracyGeoPoint();
-        
         return point.getLatitude();
     }
     
@@ -306,6 +304,12 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         PMPGeoPoint newLocation = new PMPGeoPoint(this.absoluteLocationR.getLatitude(),
                 this.absoluteLocationR.getLongitude());
         
+        /* Avoid smearing of startup location (0,0). */
+        if (newLocation.getDistance(new PMPGeoPoint(0.0, 0.0)) < 10.0) {
+            return newLocation;
+        }
+        
+        /* Calculate distance to last position. */
         double distanceToLastPosition = 100000000000.0;
         if (lastRILocation != null) {
             distanceToLastPosition = newLocation.getDistance(lastRILocation);
@@ -322,15 +326,10 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
             this.lastRILocation = newLocation;
         }
         
-        System.out.println("current location: " + newLocation);
-        System.out.println("long-rand: " + this.randomInaccuracyLong);
-        System.out.println("lat-rand: " + this.randomInaccuracyLat);
-        
         PMPGeoPoint newPoint = newLocation;
         
         try {
             newPoint = newLocation.inDistance(this.randomInaccuracyLat, this.randomInaccuracyLong);
-            System.out.println("smeared location: " + newPoint);
         } catch (IllegalArgumentException e) {
             Log.e(this, "Catched illegal argument exception during caluculation of smeared location", e);
         }

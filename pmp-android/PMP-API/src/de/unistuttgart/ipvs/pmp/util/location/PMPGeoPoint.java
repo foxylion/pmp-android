@@ -180,7 +180,7 @@ public class PMPGeoPoint {
         // in latitude, the circle is only cos(lat) * r long 
         double angleDeltaE = TWOPI * deltaE / (Math.cos(getLatitude() * DEG_TO_RAD) * APPROX_SPHERE_RADIUS);
         
-        double lonRad = (getLongitude() + angleDeltaE);
+        double lonRad = (getLongitude() * DEG_TO_RAD + angleDeltaE);
         while (lonRad > Math.PI) {
             lonRad -= TWOPI;
         }
@@ -188,7 +188,7 @@ public class PMPGeoPoint {
             lonRad += TWOPI;
         }
         
-        double latRad = getLatitude() + angleDeltaN;
+        double latRad = getLatitude() * DEG_TO_RAD + angleDeltaN;
         // if the latitude operation moves the geopoint to the other side of the earth
         if (latRad > PIDIV2) {
             latRad = Math.PI - latRad;

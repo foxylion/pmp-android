@@ -9,12 +9,13 @@
     <!-- Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ" -->
     <!-- Jakob: android:apiKey="0yPWnYj0YYreTD15DSaSOX2Zz0Qb_I8fPkJcg8Q" -->
     <!-- Marcus: android:apiKey="0bLJPx431Q-Qf35f7oUJorwDiq1exchXk3OVXWg" -->
+    <!-- android:apiKey="0PjtgG2gTXaJOpQIv9e2nFDcrnFWEvWKVHb0pLA" -->
 
     <com.google.android.maps.MapView
         android:id="@+id/driverMapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0PjtgG2gTXaJOpQIv9e2nFDcrnFWEvWKVHb0pLA"
+        android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
         android:clickable="true" />
     <!--
     <HorizontalScrollView

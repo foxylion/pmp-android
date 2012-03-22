@@ -198,7 +198,7 @@ public class LocationAppActivity extends MapActivity {
                 
                 String country = "";
                 String countryCode = "";
-                String city = "";
+                String locality = "";
                 String postalCode = "";
                 String address = "";
                 
@@ -249,7 +249,7 @@ public class LocationAppActivity extends MapActivity {
                         e.printStackTrace();
                     }
                     try {
-                        city = loc.getLocality();
+                        locality = loc.getLocality();
                     } catch (SecurityException e) {
                         e.printStackTrace();
                     }
@@ -279,7 +279,7 @@ public class LocationAppActivity extends MapActivity {
                 
                 final String countryD = country;
                 final String countryCodeD = countryCode;
-                final String cityD = city;
+                final String localityD = locality;
                 final String postalCodeD = postalCode;
                 final String addressD = address;
                 
@@ -311,8 +311,7 @@ public class LocationAppActivity extends MapActivity {
                                 + "; "
                                 + countryCodeD
                                 + "<br/>"
-                                + cityD
-                                + "; " + postalCodeD + "<br/>" + addressD + "</html>"));
+                                + localityD + "; " + postalCodeD + "<br/>" + addressD + "</html>"));
                         
                         ((ToggleButton) findViewById(R.id.ToggleButton_Active)).setChecked(isActiveD);
                         ((ToggleButton) findViewById(R.id.ToggleButton_Avaiable)).setChecked(isAvailableD);
