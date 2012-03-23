@@ -330,12 +330,12 @@ public class LocationContextView extends LinearLayout implements IContextView {
     
     @Override
     public void setViewCondition(String condition) throws InvalidConditionException {
+        this.value = LocationContextCondition.parse(condition);
+        
         this.uncertaintySeek.setProgress(metersToSeekBarValue(this.value.getUncertainty()));
         this.hysteresisSeek.setProgress(metersToSeekBarValue(this.value.getHysteresis()));
         
-        // polygon via MapView
-        
-        this.value = LocationContextCondition.parse(condition);
+        // polygon via MapView       
     }
     
     
