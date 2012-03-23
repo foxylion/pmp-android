@@ -54,6 +54,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.DescriptionStrin
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.NameString;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.PrivacySettingsContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal.PrivacySettingsLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -90,7 +91,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
         
         // Create section
         Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
-        section.setText("Privacy Settings");
+        section.setText(I18N.editor_rgis_ps_ps);
         section.setExpanded(true);
         section.marginWidth = 5;
         section.marginHeight = 5;
@@ -134,7 +135,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
         buttonCompo.setLayoutData(buttonLayout);
-        Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+        Button addButton = toolkit.createButton(buttonCompo, I18N.general_add, SWT.PUSH);
         addButton.setImage(Images.IMG_OBJ_ADD);
         
         addButton.addSelectionListener(new SelectionAdapter() {
@@ -150,7 +151,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
             
         });
         
-        final Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+        final Button removeButton = toolkit.createButton(buttonCompo, I18N.general_remove, SWT.PUSH);
         removeButton.setEnabled(false);
         removeButton.setImage(Images.IMG_ETOOL_DELETE);
         removeButton.addSelectionListener(new SelectionAdapter() {
@@ -172,8 +173,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
                 }
                 
                 // Show confirmation message before removing
-                boolean remove = MessageDialog.openConfirm(parent.getShell(), "Remove Privacy Setting",
-                        "This will remove the selected Privacy Setting from the RGIS.");
+                boolean remove = MessageDialog.openConfirm(parent.getShell(), I18N.editor_rgis_ps_removemsg_title,
+                        I18N.editor_rgis_ps_removemsg_text);
                 
                 if (remove) {
                     // Remove selected entry from model

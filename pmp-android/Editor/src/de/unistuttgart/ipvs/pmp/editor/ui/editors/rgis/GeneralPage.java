@@ -42,6 +42,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable.Type;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -56,7 +57,7 @@ import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
  */
 public class GeneralPage extends FormPage {
     
-    public static final String ID = "rgis_general";
+    public static final String ID = "rgis_general"; //$NON-NLS-1$
     private ControlDecoration classnameDec;
     private ControlDecoration iconDec;
     private ControlDecoration identifierDec;
@@ -64,7 +65,7 @@ public class GeneralPage extends FormPage {
     
     
     public GeneralPage(FormEditor parent, RgisModel model) {
-        super(parent, ID, "General");
+        super(parent, ID, I18N.editor_rgis_general_tab);
         this.model = model;
     }
     
@@ -73,7 +74,7 @@ public class GeneralPage extends FormPage {
     protected void createFormContent(IManagedForm managedForm) {
         ScrolledForm form = managedForm.getForm();
         FormToolkit toolkit = managedForm.getToolkit();
-        form.setText("Defines general information");
+        form.setText(I18N.editor_rgis_general_title);
         
         form.getBody().setLayout(new GridLayout(1, false));
         
@@ -85,7 +86,7 @@ public class GeneralPage extends FormPage {
     
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
         // Set the section's parameters
-        Section section = createSection(parent, "Preferences", toolkit);
+        Section section = createSection(parent, I18N.editor_rgis_general_preferences, toolkit);
         IssueTranslator it = new IssueTranslator();
         
         // Create elements stored inside this section
@@ -103,7 +104,7 @@ public class GeneralPage extends FormPage {
         final IRGIS rgis = this.model.getRgis();
         
         // Classname
-        toolkit.createLabel(client, "Class name");
+        toolkit.createLabel(client, I18N.editor_rgis_general_class);
         final Text classname = toolkit.createText(client, rgis.getClassName());
         classname.setLayoutData(textLayout);
         classname.addKeyListener(new KeyAdapter() {
@@ -129,7 +130,7 @@ public class GeneralPage extends FormPage {
         this.classnameDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.CLASSNAME_MISSING));
         
         // Icon
-        toolkit.createLabel(client, "Icon");
+        toolkit.createLabel(client, I18N.editor_rgis_general_icon);
         final Text icon = toolkit.createText(client, rgis.getIconLocation());
         icon.setLayoutData(textLayout);
         icon.addKeyListener(new KeyAdapter() {
@@ -155,7 +156,7 @@ public class GeneralPage extends FormPage {
         this.iconDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.ICON_MISSING));
         
         // Identifier
-        toolkit.createLabel(client, "Identifier");
+        toolkit.createLabel(client, I18N.editor_rgis_general_identifier);
         final Text identifier = toolkit.createText(client, rgis.getIdentifier());
         identifier.addKeyListener(new KeyAdapter() {
             
@@ -188,7 +189,7 @@ public class GeneralPage extends FormPage {
     
     private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
         // Set the section's parameters
-        Section section = createSection(parent, "Localization", toolkit);
+        Section section = createSection(parent, I18N.general_localization, toolkit);
         
         // Create elements stored inside this section
         Composite client = toolkit.createComposite(section);
