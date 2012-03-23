@@ -165,6 +165,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (Exception ex){
+            ;
         }
         startContinousLookup();
     };
@@ -176,6 +178,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         
         c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, 0);
         locationTimer.schedule(c4l, 10000, 10000);
+        Log.i(this, "Location started");
         // Start Check4Queries Class to check for queries
         
         c4q = new Check4Queries(rgvHike, queryHandler);

@@ -208,6 +208,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         
         Check4Location c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, 1);
         locationTimer.schedule(c4l, 10000, 10000);
+        Log.i(this, "Location started");
         
         // check for offers every 10 seconds
         Check4Offers c4o = new Check4Offers(rgvHike);

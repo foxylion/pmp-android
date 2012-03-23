@@ -7,8 +7,7 @@
     android:layout_marginRight="3dp"
     android:background="@drawable/bg_blur"
     android:orientation="vertical" >
-    
-    
+
     <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
         pmp:name="@string/main_ride"
         android:layout_width="fill_parent"
@@ -16,9 +15,8 @@
         pmp:borderColor="@color/dark_blue"
         pmp:icon="@drawable/logo_rd"
         pmp:textColor="@color/dark_blue" >
-
     </de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView>
-
+
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
@@ -27,7 +25,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" android:padding="3dp">
+            android:orientation="vertical"
+            android:padding="3dp" >
 
             <TextView
                 android:layout_width="fill_parent"
@@ -36,7 +35,8 @@
                 android:paddingLeft="4dp"
                 android:text="@string/ride_date"
                 android:textColor="@color/dark_blue"
-                android:textStyle="bold" />
+                android:textStyle="bold" />
+
             <RadioGroup
                 android:id="@+id/radioGroup1"
                 android:layout_width="fill_parent"
@@ -71,7 +71,7 @@
                     android:id="@+id/tableRow1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
-
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -84,8 +84,9 @@
                     <TextView
                         android:id="@+id/textView1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" android:visibility="invisible"/>
-
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -94,14 +95,13 @@
                         android:text="@string/available_seats"
                         android:textColor="@color/dark_blue"
                         android:textStyle="bold" />
-
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRow2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
-
+
                     <LinearLayout
                         android:id="@+id/layout_dest"
                         android:layout_width="fill_parent"
@@ -121,17 +121,21 @@
                         android:id="@+id/ib_add"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="10dp"
                         android:background="@drawable/add"
                         android:contentDescription="@string/destination_contentDesc"
-                        android:paddingRight="5dp" android:gravity="center" android:layout_gravity="bottom" android:layout_marginBottom="5dp" android:layout_marginRight="10dp"/>
+                        android:gravity="center"
+                        android:paddingRight="5dp" />
 
                     <Spinner
                         android:id="@+id/spinner_numSeats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
                         android:entries="@array/array_numSeats"
-                        android:prompt="@string/ride_promptSeats" android:layout_marginLeft="5dp"/>
-
+                        android:prompt="@string/ride_promptSeats" />
                 </TableRow>
             </TableLayout>
 
@@ -161,9 +165,7 @@
                     android:paddingTop="25sp"
                     android:text="@string/main_searchingpassenger" />
             </LinearLayout>
-
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
 
 import android.content.Context;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -97,13 +98,14 @@ public class FileLog extends FileHandler implements IFileLog {
     private static volatile IFileLog instance;
     
     private static final File LOG_FILE_DIR = PMPApplication.getContext().getDir("log", Context.MODE_PRIVATE);
-    private static final String LOG_FILE_NAME = LOG_FILE_DIR.getAbsolutePath() + "/log.xml";
+    private static final String LOG_FILE_NAME = LOG_FILE_DIR.getAbsolutePath() + "/log.txt";
     
     private static final String TAG = "FileLog";
     
     
     private FileLog() throws IOException {
         super(LOG_FILE_NAME, true);
+        setFormatter(new SimpleFormatter());
     }
     
     
