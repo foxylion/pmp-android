@@ -39,6 +39,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.editor.xml.RGISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
@@ -90,7 +91,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         // System.out.println("Draw");
         FormToolkit toolkit = this.form.getToolkit();
         Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
-        section.setText("Privacy Setting");
+        section.setText(I18N.editor_rgis_ps_ps);
         section.setExpanded(true);
         section.setLayoutData(parentLayout);
         
@@ -100,8 +101,8 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         GridData textLayout = new GridData();
         textLayout.horizontalAlignment = GridData.FILL;
         textLayout.grabExcessHorizontalSpace = true;
-        toolkit.createLabel(compo, "Identifier");
-        this.identifier = toolkit.createText(compo, "Value");
+        toolkit.createLabel(compo, I18N.editor_rgis_ps_identifier);
+        this.identifier = toolkit.createText(compo, null);
         this.identifier.setLayoutData(textLayout);
         this.identifier.addKeyListener(new KeyAdapter() {
             
@@ -126,8 +127,8 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         this.identifierDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.PS_IDENTIFIER_MISSING));
         
-        toolkit.createLabel(compo, "Valid values");
-        this.values = toolkit.createText(compo, "True/False");
+        toolkit.createLabel(compo, I18N.editor_rgis_ps_validvalues);
+        this.values = toolkit.createText(compo, null);
         this.values.setLayoutData(textLayout);
         this.values.addKeyListener(new KeyAdapter() {
             
