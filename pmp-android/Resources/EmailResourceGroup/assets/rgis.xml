@@ -15,8 +15,8 @@
 			<name lang="de">E-Mail senden</name>
 			<description lang="en">Allows to send E-Mails.</description>
 			<description lang="de">Erlaubt es E-Mail zu senden.</description>
-			<defaultDescription lang="en">By ticking off the checkbox you enable access to the send mail feature.</defaultDescription>
-			<defaultDescription lang="de">Durch aktivieren der Checkbox wird die Email-versenden Funktionalität freigeschalten.</defaultDescription>
+			<changeDescription lang="en">By ticking off the checkbox you enable access to the send mail feature.</changeDescription>
+			<changeDescription lang="de">Durch aktivieren der Checkbox wird die Email-versenden Funktionalität freigeschalten.</changeDescription>
 		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>

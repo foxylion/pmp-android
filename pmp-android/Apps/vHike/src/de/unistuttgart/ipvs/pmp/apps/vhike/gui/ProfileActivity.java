@@ -41,9 +41,10 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         
         setContentView(R.layout.activity_profile);
         handler = new Handler();
-        if(getvHikeRG(this)!= null)
+        if (getvHikeRG(this) != null)
             setUpProfile();
     }
+    
     
     @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
@@ -54,15 +55,16 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void run() {
-                   setUpProfile();
+                    setUpProfile();
                 }
             });
         }
     }
     
+    
     private void setUpProfile() {
         
-        if(rgvHike!= null){
+        if (rgvHike != null) {
             /**
              * MY_PROFILE: gives info about opening ones own profile or from someone else
              * PROFILE_ID: the profile id from some vHike-User
@@ -106,8 +108,10 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                     
                     @Override
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        vhikeDialogs.getInstance()
-                                .getRateProfileConfirmation(rgvHike, ProfileActivity.this, profileID, (int) rating, tripID).show();
+                        vhikeDialogs
+                                .getInstance()
+                                .getRateProfileConfirmation(rgvHike, ProfileActivity.this, profileID, (int) rating,
+                                        tripID).show();
                     }
                 });
             } else {
@@ -122,16 +126,15 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             }
             
             TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
-            tv_rating.setText(String.valueOf(this.profile.getRating_avg()));
+            tv_rating.setText(Float.toString((float) profile.getRating_avg()));
             
             EditText et_desc = (EditText) findViewById(R.id.et_description_profile);
             et_desc.setText(this.profile.getDescription());
             // // car = "";
             // et_car.setText(car);
-
+            
         }
         
-                
     }
     
     

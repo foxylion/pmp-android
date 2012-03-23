@@ -19,11 +19,16 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.rgis.internal;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.xmlutil.common.ILocalizedString;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 
 public abstract class EncapsulatedString {
     
-    private final RGISPrivacySetting ps;
+    protected final RGISPrivacySetting ps;
     private final String value;
     
     
@@ -42,4 +47,16 @@ public abstract class EncapsulatedString {
         return this.ps;
     }
     
+    
+    public abstract List<ILocalizedString> getStringList();
+    
+    
+    public List<IIssue> getIssues() {
+        System.out.println("size:" + getStringList().size());
+        List<IIssue> issues = new ArrayList<IIssue>();
+        for (ILocalizedString ls : getStringList()) {
+            issues.addAll(ls.getIssues());
+        }
+        return issues;
+    }
 }

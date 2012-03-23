@@ -268,6 +268,8 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().getHitchDrivers().clear();
                 //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
+                stopContinousLookup();
+                
                 ViewModel.getInstance().clearViewModel();
                 
                 PassengerViewActivity.this.finish();
@@ -310,6 +312,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 //                this.locationManager.removeUpdates(this.luh);
                 this.timer.cancel();
                 ViewModel.getInstance().clearViewModel();
+                stopContinousLookup();
                 
                 PassengerViewActivity.this.finish();
         }
@@ -333,6 +336,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().clearPassengerNotificationAdapter();
                         //                        this.locationManager.removeUpdates(this.luh);
                         stopContinousLookup();
+                        
                         this.timer.cancel();
                         this.locationTimer.cancel();
                         ViewModel.getInstance().clearViewModel();
@@ -357,11 +361,13 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                         this.timer.cancel();
                         ViewModel.getInstance().clearViewModel();
                         
+                        stopContinousLookup();
+                        
                         PassengerViewActivity.this.finish();
                 }
                 break;
             case R.id.mi_passenger_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike,this.context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, this.context).show();
                 break;
         }
         return true;

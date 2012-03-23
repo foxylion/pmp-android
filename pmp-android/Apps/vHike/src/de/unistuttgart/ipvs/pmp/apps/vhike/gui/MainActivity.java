@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -39,8 +40,7 @@ public class MainActivity extends ResourceGroupReadyActivity {
         Button btnRide = (Button) findViewById(R.id.Button_Ride);
         Button btnProfile = (Button) findViewById(R.id.Button_Profile);
         Button btnHistory = (Button) findViewById(R.id.Button_History);
-        Button btnSettings = (Button) findViewById(R.id.Button_Settings);
-        findViewById(R.id.Button_Trips);
+        Button btnMyTrips = (Button) findViewById(R.id.Button_MyTrips);
         findViewById(R.id.Button_Message);
         Button btnLogout = (Button) findViewById(R.id.Button_Logout);
         
@@ -72,12 +72,11 @@ public class MainActivity extends ResourceGroupReadyActivity {
             }
         });
         
-        btnSettings.setOnClickListener(new OnClickListener() {
+        btnMyTrips.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), SettingsActivity.class);
-                MainActivity.this.startActivity(intent);
+                vHikeService.requestServiceFeature(MainActivity.this, 0);
             }
             
         });
