@@ -88,7 +88,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         
         // Build view
         IssueTranslator it = new IssueTranslator();
-        // System.out.println("Draw");
         FormToolkit toolkit = this.form.getToolkit();
         Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
         section.setText(I18N.editor_rgis_ps_ps);
@@ -101,7 +100,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         GridData textLayout = new GridData();
         textLayout.horizontalAlignment = GridData.FILL;
         textLayout.grabExcessHorizontalSpace = true;
-        toolkit.createLabel(compo, I18N.editor_rgis_ps_identifier);
+        toolkit.createLabel(compo, I18N.general_identifier);
         this.identifier = toolkit.createText(compo, null);
         this.identifier.setLayoutData(textLayout);
         this.identifier.addKeyListener(new KeyAdapter() {

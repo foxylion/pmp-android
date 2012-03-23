@@ -88,7 +88,7 @@ public class ServerProvider implements IServerProvider {
             out = new ObjectOutputStream(server.getOutputStream());
             
             ObjectInputStream in = new ObjectInputStream(server.getInputStream());
-            out.writeObject(new RequestResourceGroups("en"));
+            out.writeObject(new RequestResourceGroups("en")); //$NON-NLS-1$
             
             // Parse list of resource-groups
             Object response = in.readObject();
@@ -97,15 +97,15 @@ public class ServerProvider implements IServerProvider {
                 ResourceGroupsResponse rgs = (ResourceGroupsResponse) response;
                 buildRGISList(rgs.getResourceGroups(), in, out);
             } else {
-                throw new IOException("Unsupported response from server.");
+                throw new IOException("Unsupported response from server."); //$NON-NLS-1$
             }
             
         } catch (ClassNotFoundException e) {
-            throw new IOException("Invalid response from server.");
+            throw new IOException("Invalid response from server."); //$NON-NLS-1$
         } catch (UnknownHostException e) {
-            throw new IOException("Unable to lookup the server's IP-address.");
+            throw new IOException("Unable to lookup the server's IP-address."); //$NON-NLS-1$
         } catch (IOException e) {
-            throw new IOException("Unable to contact the server. " + e.getLocalizedMessage());
+            throw new IOException("Unable to contact the server. " + e.getLocalizedMessage()); //$NON-NLS-1$
         } finally {
             if (server != null) {
                 try {
@@ -152,7 +152,7 @@ public class ServerProvider implements IServerProvider {
                 RGISResponse rgisRes = (RGISResponse) response;
                 this.rgisList.add((RGIS) rgisRes.getRGIS());
             } else {
-                throw new IOException("Unsupported response from server.");
+                throw new IOException("Unsupported response from server."); //$NON-NLS-1$
             }
         }
     }

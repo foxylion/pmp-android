@@ -26,6 +26,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import de.unistuttgart.ipvs.pmp.editor.Activator;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 
 /**
  * This class represents a preference page that is contributed to the
@@ -42,7 +43,7 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
     public PreferencePage() {
         super(GRID);
         setPreferenceStore(Activator.getDefault().getPreferenceStore());
-        setDescription("Connection settings for the JPMPPS-Server");
+        setDescription(I18N.preferences_jpmpps_description);
     }
     
     
@@ -53,10 +54,13 @@ public class PreferencePage extends FieldEditorPreferencePage implements IWorkbe
      */
     @Override
     public void createFieldEditors() {
-        addField(new StringFieldEditor(PreferenceConstants.JPMPPS_HOSTNAME, "URL:", getFieldEditorParent()));
-        addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_PORT, "Port:", getFieldEditorParent()));
-        addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_TIMEOUT, "Timeout:", getFieldEditorParent(), 3));
-        addField(new TestButton("Test connection:", getFieldEditorParent()));
+        addField(new StringFieldEditor(PreferenceConstants.JPMPPS_HOSTNAME, I18N.preferences_jpmpps_url + ":", //$NON-NLS-1$
+                getFieldEditorParent()));
+        addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_PORT, I18N.preferences_jpmpps_port + ":", //$NON-NLS-1$
+                getFieldEditorParent()));
+        addField(new IntegerFieldEditor(PreferenceConstants.JPMPPS_TIMEOUT, I18N.preferences_jpmpps_timeout + ":", //$NON-NLS-1$
+                getFieldEditorParent(), 3));
+        addField(new TestButton(I18N.preferences_jpmpps_test + ":", getFieldEditorParent())); //$NON-NLS-1$
     }
     
     

@@ -43,6 +43,7 @@ import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.ILocaleTableAction;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.localetable.LocaleTable;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISServiceFeature;
@@ -59,7 +60,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
     /**
      * ID of this page
      */
-    public static final String ID = "ais_service_feature_names";
+    public static final String ID = "ais_service_feature_names"; //$NON-NLS-1$
     
     /**
      * Given form
@@ -157,7 +158,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         // The attribute section
         Section attributeSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        attributeSection.setText("Attribute");
+        attributeSection.setText(I18N.general_attribute);
         attributeSection.setLayout(new GridLayout(1, false));
         attributeSection.setExpanded(true);
         attributeSection.setLayoutData(attributeLayout);
@@ -173,7 +174,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         
         Label identifierLabel = new Label(attributeComp, SWT.NONE);
         
-        identifierLabel.setText("Identifier:");
+        identifierLabel.setText(I18N.general_identifier + ":"); //$NON-NLS-1$
         
         this.identifierField = new Text(attributeComp, SWT.BORDER);
         attributeSection.setClient(attributeComp);
@@ -220,7 +221,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         // The name section
         Section nameSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        nameSection.setText("Names");
+        nameSection.setText(I18N.general_names);
         nameSection.setLayout(new GridLayout(1, false));
         nameSection.setExpanded(true);
         nameSection.setLayoutData(parentLayout);
@@ -228,7 +229,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         // The description section
         Section descriptionSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        descriptionSection.setText("Descriptions");
+        descriptionSection.setText(I18N.general_descriptions);
         descriptionSection.setLayout(new GridLayout(1, false));
         descriptionSection.setExpanded(true);
         descriptionSection.setLayoutData(parentLayout);

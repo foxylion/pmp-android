@@ -138,7 +138,7 @@ public class TooltipTreeListener implements Listener {
         this.label = new Label(this.tip, SWT.WRAP);
         this.label.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_INFO_FOREGROUND));
         this.label.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-        this.label.setData("_TREEITEM", item);
+        this.label.setData("_TREEITEM", item); //$NON-NLS-1$
         
         // Build the IssueString
         String issues = new IssueTranslator().translateIssues(identifier.getIssues());

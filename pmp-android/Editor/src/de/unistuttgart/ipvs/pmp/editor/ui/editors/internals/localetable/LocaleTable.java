@@ -61,6 +61,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips.TooltipTableListener;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.IBasicIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.LocalizedString;
@@ -217,9 +218,9 @@ public class LocaleTable {
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         buttonCompo.setLayoutData(buttonLayout);
         
-        Button addButton = toolkit.createButton(buttonCompo, "Add", SWT.PUSH);
+        Button addButton = toolkit.createButton(buttonCompo, I18N.general_add, SWT.PUSH);
         addButton.setImage(Images.IMG_OBJ_ADD);
-        final Button removeButton = toolkit.createButton(buttonCompo, "Remove", SWT.PUSH);
+        final Button removeButton = toolkit.createButton(buttonCompo, I18N.general_remove, SWT.PUSH);
         removeButton.setEnabled(false);
         removeButton.setImage(Images.IMG_ETOOL_DELETE);
         
@@ -298,7 +299,7 @@ public class LocaleTable {
                 LocalizedString ls = (LocalizedString) element;
                 
                 if (ls.getLocale() == null) {
-                    return "-";
+                    return "-"; //$NON-NLS-1$
                 } else {
                     return ls.getLocale().getLanguage();
                 }
@@ -323,7 +324,7 @@ public class LocaleTable {
                 LocalizedString ls = (LocalizedString) element;
                 
                 if (ls.getLocale() == null) {
-                    return "";
+                    return ""; //$NON-NLS-1$
                 } else {
                     return ls.getLocale().getLanguage();
                 }
@@ -348,7 +349,7 @@ public class LocaleTable {
             }
         };
         
-        TableViewerColumn localeColumn = buildColumn("Locale", 50, localeLabel, localeEditing, columnLayout);
+        TableViewerColumn localeColumn = buildColumn(I18N.general_locale, 50, localeLabel, localeEditing, columnLayout);
         new ColumnViewerSorter(this.tableViewer, localeColumn) {
             
             @Override
@@ -378,7 +379,7 @@ public class LocaleTable {
             public String getText(Object element) {
                 LocalizedString ls = (LocalizedString) element;
                 if (ls.getString() == null || ls.getString().isEmpty()) {
-                    return "-";
+                    return "-"; //$NON-NLS-1$
                 } else {
                     return ls.getString();
                 }
@@ -391,7 +392,7 @@ public class LocaleTable {
             protected Object getValue(Object element) {
                 LocalizedString ls = (LocalizedString) element;
                 if (ls.getString() == null) {
-                    return "";
+                    return ""; //$NON-NLS-1$
                 } else {
                     return ls.getString();
                 }
@@ -416,16 +417,16 @@ public class LocaleTable {
         String valueTitle;
         switch (this.type) {
             case NAME:
-                valueTitle = "Name";
+                valueTitle = I18N.general_name;
                 break;
             case DESCRIPTION:
-                valueTitle = "Description";
+                valueTitle = I18N.general_description;
                 break;
             case CHANGE_DESCRIPTION:
-                valueTitle = "Change Description";
+                valueTitle = I18N.editor_rgis_ps_changedescription;
                 break;
             default:
-                valueTitle = "Undefined";
+                valueTitle = I18N.general_undefined;
         }
         
         TableViewerColumn valueColumn = buildColumn(valueTitle, 0, valueLabel, valueEditing, columnLayout);
@@ -561,7 +562,6 @@ public class LocaleTable {
                 this.tableDec.show();
                 tableIssues.add(i);
             }
-            //System.out.println("I: " + i.getType());
         }
         
         this.tableDec.setDescriptionText(new IssueTranslator().translateIssues(tableIssues));

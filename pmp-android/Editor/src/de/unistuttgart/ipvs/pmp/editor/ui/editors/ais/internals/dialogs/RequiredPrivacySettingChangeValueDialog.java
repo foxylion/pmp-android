@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 
 /**
@@ -105,7 +106,7 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("Change value");
+        shell.setText(I18N.editor_ais_sf_pschangevaluedialog_title);
     }
     
     
@@ -137,14 +138,14 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
         textComposite.setLayoutData(data);
         
         // The label and text field for the value
-        new Label(textComposite, SWT.FILL).setText("Value: ");
+        new Label(textComposite, SWT.FILL).setText(I18N.general_value + ":"); //$NON-NLS-1$
         this.valueText = new Text(textComposite, SWT.SINGLE | SWT.BORDER);
         this.valueText.addModifyListener(this);
         this.valueText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
         
         // The button for the empty value
         this.checked = new Button(textComposite, SWT.CHECK);
-        this.checked.setText("Empty value");
+        this.checked.setText(I18N.editor_ais_sf_pschangevaluedialog_emptyvalue);
         this.checked.addSelectionListener(this);
         
         applyDialogFont(composite);
@@ -159,7 +160,7 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
         
         // Set the value to an empty string if the empty value is checked
         if (checked.getSelection()) {
-            String empty = "";
+            String empty = ""; //$NON-NLS-1$
             result[1] = empty;
         } else {
             // Set the value as result
