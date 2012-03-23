@@ -216,10 +216,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
     private void setup(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         
-        List<PMPGeoPoint> initialList = new ArrayList<PMPGeoPoint>();
-        initialList.add(new PMPGeoPoint(48.745161, 9.106774));
-        
-        this.value = new LocationContextCondition(1000.0, 100.0, false, initialList);
+        this.value = getInitialCondition();
         
         inflate(context, R.layout.contexts_location_view, this);
         
@@ -365,5 +362,19 @@ public class LocationContextView extends LinearLayout implements IContextView {
         super.finalize();
         
         this.readerThread.interrupt();
+    }
+    
+    
+    private LocationContextCondition getInitialCondition() {
+        List<PMPGeoPoint> initialList = new ArrayList<PMPGeoPoint>();
+        initialList.add(new PMPGeoPoint(48.745161, 9.106774));
+        
+        return new LocationContextCondition(1000.0, 100.0, false, initialList);
+    }
+    
+    
+    @Override
+    public String getDefaultCondition() {
+        return getInitialCondition().toString();
     }
 }

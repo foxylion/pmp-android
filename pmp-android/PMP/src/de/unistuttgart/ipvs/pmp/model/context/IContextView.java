@@ -34,4 +34,11 @@ public interface IContextView {
      */
     public void setViewCondition(String condition) throws InvalidConditionException;
     
+    
+    /**
+     * 
+     * @return a default condition string that contains the initial state of the {@link IContextView}
+     */
+    public String getDefaultCondition();
+    
 }

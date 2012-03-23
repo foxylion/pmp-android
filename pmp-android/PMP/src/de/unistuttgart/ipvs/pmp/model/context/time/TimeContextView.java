@@ -84,8 +84,7 @@ public class TimeContextView extends LinearLayout implements IContextView {
     private void setup(Context context) {
         setOrientation(LinearLayout.VERTICAL);
         
-        this.value = new TimeContextCondition(false, new TimeContextTime(), new TimeContextTime(),
-                TimeContextIntervalType.REPEAT_DAILY, new ArrayList<Integer>());
+        this.value = getInitialValue();
         
         inflate(context, R.layout.contexts_time_view, this);
         
@@ -377,5 +376,17 @@ public class TimeContextView extends LinearLayout implements IContextView {
                         this.value.getDays().get(1));
                 break;
         }
+    }
+    
+    
+    private TimeContextCondition getInitialValue() {
+        return new TimeContextCondition(false, new TimeContextTime(), new TimeContextTime(),
+                TimeContextIntervalType.REPEAT_DAILY, new ArrayList<Integer>());
+    }
+    
+    
+    @Override
+    public String getDefaultCondition() {
+        return getInitialValue().toString();
     }
 }
