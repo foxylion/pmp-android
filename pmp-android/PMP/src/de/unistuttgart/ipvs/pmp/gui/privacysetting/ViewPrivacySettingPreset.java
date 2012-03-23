@@ -113,7 +113,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     /**
      * Updates the UI elements.
      */
-    private void refresh() {
+    public void refresh() {
         /*
          * Check whether the number of contexts is greater than 0.
          * If not, hide the toggle indicator and hide the menu/empty context list.
@@ -299,23 +299,28 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         /*
          * Determine between, active, inactive and problems 'cause it is overridden by another preset
          */
-        /* Count all conflicting presets */
+        /* GEt all conflicting presets */
         final List<IPreset> conflictingPrivacySettings = new ArrayList<IPreset>();
         for (IPreset pr : ModelProxy.get().getPresets()) {
-            if (context.isPrivacySettingConflicting(pr) && !pr.equals(preset)) {
+            if (!pr.equals(preset) && context.isPrivacySettingConflicting(pr)) {
                 conflictingPrivacySettings.add(pr);
             }
         }
         
-        /* get all conflicting context annotations */
-        final List<IContextAnnotation> conflictingContextAnnotations = context.getConflictingContextAnnotations(preset);
+        /* Get all conflicting context annotations */
+        final List<IContextAnnotation> conflictingContextAnnotations = new ArrayList<IContextAnnotation>();
+        for (IPreset pr : ModelProxy.get().getPresets()) {
+            List<IContextAnnotation> temp;
+            if (!pr.equals(preset) && (temp = context.getConflictingContextAnnotations(pr)).size() > 0) {
+                conflictingContextAnnotations.addAll(temp);
+            }
+        }
         
         OnClickListener oclConflicting = new OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                new DialogConflictingContexts(getContext(), preset, context, conflictingPrivacySettings,
-                        conflictingContextAnnotations).show();
+                new DialogConflictingContexts(getContext(), context, ViewPrivacySettingPreset.this).show();
             }
         };
         
