@@ -148,6 +148,8 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         // check validity
         this.privacySetting.valueValidOrThrow(value);
         
+        this.overrideValue = value;
+        
         persist();
     }
     
