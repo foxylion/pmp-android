@@ -43,6 +43,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
@@ -208,6 +209,9 @@ public class ActivityPresets extends Activity {
                 } else {
                     PMPPreferences.getInstance().setPresetTrashBinVisible(true);
                     item.setTitle(R.string.hide_trash_bin);
+                    if (this.presetTrashBinList.size() == 0) {
+                        Toast.makeText(this, getString(R.string.presets_trash_bin_empty), Toast.LENGTH_LONG).show();
+                    }
                 }
                 refresh();
                 break;
