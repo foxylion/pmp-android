@@ -228,9 +228,17 @@
     <string name="svc_nfc_description">PMP</string>
 
     <!-- Contexts -->
-    <string name="context_conflicting">Context conflicts</string>
-    <string name="context_conflicting_description">The context is conflicting with other Presets, solve these issues to make the Context work properly.</string>
-    <string name="context_other_context_conflicting">Other conflicting contexts</string>
+    <string name="context_conflict_title">Context conflicts</string>
+    <string name="context_conflict_description">The context is conflicting with other Presets, to solve these issues tap on a Preset.</string>
+    <string name="context_conflict_description_inner">To solve the issue remove all listed Apps from one of the Presets or solve the PrivacySetting and Context issues.</string>
+    <string name="context_conflict_remove_from">Remove from\n%1$s</string>
+    <string name="context_conflict_change_in">Change in\n%1$s</string>
+    <string name="context_conflict_ps_description">Tap on a Button to solve the PrivacySetting issue for the Preset \'%1$s\'.</string>
+    <string name="contxt_conflict_contexts_description">Change or remove all conflicting Contexts to solve the issue.</string>
+    <string name="contxt_conflict_apps_description">Alternatively remove the Apps from one of the Presets, tap therefore on the button with the Preset name to remove the App from it.</string>
+    <string name="context_conflict_ps_title">PrivacySetting conflict</string>
+    <string name="context_conflict_contexts_title">Context conflicts</string>
+    <string name="context_conflict_apps_title">App conflicts</string>
     <string name="context_preset_conflicting">Conflicting Presets</string>
     <string name="context_preset_conflict_text">The Preset \'%1$s\' has a conflicting PrivacySetting.</string>
     <string name="context_other_context_conflict_text">The Preset \'%1$s\' has a conflicting Context.\nCondition: \'%2$s\' \nOverride value: \'%3$s\'</string>

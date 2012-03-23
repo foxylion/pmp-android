@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.util.ServerProvider;
 
 public class TestButton extends FieldEditor {
@@ -63,18 +64,18 @@ public class TestButton extends FieldEditor {
         getLabelControl(parent);
         
         this.status = new Label(parent, SWT.NONE);
-        this.status.setText("Unknown (Press \"Apply\" before testing/updating)");
+        this.status.setText(I18N.preferences_jpmpps_unknown);
         GridData layout = new GridData();
         layout.grabExcessHorizontalSpace = true;
         this.status.setLayoutData(layout);
         
         Button button = new Button(parent, SWT.PUSH);
-        button.setText("Test/Update");
+        button.setText(I18N.preferences_jpmpps_testupdate);
         button.addSelectionListener(new SelectionAdapter() {
             
             @Override
             public void widgetSelected(SelectionEvent e) {
-                updateStatusLabel("Connecting...", SWT.COLOR_WIDGET_FOREGROUND);
+                updateStatusLabel(I18N.preferences_jpmpps_connecting, SWT.COLOR_WIDGET_FOREGROUND);
                 
                 new Thread() {
                     
@@ -83,9 +84,11 @@ public class TestButton extends FieldEditor {
                         ServerProvider server = ServerProvider.getInstance();
                         try {
                             server.updateResourceGroupList();
-                            updateStatusLabel("OK (List updated)", SWT.COLOR_DARK_GREEN);
+                            updateStatusLabel(I18N.preferences_jpmpps_testok, SWT.COLOR_DARK_GREEN);
                         } catch (IOException ioe) {
-                            updateStatusLabel("Failed (" + ioe.getLocalizedMessage() + ")", SWT.COLOR_RED);
+                            updateStatusLabel(
+                                    I18N.addVariables(I18N.preferences_jpmpps_testfailed, ioe.getLocalizedMessage()),
+                                    SWT.COLOR_RED);
                         }
                         
                     }

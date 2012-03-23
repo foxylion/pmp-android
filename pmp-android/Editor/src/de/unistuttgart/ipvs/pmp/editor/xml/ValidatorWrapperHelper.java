@@ -72,8 +72,8 @@ public class ValidatorWrapperHelper {
             
             // if the identifier is the same, add the issue
             if ((issueParameters.size() == 1 && ident.equals(issueParameters.get(0)))
-                    || (issueParameters.size() == 0 && ident.equals(""))) {
-                
+                    || (issueParameters.size() == 0 && ident.equals(""))) { //$NON-NLS-1$
+            
                 if (!identifierIS.hasIssueType(issueType)) {
                     identifierIS.addIssue(new Issue(issueType, identifierIS));
                 }
@@ -101,8 +101,8 @@ public class ValidatorWrapperHelper {
             
             // if the locale is the same
             if ((issueParameters.size() == 1 && locale.equals(issueParameters.get(0)))
-                    || (issueParameters.size() == 0 && locale.equals(""))) {
-                
+                    || (issueParameters.size() == 0 && locale.equals(""))) { //$NON-NLS-1$
+            
                 if (!localizedString.hasIssueType(issueType)) {
                     localizedString.addIssue(new Issue(issueType, localizedString));
                 }

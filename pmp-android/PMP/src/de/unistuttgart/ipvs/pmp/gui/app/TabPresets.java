@@ -33,6 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPreset;
 import de.unistuttgart.ipvs.pmp.gui.preset.AdapterPresets;
@@ -91,6 +92,11 @@ public class TabPresets extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_app_add_preset:
+                if (!PMPPreferences.getInstance().isExpertMode()) {
+                    Toast.makeText(this, getString(R.string.main_presets_disabled), Toast.LENGTH_LONG).show();
+                    break;
+                }
+                
                 DialogPresetEdit.ICallback callback = new DialogPresetEdit.ICallback() {
                     
                     @Override

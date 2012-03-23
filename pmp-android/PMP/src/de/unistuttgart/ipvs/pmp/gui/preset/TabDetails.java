@@ -35,6 +35,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
+import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
@@ -113,13 +114,26 @@ public class TabDetails extends Activity {
             ((ActivityPreset) getParent()).refresh();
         }
         
+        int contextCount = 0;
+        int activeContextCount = 0;
+        
+        for (IContextAnnotation ca : ModelProxy.get().getContextAnnotations()) {
+            if (ca.getPreset().equals(this.preset)) {
+                contextCount++;
+                if (ca.isActive()) {
+                    activeContextCount++;
+                }
+            }
+        }
+        
         ((TextView) findViewById(R.id.TextView_Description)).setText(this.preset.getDescription());
         ((TextView) findViewById(R.id.TextView_Statistics)).setText(Html.fromHtml("<html><b>Assigned Apps:</b> "
                 + this.preset.getAssignedApps().size() + "<br/>" + "<b>Assigned Privacy Settings:</b> "
-                + this.preset.getGrantedPrivacySettings().size() + "<br/><br/>" + "<b>Used Contexts:</b> nyi<br/>"
-                + "<b>Active Contexts:</b> nyi<br/><br/>" + "<b>Missing Apps:</b> "
-                + this.preset.getMissingApps().size() + "<br/>" + "<b>Missing Resource Groups:</b> "
-                + RGInstaller.getMissingResourceGroups(this.preset).length + "</html>"));
+                + this.preset.getGrantedPrivacySettings().size() + "<br/><br/>" + "<b>Used Contexts:</b> "
+                + contextCount + "<br/>" + "<b>Active Contexts:</b> " + activeContextCount + "<br/><br/>"
+                + "<b>Missing Apps:</b> " + this.preset.getMissingApps().size() + "<br/>"
+                + "<b>Missing Resource Groups:</b> " + RGInstaller.getMissingResourceGroups(this.preset).length
+                + "</html>"));
         
         // TODO Implement the context count.
         

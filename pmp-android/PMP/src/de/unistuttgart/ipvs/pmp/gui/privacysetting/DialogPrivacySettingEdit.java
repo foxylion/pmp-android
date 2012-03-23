@@ -32,7 +32,6 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
-import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
@@ -83,8 +82,6 @@ public class DialogPrivacySettingEdit extends Dialog {
      * 
      * @param context
      *            {@link Context} for {@link Dialog} creation.
-     * @param preset
-     *            {@link IPreset} to which the {@link IPrivacySetting} is assigned.
      * @param privacySetting
      *            {@link IPrivacySetting} which should be edited.
      * @param contextAnnotation

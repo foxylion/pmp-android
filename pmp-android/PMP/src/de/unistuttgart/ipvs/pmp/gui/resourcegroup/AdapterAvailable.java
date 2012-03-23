@@ -29,6 +29,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.jpmpps.model.LocalizedResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.revision.RevisionReader;
@@ -102,13 +103,16 @@ public class AdapterAvailable extends BaseAdapter {
             if (ModelProxy.get().getResourceGroup(rgId).getRevision() < rgRev) {
                 /* A newer version is available */
                 state.setText(this.context.getResources().getString(R.string.update) + " - rev. " + rgRevHR);
+                state.setBackgroundColor(GUIConstants.COLOR_BG_RED);
             } else {
                 /* already up to date */
                 state.setText(this.context.getResources().getString(R.string.installed));
+                state.setBackgroundColor(GUIConstants.COLOR_BG_GREEN);
             }
         } else {
             /* RG is not installed. */
             state.setText(this.context.getResources().getString(R.string.new_string) + " - rev. " + rgRevHR);
+            state.setBackgroundColor(GUIConstants.COLOR_BG_GRAY);
         }
         
         return entryView;

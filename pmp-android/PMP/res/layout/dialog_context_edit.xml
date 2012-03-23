@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             pmp:icon="@drawable/icon_edit"
-            pmp:title="Change context" />
+            pmp:name="Change context" />
 
         <Button
             android:id="@+id/Button_ChangePS"

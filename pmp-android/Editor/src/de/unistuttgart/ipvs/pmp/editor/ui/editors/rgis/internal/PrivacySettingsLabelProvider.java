@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IIssue;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
@@ -33,7 +34,7 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
     public String getText(Object element) {
         if (element instanceof RGISPrivacySetting) {
             RGISPrivacySetting ps = (RGISPrivacySetting) element;
-            return ps.getIdentifier() + " (" + ps.getValidValueDescription() + ")";
+            return ps.getIdentifier() + " (" + ps.getValidValueDescription() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         if (element instanceof EncapsulatedString) {
@@ -41,27 +42,27 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
             String string = es.getString();
             
             if (string == null) {
-                string = "Undefined";
+                string = I18N.general_undefined;
             }
             
             // Trim the string
             if (string.length() > 50) {
-                string = string.substring(0, 50) + "...";
+                string = string.substring(0, 50) + "..."; //$NON-NLS-1$
             }
             
             if (element instanceof NameString) {
-                return "Name: " + string;
+                return I18N.general_name + ":" + string; //$NON-NLS-1$
             }
             if (element instanceof DescriptionString) {
-                return "Description: " + string;
+                return I18N.general_description + ":" + string; //$NON-NLS-1$
             }
             
             if (element instanceof ChangeDescriptionString) {
-                return "Change Description: " + string;
+                return I18N.editor_rgis_ps_changedescription + ":" + string; //$NON-NLS-1$
             }
         }
         
-        return "Undefined";
+        return I18N.general_undefined;
     }
     
     
@@ -87,7 +88,6 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
                 IssueType type = i.getType();
                 if (es instanceof NameString
                         && (type == IssueType.RGIS_PS_NAME_ISSUES || type == IssueType.NAME_LOCALE_EN_MISSING)) {
-                    System.out.println("issue: " + IssueType.RGIS_PS_NAME_ISSUES);
                     return Images.ERROR16;
                 }
                 

@@ -52,7 +52,6 @@ public abstract class EncapsulatedString {
     
     
     public List<IIssue> getIssues() {
-        System.out.println("size:" + getStringList().size());
         List<IIssue> issues = new ArrayList<IIssue>();
         for (ILocalizedString ls : getStringList()) {
             issues.addAll(ls.getIssues());

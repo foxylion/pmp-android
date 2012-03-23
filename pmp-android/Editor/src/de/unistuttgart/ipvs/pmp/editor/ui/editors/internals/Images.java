@@ -77,8 +77,8 @@ public class Images {
      * @return the {@link ImageDescriptor}
      */
     public static ImageDescriptor getImageDescriptor(String path, String iconName) {
-        Bundle bundle = Platform.getBundle("de.unistuttgart.ipvs.pmp.editor");
-        URL fullPathString = BundleUtility.find(bundle, path + "/" + iconName);
+        Bundle bundle = Platform.getBundle("de.unistuttgart.ipvs.pmp.editor"); //$NON-NLS-1$
+        URL fullPathString = BundleUtility.find(bundle, path + "/" + iconName); //$NON-NLS-1$
         return ImageDescriptor.createFromURL(fullPathString);
     }
     

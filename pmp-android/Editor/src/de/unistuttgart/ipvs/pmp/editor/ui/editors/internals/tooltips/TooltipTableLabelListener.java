@@ -65,7 +65,7 @@ public class TooltipTableLabelListener implements org.eclipse.swt.widgets.Listen
         switch (event.type) {
             case SWT.MouseDown:
                 Event e = new Event();
-                e.item = (TableItem) label.getData("_TABLEITEM");
+                e.item = (TableItem) label.getData("_TABLEITEM"); //$NON-NLS-1$
                 this.tableViewer.getTable().setSelection((TableItem) e.item);
                 this.tableViewer.getTable().notifyListeners(SWT.Selection, e);
             case SWT.MouseExit:

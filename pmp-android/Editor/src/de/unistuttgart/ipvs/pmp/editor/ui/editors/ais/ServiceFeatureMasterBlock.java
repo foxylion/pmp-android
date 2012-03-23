@@ -64,6 +64,7 @@ import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.Required
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ServiceFeatureTreeLabelProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips.TooltipTreeListener;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
@@ -136,7 +137,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         FormToolkit toolkit = managedForm.getToolkit();
         Section section = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        section.setText("Service Features");
+        section.setText(I18N.editor_ais_sf_sf);
         section.setExpanded(true);
         creatSectionToolbar(section);
         
@@ -161,14 +162,14 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         GridData buttonLayout = new GridData();
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         rgButtonsComp.setLayoutData(buttonLayout);
-        Button addSFButton = toolkit.createButton(rgButtonsComp, "Add Service Feature...", SWT.PUSH);
+        Button addSFButton = toolkit.createButton(rgButtonsComp, I18N.editor_ais_sf_addsf, SWT.PUSH);
         addSFButton.setImage(Images.IMG_OBJ_ADD);
         addSFButton.addSelectionListener(this);
-        this.addRGButton = toolkit.createButton(rgButtonsComp, "Add Resource Group...", SWT.PUSH);
+        this.addRGButton = toolkit.createButton(rgButtonsComp, I18N.editor_ais_sf_addrg, SWT.PUSH);
         this.addRGButton.addSelectionListener(this);
         this.addRGButton.setEnabled(false);
         this.addRGButton.setImage(Images.IMG_OBJ_ADD);
-        this.removeButton = toolkit.createButton(rgButtonsComp, "Remove", SWT.PUSH);
+        this.removeButton = toolkit.createButton(rgButtonsComp, I18N.general_remove, SWT.PUSH);
         this.removeButton.setEnabled(false);
         this.removeButton.setImage(Images.IMG_ETOOL_DELETE);
         this.removeButton.addSelectionListener(this);
@@ -190,7 +191,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         TooltipTreeListener tooltipListener = new TooltipTreeListener(treeViewer, this.parentShell);
         
         // Disable the normal tool tips
-        treeViewer.getTree().setToolTipText("");
+        treeViewer.getTree().setToolTipText(""); //$NON-NLS-1$
         
         treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
         treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
@@ -290,15 +291,15 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         });
         
         // Picture can be added also to the actions
-        Action refresh = new Action("Refresh Resource Group List from server", Images.getImageDescriptor("icons",
-                "update.gif")) {
-            
+        Action refresh = new Action(I18N.editor_ais_sf_updaterglist_tooltip, Images.getImageDescriptor("icons", //$NON-NLS-1$
+                "update.gif")) { //$NON-NLS-1$
+        
             @Override
             public void run() {
                 DownloadedRGModel.getInstance().updateRgisListWithJob(ServiceFeatureMasterBlock.this.parentShell, true);
             }
         };
-        refresh.setToolTipText("Refresh the Resource Group list from the server");
+        refresh.setToolTipText(I18N.editor_ais_sf_updaterglist_tooltip);
         
         // Add the actions to the toolbar
         toolBarManager.add(refresh);
@@ -333,10 +334,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
             Button clicked = (Button) selectionEvent.getSource();
             
             // Add SF was clicked
-            if (clicked.getText().equals("Add Service Feature...")) {
+            if (clicked.getText().equals(I18N.editor_ais_sf_addsf)) {
                 // Show the input dialog
-                InputDialog dialog = new InputDialog(this.parentShell, "Add Service Feature",
-                        "Enter the identifier of the Service Feature", null, null);
+                InputDialog dialog = new InputDialog(this.parentShell, I18N.editor_ais_sf_addsfmsg_title,
+                        I18N.editor_ais_sf_addsfmsg_text, null, null);
                 
                 if (dialog.open() == Window.OK) {
                     // Add the service feature and set the dirty flag
@@ -350,10 +351,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
             }
             
             // Remove was clicked
-            if (clicked.getText().equals("Remove")) {
+            if (clicked.getText().equals(I18N.general_remove)) {
                 // Show confirmation message before removing
-                boolean remove = MessageDialog.openConfirm(parentShell, "Remove Service Feature",
-                        "This will remove the selected Service Feature from the AIS.");
+                boolean remove = MessageDialog.openConfirm(parentShell, I18N.editor_ais_sf_removesfmsg_title,
+                        I18N.editor_ais_sf_removesfmsg_text);
                 
                 if (!remove) {
                     return;
@@ -410,7 +411,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
             }
             
             // Add RG was clicked
-            if (clicked.getText().equals("Add Resource Group...")) {
+            if (clicked.getText().equals(I18N.editor_ais_sf_addrg)) {
                 List<RGIS> rgisList = null;
                 rgisList = DownloadedRGModel.getInstance().getRgisList(this.parentShell);
                 
@@ -448,8 +449,8 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                     
                     // No RGs to add
                     if (resGroups.isEmpty()) {
-                        MessageDialog.openInformation(this.parentShell, "No Resource Groups to add",
-                                "You already added all Resource Groups of that are available.");
+                        MessageDialog.openInformation(this.parentShell, I18N.editor_ais_sf_rgnotaddedmsg_title,
+                                I18N.editor_ais_sf_rgnotaddedmsg_text);
                     } else {
                         List<RGIS> list = new ArrayList<RGIS>(resGroups.values());
                         RequiredResourceGroupsDialog dialog = new RequiredResourceGroupsDialog(this.parentShell, list);

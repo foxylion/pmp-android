@@ -65,7 +65,7 @@ public class TooltipTreeLabelListener implements org.eclipse.swt.widgets.Listene
         switch (event.type) {
             case SWT.MouseDown:
                 Event e = new Event();
-                e.item = (TreeItem) label.getData("_TREEITEM");
+                e.item = (TreeItem) label.getData("_TREEITEM"); //$NON-NLS-1$
                 this.treeViewer.getTree().setSelection((TreeItem) e.item);
                 this.treeViewer.getTree().notifyListeners(SWT.Selection, e);
             case SWT.MouseExit:

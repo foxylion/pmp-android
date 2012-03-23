@@ -35,6 +35,7 @@ import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISGeneralPage;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.AISServiceFeaturesPage;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
@@ -81,8 +82,8 @@ public class AisEditor extends FormEditor {
         FileEditorInput input = (FileEditorInput) getEditorInput();
         
         // Get the path to the project
-        String[] split = input.getFile().getFullPath().toString().split("/");
-        String project = "/" + split[1];
+        String[] split = input.getFile().getFullPath().toString().split("/"); //$NON-NLS-1$
+        String project = "/" + split[1]; //$NON-NLS-1$
         
         try {
             try {
@@ -116,9 +117,11 @@ public class AisEditor extends FormEditor {
             addPage(this.generalPage);
             addPage(this.sfPage);
         } catch (PartInitException e) {
-            MessageDialog.openError(getSite().getShell(), "Error", "Could not open file.");
+            MessageDialog.openError(getSite().getShell(), I18N.general_notopenedmsg_title,
+                    I18N.general_notopenedmsg_text);
         } catch (CoreException e) {
-            MessageDialog.openError(getSite().getShell(), "Error", "Could not open file.");
+            MessageDialog.openError(getSite().getShell(), I18N.general_notopenedmsg_title,
+                    I18N.general_notopenedmsg_text);
         }
     }
     
@@ -140,7 +143,8 @@ public class AisEditor extends FormEditor {
             // Set the dirty flag to false because it was just saved
             this.model.setDirty(false);
         } catch (CoreException e) {
-            MessageDialog.openError(getSite().getShell(), "Error", "Could not save file.");
+            MessageDialog
+                    .openError(getSite().getShell(), I18N.general_notsavedmsg_title, I18N.general_notsavedmsg_text);
         }
     }
     

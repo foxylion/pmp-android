@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -68,10 +69,12 @@ import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.DateTimeDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingChangeValueDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.tooltips.TooltipTableListener;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.xml.AISValidatorWrapper;
 import de.unistuttgart.ipvs.pmp.editor.xml.IssueTranslator;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
@@ -94,7 +97,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
     /**
      * ID of this page
      */
-    public static final String ID = "ais_service_feature_required_rgs";
+    public static final String ID = "ais_service_feature_required_rgs"; //$NON-NLS-1$
     
     /**
      * Given form
@@ -229,13 +232,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         // The attribute section
         Section attributeSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        attributeSection.setText("Attributes");
+        attributeSection.setText("Attributes"); //$NON-NLS-1$
         attributeSection.setLayout(new GridLayout(1, false));
         attributeSection.setExpanded(true);
         attributeSection.setLayoutData(attributeLayout);
         
         Composite attributeComp = toolkit.createComposite(attributeSection);
-        GridLayout attributeGridLayout = new GridLayout(2, false);
+        GridLayout attributeGridLayout = new GridLayout(3, false);
         attributeGridLayout.horizontalSpacing = 7;
         attributeComp.setLayout(attributeGridLayout);
         
@@ -245,7 +248,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         Label identifierLabel = new Label(attributeComp, SWT.NONE);
         
-        identifierLabel.setText("Identifier:");
+        identifierLabel.setText(I18N.general_identifier + ":"); //$NON-NLS-1$
         
         this.identifierField = new Text(attributeComp, SWT.BORDER);
         this.identifierField.setLayoutData(textLayout);
@@ -275,11 +278,15 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         });
         
         this.identifierField.addFocusListener(this);
-        this.identifierField.setData("_NAME", "identifier");
+        this.identifierField.setData("_NAME", "identifier"); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        new Label(attributeComp, SWT.NULL);
         
         // The minimum revision label and text
         Label minRevisionLabel = new Label(attributeComp, SWT.NONE);
-        minRevisionLabel.setText("Minimal revision:");
+        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev + ":");
+        minRevisionLabel.setToolTipText("Format: milliseconds since 1970, or a date with the following format:\n"
+                + "yyyy-MM-dd HH:mm:ss:SSS z");
         
         this.revisionField = new Text(attributeComp, SWT.BORDER);
         attributeSection.setClient(attributeComp);
@@ -321,7 +328,32 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             }
         });
         this.revisionField.addFocusListener(this);
-        this.revisionField.setData("_NAME", "revision");
+        this.revisionField.setData("_NAME", "revision"); //$NON-NLS-1$ //$NON-NLS-2$
+        
+        Button picker = new Button(attributeComp, SWT.NONE);
+        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage());
+        picker.setToolTipText("Show a calendar to choose a date");
+        picker.addSelectionListener(new SelectionListener() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                Long[] result = new Long[1];
+                
+                // Open a dialog with the time and date picker
+                if (new DateTimeDialog(parentShell, result).open() == Dialog.OK) {
+                    revisionField.setText(XMLConstants.REVISION_DATE_FORMAT.format(new Date(result[0])));
+                    displayed.setMinRevision(String.valueOf(result[0]));
+                    AISValidatorWrapper.getInstance().validateAIS(model.getAis(), true);
+                    ServiceFeatureRGDetailsPage.this.model.setDirty(true);
+                    updateRevisionDec();
+                }
+            }
+            
+            
+            @Override
+            public void widgetDefaultSelected(SelectionEvent arg0) {
+            }
+        });
         
         // The name section
         this.psSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
@@ -341,11 +373,11 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         GridData buttonLayout = new GridData();
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         psButtonsComp.setLayoutData(buttonLayout);
-        Button addButton = toolkit.createButton(psButtonsComp, "Add...", SWT.PUSH);
+        Button addButton = toolkit.createButton(psButtonsComp, I18N.general_add + "...", SWT.PUSH); //$NON-NLS-1$
         addButton.addSelectionListener(this);
         addButton.setImage(Images.IMG_OBJ_ADD);
         
-        this.removeButton = toolkit.createButton(psButtonsComp, "Remove", SWT.PUSH);
+        this.removeButton = toolkit.createButton(psButtonsComp, I18N.general_remove, SWT.PUSH);
         this.removeButton.addSelectionListener(this);
         this.removeButton.setImage(Images.IMG_ETOOL_DELETE);
         this.removeButton.setEnabled(false);
@@ -383,7 +415,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         this.psTableDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         
         // Disable the default tool tips
-        this.psTableViewer.getTable().setToolTipText("");
+        this.psTableViewer.getTable().setToolTipText(""); //$NON-NLS-1$
         
         TooltipTableListener tooltipListener = new TooltipTableListener(this.psTableViewer, this.parentShell);
         
@@ -394,7 +426,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // The identifier column with the LabelProvider
         TableViewerColumn identifierViewerColumn = new TableViewerColumn(this.psTableViewer, SWT.NULL);
-        identifierViewerColumn.getColumn().setText("Identifier");
+        identifierViewerColumn.getColumn().setText(I18N.general_identifier);
         identifierViewerColumn.setLabelProvider(new ColumnLabelProvider() {
             
             @Override
@@ -416,13 +448,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // The value column with the LabelProvider
         TableViewerColumn valueViewerColumn = new TableViewerColumn(this.psTableViewer, SWT.NULL);
-        valueViewerColumn.getColumn().setText("Value");
+        valueViewerColumn.getColumn().setText(I18N.general_value);
         valueViewerColumn.setLabelProvider(new ColumnLabelProvider() {
             
             @Override
             public String getText(Object element) {
                 if (((AISRequiredPrivacySetting) element) == null) {
-                    return "";
+                    return ""; //$NON-NLS-1$
                 }
                 return ((AISRequiredPrivacySetting) element).getValue();
             }
@@ -501,7 +533,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         if (DownloadedRGModel.getInstance().isRGListAvailable()) {
             for (RGIS rg : DownloadedRGModel.getInstance().getRgisList(this.parentShell)) {
                 if (rg.getIdentifier().equals(this.displayed.getIdentifier())) {
-                    this.psSection.setText("Required Privacy Settings: " + rg.getNameForLocale(new Locale("en")));
+                    this.psSection
+                            .setText(I18N.editor_ais_sf_requiredps + ": " + rg.getNameForLocale(new Locale("en"))); //$NON-NLS-1$
                     found = true;
                     break;
                 }
@@ -510,7 +543,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // RG not found or not available. Set the identifier
         if (!found) {
-            this.psSection.setText("Required Privacy Settings: " + this.displayed.getIdentifier());
+            this.psSection.setText(I18N.editor_ais_sf_requiredps + ": " + this.displayed.getIdentifier());
         }
         
         // Pack all columns
@@ -575,10 +608,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             
             String message;
             if (requiredValues != null) {
-                message = "Enter the value of the required Privacy Setting \"" + selected.getIdentifier()
-                        + "\" \n Valid values are: " + requiredValues;
+                message = I18N.addVariables(I18N.editor_ais_sf_pschangevaluedialog_text1, selected.getIdentifier())
+                        + "\n" + I18N.addVariables(I18N.editor_ais_sf_pschangevaluedialog_text2, requiredValues); //$NON-NLS-1$
             } else {
-                message = "Enter the value of the required Privacy Setting \"" + selected.getIdentifier() + "\"";
+                message = I18N.addVariables(I18N.editor_ais_sf_pschangevaluedialog_text1, selected.getIdentifier());
             }
             
             // Show the input dialog;
@@ -711,7 +744,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             Button clicked = (Button) widget.getSource();
             
             // Remove the selected items
-            if (clicked.getText().equals("Remove")) {
+            if (clicked.getText().equals(I18N.general_remove)) {
                 TableItem[] selected = this.psTableViewer.getTable().getSelection();
                 for (TableItem item : selected) {
                     AISRequiredPrivacySetting ps = (AISRequiredPrivacySetting) item.getData();
@@ -734,7 +767,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                 this.model.setDirty(true);
             }
             
-            if (clicked.getText().equals("Add...")) {
+            if (clicked.getText().equals(I18N.general_add + "...")) { //$NON-NLS-1$
                 // Flag if an error happend while downloading
                 Boolean error = false;
                 RGIS resGroup = null;
@@ -824,8 +857,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                         
                         // There are no PS to add to this service feature
                     } else {
-                        MessageDialog.openInformation(this.parentShell, "No Privacy Settings to add",
-                                "You already added all Privacy Settings of this Resource Group");
+                        MessageDialog.openInformation(this.parentShell, I18N.editor_ais_sf_allpsaddedmsg_title,
+                                I18N.editor_ais_sf_allpsaddedmsg_text);
                     }
                 } else {
                     /*
@@ -834,9 +867,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                      * corresponding message
                      */
                     if (!error) {
-                        MessageDialog.openInformation(this.parentShell, "Unknown Resource Group",
-                                "This Resource Group was not found at the Resource Group server.\n"
-                                        + "Therefore you can not add a Privacy Setting");
+                        MessageDialog.openInformation(this.parentShell, I18N.editor_ais_sf_unknownrgmsg_title,
+                                I18N.editor_ais_sf_unknownrgmsg_text);
                     }
                 }
             }
@@ -881,12 +913,12 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
     public void focusLost(FocusEvent event) {
         AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
         Text source = (Text) event.getSource();
-        String name = (String) source.getData("_NAME");
-        if (name.equals("identifier")) {
+        String name = (String) source.getData("_NAME"); //$NON-NLS-1$
+        if (name.equals("identifier")) { //$NON-NLS-1$
             updateIdentifierDec();
         }
         
-        if (name.equals("revision")) {
+        if (name.equals("revision")) { //$NON-NLS-1$
             updateRevisionDec();
         }
     }
@@ -911,13 +943,13 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
      */
     private void updateRevisionDec() {
         this.revisionDec.hide();
-        String message = "";
+        String message = ""; //$NON-NLS-1$
         if (this.displayed.hasIssueType(IssueType.MINREVISION_MISSING)) {
             message += new IssueTranslator().getTranslationWithoutParameters(IssueType.MINREVISION_MISSING);
         }
         if (this.displayed.hasIssueType(IssueType.MINREVISION_INVALID)) {
             if (!message.isEmpty()) {
-                message += "\n" + new IssueTranslator().getTranslationWithoutParameters(IssueType.MINREVISION_INVALID);
+                message += "\n" + new IssueTranslator().getTranslationWithoutParameters(IssueType.MINREVISION_INVALID); //$NON-NLS-1$
             } else {
                 message += new IssueTranslator().getTranslationWithoutParameters(IssueType.MINREVISION_INVALID);
             }

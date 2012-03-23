@@ -156,7 +156,7 @@ public class GeneralPage extends FormPage {
         this.iconDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.ICON_MISSING));
         
         // Identifier
-        toolkit.createLabel(client, I18N.editor_rgis_general_identifier);
+        toolkit.createLabel(client, I18N.general_identifier);
         final Text identifier = toolkit.createText(client, rgis.getIdentifier());
         identifier.addKeyListener(new KeyAdapter() {
             
