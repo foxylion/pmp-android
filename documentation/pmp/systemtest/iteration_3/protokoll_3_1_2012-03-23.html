@@ -66,11 +66,11 @@
 				<tr><td>FT-20</td><td>Patrick Strobel</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>FT-21</td><td>Patrick Strobel</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>FT-22</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
-				<tr><td>FT-23</td><td>Patrick Strobel</td><td>?</td></tr>
+				<tr><td>FT-23</td><td>Patrick Strobel</td><td class="fail">NICHT BESTANDEN</td></tr>
 				<tr><td>FT-24</td><td>Patrick Strobel</td><td class="fail">NICHT BESTANDEN</td></tr>
-				<tr><td>FT-25</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-26</td><td>Patrick Strobel</td><td>?</td></tr>
-				<tr><td>FT-27</td><td>Patrick Strobel</td><td>?</td></tr>
+				<tr><td>FT-25</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
+				<tr><td>FT-26</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
+				<tr><td>FT-27</td><td>Patrick Strobel</td><td class="success">OK</td></tr>
 			</table>
 
 			<h2 id="protokollnfr">Nicht-funktionale Anforderungstests</h2>
@@ -96,12 +96,14 @@
 			<p>
 			  FT-15 wurde als bestanden markiert, obwohl es eine Abweichung zum im 
         Use-Case 210 spezifizierten Normalablauf gibt: Eine Auswahl des
-        Export-Zieles ist nicht möglich.
+        Export-Zieles ist nicht möglich. Die Hauptaufgabe (das Exportieren) wird 
+        allerdings erfüllt (daher als bestanden markiert).
       </p>  
       <p>
         FT-16 wurde als bestanden markiert, obwohl es eine Abweichung zum im 
         Use-Case 211 spezifizierten Normalablauf gibt: Eine Auswahl der
-        Import-Quelle ist nicht möglich.
+        Import-Quelle ist nicht möglich. Die Hauptaufgabe (das Importieren) wird 
+        allerdings erfüllt (daher als bestanden markiert).
       </p>
 			<p>
         FT-18 wurde als bestanden markiert, obwohl der Use-Case 251 das Anzeigen
@@ -124,9 +126,28 @@
         wird kein Fehler angezeigt.
       </p>
       <p>
+        FT-23: Die für die nicht Standarddialoge (SF, PS-Wert ändern etc.) verwendeten
+        Titel-Icons entsprechen nicht den Richtlinien. Da die entsprechenden
+        Dialoge jedoch in ihrem Aufbau von den Standarddialogen abweichen und hierbei
+        die verwendeten Icons mit dem gewählten Dialog-Design harmonieren, wurde
+        dies nicht als Beanstandung gewertet. Ein Anpassen der Icons sollte jedoch
+        in Erwägung gezogen werden.<br />
+        Ähnliches gilt für die in der Applikationen- und Ressourcen-Liste 
+        verwendeten Icons die gemäß den Richtlinien nicht farbig sein dürfen. Da
+        diese Icons allerdings mit den Launcher-Icons gleichzusetzen sind, wurde
+        die nicht beanstandet. Das gilt nicht für die im Einstellungs-Dialog verwendeten
+        Listen-Icons, die nicht der Richtlinie entsprechen. <br />   
+        Bis einschließlich API-Level 8 sind
+        farbige Statusbar-Icons erlaubt, allerdings nur für die Telefon-Funktion
+        (&quot;Only status bar icons related to the phone function use full color&quot;).
+        Ab API-Level 9 sind keine farbigen Status-Icons mehr erlaubt. Da es sich 
+        bei der PMP nicht um eine Telefon-Funktion handelt, wurde FT-23 als nicht
+        bestanden markiert.
+      </p>
+      <p>
         FT-24 wurde als nicht bestanden markiert. Wird die Log-Funktion deaktiviert
-        und erneut aktiviert, entsteht eine falsch-formatierte XML-Datei.
-        Beim erneuten aktivieren wird innerhalb der XML-Datei der Header erneut eingefügt:
+        und erneut aktiviert, entsteht eine falsch formatierte XML-Datei.
+        Beim erneuten Aktivieren wird innerhalb der XML-Datei der Header erneut eingefügt:
         <pre>
 ...
 &lt;/record>
