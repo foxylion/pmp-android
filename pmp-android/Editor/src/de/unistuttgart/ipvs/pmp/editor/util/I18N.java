@@ -86,7 +86,6 @@ public class I18N extends NLS {
     public static String general_seedetails;
     public static String general_undefined;
     public static String general_value;
-    public static String preferences_jpmpps_0;
     public static String preferences_jpmpps_connecting;
     public static String preferences_jpmpps_description;
     public static String preferences_jpmpps_port;
@@ -95,6 +94,7 @@ public class I18N extends NLS {
     public static String preferences_jpmpps_testok;
     public static String preferences_jpmpps_testupdate;
     public static String preferences_jpmpps_timeout;
+    public static String preferences_jpmpps_unknown;
     public static String preferences_jpmpps_url;
     static {
         // initialize resource bundle

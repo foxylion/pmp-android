@@ -64,7 +64,7 @@ public class TestButton extends FieldEditor {
         getLabelControl(parent);
         
         this.status = new Label(parent, SWT.NONE);
-        this.status.setText(I18N.preferences_jpmpps_0);
+        this.status.setText(I18N.preferences_jpmpps_unknown);
         GridData layout = new GridData();
         layout.grabExcessHorizontalSpace = true;
         this.status.setLayoutData(layout);

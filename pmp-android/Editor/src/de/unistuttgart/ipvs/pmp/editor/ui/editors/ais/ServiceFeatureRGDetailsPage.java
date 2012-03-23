@@ -284,7 +284,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // The minimum revision label and text
         Label minRevisionLabel = new Label(attributeComp, SWT.NONE);
-        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev);
+        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev + ":");
         minRevisionLabel.setToolTipText("Format: milliseconds since 1970, or a date with the following format:\n"
                 + "yyyy-MM-dd HH:mm:ss:SSS z");
         
@@ -533,7 +533,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         if (DownloadedRGModel.getInstance().isRGListAvailable()) {
             for (RGIS rg : DownloadedRGModel.getInstance().getRgisList(this.parentShell)) {
                 if (rg.getIdentifier().equals(this.displayed.getIdentifier())) {
-                    this.psSection.setText(I18N.editor_ais_sf_requiredps + rg.getNameForLocale(new Locale("en"))); //$NON-NLS-1$
+                    this.psSection
+                            .setText(I18N.editor_ais_sf_requiredps + ": " + rg.getNameForLocale(new Locale("en"))); //$NON-NLS-1$
                     found = true;
                     break;
                 }
@@ -542,7 +543,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // RG not found or not available. Set the identifier
         if (!found) {
-            this.psSection.setText(I18N.editor_ais_sf_requiredps + this.displayed.getIdentifier());
+            this.psSection.setText(I18N.editor_ais_sf_requiredps + ": " + this.displayed.getIdentifier());
         }
         
         // Pack all columns
