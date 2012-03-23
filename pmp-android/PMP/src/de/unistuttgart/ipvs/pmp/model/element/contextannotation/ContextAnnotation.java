@@ -213,7 +213,8 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         String grantedByPreset = preset.getGrantedPrivacySettingValue(this.privacySetting);
         
         // early exit cause null permit comparisons don't work that well
-        if (grantedByPreset == null) {
+        // early exit cause == is no conflict
+        if ((grantedByPreset == null) || (grantedByPreset.equals(this.overrideValue))) {
             return false;
         }
         
