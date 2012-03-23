@@ -30,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApps;
 import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPresets;
@@ -39,6 +40,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.gui.util.view.AlwaysClickableButton;
+import de.unistuttgart.ipvs.pmp.util.BootReceiver;
 
 /**
  * The {@link ActivityMain} is the startup activity for PMP. It is also available in the App-Drawer.
@@ -62,6 +64,8 @@ public class ActivityMain extends Activity {
         
         /* Initiating the ActivityKillReceiver. */
         this.akr = new ActivityKillReceiver(this);
+        
+        BootReceiver.startService(PMPApplication.getContext());
     }
     
     

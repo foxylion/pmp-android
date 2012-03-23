@@ -25,7 +25,8 @@ public class LocationContextCondition {
     
     private static Map<String, LocationContextCondition> cache = new HashMap<String, LocationContextCondition>();
     
-    private static Pattern CONDITION_PATTERN = Pattern.compile("([0-9\\.]+);([0-9\\.]+);(1|0);([0-9\\.]~[0-9\\.]--)+");
+    private static Pattern CONDITION_PATTERN = Pattern
+            .compile("([0-9\\.]+);([0-9\\.]+);(1|0);(([0-9\\.]+~[0-9\\.]+--)+)");
     
     
     /**
@@ -47,9 +48,10 @@ public class LocationContextCondition {
             }
             
             List<PMPGeoPoint> poly = new ArrayList<PMPGeoPoint>();
-            for (int group = 4; group < match.groupCount(); group++) {
-                String[] coords = match.group(group).split("--")[0].split("~");
-                poly.add(new PMPGeoPoint(Double.valueOf(coords[0]), Double.valueOf(coords[1])));
+            String[] coords = match.group(4).split("--");
+            for (int i = 0; i < coords.length - 1; i++) {
+                String[] coord = coords[i].split("~");
+                poly.add(new PMPGeoPoint(Double.valueOf(coord[0]), Double.valueOf(coord[1])));
             }
             
             result = new LocationContextCondition(Double.parseDouble(match.group(1)),

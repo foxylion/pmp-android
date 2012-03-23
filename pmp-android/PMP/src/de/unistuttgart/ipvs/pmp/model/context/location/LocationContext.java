@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
@@ -27,7 +28,7 @@ public class LocationContext implements IContext, LocationListener {
     /**
      * But don't waste more battery than this period
      */
-    private static final long MAXIMUM_LOCATION_ESTIMTAING_TIME = 25000L;
+    private static final long MAXIMUM_LOCATION_ESTIMATING_TIME = 25000L;
     
     /**
      * The maximum accuracy loss, if a newer update is to be added
@@ -96,7 +97,7 @@ public class LocationContext implements IContext, LocationListener {
         this.lastState.unset();
         this.waiter = null;
         
-        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         
         onLocationChanged(lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
         onLocationChanged(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
@@ -109,14 +110,24 @@ public class LocationContext implements IContext, LocationListener {
         
         this.waiter = Thread.currentThread();
         
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        Thread looping = new Thread() {
+            
+            public void run() {
+                Looper.prepare();
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, LocationContext.this);
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationContext.this);
+                Looper.loop();
+            };
+        };
+        
+        looping.start();
         
         try {
-            Thread.sleep(MAXIMUM_LOCATION_ESTIMTAING_TIME);
+            Thread.sleep(MAXIMUM_LOCATION_ESTIMATING_TIME);
         } catch (InterruptedException e) {
             // Do nothing, desired behavior
         } finally {
+            looping.stop();
             lm.removeUpdates(this);
         }
         
@@ -148,6 +159,9 @@ public class LocationContext implements IContext, LocationListener {
     
     @Override
     public void onLocationChanged(Location location) {
+        if (location == null) {
+            return;
+        }
         boolean update = false;
         
         // if it's better, take it
