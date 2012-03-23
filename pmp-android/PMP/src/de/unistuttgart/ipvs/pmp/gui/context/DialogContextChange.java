@@ -52,14 +52,14 @@ import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueExcep
 public class DialogContextChange extends Dialog {
     
     /**
-     * Interface which is called on dialog dismiss.
+     * Interface which is called on successful change.
      * 
      * @author Jakob Jarosch
      */
     public interface ICallback {
         
         /**
-         * Method is invoked on dialog dismiss.
+         * Method is invoked on successful change.
          */
         public void callback();
     }
@@ -291,15 +291,15 @@ public class DialogContextChange extends Dialog {
                     DialogContextChange.this.contextCondition = DialogContextChange.this.usedView.getViewCondition();
                     
                     try {
-                        /* First add, then delete, 'cause if something went wrong during assign the old value will still be set. */
-                        DialogContextChange.this.preset.assignContextAnnotation(
-                                DialogContextChange.this.privacySetting, DialogContextChange.this.usedContext,
-                                DialogContextChange.this.contextCondition, DialogContextChange.this.overrideValue);
-                        
                         if (DialogContextChange.this.contextAnnotation != null) {
-                            DialogContextChange.this.preset
-                                    .removeContextAnnotation(DialogContextChange.this.privacySetting,
-                                            DialogContextChange.this.contextAnnotation);
+                            DialogContextChange.this.contextAnnotation
+                                    .setContextCondition(DialogContextChange.this.contextCondition);
+                            DialogContextChange.this.contextAnnotation
+                                    .setOverridePrivacySettingValue(DialogContextChange.this.overrideValue);
+                        } else {
+                            DialogContextChange.this.preset.assignContextAnnotation(
+                                    DialogContextChange.this.privacySetting, DialogContextChange.this.usedContext,
+                                    DialogContextChange.this.contextCondition, DialogContextChange.this.overrideValue);
                         }
                     } catch (InvalidConditionException e) {
                         Log.e(DialogContextChange.this, "Couldn't set new value for ContextAnnotaion, ICE", e);
@@ -309,6 +309,10 @@ public class DialogContextChange extends Dialog {
                         Log.e(DialogContextChange.this, "Couldn't set new value for PrivacySetting, PSVE", e);
                         GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_value),
                                 Toast.LENGTH_LONG);
+                    }
+                    
+                    if (callback != null) {
+                        callback.callback();
                     }
                     
                     dismiss();

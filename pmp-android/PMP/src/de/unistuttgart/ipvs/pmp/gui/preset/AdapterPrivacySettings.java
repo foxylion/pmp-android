@@ -95,6 +95,10 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
             ViewGroup parent) {
         
+        if (convertView != null) {
+            return convertView;
+        }
+        
         return new ViewPrivacySettingPreset(this.context, this.preset, (IPrivacySetting) getChild(groupPosition,
                 childPosition), this);
     }

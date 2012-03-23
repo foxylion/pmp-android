@@ -42,6 +42,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.context.DialogContextChange;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingEdit;
 import de.unistuttgart.ipvs.pmp.gui.privacysetting.DialogPrivacySettingInformation;
+import de.unistuttgart.ipvs.pmp.gui.privacysetting.ViewPrivacySettingPreset;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.dialog.DialogConfirmDelete;
@@ -155,7 +156,7 @@ public class TabPrivacySettings extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         
         // Parse the menu info
-        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item
+        final ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item
                 .getMenuInfo();
         int rgPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
         int psPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
@@ -198,7 +199,9 @@ public class TabPrivacySettings extends Activity {
                             
                             @Override
                             public void callback() {
-                                updateList();
+                                if (info.targetView != null && info.targetView instanceof ViewPrivacySettingPreset) {
+                                    ((ViewPrivacySettingPreset) info.targetView).refresh();
+                                }
                             }
                         }).show();
                 return true;
@@ -311,7 +314,6 @@ public class TabPrivacySettings extends Activity {
                 ArrayList<IPrivacySetting> existingList = RGPSMap.get(rg);
                 existingList.add(ps);
             }
-            
         }
         
         /* Build two lists, separated into RGs and PSs out of the map */

@@ -115,17 +115,6 @@ public class ViewPrivacySettingPreset extends LinearLayout {
      */
     public void refresh() {
         /*
-         * Check whether the number of contexts is greater than 0.
-         * If not, hide the toggle indicator and hide the menu/empty context list.
-         */
-        if (this.preset.getContextAnnotations(this.privacySetting).size() == 0) {
-            ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.GONE);
-            ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).setVisibility(View.GONE);
-        } else {
-            ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.VISIBLE);
-        }
-        
-        /*
          * Update the Privacy Setting name.
          */
         ((TextView) findViewById(R.id.TextView_Name_PS)).setText(this.privacySetting.getName());
@@ -154,6 +143,17 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         ((LinearLayout) findViewById(R.id.LinearLayout_Contexts)).removeAllViews();
         for (IContextAnnotation context : this.preset.getContextAnnotations(this.privacySetting)) {
             addContext(context);
+        }
+        
+        /*
+         * Check whether the number of contexts is greater than 0.
+         * If not, hide the toggle indicator and hide the menu/empty context list.
+         */
+        if (this.preset.getContextAnnotations(this.privacySetting).size() == 0) {
+            ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.LinearLayout_MenuAndContexts)).setVisibility(View.GONE);
+        } else {
+            ((ImageView) findViewById(R.id.ImageView_State)).setVisibility(View.VISIBLE);
         }
     }
     
@@ -339,7 +339,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         }
         
         /*
-         * On click listener which reacts on shor and long clicks.
+         * On click listener which reacts on short and long clicks.
          */
         OnShortLongClickListener ocl = new OnShortLongClickListener() {
             
@@ -365,7 +365,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
     /**
      * Toggles the visibility of the menu and context container.
      */
-    private void toggleMenuAndContexts() {
+    public void toggleMenuAndContexts() {
         ImageView stateView = (ImageView) findViewById(R.id.ImageView_State);
         stateView.setImageResource(isListExpanded() ? R.drawable.icon_expand_closed : R.drawable.icon_expand_opened);
         
