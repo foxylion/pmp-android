@@ -19,11 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -33,8 +36,11 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -45,7 +51,9 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ResourceGroupsDialogContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ResourceGroupDialogLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
+import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
 
@@ -78,6 +86,8 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
      */
     private HashMap<String, String> values = new HashMap<String, String>();
     
+    private Shell shell;
+    
     /**
      * The value text field
      */
@@ -101,6 +111,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
     public RequiredResourceGroupsDialog(Shell parentShell, List<RGIS> toDisplay) {
         super(parentShell);
         this.toDisplay = toDisplay;
+        this.shell = parentShell;
     }
     
     
@@ -112,7 +123,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
     
     
     @Override
-    protected Control createDialogArea(Composite parent) {
+    protected Control createDialogArea(final Composite parent) {
         // create composite
         Composite composite = (Composite) super.createDialogArea(parent);
         composite.setLayout(new GridLayout(2, false));
@@ -149,16 +160,48 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
         
         // Composite that holds the value label and text f
         Composite valueComp = new Composite(composite, SWT.BORDER);
-        valueComp.setLayout(new GridLayout(2, false));
+        valueComp.setLayout(new GridLayout(3, false));
         valueComp.setLayoutData(data);
         
         Label valueLabel = new Label(valueComp, SWT.NULL);
+        valueLabel.setToolTipText("Format: milliseconds since 1970, or a date with the following format:\n"
+                + "yyyy-MM-dd HH:mm:ss:SSS z");
         valueLabel.setText("Minimal revision:");
         valueLabel.pack();
         
         this.valueText = new Text(valueComp, SWT.BORDER);
         this.valueText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.HORIZONTAL_ALIGN_FILL));
         this.valueText.pack();
+        
+        Button picker = new Button(valueComp, SWT.ICON);
+        picker.setToolTipText("Show a calendar to choose a date");
+        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage());
+        picker.addSelectionListener(new SelectionListener() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                Long[] result = new Long[1];
+                
+                // Open a dialog with the time and date picker
+                if (new DateTimeDialog(shell, result).open() == Dialog.OK) {
+                    
+                    // Get the display rg
+                    RGIS ps = (RGIS) RequiredResourceGroupsDialog.this.listViewer.getTable().getSelection()[0]
+                            .getData();
+                    
+                    // Store it at the hash map
+                    RequiredResourceGroupsDialog.this.values.put(ps.getIdentifier(),
+                            XMLConstants.REVISION_DATE_FORMAT.format(new Date(result[0])));
+                    updateText();
+                }
+            }
+            
+            
+            @Override
+            public void widgetDefaultSelected(SelectionEvent arg0) {
+                
+            }
+        });
         
         // FocusListener to store the entered value
         this.valueText.addFocusListener(new org.eclipse.swt.events.FocusListener() {
@@ -207,7 +250,15 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
                     // Add the entered values
                     if (this.values.get(element.getIdentifier()) != null) {
                         if (!this.values.get(element.getIdentifier()).isEmpty()) {
-                            value = this.values.get(element.getIdentifier());
+                            
+                            try {
+                                Date parsed = XMLConstants.REVISION_DATE_FORMAT.parse(this.values.get(element
+                                        .getIdentifier()));
+                                value = String.valueOf(parsed.getTime());
+                            } catch (ParseException e) {
+                                value = this.values.get(element.getIdentifier());
+                            }
+                            
                         }
                     }
                     AISRequiredResourceGroup required = new AISRequiredResourceGroup(element.getIdentifier(), value);
