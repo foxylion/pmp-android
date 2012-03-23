@@ -448,6 +448,9 @@ public class ViewModel {
         return this.destinationPassenger;
     }
     
+    public void clearDestinations() {
+        spinnersDest.clear();
+    }
     
     /**
      * set number of seats available/needed depending on users wishes

@@ -30,6 +30,7 @@ public class Wait4PickUp extends Dialog {
                 cancel();
                 ViewModel.getInstance().cancelLocation();
                 ViewModel.getInstance().cancelQuery();
+                ViewModel.getInstance().clearDestinations();
                 ((Activity) context).finish();
             }
         });

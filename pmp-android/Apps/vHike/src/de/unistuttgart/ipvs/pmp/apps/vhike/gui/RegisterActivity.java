@@ -82,7 +82,7 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
         
         validator();
         if (getvHikeRG(this) != null)
-            register();
+            register(); 
         
     }
     
