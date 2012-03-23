@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -51,9 +52,10 @@ public class RateProfileConfirm extends Dialog {
                 // rate
                 String rate = ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating);
                 if (rate.equals("rated")) {
-                    Log.i(this, "RATED " + profileID + ", WITH " + rating + ", TripID " + tripID);
+                    Toast.makeText(v.getContext(), "Rated with " + rating + " stars", Toast.LENGTH_SHORT).show();
                 } else if (rate.equals("already_rated")) {
                     Log.i(this, "Not RATED " + profileID + ", WITH " + rating + ", TripID " + tripID);
+                    Toast.makeText(v.getContext(), "Already rated!", Toast.LENGTH_SHORT).show();
                 } else if (rate.equals("not_ended")) {
                     
                 }

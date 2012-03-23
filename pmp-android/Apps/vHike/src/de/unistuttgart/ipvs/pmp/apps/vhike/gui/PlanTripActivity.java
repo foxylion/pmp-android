@@ -75,7 +75,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         registerListener();
         
         if (getvHikeRG(this) != null) {
-         ctrl = new Controller(rgvHike);   
+            ctrl = new Controller(rgvHike);
         }
     }
     
