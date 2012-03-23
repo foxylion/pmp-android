@@ -763,60 +763,63 @@ public class Controller {
      */
     public List<QueryObject> searchQuery(final String sid, final float lat, final float lon, final int perimeter) {
         String ret = "";
-        
+        List<QueryObject> queryObjects = null;
         try {
             ret = ws.searchQuery(sid, lat, lon, perimeter);
+            
+
+            JsonObject object = parser.parse(ret).getAsJsonObject();
+            
+            boolean suc = false;
+            if (object != null) {
+                suc = object.get("successful").getAsBoolean();
+                if (suc) {
+                    String status = object.get("status").getAsString();
+                    if (status.equals("result")) {
+                        JsonArray array = object.get("queries").getAsJsonArray();
+                        Log.d(TAG, array.toString());
+                        queryObjects = new ArrayList<QueryObject>();
+                        
+                        /*
+                         * "queryid": Integer, "userid": Integer, "username": String, "rating": Float,
+                         * "lat": Float, "lon": Float, "seats": Integer, distance: Float
+                         */
+                        
+                        for (int i = 0; i < array.size(); i++) {
+                            JsonObject Iobject = array.get(i).getAsJsonObject();
+                            int queryid = Iobject.get("queryid").getAsInt();
+                            
+                            int userid = Iobject.get("userid").getAsInt();
+                            
+                            String username = Iobject.get("username").getAsString();
+                            // float rating = Iobject.get("rating").getAsFloat();
+                            
+                            float cur_lat = Iobject.get("lat").getAsFloat();
+                            float cur_lon = Iobject.get("lon").getAsFloat();
+                            int seats = Iobject.get("seats").getAsInt();
+                            float distance = Iobject.get("distance").getAsFloat();
+                            
+                            QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat, cur_lon, seats,
+                                    distance);
+                            queryObjects.add(qObject);
+                        }
+                        if (queryObjects != null) {
+                            Model.getInstance().setQueryHolder(queryObjects);
+                        }
+                        return queryObjects;
+                    }
+                }
+            }
+            if (queryObjects != null) {
+                Model.getInstance().setQueryHolder(queryObjects);
+            }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (NullPointerException ne){
+            
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
-        
-        boolean suc = false;
-        List<QueryObject> queryObjects = null;
-        if (object != null) {
-            suc = object.get("successful").getAsBoolean();
-            if (suc) {
-                String status = object.get("status").getAsString();
-                if (status.equals("result")) {
-                    JsonArray array = object.get("queries").getAsJsonArray();
-                    Log.d(TAG, array.toString());
-                    queryObjects = new ArrayList<QueryObject>();
-                    
-                    /*
-                     * "queryid": Integer, "userid": Integer, "username": String, "rating": Float,
-                     * "lat": Float, "lon": Float, "seats": Integer, distance: Float
-                     */
-                    
-                    for (int i = 0; i < array.size(); i++) {
-                        JsonObject Iobject = array.get(i).getAsJsonObject();
-                        int queryid = Iobject.get("queryid").getAsInt();
-                        
-                        int userid = Iobject.get("userid").getAsInt();
-                        
-                        String username = Iobject.get("username").getAsString();
-                        // float rating = Iobject.get("rating").getAsFloat();
-                        
-                        float cur_lat = Iobject.get("lat").getAsFloat();
-                        float cur_lon = Iobject.get("lon").getAsFloat();
-                        int seats = Iobject.get("seats").getAsInt();
-                        float distance = Iobject.get("distance").getAsFloat();
-                        
-                        QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat, cur_lon, seats,
-                                distance);
-                        queryObjects.add(qObject);
-                    }
-                    if (queryObjects != null) {
-                        Model.getInstance().setQueryHolder(queryObjects);
-                    }
-                    return queryObjects;
-                }
-            }
-        }
-        if (queryObjects != null) {
-            Model.getInstance().setQueryHolder(queryObjects);
-        }
         return queryObjects;
         
     }

@@ -165,6 +165,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (Exception ex){
+            ;
         }
         startContinousLookup();
     };
