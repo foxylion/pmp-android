@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 
 /**
  * Dialog for a potential passenger who accepted an offer is awaiting to be picked up and confirm that his query search
@@ -27,6 +28,8 @@ public class Wait4PickUp extends Dialog {
             @Override
             public void onClick(View v) {
                 cancel();
+                ViewModel.getInstance().cancelLocation();
+                ViewModel.getInstance().cancelQuery();
                 ((Activity) context).finish();
             }
         });

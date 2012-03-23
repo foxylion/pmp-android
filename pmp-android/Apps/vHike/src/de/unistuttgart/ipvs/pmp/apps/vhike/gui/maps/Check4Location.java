@@ -48,7 +48,7 @@ public class Check4Location extends TimerTask {
     
     @Override
     public void run() {
-        
+        Log.i(this, "Location in");
         boolean isFixed = false;
         
         double longitude = 0.0;
@@ -144,7 +144,7 @@ public class Check4Location extends TimerTask {
                         
                         controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
                                 (int) (Check4Location.this.loc.getLongitude() * 1E6)));
-                        controller.setZoom(13);
+                        controller.setZoom(14);
                         
                         // display address only once
                         if (Check4Location.this.showAddress == 0) {
