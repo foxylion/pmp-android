@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -68,6 +69,7 @@ import de.unistuttgart.ipvs.pmp.editor.model.AisModel;
 import de.unistuttgart.ipvs.pmp.editor.model.DownloadedRGModel;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.RequiredPSContentProvider;
+import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.DateTimeDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingChangeValueDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.dialogs.RequiredPrivacySettingsDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
@@ -235,7 +237,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         attributeSection.setLayoutData(attributeLayout);
         
         Composite attributeComp = toolkit.createComposite(attributeSection);
-        GridLayout attributeGridLayout = new GridLayout(2, false);
+        GridLayout attributeGridLayout = new GridLayout(3, false);
         attributeGridLayout.horizontalSpacing = 7;
         attributeComp.setLayout(attributeGridLayout);
         
@@ -277,8 +279,12 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         this.identifierField.addFocusListener(this);
         this.identifierField.setData("_NAME", "identifier");
         
+        new Label(attributeComp, SWT.NULL);
+        
         // The minimum revision label and text
         Label minRevisionLabel = new Label(attributeComp, SWT.NONE);
+        minRevisionLabel.setToolTipText("Format: milliseconds since 1970, or a date with the following format:\n"
+                + "yyyy-MM-dd HH:mm:ss:SSS z");
         minRevisionLabel.setText("Minimal revision:");
         
         this.revisionField = new Text(attributeComp, SWT.BORDER);
@@ -322,6 +328,31 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         });
         this.revisionField.addFocusListener(this);
         this.revisionField.setData("_NAME", "revision");
+        
+        Button picker = new Button(attributeComp, SWT.NONE);
+        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage());
+        picker.setToolTipText("Show a calendar to choose a date");
+        picker.addSelectionListener(new SelectionListener() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                Long[] result = new Long[1];
+                
+                // Open a dialog with the time and date picker
+                if (new DateTimeDialog(parentShell, result).open() == Dialog.OK) {
+                    revisionField.setText(XMLConstants.REVISION_DATE_FORMAT.format(new Date(result[0])));
+                    displayed.setMinRevision(String.valueOf(result[0]));
+                    AISValidatorWrapper.getInstance().validateAIS(model.getAis(), true);
+                    ServiceFeatureRGDetailsPage.this.model.setDirty(true);
+                    updateRevisionDec();
+                }
+            }
+            
+            
+            @Override
+            public void widgetDefaultSelected(SelectionEvent arg0) {
+            }
+        });
         
         // The name section
         this.psSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
