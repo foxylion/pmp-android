@@ -28,11 +28,12 @@ public class SpinnerDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 
-                Log.i(this, "Size2: " + ViewModel.getInstance().getDestinationSpinners().size());
+                Log.i(this, "Size be4: "+ ViewModel.getInstance().getDestinationSpinners().size());
                 if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
-                    ViewModel.getInstance().getClickedSpinner().setVisibility(View.GONE);
+                    
                     int sNumber = ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition();
                     ViewModel.getInstance().getDestinationSpinners().remove(sNumber);
+                    ViewModel.getInstance().getClickedSpinner().setVisibility(View.GONE);
                     Log.i(this, "Size2: " + ViewModel.getInstance().getDestinationSpinners().size());
                 } else {
                     Toast.makeText(v.getContext(), "At least one destination must be given", Toast.LENGTH_SHORT).show();

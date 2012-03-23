@@ -18,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 
 /**
@@ -227,23 +228,29 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
                 
                 if (validRegistrationForm(RegisterActivity.this.cMobile, RegisterActivity.this.cEmail,
                         RegisterActivity.this.cPw)) {
-                    switch (ctrl.register(map)) {
-                        case Constants.REG_STAT_USED_USERNAME:
-                            Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.REG_STAT_USED_MAIL:
-                            Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
-                            break;
-                        case Constants.STATUS_SUCCESS:
-                            Toast.makeText(RegisterActivity.this,
-                                    "Registration send.\nValidate your email to finish registration",
-                                    Toast.LENGTH_SHORT).show();
-                            RegisterActivity.this.finish();
-                            break;
-                        case Constants.STATUS_ERROR:
-                            Toast.makeText(RegisterActivity.this, "Registration failed. Please check input",
-                                    Toast.LENGTH_SHORT).show();
-                            break;
+                    if (vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE)) {
+                        switch (ctrl.register(map)) {
+                            case Constants.REG_STAT_USED_USERNAME:
+                                Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT)
+                                        .show();
+                                break;
+                            case Constants.REG_STAT_USED_MAIL:
+                                Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT)
+                                        .show();
+                                break;
+                            case Constants.STATUS_SUCCESS:
+                                Toast.makeText(RegisterActivity.this,
+                                        "Registration send.\nValidate your email to finish registration",
+                                        Toast.LENGTH_SHORT).show();
+                                RegisterActivity.this.finish();
+                                break;
+                            case Constants.STATUS_ERROR:
+                                Toast.makeText(RegisterActivity.this, "Registration failed. Please check input",
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    } else {
+                        vHikeService.requestServiceFeature(RegisterActivity.this, Constants.SF_VHIKE_WEB_SERVICE);
                     }
                     
                 } else {

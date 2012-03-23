@@ -27,7 +27,6 @@ public class AddStopOverListener implements OnClickListener {
     @Override
     public void onClick(View v) {
         
-        Log.i(this, "SizeCount: " + ViewModel.getInstance().getDestinationSpinners().get(0).getCount());
         if (ViewModel.getInstance().getDestinationSpinners().size() == 0
                 || ViewModel.getInstance().getDestinationSpinners().size() >= ViewModel.getInstance()
                         .getDestinationSpinners().get(0).getCount()) {
@@ -47,6 +46,7 @@ public class AddStopOverListener implements OnClickListener {
             
             // add Spinner to "StopOver-List"/Spinner-List
             ViewModel.getInstance().getDestinationSpinners().add(spinner);
+            
             this.spinner.setOnLongClickListener(new OnLongClickListener() {
                 
                 @Override
