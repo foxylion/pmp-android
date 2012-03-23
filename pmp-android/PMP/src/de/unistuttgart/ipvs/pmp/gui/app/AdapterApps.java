@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.gui.app;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -53,6 +55,16 @@ public class AdapterApps extends BaseAdapter {
     public AdapterApps(Context context, List<IApp> apps) {
         this.context = context;
         this.apps = apps;
+        
+        /* Sort the Apps alphabetically */
+        Collections.sort(this.apps, new Comparator<IApp>() {
+            
+            @Override
+            public int compare(IApp lhs, IApp rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+            
+        });
     }
     
     
