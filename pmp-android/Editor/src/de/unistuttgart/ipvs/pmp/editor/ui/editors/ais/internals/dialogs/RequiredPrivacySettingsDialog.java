@@ -47,6 +47,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.PrivacySettingsDialogContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.PrivacySettingsDialogLabelProvider;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGISPrivacySetting;
@@ -120,7 +121,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("Select the required Privacy Settings");
+        shell.setText(I18N.editor_ais_sf_psdialog_title);
     }
     
     
@@ -131,10 +132,10 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
         composite.setLayout(new GridLayout(2, false));
         
         Label psLabel = new Label(composite, SWT.NULL);
-        psLabel.setText("Choose the required Privacy Settings:");
+        psLabel.setText(I18N.editor_ais_sf_psdialog_choose + ":"); //$NON-NLS-1$
         
         Label descLabel = new Label(composite, SWT.NULL);
-        descLabel.setText("Information:");
+        descLabel.setText(I18N.general_information + ":"); //$NON-NLS-1$
         
         // The CheckboxTableViewer for the PrivacySettings
         this.listViewer = CheckboxTableViewer.newCheckList(composite, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
@@ -167,7 +168,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
         valueComp.setLayoutData(data);
         
         Label valueLabel = new Label(valueComp, SWT.NULL);
-        valueLabel.setText("Value:");
+        valueLabel.setText(I18N.general_value + ":"); //$NON-NLS-1$
         valueLabel.pack();
         
         this.valueText = new Text(valueComp, SWT.BORDER);
@@ -198,7 +199,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
         new Label(valueComp, SWT.None).setVisible(false);
         
         this.emptyValue = new Button(valueComp, SWT.CHECK);
-        this.emptyValue.setText("empty value");
+        this.emptyValue.setText(I18N.editor_ais_sf_pschangevaluedialog_emptyvalue);
         this.emptyValue.addListener(SWT.Selection, new Listener() {
             
             @Override
@@ -238,7 +239,7 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
             ArrayList<AISRequiredPrivacySetting> list = new ArrayList<AISRequiredPrivacySetting>();
             for (int i = 0; i < children.length; ++i) {
                 RGISPrivacySetting element = (RGISPrivacySetting) children[i];
-                AISRequiredPrivacySetting toAdd = new AISRequiredPrivacySetting(element.getIdentifier(), "");
+                AISRequiredPrivacySetting toAdd = new AISRequiredPrivacySetting(element.getIdentifier(), ""); //$NON-NLS-1$
                 toAdd.setEmptyValue(false);
                 if (this.listViewer.getChecked(element)) {
                     String value = null;
@@ -296,19 +297,19 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
      */
     private void updateText() {
         RGISPrivacySetting ps = (RGISPrivacySetting) this.listViewer.getTable().getSelection()[0].getData();
-        Locale enLocale = new Locale("en");
+        Locale enLocale = new Locale("en"); //$NON-NLS-1$
         
         // Set the value text field
         if (this.values.get(ps.getIdentifier()) != null) {
             this.valueText.setText(this.values.get(ps.getIdentifier()));
         } else {
-            this.valueText.setText("");
+            this.valueText.setText(""); //$NON-NLS-1$
         }
         
         String descString = ps.getDescriptionForLocale(enLocale);
         int descLength = 0;
         if (descString == null) {
-            descString = "No description available";
+            descString = I18N.editor_ais_sf_psdialog_nodescription;
             descLength = descString.length();
         } else {
             descLength = ps.getDescriptionForLocale(enLocale).length();
@@ -316,10 +317,11 @@ public class RequiredPrivacySettingsDialog extends SelectionDialog implements IS
         
         String validvalueString = ps.getValidValueDescription();
         if (validvalueString.isEmpty()) {
-            validvalueString = "No valid value description available";
+            validvalueString = I18N.editor_ais_sf_psdialog_novalidvaluedescription;
         }
         
-        this.text.setText("Description:\n" + descString + "\n\nValid Values:\n" + validvalueString);
+        this.text.setText(I18N.general_description + ":\n" + descString + "\n\n" + I18N.general_validvalues + ":\n" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + validvalueString);
         
         // Set the text styles
         StyleRange style = new StyleRange();

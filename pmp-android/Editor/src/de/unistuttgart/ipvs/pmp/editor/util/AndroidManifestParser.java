@@ -69,80 +69,80 @@ public class AndroidManifestParser {
     /**
      * Activity node
      */
-    private final String ANDROID_ACTIVITY = "activity";
+    private final String ANDROID_ACTIVITY = "activity"; //$NON-NLS-1$
     
     /**
      * Path to the PMP registration activity
      */
-    private final String ANDROID_NAME = "android:name";
+    private final String ANDROID_NAME = "android:name"; //$NON-NLS-1$
     
     /**
      * String of the pmp activity
      */
-    private final String PMP_ACTIVITY = "de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity";
+    private final String PMP_ACTIVITY = "de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"; //$NON-NLS-1$
     
     /**
      * Android intent action main
      */
-    private final String ANDROID_ACTION_MAIN = "android.intent.action.MAIN";
+    private final String ANDROID_ACTION_MAIN = "android.intent.action.MAIN"; //$NON-NLS-1$
     
     /**
      * Style of the PMP registration activity
      */
-    private final String ANDROID_THEME = "android:theme";
+    private final String ANDROID_THEME = "android:theme"; //$NON-NLS-1$
     
     /**
      * PMP Android theme
      */
-    private final String PMP_ANDROID_THEME = "@android:style/Theme.NoTitleBar";
+    private final String PMP_ANDROID_THEME = "@android:style/Theme.NoTitleBar"; //$NON-NLS-1$
     
     /**
      * Android label attribute
      */
-    private final String ANDROID_LABEL = "android:label";
+    private final String ANDROID_LABEL = "android:label"; //$NON-NLS-1$
     
     /**
      * Intent-filter node
      */
-    private final String ANDROID_INTENT_FILTER = "intent-filter";
+    private final String ANDROID_INTENT_FILTER = "intent-filter"; //$NON-NLS-1$
     
     /**
      * Android action node
      */
-    private final String ANDROID_ACTION = "action";
+    private final String ANDROID_ACTION = "action"; //$NON-NLS-1$
     
     /**
      * Android category node
      */
-    private final String ANDROID_CATEGORY = "category";
+    private final String ANDROID_CATEGORY = "category"; //$NON-NLS-1$
     
     /**
      * Android intent category Launcher
      */
-    private final String ANDROID_CATEGORY_LAUNCHER = "android.intent.category.LAUNCHER";
+    private final String ANDROID_CATEGORY_LAUNCHER = "android.intent.category.LAUNCHER"; //$NON-NLS-1$
     
     /**
      * Android meta-data node
      */
-    private final String ANDROID_META_DATA = "meta-data";
-    private final String ANDROID_VALUE = "android:value";
-    private final String ANDROID_META_DATA_MAIN_ACTIVITY = "mainActivity";
+    private final String ANDROID_META_DATA = "meta-data"; //$NON-NLS-1$
+    private final String ANDROID_VALUE = "android:value"; //$NON-NLS-1$
+    private final String ANDROID_META_DATA_MAIN_ACTIVITY = "mainActivity"; //$NON-NLS-1$
     
     /**
      * Android application
      */
-    private final String ANDROID_APPLICATION = "application";
+    private final String ANDROID_APPLICATION = "application"; //$NON-NLS-1$
     
     /**
      * Android package attribute
      */
-    private final String ANDROID_PACKAGE = "package";
+    private final String ANDROID_PACKAGE = "package"; //$NON-NLS-1$
     
     /**
      * Android Service
      */
-    private final String ANDROID_SERVICE = "service";
-    private final String PMP_SERVICE_NAME = "de.unistuttgart.ipvs.pmp.service.app.AppService";
+    private final String ANDROID_SERVICE = "service"; //$NON-NLS-1$
+    private final String PMP_SERVICE_NAME = "de.unistuttgart.ipvs.pmp.service.app.AppService"; //$NON-NLS-1$
     
     
     /**
@@ -178,7 +178,7 @@ public class AndroidManifestParser {
         if (identifier != null) {
             return identifier;
         } else {
-            throw new AppIdentifierNotFoundException("App identifier not found");
+            throw new AppIdentifierNotFoundException("App identifier not found"); //$NON-NLS-1$
         }
         
     }
@@ -209,8 +209,8 @@ public class AndroidManifestParser {
         
         isMainActivityExisting(xmlStream);
         
-        String androidName = "";
-        String androidLabel = "";
+        String androidName = ""; //$NON-NLS-1$
+        String androidLabel = ""; //$NON-NLS-1$
         String appIdentifier = getAppIdentifier(xmlStream);
         
         Node mainActivityNode = getMainActivityNode();
@@ -231,7 +231,7 @@ public class AndroidManifestParser {
                     androidName = appIdentifier + androidNameNode.getNodeValue();
                 }
             } else {
-                throw new NullPointerException("android:name or android:label was null");
+                throw new NullPointerException("android:name or android:label was null"); //$NON-NLS-1$
             }
             
             // Create the new node
@@ -308,7 +308,7 @@ public class AndroidManifestParser {
             newElement.normalize();
             this.doc.normalize();
         } else {
-            throw new NullPointerException("Node was null");
+            throw new NullPointerException("Node was null"); //$NON-NLS-1$
         }
         
         writeBackChanges(file);
@@ -337,7 +337,7 @@ public class AndroidManifestParser {
                 }
             }
         }
-        throw new NoMainActivityException("No main activity found");
+        throw new NoMainActivityException("No main activity found"); //$NON-NLS-1$
     }
     
     
@@ -353,7 +353,7 @@ public class AndroidManifestParser {
         for (int itr = 0; itr < activities.getLength(); itr++) {
             Element activity = (Element) activities.item(itr);
             if (activity.getAttribute(this.ANDROID_NAME).equals(this.PMP_ACTIVITY)) {
-                throw new PMPActivityAlreadyExistsException("PMP registration activity already existing");
+                throw new PMPActivityAlreadyExistsException("PMP registration activity already existing"); //$NON-NLS-1$
             }
         }
     }
@@ -378,20 +378,20 @@ public class AndroidManifestParser {
         }
         
         // Get all "action" nodes
-        NodeList actions = this.doc.getElementsByTagName("action");
+        NodeList actions = this.doc.getElementsByTagName("action"); //$NON-NLS-1$
         
         // Check the attributes if there is a MAIN activity
         if (actions.getLength() > 0) {
             for (int itr = 0; itr < actions.getLength(); itr++) {
                 Node action = actions.item(itr);
                 NamedNodeMap attributes = action.getAttributes();
-                Node attribute = attributes.getNamedItem("android:name");
-                if (attribute != null && attribute.getNodeValue().equals("android.intent.action.MAIN")) {
+                Node attribute = attributes.getNamedItem("android:name"); //$NON-NLS-1$
+                if (attribute != null && attribute.getNodeValue().equals("android.intent.action.MAIN")) { //$NON-NLS-1$
                     return;
                 }
             }
         }
-        throw new NoMainActivityException("No main activity declared");
+        throw new NoMainActivityException("No main activity declared"); //$NON-NLS-1$
     }
     
     
@@ -406,7 +406,7 @@ public class AndroidManifestParser {
      */
     private void instantiate(InputStream xmlStream) throws ParserConfigurationException, SAXException, IOException {
         if (xmlStream == null) {
-            throw new NullPointerException("XML-stream was null");
+            throw new NullPointerException("XML-stream was null"); //$NON-NLS-1$
         }
         // Instantiate the document builder and get the document
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -441,7 +441,7 @@ public class AndroidManifestParser {
         
         NodeList application = this.doc.getElementsByTagName(this.ANDROID_APPLICATION);
         if (application.getLength() > 1) {
-            throw new AndroidApplicationException(application.getLength() + " application nodes were found.");
+            throw new AndroidApplicationException(application.getLength() + " application nodes were found."); //$NON-NLS-1$
         }
         Element applicationElement = (Element) application.item(0);
         
@@ -480,7 +480,7 @@ public class AndroidManifestParser {
             Element service = (Element) services.item(itr);
             String attribute = service.getAttribute(this.ANDROID_NAME);
             if (attribute.equals(this.PMP_SERVICE_NAME)) {
-                throw new PMPServiceAlreadyExists("PMP service already declared");
+                throw new PMPServiceAlreadyExists("PMP service already declared"); //$NON-NLS-1$
             }
         }
         
@@ -502,10 +502,10 @@ public class AndroidManifestParser {
         Transformer transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(getXSLStream()));
         
         // Format the XML document
-        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-        transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml"); //$NON-NLS-1$
+        transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8"); //$NON-NLS-1$
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2"); //$NON-NLS-1$ //$NON-NLS-2$
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //$NON-NLS-1$
         
         DOMSource source = new DOMSource(this.doc);
         FileOutputStream os = new FileOutputStream(file);
@@ -520,10 +520,10 @@ public class AndroidManifestParser {
      * @return {@link InputStream} of the stylesheet
      */
     private InputStream getXSLStream() {
-        String xsd = "<xsl:stylesheet version=\"1.0\" " + "xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">"
-                + "<xsl:output method=\"xml\" omit-xml-declaration=\"yes\"/>" + "<xsl:strip-space elements=\"*\"/>"
-                + "<xsl:template match=\"@*|node()\">" + "<xsl:copy>" + "<xsl:apply-templates select=\"@*|node()\"/>"
-                + "</xsl:copy>" + "</xsl:template>" + "</xsl:stylesheet>";
+        String xsd = "<xsl:stylesheet version=\"1.0\" " + "xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">" //$NON-NLS-1$ //$NON-NLS-2$
+                + "<xsl:output method=\"xml\" omit-xml-declaration=\"yes\"/>" + "<xsl:strip-space elements=\"*\"/>" //$NON-NLS-1$ //$NON-NLS-2$
+                + "<xsl:template match=\"@*|node()\">" + "<xsl:copy>" + "<xsl:apply-templates select=\"@*|node()\"/>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + "</xsl:copy>" + "</xsl:template>" + "</xsl:stylesheet>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         return new ByteArrayInputStream(xsd.getBytes());
     }
 }

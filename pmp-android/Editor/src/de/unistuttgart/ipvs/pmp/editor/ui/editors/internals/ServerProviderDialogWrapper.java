@@ -34,6 +34,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.editor.util.ServerProvider;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
 
@@ -94,11 +95,11 @@ public class ServerProviderDialogWrapper {
      *            the status of this job
      */
     public void updateServerListWithJob(final Shell shell, final Boolean showErrors, IJobChangeListener listener) {
-        this.job = new Job("Downloading Resource Groups") {
+        this.job = new Job(I18N.general_rgdownloaddialog_job) {
             
             @Override
             protected IStatus run(IProgressMonitor monitor) {
-                monitor.beginTask("Downloading Resource Groups", 2);
+                monitor.beginTask(I18N.general_rgdownloaddialog_job, 2);
                 ServerProvider server = ServerProvider.getInstance();
                 
                 // Refresh the list
@@ -116,9 +117,9 @@ public class ServerProviderDialogWrapper {
                             
                             @Override
                             public void run() {
-                                IStatus status = new Status(IStatus.ERROR, "PROGRESS_JOB", "See details", e);
-                                ErrorDialog.openError(shell, "Error", "A error happend while downloading the "
-                                        + "Resource Groups from the server.", status);
+                                IStatus status = new Status(IStatus.ERROR, "PROGRESS_JOB", I18N.general_seedetails, e); //$NON-NLS-1$
+                                ErrorDialog.openError(shell, I18N.general_rgdownloaddialog_downloaderror_title,
+                                        I18N.general_rgdownloaddialog_downloaderror_text, status);
                             }
                         }));
                         return Status.CANCEL_STATUS;
@@ -153,7 +154,7 @@ public class ServerProviderDialogWrapper {
                 public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
                     
                     // Start the task
-                    monitor.beginTask("Downloading Resource Groups...", 2);
+                    monitor.beginTask(I18N.general_rgdownloaddialog_task, 2);
                     ServerProvider server = ServerProvider.getInstance();
                     try {
                         
@@ -169,9 +170,10 @@ public class ServerProviderDialogWrapper {
                             
                             @Override
                             public void run() {
-                                IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", "See details", e);
-                                ErrorDialog.openError(shell, "Error", "A error happend while downloading the "
-                                        + "Resource Groups from the server.", status);
+                                IStatus status = new Status(IStatus.ERROR,
+                                        "PROGRESS_DIALOG", I18N.general_seedetails, e); //$NON-NLS-1$
+                                ErrorDialog.openError(shell, I18N.general_rgdownloaddialog_downloaderror_title,
+                                        I18N.general_rgdownloaddialog_downloaderror_text, status);
                             }
                         }));
                         
@@ -180,13 +182,13 @@ public class ServerProviderDialogWrapper {
                 }
             });
         } catch (InvocationTargetException e) {
-            IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", "See details", e);
-            ErrorDialog.openError(shell, "Error",
-                    "A error happend while downloading the Resource Groups from the server.", status);
+            IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", I18N.general_seedetails, e); //$NON-NLS-1$
+            ErrorDialog.openError(shell, I18N.general_rgdownloaddialog_downloaderror_title,
+                    I18N.general_rgdownloaddialog_downloaderror_text, status);
         } catch (InterruptedException e) {
-            IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", "See details", e);
-            ErrorDialog.openError(shell, "Error",
-                    "A error happend while downloading the Resource Groups from the server.", status);
+            IStatus status = new Status(IStatus.ERROR, "PROGRESS_DIALOG", I18N.general_seedetails, e); //$NON-NLS-1$
+            ErrorDialog.openError(shell, I18N.general_rgdownloaddialog_downloaderror_title,
+                    I18N.general_rgdownloaddialog_downloaderror_text, status);
         }
     }
     

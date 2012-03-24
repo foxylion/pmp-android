@@ -48,6 +48,7 @@ import org.xml.sax.SAXException;
 
 import de.unistuttgart.ipvs.pmp.editor.exceptions.androidmanifestparser.AppIdentifierNotFoundException;
 import de.unistuttgart.ipvs.pmp.editor.util.AndroidManifestAdapter;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 
 /**
  * The {@link WizardPage} of the AIS wizard
@@ -74,9 +75,9 @@ public class WizardPageCreateAIS extends WizardPage {
      * @param pageName
      */
     public WizardPageCreateAIS(ISelection selection) {
-        super("App-Information-Set");
-        setTitle("App-Information-Set File");
-        setDescription("This wizard creates a new App-Information-Set for a PMP compatible Application.");
+        super("App-Information-Set"); //$NON-NLS-1$
+        setTitle(I18N.wizard_ais_title);
+        setDescription(I18N.wizard_ais_description);
     }
     
     
@@ -93,7 +94,7 @@ public class WizardPageCreateAIS extends WizardPage {
         
         // Project label
         Label label = new Label(container, SWT.NULL);
-        label.setText("&Assets folder:");
+        label.setText(I18N.wizard_general_folder + ":"); //$NON-NLS-1$
         this.assetsFolderText = new Text(container, SWT.BORDER | SWT.SINGLE);
         GridData gd = new GridData(GridData.FILL_HORIZONTAL);
         this.assetsFolderText.setLayoutData(gd);
@@ -107,7 +108,7 @@ public class WizardPageCreateAIS extends WizardPage {
         
         // Button to browse the project
         Button button = new Button(container, SWT.PUSH);
-        button.setText("Browse...");
+        button.setText(I18N.general_browse);
         button.addSelectionListener(new SelectionAdapter() {
             
             @Override
@@ -117,10 +118,10 @@ public class WizardPageCreateAIS extends WizardPage {
         });
         
         label = new Label(container, SWT.NULL);
-        label.setText("File name:");
+        label.setText(I18N.wizard_general_file + ":"); //$NON-NLS-1$
         
         Text fileText = new Text(container, SWT.BORDER | SWT.SINGLE);
-        fileText.setText("ais.xml");
+        fileText.setText("ais.xml"); //$NON-NLS-1$
         fileText.setEnabled(false);
         gd = new GridData(GridData.FILL_HORIZONTAL);
         fileText.setLayoutData(gd);
@@ -140,7 +141,7 @@ public class WizardPageCreateAIS extends WizardPage {
         new Text(container, SWT.NULL).setVisible(false);
         
         label = new Label(container, SWT.NULL);
-        label.setText("Identifier:");
+        label.setText(I18N.general_identifier + ":"); //$NON-NLS-1$
         
         this.identifier = new Text(container, SWT.BORDER | SWT.SINGLE);
         this.identifier.setEnabled(false);
@@ -158,12 +159,12 @@ public class WizardPageCreateAIS extends WizardPage {
      */
     private void handleBrowse() {
         ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace()
-                .getRoot(), false, "Select the project");
+                .getRoot(), false, I18N.wizard_general_selectdialog_text);
         if (dialog.open() == Window.OK) {
             Object[] result = dialog.getResult();
             if (result.length == 1) {
-                String[] split = ((Path) result[0]).toString().split("/");
-                this.assetsFolderText.setText("/" + split[1] + "/assets");
+                String[] split = ((Path) result[0]).toString().split("/"); //$NON-NLS-1$
+                this.assetsFolderText.setText("/" + split[1] + "/assets"); //$NON-NLS-1$ //$NON-NLS-2$
                 dialogChanged();
             }
         }
@@ -175,56 +176,56 @@ public class WizardPageCreateAIS extends WizardPage {
      */
     private void dialogChanged() {
         // Split only the project out of the string
-        String[] projects = getProjectName().split("/");
+        String[] projects = getProjectName().split("/"); //$NON-NLS-1$
         
         // The project name
-        String project = "";
+        String project = ""; //$NON-NLS-1$
         if (projects.length >= 2) {
-            project = "/" + projects[1];
+            project = "/" + projects[1]; //$NON-NLS-1$
         }
         
         IResource iRes = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(project));
         
         // Path doesn't start with a "/"
-        if (!getProjectName().startsWith("/")) {
-            updateStatus("Path has to start with \"/\"");
-            this.identifier.setText("");
+        if (!getProjectName().startsWith("/")) { //$NON-NLS-1$
+            updateStatus(I18N.wizard_general_error_pathstart);
+            this.identifier.setText(""); //$NON-NLS-1$
             return;
         }
         
         // No project entered
         if (getProjectName().length() == 0) {
-            updateStatus("Project must be specified");
-            this.identifier.setText("");
+            updateStatus(I18N.wizard_general_error_projectspecified);
+            this.identifier.setText(""); //$NON-NLS-1$
             return;
         }
         
         // Project doesn't exist
         if (iRes == null || (iRes.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
-            updateStatus("Project container must exist");
-            this.identifier.setText("");
+            updateStatus(I18N.wizard_general_error_projectcontainer);
+            this.identifier.setText(""); //$NON-NLS-1$
             return;
         }
         
         // Project isn't writable
         if (!iRes.isAccessible()) {
-            updateStatus("Project must be writable");
-            this.identifier.setText("");
+            updateStatus(I18N.wizard_general_error_projectwritable);
+            this.identifier.setText(""); //$NON-NLS-1$
             return;
         }
         
         // Check if it's an Android-Project
         try {
-            String appIdentifier = new AndroidManifestAdapter().getAppIdentifier(project + "/", "AndroidManifest.xml");
+            String appIdentifier = new AndroidManifestAdapter().getAppIdentifier(project + "/", "AndroidManifest.xml"); //$NON-NLS-1$ //$NON-NLS-2$
             this.identifier.setText(appIdentifier);
         } catch (ParserConfigurationException e) {
-            updateStatus("Project must be an Android-Project");
+            updateStatus(I18N.wizard_general_error_androidproject);
             return;
         } catch (SAXException e) {
-            updateStatus("Project must be an Android-Project");
+            updateStatus(I18N.wizard_general_error_androidproject);
             return;
         } catch (IOException e) {
-            updateStatus("Project must be an Android-Project");
+            updateStatus(I18N.wizard_general_error_androidproject);
             return;
         } catch (AppIdentifierNotFoundException e) {
             updateStatus(e.getMessage());
@@ -232,8 +233,8 @@ public class WizardPageCreateAIS extends WizardPage {
         }
         
         // Assets folder is not specified at the path
-        if (!getProjectName().endsWith(project + "/assets")) {
-            updateStatus("Assets folder must be specified at the root of your project");
+        if (!getProjectName().endsWith(project + "/assets")) { //$NON-NLS-1$
+            updateStatus(I18N.wizard_general_error_folder);
             return;
         }
         
@@ -272,10 +273,10 @@ public class WizardPageCreateAIS extends WizardPage {
      */
     public String getProjectOnly() {
         // Split only the project out of the string
-        String[] projects = getProjectName().split("/");
+        String[] projects = getProjectName().split("/"); //$NON-NLS-1$
         
         // The project name
-        String project = "";
+        String project = ""; //$NON-NLS-1$
         if (projects.length >= 2) {
             project = projects[1];
         }

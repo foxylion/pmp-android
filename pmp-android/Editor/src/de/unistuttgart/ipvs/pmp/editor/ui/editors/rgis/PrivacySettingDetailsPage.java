@@ -126,7 +126,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         this.identifierDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.PS_IDENTIFIER_MISSING));
         
-        toolkit.createLabel(compo, I18N.editor_rgis_ps_validvalues);
+        toolkit.createLabel(compo, I18N.general_validvalues);
         this.values = toolkit.createText(compo, null);
         this.values.setLayoutData(textLayout);
         this.values.addKeyListener(new KeyAdapter() {
