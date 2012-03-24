@@ -232,7 +232,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         // The attribute section
         Section attributeSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        attributeSection.setText("Attributes"); //$NON-NLS-1$
+        attributeSection.setText(I18N.general_attributes);
         attributeSection.setLayout(new GridLayout(1, false));
         attributeSection.setExpanded(true);
         attributeSection.setLayoutData(attributeLayout);

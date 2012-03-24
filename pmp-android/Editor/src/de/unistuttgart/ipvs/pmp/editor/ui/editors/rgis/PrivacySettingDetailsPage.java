@@ -89,8 +89,8 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         // Build view
         IssueTranslator it = new IssueTranslator();
         FormToolkit toolkit = this.form.getToolkit();
-        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
-        section.setText(I18N.editor_rgis_ps_ps);
+        Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+        section.setText(I18N.general_attributes);
         section.setExpanded(true);
         section.setLayoutData(parentLayout);
         
@@ -100,7 +100,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         GridData textLayout = new GridData();
         textLayout.horizontalAlignment = GridData.FILL;
         textLayout.grabExcessHorizontalSpace = true;
-        toolkit.createLabel(compo, I18N.general_identifier);
+        toolkit.createLabel(compo, I18N.general_identifier).setToolTipText(I18N.editor_rgis_ps_identifier_tooltip);
         this.identifier = toolkit.createText(compo, null);
         this.identifier.setLayoutData(textLayout);
         this.identifier.addKeyListener(new KeyAdapter() {
@@ -126,7 +126,8 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.identifierDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         this.identifierDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.PS_IDENTIFIER_MISSING));
         
-        toolkit.createLabel(compo, I18N.general_validvalues);
+        toolkit.createLabel(compo, I18N.general_validvalues).setToolTipText(I18N.editor_rgis_ps_validvalues_tooltip);
+        ;
         this.values = toolkit.createText(compo, null);
         this.values.setLayoutData(textLayout);
         this.values.addKeyListener(new KeyAdapter() {

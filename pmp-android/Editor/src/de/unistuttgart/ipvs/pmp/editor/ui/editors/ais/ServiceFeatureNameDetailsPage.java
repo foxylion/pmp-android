@@ -158,7 +158,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         // The attribute section
         Section attributeSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        attributeSection.setText(I18N.general_attribute);
+        attributeSection.setText(I18N.general_attributes);
         attributeSection.setLayout(new GridLayout(1, false));
         attributeSection.setExpanded(true);
         attributeSection.setLayoutData(attributeLayout);

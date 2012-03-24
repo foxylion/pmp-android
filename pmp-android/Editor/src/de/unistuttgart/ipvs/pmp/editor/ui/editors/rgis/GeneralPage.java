@@ -87,6 +87,7 @@ public class GeneralPage extends FormPage {
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
         // Set the section's parameters
         Section section = createSection(parent, I18N.editor_rgis_general_preferences, toolkit);
+        section.setDescription(I18N.editor_rgis_general_preferences_description);
         IssueTranslator it = new IssueTranslator();
         
         // Create elements stored inside this section
@@ -104,7 +105,8 @@ public class GeneralPage extends FormPage {
         final IRGIS rgis = this.model.getRgis();
         
         // Classname
-        toolkit.createLabel(client, I18N.editor_rgis_general_class);
+        toolkit.createLabel(client, I18N.editor_rgis_general_class).setToolTipText(
+                I18N.editor_rgis_general_class_tooltip);
         final Text classname = toolkit.createText(client, rgis.getClassName());
         classname.setLayoutData(textLayout);
         classname.addKeyListener(new KeyAdapter() {
@@ -130,7 +132,8 @@ public class GeneralPage extends FormPage {
         this.classnameDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.CLASSNAME_MISSING));
         
         // Icon
-        toolkit.createLabel(client, I18N.editor_rgis_general_icon);
+        toolkit.createLabel(client, I18N.editor_rgis_general_icon)
+                .setToolTipText(I18N.editor_rgis_general_icon_tooltip);
         final Text icon = toolkit.createText(client, rgis.getIconLocation());
         icon.setLayoutData(textLayout);
         icon.addKeyListener(new KeyAdapter() {
@@ -156,7 +159,8 @@ public class GeneralPage extends FormPage {
         this.iconDec.setDescriptionText(it.getTranslationWithoutParameters(IssueType.ICON_MISSING));
         
         // Identifier
-        toolkit.createLabel(client, I18N.general_identifier);
+        toolkit.createLabel(client, I18N.general_identifier)
+                .setToolTipText(I18N.editor_rgis_general_identifier_tooltip);
         final Text identifier = toolkit.createText(client, rgis.getIdentifier());
         identifier.addKeyListener(new KeyAdapter() {
             
@@ -190,6 +194,7 @@ public class GeneralPage extends FormPage {
     private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
         // Set the section's parameters
         Section section = createSection(parent, I18N.general_localization, toolkit);
+        section.setDescription(I18N.editor_rgis_general_localization_description);
         
         // Create elements stored inside this section
         Composite client = toolkit.createComposite(section);
@@ -241,7 +246,8 @@ public class GeneralPage extends FormPage {
      * @return
      */
     private Section createSection(Composite parent, String title, FormToolkit toolkit) {
-        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
+        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
+                | Section.DESCRIPTION);
         section.setText(title);
         section.setExpanded(true);
         

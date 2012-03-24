@@ -132,8 +132,8 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     private void addPropertiesSection(Composite parent, FormToolkit toolkit) {
         // Set the section's parameters
-        Section section = createSectionWithDescription(parent, I18N.editor_ais_general_manifestfunctions_title,
-                toolkit, I18N.editor_ais_general_manifestfunctions_text);
+        Section section = createSection(parent, I18N.editor_ais_general_manifestfunctions_title, toolkit,
+                I18N.editor_ais_general_manifestfunctions_text);
         
         // Create elements stored inside this section
         Composite client = toolkit.createComposite(section, SWT.WRAP);
@@ -141,9 +141,11 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
         client.setLayout(new GridLayout(2, false));
         
         Button pmpReg = toolkit.createButton(client, I18N.editor_ais_general_addactivity, SWT.PUSH);
+        pmpReg.setToolTipText(I18N.editor_ais_general_addactivity_tooltip);
         pmpReg.setImage(Images.IMG_OBJ_ADD);
         
         Button service = toolkit.createButton(client, I18N.editor_ais_general_addservice, SWT.PUSH);
+        service.setToolTipText(I18N.editor_ais_general_addservice_tooltip);
         service.setImage(Images.IMG_OBJ_ADD);
         pmpReg.addSelectionListener(this);
         service.addSelectionListener(this);
@@ -162,7 +164,8 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      */
     private void addLocalizationSection(Composite parent, FormToolkit toolkit) {
         // Set the section's parameters
-        Section section = createSection(parent, I18N.general_localization, toolkit);
+        Section section = createSection(parent, I18N.general_localization, toolkit,
+                I18N.editor_ais_general_localization_description);
         
         // Create elements stored inside this section
         Composite client = toolkit.createComposite(section);
@@ -215,7 +218,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            description of the Section
      * @return the created Section
      */
-    private Section createSectionWithDescription(Composite parent, String title, FormToolkit toolkit, String desc) {
+    private Section createSection(Composite parent, String title, FormToolkit toolkit, String desc) {
         Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR
                 | Section.DESCRIPTION);
         section.setDescription(desc);
@@ -243,7 +246,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
      *            {@link FormToolkit}
      * @return the creatde Section
      */
-    private Section createSection(Composite parent, String title, FormToolkit toolkit) {
+    /*private Section createSection(Composite parent, String title, FormToolkit toolkit) {
         Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
         section.setText(title);
         section.setExpanded(true);
@@ -255,8 +258,7 @@ public class AISGeneralPage extends FormPage implements SelectionListener {
         section.setLayoutData(layoutData);
         
         return section;
-    }
-    
+    }*/
     
     /*
      * (non-Javadoc)
