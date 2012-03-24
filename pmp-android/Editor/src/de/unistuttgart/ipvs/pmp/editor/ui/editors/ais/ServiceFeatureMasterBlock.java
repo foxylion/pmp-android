@@ -139,6 +139,9 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                 | ExpandableComposite.TITLE_BAR);
         section.setText(I18N.editor_ais_sf_sf);
         section.setExpanded(true);
+        section.marginWidth = 5;
+        section.marginHeight = 5;
+        
         creatSectionToolbar(section);
         
         Composite compo = toolkit.createComposite(section);
@@ -163,13 +166,16 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         rgButtonsComp.setLayoutData(buttonLayout);
         Button addSFButton = toolkit.createButton(rgButtonsComp, I18N.editor_ais_sf_addsf, SWT.PUSH);
+        addSFButton.setToolTipText(I18N.editor_ais_sf_addsf_tooltip);
         addSFButton.setImage(Images.IMG_OBJ_ADD);
         addSFButton.addSelectionListener(this);
         this.addRGButton = toolkit.createButton(rgButtonsComp, I18N.editor_ais_sf_addrg, SWT.PUSH);
+        this.addRGButton.setToolTipText(I18N.editor_ais_sf_addrg_tooltip);
         this.addRGButton.addSelectionListener(this);
         this.addRGButton.setEnabled(false);
         this.addRGButton.setImage(Images.IMG_OBJ_ADD);
         this.removeButton = toolkit.createButton(rgButtonsComp, I18N.general_remove, SWT.PUSH);
+        this.removeButton.setToolTipText(I18N.general_remove_tooltip);
         this.removeButton.setEnabled(false);
         this.removeButton.setImage(Images.IMG_ETOOL_DELETE);
         this.removeButton.addSelectionListener(this);

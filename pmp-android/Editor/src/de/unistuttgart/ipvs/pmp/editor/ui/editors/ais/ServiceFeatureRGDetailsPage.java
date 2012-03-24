@@ -248,7 +248,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         Label identifierLabel = new Label(attributeComp, SWT.NONE);
         
-        identifierLabel.setText(I18N.general_identifier + ":"); //$NON-NLS-1$
+        identifierLabel.setText(I18N.general_identifier);
+        identifierLabel.setToolTipText(I18N.editor_ais_sf_psidentifier_tooltip);
         
         this.identifierField = new Text(attributeComp, SWT.BORDER);
         this.identifierField.setLayoutData(textLayout);
@@ -284,7 +285,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // The minimum revision label and text
         Label minRevisionLabel = new Label(attributeComp, SWT.NONE);
-        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev + ":"); //$NON-NLS-1$
+        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev);
         minRevisionLabel.setToolTipText(I18N.editor_ais_sf_minimalrev_tooltip);
         
         this.revisionField = new Text(attributeComp, SWT.BORDER);
@@ -354,9 +355,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             }
         });
         
-        // The name section
+        // The privacy settings section
         this.psSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
-                | ExpandableComposite.TITLE_BAR);
+                | ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
+        this.psSection.setDescription(I18N.editor_ais_sf_requiredps_description);
         this.psSection.setLayout(new GridLayout(1, false));
         this.psSection.setExpanded(true);
         this.psSection.setLayoutData(parentLayout);
@@ -373,10 +375,12 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         psButtonsComp.setLayoutData(buttonLayout);
         Button addButton = toolkit.createButton(psButtonsComp, I18N.general_add + "...", SWT.PUSH); //$NON-NLS-1$
+        addButton.setToolTipText(I18N.general_add_tooltip);
         addButton.addSelectionListener(this);
         addButton.setImage(Images.IMG_OBJ_ADD);
         
         this.removeButton = toolkit.createButton(psButtonsComp, I18N.general_remove, SWT.PUSH);
+        this.removeButton.setToolTipText(I18N.general_remove_tooltip);
         this.removeButton.addSelectionListener(this);
         this.removeButton.setImage(Images.IMG_ETOOL_DELETE);
         this.removeButton.setEnabled(false);
