@@ -1,12 +1,31 @@
 package de.unistuttgart.ipvs.pmp.editor.util;
 
 import java.text.MessageFormat;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import org.eclipse.osgi.util.NLS;
 
+import de.unistuttgart.ipvs.pmp.xmlutil.validator.issue.IssueType;
+
+/**
+ * Handles the access to the external string- and issue-resources.
+ * 
+ * @author Patrick Strobel
+ * 
+ */
 public class I18N extends NLS {
     
-    private static final String BUNDLE_NAME = "de.unistuttgart.ipvs.pmp.editor.strings"; //$NON-NLS-1$
+    /**
+     * Bundle storing the string-resources used to translate the ui-widgets
+     */
+    private static final String STRING_BUNDLE_NAME = "de.unistuttgart.ipvs.pmp.editor.strings"; //$NON-NLS-1$
+    /**
+     * Bundle storing the issue-resources used to translate the issues. Used for issue-tooltips
+     */
+    private static final String ISSUE_BUNDLE_NAME = "de.unistuttgart.ipvs.pmp.editor.issues"; //$NON-NLS-1$
+    private static final ResourceBundle ISSUE_RESOURCE_BUNDLE = ResourceBundle.getBundle(ISSUE_BUNDLE_NAME);
+    
     public static String editor_ais_general_activityaddedmsg_text;
     public static String editor_ais_general_activityaddedmsg_title;
     public static String editor_ais_general_activityalreadydeclaredmsg_text;
@@ -143,7 +162,7 @@ public class I18N extends NLS {
     public static String wizard_rgis_writeerrormsg_title;
     static {
         // initialize resource bundle
-        NLS.initializeMessages(BUNDLE_NAME, I18N.class);
+        NLS.initializeMessages(STRING_BUNDLE_NAME, I18N.class);
     }
     
     
@@ -151,7 +170,38 @@ public class I18N extends NLS {
     }
     
     
+    /**
+     * Replaces the placeholders from a read string with the given variables *
+     * 
+     * @param input
+     *            String in which the placeholders should be replaced
+     * @param vars
+     *            Variables used while replacing
+     * @return The modified input-string
+     */
     public static String addVariables(String input, Object... vars) {
         return MessageFormat.format(input, vars);
+    }
+    
+    
+    /**
+     * Reads a translation for a given issue
+     * 
+     * @param type
+     *            Issue to get the translation for
+     * @param vars
+     *            Variables used to replace placeholder inside the read string
+     * @return The issue's translation
+     */
+    public static String getIssue(IssueType type, Object... vars) {
+        try {
+            String string = ISSUE_RESOURCE_BUNDLE.getString(type.name());
+            if (vars.length > 0) {
+                string = MessageFormat.format(string, vars);
+            }
+            return string;
+        } catch (MissingResourceException e) {
+            return '!' + type.toString() + '!';
+        }
     }
 }
