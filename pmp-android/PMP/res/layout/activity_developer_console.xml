@@ -255,6 +255,14 @@
 		            android:id="@+id/svc_nfc_working_switch"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"/>
+		        
+		        <Button
+		            android:id="@+id/pdc_svc_calc"
+		            android:layout_height="wrap_content"
+		            android:layout_width="0dp"
+		            android:layout_weight="1"
+		            android:paddingLeft="16dp"
+		            android:text="@string/dev_con_svc_nfc_calc" />
 
 		    </LinearLayout>
 

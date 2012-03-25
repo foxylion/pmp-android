@@ -962,6 +962,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             this.revisionDec.show();
             this.revisionDec.setDescriptionText(message);
         }
+        
+        this.parentTree.refresh();
     }
     
     
@@ -975,5 +977,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             this.psTableDec.setDescriptionText(new IssueTranslator()
                     .getTranslationWithoutParameters(IssueType.NO_RPS_EXISTS));
         }
+        
+        this.parentTree.refresh();
     }
 }

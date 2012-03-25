@@ -223,10 +223,7 @@ public class LocationContextView extends LinearLayout implements IContextView {
         this.points = (ExpandableListView) findViewById(R.id.coordinatesExpandableList);
         this.pointsList = new ExpandableGeoPointList();
         this.points.setAdapter(this.pointsList);
-        List<PMPGeoPoint> l = new ArrayList<PMPGeoPoint>();
-        l.add(new PMPGeoPoint(10, -10));
-        l.add(new PMPGeoPoint(-10, 10));
-        this.pointsList.update(l);
+        this.pointsList.update(this.value.getPolygon());
         
         this.changeBtn = (Button) findViewById(R.id.changeCoordsBtn);
         

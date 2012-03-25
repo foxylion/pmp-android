@@ -139,13 +139,16 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete preset granted privacy setting value references
-        wdb.execSQL("DELETE FROM " + TBL_GrantPSValue + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                + " = ?", new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
+        wdb.delete(TBL_GrantPSValue, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?", new String[] {
+                getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
         // delete preset assigned apps references
-        wdb.execSQL("DELETE FROM " + TBL_PresetAssignedApp + " WHERE " + PRESET_CREATOR + " = ? AND "
-                + PRESET_IDENTIFIER + " = ?",
-                new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
+        wdb.delete(TBL_PresetAssignedApp, PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ?", new String[] {
+                getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
+        
+        // delete preset
+        wdb.delete(TBL_PRESET, CREATOR + " = ? AND " + IDENTIFIER + " = ?", new String[] {
+                getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
         // delete context annotations
         for (List<ContextAnnotation> cas : this.element.contextAnnotations.values()) {
@@ -153,10 +156,6 @@ public class PresetPersistenceProvider extends ElementPersistenceProvider<Preset
                 ca.delete();
             }
         }
-        
-        // delete preset
-        wdb.execSQL("DELETE FROM " + TBL_PRESET + " WHERE " + CREATOR + " = ? AND " + IDENTIFIER + " = ?",
-                new String[] { getPresetCreatorString(this.element), this.element.getLocalIdentifier() });
         
     }
     

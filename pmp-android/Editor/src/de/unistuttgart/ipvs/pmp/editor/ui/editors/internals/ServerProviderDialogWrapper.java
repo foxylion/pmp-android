@@ -95,7 +95,7 @@ public class ServerProviderDialogWrapper {
      *            the status of this job
      */
     public void updateServerListWithJob(final Shell shell, final Boolean showErrors, IJobChangeListener listener) {
-        this.job = new Job(I18N.editor_ais_general_title) {
+        this.job = new Job(I18N.general_rgdownloaddialog_job) {
             
             @Override
             protected IStatus run(IProgressMonitor monitor) {

@@ -127,7 +127,7 @@ public class LocationContext implements IContext, LocationListener {
         } catch (InterruptedException e) {
             // Do nothing, desired behavior
         } finally {
-            looping.stop();
+            looping.interrupt();
             lm.removeUpdates(this);
         }
         

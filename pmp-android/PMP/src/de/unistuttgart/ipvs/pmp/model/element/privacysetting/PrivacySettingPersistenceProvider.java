@@ -54,9 +54,8 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
         // the preset will handle unavailable elements itself 
         
         // delete privacy settings
-        wdb.execSQL("DELETE FROM " + TBL_PRIVACYSETTING + " WHERE " + RESOURCEGROUP_PACKAGE + " = ? AND " + IDENTIFIER
-                + " = ?",
-                new String[] { this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
+        wdb.delete(TBL_PRIVACYSETTING, RESOURCEGROUP_PACKAGE + " = ? AND " + IDENTIFIER + " = ?", new String[] {
+                this.element.getResourceGroup().getIdentifier(), this.element.getLocalIdentifier() });
         
         // delete context annotations
         for (IContextAnnotation ca : getCache().getAllContextAnnotations()) {
