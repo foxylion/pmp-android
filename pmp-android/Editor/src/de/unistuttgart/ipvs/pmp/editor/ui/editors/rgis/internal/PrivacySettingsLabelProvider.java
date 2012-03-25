@@ -51,14 +51,14 @@ public class PrivacySettingsLabelProvider extends LabelProvider {
             }
             
             if (element instanceof NameString) {
-                return I18N.general_name + ":" + string; //$NON-NLS-1$
+                return I18N.general_name + ": " + string; //$NON-NLS-1$
             }
             if (element instanceof DescriptionString) {
-                return I18N.general_description + ":" + string; //$NON-NLS-1$
+                return I18N.general_description + ": " + string; //$NON-NLS-1$
             }
             
             if (element instanceof ChangeDescriptionString) {
-                return I18N.editor_rgis_ps_changedescription + ":" + string; //$NON-NLS-1$
+                return I18N.editor_rgis_ps_changedescription + ": " + string; //$NON-NLS-1$
             }
         }
         
