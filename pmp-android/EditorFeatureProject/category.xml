@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/EditorFeatureProject_1.0.0.0.jar" id="EditorFeatureProject" version="1.0.0.0">
@@ -5,3 +6,12 @@
    </feature>
    <category-def name="eis" label="Editor for Information Sets"/>
 </site>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/EditorFeatureProject_1.0.0.0.jar" id="EditorFeatureProject" version="1.0.0.0">
+      <category name="eis"/>
+   </feature>
+   <category-def name="eis" label="Editor for Information Sets"/>
+</site>
+>>>>>>> 611e09a9502bb065fc12d62aea30027d183b9174
