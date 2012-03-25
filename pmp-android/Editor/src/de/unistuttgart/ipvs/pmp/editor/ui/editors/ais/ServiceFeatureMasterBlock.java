@@ -296,7 +296,6 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
             }
         });
         
-        // Picture can be added also to the actions
         Action refresh = new Action(I18N.editor_ais_sf_updaterglist_tooltip, Images.getImageDescriptor("icons", //$NON-NLS-1$
                 "update.gif")) { //$NON-NLS-1$
         
@@ -307,8 +306,19 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         };
         refresh.setToolTipText(I18N.editor_ais_sf_updaterglist_tooltip);
         
+        Action expand = new Action("Expand all", Images.getImageDescriptor("icons", //$NON-NLS-1$ //$NON-NLS-2$
+                "expandall.gif")) { //$NON-NLS-1$
+        
+            @Override
+            public void run() {
+                treeViewer.expandAll();
+            }
+        };
+        expand.setToolTipText(I18N.editor_ais_sf_expand_all_tooltip);
+        
         // Add the actions to the toolbar
         toolBarManager.add(refresh);
+        toolBarManager.add(expand);
         
         toolBarManager.update(true);
         section.setTextClient(toolbar);

@@ -64,6 +64,7 @@ public class I18N extends NLS {
     public static String editor_ais_sf_allpsaddedmsg_text;
     public static String editor_ais_sf_allpsaddedmsg_title;
     public static String editor_ais_sf_descriptions_description;
+    public static String editor_ais_sf_expand_all_tooltip;
     public static String editor_ais_sf_identifier_tooltip;
     public static String editor_ais_sf_minimalrev;
     public static String editor_ais_sf_minimalrev_tooltip;

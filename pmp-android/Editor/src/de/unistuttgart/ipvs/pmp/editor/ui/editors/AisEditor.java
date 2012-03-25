@@ -123,6 +123,7 @@ public class AisEditor extends FormEditor {
             MessageDialog.openError(getSite().getShell(), I18N.general_notopenedmsg_title,
                     I18N.general_notopenedmsg_text);
         }
+        setPartName(split[1] + " AIS");
     }
     
     

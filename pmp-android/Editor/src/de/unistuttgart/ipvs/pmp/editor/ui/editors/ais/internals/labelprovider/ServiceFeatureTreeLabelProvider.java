@@ -55,6 +55,8 @@ public class ServiceFeatureTreeLabelProvider extends LabelProvider {
             AISServiceFeature sf = (AISServiceFeature) element;
             if (!sf.getIssues().isEmpty()) {
                 return Images.ERROR16;
+            } else {
+                return Images.getImageDescriptor("icons", "showcat_co.gif").createImage();
             }
         }
         
@@ -62,6 +64,8 @@ public class ServiceFeatureTreeLabelProvider extends LabelProvider {
             AISRequiredResourceGroup rg = (AISRequiredResourceGroup) element;
             if (!rg.getIssues().isEmpty()) {
                 return Images.ERROR16;
+            } else {
+                return Images.getImageDescriptor("icons", "plugin_obj.gif").createImage();
             }
         }
         

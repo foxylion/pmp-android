@@ -7,7 +7,7 @@
             name="AIS Editor"
             default="true"
             filenames="ais.xml"
-            icon="icons/sample.gif"
+            icon="icons/pmpicon.gif"
             class="de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor"
             id="de.unistuttgart.ipvs.pmp.editor.ui.editors.AisEditor">
       </editor>
@@ -15,7 +15,7 @@
             name="RGIS Editor"
             default="true"
             filenames="rgis.xml"
-            icon="icons/sample.gif"
+            icon="icons/pmpicon.gif"
             class="de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor"
             id="de.unistuttgart.ipvs.pmp.editor.ui.editors.RgisEditor">
       </editor>

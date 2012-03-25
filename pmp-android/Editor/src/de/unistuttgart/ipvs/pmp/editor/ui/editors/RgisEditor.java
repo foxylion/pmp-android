@@ -51,12 +51,12 @@ public class RgisEditor extends FormEditor {
     
     @Override
     protected void addPages() {
+        // Parse XML-File
+        FileEditorInput input = (FileEditorInput) getEditorInput();
         try {
             this.model.setEditor(this);
             RGUtil rgutil = XMLUtilityProxy.getRGUtil();
             
-            // Parse XML-File
-            FileEditorInput input = (FileEditorInput) getEditorInput();
             IRGIS rgis;
             try {
                 // Synchronize if out of sync (better: show message)
@@ -78,6 +78,8 @@ public class RgisEditor extends FormEditor {
         } catch (CoreException e) {
             e.printStackTrace();
         }
+        
+        setPartName(input.getFile().getFullPath().toString().split("/")[1] + " RGIS");
     }
     
     
