@@ -49,7 +49,7 @@ public class LocationContextCondition {
             
             List<PMPGeoPoint> poly = new ArrayList<PMPGeoPoint>();
             String[] coords = match.group(4).split("--");
-            for (int i = 0; i < coords.length - 1; i++) {
+            for (int i = 0; i < coords.length; i++) {
                 String[] coord = coords[i].split("~");
                 poly.add(new PMPGeoPoint(Double.valueOf(coord[0]), Double.valueOf(coord[1])));
             }
