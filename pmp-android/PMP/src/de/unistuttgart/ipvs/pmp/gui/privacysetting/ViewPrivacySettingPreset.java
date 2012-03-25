@@ -325,14 +325,14 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         };
         
         ImageView state = (ImageView) v.findViewById(R.id.ImageView_Context_State);
-        if (context.isActive()) {
-            state.setImageResource(R.drawable.icon_success);
-            state.setVisibility(View.VISIBLE);
-            state.setOnClickListener(null);
-        } else if (conflictingContextAnnotations.size() > 0 || conflictingPrivacySettings.size() > 0) {
+        if (conflictingContextAnnotations.size() > 0 || conflictingPrivacySettings.size() > 0) {
             state.setImageResource(R.drawable.icon_alert);
             state.setVisibility(View.VISIBLE);
             state.setOnClickListener(oclConflicting);
+        } else if (context.isActive()) {
+            state.setImageResource(R.drawable.icon_success);
+            state.setVisibility(View.VISIBLE);
+            state.setOnClickListener(null);
         } else {
             state.setVisibility(View.GONE);
             state.setOnClickListener(null);
