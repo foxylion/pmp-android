@@ -1,0 +1,571 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>Spezifikation - InfoApp (Informations-App)</title>
+        <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="../../_layout/script.js"></script>
+        <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+
+        <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+        <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+        <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="page-head-date">24. Februar 2012</div>
+            <div id="page-head-title">InfoApp</div>
+            <div id="page-title">InfoApp Spezifikation</div>
+            <div id="page-version">Version 3.8</div>
+
+            <nav>
+                <div class="title">Inhaltsverzeichnis</div>
+                <ul>
+                </ul>
+            </nav>
+
+            <!-- here comes the content of the specification -->
+            <div id="content">
+
+                <h1 id="versionshistorie">Versionshistorie</h1>
+
+                <h3>Version 3.8 FINAL (24.02.2012)</h3>
+                <ul>
+                    <li>Finale Version nach 2. Review</li>
+                </ul>
+
+		<h3>Version 3.7 (22.02.2012)</h3>
+                <ul>
+                    <li>Bilder wieder eingefügt</li>
+                    <li>Kleinere Verbesserungen</li>
+                </ul>
+
+		<h3>Version 3.6 (21.02.2012)</h3>
+                <ul>
+                    <li>Begriffslexikon verbessert</li>
+                    <li>Grammatikalische Verbesserungen vorgenommen</li>
+                </ul>
+
+
+		<h3>Version 3.5 (13.02.2012)</h3>
+                <ul>
+                    <li>Erneut Ressourcengruppen verbessert</li>
+                    <li>Panels verbessert</li>
+                </ul>
+
+                
+                <h3>Version 3.4 (08.02.2012)</h3>
+                <ul>
+                    <li>Erneut Ressourcengruppen verbessert</li>
+                    <li>Panels verbessert</li>
+                </ul>
+
+                <h3>Version 3.3 (06.02.2012)</h3>
+                <ul>
+                    <li>Ressourcengruppen verbessert</li>
+                    <li>Panels hinzugefügt</li>
+                </ul>
+
+
+                <h3>Version 3.2 (03.02.2012)</h3>
+                <ul>
+                    <li>Verbesserter GUI Prototyp</li>
+                    <li>Ressourcengruppen hinzugefügt</li>
+                </ul>
+
+
+                <h3>Version 3.1 (31.01.2012)</h3>
+                <ul>
+                    <li>Etwas bezüglich der Oberfläche hinzugefügt.</li>
+                    <li>Die entsprechenden Use Cases in einem externen Dokument verfasst.</li>
+                </ul>
+
+
+                <h3>Version 3.0 (29.01.2012)</h3>
+                <ul>
+                    <li>Erstes Gerüst der Spezifikationsvorlage</li>
+                </ul>
+
+
+                <h1 id="einleitung">Einleitung</h1>
+                <p></p>
+
+                <h2 id="zweck">Zweck</h2>
+                <p>Dieses Dokument stellt die Spezifikation des Projektes InfoApp dar. Diese wird im Rahmen des Studienprojekts als eine Beispielapp für das Hauptprojekt "Privacy Management Platform" entwickelt.
+                    Das Dokument summiert die Ergebnisse der Analyse und repräsentiert die Grundlage für die spätere Entwicklung.
+                    Es ist daher eine vertragliche Grundlage für Kunde und Entwickler, um die zu entstehende
+                    Software und ihre Funktionalität so ausführlich und vollständig wie möglich zu beschreiben,
+                    damit die weitere Entwicklung stets auf dieses Dokument zurückgreifen kann.</p>
+                <p>Die Spezifikation definiert dabei einen grafischen Prototypen für die spätere Benutzeroberfläche,
+                    beschreibt die gewünschten Funktionsabläufe und definiert im Begriffslexikon die
+                    Bedeutung von speziellen Begriffen.</p>
+
+                <h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
+                <p>Die InfoApp dient hauptsächlich als Informationsapplikation um möglichst viele Funktionalitäten von PMP darzustellen und Features zu nutzen. Dazu gehört hauptsächlich die Demonstration der Ressourcengruppen.</p>
+
+
+                <h2 id="leserkreis">Leserkreis</h2>
+                <p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+                <ul>
+                    <li>den Entwicklern von der InfoApp</li>
+					<li>den Entwicklern von PMP</li>
+                    <li>dem Kunden</li>
+                    <li>den Betreuern des Studienprojekts</li>
+                </ul>
+
+                <div class="pagebreak"></div>
+
+                <h2 id="konventionen">Konventionen</h2>
+                <p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
+                <ul>
+                    <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
+                    <li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
+                    <li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
+                    <li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
+                </ul>
+
+
+                <h1 id="funktionale-anforderungen">Funktionale Anforderungen</h1>
+
+                <h2 id="anforderungen-an-pmp">Anforderungen an die InfoApp</h2>
+
+                <h3 id="oberflaeche">Oberfläche</h3>
+                <p>Die Oberfläche der InfoApp wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
+
+                <h3 id="standardeinstellungen">Standardeinstellungen</h3>
+                <p>Die InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. Die einzige Bedingung ist, dass PMP installiert sein muss.</p>
+
+
+                <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
+                <h2 id="bedienbarkeit">Bedienbarkeit</h2>
+                <p>Die InfoApp wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
+
+                <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
+                <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+
+                <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+                <p>Die InfoApp wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v3.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
+
+                <h2 id="internationalisierung">Internationalisierung</h2>
+                <p>Die einzige verfügbare Sprache für InfoApp ist Englisch, wobei weitere Übersetzungen ohne Anpassung des Quellcodes hinzugefügt werden können.</p>
+
+                <h2 id="installation">Installation</h2>
+                <p>Die InfoApp wird im apk-Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
+
+                <h2 id="wartbarkeit">Wartbarkeit</h2>
+                <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
+
+                <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
+                <p>Die InfoApp hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
+
+                <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. Die InfoApp wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+
+                <div class="pagebreak"></div>
+
+                <h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
+				Das Start-Panel kann vom Benutzer in den Einstellungen der InfoApp festgelegt werden.
+
+                <h2 id="ui-mainactivity">Start-Panel</h2>
+                <div class="uip">
+                    <a href="gui-prototype/panel-weather.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/panel-weather.png" alt="Home" class="left" width="300" />
+                    </a>
+                    <p>Nach dem Starten der InfoApp wird automatisch das Start-Panel (hier: Wetter-Panel) geöffnet.<br>Grundsätzlich wird in der InfoApp eine Kopfzeile angezeigt, in der unter anderem der Name des gerade aktiven Panels angezeigt wird.</p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="uip">
+                    <a href="gui-prototype/switch.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/switch.png" alt="Home" class="left" width="300" />
+                    </a>
+                    <p>Durch eine Wisch-Geste auf dem Bildschirm kann zwischen den einzelnen Panels hin- und hergewechselt werden. Auf jedem Panel werden bestimmte Ressourcengruppen verwendet. Die Anzahl der verfügbaren Panels richtet sich nach den installierten Ressourcengruppen und den gewährten Rechten.<br>Eine Übersicht über alle Panels befindet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="uip">
+                    <a href="gui-prototype/settings.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/settings.png" alt="Home" class="left" width="300" />
+                    </a>
+                    <p>Mit der "Menü"-Taste können die Einstellungen der InfoApp geöffnet werden.</p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+
+
+            <h2 id="ui-panels">Panels</h2>
+            <p>In jedem Panel werden je nach Berechtigung die Informationen dargestellt.</p>
+
+            <h3  id="panel-rss">Nachrichten-Panel</h3>
+	    <div class="uip">
+            <a href="gui-prototype/panel-rss.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-rss.png" alt="Home" class="left" width="300" />
+            </a>
+            <p>In diesem Panel werden verschiedene RSS-Feeds abgerufen und dargestellt.</p>
+            <p><em>Verwendet die RSS-Feed-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+
+            <h3 id="panel-bookmarks">Bookmarks-Panel</h3>
+<div class="uip">
+            <a href="gui-prototype/panel-bookmarks.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-bookmarks.png" alt="Home" class="left" width="300" />
+            </a>
+ <p>In diesem Panel werden die zehn neuesten Bookmarks eingeblendet. Bei entsprechenden Berechtigungen können die Bookmarks auch bearbeitet werden.</p>
+            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+           
+
+            <h3 id="panel-browserhistory">Browserhistory-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-browserhistory.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-browserhistory.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel werden die zehn zuletzt besuchten Seiten angezeigt. Bei entsprechender Berechtigung kann die History gelöscht werden.</p>
+            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+
+            <h3  id="panel-searchistory">Suchhistory-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-searchistory.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-searchistory.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel werden die letzten zehn Suchanfragen angezeigt. Bei entsprechender Berechtigung kann die History gelöscht werden.</p>
+            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+
+            <h3 id="panel-translation">Übersetzungs-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-translation.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-translation.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel kann ein Text von Englisch ins Deutsche übersetzt werden.</p>
+            <p><em>Verwendet die Übersetzungs-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+
+                        <h3 id="panel-location">Standort-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-location.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-location.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel wird eine Karte, sowie weitere Details über den aktuellen Standort angezeigt. Hierbei können die GPS-Genauigkeit, Geschwindigkeit und GPS-Koordinaten angezeigt werden.</p>
+            <p><em>Verwendet die Standort-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+            
+            <h3  id="panel-weather">Wetter-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-weather.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-weather.png" alt="Home" class="left" width="300" />
+            </a>
+<p>In diesem Panel wird das lokale Wetter für die nächsten Tage angezeigt.</p>
+	    <p><em>Verwendet die Wetter- und Standort-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+            <!--
+			
+            <h3 id="panel-contacts">Kontakte-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-contacts.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-contacts.png" alt="Home" class="left" width="300" />
+            </a>
+<p>Es werden je nach Berechtigung die Kontakte mit verschiedenen Details wie Vorname, Nachname, Email, vollständiger Adresse und das Benutzerbild angezeigt.</p>
+	    <p><em>Verwendet die Kontakte-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+            
+            <h3 id="panel-hardware">Hardware-Panel</h3>
+            <div class="uip">
+            <a href="gui-prototype/panel-hardware.png" rel="ui-prototype" class="fancybox">
+            <img src="gui-prototype/panel-hardware.png" alt="Home" class="left" width="300" />
+            </a>
+	    <p>Es werden je nach Berechtigung verschiedene Informationen über Hardware-Geräte wie Kamera, Audio, GPS, Bluetooth und WLAN angezeigt. Bei entsprechenden Berechtigungen können diese Geräte auch ein-/ausgeschaltet bzw. konfiguriert werden.</p>
+	    <p><em>Verwendet die Hardware-Ressourcengruppe.</em></p>
+	    <div class="clear"></div>
+            </div>
+			
+			-->
+
+            <div class="pagebreak"></div>
+
+            <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
+            <div class="uip">
+                <p>
+                    Es werden alle Ressourcengruppen aufgelistet, die neu implementiert oder modifiziert werden.
+                    Es wird jeweils der Deutsche Name, der Englische Name und der Klassenpfad der Ressourcengruppe in der Form [Name, full.class.path] angegeben.<br />
+                    Zu jeder Ressourcengruppe werden die einzelnen Privacy Settings erläutert und bei jedem Privacy Setting die möglichen Werte aufgelistet.
+                </p>
+            </div>
+
+
+            <h2 id="rss-feed">RSS-Feeds</h2>
+            <p>[RSS-Feeds, de.unistuttgart.ipvs.pmp.resourcegroups.rssfeeds]</p>
+            <p>Ermöglicht das Empfangen von RSS-Feeds.</p>
+		    <ul>
+			<li>
+			    <h3 id="rss-feed-1">RSS-Feeds abrufen</h3>
+			    <p>Erlaubt das Abrufen von RSS Feeds aus dem Internet.</p>
+			    <p><em>true, false</em></p>
+			</li>
+			<li>
+			    <h3 id="rss-feed-2">Speziellen RSS-Feeds abrufen</h3>
+			    <p>Kann benutzt werden um den Zugriff auf bestimmte RSS-Feeds zu beschränken</p>
+			    <p><em>url, url[]</em></p>
+			</li>
+		    </ul>
+
+		                <h2 id="weather">Wetter</h2>
+            <p>[Weather, de.unistuttgart.ipvs.pmp.resourcegroups.weather]</p>
+            <p>Ermöglicht das Abrufen von Wetterinformationen.</p>
+		    <ul>
+			<li>
+			    <h3 id="rss-feed-1">Wetter abrufen</h3>
+			    <p>Erlaubt das Abrufen von Wetterdaten aus dem Internet.</p>
+			    <p><em>true, false</em></p>
+			</li>
+		    </ul>
+            
+            <h2 id="translation">Online-Übersetzung</h2>
+            <p>[Translation, de.unistuttgart.ipvs.pmp.resourcegroups.translation]</p>
+            <p>Ermöglicht das automatische Übersetzen von Texten.</p>
+		    <ul>
+			<li>
+			    <h3 id="rss-feed-1">Online Übersetzung verwenden</h3>
+			    <p><em>true, false</em></p>
+			</li>
+		    </ul>
+		    
+			<!--
+            <h2 id="filesystem">Dateisystem</h2>
+            <p>[FileSystem, de.unistuttgart.ipvs.pmp.resourcegroups.filesystem]</p>
+            <p>Ermöglicht den Zugriff auf den internen Speicher von Android oder auf die SD-Karte</p>
+        <ul>
+                        <li>
+                            <h3 id="filesystem-">Dateizugriff (lesen)</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="filesystem-">Dateizugriff (schreiben)</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="filesystem-">Dateizugriff (löschen)</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="filesystem-">Dateizugriff (Pfad)</h3>
+                            <p><em>null, path, path[]</em></p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2 id="hardware">Hardware</h2>
+            <p>[hardware, de.unistuttgart.ipvs.pmp.resourcegroups.hardware]</p>
+            <ul>
+                <li>
+                    <h3 id="bluetooth">Bluetooth</h3>                 
+                    <ul>
+                        <li>
+                            <h3 id="bluetooth-status">Bluetooth-Status auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="bluetooth-status">Bluetooth-Status ändern</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 id="wifi">WLAN</h3>                 
+                    <ul>
+                        <li>
+                            <h3 id="wifi-status">WLAN-Status auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="wifi-status">WLAN-Status ändern</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 id="battery">Batterie</h3>
+                    <ul>
+                        <li>
+                            <h3 id="battery-status">Batterie-Status auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2 id="contacts">Kontakte</h2>
+            <p>[Contacts, de.unistuttgart.ipvs.pmp.resourcegroups.contacts]</p>
+                    <ul>
+                        <li>
+                            <h3 id="contactlist-access">Vorname anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Nachname anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Emailadresse anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Adresse anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                        <li>
+                            <h3 id="contactlist-access">Benutzerbild anzeigen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+-->
+            <h2 id="browser">Browser</h2>
+            <p>[Browser, de.unistuttgart.ipvs.pmp.resourcegroups.browser]</p>
+            <ul>
+                <li>
+                    <h3 id="bookmarks">Bookmarks</h3>                 
+                    <ul>
+                        <li>
+                            <h3 id="bookmarks-access">Bookmarks auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                                                <li>
+                            <h3 id="bookmarks-access">Bookmarks bearbeiten</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 id="history">History</h3>                 
+                    <ul>
+                        <li>
+                            <h3 id="history-access">Browser-History auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                                                <li>
+                            <h3 id="history-access">Browser-History löschen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3 id="search-history">Such-History</h3>                 
+                    <ul>
+                        <li>
+                            <h3 id="search-history-access">Such-History auslesen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                                                <li>
+                            <h3 id="search-history-access">Such-History löschen</h3>
+                            <p><em>true, false</em></p>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="clear"></div>
+
+            <div class="pagebreak"></div>
+            <h1 id="begriffslexikon">Begriffslexikon</h1>
+            <h2 id="bgl-app">App</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>App</th></tr>
+                <tr><th class="left">Synonyme</th><td>Applikation</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Eine App ist eine lauffähige Software, die auf einem Android-System ausgeführt wird. Eine App definiert mindestens ein Service Feature, das mehrere Services enthalten kann. Eine App kann über eine Schnittstelle Ressourcengruppen über PMP benutzen. Eine App kann eigene Ressourcengruppen in die PMP einfügen.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Die Demo-Szenarien, die entwickelt werden, sind Apps.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>Nicht unter den Begriff App fällt zur PMP inkompatible, nicht-ausführbare oder nicht-mobile Software.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Eine App erlangt Bedeutung für die PMP, sobald über sie Ressourcengruppen oder Kontexte importiert werden oder sie in PMP für Ressourcenzugriffe eingebunden wird. Die App wird wieder irrelevant, sobald der Import aufgehoben wird oder die App deinstalliert wird.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Eine App wird durch ihren Namen identifiziert und durch ihre Funktionalität beschrieben.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+            </table>
+
+	    <h2 id="bgl-panel">Panel</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>Panel</th></tr>
+                <tr><th class="left">Synonyme</th><td>-</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppe von PMP.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Im Wetter-Panel wird das lokale Wetter für die nächsten Tage angezeigt.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>-</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Das Panel bleibt gültig, solange die InfoApp gestartet ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Das Panel wird durch die zugehörige Ressourcengruppe und den Namen des Panels eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+            </table>
+                     
+
+            <h2 id="bgl-privacysetting">Privacy Setting</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>
+                <tr><th class="left">Synonyme</th><td>Privacy Flag, Privacy Level</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Ein Privacy Setting ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Setting kann kontext-abhängig sein. Seine konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Settings wie "Lesen" oder "Schreiben" anbieten.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>Ein Privacy Setting ist weder ein Service Feature noch ein Preset.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Das Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Das Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span></td></tr>
+            </table>
+
+            <h2 id="bgl-ressource">Ressource</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>Ressource</th></tr>
+                <tr><th class="left">Synonyme</th><td>-</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Eine Ressource ist eine konkrete Funktions- oder Daten-Schnittstelle, deren Privatsphäre reguliert werden soll.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Die Ressourcengruppe "E-Mail-Zugriff" könnte die Ressourcen "Absender", "Empfänger", "Betreff", "Inhalt" und "Anhang" enthalten.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>Eine Ressource ist keine Ressourcengruppe. Eine Ressource ist nach Definition auch keine allgemeine, eingebundene Datei.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Die Ressource bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Die Ressource wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
+            </table>
+
+            <div class="pagebreak"></div>
+
+            <h2 id="bgl-ressourcengruppe">Ressourcengruppe</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>Ressourcengruppe</th></tr>
+                <tr><th class="left">Synonyme</th><td>Ressourcenkategorie</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Eine Ressourcengruppe ist eine sinnverwandte Zusammenfassung einzelner Ressourcen.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Es könnte eine Ressourcengruppe zum Zugriff auf das Dateisystem, auf GPS-Empfang oder auf einen Web-Service geben.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>Eine Ressourcengruppe ist weder eine Ressource noch eine Gruppe von Ressourcengruppen.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Die Ressourcengruppe bleibt gültig, solange die entsprechende App in PMP eingebunden ist.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Die Ressourcengruppe wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>-</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+            </table>
+
+
+
+            <h2 id="bgl-servicefeature">Service Feature</h2>
+            <table>
+                <tr><th class="left">Begriff</th><th>Service Feature</th></tr>
+                <tr><th class="left">Synonyme</th><td>-</td></tr>
+                <tr><th class="left">Bedeutung</th><td>Ein Service Feature ist eine Menge von Services, die bereitgestellt werden unter der Voraussetzung, dass eine Menge von Privacy Settings erfüllt wird.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Die App "Kalender" könnte die Service Features "Kalendereinträge lesen", "Kalendereinträge schreiben" und "Kalendereinträge per E-Mail versenden" anbieten. Dabei werden jeweils höhere Einstellungen der Privacy Setting verschiedener Ressourcengruppen verlangt, aber dafür auch mehr Services angeboten.</td></tr>
+                <tr><th class="left">Abgrenzung</th><td>Ein Service Feature ist weder ein Privacy Setting noch ein Preset.</td></tr>
+                <tr><th class="left">Gültigkeit</th><td>Ein Service Feature bleibt gültig, solange die entsprechende App in PMP eingebunden ist. Es können mehrere Service Features gleichzeitig aktiviert sein.</td></tr>
+                <tr><th class="left">Bezeichnung</th><td>Das Service Feature wird durch die zugehörige App und ihren Namen eindeutig identifiziert.</td></tr>
+                <tr><th class="left">Unklarheiten</th><td>Das aus der Spezifikationsversion 1.x bekannte Service Level wird vom Service Feature abgelöst.</td></tr>
+                <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-app"></span></td></tr>
+            </table>
+
+            <div class="pagebreak"></div>
+
+        </div>
+    </body>
+</html>
