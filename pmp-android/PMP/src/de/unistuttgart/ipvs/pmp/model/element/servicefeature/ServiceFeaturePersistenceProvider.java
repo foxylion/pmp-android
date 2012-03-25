@@ -88,13 +88,12 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete service feature required privacy setting values references
-        wdb.execSQL("DELETE FROM " + TBL_SFReqPSValue + " WHERE " + SERVICEFEATURE_APP_PACKAGE + " = ? AND "
-                + SERVICEFEATURE_IDENTIFIER + " = ?", new String[] { this.element.getApp().getIdentifier(),
-                this.element.getLocalIdentifier() });
+        wdb.delete(TBL_SFReqPSValue, SERVICEFEATURE_APP_PACKAGE + " = ? AND " + SERVICEFEATURE_IDENTIFIER + " = ?",
+                new String[] { this.element.getApp().getIdentifier(), this.element.getLocalIdentifier() });
         
         // delete service feature
-        wdb.execSQL("DELETE FROM " + TBL_SERVICEFEATURE + " WHERE " + APP_PACKAGE + " = ? AND " + IDENTIFIER + " = ?",
-                new String[] { this.element.getApp().getIdentifier(), this.element.getLocalIdentifier() });
+        wdb.delete(TBL_SERVICEFEATURE, APP_PACKAGE + " = ? AND " + IDENTIFIER + " = ?", new String[] {
+                this.element.getApp().getIdentifier(), this.element.getLocalIdentifier() });
         
     }
     

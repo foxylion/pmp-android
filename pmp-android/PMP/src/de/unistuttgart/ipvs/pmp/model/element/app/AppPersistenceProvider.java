@@ -72,8 +72,7 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         // the preset will handle unavailable elements itself  
         
         // delete app
-        wdb.execSQL("DELETE FROM " + TBL_APP + " WHERE " + PACKAGE + " = ?",
-                new String[] { this.element.getIdentifier() });
+        wdb.delete(TBL_APP, PACKAGE + " = ?", new String[] { this.element.getIdentifier() });
         
         // delete service features
         for (ServiceFeature sf : this.element.serviceFeatures.values()) {

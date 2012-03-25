@@ -79,10 +79,11 @@ public class ContextAnnotationPersistenceProvider extends ElementPersistenceProv
     @Override
     protected void deleteElementData(SQLiteDatabase wdb, SQLiteQueryBuilder qb) {
         // delete this annotation
-        wdb.execSQL(
-                "DELETE FROM " + TBL_CONTEXT_ANNOTATIONS + " WHERE " + PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER
-                        + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ? AND " + PRIVACYSETTING_IDENTIFIER
-                        + " = ? AND " + PRESET_PRIVACY_SETTING_ANNOTATION_ID + " = ?",
+        wdb.delete(
+                TBL_CONTEXT_ANNOTATIONS,
+                PRESET_CREATOR + " = ? AND " + PRESET_IDENTIFIER + " = ? AND " + PRIVACYSETTING_RESOURCEGROUP_PACKAGE
+                        + " = ? AND " + PRIVACYSETTING_IDENTIFIER + " = ? AND " + PRESET_PRIVACY_SETTING_ANNOTATION_ID
+                        + " = ?",
                 new String[] { PersistenceProvider.getPresetCreatorString(this.element.preset),
                         this.element.preset.getLocalIdentifier(),
                         this.element.privacySetting.getResourceGroup().getIdentifier(),
