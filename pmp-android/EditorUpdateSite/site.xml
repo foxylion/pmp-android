@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/EditorFeatureProject_1.0.0.0.jar" id="EditorFeatureProject" version="1.0.0.0">
-      <category name="eis"/>
-   </feature>
-   <category-def name="eis" label="Editor for Information Sets (EIS"/>
-</site>
