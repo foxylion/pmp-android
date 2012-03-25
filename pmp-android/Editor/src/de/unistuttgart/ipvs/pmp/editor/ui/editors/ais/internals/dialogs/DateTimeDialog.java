@@ -31,6 +31,8 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
+
 /**
  * Lets the user select a date and a time
  * 
@@ -72,7 +74,7 @@ public class DateTimeDialog extends Dialog {
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("Select date");
+        shell.setText(I18N.general_datetimedialog_title);
     }
     
     
@@ -84,7 +86,7 @@ public class DateTimeDialog extends Dialog {
         gridLayout.verticalSpacing = 9;
         parent.setLayout(gridLayout);
         
-        new Label(parent, SWT.NONE).setText("Select a date for the minimal revision:");
+        new Label(parent, SWT.NONE).setText(I18N.general_datetimedialog_text);
         
         // Calendar to pick a date
         calendar = new DateTime(parent, SWT.CALENDAR);

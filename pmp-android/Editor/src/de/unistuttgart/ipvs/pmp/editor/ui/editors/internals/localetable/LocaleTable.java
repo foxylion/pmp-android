@@ -219,8 +219,10 @@ public class LocaleTable {
         buttonCompo.setLayoutData(buttonLayout);
         
         Button addButton = toolkit.createButton(buttonCompo, I18N.general_add, SWT.PUSH);
+        addButton.setToolTipText(I18N.general_add_tooltip);
         addButton.setImage(Images.IMG_OBJ_ADD);
         final Button removeButton = toolkit.createButton(buttonCompo, I18N.general_remove, SWT.PUSH);
+        removeButton.setToolTipText(I18N.general_remove_tooltip);
         removeButton.setEnabled(false);
         removeButton.setImage(Images.IMG_ETOOL_DELETE);
         

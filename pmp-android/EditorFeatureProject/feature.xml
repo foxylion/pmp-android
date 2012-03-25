@@ -208,7 +208,6 @@ limitations under the License.
 
    <plugin
          id="de.unistuttgart.ipvs.pmp.editor"
-         nl="en"
          download-size="0"
          install-size="0"
          version="0.0.0"

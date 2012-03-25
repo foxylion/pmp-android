@@ -233,7 +233,7 @@ public class AISValidatorWrapper {
                 }
             } catch (ClassCastException cce) {
                 System.out
-                        .println("Oooops, shit happens! The AISValidatorWrapper failed or the XML Library has changed.");
+                        .println("Oooops, shit happens! The AISValidatorWrapper failed or the XML Library has changed."); //$NON-NLS-1$
                 cce.printStackTrace();
             }
             

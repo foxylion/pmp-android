@@ -232,7 +232,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         // The attribute section
         Section attributeSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        attributeSection.setText("Attributes"); //$NON-NLS-1$
+        attributeSection.setText(I18N.general_attributes);
         attributeSection.setLayout(new GridLayout(1, false));
         attributeSection.setExpanded(true);
         attributeSection.setLayoutData(attributeLayout);
@@ -248,7 +248,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         Label identifierLabel = new Label(attributeComp, SWT.NONE);
         
-        identifierLabel.setText(I18N.general_identifier + ":"); //$NON-NLS-1$
+        identifierLabel.setText(I18N.general_identifier);
+        identifierLabel.setToolTipText(I18N.editor_ais_sf_psidentifier_tooltip);
         
         this.identifierField = new Text(attributeComp, SWT.BORDER);
         this.identifierField.setLayoutData(textLayout);
@@ -284,9 +285,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // The minimum revision label and text
         Label minRevisionLabel = new Label(attributeComp, SWT.NONE);
-        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev + ":");
-        minRevisionLabel.setToolTipText("Format: milliseconds since 1970, or a date with the following format:\n"
-                + "yyyy-MM-dd HH:mm:ss:SSS z");
+        minRevisionLabel.setText(I18N.editor_ais_sf_minimalrev);
+        minRevisionLabel.setToolTipText(I18N.editor_ais_sf_minimalrev_tooltip);
         
         this.revisionField = new Text(attributeComp, SWT.BORDER);
         attributeSection.setClient(attributeComp);
@@ -331,8 +331,8 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         this.revisionField.setData("_NAME", "revision"); //$NON-NLS-1$ //$NON-NLS-2$
         
         Button picker = new Button(attributeComp, SWT.NONE);
-        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage());
-        picker.setToolTipText("Show a calendar to choose a date");
+        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage()); //$NON-NLS-1$ //$NON-NLS-2$
+        picker.setToolTipText(I18N.general_calendar_tooltip);
         picker.addSelectionListener(new SelectionListener() {
             
             @Override
@@ -355,9 +355,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             }
         });
         
-        // The name section
+        // The privacy settings section
         this.psSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
-                | ExpandableComposite.TITLE_BAR);
+                | ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
+        this.psSection.setDescription(I18N.editor_ais_sf_requiredps_description);
         this.psSection.setLayout(new GridLayout(1, false));
         this.psSection.setExpanded(true);
         this.psSection.setLayoutData(parentLayout);
@@ -374,10 +375,12 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         buttonLayout.verticalAlignment = SWT.BEGINNING;
         psButtonsComp.setLayoutData(buttonLayout);
         Button addButton = toolkit.createButton(psButtonsComp, I18N.general_add + "...", SWT.PUSH); //$NON-NLS-1$
+        addButton.setToolTipText(I18N.general_add_tooltip);
         addButton.addSelectionListener(this);
         addButton.setImage(Images.IMG_OBJ_ADD);
         
         this.removeButton = toolkit.createButton(psButtonsComp, I18N.general_remove, SWT.PUSH);
+        this.removeButton.setToolTipText(I18N.general_remove_tooltip);
         this.removeButton.addSelectionListener(this);
         this.removeButton.setImage(Images.IMG_ETOOL_DELETE);
         this.removeButton.setEnabled(false);
@@ -534,7 +537,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
             for (RGIS rg : DownloadedRGModel.getInstance().getRgisList(this.parentShell)) {
                 if (rg.getIdentifier().equals(this.displayed.getIdentifier())) {
                     this.psSection
-                            .setText(I18N.editor_ais_sf_requiredps + ": " + rg.getNameForLocale(new Locale("en"))); //$NON-NLS-1$
+                            .setText(I18N.editor_ais_sf_requiredps + ": " + rg.getNameForLocale(new Locale("en"))); //$NON-NLS-1$ //$NON-NLS-2$
                     found = true;
                     break;
                 }
@@ -543,7 +546,7 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
         
         // RG not found or not available. Set the identifier
         if (!found) {
-            this.psSection.setText(I18N.editor_ais_sf_requiredps + ": " + this.displayed.getIdentifier());
+            this.psSection.setText(I18N.editor_ais_sf_requiredps + ": " + this.displayed.getIdentifier()); //$NON-NLS-1$
         }
         
         // Pack all columns

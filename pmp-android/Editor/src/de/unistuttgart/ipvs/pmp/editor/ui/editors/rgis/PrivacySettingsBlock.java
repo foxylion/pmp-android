@@ -90,7 +90,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
         FormToolkit toolkit = managedForm.getToolkit();
         
         // Create section
-        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
+        Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
         section.setText(I18N.editor_rgis_ps_ps);
         section.setExpanded(true);
         section.marginWidth = 5;
@@ -136,6 +136,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
         buttonCompo.setLayout(new FillLayout(SWT.VERTICAL));
         buttonCompo.setLayoutData(buttonLayout);
         Button addButton = toolkit.createButton(buttonCompo, I18N.general_add, SWT.PUSH);
+        addButton.setToolTipText(I18N.general_add_tooltip);
         addButton.setImage(Images.IMG_OBJ_ADD);
         
         addButton.addSelectionListener(new SelectionAdapter() {
@@ -152,6 +153,7 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
         });
         
         final Button removeButton = toolkit.createButton(buttonCompo, I18N.general_remove, SWT.PUSH);
+        removeButton.setToolTipText(I18N.general_remove_tooltip);
         removeButton.setEnabled(false);
         removeButton.setImage(Images.IMG_ETOOL_DELETE);
         removeButton.addSelectionListener(new SelectionAdapter() {
@@ -192,7 +194,8 @@ public class PrivacySettingsBlock extends MasterDetailsBlock {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 managedForm.fireSelectionChanged(spart, event.getSelection());
-                removeButton.setEnabled(!event.getSelection().isEmpty());
+                TreeSelection sel = (TreeSelection) event.getSelection();
+                removeButton.setEnabled(sel.getFirstElement() instanceof RGISPrivacySetting);
             }
         });
         

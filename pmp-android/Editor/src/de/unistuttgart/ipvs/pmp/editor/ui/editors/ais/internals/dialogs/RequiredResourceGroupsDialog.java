@@ -52,6 +52,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.contentprovider.ResourceGroupsDialogContentProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.ais.internals.labelprovider.ResourceGroupDialogLabelProvider;
 import de.unistuttgart.ipvs.pmp.editor.ui.editors.internals.Images;
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AISRequiredResourceGroup;
 import de.unistuttgart.ipvs.pmp.xmlutil.common.XMLConstants;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.RGIS;
@@ -118,7 +119,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
     @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
-        shell.setText("Select the required Resource Groups");
+        shell.setText(I18N.editor_ais_sf_rgdialog_title);
     }
     
     
@@ -129,10 +130,10 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
         composite.setLayout(new GridLayout(2, false));
         
         Label psLabel = new Label(composite, SWT.NULL);
-        psLabel.setText("Choose the required Resource Groups:");
+        psLabel.setText(I18N.editor_ais_sf_rgdialog_choose + ":"); //$NON-NLS-1$
         
         Label descLabel = new Label(composite, SWT.NULL);
-        descLabel.setText("Information:");
+        descLabel.setText(I18N.general_information + ":"); //$NON-NLS-1$
         
         // The CheckboxTableViewer for the PrivacySettings
         this.listViewer = CheckboxTableViewer.newCheckList(composite, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION);
@@ -164,9 +165,8 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
         valueComp.setLayoutData(data);
         
         Label valueLabel = new Label(valueComp, SWT.NULL);
-        valueLabel.setToolTipText("Format: milliseconds since 1970, or a date with the following format:\n"
-                + "yyyy-MM-dd HH:mm:ss:SSS z");
-        valueLabel.setText("Minimal revision:");
+        valueLabel.setToolTipText(I18N.editor_ais_sf_minimalrev_tooltip);
+        valueLabel.setText(I18N.editor_ais_sf_minimalrev + ":"); //$NON-NLS-1$
         valueLabel.pack();
         
         this.valueText = new Text(valueComp, SWT.BORDER);
@@ -174,8 +174,8 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
         this.valueText.pack();
         
         Button picker = new Button(valueComp, SWT.ICON);
-        picker.setToolTipText("Show a calendar to choose a date");
-        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage());
+        picker.setToolTipText(I18N.general_calendar_tooltip);
+        picker.setImage(Images.getImageDescriptor("icons", "history_working_set_obj.gif").createImage()); //$NON-NLS-1$ //$NON-NLS-2$
         picker.addSelectionListener(new SelectionListener() {
             
             @Override
@@ -246,7 +246,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
             for (int i = 0; i < children.length; ++i) {
                 RGIS element = (RGIS) children[i];
                 if (this.listViewer.getChecked(element)) {
-                    String value = "";
+                    String value = ""; //$NON-NLS-1$
                     // Add the entered values
                     if (this.values.get(element.getIdentifier()) != null) {
                         if (!this.values.get(element.getIdentifier()).isEmpty()) {
@@ -289,19 +289,19 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
      */
     private void updateText() {
         RGIS rg = (RGIS) this.listViewer.getTable().getSelection()[0].getData();
-        Locale enLocale = new Locale("en");
+        Locale enLocale = new Locale("en"); //$NON-NLS-1$
         
         // Set the value text field
         if (this.values.get(rg.getIdentifier()) != null) {
             this.valueText.setText(this.values.get(rg.getIdentifier()));
         } else {
-            this.valueText.setText("");
+            this.valueText.setText(""); //$NON-NLS-1$
         }
         
         String nameString = rg.getNameForLocale(enLocale);
         int nameLength = 0;
         if (nameString == null || nameString.isEmpty()) {
-            nameString = "No name available";
+            nameString = I18N.editor_ais_sf_rgdialog_noname;
             nameLength = nameString.length();
         } else {
             nameLength = nameString.length();
@@ -309,10 +309,11 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
         
         String descString = rg.getDescriptionForLocale(enLocale);
         if (descString == null || nameString.isEmpty()) {
-            descString = "No description available";
+            descString = I18N.editor_ais_sf_rgdialog_nodescription;
         }
         
-        this.text.setText("Name:\n" + nameString + "\n\nDescription:\n" + descString);
+        this.text.setText(I18N.general_name + ":\n" + nameString + "\n\n" + I18N.general_description + ":\n" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                + descString);
         
         // Set the text styles
         StyleRange style = new StyleRange();

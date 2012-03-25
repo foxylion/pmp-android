@@ -77,8 +77,9 @@ public class LocalizationDetailsPage implements IDetailsPage {
         
         // Build view
         FormToolkit toolkit = this.form.getToolkit();
-        Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR);
+        Section section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
         section.setText(I18N.general_localization);
+        section.setDescription(I18N.editor_rgis_ps_localization_description);
         section.setExpanded(true);
         section.setLayoutData(parentLayout);
         

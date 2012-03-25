@@ -182,7 +182,7 @@ public class RGISValidatorWrapper {
                 }
             } catch (ClassCastException cce) {
                 System.out
-                        .println("Oooops, shit happens! The RGISValidatorWrapper failed or the XML Library has changed.");
+                        .println("Oooops, shit happens! The RGISValidatorWrapper failed or the XML Library has changed."); //$NON-NLS-1$
                 cce.printStackTrace();
             }
             

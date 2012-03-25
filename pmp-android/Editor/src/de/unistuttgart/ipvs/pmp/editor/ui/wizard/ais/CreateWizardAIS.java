@@ -43,6 +43,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
+import de.unistuttgart.ipvs.pmp.editor.util.I18N;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.AIS;
 
@@ -67,7 +68,7 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
     /**
      * Filename of the XML
      */
-    private final String FILENAME = "ais.xml";
+    private final String FILENAME = "ais.xml"; //$NON-NLS-1$
     
     
     /**
@@ -75,6 +76,7 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
      */
     public CreateWizardAIS() {
         super();
+        setWindowTitle(I18N.wizard_ais_windowtitle);
         setNeedsProgressMonitor(false);
     }
     
@@ -109,7 +111,7 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
                 }
                 
                 // Enter the assets folder
-                IFolder assetsFolder = aisProject.getFolder("assets");
+                IFolder assetsFolder = aisProject.getFolder("assets"); //$NON-NLS-1$
                 
                 // Create the assets folder if it doesn't exist
                 if (!assetsFolder.exists()) {
@@ -118,13 +120,13 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
                 
                 file = assetsFolder.getFile(this.FILENAME);
             } catch (CoreException e) {
-                MessageDialog.openError(getShell(), "Error", "Could not open project \"" + this.page.getProjectOnly()
-                        + "\"");
+                MessageDialog.openError(getShell(), I18N.wizard_general_cannotopenprojectmsg_title,
+                        I18N.addVariables(I18N.wizard_general_cannotopenprojectmsg_text, this.page.getProjectOnly()));
                 return false;
             }
         } else {
-            ErrorDialog.openError(getShell(), "Error", "Project \"" + this.page.getProjectOnly()
-                    + "\" does not exist anymore,", null);
+            ErrorDialog.openError(getShell(), I18N.wizard_general_projectnotexistsmsg_title,
+                    I18N.addVariables(I18N.wizard_general_projectnotexistsmsg_text, this.page.getProjectOnly()), null);
             return false;
         }
         
@@ -132,8 +134,8 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
         if (file.exists()) {
             int style = SWT.ICON_QUESTION | SWT.YES | SWT.NO;
             MessageBox messageBox = new MessageBox(getShell(), style);
-            messageBox.setText("Save \"ais.xml\"");
-            messageBox.setMessage("\"ais.xml\" already existing.\n Should it be replaced?");
+            messageBox.setText(I18N.wizard_ais_replacemsg_title);
+            messageBox.setMessage(I18N.wizard_ais_replacemsg_text);
             int result = messageBox.open();
             switch (result) {
             // Overwrite it
@@ -173,9 +175,11 @@ public class CreateWizardAIS extends Wizard implements INewWizard {
             }
             stream.close();
         } catch (IOException e) {
-            ErrorDialog.openError(getShell(), "Error", "Error while writing \"ais.xml\"", null);
+            ErrorDialog.openError(getShell(), I18N.wizard_ais_writeerrormsg_title, I18N.wizard_ais_writeerrormsg_text,
+                    null);
         } catch (CoreException e) {
-            ErrorDialog.openError(getShell(), "Error", "Error while writing \"ais.xml\"", null);
+            ErrorDialog.openError(getShell(), I18N.wizard_ais_writeerrormsg_title, I18N.wizard_ais_writeerrormsg_text,
+                    null);
         }
         
         // Try to open the editor with the file

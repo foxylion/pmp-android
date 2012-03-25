@@ -158,7 +158,7 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         // The attribute section
         Section attributeSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
                 | ExpandableComposite.TITLE_BAR);
-        attributeSection.setText(I18N.general_attribute);
+        attributeSection.setText(I18N.general_attributes);
         attributeSection.setLayout(new GridLayout(1, false));
         attributeSection.setExpanded(true);
         attributeSection.setLayoutData(attributeLayout);
@@ -174,7 +174,8 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         
         Label identifierLabel = new Label(attributeComp, SWT.NONE);
         
-        identifierLabel.setText(I18N.general_identifier + ":"); //$NON-NLS-1$
+        identifierLabel.setText(I18N.general_identifier);
+        identifierLabel.setToolTipText(I18N.editor_ais_sf_identifier_tooltip);
         
         this.identifierField = new Text(attributeComp, SWT.BORDER);
         attributeSection.setClient(attributeComp);
@@ -220,16 +221,18 @@ public class ServiceFeatureNameDetailsPage implements IDetailsPage {
         
         // The name section
         Section nameSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
-                | ExpandableComposite.TITLE_BAR);
+                | ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
         nameSection.setText(I18N.general_names);
+        nameSection.setDescription(I18N.editor_ais_sf_names_description);
         nameSection.setLayout(new GridLayout(1, false));
         nameSection.setExpanded(true);
         nameSection.setLayoutData(parentLayout);
         
         // The description section
         Section descriptionSection = toolkit.createSection(parent, ExpandableComposite.CLIENT_INDENT
-                | ExpandableComposite.TITLE_BAR);
+                | ExpandableComposite.TITLE_BAR | Section.DESCRIPTION);
         descriptionSection.setText(I18N.general_descriptions);
+        descriptionSection.setDescription(I18N.editor_ais_sf_descriptions_description);
         descriptionSection.setLayout(new GridLayout(1, false));
         descriptionSection.setExpanded(true);
         descriptionSection.setLayoutData(parentLayout);
