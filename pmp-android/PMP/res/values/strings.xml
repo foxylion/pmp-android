@@ -220,7 +220,8 @@
     <string name="dev_con_id">ID:</string>
     <string name="dev_con_rgs_path">de.unistuttgart.ipvs.pmp.resourcegroups.</string>
     <string name="dev_con_table_of_contents">Table of Contents (Total debug)</string>
-    <string name="dev_con_svc_nfc">Service Notification Switch</string>
+    <string name="dev_con_svc_nfc">Context Service Stuff</string>
+    <string name="dev_con_svc_nfc_calc">Force Context recalculation</string>
 
     <!-- Service Notification -->
     <string name="svc_nfc_title">PMP</string>

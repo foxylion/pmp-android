@@ -223,7 +223,8 @@
     <string name="dev_con_id">ID:</string>
     <string name="dev_con_rgs_path">de.unistuttgart.ipvs.pmp.resourcegroups.</string>
     <string name="dev_con_table_of_contents">Inhaltsverzeichnis (Totale Prüfung)</string>
-    <string name="dev_con_svc_nfc">Service-Benachrichtungsschalter</string>
+    <string name="dev_con_svc_nfc">Kontext-Service-Kram</string>
+    <string name="dev_con_svc_nfc_calc">Kontext-Neuberechnung forcieren</string>
 
     <!-- Service Notification -->
     <string name="svc_nfc_title">PMP</string>
