@@ -21,9 +21,9 @@ public class InfoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
     
     
     private void initPanels() {
-        mPanels.add(LocationFragment.newInstance("LocationFragment"));
-        mPanels.add(TranslationFragment.newInstance("TranslationFragment"));
-        mPanels.add(RSSFeedFragment.newInstance("RSS-Feed Fragment"));
+        mPanels.add(LocationFragment.newInstance("Location panel"));
+        mPanels.add(TranslationFragment.newInstance("Translation panel"));
+        mPanels.add(RSSFeedFragment.newInstance("RSS-Feed panel"));
     }
     
     

@@ -23,7 +23,7 @@ public class SettingsActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         final String[] panels = getIntent().getStringArrayExtra("panels");
         final CharSequence[] asd = panels;
-        String[] options = neew String[] { "Set starting Panel" };
+        String[] options = new String[] { "Set starting panel" };
         mSettings = getSharedPreferences("settings", 0);
         
         setListAdapter(new ArrayAdapter<String>(this, R.layout.settings, options));
@@ -44,7 +44,7 @@ public class SettingsActivity extends ListActivity {
     private void createDialog(final CharSequence[] items) {
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick a color");
+        builder.setTitle("Pick a panel");
         builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
             
             public void onClick(DialogInterface dialog, int item) {
