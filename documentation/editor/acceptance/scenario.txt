@@ -1,0 +1,35 @@
+Abnahme-Szenarion EIS
+=====================
+
+AIS
+---
+Vorbedingung: Android 2.1 Projekt "DemoApp" angelegt (ohne ais.xml, Basis Paketname: "pmp.demo.app", Activity: DemoAppActivity)
+Ablauf: 1.  Wizard über Rechtsklick "DemoApp -> New -> Other -> App Information Set -> Next" aufrufen    
+        2.  Über "Browse" Asset-Ordner der "DemoApp" wählen, dann Wizard mit "Finish" schließen
+        3.  Zeigen der Validierung der Tabelle (Hinweis auf Error-Icon und Tooltip)
+        4.  Über "Add" zwei Namen hinzufügen: 1x "en" "My Demo App", 1x "de" "Meine Demo App",
+            dabei zeigen, wie sich die Validierung verändert bzw. der Fehler verschwindet.
+            Ggf. absichtlich eine falsche Locale angeben
+        5.  Über "Add" zwei Beschreibungen hinzufügen: 1x "en" "My app's description", 1x "de" "Die Beschreibung meiner App"
+        6.  Wechsel zu Service Feature Tab und mit "Add Service Feature" ein "DemoSF" anlegen
+        7.  Name "en" "Read Data", Beschreibung "en" "Allows the app to read stored data" hinzufügen
+            Ggf. auf sich ändernde Fehler-Beschreiibung (Tooltip) hinweisen
+        8.  RG "FileSystem" mit "Add Resource Group" hinzufügen. MinRev: 01.01.2012
+        9.  PS "gen_r" mit "value" "true" hinzufügen  
+        10. AIS speichern und in XML-Editor öffnen (um zu sehen, dass alle Eingaben vorhanden sind)
+        11. Reg-Activity zur Android-Manifest hinzufügen, Manifest öffnen und Eintrag zeigen
+        12. PMP-Service zur Android-Manifest hinzufügen, Manifest öffnen und Eintrag zeigen
+        
+RGIS
+----
+Vorbedingung: Android 2.1 Projekt "DemoRG" angelegt (ohne rgis.xml, Basis Paketname: "pmp.demo.rg", Activity: DemoRGActivity)
+Ablauf: 1.  Wizard über Rechtsklick "DemoRG -> New -> Other -> Resource Group Information Set -> Next" aufrufen    
+        2.  Über "Browse" Asset-Ordner der "DemoRG" wählen, dann Wizard mit "Finish" schließen
+        3.  Klassen-Name und Icon angeben: "DemoRGActivity" bzw. "res/icon.png"
+        4.  Über "Add" Name hinzufügen: "en" "My Demo RG" (Ausführlichere Erklärung bereits beim AIS)
+        5.  Über "Add" Beschreibung hinzufügen: "en" "My RG's description"
+        6.  Wechsel zum PS Tab und mit "Add" neues PS hinzufügen
+        7.  PS auswählen und "Identifier" "internet" und "Valid values" "true/false" eingeben
+        8.  Name "en" "Internet access", Beschrebung "en" "Gives access to the internet",
+            Änderungsbeschreibung "en" "If set, the app can access the internet" eingeben
+        9.  RGIS speichern und in XML-Editor öffnen (um zu sehen, dass alle Eingaben vorhanden sind)
