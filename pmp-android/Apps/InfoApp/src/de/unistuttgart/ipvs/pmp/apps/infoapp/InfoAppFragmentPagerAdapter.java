@@ -11,7 +11,7 @@ import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.TranslationFragment;
 
 public class InfoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
     
-    private static ArrayList<Fragment> panels = new ArrayList<Fragment>();
+    private static ArrayList<Fragment> mPanels = new ArrayList<Fragment>();
     
     
     public InfoAppFragmentPagerAdapter(FragmentManager fm) {
@@ -21,15 +21,15 @@ public class InfoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
     
     
     private void initPanels() {
-        panels.add(LocationFragment.newInstance("LocationFragment Fragment"));
-        panels.add(TranslationFragment.newInstance("TranslationFragment Fragment"));
-        panels.add(RSSFeedFragment.newInstance("RSS-Feed Fragment"));
+        mPanels.add(LocationFragment.newInstance("LocationFragment"));
+        mPanels.add(TranslationFragment.newInstance("TranslationFragment"));
+        mPanels.add(RSSFeedFragment.newInstance("RSS-Feed Fragment"));
     }
     
     
     @Override
     public int getCount() {
-        return panels.size();
+        return mPanels.size();
     }
     
     
@@ -37,6 +37,11 @@ public class InfoAppFragmentPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int index) {
         // tv = (TextView) findViewById(R.id.panel_current);
         // tv.setText("" + mPagerAdapter.getCount());
-        return panels.get(index);
+        return mPanels.get(index);
+    }
+    
+    
+    public ArrayList<Fragment> getPanels() {
+        return mPanels;
     }
 }
