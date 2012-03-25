@@ -23,7 +23,7 @@ public class SettingsActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         final String[] panels = getIntent().getStringArrayExtra("panels");
         final CharSequence[] asd = panels;
-        String[] options = neew String[] { "Set starting Panel" };
+        String[] options = new String[] { "Set starting Panel" };
         mSettings = getSharedPreferences("settings", 0);
         
         setListAdapter(new ArrayAdapter<String>(this, R.layout.settings, options));
