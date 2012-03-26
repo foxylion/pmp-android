@@ -21,6 +21,7 @@ import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.UninstallReceiver;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
 
 /**
@@ -176,6 +177,18 @@ public class App extends ModelElement implements IApp {
         Assert.nonNull(p, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "p", p);
         this.assignedPresets.add(p);
         verifyServiceFeatures();
+    }
+    
+    
+    /**
+     * Used to remove the app without caching its expensive details like AIS. Required when deleting an app during an
+     * Intent for {@link UninstallReceiver}. (the AIS is already gone then)
+     */
+    public void lightweightDelete() {
+        if (this.persistenceProvider != null) {
+            ((AppPersistenceProvider) this.persistenceProvider).setSuppressResources();
+        }
+        delete();
     }
     
 }

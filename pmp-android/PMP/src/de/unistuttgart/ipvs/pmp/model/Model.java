@@ -283,7 +283,7 @@ public class Model implements IModel, Observer {
             return false;
         } else {
             
-            app.delete();
+            app.lightweightDelete();
             this.cache.getApps().remove(appPackage);
             
             IPCProvider.getInstance().startUpdate();
