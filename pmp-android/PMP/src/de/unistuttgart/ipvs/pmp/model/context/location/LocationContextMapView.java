@@ -329,7 +329,8 @@ public class LocationContextMapView extends MapActivity {
                 
                 // remove
                 menu.add(Menu.NONE, CONTEXT_MENU_REMOVE_BUTTON_ID, 3,
-                        de.unistuttgart.ipvs.pmp.R.string.contexts_location_remove).setEnabled(GEO_POINTS.size() > 1);
+                        de.unistuttgart.ipvs.pmp.R.string.contexts_location_remove).setEnabled(
+                        (GEO_POINTS.size() > 1) && (LocationContextMapView.this.points.getSelected() >= 0));
                 
                 // clear
                 menu.add(Menu.NONE, CONTEXT_MENU_CLEAR_BUTTON_ID, 4,
@@ -354,7 +355,7 @@ public class LocationContextMapView extends MapActivity {
         // remove
             case CONTEXT_MENU_REMOVE_BUTTON_ID:
                 synchronized (GEO_POINTS) {
-                    if (GEO_POINTS.size() > 1) {
+                    if ((GEO_POINTS.size() > 1) && (this.points.getSelected() >= 0)) {
                         DIRTY_FLAG.set(true);
                         GEO_POINTS.remove(this.points.getSelected());
                         this.points.updateOverlays();
