@@ -23,7 +23,7 @@ public class FileLog extends FileHandler implements IFileLog {
     private static class NullFileLog implements IFileLog {
         
         @Override
-        public void log(int granularity, Level level, String message, Object... params) {
+        public void log(Object origin, int granularity, Level level, String message, Object... params) {
             Log.w(this, "Cannot log to file: FileHandler threw IOException");
         }
         
@@ -66,7 +66,7 @@ public class FileLog extends FileHandler implements IFileLog {
                 }
             }
             
-            log(granularity, level, message, params);
+            log(origin, granularity, level, message, params);
         }
         
     }
@@ -123,9 +123,11 @@ public class FileLog extends FileHandler implements IFileLog {
     
     
     @Override
-    public void log(int granularity, Level level, String message, Object... params) {
+    public void log(Object origin, int granularity, Level level, String message, Object... params) {
         if ((PMPPreferences.getInstance().getLoggingGranularity() & granularity) > 0) {
             LogRecord lr = new LogRecord(level, String.format(message, params));
+            lr.setSourceClassName(origin.getClass().getSimpleName());
+            lr.setSourceMethodName("");
             publish(lr);
         }
     }
@@ -169,6 +171,6 @@ public class FileLog extends FileHandler implements IFileLog {
             }
         }
         
-        log(granularity, level, message, params);
+        log(origin, granularity, level, message, params);
     }
 }
