@@ -1,24 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Trip</title>
-    <style type="text/css">
-        body, td, th {
-            font-family: Tahoma, Geneva, sans-serif;
-            font-size: small;
-        }
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Trip</title>
+	<style type="text/css">
+		body, td, th {
+			font-family: Tahoma, Geneva, sans-serif;
+			font-size: small;
+		}
 
-        body {
-            background-color: #EEE;
-        }
+		body {
+			background-color: #EEE;
+		}
 
-        .auto-style1 {
-            font-family: Tahoma;
-            text-decoration: line-through;
-        }
-    </style>
+		.auto-style1 {
+			font-family: Tahoma;
+			text-decoration: line-through;
+		}
+	</style>
 </head>
 
 <body>
@@ -27,175 +27,193 @@
 <h2>Announce trip</h2>
 
 <form action="../trip_announce.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Destination</td>
-            <td><input name="destination" type="text" value="Berlin"/></td>
-        </tr>
-        <tr>
-            <td>Current lat.:</td>
-            <td><input name="current_lat" type="text" value="48.782954"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.:</td>
-            <td><input name="current_lon" type="text" value="9.179733"/></td>
-        </tr>
-        <tr>
-            <td>Available seats:</td>
-            <td><input name="avail_seats" type="text" value="3"/></td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Destination</td>
+			<td><input name="destination" type="text" value="Berlin"/></td>
+		</tr>
+		<tr>
+			<td>Current lat.:</td>
+			<td><input name="current_lat" type="text" value="48.782954"/></td>
+		</tr>
+		<tr>
+			<td>Current lon.:</td>
+			<td><input name="current_lon" type="text" value="9.179733"/></td>
+		</tr>
+		<tr>
+			<td>Available seats:</td>
+			<td><input name="avail_seats" type="text" value="3"/></td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
 
 <h2>Announce trip</h2>
 
 <form action="../trip_announce.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Destination</td>
-            <td><input name="destination" type="text" value="Berlin"/></td>
-        </tr>
-        <tr>
-            <td>Current lat.:</td>
-            <td><input name="current_lat" type="text" value="48.782954"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.:</td>
-            <td><input name="current_lon" type="text" value="9.179733"/></td>
-        </tr>
-        <tr>
-            <td>Available seats:</td>
-            <td><input name="avail_seats" type="text" value="3"/></td>
-        </tr>
-        <tr>
-            <td>Date:</td>
-            <td><input name="avail_seats" type="text" value="<?php echo time()+2000; ?>"/> (<?php echo strftime("%c", time()+2000 ); ?>)</td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Destination</td>
+			<td><input name="destination" type="text" value="Berlin"/></td>
+		</tr>
+		<tr>
+			<td>Current lat.:</td>
+			<td><input name="current_lat" type="text" value="48.782954"/></td>
+		</tr>
+		<tr>
+			<td>Current lon.:</td>
+			<td><input name="current_lon" type="text" value="9.179733"/></td>
+		</tr>
+		<tr>
+			<td>Available seats:</td>
+			<td><input name="avail_seats" type="text" value="3"/></td>
+		</tr>
+		<tr>
+			<td>Date:</td>
+			<td><input name="avail_seats" type="text" value="<?php echo time() + 2000; ?>"/> (<?php echo strftime("%c",
+																												  time() + 2000); ?>
+				)
+			</td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
 
 <h2 class="auto-style1">Update position</h2>
 
 <div>Deprecated.
-    <a href="user.html#updatepos">Use this instead</a>!
+	<a href="user.html#updatepos">Use this instead</a>!
 </div>
 <form action="../trip_update_pos.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Trip-ID:</td>
-            <td><input name="id" type="text" value="0"/></td>
-        </tr>
-        <tr>
-            <td>Current lat.:</td>
-            <td><input name="current_lat" type="text" value="48.782409"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.:</td>
-            <td><input name="current_lon" type="text" value="9.183648"/></td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Trip-ID:</td>
+			<td><input name="id" type="text" value="0"/></td>
+		</tr>
+		<tr>
+			<td>Current lat.:</td>
+			<td><input name="current_lat" type="text" value="48.782409"/></td>
+		</tr>
+		<tr>
+			<td>Current lon.:</td>
+			<td><input name="current_lon" type="text" value="9.183648"/></td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
 <h2>Update data</h2>
 
 <form action="../trip_update_data.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Trip-ID:</td>
-            <td><input name="id" type="text" value="0"/></td>
-        </tr>
-        <tr>
-            <td>Avail. seats:</td>
-            <td><input name="avail_seats" type="text" value="1"/></td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Trip-ID:</td>
+			<td><input name="id" type="text" value="0"/></td>
+		</tr>
+		<tr>
+			<td>Avail. seats:</td>
+			<td><input name="avail_seats" type="text" value="1"/></td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
+
+<h2><a href="../trip_get_open.php" target="r">Get current trip</a></h2>
+
+
+<h2><a href="../trip_get_all.php" target="r">Get current and future trips</a></h2>
+
+<form action="../trip_get_all.php" method="post" target="r">
+	<table>
+		<tr>
+			<td><h2>Get all trips</h2></td>
+			<td><input type="hidden" name="all" value="1"/>
+				<input type="submit"/></td>
+		</tr>
+	</table>
+</form>
+
+
 <h2>End/Close trip</h2>
 
 <form action="../trip_end.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Trip-ID:</td>
-            <td><input name="id" type="text"/></td>
-        </tr>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Trip-ID:</td>
+			<td><input name="id" type="text"/></td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
-
-<h2><a href="../trip_get_open.php" target="r">Get open trip</a> </h2>
 
 <h2>End/Close trip without ID</h2>
 
 <form action="../trip_end.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Buttons:</td>
-            <td colspan="2"><input type="submit"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/></td>
+		</tr>
+	</table>
 </form>
 
 <h2>Search for requests</h2>
 
 <form action="../query_search.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>Current lat.</td>
-            <td><input name="lat" type="text" value="48.783173"/></td>
-        </tr>
-        <tr>
-            <td>Current lon.</td>
-            <td><input name="lon" type="text" value="9.181051"/></td>
-        </tr>
-        <tr>
-            <td>Distance</td>
-            <td><input name="distance" type="text" value="5000"/></td>
-        </tr>
-        <tr>
-            <td>Buttons</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>Current lat.</td>
+			<td><input name="lat" type="text" value="48.783173"/></td>
+		</tr>
+		<tr>
+			<td>Current lon.</td>
+			<td><input name="lon" type="text" value="9.181051"/></td>
+		</tr>
+		<tr>
+			<td>Distance</td>
+			<td><input name="distance" type="text" value="5000"/></td>
+		</tr>
+		<tr>
+			<td>Buttons</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
 
 <h2>Pick up user</h2>
 
 <form action="../pick_up.php" method="post" target="r">
-    <table>
-        <tr>
-            <td>User that should be picked up</td>
-            <td><input name="user_id" type="text" value="0"/></td>
-        </tr>
-        <tr>
-            <td>Buttons</td>
-            <td colspan="2"><input type="submit"/>
-                <input type="reset"/></td>
-        </tr>
-    </table>
+	<table>
+		<tr>
+			<td>User that should be picked up</td>
+			<td><input name="user_id" type="text" value="0"/></td>
+		</tr>
+		<tr>
+			<td>Buttons</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
 </form>
 </body>
 </html>

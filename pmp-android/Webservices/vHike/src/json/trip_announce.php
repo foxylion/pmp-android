@@ -46,6 +46,7 @@ try {
 	if (!General::validateId('avail_seats')) {
 		throw new InputException('avail_seats');
 	}
+	$date = null;
 	if (isset($_POST['date']) && is_numeric($_POST['date'])) {
 		$date = $_POST['date'];
 	}
