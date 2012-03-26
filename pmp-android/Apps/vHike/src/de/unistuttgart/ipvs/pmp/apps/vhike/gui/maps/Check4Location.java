@@ -135,8 +135,8 @@ public class Check4Location extends TimerTask {
                                         .show();
                                 break;
                             case Constants.STATUS_ERROR:
-                                Toast.makeText(Check4Location.this.context, "Error Update position", Toast.LENGTH_SHORT)
-                                        .show();
+//                                Toast.makeText(Check4Location.this.context, "Error Update position", Toast.LENGTH_SHORT)
+//                                        .show();
                                 break;
                         }
                         Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
