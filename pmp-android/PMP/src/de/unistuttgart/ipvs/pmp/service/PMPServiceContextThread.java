@@ -35,6 +35,7 @@ public class PMPServiceContextThread extends Thread {
     public void run() {
         boolean stop = false;
         
+        // TODO these should actually be apps
         Set<IPreset> updatePresets = new HashSet<IPreset>();
         
         // check each context for a new state
