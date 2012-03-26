@@ -145,7 +145,6 @@ public class LocationContext implements IContext, LocationListener {
     
     @Override
     public boolean getLastState(String condition) {
-        System.out.println(this.lastState);
         try {
             if (this.lastState.isSet()) {
                 LocationContextCondition lcc = LocationContextCondition.parse(condition);
@@ -165,9 +164,6 @@ public class LocationContext implements IContext, LocationListener {
             return;
         }
         boolean update = false;
-        
-        System.out.println(location.getLatitude() + " x " + location.getLongitude() + " -- " + location.getAccuracy()
-                + " from " + location.getTime());
         
         // reject when too old
         long now = System.currentTimeMillis();
