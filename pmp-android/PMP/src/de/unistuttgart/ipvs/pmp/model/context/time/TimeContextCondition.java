@@ -165,11 +165,10 @@ public class TimeContextCondition {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int min = cal.get(Calendar.MINUTE);
         int sec = cal.get(Calendar.SECOND);
+        TimeContextTime now = new TimeContextTime(hour, min, sec);
         
         boolean timeWraps = this.begin.compareTo(this.end) > 0;
-        boolean dateBetweenBeginAndEnd = (this.begin.getHour() <= hour) && (hour <= this.end.getHour())
-                && (this.begin.getMinute() <= min) && (min <= this.end.getMinute()) && (this.begin.getSecond() <= sec)
-                && (sec <= this.end.getSecond());
+        boolean dateBetweenBeginAndEnd = (this.begin.compareTo(now) <= 0) && (this.end.compareTo(now) >= 0);
         
         // either it's NOT wrapping AND     begin <= date <= end
         //     or it's     wrapping AND NOT begin <= date <= end
