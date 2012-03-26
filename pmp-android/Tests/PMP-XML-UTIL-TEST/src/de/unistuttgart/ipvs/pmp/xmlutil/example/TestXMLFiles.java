@@ -24,10 +24,9 @@ import java.net.URL;
 
 import de.unistuttgart.ipvs.pmp.xmlutil.AppUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.PresetUtil;
-import de.unistuttgart.ipvs.pmp.xmlutil.Printer;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
-import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAIS;
+import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.PresetSetValidator;
 import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
@@ -38,6 +37,7 @@ public class TestXMLFiles {
     private static String ais3URL = "http://mvvt.de/ais3.xml";
     private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
     private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
+    private static String presetSet2URL = "http://mvvt.de/presetset2.xml";
     
     private static String presetSetDefectURL = "http://mvvt.de/presetset_defect.xml";
     private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
@@ -59,48 +59,48 @@ public class TestXMLFiles {
         PresetSetValidator presetSetValidator = presetUtil.getValidator();
         
         try {
-            // Test AIS
-            IAIS ais = appUtil.parse(new URL(ais3URL).openStream());
-            appUtil.print(ais);
-            appUtil.print(appUtil.parse(appUtil.compile(ais)));
-            aisValidator.validateAIS(ais, true);
-            appUtil.print(ais);
-            Printer.printIssues(ais.getIssues());
+            //            // Test AIS
+            //            IAIS ais = appUtil.parse(new URL(ais3URL).openStream());
+            //            appUtil.print(ais);
+            //            appUtil.print(appUtil.parse(appUtil.compile(ais)));
+            //            aisValidator.validateAIS(ais, true);
+            //            appUtil.print(ais);
+            //            Printer.printIssues(ais.getIssues());
+            //            
+            //                        // Test RGIS
+            //                        IRGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
+            //                        rgUtil.print(rgis);
+            //                        rgis = rgUtil.parse(rgUtil.compile(rgis));
+            //                        rgUtil.print(rgis);
             
-            //            // Test RGIS
-            //            IRGIS rgis = rgUtil.parse(new URL(rgisURL).openStream());
-            //            rgUtil.print(rgis);
-            //            rgis = rgUtil.parse(rgUtil.compile(rgis));
-            //            rgUtil.print(rgis);
-            //            
-            //            // Test PresetSet
-            //            IPresetSet presetSet = presetUtil.parse(new URL(presetSetURL).openStream());
-            //            presetUtil.print(presetSet);
-            //            presetSet = presetUtil.parse(presetUtil.compile(presetSet));
-            //            presetUtil.print(presetSet);
-            //            
-            //            // Test defect AIS
-            //            IAIS defectAIS = appUtil.parse(new URL(aisDefectURL).openStream());
-            //            List<IIssue> aisIssues = aisValidator.validateAIS(defectAIS, true);
-            //            Printer.printAIS(defectAIS);
-            //            Printer.printIssues(aisIssues);
-            //            
-            //            // Test defect RGIS
-            //            IRGIS defectRGIS = rgUtil.parse(new URL(rgisDefectURL).openStream());
-            //            List<IIssue> rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
-            //            Printer.printRGIS(defectRGIS);
-            //            rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
-            //            Printer.printIssues(rgisIssues);
-            //            Printer.printRGIS(defectRGIS);
-            //            
-            //            // Test defect PresetSet
-            //            IPresetSet defectPresetSet = presetUtil.parse(new URL(presetSetDefectURL).openStream());
-            //            List<IIssue> presetSetIssues = presetSetValidator.validatePresetSet(defectPresetSet, true);
-            //            Printer.printPresetSet(defectPresetSet);
-            //            presetSetIssues = presetSetValidator.validatePresetSet(defectPresetSet, true);
-            //            Printer.printIssues(presetSetIssues);
-            //            Printer.printPresetSet(defectPresetSet);
+            // Test PresetSet
+            IPresetSet presetSet = presetUtil.parse(new URL(presetSet2URL).openStream());
+            presetUtil.print(presetSet);
+            presetSet = presetUtil.parse(presetUtil.compile(presetSet));
+            presetUtil.print(presetSet);
             
+            // Test defect AIS
+            //                        IAIS defectAIS = appUtil.parse(new URL(aisDefectURL).openStream());
+            //                        List<IIssue> aisIssues = aisValidator.validateAIS(defectAIS, true);
+            //                        Printer.printAIS(defectAIS);
+            //                        Printer.printIssues(aisIssues);
+            //                        
+            //                        // Test defect RGIS
+            //                        IRGIS defectRGIS = rgUtil.parse(new URL(rgisDefectURL).openStream());
+            //                        List<IIssue> rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
+            //                        Printer.printRGIS(defectRGIS);
+            //                        rgisIssues = rgisValidator.validateRGIS(defectRGIS, true);
+            //                        Printer.printIssues(rgisIssues);
+            //                        Printer.printRGIS(defectRGIS);
+            //                        
+            //                        // Test defect PresetSet
+            //                        IPresetSet defectPresetSet = presetUtil.parse(new URL(presetSetDefectURL).openStream());
+            //                        List<IIssue> presetSetIssues = presetSetValidator.validatePresetSet(defectPresetSet, true);
+            //                        Printer.printPresetSet(defectPresetSet);
+            //                        presetSetIssues = presetSetValidator.validatePresetSet(defectPresetSet, true);
+            //                        Printer.printIssues(presetSetIssues);
+            //                        Printer.printPresetSet(defectPresetSet);
+            //            
         } catch (IOException e) {
             e.printStackTrace();
         }

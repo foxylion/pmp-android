@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.model.context.location;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -144,7 +145,7 @@ public class LocationContextCondition {
             pointList.append("--");
         }
         
-        return String.format("%f;%f;%s;%s", this.uncertainty, this.hysteresis, this.negate ? "1" : "0",
+        return String.format(Locale.ENGLISH, "%f;%f;%s;%s", this.uncertainty, this.hysteresis, this.negate ? "1" : "0",
                 pointList.toString());
     }
     

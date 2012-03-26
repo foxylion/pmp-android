@@ -147,7 +147,8 @@ public class TimeContextTime implements Comparable<TimeContextTime> {
     
     @Override
     public int compareTo(TimeContextTime another) {
-        return (this.second - another.second) + (this.minute - another.minute) + (this.hour - another.hour);
+        return (this.second - another.second) + (this.minute - another.minute) * SECONDS_PER_MINUTE
+                + (this.hour - another.hour) * SECONDS_PER_HOUR;
     }
     
     

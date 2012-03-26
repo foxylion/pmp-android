@@ -20,6 +20,8 @@
 package de.unistuttgart.ipvs.pmp.gui.preset;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -63,6 +65,8 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     
     private TabPrivacySettings activity;
     
+    Map<IPrivacySetting, View> cachedViews = new HashMap<IPrivacySetting, View>();
+    
     
     /**
      * Constructor to setup parameter
@@ -95,12 +99,17 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
             ViewGroup parent) {
         
-        if (convertView != null) {
-            return convertView;
+        IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
+        
+        if (cachedViews.containsKey(ps)) {
+            return cachedViews.get(ps);
         }
         
-        return new ViewPrivacySettingPreset(this.context, this.preset, (IPrivacySetting) getChild(groupPosition,
-                childPosition), this);
+        View view = new ViewPrivacySettingPreset(this.context, this.preset, ps, this);
+        
+        cachedViews.put(ps, view);
+        
+        return view;
     }
     
     
@@ -196,5 +205,17 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     
     public void removePrivacySetting(final IPrivacySetting privacySetting) {
         this.activity.removePrivacySetting(privacySetting);
+    }
+    
+    
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        
+        for (Map.Entry<IPrivacySetting, View> entry : cachedViews.entrySet()) {
+            if (entry.getValue() instanceof ViewPrivacySettingPreset) {
+                ((ViewPrivacySettingPreset) entry.getValue()).refresh();
+            }
+        }
     }
 }
