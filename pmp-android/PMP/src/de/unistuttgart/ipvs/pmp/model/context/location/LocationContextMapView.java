@@ -325,7 +325,8 @@ public class LocationContextMapView extends MapActivity {
                 
                 // move
                 menu.add(Menu.NONE, CONTEXT_MENU_MOVE_BUTTON_ID, 2,
-                        de.unistuttgart.ipvs.pmp.R.string.contexts_location_move);
+                        de.unistuttgart.ipvs.pmp.R.string.contexts_location_move).setEnabled(
+                        LocationContextMapView.this.points.getSelected() >= 0);
                 
                 // remove
                 menu.add(Menu.NONE, CONTEXT_MENU_REMOVE_BUTTON_ID, 3,
