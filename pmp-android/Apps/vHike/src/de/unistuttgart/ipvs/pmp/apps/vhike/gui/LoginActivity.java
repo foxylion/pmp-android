@@ -205,7 +205,12 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         if (isCanceled)
             return;
         try {
-            ((Button) findViewById(R.id.button_cancel)).setEnabled(false);
+            try {
+                ((Button) findViewById(R.id.button_cancel)).setEnabled(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
             // Get resource group 
             if (getvHikeRG(this) != null) {
                 Log.v(this, "Logging in");
