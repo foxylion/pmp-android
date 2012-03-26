@@ -125,7 +125,16 @@ public class PresetSetParser extends AbstractParser {
         }
         
         // Check, if there are a maximum of maxValid child nodes of the preset node
-        checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET).item(0));
+        
+        /*
+         * 
+         *  
+         *  TODO: Some Bug occurred while testing the maximum number of valid nodes
+         *  
+         *  
+         *  
+         *  checkMaxNumberOfNodes(maxValid, (Element) this.doc.getElementsByTagName(XMLConstants.PRESET_SET).item(0));
+         */
         
         // Add preset to Preset Set
         this.presetSet.addPreset(preset);
