@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Docs for page trip_end.php</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">vhike-services</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+        
+                                                        
+                              		  [ <a href="../classtrees_vhike-services.html" class="menu">class tree: vhike-services</a> ]
+		  [ <a href="../elementindex_vhike-services.html" class="menu">index: vhike-services</a> ]
+		  	    [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+	<div id="todolist">
+			<p><a href="../todolist.html">Todo List</a></p>
+	</div>
+      <b>Packages:</b><br />
+              <a href="../li_default.html">default</a><br />
+              <a href="../li_vhike-services.html">vhike-services</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../vhike-services/_json---get_position.php.html">		get_position.php
+		</a><br>
+			<a href="../vhike-services/_json---trip_announce.php.html">		trip_announce.php
+		</a><br>
+			<a href="../vhike-services/_json---trip_end.php.html">		trip_end.php
+		</a><br>
+			<a href="../vhike-services/_json---trip_get_all.php.html">		trip_get_all.php
+		</a><br>
+			<a href="../vhike-services/_json---trip_get_open.php.html">		trip_get_open.php
+		</a><br>
+	  </div><br />
+      
+      
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Procedural File: trip_end.php</h1>
+Source Location: /json/trip_end.php<br /><br />
+
+<br>
+<br>
+
+
+<h2>Page Details:</h2>
+This service is used to end an activated trip.<br /><br /><p>GET  Parameters: <ul><li>sid Session ID</li></ul>  POST Parameters:<br /> <ul><li><strong>id</strong> <em>(optional)</em> The trip ID. If trip ID is not provided, this script will end all open trips of the logged in user (which there should not be more than one).<br /></li></ul></p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>A JSON response <ul><li><strong>error</strong> Error string if available</li><li><strong>msg</strong> Error message if available</li><li><strong>status</strong> If the action was successful
+ <pre> 'invalid_id'
+ 'nothing_to_update' No open trip found for the provided user and trip ID
+ 'trip_ended' Trip ended successfully</pre></li></ul></td>
+  </tr>
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Dang Huynh</td>
+  </tr>
+  <tr>
+    <td><b>version:</b>&nbsp;&nbsp;</td><td>2.0</td>
+  </tr>
+  <tr>
+    <td><b>todo:</b>&nbsp;&nbsp;</td><td>End a planned trip</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+<br /><br />
+<br /><br />
+<br />
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Thu, 22 Mar 2012 15:39:05 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

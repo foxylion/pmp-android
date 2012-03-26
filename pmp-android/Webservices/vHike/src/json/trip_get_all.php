@@ -1,22 +1,32 @@
 <?php
 /**
- * This service is used to get the open trip by the logged in user if it's available.
+ * This service is used to get all the trips started by the logged in user.
  *
  * GET  Parameters:
  * - sid Session ID
+ * POST Parameters:
+ * - all (boolean)
  *
- * @return string A JSON response
+ * @return string A JSON response. If 'all' was set, this service will return all trips started by the user, otherwise
+ *          only the trips which weren't started or ended will be returned.
+ *
  * - <b>error</b> Error string if available
  * - <b>msg</b> Error message if available
  *
- * If the user has an open trip, these information will be included:
+ * - status 'no_trip'
+ * OR
+ * - <b>trips</b> : array, include all these information
+ * [{
  * - <b>trip_id</b>
  * - <b>avail_seats</b>
  * - <b>destination</b>
  * - <b>creation</b> (long) millisecond
+ * - <b>started</b> boolean
+ * - <b>ending</b> (long) millisecond
+ *}, ...]
  *
  * @author  Dang Huynh
- * @version 1.0
+ * @version 1.1
  * @package vhike.services
  */
 /**
@@ -33,14 +43,16 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 	$user = Session::getInstance()->getLoggedInUser();
-	$trip = Trip::get_open_trip($user->getId());
-	if ($trip) {
-		$output = array('id'         => $trip['id'],
-						'avail_seats'=> $trip['avail_seats'],
-						'destination'=> $trip['destination'],
-						'creation'   => $trip['creation']);
+
+	if (isset($_POST['all'])) {
+		$trips = Trip::get_trips($user->getId(), TRUE);
 	} else {
-		$output = array('status'=>'no_trip');
+		$trips = Trip::get_trips($user->getId());
+	}
+	if ($trips == NULL) {
+		$output = array('status'=> 'no_trip');
+	} else {
+		$output = array('trips'=> $trips);
 	}
 	echo Json::arrayToJson($output);
 } catch (DatabaseException $de) {
