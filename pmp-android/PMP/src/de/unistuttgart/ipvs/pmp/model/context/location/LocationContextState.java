@@ -43,7 +43,11 @@ public class LocationContextState extends PMPGeoPoint {
     
     
     public long getTime() {
-        return this.time;
+        if ((this.set & TIME_UNSET) > 0) {
+            return Long.MIN_VALUE;
+        } else {
+            return this.time;
+        }
     }
     
     
@@ -54,7 +58,11 @@ public class LocationContextState extends PMPGeoPoint {
     
     
     public float getAccuracy() {
-        return this.accuracy;
+        if ((this.set & ACCURACY_UNSET) > 0) {
+            return Float.MAX_VALUE;
+        } else {
+            return this.accuracy;
+        }
     }
     
     
