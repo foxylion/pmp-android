@@ -65,7 +65,7 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     
     private TabPrivacySettings activity;
     
-    Map<Long, View> cachedViews = new HashMap<Long, View>();
+    Map<IPrivacySetting, View> cachedViews = new HashMap<IPrivacySetting, View>();
     
     
     /**
@@ -99,15 +99,15 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
             ViewGroup parent) {
         
-        if (convertView != null) {
-            cachedViews.put(new Long(groupPosition * childPosition), convertView);
-            return convertView;
+        IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
+        
+        if (cachedViews.containsKey(ps)) {
+            return cachedViews.get(ps);
         }
         
-        View view = new ViewPrivacySettingPreset(this.context, this.preset, (IPrivacySetting) getChild(groupPosition,
-                childPosition), this);
+        View view = new ViewPrivacySettingPreset(this.context, this.preset, ps, this);
         
-        cachedViews.put(new Long(groupPosition * childPosition), view);
+        cachedViews.put(ps, view);
         
         return view;
     }
@@ -212,7 +212,7 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         
-        for (Map.Entry<Long, View> entry : cachedViews.entrySet()) {
+        for (Map.Entry<IPrivacySetting, View> entry : cachedViews.entrySet()) {
             if (entry.getValue() instanceof ViewPrivacySettingPreset) {
                 ((ViewPrivacySettingPreset) entry.getValue()).refresh();
             }

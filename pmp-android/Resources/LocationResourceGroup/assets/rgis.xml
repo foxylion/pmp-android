@@ -20,7 +20,7 @@
 		</privacySetting>
 		<privacySetting identifier="useCoordinates"
 			validValueDescription="'true', 'false'">
-			<name lang="en">Absolute location</name>
+			<name lang="en">Exact location</name>
 			<name lang="de">Genaue Ortung</name>
 			<description lang="en">Obtains access to the exact current location.</description>
 			<description lang="de">Erlaubt Zugriff auf die aktuell exakte Position.</description>
