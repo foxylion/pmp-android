@@ -464,6 +464,10 @@ public class Preset extends ModelElement implements IPreset {
      * Forces a rollout to all the affected apps. Useful when this preset changed its active state.
      */
     public void rollout() {
+        if (this.contextAnnotations.size() > 0) {
+            BootReceiver.startService(PMPApplication.getContext());
+        }
+        
         for (IApp app : getAssignedApps()) {
             app.verifyServiceFeatures();
         }
