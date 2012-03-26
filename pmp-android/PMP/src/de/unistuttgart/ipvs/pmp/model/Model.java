@@ -652,6 +652,9 @@ public class Model implements IModel, Observer {
                 // update model
                 creatorMap.remove(presetIdentifier);
                 
+                // remove old CAs
+                this.cache.getContextAnnotations().remove(p);
+                
                 IPCProvider.getInstance().startUpdate();
                 try {
                     for (IApp app : p.getAssignedApps()) {
