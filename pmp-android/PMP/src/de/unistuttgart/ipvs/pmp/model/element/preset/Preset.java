@@ -258,14 +258,14 @@ public class Preset extends ModelElement implements IPreset {
         FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
                 "Requested to assign service feature '%s' to preset '%s'.", serviceFeature.getName(), getName());
         
-        startUpdate();
+        IPCProvider.getInstance().startUpdate();
         try {
             for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
                 assignPrivacySetting(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
             }
             
         } finally {
-            endUpdate();
+            IPCProvider.getInstance().endUpdate();
         }
     }
     
@@ -288,20 +288,6 @@ public class Preset extends ModelElement implements IPreset {
     public List<MissingApp> getMissingApps() {
         checkCached();
         return new ArrayList<MissingApp>(this.missingApps);
-    }
-    
-    
-    @Override
-    @Deprecated
-    public void startUpdate() {
-        IPCProvider.getInstance().startUpdate();
-    }
-    
-    
-    @Override
-    @Deprecated
-    public void endUpdate() {
-        IPCProvider.getInstance().endUpdate();
     }
     
     
