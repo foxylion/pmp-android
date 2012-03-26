@@ -5,18 +5,18 @@ import java.util.List;
 import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
-import de.unistuttgart.ipvs.pmp.model.assertion.ModelIntegrityError;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.context.IContext;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
-import de.unistuttgart.ipvs.pmp.model.element.preset.Preset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.BootReceiver;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
@@ -235,10 +235,8 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
     
     
     private void rolloutPreset() {
-        Assert.instanceOf(this.preset, Preset.class, ModelIntegrityError.class, Assert.ILLEGAL_CLASS, "preset",
-                this.preset);
-        Preset castPreset = (Preset) this.preset;
-        castPreset.rollout();
+        // will calculate the CA's activity first, then rollout the presets
+        BootReceiver.startService(PMPApplication.getContext());
     }
     
 }
