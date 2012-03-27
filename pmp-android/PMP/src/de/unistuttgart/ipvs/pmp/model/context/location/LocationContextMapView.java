@@ -51,11 +51,13 @@ public class LocationContextMapView extends MapActivity {
     public static final List<GeoPoint> GEO_POINTS = new ArrayList<GeoPoint>();
     public static boolean NEGATE = false;
     
-    private static final int CONTEXT_MENU_REMOVE_BUTTON_ID = 1;
-    private static final int CONTEXT_MENU_MOVE_BUTTON_ID = 2;
+    protected static final int CONTEXT_MENU_REMOVE_BUTTON_ID = 1;
+    protected static final int CONTEXT_MENU_MOVE_BUTTON_ID = 2;
     protected static final int CONTEXT_MENU_ADD_BUTTON_ID = 3;
     protected static final int CONTEXT_MENU_CLEAR_BUTTON_ID = 4;
     protected static final int CONTEXT_MENU_NEGATE_BUTTON_ID = 5;
+    
+    public static final float MAX_MOVE_SIZE_FOR_LONG_TAP = 20f;
     
     class PointOverlays extends ItemizedOverlay<OverlayItem> {
         
@@ -219,7 +221,12 @@ public class LocationContextMapView extends MapActivity {
         this.map = new MapView(this, mapKey) {
             
             private long lastClickDown = 0L;
+            private float lastClickX = 0f;
+            private float lastClickY = 0f;
             private boolean moving = false;
+            
+            private final float MAX_MOVE_SIZE_FOR_LONG_TAP_SQR = MAX_MOVE_SIZE_FOR_LONG_TAP
+                    * MAX_MOVE_SIZE_FOR_LONG_TAP;
             
             
             @Override
@@ -227,11 +234,17 @@ public class LocationContextMapView extends MapActivity {
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         this.lastClickDown = ev.getEventTime();
+                        this.lastClickX = ev.getX();
+                        this.lastClickY = ev.getY();
                         this.moving = false;
                         break;
                     
                     case MotionEvent.ACTION_MOVE:
-                        this.moving = true;
+                        float distX = this.lastClickX - ev.getX();
+                        float distY = this.lastClickY - ev.getY();
+                        float distClickSqr = distX * distX + distY * distY;
+                        
+                        this.moving |= (distClickSqr > MAX_MOVE_SIZE_FOR_LONG_TAP_SQR);
                         break;
                     
                     case MotionEvent.ACTION_UP:
