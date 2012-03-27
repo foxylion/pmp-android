@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp;
 
 import android.app.Application;
 import android.content.Context;
+import android.provider.Settings;
 
 /**
  * This acts like an internal provider for {@link Context}.
@@ -52,6 +53,15 @@ public class PMPApplication extends Application {
      */
     public static Context getContext() {
         return instance.getApplicationContext();
+    }
+    
+    
+    /**
+     * 
+     * @return true, if the device has no ANDROID_ID set and likely is an emulator
+     */
+    public static boolean isEmulator() {
+        return Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID) == null;
     }
     
 }
