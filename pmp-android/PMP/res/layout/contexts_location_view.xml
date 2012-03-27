@@ -45,14 +45,13 @@
         android:id="@+id/changeCoordsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contexts_location_change_coordinates" />
-    
-    <ExpandableListView
-        android:id="@+id/coordinatesExpandableList"
+        android:text="@string/contexts_location_change_coordinates" android:layout_marginTop="10dp"/>
+
+    <ListView
+        android:id="@+id/geoPointsList"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:drawSelectorOnTop="true">
+        android:layout_height="wrap_content" >
 
-    </ExpandableListView>
+    </ListView>
 
 </LinearLayout>

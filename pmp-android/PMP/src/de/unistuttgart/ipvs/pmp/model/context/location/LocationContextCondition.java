@@ -409,7 +409,7 @@ public class LocationContextCondition {
         
         for (PMPGeoPoint point : this.polygon) {
             result.append(point.toString());
-            result.append(", ");
+            result.append("; ");
         }
         
         result.append("Uncertainty ");
