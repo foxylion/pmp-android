@@ -10,13 +10,21 @@
         <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
         <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<style type="text/css">
+			/* UserInterfacePrototype-Container
+				(added padding for ul/li     	*/
+			div.uip ul li{
+				margin-left: 300px;
+			}
+		</style>
     </head>
     <body>
         <div id="wrapper">
-            <div id="page-head-date">24. Februar 2012</div>
+            <div id="page-head-date">05. April 2012</div>
             <div id="page-head-title">InfoApp</div>
             <div id="page-title">InfoApp Spezifikation</div>
-            <div id="page-version">Version 3.8</div>
+            <div id="page-version">Version 4.0</div>
 
             <nav>
                 <div class="title">Inhaltsverzeichnis</div>
@@ -28,26 +36,30 @@
             <div id="content">
 
                 <h1 id="versionshistorie">Versionshistorie</h1>
+				
+				<h3>Version 4.0 (05.04.2012)</h3>
+				<ul>
+					<li>Erste Version der 4. Iteration</li>
+				</ul>
 
                 <h3>Version 3.8 FINAL (24.02.2012)</h3>
                 <ul>
                     <li>Finale Version nach 2. Review</li>
                 </ul>
 
-		<h3>Version 3.7 (22.02.2012)</h3>
+				<h3>Version 3.7 (22.02.2012)</h3>
                 <ul>
                     <li>Bilder wieder eingefügt</li>
                     <li>Kleinere Verbesserungen</li>
                 </ul>
 
-		<h3>Version 3.6 (21.02.2012)</h3>
+				<h3>Version 3.6 (21.02.2012)</h3>
                 <ul>
                     <li>Begriffslexikon verbessert</li>
                     <li>Grammatikalische Verbesserungen vorgenommen</li>
                 </ul>
 
-
-		<h3>Version 3.5 (13.02.2012)</h3>
+				<h3>Version 3.5 (13.02.2012)</h3>
                 <ul>
                     <li>Erneut Ressourcengruppen verbessert</li>
                     <li>Panels verbessert</li>
@@ -144,7 +156,7 @@
                 <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
-                <p>Die InfoApp wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v3.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
+                <p>Die InfoApp wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v4.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
 
                 <h2 id="internationalisierung">Internationalisierung</h2>
                 <p>Die einzige verfügbare Sprache für InfoApp ist Englisch, wobei weitere Übersetzungen ohne Anpassung des Quellcodes hinzugefügt werden können.</p>
@@ -154,9 +166,6 @@
 
                 <h2 id="wartbarkeit">Wartbarkeit</h2>
                 <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
-
-                <h2 id="abgeschlossenheit">Abgeschlossenheit</h2>
-                <p>Die InfoApp hat außer PMP und den darin verwendeten Ressourcengruppen keine weiteren externen Abhängigkeiten.</p>
 
                 <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
                 <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. Die InfoApp wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
@@ -194,290 +203,291 @@
 
 
             <h2 id="ui-panels">Panels</h2>
-            <p>In jedem Panel werden je nach Berechtigung die Informationen dargestellt.</p>
+            <p>In jedem Panel werden je nach Berechtigung Informationen dargestellt. Folgende Panels wird die InfoApp zur Verfügung stellen:
+				<ul>
+					<li>Verbindungen/Netze (<span class="reference" title="#panel-connections"></span>)</li>
+					<li>Batterie/Energie (<span class="reference" title="#panel-energy"></span>)</li>
+					<li>Profilinformationen (<span class="reference" title="#panel-profile"></span>)</li>
+					<li>Technische Geräteinformationen (<span class="reference" title="#panel-hardware"></span>)</li>
+				</ul>
+			</p>
 
-            <h3  id="panel-rss">Nachrichten-Panel</h3>
-	    <div class="uip">
-            <a href="gui-prototype/panel-rss.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-rss.png" alt="Home" class="left" width="300" />
-            </a>
-            <p>In diesem Panel werden verschiedene RSS-Feeds abgerufen und dargestellt.</p>
-            <p><em>Verwendet die RSS-Feed-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
-            </div>
-
-            <h3 id="panel-bookmarks">Bookmarks-Panel</h3>
-<div class="uip">
-            <a href="gui-prototype/panel-bookmarks.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-bookmarks.png" alt="Home" class="left" width="300" />
-            </a>
- <p>In diesem Panel werden die zehn neuesten Bookmarks eingeblendet. Bei entsprechenden Berechtigungen können die Bookmarks auch bearbeitet werden.</p>
-            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
-            </div>
-           
-
-            <h3 id="panel-browserhistory">Browserhistory-Panel</h3>
-            <div class="uip">
-            <a href="gui-prototype/panel-browserhistory.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-browserhistory.png" alt="Home" class="left" width="300" />
-            </a>
-<p>In diesem Panel werden die zehn zuletzt besuchten Seiten angezeigt. Bei entsprechender Berechtigung kann die History gelöscht werden.</p>
-            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
-            </div>
-            
-
-            <h3  id="panel-searchistory">Suchhistory-Panel</h3>
-            <div class="uip">
-            <a href="gui-prototype/panel-searchistory.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-searchistory.png" alt="Home" class="left" width="300" />
-            </a>
-<p>In diesem Panel werden die letzten zehn Suchanfragen angezeigt. Bei entsprechender Berechtigung kann die History gelöscht werden.</p>
-            <p><em>Verwendet die Browser-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
-            </div>
-            
-
-            <h3 id="panel-translation">Übersetzungs-Panel</h3>
-            <div class="uip">
-            <a href="gui-prototype/panel-translation.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-translation.png" alt="Home" class="left" width="300" />
-            </a>
-<p>In diesem Panel kann ein Text von Englisch ins Deutsche übersetzt werden.</p>
-            <p><em>Verwendet die Übersetzungs-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
+            <h3  id="panel-connections">Connections-Panel</h3>
+			<div class="uip">
+				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				</a>
+				<p>
+					<ul>    
+						<li>WLAN</li>
+						<li>Bluetooth</li>
+						<li>Datenverbindung</li>
+						<li>Mobilfunknetz</li>
+					</ul>
+				</p>
+				<p><br/>
+					<b>Verwendete Ressourcengruppen:</b>
+					<ul>
+						<li>
+							de.unistuttgart.ipvs.pmp.resourcegroups.connections<br/>(<span class="reference" title="#rg-connections"></span>)
+						</li>
+						<li>
+							de.unistuttgart.ipvs.pmp.resourcegroups.location<br/>(<span class="reference" title="#rg-location"></span>)
+						</li>
+					</ul>
+				</p>
+				<div class="clear">
+				</div>
             </div>
 
-                        <h3 id="panel-location">Standort-Panel</h3>
-            <div class="uip">
-            <a href="gui-prototype/panel-location.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-location.png" alt="Home" class="left" width="300" />
-            </a>
-<p>In diesem Panel wird eine Karte, sowie weitere Details über den aktuellen Standort angezeigt. Hierbei können die GPS-Genauigkeit, Geschwindigkeit und GPS-Koordinaten angezeigt werden.</p>
-            <p><em>Verwendet die Standort-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
+            <h3 id="panel-energy">Energy-Panel</h3>
+			<div class="uip">
+				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				</a>
+				<p>
+					<ul>
+						<li>Batteriestand</li>
+						<li>Dauer des Aufladevorgangs</li>
+						<li>Akkulaufzeit</li>
+						<li>Aufladeintervall</li>
+						<li>Akkuverschleiß</li>
+					</ul>
+				</p>
+				<p><br/>
+					<b>Verwendete Ressourcengruppen:</b>
+					<ul>
+						<li>
+							de.unistuttgart.ipvs.pmp.resourcegroups.energy<br/>(<span class="reference" title="#rg-energy"></span>)
+						</li>
+					</ul>
+				</p>
+				<div class="clear">
+				</div>
             </div>
-            
-            
-            <h3  id="panel-weather">Wetter-Panel</h3>
+
+            <h3 id="panel-profile">Profile-Panel</h3>
             <div class="uip">
-            <a href="gui-prototype/panel-weather.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-weather.png" alt="Home" class="left" width="300" />
-            </a>
-<p>In diesem Panel wird das lokale Wetter für die nächsten Tage angezeigt.</p>
-	    <p><em>Verwendet die Wetter- und Standort-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
-            </div>
-            
-            <!--
-			
-            <h3 id="panel-contacts">Kontakte-Panel</h3>
-            <div class="uip">
-            <a href="gui-prototype/panel-contacts.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-contacts.png" alt="Home" class="left" width="300" />
-            </a>
-<p>Es werden je nach Berechtigung die Kontakte mit verschiedenen Details wie Vorname, Nachname, Email, vollständiger Adresse und das Benutzerbild angezeigt.</p>
-	    <p><em>Verwendet die Kontakte-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
+				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				</a>
+				<p>
+					<ul>
+						<li>Anzahl SMS</li>
+						<li>Anzahl eingehender/ausgehender SMS pro Tag</li>
+						<li>Anzahl Anrufe (eingehend/ausgehend) pro Tag</li>
+						<li>Ort der Anrufe</li>
+						<li>Art des Klingelns (Vibration, Töne, Lautlos, ..)</li>
+						<li>Anzahl Kontakte</li>
+						<li>Gerät aktiv pro Tag</li>
+						<li>Anzahl Apps/aktive Apps (parallel)/aktive</li>
+					</ul>
+				</p>
+				<p><br/>
+					<b>Verwendete Ressourcengruppen:</b>
+					<ul>
+						<li>
+							de.unistuttgart.ipvs.pmp.resourcegroups.profile<br/>(<span class="reference" title="#rg-profile"></span>)
+						</li>
+						<li>
+							de.unistuttgart.ipvs.pmp.resourcegroups.location<br/>(<span class="reference" title="#rg-location"></span>)
+						</li>
+					</ul>
+				</p>
+				<div class="clear">
+				</div>
             </div>
             
             <h3 id="panel-hardware">Hardware-Panel</h3>
             <div class="uip">
-            <a href="gui-prototype/panel-hardware.png" rel="ui-prototype" class="fancybox">
-            <img src="gui-prototype/panel-hardware.png" alt="Home" class="left" width="300" />
-            </a>
-	    <p>Es werden je nach Berechtigung verschiedene Informationen über Hardware-Geräte wie Kamera, Audio, GPS, Bluetooth und WLAN angezeigt. Bei entsprechenden Berechtigungen können diese Geräte auch ein-/ausgeschaltet bzw. konfiguriert werden.</p>
-	    <p><em>Verwendet die Hardware-Ressourcengruppe.</em></p>
-	    <div class="clear"></div>
+				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				</a>
+				<p>
+					<ul>
+						<li>Gesamtlaufzeit des Geräts</li>
+						<li>Speicherverfügbarkeit interner/externer Speicher</li>
+						<li>SDK-Version</li>
+						<li>Kernel-Version</li>
+						<li>Hersteller</li>
+						<li>Modell</li>
+						<li>Displayauflösung</li>
+						<li>Weitere technische Daten</li>
+					</ul>
+				</p>
+				<p><br/>
+					<b>Verwendete Ressourcengruppen:</b>
+					<ul>
+						<li>
+							de.unistuttgart.ipvs.pmp.resourcegroups.hardware<br/>(<span class="reference" title="#rg-hardware"></span>)
+						</li>
+					</ul>
+				</p>
+				<div class="clear">
+				</div>
             </div>
-			
-			-->
 
             <div class="pagebreak"></div>
 
             <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
-            <div class="uip">
-                <p>
-                    Es werden alle Ressourcengruppen aufgelistet, die neu implementiert oder modifiziert werden.
-                    Es wird jeweils der Deutsche Name, der Englische Name und der Klassenpfad der Ressourcengruppe in der Form [Name, full.class.path] angegeben.<br />
-                    Zu jeder Ressourcengruppe werden die einzelnen Privacy Settings erläutert und bei jedem Privacy Setting die möglichen Werte aufgelistet.
-                </p>
-            </div>
 
+            <h2 id="rg-connections">Verbindungen/Netze</h2>
+			<ul>
+				<li><b>Name:</b> Connections</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.connections</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>wifi-status</td>
+							<td>WLAN-Status</td>
+							<td>WLAN-Status auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>wifi-change</td>
+							<td>WLAN-Switch</td>
+							<td>WLAN-Status ändern</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>bluetooth-status</td>
+							<td>Bluetooth-Status</td>
+							<td>Bluetooth-Status auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>bluetooth-change</td>
+							<td>Bluetooth-Switch</td>
+							<td>Bluetooth-Status ändern</td>
+							<td>true, false</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
+			
+			<h2 id="rg-energy">Batterie/Energie</h2>
+			<ul>
+				<li><b>Name:</b> Energy</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.energy</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>battery-status</td>
+							<td>Batteriestand</td>
+							<td>Batteriestand auslesen</td>
+							<td>true, false</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
 
-            <h2 id="rss-feed">RSS-Feeds</h2>
-            <p>[RSS-Feeds, de.unistuttgart.ipvs.pmp.resourcegroups.rssfeeds]</p>
-            <p>Ermöglicht das Empfangen von RSS-Feeds.</p>
-		    <ul>
-			<li>
-			    <h3 id="rss-feed-1">RSS-Feeds abrufen</h3>
-			    <p>Erlaubt das Abrufen von RSS Feeds aus dem Internet.</p>
-			    <p><em>true, false</em></p>
-			</li>
-			<li>
-			    <h3 id="rss-feed-2">Speziellen RSS-Feeds abrufen</h3>
-			    <p>Kann benutzt werden um den Zugriff auf bestimmte RSS-Feeds zu beschränken</p>
-			    <p><em>url, url[]</em></p>
-			</li>
-		    </ul>
+            <h2 id="rg-profile">Profilinformationen</h2>
+			<ul>
+				<li><b>Name:</b> Profile</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.profile</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>contactlist-sum</td>
+							<td>Anzahl Kontakte</td>
+							<td>Anzahl der Kontakte auslesen</td>
+							<td>true, false</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
 
-		                <h2 id="weather">Wetter</h2>
-            <p>[Weather, de.unistuttgart.ipvs.pmp.resourcegroups.weather]</p>
-            <p>Ermöglicht das Abrufen von Wetterinformationen.</p>
-		    <ul>
-			<li>
-			    <h3 id="rss-feed-1">Wetter abrufen</h3>
-			    <p>Erlaubt das Abrufen von Wetterdaten aus dem Internet.</p>
-			    <p><em>true, false</em></p>
-			</li>
-		    </ul>
-            
-            <h2 id="translation">Online-Übersetzung</h2>
-            <p>[Translation, de.unistuttgart.ipvs.pmp.resourcegroups.translation]</p>
-            <p>Ermöglicht das automatische Übersetzen von Texten.</p>
-		    <ul>
-			<li>
-			    <h3 id="rss-feed-1">Online Übersetzung verwenden</h3>
-			    <p><em>true, false</em></p>
-			</li>
-		    </ul>
-		    
-			<!--
-            <h2 id="filesystem">Dateisystem</h2>
-            <p>[FileSystem, de.unistuttgart.ipvs.pmp.resourcegroups.filesystem]</p>
-            <p>Ermöglicht den Zugriff auf den internen Speicher von Android oder auf die SD-Karte</p>
-        <ul>
-                        <li>
-                            <h3 id="filesystem-">Dateizugriff (lesen)</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="filesystem-">Dateizugriff (schreiben)</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="filesystem-">Dateizugriff (löschen)</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="filesystem-">Dateizugriff (Pfad)</h3>
-                            <p><em>null, path, path[]</em></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <h2 id="rg-hardware">Technische Geräteinformationen</h2>
+			<ul>
+				<li><b>Name:</b> Hardware</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.hardware</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>manufacturer</td>
+							<td>Hersteller</td>
+							<td>Hersteller auslesen</td>
+							<td>true, false</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
 
-            <h2 id="hardware">Hardware</h2>
-            <p>[hardware, de.unistuttgart.ipvs.pmp.resourcegroups.hardware]</p>
-            <ul>
-                <li>
-                    <h3 id="bluetooth">Bluetooth</h3>                 
-                    <ul>
-                        <li>
-                            <h3 id="bluetooth-status">Bluetooth-Status auslesen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="bluetooth-status">Bluetooth-Status ändern</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 id="wifi">WLAN</h3>                 
-                    <ul>
-                        <li>
-                            <h3 id="wifi-status">WLAN-Status auslesen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="wifi-status">WLAN-Status ändern</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 id="battery">Batterie</h3>
-                    <ul>
-                        <li>
-                            <h3 id="battery-status">Batterie-Status auslesen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h2 id="contacts">Kontakte</h2>
-            <p>[Contacts, de.unistuttgart.ipvs.pmp.resourcegroups.contacts]</p>
-                    <ul>
-                        <li>
-                            <h3 id="contactlist-access">Vorname anzeigen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="contactlist-access">Nachname anzeigen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="contactlist-access">Emailadresse anzeigen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="contactlist-access">Adresse anzeigen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                        <li>
-                            <h3 id="contactlist-access">Benutzerbild anzeigen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
--->
-            <h2 id="browser">Browser</h2>
-            <p>[Browser, de.unistuttgart.ipvs.pmp.resourcegroups.browser]</p>
-            <ul>
-                <li>
-                    <h3 id="bookmarks">Bookmarks</h3>                 
-                    <ul>
-                        <li>
-                            <h3 id="bookmarks-access">Bookmarks auslesen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                                                <li>
-                            <h3 id="bookmarks-access">Bookmarks bearbeiten</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 id="history">History</h3>                 
-                    <ul>
-                        <li>
-                            <h3 id="history-access">Browser-History auslesen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                                                <li>
-                            <h3 id="history-access">Browser-History löschen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 id="search-history">Such-History</h3>                 
-                    <ul>
-                        <li>
-                            <h3 id="search-history-access">Such-History auslesen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                                                <li>
-                            <h3 id="search-history-access">Such-History löschen</h3>
-                            <p><em>true, false</em></p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <div class="clear"></div>
+            <h2 id="rg-location">Ortung</h2>
+			<ul>
+				<li><b>Name:</b> Location</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.location</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>useAbsoluteLocation</td>
+							<td>Genaue Ortung</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useCoordinates</td>
+							<td>Koordinaten Ortung</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position via Koordinaten.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useAccuracy</td>
+							<td>Genauigkeit nutzen</td>
+							<td>Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useSpeed</td>
+							<td>Aktuelle Geschwindigkeit</td>
+							<td>Erlaubt Zugriff auf die aktuelle Geschwindigkeit.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useLocationDescription</td>
+							<td>Genauigkeit der Beschreibung</td>
+							<td>Erlaubt Zugriff auf eine mehr oder weniger genaue Beschreibung der aktuellen Position.</td>
+							<td>NONE, COUNTRY, CITY, STREET</td>
+						</tr>
+						<tr>
+							<td>locationPrecision</td>
+							<td>Genauigkeit der Ortung</td>
+							<td>Wie genau die Ortung sein soll.</td>
+							<td>Integer größer oder gleich 0</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
 
             <div class="pagebreak"></div>
             <h1 id="begriffslexikon">Begriffslexikon</h1>
