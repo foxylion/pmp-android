@@ -214,15 +214,41 @@
 
             <h3  id="panel-connections">Connections-Panel</h3>
 			<div class="uip">
-				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				<a href="gui-prototype/connections-panel.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/connections-panel.png" alt="Home" class="left" width="300" />
 				</a>
 				<p>
 					<ul>    
-						<li>WLAN</li>
-						<li>Bluetooth</li>
-						<li>Datenverbindung</li>
-						<li>Mobilfunknetz</li>
+						Wifi:
+						<li>State: on/off</li>
+						<li>Connected (last 24 hours): hh:mm</li>
+						<li>Connected (last month): dd:hh:mm</li>
+						<li>Configured networks: number of networks</li>
+						<li>Cities where you connected... (öffnet den Dialog unterhalb)</li><br>
+						
+						Bluetooth:
+						<li>State: on/off</li>
+						<li>Connected (last 24 hours): hh:mm</li>
+						<li>Connected (last month): dd:hh:mm</li>
+						<li>Paired devices: number of paired devices</li>
+						<li>Cities where you connected... (öffnet den Dialog unterhalb)</li><br>
+						
+						Data connection:
+						<li>State: connected/not connected</li><br>
+						
+						Cellular phone network:
+						<li>Connected to: provider</li>
+						<li>Signal strength: </li>
+						<li>Roaming: active/not active</li>
+						<li>Airplane mode last 24 hours: hh:mm</li>
+					</ul>
+				</p>
+				<a href="gui-prototype/connections-panel-dialog.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/connections-panel-dialog.png" alt="Home" class="left" width="300" />
+				</a>
+				<p>
+					<ul>    
+						Dieser Dialog zeigt eine Liste mit den Städten an, in der der Nutzer mit einem WLan oder Bluetooth verunden war
 					</ul>
 				</p>
 				<p><br/>
@@ -230,9 +256,6 @@
 					<ul>
 						<li>
 							de.unistuttgart.ipvs.pmp.resourcegroups.connections<br/>(<span class="reference" title="#rg-connections"></span>)
-						</li>
-						<li>
-							de.unistuttgart.ipvs.pmp.resourcegroups.location<br/>(<span class="reference" title="#rg-location"></span>)
 						</li>
 					</ul>
 				</p>
@@ -350,21 +373,21 @@
 							<td>true, false</td>
 						</tr>
 						<tr>
-							<td>wifi-change</td>
-							<td>WLAN-Switch</td>
-							<td>WLAN-Status ändern</td>
-							<td>true, false</td>
-						</tr>
-						<tr>
 							<td>bluetooth-status</td>
 							<td>Bluetooth-Status</td>
 							<td>Bluetooth-Status auslesen</td>
 							<td>true, false</td>
 						</tr>
 						<tr>
-							<td>bluetooth-change</td>
-							<td>Bluetooth-Switch</td>
-							<td>Bluetooth-Status ändern</td>
+							<td>data-connection-status</td>
+							<td>Data Connection-Status</td>
+							<td>Datenverbindungs-Status auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>cell-phone-network-status</td>
+							<td>Mobilfunk-Status</td>
+							<td>Mobilfunk-Status auslesen</td>
 							<td>true, false</td>
 						</tr>
 					</table>
