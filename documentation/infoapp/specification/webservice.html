@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Webservice Entwurf - Privacy Management Platform</title>
+  <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../../_layout/script.js"></script>
+  <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+  <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <!-- Notizen:
+  Noch fehlende Serives: E-Mail ändern, Passwort ändern
+  -->
+  <div id="wrapper">
+    <div id="page-head-date">22. Januar 2012</div>
+    <div id="page-head-title">Privacy Management Platform</div>
+    <div id="page-title">Sezifikation - Webservice InfoApp</div>
+    <div id="page-version">Version 4.0</div>
+    
+    <nav>
+      <div class="title">Inhaltsverzeichnis</div>
+      <ul>
+      </ul>
+    </nav>
+    
+    <!-- here comes the content of the specification -->
+    <div id="content">
+    
+      <h1 id="introduction">Einleitung</h1>
+      <p>
+        Dieses Dokument stellt den Aufbau des Webservices und dessen
+        Schnittstellen dar. Es richtet sich daher auch an die Entwickler der
+        Applikationen, die die zur Verfügung gestellten Schnittstellen verwenden
+        möchten.
+      </p>
+      
+
+      <h1 id="database">Datenbank</h1>          
+      <p>                                      
+        TODO
+      <p>    
+        <img src="./db-layout.png" alt="Database Layout" style="width:100%">
+      </p>
+      
+     
+      <h1 id="interface">Schnittstelle</h1>
+      <p>
+        Dieser Abschnitt beschreibt die für den Zugriff auf den Webservice bereitsgestellte
+        Schnittstellen.
+      </p>
+      <p>
+        Hierzu werde nachfolgend alle verfügbaren PHP-Skripte aufgelistet, die von
+        diesen erwartete Parameter genannt und die durch das Skript generierte Ausgabe erläutert.
+      </p>
+      <p>
+        Die Übergabe von Parametern, die keinen Einfluss auf den Zustand des Servers
+        haben (also keine auf den Server gespeicherten Daten manipulieren) 
+        ergolgt über HTTP-GET (d. h. die Parameter werden der URL angehängt).
+        Für alle anderen Parameter sowie Parameter, über die eine große Menge an Daten
+        übertragen werden, erfolgt die Datenübertragung durch HTTP-Post.
+      </p>
+      <p>
+        Die Rückgabe des PHP-Skripts - also die Antwort auf Anfragen - erfolgt
+        in JSON. Hierbei gibt es JSON-Schlüssel, die von jedem Skript zurückgegeben
+        werden sowie Schlüssel, die Skript spezifisch sind.
+      </p>
+        
+      <h2 id="interface_defaultjsonkey">Standard JSON Schlüssel</h2>
+      <p>
+        Die JSON Rückgabe jedes Skipts enthält in der obersten Ebene den 
+        Schlüssel <code>successful</code>. Dieser gibt an, ob die Anfrage erfolgreich
+        bearbeitet werden konnte (<code>successful</code> ist auf <code>true</code>
+        gesetzt), oder ob bei der Bearbeitung Fehler aufgetreten sind 
+        (<code>successful</code> auf <code>false</code>. z.B. wenn der Benutzer
+        nicht angemeldet sit, die Abfrage jedoch einen angemeldeten Benutzer verlangt).
+      </p>
+      
+      <h2 id="interface_error">Fehlerrückgabe</h2>
+      <p>
+        Wie bereits erwähnt, wird über den Schlüssel <code>successful</code> signalisiert, 
+        ob die Anfrage verarbeitet werden konnte. Ist dieser auf <code>false</code>
+        gestzt, wurde die Anfrage nicht erfolreich ausgeführt. In diesem Fall
+        hat die JSON Rückgabe jedes Skripts immer folgenden Aufbau:
+      </p>
+<pre>
+{
+  "successful": false,
+  "error": String,
+  "msg": String;
+}                                 
+</pre>
+      <p>
+        Der Wert des Schlüssels <code>error</code> definiert die Ursache des Fehlers.
+        Momentan sind folgende Werte vorgesehen:
+        <ul>
+          <li><code>not_logged_in</code> - der Benutzer ist nicht angemeldet, die
+            Ausführung der Anfrage erfordert dies jedoch</li>
+          <li><code>invalid_database-query</code> - interner Fehler. Die für die Bearbeitung
+            der Anfrage durchgeführte Datanbankabfrage ist fehlerhaft</li>
+          <li><code>cannot_connect_to_database</code> - interner Fehler. Die Verbindung
+            zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>   
+          <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
+            ungültigen Wert enthält (z.B. Integer verlangt, Wert jedoch kein Integer)</li>
+        </ul>
+        Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
+        innerhalb der auf den Webservice zugreifenden Applikation.
+        Wird bei z. B. beim Zugriff auf einen Service ein <code>NOT_LOGGED_IN</code>-Fehler
+        zurückgegeben, so kann das Login-Script aufgerufen werden, und anschließend die Anfrage, die zuvor diesen Fehler
+        erzeugte.
+      </p>
+      <p>
+        In vielen Fällen genügt der Fehler-Schlüssel jedoch nicht, um den Fehler genau beschreiben 
+        zu können.  So ist es etwa bei einem <code>invalid_database-query</code>-Fehler
+        hilfreich zu wissen, worin der Fehler genau bestand (Tabelle nicht vorhanden? etc.).
+        Daher exisitert der Schlüssel <code>msg</code>, über den weitere Informationen
+        über den Fehler ausgegeben werden können.
+      </p>
+      
+      <h2 id="interface_query">Anfragen</h2>
+      <p>
+        Nachfolgend werden alle Anfragen aufgelistet, die gegenwärtig vom 
+        Webservice unterstützt werden. Für alle diese Anfragen wird nur der Fall
+        behandelt, in dem die Anfrage erfolgreich bearbeitet werden konnte
+        (<code>successful</code> auf <code>true</code>). Für das Verhalten im Fehlerfall
+        siehe obiger Abschnitt.
+      </p>
+      <p>
+        <b>Hinweis:</b> Mit "Zugriffsrecht" wird angegeben, welche Benutzer 
+        diese Anfrage ausführen können. Ist diese Bedinung nicht erfüllt, wird ein
+        Fehler zurückgegeben (siehe vorhergehender Abschnitt).
+      <p>
+        <b>Wichtig:</b>
+        Es ist darauf zu achten, dass bei jeder Übertragung der protokollierten 
+        Daten nur diejenigen übertragen werden, die sich seit dem letzten Hochladen 
+        verändert haben. Ansonsten kann die Statistik durch mehrfach eingetragene
+        Daten verfälchen.
+      </p>
+      </p>
+      
+      <h3 id="interface_query_types">Wertetypen</h3>
+      <p>
+        Gegenwärtig werden folgende Wertetypen für die Parameter verwendet:
+        <ul>
+          <li>DeviceID: Identifikation des Endgerätes. Hierbei handelt es sich
+            um den 32-Stelligen MD5-Hash, der als String übertragen wird (z. B.
+            b7c2e4787e7f950c89909795907208d3). Der Hash wird über 
+            <code>TelephonyManager.getDeviceId();</code> gebildet (<i>TODO:</i> noch abklären)</li>
+          <li>Boolean: Wird als Zeichenkette <code>true</code> oder <code>false</code>
+            übergeben. Zeichenketten, die nicht <code>true</code> entsprechen, darunter
+            auch leere Zeichenketten, werden (sofern nichts anderes vermerkt), als
+            <code>false</code> interpretiert</li>
+          <li>Integer</li>
+          <li>Float</li>
+          <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>
+          <li>DateTime: Eine Zeichenkette, die eine Datums- und Zeitangabe darstellt.
+            Die Angabe hat das Format <code>yyyy-mm-dd hh:mm:ss</code> (24-Stunden-Format, 
+            z. B. 2012-01-22 16:11:33)</li>
+        </ul>
+      </p>
+      
+
+      <h3 id="interface_query_connection_duration">Verbindungsdauer</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_duration.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Verbindungsdaten auf den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
+              <li><code>avgDay</code> - Float: Gesamtdauer der Verbindung der letzten 24 Stunden bzw. der Durchschnitt über die Verbindungsdauer der letzten Tage seit dem letzten Upload.
+                                          In Minuten</li>
+              <li><code>avgMonth</code> - Float: Gesamtdauer der Verbindung des letzten Monats bzw. der Durchschnitt über die Verbindungsdauer der letzten Monate seit dem letzten Upload.
+                                          In Minuten</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      <h3 id="interface_query_connection_cities">Verbindung, Städte</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_cities.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Daten zu den Städten, in denen eine Verbindung bestandt,
+            auf den Server übertragen. 
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
+              <li><code>city</code> - String: Stadt, in der die Verbindung statt fand</li>
+              <li><code>times</code> - Integer: Anzahl der Verbindung in der angegebenen Stadt</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+                                  
+      <h3 id="interface_query_connection_count">Verbindungs-Anzahl</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_count.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Anzahl der konfigurierten Netzwerke bzw. gepaarte Geräte aktualisieren
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
+              <li><code>count</code> - Integer: Anzahl</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      <h3 id="interface_query_connection_cellular">Mobilfunk-Verbindungen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_cellular.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Informationen zur Mobilfunk-Verbindung übertragen
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>provider</code> - String: Mobilfunkanbieter des Benutzer</li>
+              <li><code>signalStrength</code> - Integer (0 &le; x &le; 100): Signalstärke</li>
+              <li><code>roaming</code> - Boolean: True, wenn Roaming aktiv</li>
+              <li><code>avgAirplaneMode</code> - Float: Gesamtdauer, in dem das Telefon in den letzten 24 Stunden im Airplante-Mode war
+                                          bzw. der Durchschnitt über die letzten Tage seit dem letzten Upload.
+                                          In Minuten</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table> 
+      
+      <h3 id="interface_query_battery">Akku-Status</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_battery.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Informationen zum Zustand des Akkus übertragen
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>technology</code> - String: Technologie des Akkus</li>
+              <li><code>health</code> - Integer (0 &le; x &le; 100): Akkuverschleiß</li>
+              <li><code>batteryLife</code> - Float: (Durchschnittliche) Akkulaufzeit in Minuten</li>
+              <li><code>rechargeDuarten</code> - Float: (Durchschnitliche) Aufladezeit</li>
+              <li><code>rechargeInterval</code> - Float: Durchschnittliche Aufladeintervalle pro Tag</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      
+      
+            
+      <h1 id="versions">Versionshistorie</h1> 
+      
+      <h3>Version 4.0</h3>
+      <ul>
+        <li>Mit Erstellen des Dokuments auf Basis der Dokumentation des vHike-Webservices erstellt</li>
+      </ul>
+      
+    </div>
+    <!-- // end of specification's content -->
+  </div>
+</body>
+</html>
