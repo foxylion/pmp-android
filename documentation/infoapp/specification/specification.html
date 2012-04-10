@@ -265,17 +265,40 @@
 
             <h3 id="panel-energy">Energy-Panel</h3>
 			<div class="uip">
-				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				<a href="gui-prototype/energy-panel.jpg" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/energy-panel.jpg" alt="Home" class="left" width="300" />
 				</a>
 				<p>
-					<ul>
-						<li>Batteriestand</li>
-						<li>Dauer des Aufladevorgangs</li>
-						<li>Akkulaufzeit</li>
-						<li>Aufladeintervall</li>
-						<li>Akkuverschleiß</li>
-					</ul>
+				<ul>
+					Aktuelle Werte:
+					<li>Batteriestand (in Prozent)</li>
+					<li>Gesundheit der Batterie</li>
+					<li>Status des Aufladevorgangs (Ja/Nein)</li>
+					<li>Quelle und Zeit des Aufladevorgangs (Falls momentan geladen wird)</li>
+					<li>Temperatur der Batterie</li>
+				</ul>
+				<ul>
+					Werte seit letztem Systemstart:
+					<li>Datum des letzten Systemstarts</li>
+					<li>Betriebszeit</li>
+					<li>Betriebszeit mit Batterie</li>
+					<li>Dauer aller Ladevorgänge</li>
+					<li>Verhältnis (Ladebetrieb/Batteriebetrieb)</li>
+					<li>Anzahl der Ladevorgänge</li>
+					<li>Maximale Temperatur der Batterie</li>
+					<li>Durchschnittliche Temperatur der Batterie</li>
+				</ul>
+				<ul>
+					Gesamtwerte:
+					<li>Datum des Messungsbegings</li>
+					<li>Betriebszeit</li>
+					<li>Betriebszeit mit Batterie</li>
+					<li>Dauer aller Ladevorgänge</li>
+					<li>Verhältnis (Ladebetrieb/Batteriebetrieb)</li>
+					<li>Anzahl der Ladevorgänge</li>
+					<li>Maximale Temperatur der Batterie</li>
+					<li>Durchschnittliche Temperatur der Batterie</li>
+				</ul>
 				</p>
 				<p><br/>
 					<b>Verwendete Ressourcengruppen:</b>
@@ -351,6 +374,154 @@
             </div>
 
             <div class="pagebreak"></div>
+			
+			<h1 id="sfs">Service Features</h1>
+			
+            <h2 id="sf-energy-current">Aktuelle Energiewerte</h2>
+			<ul>
+				<li><b>Identifier:</b> energy_current</li>
+				<li><b>Name:</b> Current energy values</li>
+				<li><b>Beschreibung:</b> Get information about current values of the battery and energy management of the device.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.energy (<span class="reference" title="#rg-energy"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>battery-status</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-health</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-charging-status</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-charging-source</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-charging-time</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-temperature</td>
+									<td>current</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-energy-since-last-boot">Energiewerte seit letztem Systemstart</h2>
+			<ul>
+				<li><b>Identifier:</b> energy_since_last_boot</li>
+				<li><b>Name:</b> Energy values since last boot</li>
+				<li><b>Beschreibung:</b> Get information about the values of the battery and energy management of the device since last boot.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.energy (<span class="reference" title="#rg-energy"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>device-dates</td>
+									<td>last_boot</td>
+								</tr>
+								<tr>
+									<td>device-battery-charging-uptime</td>
+									<td>all</td>
+								</tr>
+								<tr>
+									<td>battery-charging-ratio</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-temperature</td>
+									<td>all</td>
+								</tr>
+								<tr>
+									<td>battery-charging-count</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-energy-total">Energiewerte gesamt</h2>
+			<ul>
+				<li><b>Identifier:</b> energy_total</li>
+				<li><b>Name:</b> Energy values since start of measurement</li>
+				<li><b>Beschreibung:</b> Get information about the values of the battery and energy management of the device since start of measurement.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.energy (<span class="reference" title="#rg-energy"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>device-dates</td>
+									<td>all</td>
+								</tr>
+								<tr>
+									<td>device-battery-charging-uptime</td>
+									<td>all</td>
+								</tr>
+								<tr>
+									<td>battery-charging-ratio</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>battery-temperature</td>
+									<td>all</td>
+								</tr>
+								<tr>
+									<td>battery-charging-count</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-energy-total">Energiewerte auswerten</h2>
+			<ul>
+				<li><b>Identifier:</b> energy_statistics</li>
+				<li><b>Name:</b> Evalute the energy values</li>
+				<li><b>Beschreibung:</b> Send all values of energy measurement to a statistic server.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.energy (<span class="reference" title="#rg-energy"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>upload-data</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<div class="pagebreak"></div>
 
             <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
 
@@ -390,6 +561,12 @@
 							<td>Mobilfunk-Status auslesen</td>
 							<td>true, false</td>
 						</tr>
+						<tr>
+							<td>upload-data</td>
+							<td>Hochladen</td>
+							<td>Daten auf Auswertungsserver hochladen</td>
+							<td>true, false</td>
+						</tr>
 					</table>
 				</li>
 			</ul>
@@ -410,6 +587,66 @@
 							<td>battery-status</td>
 							<td>Batteriestand</td>
 							<td>Batteriestand auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>battery-health</td>
+							<td>Gesundheit</td>
+							<td>Gesundheit der Batterie auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>battery-charging-status</td>
+							<td>Ladezustand</td>
+							<td>Auslesen, ob momentan geladen wird</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>battery-charging-source</td>
+							<td>Ladequelle</td>
+							<td>Ladequelle auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>battery-charging-time</td>
+							<td>Ladezeit</td>
+							<td>Ladezeit auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>battery-temperature</td>
+							<td>Batterie-Temperatur</td>
+							<td>Temperatur der Batterie auslesen (Aktuelle, Maximalwert, Durchschnittswert)</td>
+							<td>current, all, none</td>
+						</tr>
+						<tr>
+							<td>battery-charging-ratio</td>
+							<td>Lade-Batterie-Verhältnis</td>
+							<td>Verhältnis zwischen Lade- und Batteriebetriebszeit auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>battery-charging-count</td>
+							<td>Anzahl Ladevorgäng</td>
+							<td>Anzahl der Ladevorgäng auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>device-battery-charging-uptime</td>
+							<td>Betriebszeit</td>
+							<td>Betriebszeit des Gerätes auslesen (Betriebszeit gesamt, Batteriebetriebszeit, Aufladedauer)</td>
+							<td>total_time, all, none</td>
+						</tr>
+						<tr>
+							<td>device-dates</td>
+							<td>Betriebsdatum</td>
+							<td>Daten des Geräts auslesen (Datum des letzten Systemstarts, Datum seit Messungsbeging)</td>
+							<td>last_boot, all, none</td>
+						</tr>
+						<tr>
+							<td>upload-data</td>
+							<td>Hochladen</td>
+							<td>Daten auf Auswertungsserver hochladen</td>
 							<td>true, false</td>
 						</tr>
 					</table>
@@ -434,6 +671,12 @@
 							<td>Anzahl der Kontakte auslesen</td>
 							<td>true, false</td>
 						</tr>
+						<tr>
+							<td>upload-data</td>
+							<td>Hochladen</td>
+							<td>Daten auf Auswertungsserver hochladen</td>
+							<td>true, false</td>
+						</tr>
 					</table>
 				</li>
 			</ul>
@@ -454,6 +697,12 @@
 							<td>manufacturer</td>
 							<td>Hersteller</td>
 							<td>Hersteller auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>upload-data</td>
+							<td>Hochladen</td>
+							<td>Daten auf Auswertungsserver hochladen</td>
 							<td>true, false</td>
 						</tr>
 					</table>
