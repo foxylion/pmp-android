@@ -173,30 +173,29 @@
                 <div class="pagebreak"></div>
 
                 <h1 id="benutzeroberfläche">Benutzeroberfläche</h1>
-				Das Start-Panel kann vom Benutzer in den Einstellungen der InfoApp festgelegt werden.
 
                 <h2 id="ui-mainactivity">Start-Panel</h2>
                 <div class="uip">
-                    <a href="gui-prototype/panel-weather.png" rel="ui-prototype" class="fancybox">
-                        <img src="gui-prototype/panel-weather.png" alt="Home" class="left" width="300" />
+                    <a href="gui-prototype/start-panel.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/start-panel.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Nach dem Starten der InfoApp wird automatisch das Start-Panel (hier: Wetter-Panel) geöffnet.<br>Grundsätzlich wird in der InfoApp eine Kopfzeile angezeigt, in der unter anderem der Name des gerade aktiven Panels angezeigt wird.</p>
+                    <p>Nach dem Starten der InfoApp wird automatisch das Start-Panel (hier: Energy-Panel) geöffnet.<br>Grundsätzlich wird in der InfoApp eine Kopfzeile angezeigt, in der unter anderem der Name des gerade aktiven Panels angezeigt wird.</p>
                     <div class="clear"></div>
                 </div>
 
                 <div class="uip">
-                    <a href="gui-prototype/switch.png" rel="ui-prototype" class="fancybox">
-                        <img src="gui-prototype/switch.png" alt="Home" class="left" width="300" />
+                    <a href="gui-prototype/switch-panels.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/switch-panels.png" alt="Home" class="left" width="300" />
                     </a>
                     <p>Durch eine Wisch-Geste auf dem Bildschirm kann zwischen den einzelnen Panels hin- und hergewechselt werden. Auf jedem Panel werden bestimmte Ressourcengruppen verwendet. Die Anzahl der verfügbaren Panels richtet sich nach den installierten Ressourcengruppen und den gewährten Rechten.<br>Eine Übersicht über alle Panels befindet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
                     <div class="clear"></div>
                 </div>
 
                 <div class="uip">
-                    <a href="gui-prototype/settings.png" rel="ui-prototype" class="fancybox">
-                        <img src="gui-prototype/settings.png" alt="Home" class="left" width="300" />
+                    <a href="gui-prototype/settings-dialog.png" rel="ui-prototype" class="fancybox">
+                        <img src="gui-prototype/settings-dialog.png" alt="Home" class="left" width="300" />
                     </a>
-                    <p>Mit der "Menü"-Taste können die Einstellungen der InfoApp geöffnet werden.</p>
+                    <p>Mit der "Menü"-Taste können die Einstellungen der InfoApp geöffnet werden. Im geöffneten Dialog können sowohl allgemein Einstellungen, wie beispielsweise das Einstellen des Start-Panels, als auch spezielle Einstellungen der verschiedenen Panels vorgenommen werden.</p>
                     <div class="clear"></div>
                 </div>
             </div>
@@ -284,6 +283,8 @@
 					<li>Betriebszeit mit Batterie</li>
 					<li>Dauer aller Ladevorgänge</li>
 					<li>Verhältnis (Ladebetrieb/Batteriebetrieb)</li>
+					<li>Dauer Bildschirm an</li>
+					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrach</li>
 					<li>Anzahl der Ladevorgänge</li>
 					<li>Maximale Temperatur der Batterie</li>
 					<li>Durchschnittliche Temperatur der Batterie</li>
@@ -295,6 +296,8 @@
 					<li>Betriebszeit mit Batterie</li>
 					<li>Dauer aller Ladevorgänge</li>
 					<li>Verhältnis (Ladebetrieb/Batteriebetrieb)</li>
+					<li>Dauer Bildschirm an</li>
+					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrach</li>
 					<li>Anzahl der Ladevorgänge</li>
 					<li>Maximale Temperatur der Batterie</li>
 					<li>Durchschnittliche Temperatur der Batterie</li>
@@ -590,6 +593,10 @@
 									<td>battery-charging-count</td>
 									<td>true</td>
 								</tr>
+								<tr>
+									<td>device-screen</td>
+									<td>true</td>
+								</tr>
 							</table>
 						</li>
 					</ul>
@@ -627,6 +634,10 @@
 								</tr>
 								<tr>
 									<td>battery-charging-count</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>device-screen</td>
 									<td>true</td>
 								</tr>
 							</table>
@@ -805,6 +816,12 @@
 							<td>last_boot, all, none</td>
 						</tr>
 						<tr>
+							<td>device-screen</td>
+							<td>Bildschirm</td>
+							<td>Auslesen, ob der Bildschirm eingeschaltet ist.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
 							<td>upload-data</td>
 							<td>Hochladen</td>
 							<td>Daten auf Auswertungsserver hochladen</td>
@@ -917,46 +934,6 @@
 							<td>Genauigkeit der Ortung</td>
 							<td>Wie genau die Ortung sein soll.</td>
 							<td>Integer größer oder gleich 0</td>
-						</tr>
-					</table>
-				</li>
-			</ul>
-			
-			<h2 id="rg-ws">Webservice</h2>
-			<ul>
-				<li><b>Name:</b> Webservice</li>
-				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.infoappws</li>
-				<li><b>Privacy Settings:</b>
-					<table>
-						<tr>
-							<th>Identifier</th>
-							<th>Name</th>
-							<th>Beschreibung</th>
-							<th>Mögliche Werte</th>
-						</tr>
-						<tr>
-							<td>uploadConnectionStats</td>
-							<td>Connections-Panel Daten hochladen</td>
-							<td>Erlaubt das Hochladen der protokollierten Daten des Connections-Panels.</td>
-							<td>true, false</td>
-						</tr>
-						<tr>
-							<td>uploadEnergyStats</td>
-							<td>Energy-Panel Daten hochladen</td>
-							<td>Erlaubt das Hochladen der protokollierten Daten des Energy-Panels.</td>
-							<td>true, false</td>
-						</tr>
-						<tr>
-							<td>uploadProfileStats</td>
-							<td>Profile-Panel Daten hochladen</td>
-							<td>Erlaubt das Hochladen der protokollierten Daten des Profile-Panels.</td>
-							<td>true, false</td>
-						</tr>
-						<tr>
-							<td>uploadHardwareStats</td>
-							<td>Hardware-Panel Daten hochladen</td>
-							<td>Erlaubt das Hochladen der protokollierten Daten des Hardware-Panels.</td>
-							<td>true, false</td>
 						</tr>
 					</table>
 				</li>
