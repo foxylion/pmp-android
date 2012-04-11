@@ -155,6 +155,8 @@
             <code>false</code> interpretiert</li>
           <li>Integer</li>
           <li>Float</li>
+          <li>Json: Eine Zeichenkette, die ein JSON-Objekt darstellt. Der Aufbau
+            des Objekts wird in der Zeile "JSON"-Parameter erläutert</li>
           <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>  
           <li>Date: Eine Zeichenkette, die eine Datumsangabe darstellt.
             Die Angabe hat das Format <code>yyyy-mm-dd</code> (z. B. 2012-01-22)</li>
@@ -164,6 +166,76 @@
         </ul>
       </p>
       
+      
+      <h3 id="interface_upload_connection_events">Bluetooth/WLan Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_events.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte WLan-Verbindungsevents an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>          
+              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>                                        
+              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "connected": Boolean,     // Verbunden/Verbindung getrennt
+      "enabled": Boolean,       // Adapter an/aus
+      "city": String
+    },
+    ...
+  ]
+}                                 
+
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      <!--
 
       <h3 id="interface_query_connection_duration">Verbindungsdauer</h3>
       <table>
@@ -193,11 +265,6 @@
               <li><code>date</code> - Date: Datum, zu dem die gespeicherten Daten hochgeladen werden</li>
               <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
               <li><code>value</code> - Float: Gesamtdauer der Verbindung an diesem Tag</li>
-              <!--<li><code>avgDay</code> - Float: Gesamtdauer der Verbindung der letzten 24 Stunden bzw. der Durchschnitt über die Verbindungsdauer der letzten Tage seit dem letzten Upload.
-                                          In Minuten</li>
-              <li><code>avgMonth</code> - Float: Gesamtdauer der Verbindung des letzten Monats bzw. der Durchschnitt über die Verbindungsdauer der letzten Monate seit dem letzten Upload.
-                                          In Minuten</li>
-                                          -->
             </ul>
           </td>
         </tr>      
@@ -220,6 +287,7 @@
           <td>Nicht implementiert</td>
         </tr>
       </table>
+
       
       <h3 id="interface_query_connection_cities">Verbindung, Städte</h3>
       <table>
@@ -273,7 +341,7 @@
           <td>Nicht implementiert</td>
         </tr>
       </table>
-      
+-->      
                                   
       <h3 id="interface_query_connection_update">Verbindungsdaten aktualisieren</h3>
       <table>
@@ -325,6 +393,74 @@
         </tr>
       </table>
       
+      
+      <h3 id="interface_upload__cellular_events">Mobilfunk-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_events.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Mobilfunk-Verbindungsevents an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "roaming": Boolean,       // Roaming aktive/nicht aktiv
+      "airplane": Boolean       // Airplane-Mode an/aus
+    },
+    ...
+  ]
+}                                 
+
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
       <h3 id="interface_query_connection_cellular">Mobilfunk-Verbindungen</h3>
       <table>
         <tr>
@@ -352,10 +488,10 @@
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
               <li><code>provider</code> - String: Mobilfunkanbieter des Benutzer</li>
               <li><code>signalStrength</code> - Integer (0 &le; x &le; 100): Signalstärke</li>
-              <li><code>roaming</code> - Boolean: True, wenn Roaming aktiv</li>
+              <!--li><code>roaming</code> - Boolean: True, wenn Roaming aktiv</li>
               <li><code>avgAirplaneMode</code> - Float: Gesamtdauer, in dem das Telefon in den letzten 24 Stunden im Airplante-Mode war
                                           bzw. der Durchschnitt über die letzten Tage seit dem letzten Upload.
-                                          In Minuten</li>
+                                          In Minuten</li>-->
             </ul>
           </td>
         </tr>      
@@ -377,18 +513,92 @@
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
-      </table> 
+      </table>
       
-      <h3 id="interface_query_battery">Akku-Status</h3>
+      
+      <h3 id="interface_upload_battery_events">Akku-Events übertragen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>upload_battery.php</td>
+          <td>upload_battery_events.php</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
           <td>
-            Informationen zum Zustand des Akkus übertragen
+            Protokollierte Akku-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "level": Integer,         // Prozent (0 bis 100)
+      "plugged": Character,     // Werte: n, a, u
+                                // (Entspr. "not", "ac", "usb")
+      "present": Boolean,
+      "status": Character,      // Werte: c, d, f, n, u
+                                // (Enstpr. "charg.", "discharg.", 
+                                //   "full", "not charg", "unkn.")
+      "temperature": Float 
+    },
+    ...
+  ]
+}                                 
+
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_query_battery">Akku Informationen aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_battery_info.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Informationen zum Akku übertragen
           </td>
         </tr>
         <tr>
@@ -431,6 +641,8 @@
           <td>Nicht implementiert</td>
         </tr>
       </table>    
+      
+      <!--
       
       <h3 id="interface_query_battery_boot">Akku Werte je Systemstart</h3>
       <table>
@@ -489,7 +701,7 @@
           <td>Nicht implementiert</td>
         </tr>
       </table>   
-      
+                          
       <h3 id="interface_query_profile">Profil</h3>
       <table>
         <tr>
@@ -546,8 +758,147 @@
           <td>Nicht implementiert</td>
         </tr>
       </table>     
+-->      
       
-      <h3 id="interface_query_profile">Profil aktualisieren</h3>
+      
+      
+      <h3 id="interface_upload_profile_events">Akku-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_profile_events.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Profil-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "event": Character,       // Art des Events
+                                // Werte: c (Call), s (SMS)
+      "direction": Character,   // "Richtung" des Events
+                                // Werte: i (eingehend), o (ausgehend)
+      "city": String
+    },
+    ...
+  ]
+}                                 
+
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      <h3 id="interface_upload_awake_events">Aufweck-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_awake_events.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Aufwck-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "awake": Boolean          // Geräte aktiv/inaktiv
+    },
+    ...
+  ]
+}                                 
+
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}                                 
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      
+      <h3 id="interface_update_profile">Profil aktualisieren</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -597,7 +948,7 @@
         </tr>
       </table>    
       
-      <h3 id="interface_query_profile_cities">Profil, Städte</h3>
+      <!--<h3 id="interface_query_profile_cities">Profil, Städte</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -647,7 +998,7 @@
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
-      </table>
+      </table>-->
       
       
       
@@ -657,7 +1008,7 @@
       
       <h3>Version 4.1</h3>
       <ul>
-        <li>Bestehende Services an geänderte Bedingungen (Tagesgenaue Auflösung) angepasst und
+        <li>Bestehende Services an geänderte Bedingungen (Event-System) angepasst und
           weitere Services (Akku, Profil) hinzugefügt</li>
       </ul>
       
