@@ -70,13 +70,17 @@
 		<h4 id= "fkt_registrieren">Registrieren</h4>
 		<p>
 			Es wird möglich sein neue Benutzer zu registrieren.
-			Es wird eine aktive Email-Adresse benötigt.
+			Es wird eine aktive Email-Adresse benötigt. Anzugeben sind eine aktive Email-Adresse, Benutzername und Passwort. Optional sind Name, Vorname, Beschreibung (?) und Telefonnummer (?) (optional/pflicht?).
 		</p>
 		<h4 id= "fkt_login">Einloggen</h4>
 		<p>
 			Um sich im System einzuloggen benötigt man einen Benutzer und ein Passwort,
-			welcher bei der Registrierung angegeben wurde.
+			welcher bei der Registrierung angegeben wurde. Über anhaken des entsprechenden Radio-Buttons erfolgt die Anmeldung automatisch.
 		</p>
+        <h4 id= "fkt_logout">Ausloggen</h4>
+        <p>
+            Über das Hauptmenü kann aus vHike ausgeloggt werden. Nach dem Logout wird der Login-Screen angezeigt.
+        </p>
 		<h4 id= "fkt_profil_ansehen">Profil ansehen</h4>
 		<p>
 			Es wird möglich sein in eigenes Profil einzusehen und die eigene Bewertung abzufragen.
@@ -84,22 +88,58 @@
 		</p>
 		<h4 id= "fkt_history_anzeigen">History anzeigen</h4>
 		<p>
-			Die History wird die Fahrten anzeigen, bei welchen man selbst dabei war.
-		</p>
+			Die History wird die Fahrten anzeigen, bei welchen man selbst dabei war. Entweder als Fahrer oder Mitfahrer. Eine Fahrt gibt Datum und Zielstadt an.
+		Je Fahrt werden Fahrer und alle Mitfahrer angezeigt.</p>
 		<h4 id= "fkt_profil_bewerten">Profil bewerten</h4>
 		<p>
-			Aus der History heraus wird es möglich sein andere Mitfahrer zu bewerten.
+			Aus der History heraus wird es möglich sein andere Mitfahrer zu bewerten. Die Bewertung kann pro Profil nur einmal duchgeführt werden.
 		</p>
-		<h4 id= "fkt_fahrt_starten">Fahrt starten</h4>
+		<h4 id= "fkt_fahrt_starten">Fahrt starten (WLAN)</h4>
 		<p>
-			Es wird möglich sein eine Fahrt bis zu einem Ziel zu starten und die Anzahl der freien Plätzen anzugeben.
-			Es wird eine Karte angezeigt, auf welcher man sehen kann, wo man sich gerade befindet und falls möglich Mitfahrer 				einladen bzw. ablehnen.
+			Es wird möglich sein eine Fahrt bis zu einem Ziel zu starten und die Anzahl der freien Plätzen anzugeben. Zudem ist es möglich Zwischenziele hinzuzufügen.
+			Dabei werden der Standort bestimmt, als auch automatisch nach potentiellen Mitfahrer innerhalb eines festgelegten Umkreises gesucht. Gefundene Mitfahrer werden auf der Karte angezeigt und können eingeladen werden. Nach einer angenommen Einladung wird der Fahrer benachrichtigt und kann ihn über einen Button-Klick abholen.
 		</p>
-		<h4 id= "fkt_fahrt_suchen">Fahrt suchen</h4>
+		<h4 id= "fkt_fahrt_suchen">Fahrt suchen (WLAN)</h4>
 		<p>
-			Es wird möglich sein nach Fahrten bis zu einem Ziel zusuchen.
-			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, 				warten.
+			Es wird möglich sein nach Fahrten bis zu einem Ziel zusuchen. Zwischenziele sind nicht möglich.
+			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, 				warten. Ein Einladung kann entweder abgelehnt oder angenommen werden. Wird ein Fahrer abgelehnt verschwindet er von der Karte und kann von diesem nicht mehr eingeladen werden. Wird die Einladung akzeptiert, wird die Karte geschlossen und man kehrt zum vorherigem Menü zurück.
 		</p>
+        <h4 id= "fkt_weg_einzeichnen">Weg einzeichnen</h4>
+        <p>
+            Automatisch, falls Einladung angenommen wurde. Für beide?
+        </p>
+        <h4 id= "fkt_kommunikation_tel">Über Telefon kommunizieren</h4>
+        <p>
+            Über Icon-Klick-Dialog, Profile, Slider?
+        </p>
+        <h4 id= "fkt_kommunikation_sms">Über SMS kommunizieren</h4>
+        <p>
+            Über Icon-Klick-Dialog, Profile, Slider?
+        </p>
+        <h4 id= "fkt_fahrt_planen">Mitfahrgelegenheit anlegen</h4>
+        <p>
+            Bei einer Änderung des Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden.
+        </p>
+        <h4 id= "fkt_fahrt_teilnehmen">An Mitfahrgelegenheit teilnehmen</h4>
+        <p>
+            Über das Hauptmenü gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit Datum, Zielort(e) und Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden. (evtl. ohne auswählen direkt in der Auswahl anfragen?)
+        </p>
+        <h4 id= "fkt_fahrt_planen_blt">Fahrt starten (Bluetooth)</h4>
+        <p>
+            Fahrt über Bluetooth starten...
+        </p>
+        <h4 id= "fkt_fahrt_suchen_blt">Fahrt suchen (Bluetooth)</h4>
+        <p>
+            Fahrt über Bluetooth suchen...
+        </p>
+        <h4 id= "fkt_observationsmodus">Observationsmodus für Eltern</h4>
+        <p>
+            Web.
+        </p>
+        <h4 id= "fkt_statistik">Statistik anzeigen</h4>
+        <p>
+            Web.
+        </p>
       <h2 id="anforderungen">Anforderungen an vHike</h2>
 
       		<h3 id="oberflaeche">Oberfläche</h3>
@@ -110,6 +150,10 @@
             <h3 id="GPS">Ressource GPS</h3>
                 <p>
                     Die GPS-Ressource gibt dem Benutzer die Möglichkeit, GPS-Daten nach einem Zeitintervall zu aktualisieren oder in einem vordefinierten Umkreis zu suchen.
+                </p>
+                <h4 id="precision">Genauigkeit</h4>
+                <p>
+                    Wird dieses Service Feature aktiviert, werden genauere Daten wie Stadt, Straße und [...] zum Standort bestimmt.
                 </p>
                 <h4 id="posUpdateInt">Position-Update-Intervall</h4>
                 <p>
@@ -135,33 +179,21 @@
                 <p>
                     vHike sucht für den Fahrer in einem vordefinierten Zeitintervall nach Mitfahrern.
                 </p>
-            <h3 id="rg_rating">Ressource Rating</h3>
+            <h3 id="rg_rating">Ressource vHike</h3>
                 <p>
-                    Die Rating-Ressource kann nach Mitfahrern bzw. Fahrern filtern, die eine bestimmte durchschnittliche Bewertung erhalten haben.
+                    Die vHike-Ressource beinhaltet alle Funktionen die mit dem Webservice in Verbindung stehen. vHike benötigt diese Ressource, um sich An- und Abzumelden, zum Bewerten, Profil ansehen, Fahrt starten, Fahrt suchen, Mitfahrgelegenheit anlegen und an Mitfahrgelegenheit teilnehmen. Diese Ressource stellt zudem Service Feature bereit Art der Benachrichtigung festzulegen und sein eigenes Profil zu anonymisieren. 
                 </p>
-                <h4 id="search_by_rating">Search by Rating</h4>
+                <h4 id="search_by_rating">Search by Rating (raus?)</h4>
                 <p>
                     vHike zeichnet nur gefundene Mitfahrer/Fahrer ein, die eine bestimmte Bewertung besitzen. Die Bewertung wird in Sternen dargestellt. Ein Stern ist das Minimum, fünf Sternen das Maximum.
                 </p>
-            <h3 id="rg_anonymous_profile">Ressource Anonymous-Profile</h3>
+            <h4 id="anonymous_profile">Anonymous-Profile</h3>
                 <p>
-                    Die Ressource Anonymous-Profile stellt dem Benutzer frei Informationen über ihn entweder freizugeben oder zu verstecken.
+                    Wird dieses Service Feature aktiviert, werden alle Informationen ausser Benutzername und Bewertung, für andere ausgeblendet.
                 </p>
-                <h4 id="first_name">Hide first name</h4>
+            <h4 id="notification">Notification</h3>
                 <p>
-                    Vorname ein -oder ausblenden.
-                </p>
-                <h4 id="last_name">Hide last name</h4>
-                <p>
-                    Nachnamen ein -oder ausblenden.
-                </p>
-                <h4 id="phone">Hide phone number</h4>
-                <p>
-                    Telefonnummer ein -oder ausblenden.
-                </p>
-                <h4 id="email">Hide email</h4>
-                <p>
-                    E-Mail-Adresse ein -oder ausblenden.
+                    Eine Benachrichtigung kann über einen Anruf, SMS, Email (?) oder durch eine Statusbarnachricht erfolgen.
                 </p>
       <h1 id="prototyp">Benutzeroberfläche</h1>
       <h2 id="ui-home">Hauptmenü</h2>
@@ -236,12 +268,7 @@
 			</div>
 			<h2 id="ui-settings">Einstellungen</h2>
 			<div class="uip">
-				<a href="images/settings.png" rel="ui-prototype" class="fancybox">
-					<img src="images/settings.png" alt="settings" height="400px" class="left">
-				</a>
-				
-				<p>Einstellungen.</p>
-				<p>In den Einstellungen kann man die Ressourcen verwalten bzw. wird zu PMP weitergeleitet.</p>
+				<p>In den Einstellungen kann man die Ressourcen verwalten, dabei wird man auf die App PMP weitergeleitet.</p>
 				<div class="clear"></div>
 			</div>
     </div>
