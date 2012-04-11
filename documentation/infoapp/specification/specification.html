@@ -383,6 +383,137 @@
 			
 			<h1 id="sfs">Service Features</h1>
 			
+			<h2 id="sf-wifi-info">WLAN-Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> wifi-info</li>
+				<li><b>Name:</b> Wifi information</li>
+				<li><b>Beschreibung:</b> Get information about the wifi.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.connections (<span class="reference" title="#rg-connections"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>wifi-status-connection-status</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>wifi-configured-networks</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>wifi-connected-cities</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-bluetooth-info">Bluetooth-Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> bluetooth-info</li>
+				<li><b>Name:</b> Bluetooth information</li>
+				<li><b>Beschreibung:</b> Get information about the bluetooth.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.connections (<span class="reference" title="#rg-connections"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>bluetooth-status-connection-status</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>bluetooth-paired-devices</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>bluetooth-connected-cities</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-data-connection-info">Datenverbindungs Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> data-connection-info</li>
+				<li><b>Name:</b> Data conneciton information</li>
+				<li><b>Beschreibung:</b> Get information about the data connetion.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.connections (<span class="reference" title="#rg-connections"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>data-connection-status</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-cell-phone-info">Mobilfunk Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> cell-phone-info</li>
+				<li><b>Name:</b> Cellular phone network information</li>
+				<li><b>Beschreibung:</b> Get information about the cellular phone network.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.connections (<span class="reference" title="#rg-connections"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>cell-phone-network-status</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<h2 id="sf-connection-stats">Verbindungsdaten auswerten</h2>
+			<ul>
+				<li><b>Identifier:</b> connections-statistics</li>
+				<li><b>Name:</b> Evalute the connection values</li>
+				<li><b>Beschreibung:</b> Send all values of connection to a statistic server.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.connections (<span class="reference" title="#rg-connections"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>upload-data</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
             <h2 id="sf-energy-current">Aktuelle Energiewerte</h2>
 			<ul>
 				<li><b>Identifier:</b> energy_current</li>
@@ -544,15 +675,39 @@
 							<th>Mögliche Werte</th>
 						</tr>
 						<tr>
-							<td>wifi-status</td>
-							<td>WLAN-Status</td>
-							<td>WLAN-Status auslesen</td>
+							<td>wifi-status-connection-status</td>
+							<td>WLAN-Verbindungs-Status</td>
+							<td>WLAN-Verbindungs-Status auslesen</td>
 							<td>true, false</td>
 						</tr>
 						<tr>
-							<td>bluetooth-status</td>
-							<td>Bluetooth-Status</td>
-							<td>Bluetooth-Status auslesen</td>
+							<td>wifi-configured-networks</td>
+							<td>Konfigurierte Netzwerke</td>
+							<td>Konfigurierte WLAN-Netzwerke auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>wifi-connected-cities</td>
+							<td>Städte in der WLAN Verbindungen hergestellt wurden</td>
+							<td>Städte in der WLAN Verbindungen hergestellt wurden auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>bluetooth-status-connection-status</td>
+							<td>Bluetooth-Verbindungs-Status</td>
+							<td>Bluetooth-Verbindungs-Status auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>bluetooth-paired-devices</td>
+							<td>Gekoppelte Geräte</td>
+							<td>Gekoppelte Bluetooth-Geräte auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>bluetooth-connected-cities</td>
+							<td>Städte in der Bluetooth Verbindungen hergestellt wurden</td>
+							<td>Städte in der Bluetooth Verbindungen hergestellt wurden auslesen</td>
 							<td>true, false</td>
 						</tr>
 						<tr>
