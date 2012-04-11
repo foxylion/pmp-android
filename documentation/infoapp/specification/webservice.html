@@ -90,7 +90,7 @@
 {
   "successful": false,
   "error": String,
-  "msg": String;
+  "msg": String
 }                                 
 </pre>
       <p>
@@ -108,22 +108,23 @@
         </ul>
         Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
         innerhalb der auf den Webservice zugreifenden Applikation.
-        Wird bei z. B. beim Zugriff auf einen Service ein <code>NOT_LOGGED_IN</code>-Fehler
-        zurückgegeben, so kann das Login-Script aufgerufen werden, und anschließend die Anfrage, die zuvor diesen Fehler
+        Wird z. B. beim Zugriff auf einen Service ein <code>not_logged_in</code>-Fehler
+        zurückgegeben, so kann das Login-Script aufgerufen werden, und anschließend 
+        erneut die Anfrage, die zuvor diesen Fehler
         erzeugte.
       </p>
       <p>
         In vielen Fällen genügt der Fehler-Schlüssel jedoch nicht, um den Fehler genau beschreiben 
         zu können.  So ist es etwa bei einem <code>invalid_database-query</code>-Fehler
-        hilfreich zu wissen, worin der Fehler genau bestand (Tabelle nicht vorhanden? etc.).
+        hilfreich zu wissen, worin der Fehler genau bestand (Tabelle nicht vorhanden etc.).
         Daher exisitert der Schlüssel <code>msg</code>, über den weitere Informationen
         über den Fehler ausgegeben werden können.
       </p>
       
       <h2 id="interface_query">Anfragen</h2>
       <p>
-        Nachfolgend werden alle Anfragen aufgelistet, die gegenwärtig vom 
-        Webservice unterstützt werden. Für alle diese Anfragen wird nur der Fall
+        Nachfolgend werden alle Anfragen aufgelistet, die vom 
+        Webservice unterstützt werden sollen. Für alle diese Anfragen wird nur der Fall
         behandelt, in dem die Anfrage erfolgreich bearbeitet werden konnte
         (<code>successful</code> auf <code>true</code>). Für das Verhalten im Fehlerfall
         siehe obiger Abschnitt.
@@ -132,13 +133,6 @@
         <b>Hinweis:</b> Mit "Zugriffsrecht" wird angegeben, welche Benutzer 
         diese Anfrage ausführen können. Ist diese Bedinung nicht erfüllt, wird ein
         Fehler zurückgegeben (siehe vorhergehender Abschnitt).
-      <p>
-        <b>Wichtig:</b>
-        Es ist darauf zu achten, dass bei jeder Übertragung der protokollierten 
-        Daten nur diejenigen übertragen werden, die sich seit dem letzten Hochladen 
-        verändert haben. Ansonsten kann die Statistik durch mehrfach eingetragene
-        Daten verfälchen.
-      </p>
       </p>
       
       <h3 id="interface_query_types">Wertetypen</h3>
@@ -461,11 +455,11 @@
       </table>
       
       
-      <h3 id="interface_query_connection_cellular">Mobilfunk-Verbindungen</h3>
+      <h3 id="interface_update_connection_cellular">Mobilfunk-Verbindungen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>upload_connection_cellular.php</td>
+          <td>update_connection_cellular.php</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
