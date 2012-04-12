@@ -1081,7 +1081,7 @@
                 <level>Benutzersicht</level>
                 <created>08-11-2011 10:43</created>
                 <author/>
-                <lastUpdate>14-11-2011 17:20</lastUpdate>
+                <lastUpdate>12-04-2012 11:11</lastUpdate>
                 <primaryActorId>7</primaryActorId>
                 <actors>
                   <actorId>7</actorId>
@@ -1221,17 +1221,6 @@
                     </postConditions>
                   </extensionScenario>
                 </extensions>
-                <stepAnnotations>
-                  <stepAnnotation>
-                    <step>8</step>
-                    <annotation>
-                      <template>ID-a63e7488</template>
-                      <parameters/>
-                      <references/>
-                      <lgParameters/>
-                    </annotation>
-                  </stepAnnotation>
-                </stepAnnotations>
               </useCase>
             </children>
             <children>
@@ -1709,7 +1698,7 @@
                 <level>Benutzersicht</level>
                 <created>29-01-2012 12:00</created>
                 <author/>
-                <lastUpdate>29-01-2012 12:04</lastUpdate>
+                <lastUpdate>12-04-2012 11:13</lastUpdate>
                 <primaryActorId>7</primaryActorId>
                 <actors>
                   <actorId>7</actorId>
@@ -1753,44 +1742,37 @@
                     <step>
                       <stepNumber>4</stepNumber>
                       <actorId/>
-                      <description>zeigt einen Dialog, der die Auswahl von Presets und Eingabe eines Export-Pfades ermöglicht.</description>
+                      <description>exportiert die gewählten Presets auf den Server.</description>
                       <references/>
                       <attributes/>
                     </step>
                     <step>
                       <stepNumber>5</stepNumber>
-                      <actorId>7</actorId>
-                      <description>tätigt die gewünschten Eingaben und bestätigt.</description>
-                      <references/>
-                      <attributes/>
-                    </step>
-                    <step>
-                      <stepNumber>6</stepNumber>
                       <actorId/>
-                      <description>exportiert die gewählten Presets in den gewünschten Pfad.</description>
+                      <description>zeigt eine ID, mit der die Presets vom Server abgerufen werden können.</description>
                       <references/>
                       <attributes/>
                     </step>
                   </steps>
                   <postConditions>
                     <postCondition>
-                      <description>Alle gewünschten Presets wurden erfolgreich in den gewünschten Pfad exportiert</description>
+                      <description>Alle gewünschten Presets wurden erfolgreich auf den Server exportiert</description>
                     </postCondition>
                   </postConditions>
                 </mainScenario>
                 <extensions>
                   <extensionScenario>
-                    <associatedStep>6</associatedStep>
-                    <name>6a</name>
+                    <associatedStep>4</associatedStep>
+                    <name>4a</name>
                     <preConditions>
                       <preCondition>
-                        <description>Auf den gewünschten Pfad kann nicht geschrieben werden.</description>
+                        <description>Verbindung zum Server kann nicht aufgebaut werden.</description>
                       </preCondition>
                     </preConditions>
                     <attributes/>
                     <steps>
                       <step>
-                        <stepNumber>6a1</stepNumber>
+                        <stepNumber>4a1</stepNumber>
                         <actorId/>
                         <description>zeigt eine Fehlermeldung über die Umstände an.</description>
                         <references/>
@@ -1828,7 +1810,7 @@
                 <level>Benutzersicht</level>
                 <created>29-01-2012 12:04</created>
                 <author/>
-                <lastUpdate>29-01-2012 12:15</lastUpdate>
+                <lastUpdate>12-04-2012 11:15</lastUpdate>
                 <primaryActorId>7</primaryActorId>
                 <actors>
                   <actorId>7</actorId>
@@ -1872,21 +1854,21 @@
                     <step>
                       <stepNumber>4</stepNumber>
                       <actorId/>
-                      <description>zeigt einen Dialog, der die Auswahl eines Import-Pfades ermöglicht.</description>
+                      <description>zeigt einen Dialog, der die Auswahl einer ID, mit der die Presets vom Server abgerufen werden können, ermöglicht.</description>
                       <references/>
                       <attributes/>
                     </step>
                     <step>
                       <stepNumber>5</stepNumber>
                       <actorId>7</actorId>
-                      <description>tätigt die gewünschten Eingaben und bestätigt.</description>
+                      <description>gibt die gewünschten ID ein und bestätigt.</description>
                       <references/>
                       <attributes/>
                     </step>
                     <step>
                       <stepNumber>6</stepNumber>
                       <actorId/>
-                      <description>zeigt die Presets die im Import-Pfad gefunden werden als Auswahlliste an.</description>
+                      <description>lädt die Presets vom Server herunter und zeigt sie als Auswahlliste an.</description>
                       <references/>
                       <attributes>
                         <attribute id="actor" valueId="not human"/>
@@ -1895,7 +1877,7 @@
                     <step>
                       <stepNumber>7</stepNumber>
                       <actorId>7</actorId>
-                      <description>tätigt die gewünschten Eingaben und bestätigt.</description>
+                      <description>wählt die gewünschten Presets aus und bestätigt.</description>
                       <references/>
                       <attributes/>
                     </step>
@@ -1911,7 +1893,7 @@
                   </steps>
                   <postConditions>
                     <postCondition>
-                      <description>Alle gewünschten Presets wurden erfolgreich in den gewünschten Pfad exportiert</description>
+                      <description>Alle gewünschten Presets der ID wurden erfolgreich in PMP importiert</description>
                     </postCondition>
                   </postConditions>
                 </mainScenario>
@@ -1921,7 +1903,7 @@
                     <name>6a</name>
                     <preConditions>
                       <preCondition>
-                        <description>Vom gewünschten Pfad kann nicht gelesen werden.</description>
+                        <description>Verbindung zum Server kann nicht hergestellt werden.</description>
                       </preCondition>
                     </preConditions>
                     <attributes/>
@@ -2023,20 +2005,6 @@
                 </scenarioAnnotations>
                 <stepAnnotations>
                   <stepAnnotation>
-                    <step>6</step>
-                    <annotation>
-                      <template>ID-42271e98</template>
-                      <parameters>
-                        <parameter>
-                          <template>ID-f10ced1f</template>
-                          <value>Presets, die nicht bereits existieren</value>
-                        </parameter>
-                      </parameters>
-                      <references/>
-                      <lgParameters/>
-                    </annotation>
-                  </stepAnnotation>
-                  <stepAnnotation>
                     <step>8</step>
                     <annotation>
                       <template>ID-a63e7488</template>
@@ -2057,6 +2025,20 @@
                           <content>"Was soll getan werden?"</content>
                         </lgParameter>
                       </lgParameters>
+                    </annotation>
+                  </stepAnnotation>
+                  <stepAnnotation>
+                    <step>6</step>
+                    <annotation>
+                      <template>ID-42271e98</template>
+                      <parameters>
+                        <parameter>
+                          <template>ID-f10ced1f</template>
+                          <value>Presets, die nicht bereits existieren</value>
+                        </parameter>
+                      </parameters>
+                      <references/>
+                      <lgParameters/>
                     </annotation>
                   </stepAnnotation>
                 </stepAnnotations>
@@ -3273,6 +3255,15 @@
             </scenarioAnnotations>
             <stepAnnotations>
               <stepAnnotation>
+                <step>5</step>
+                <annotation>
+                  <template>ID-77376028</template>
+                  <parameters/>
+                  <references/>
+                  <lgParameters/>
+                </annotation>
+              </stepAnnotation>
+              <stepAnnotation>
                 <step>11</step>
                 <annotation>
                   <template>ID-c576be0</template>
@@ -3282,15 +3273,6 @@
                       <value>=(lokaleGröße/KompletteGröße)</value>
                     </parameter>
                   </parameters>
-                  <references/>
-                  <lgParameters/>
-                </annotation>
-              </stepAnnotation>
-              <stepAnnotation>
-                <step>5</step>
-                <annotation>
-                  <template>ID-77376028</template>
-                  <parameters/>
                   <references/>
                   <lgParameters/>
                 </annotation>
