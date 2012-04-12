@@ -565,18 +565,35 @@
 				
 				<div class="pagebreak"></div>
 				
+				<div class="sp-edit">
 				<h2 id="bgl-kontext">Kontext</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
 					<tr><th class="left">Synonyme</th><td>-</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Kontext beschränkt ein einem Preset zugewiesenes Privacy Setting. Ein Kontext kann an zeitliche oder örtliche Bedingungen geknüpft sein.</td></tr>
-					<tr><th class="left">Beispiele</th><td>Der Kontext "Kein Werktag" beschränkt das Priavcy Setting "Internet" im Preset Arbeit auf "false".</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>-</td></tr>
-					<tr><th class="left">Gültigkeit</th><td>Ein Kontext bleibt bestehen solange er an ein Privacy Setting gebunden ist und das zugehörige Preset aktiv ist.</td></tr>
-					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch das Privacy Setting, die Einstellungen und das zugehörige Preset eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Kontext stellt die Syntax, Semantik und Darstellung für die Bedingung einer Kontext-Annotation zur Verfügung..</td></tr>
+					<tr><th class="left">Beispiele</th><td>Mit dem Kontext "Zeit" kann die Bedingung "Kein Werktag" über eine GUI eingegeben werden. Es wird dann eine interne String-Darstellung "00:00:00-23:59:59-D56" erzeugt, die vom Kontext "Zeit" jederzeit auf ihre Aktivität überprüft werden kann, also ob heute ein Werktag ist oder nicht.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Kontext ist das abstrakte Modell hinter der Bedingung einer Kontext-Annotation.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Kontexte werden mit PMP ausgeliefert und bleiben solange gültig, wie PMP installiert ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Der Kontext wird durch einen eindeutigen Namen identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-kontextannotation"></span></td></tr>
 				</table>
+				</div>
+				
+				<div class="sp-add">
+				<h2 id="bgl-kontextannotation">Kontext-Annotation</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Kontext-Annotation</th></tr>
+					<tr><th class="left">Synonyme</th><td>-</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Eine Kontext-Annotation beschränkt ein einem Preset zugewiesenes Privacy Setting. Eine Kontext-Annotation ist äußere Bedingungen, z.B. zeitlich oder örtlich geknüpft.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Der Kontext "Kein Werktag" beschränkt das Priavcy Setting "Internet" im Preset Arbeit auf "false".</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Eine Kontext-Annotation ist eine konkrete Ausprägung eines Kontexts.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Eine Kontext-Annotation bleibt gültig, solange sie an ein in PMP vorhandenes Privacy Setting gebunden ist und das zugehörige Preset aktiv ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Die Kontext-Annotation wird durch das Privacy Setting, das zugehörige Preset und eine 32bit-Zufallszahl eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span></td></tr>
+				</table>
+				</div>
 				
 				<h2 id="bgl-preset">Preset</h2>
 				<table>
