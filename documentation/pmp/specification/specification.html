@@ -35,6 +35,8 @@
 					<li>Kapitel <span class="reference" title="#use-cases"></span>: Use-Cases 205, 210 und 211 wurden angepasst</li>
 					<li>Kapitel <span class="reference" title="#bgl-kontext"></span> und <span class="reference" title="#bgl-kontextannotation"></span> im Begriffslexikon besser getrennt</li>
 					<li>in Kapitel <span class="reference" title="#protokollierung"></span> auf <span class="reference" title="#protokoll"></span> verwiesen</li>
+					<li>Kapitel <span class="reference" title="#cloakmock"></span> hinzugefügt</li>
+					<li>Konzept <span class="reference" title="#bgl-nrps"></span> im Begriffslexikon hinzugefügt</li>
 				</ul>
 			
 				<h3>Version 3.1 (31.01.2012)</h3>
@@ -156,7 +158,7 @@
 						<p>PMP wird dem Benutzer ermöglichen Presets bequem über die Benutzeroberfläche zu importieren bzw. exportieren.</p>
 						<p>Details zum Importieren befinden sich im UseCase ID 211; zum Exportieren im UseCase ID 210.</p>
 					
-					<h3 id="protokoll">Protokoll</h3>					
+					<h3 id="protokoll">Protokoll</h3>
 					<p>PMP wird ein fortlaufendes, menschenlesbares Protokoll wichtiger Aktionen auf dem Gerät speichern. Die Protokollierung lässt sich in den Optionen aktivieren und dort auch die Granularität einstellen. Zu diesen Aktionen zählen:</p>
 					
 						<h4>Komponentenänderungen</h4>
@@ -192,6 +194,17 @@
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
 					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
+					
+					<div class="sp-add">
+					<h3 id="cloakmock">Cloak- und Mock-Funktionalität von Ressourcengruppen</h3>
+					<p>PMP wird in der Anbindung von Ressourcengruppen fordern, dass diese drei Modi bereitstellen:</p>
+					<ul>
+						<li><b>Normal</b>: Die Ressourcengruppe stellt die volle Funktionalität zur Verfügung.</li>
+						<li><b>Mock</b>: Die Ressourcengruppe gibt offensichtlich verschleierte oder verfälschte Daten zurück. Die App kann sich über diesen Umstand informieren.</li>
+						<li><b>Cloak</b>: Die Ressourcengruppe gibt vermeintlich korrekte Daten zurück, die aber in Wirklichkeit verschleiert oder verfälscht sind. Die App erfährt nichts über diesen Umstand.</li>
+					</ul>
+					<p>Aus diesen Modi soll der PMP-Benutzer beim Verwenden der Ressourcengruppen im Expert-Mode mit Hilfe von <span class="reference" title="#bgl-nrps"></span>s auswählen können.</p>
+					</div>
 					
 					<h3 id="anforderungen-sonstiges">Sonstiges</h3>
 					<p>
@@ -619,18 +632,35 @@
 				
 				<div class="pagebreak"></div>
 			
+				<div class="sp-edit">
 				<h2 id="bgl-privacysetting">Privacy Setting</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>
 					<tr><th class="left">Synonyme</th><td>Privacy Flag, Privacy Level</td></tr>
-					<tr><th class="left">Bedeutung</th><td>Ein Privacy Setting ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Ein Privacy Setting kann kontext-abhängig sein. Seine konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Privacy Setting ist eine Ressourcen-Einstellung in PMP, die durch die Ressourcengruppe definiert wird. Seine konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden.</td></tr>
 					<tr><th class="left">Beispiele</th><td>Die Ressource "Schachspiel-Highscore-Datenbank" könnte Privacy Settings wie "Lesen" oder "Schreiben" anbieten.</td></tr>
-					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Setting ist weder ein Service Feature noch ein Preset.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Ein Privacy Setting ist weder ein Service Feature noch ein Preset. Nicht zu verwechseln mit dem Non-Requestable Privacy Setting.</td></tr>
 					<tr><th class="left">Gültigkeit</th><td>Das Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
 					<tr><th class="left">Bezeichnung</th><td>Das Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
-					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span>,  <span class="reference" title="#bgl-preset"></span></td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span>,  <span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-nrps"></span></td></tr>
 				</table>
+				</div>
+				
+				<div class="sp-add">
+				<h2 id="bgl-nrps">Non-Requestable Privacy Setting</h2>
+				<table>
+					<tr><th class="left">Begriff</th><th>Non-Requestable Privacy Setting</th></tr>
+					<tr><th class="left">Synonyme</th><td>nicht-forderbares Privacy Setting</td></tr>
+					<tr><th class="left">Bedeutung</th><td>Ein Non-Requestable Privacy Setting ist ein Privacy Setting, das zwar eingestellt werden kann, allerdings von einer App nicht in einem Service Feature gefordert werden kann. Seine konkrete Konfiguration für eine App wird beim Zugriff auf eine Ressource der Ressourcengruppe mitübergeben. Damit kann die Ressource über die Privatsphäre der zur Verfügung gestellten Inhalte entscheiden, ohne dass die App diese Einstellung explizit fordern kann. Sinnvoll ist dies im Zusammenhang mit <span class="reference" title="#cloakmock"></span>.</td></tr>
+					<tr><th class="left">Beispiele</th><td>Jede Ressourcengruppe enthält automatisch ein Non-Requestable Privacy Setting "Betriebsmodus", das zwischen "Normal", "Mock" und "Cloak" eingestellt werden kann.</td></tr>
+					<tr><th class="left">Abgrenzung</th><td>Nicht zu verwechseln mit dem "normalen" Privacy Setting.</td></tr>
+					<tr><th class="left">Gültigkeit</th><td>Das Non-Requestable Privacy Setting bleibt gültig, solange die entsprechende Ressourcengruppe in PMP eingebunden ist.</td></tr>
+					<tr><th class="left">Bezeichnung</th><td>Das Non-Requestable Privacy Setting wird durch die zugehörige Ressourcengruppe und seinen Namen eindeutig identifiziert.</td></tr>
+					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
+					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-privacysetting"></span>, <span class="reference" title="#bgl-ressource"></span>, <span class="reference" title="#bgl-ressourcengruppe"></span>, <span class="reference" title="#bgl-kontext"></span>, <span class="reference" title="#bgl-app"></span>, <span class="reference" title="#bgl-servicefeature"></span>, <span class="reference" title="#bgl-preset"></span></td></tr>
+				</table>
+				</div>
 
 				<h2 id="bgl-ressource">Ressource</h2>
 				<table>
