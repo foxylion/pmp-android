@@ -143,13 +143,10 @@
 					<h3 id="oberflaeche">Oberfläche</h3>
 					<p>Die Oberfläche von PMP wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 					
-					<div class="sp-add">
 					<h3 id="import-export">Import/Export von Presets</h3>
 						<p>PMP wird dem Benutzer ermöglichen Presets bequem über die Benutzeroberfläche zu importieren bzw. exportieren.</p>
 						<p>Details zum Importieren befinden sich im UseCase ID 211; zum Exportieren im UseCase ID 210.</p>
-					</div>
 					
-					<div class="sp-add">
 					<h3 id="protokoll">Protokoll</h3>					
 					<p>PMP wird ein fortlaufendes, menschenlesbares Protokoll wichtiger Aktionen auf dem Gerät speichern. Die Protokollierung lässt sich in den Optionen aktivieren und dort auch die Granularität einstellen. Zu diesen Aktionen zählen:</p>
 					
@@ -183,7 +180,6 @@
 						<p>
 							<sup>2</sup>&nbsp;Ressourcen müssen die Resourcen-Anfragen von Apps während der Ausführung überprüfen, um zu wissen, ob die anfragende App tatsächlich diesen Privacy-Setting-Wert zugewiesen bekommen hat. Um diese Berechtigungsprüfung vorzunehmen kommunizieren sie nötigerweise mit PMP, wo die Werte gespeichert sind.
 						</p>
-					</div>
 			
 					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
 					<p>PMP wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein.</p>
@@ -194,10 +190,8 @@
 							<li>PMP wird eine zu installierende Ressourcengruppe nicht akzeptieren, wenn die von der Ressourcengruppe zu implementierenden Schnittstellen der PMP-API nicht vorhanden sind. Selbiges gilt für das Installieren von Apps, die sich bei PMP registrieren.</li>
 							<li>Innerhalb der PMP wird der bei Androidgeräten vorhandene "Zurück"-Button folgende Semantik erfüllen: Wird bei der aktuellen Bildschirmmaske der "Zurück"-Button betätigt, werden die gegebenenfalls vorgenommen Einstellungen oder Modifikationen gespeichert, die Bildschirmmaske verlassen und die vorhergehende Bildschirmmaske angezeigt.</li>
 							<li>Sollte eine App von PMP entfernt werden (siehe Kapitel <span class="reference" title="#ui-apps"></span>), werden die vorgenommenen Einstellungen der App gelöscht und den Nutzer gefragt, ob die gegebenenfalls mitgebrachten Presets ebenfalls gelöscht, oder zu normalen Presets migriert werden sollen.</li>
-							<div class="sp-add">
 							<li>Sollte eine App deinstalliert werden und zuvor nicht bei PMP deregistriert worden sein, wird PMP nach dem Deinstallieren der App diese aus dem PMP-System entfernen. PMP wird vorgenommene Einstellungen an der App nicht löschen, sodass sie bei einer Neuinstallation der App sofort zur Verfügung stehen.
 							</li>
-							</div>
 						</ul>
 					</p>
 			
@@ -411,10 +405,8 @@
 				<p>Über einen Button kann das Service Feature aktiviert/deaktiviert werden.</p>
 				<p>Sollte eine Ressourcengruppe fehlen so werden die Details wie in der rechten Abbildung gezeigt angezeigt.</p>
 				
-				<div class="sp-add">
 					Im Expert-Mode können in Abbildung 1 die fehlenden Privacy Settings direkt zu einem Preset hinzugefügt, oder ein neues erstellt werden.<br/>
 					In Abbildung 2 können die fehlenden Ressourcengruppen direkt über einen Button mit einem Klick installiert werden.
-				</div>
 			</div>
 			
 			<div class="pagebreak"></div>
@@ -439,10 +431,8 @@
 				<p>Nach Tippen auf ein beliebiges Preset öffnet sich der "Preset-Detail"-Bildschirm. Ein langer Touch auf ein Preset öffnet Abbildung 2.</p>
 				<p>Über das Menü kann ein neues Preset angelegt werden. Tippen auf den "Add Preset"-Button öffnet sich ein Popup wie in Abbildung 3. <span class="reference noIndex" title="#ui-preset-details-app"></span>-Bildschirm.</p>
 				
-				<div class="sp-add">
 					<p>Abbildung 2 wird um den Eintrag "Preset exportieren" erweitert.<br/> Das Menü aus Abbildung 1 wird um den Menü-Eintrag "Presets importieren" erweitert.</p>
 					<p>Die Menü-Einträge aus Abbildung 2 werden auch im Menü von <span class="reference noIndex" title="#ui-preset-details-app"></span> und <span class="reference noIndex" title="#ui-preset-details-ps"></span> angezeigt.</p>
-				</div>
 			</div>
 			
 			<div class="pagebreak"></div>
@@ -496,12 +486,10 @@
 				<p>Durch drücken auf "Assign Privacy Setting" im Menü (wird nicht dauerhaft angezeigt) wird Abbildung 2 angezeigt.</p>
 				<p>In Abbildung 2 wird eine sortierte Liste installierter Ressourcengruppen angezeigt. Tippen auf eine Ressourcengruppe zeigt alle verfügbare Privacy Settings an.</p>
 				
-				<div class="sp-add">
 					
 					<p>In Abbildung 1 wird die Anzeige eines Privacy Settings um die Auflistung aller zugewiesenen Kontexte erweitert, wie in Abbildung 3 ersichtlich.</p>
 					<p>Wird auf ein Kontext getippt, so öffnet sich eine Anzeige zum ändern des Kontextes (rechte Abbildung).</p>
 					<p>Wird ein Kontext durch ein Privacy Setting in einem anderen Preset überschrieben, so wird der Kontext mit einem Ausrufezeichen markiert. Durch antippen werden alle in Konfliktstehende Presets angezeigt.</p>
-				</div>
 				
 				<div class="clear"></div>
 			</div>
@@ -575,7 +563,6 @@
 				
 				<div class="pagebreak"></div>
 				
-				<div class="sp-edit">
 				<h2 id="bgl-kontext">Kontext</h2>
 				<table>
 					<tr><th class="left">Begriff</th><th>Kontext</th></tr>
@@ -588,7 +575,6 @@
 					<tr><th class="left">Unklarheiten</th><td>-</td></tr>
 					<tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-preset"></span>, <span class="reference" title="#bgl-privacysetting"></span></td></tr>
 				</table>
-				</div>
 				
 				<h2 id="bgl-preset">Preset</h2>
 				<table>
