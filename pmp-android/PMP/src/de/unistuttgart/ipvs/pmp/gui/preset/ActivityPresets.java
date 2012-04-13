@@ -181,7 +181,7 @@ public class ActivityPresets extends Activity {
                 /*
                  * Add a Preset
                  */
-                DialogPresetEdit dialog = new DialogPresetEdit(this, this.callback, null);
+                DialogPresetEdit dialog = new DialogPresetEdit(this, null, this.callback);
                 dialog.show();
                 break;
             
@@ -289,7 +289,7 @@ public class ActivityPresets extends Activity {
                     /*
                      * Clicked on "Edit name and description"
                      */
-                    DialogPresetEdit dialog = new DialogPresetEdit(this, this.callback, preset);
+                    DialogPresetEdit dialog = new DialogPresetEdit(this, preset, this.callback);
                     dialog.show();
                     return true;
                 case 1:
@@ -398,9 +398,8 @@ public class ActivityPresets extends Activity {
      *            Preset to open
      */
     public void openPreset(IPreset preset) {
-        Intent i = new Intent(ActivityPresets.this, ActivityPreset.class);
-        i.putExtra(GUIConstants.PRESET_IDENTIFIER, preset.getLocalIdentifier());
-        ActivityPresets.this.startActivity(i);
+        Intent intent = GUITools.createPresetIntent(preset);
+        GUITools.startIntent(intent);
     }
     
     

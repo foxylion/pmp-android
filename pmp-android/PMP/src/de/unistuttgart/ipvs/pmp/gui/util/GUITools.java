@@ -27,10 +27,12 @@ import android.os.Looper;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApp;
+import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPreset;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.TabAvailable;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 
 public class GUITools {
     
@@ -146,6 +148,13 @@ public class GUITools {
         }
         
         return rgsFilter;
+    }
+    
+    
+    public static Intent createPresetIntent(IPreset preset) {
+        Intent intent = new Intent(PMPApplication.getContext(), ActivityPreset.class);
+        intent.putExtra(GUIConstants.PRESET_IDENTIFIER, preset.getLocalIdentifier());
+        return intent;
     }
     
     

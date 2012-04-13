@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.preset.DialogPresetEdit;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.gui.util.PMPPreferences;
 import de.unistuttgart.ipvs.pmp.gui.util.RGInstaller;
@@ -250,13 +251,29 @@ public class DialogServiceFeature extends Dialog {
             @Override
             public void onClick(View v) {
                 try {
-                    IPreset preset = ModelProxy.get().addUserPreset(
+                    final IPreset preset = ModelProxy.get().addUserPreset(
                             DialogServiceFeature.this.serviceFeature.getApp().getName() + " - "
                                     + DialogServiceFeature.this.serviceFeature.getName(), "");
                     preset.getTransaction().start();
                     preset.assignApp(DialogServiceFeature.this.serviceFeature.getApp());
                     preset.assignServiceFeature(DialogServiceFeature.this.serviceFeature);
                     preset.getTransaction().commit();
+                    
+                    /* Open dialog for changing the name and description */
+                    new DialogPresetEdit(getContext(), preset, new DialogPresetEdit.ICallback() {
+                        
+                        @Override
+                        public void refresh() {
+                            /* Open Preset-Details */
+                            Intent intent = GUITools.createPresetIntent(preset);
+                            GUITools.startIntent(intent);
+                        }
+                        
+                        
+                        @Override
+                        public void openPreset(IPreset preset) {
+                        }
+                    }).show();
                 } catch (PrivacySettingValueException e) {
                     Log.e(DialogServiceFeature.this, "Couldn't add Service Feature to Preset, PSVE", e);
                     GUITools.showToast(getContext(), getContext().getString(R.string.failure_invalid_ps_in_sf),
