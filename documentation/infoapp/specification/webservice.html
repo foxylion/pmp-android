@@ -33,35 +33,31 @@
       <h1 id="introduction">Einleitung</h1>
       <p>
         Dieses Dokument stellt den Aufbau des Webservices und dessen
-        Schnittstellen dar. Es richtet sich daher auch an die Entwickler der
-        Applikationen, die die zur Verfügung gestellten Schnittstellen verwenden
-        möchten.
+        Schnittstellen dar. Es richtet sich daher hauptsächlich an die Entwickler der
+        InfoApp, die die zur Verfügung gestellten Schnittstellen verwenden.
       </p>
-      
-
-      <h1 id="database">Datenbank</h1>          
-      <p>                                      
-        TODO
-      <p>    
-        <img src="./db-layout.png" alt="Database Layout" style="width:100%">
+      <p>
+        Um den Entwicklern stets einen Überblick über die verfügbaren Webservices
+        bieten zu können, wird dieses Dokument stetig an den aktuellen Stand 
+        der Implementierung angepasst.
       </p>
       
      
       <h1 id="interface">Schnittstelle</h1>
       <p>
-        Dieser Abschnitt beschreibt die für den Zugriff auf den Webservice bereitsgestellte
+        Dieser Abschnitt beschreibt die für den Zugriff auf den Webservice bereitgestellte
         Schnittstellen.
       </p>
       <p>
         Hierzu werde nachfolgend alle verfügbaren PHP-Skripte aufgelistet, die von
-        diesen erwartete Parameter genannt und die durch das Skript generierte Ausgabe erläutert.
+        diesen erwarteten Parameter genannt und die durch das Skript generierte Ausgabe erläutert.
       </p>
       <p>
         Die Übergabe von Parametern, die keinen Einfluss auf den Zustand des Servers
         haben (also keine auf den Server gespeicherten Daten manipulieren) 
-        ergolgt über HTTP-GET (d. h. die Parameter werden der URL angehängt).
+        erfolgt über HTTP-GET (d. h. die Parameter werden der URL angehängt).
         Für alle anderen Parameter sowie Parameter, über die eine große Menge an Daten
-        übertragen werden, erfolgt die Datenübertragung durch HTTP-Post.
+        übertragen wird, erfolgt die Datenübertragung durch HTTP-Post.
       </p>
       <p>
         Die Rückgabe des PHP-Skripts - also die Antwort auf Anfragen - erfolgt
@@ -71,11 +67,11 @@
         
       <h2 id="interface_defaultjsonkey">Standard JSON Schlüssel</h2>
       <p>
-        Die JSON Rückgabe jedes Skipts enthält in der obersten Ebene den 
+        Die JSON Rückgabe jedes Skripts enthält in der obersten Ebene den 
         Schlüssel <code>successful</code>. Dieser gibt an, ob die Anfrage erfolgreich
         bearbeitet werden konnte (<code>successful</code> ist auf <code>true</code>
         gesetzt), oder ob bei der Bearbeitung Fehler aufgetreten sind 
-        (<code>successful</code> auf <code>false</code>. z.B. wenn der Benutzer
+        (<code>successful</code> auf <code>false</code>. Z. B. wenn der Benutzer
         nicht angemeldet ist, die Abfrage jedoch einen angemeldeten Benutzer verlangt).
       </p>
       
@@ -83,7 +79,7 @@
       <p>
         Wie bereits erwähnt, wird über den Schlüssel <code>successful</code> signalisiert, 
         ob die Anfrage verarbeitet werden konnte. Ist dieser auf <code>false</code>
-        gestzt, wurde die Anfrage nicht erfolreich ausgeführt. In diesem Fall
+        gesetzt, wurde die Anfrage nicht erfolgreich ausgeführt. In diesem Fall
         hat die JSON Rückgabe jedes Skripts immer folgenden Aufbau:
       </p>
 <pre>
@@ -91,7 +87,7 @@
   "successful": false,
   "error": String,
   "msg": String
-}                                 
+}
 </pre>
       <p>
         Der Wert des Schlüssels <code>error</code> definiert die Ursache des Fehlers.
@@ -100,7 +96,7 @@
           <li><code>not_logged_in</code> - der Benutzer ist nicht angemeldet, die
             Ausführung der Anfrage erfordert dies jedoch</li>
           <li><code>invalid_database-query</code> - interner Fehler. Die für die Bearbeitung
-            der Anfrage durchgeführte Datanbankabfrage ist fehlerhaft</li>
+            der Anfrage durchgeführte Datenbankabfrage ist fehlerhaft</li>
           <li><code>cannot_connect_to_database</code> - interner Fehler. Die Verbindung
             zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>   
           <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
@@ -109,7 +105,7 @@
         Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
         innerhalb der auf den Webservice zugreifenden Applikation.
         Wird z. B. beim Zugriff auf einen Service ein <code>not_logged_in</code>-Fehler
-        zurückgegeben, so kann das Login-Script aufgerufen werden, und anschließend 
+        zurückgegeben, so kann das Login-Skript aufgerufen werden, und anschließend 
         erneut die Anfrage, die zuvor diesen Fehler
         erzeugte.
       </p>
@@ -117,7 +113,7 @@
         In vielen Fällen genügt der Fehler-Schlüssel jedoch nicht, um den Fehler genau beschreiben 
         zu können.  So ist es etwa bei einem <code>invalid_database-query</code>-Fehler
         hilfreich zu wissen, worin der Fehler genau bestand (Tabelle nicht vorhanden etc.).
-        Daher exisitert der Schlüssel <code>msg</code>, über den weitere Informationen
+        Daher existiert der Schlüssel <code>msg</code>, über den weitere Informationen
         über den Fehler ausgegeben werden können.
       </p>
       
@@ -131,7 +127,7 @@
       </p>
       <p>
         <b>Hinweis:</b> Mit "Zugriffsrecht" wird angegeben, welche Benutzer 
-        diese Anfrage ausführen können. Ist diese Bedinung nicht erfüllt, wird ein
+        diese Anfrage ausführen können. Ist diese Bedingung nicht erfüllt, wird ein
         Fehler zurückgegeben (siehe vorhergehender Abschnitt).
       </p>
       
@@ -140,7 +136,7 @@
         Gegenwärtig werden folgende Wertetypen für die Parameter verwendet:
         <ul>
           <li>DeviceID: Identifikation des Endgerätes. Hierbei handelt es sich
-            um den 32-Stelligen MD5-Hash, der als String übertragen wird (z. B.
+            um einen 32-Stelligen MD5-Hash, der als String übertragen wird (z. B.
             b7c2e4787e7f950c89909795907208d3). Der Hash wird über 
             <code>TelephonyManager.getDeviceId();</code> gebildet (<i>TODO:</i> noch abklären)</li>
           <li>Boolean: Wird als Zeichenkette <code>true</code> oder <code>false</code>
@@ -150,7 +146,7 @@
           <li>Integer</li>
           <li>Float</li>
           <li>Json: Eine Zeichenkette, die ein JSON-Objekt darstellt. Der Aufbau
-            des Objekts wird in der Zeile "JSON"-Parameter erläutert</li>
+            des Objekts wird in der Zeile "JSON-Parameter" erläutert</li>
           <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>  
           <li>Date: Eine Zeichenkette, die eine Datumsangabe darstellt.
             Die Angabe hat das Format <code>yyyy-mm-dd</code> (z. B. 2012-01-22)</li>
@@ -170,7 +166,7 @@
         <tr>
           <th class="left">Beschreibung</th>
           <td>
-            Protokollierte WLan-Verbindungsevents an den Server übertragen.
+            Protokollierte WLan- oder Bluetooth-Verbindungsevents an den Server übertragen.
           </td>
         </tr>
         <tr>
@@ -187,7 +183,7 @@
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>          
               <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>                                        
-              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
         </tr>      
@@ -205,8 +201,7 @@
     },
     ...
   ]
-}                                 
-
+}
 </pre>
           </td>
         <tr>
@@ -215,8 +210,8 @@
 <pre>
 {
   "successful": true
-}                                 
-</pre>  
+}
+</pre>
           </td>
         </tr>
         <tr>   
@@ -229,113 +224,6 @@
         </tr>
       </table>
       
-      <!--
-
-      <h3 id="interface_query_connection_duration">Verbindungsdauer</h3>
-      <table>
-        <tr>
-          <th class="left">PHP-Skript</th>
-          <td>upload_connection_duration.php</td>
-        </tr> 
-        <tr>
-          <th class="left">Beschreibung</th>
-          <td>
-            Protokollierte Verbindungsdaten eines Tages sollen an den Server übertragen werden.
-          </td>
-        </tr>
-        <tr>
-          <th class="left">Zugriffsrecht</th>
-          <td>Jeder</td>
-        </tr>
-        <tr>
-          <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>     
-        <tr>
-          <th class="left">POST-Parameter</th>
-          <td>
-            <ul>
-              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                                  
-              <li><code>date</code> - Date: Datum, zu dem die gespeicherten Daten hochgeladen werden</li>
-              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
-              <li><code>value</code> - Float: Gesamtdauer der Verbindung an diesem Tag</li>
-            </ul>
-          </td>
-        </tr>      
-        <tr>
-          <th class="left">Rückgabe (Aufbau)</th>
-          <td>
-<pre>
-{
-  "successful": true
-}                                 
-</pre>  
-          </td>
-        </tr>
-        <tr>   
-          <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
-        </tr>           
-        <tr>  
-          <th class="left">Status</th>
-          <td>Nicht implementiert</td>
-        </tr>
-      </table>
-
-      
-      <h3 id="interface_query_connection_cities">Verbindung, Städte</h3>
-      <table>
-        <tr>
-          <th class="left">PHP-Skript</th>
-          <td>upload_connection_cities.php</td>
-        </tr> 
-        <tr>
-          <th class="left">Beschreibung</th>
-          <td>
-            Protokollierte Daten zu den Städten, in denen eine Verbindung bestandt,
-            auf den Server übertragen. 
-          </td>
-        </tr>
-        <tr>
-          <th class="left">Zugriffsrecht</th>
-          <td>Jeder</td>
-        </tr>
-        <tr>
-          <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>     
-        <tr>
-          <th class="left">POST-Parameter</th>
-          <td>
-            <ul>
-              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>date</code> - Date: Datum, an dem die Verbindungen statt fanden</li>
-              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
-              <li><code>city</code> - String: Stadt, in der die Verbindung statt fand</li>
-              <li><code>times</code> - Integer: Anzahl der Verbindung in der angegebenen Stadt und am agegebenen Tag</li>
-            </ul>
-          </td>
-        </tr>      
-        <tr>
-          <th class="left">Rückgabe (Aufbau)</th>
-          <td>
-<pre>
-{
-  "successful": true
-}                                 
-</pre>  
-          </td>
-        </tr>
-        <tr>   
-          <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
-        </tr>           
-        <tr>  
-          <th class="left">Status</th>
-          <td>Nicht implementiert</td>
-        </tr>
-      </table>
--->      
                                   
       <h3 id="interface_query_connection_update">Verbindungsdaten aktualisieren</h3>
       <table>
@@ -373,7 +261,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -413,7 +301,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
-              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
         </tr>      
@@ -430,8 +318,7 @@
     },
     ...
   ]
-}                                 
-
+}
 </pre>
           </td>
         <tr>
@@ -440,7 +327,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -495,7 +382,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -535,7 +422,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
-              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
         </tr>      
@@ -558,8 +445,7 @@
     },
     ...
   ]
-}                                 
-
+}
 </pre>
           </td>
         <tr>
@@ -568,7 +454,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -622,7 +508,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -634,126 +520,7 @@
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
-      </table>    
-      
-      <!--
-      
-      <h3 id="interface_query_battery_boot">Akku Werte je Systemstart</h3>
-      <table>
-        <tr>
-          <th class="left">PHP-Skript</th>
-          <td>upload_battery_boot.php</td>
-        </tr> 
-        <tr>
-          <th class="left">Beschreibung</th>
-          <td>
-            Die für die Dauer einer Systemlaufzeit aufgezeichneten Daten sollen
-            übertragen bzw. aktualisiert werden
-          </td>
-        </tr>
-        <tr>
-          <th class="left">Zugriffsrecht</th>
-          <td>Jeder</td>
-        </tr>
-        <tr>
-          <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>     
-        <tr>
-          <th class="left">POST-Parameter</th>
-          <td>
-            <ul>
-              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>dateTime</code> - DateTime: Datum und Uhrzeit des Systemstarts.
-                Über diesen Wert wird entschieden, ob ein neuer Eintrag angelegt (unbekannter Wert)
-                oder ein bestehender Eintrag (mit gleichem Wert) aktualisiert werden soll</li>
-              <li><code>uptime</code> - Float: Betriebszeit seit Systemstart in Minuten</li>
-              <li><code>uptimeBattery</code> - Float: Anteil der Betriebszeit seit Systemstart, in der das Gerät im Akkubetrieb lief. In Minuten</li>
-              <li><code>chargingDuration</code> - Float: Gesamtladedauer des Akkus seit Systemstart in Minuten</li>                              
-              <li><code>chargingCount</code> - int: Anzahl der Ladevorgänge seit Systemstart</li>
-              <li><code>tempAvg</code> - Float: Durchschnittliche Temperatur des Akkus</li>
-              <li><code>tempPeak</code> - Float: Höchste seit Systemstart erreichte Temperatur des Akkus</li>
-            </ul>
-          </td>
-        </tr>      
-        <tr>
-          <th class="left">Rückgabe (Aufbau)</th>
-          <td>
-<pre>
-{
-  "successful": true
-}                                 
-</pre>  
-          </td>
-        </tr>
-        <tr>   
-          <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
-        </tr>           
-        <tr>  
-          <th class="left">Status</th>
-          <td>Nicht implementiert</td>
-        </tr>
-      </table>   
-                          
-      <h3 id="interface_query_profile">Profil</h3>
-      <table>
-        <tr>
-          <th class="left">PHP-Skript</th>
-          <td>upload_profile.php</td>
-        </tr> 
-        <tr>
-          <th class="left">Beschreibung</th>
-          <td>
-            Daten zum Benutzerprofil hochladen
-          </td>
-        </tr>
-        <tr>
-          <th class="left">Zugriffsrecht</th>
-          <td>Jeder</td>
-        </tr>
-        <tr>
-          <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>     
-        <tr>
-          <th class="left">POST-Parameter</th>
-          <td>
-            <ul>
-              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>date</code> - Date: Datum und Uhrzeit, zu dem die Profildaten hochgeladen werden.
-                Über diesen Wert wird entschieden, ob ein neuer Eintrag angelegt (unbekannter Wert)
-                oder ein bestehender Eintrag (mit gleichem Wert) aktualisiert werden soll</li>
-              <li><code>incomingSms</code> - Integer: Anzahl empfangener SMS-Nachrichten</li>
-              <li><code>outgoingSms</code> - Integer: Anzahl gesendeter SMS-Nachrichten</li>
-              <li><code>incomingCalls</code> - Integer: Anzahl eingehender Anrufe</li>
-              <li><code>outgoingCalls</code> - Integer: Anzahl ausgehender Anrufe</li>
-              <li><code>awake</code> - Float: Zeit, in der das Gerät an diesem Tag wach war. In Minuten</li>                              
-              <li><code>aktiveApps</code> - Float: Anzahl der an diesem Tag durchschnittlich aktiven Apps</li>
-            </ul>
-          </td>
-        </tr>      
-        <tr>
-          <th class="left">Rückgabe (Aufbau)</th>
-          <td>
-<pre>
-{
-  "successful": true
-}                                 
-</pre>  
-          </td>
-        </tr>
-        <tr>   
-          <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
-        </tr>           
-        <tr>  
-          <th class="left">Status</th>
-          <td>Nicht implementiert</td>
-        </tr>
-      </table>     
--->      
-      
+      </table>
       
       
       <h3 id="interface_upload_profile_events">Akku-Events übertragen</h3>
@@ -781,7 +548,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
-              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
         </tr>      
@@ -801,8 +568,7 @@
     },
     ...
   ]
-}                                 
-
+}
 </pre>
           </td>
         <tr>
@@ -811,7 +577,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -834,7 +600,7 @@
         <tr>
           <th class="left">Beschreibung</th>
           <td>
-            Protokollierte Aufwck-Events an den Server übertragen.
+            Protokollierte Aufweck-Events an den Server übertragen.
           </td>
         </tr>
         <tr>
@@ -850,7 +616,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
-              <li><code>data</code> - Json: Events, die auf den Server übertragen werden sollen</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
         </tr>      
@@ -866,8 +632,7 @@
     },
     ...
   ]
-}                                 
-
+}
 </pre>
           </td>
         <tr>
@@ -876,7 +641,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -928,7 +693,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -940,19 +705,19 @@
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
-      </table>    
+      </table>
       
-      <!--<h3 id="interface_query_profile_cities">Profil, Städte</h3>
+      
+      <h3 id="interface_update_device">Gerätedaten aktualisieren</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>upload_profile_cities.php</td>
+          <td>update_device.php</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
           <td>
-            Protokollierte Daten zu den Städten, in denen ein Telefonat statt fand,
-            auf den Server übertragen. 
+            Daten zur Hardware des Gerätes aktualisieren
           </td>
         </tr>
         <tr>
@@ -968,9 +733,15 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>date</code> - Date: Datum, an dem die Telefonate geführt wurden</li>
-              <li><code>city</code> - String: Stadt, in der die Telefeonate geführt wurden</li>
-              <li><code>times</code> - Integer: Anzahl der Telefonate in der angegebenen Stadt und am angegebenen Tag</li>
+              <li><code>runtime</code> - Float: Gesamtlaufzeit des Gerätes in Minuten</li>
+              <li><code>freeMemoryInternal</code> - Float: Freier Speicherplatz im internen Speicher in Prozent (0 bis 100)</li>
+              <li><code>freeMemoryExternal</code> - Float: Freier Speicherplatz im externen Speicher in Prozent (0 bis 100)</li>    
+              <li><code>apiLevel</code> - Integer: API-Level bzw. SDK-Version</li>                                          
+              <li><code>kernel</code> - String: Kernel-Version</li>
+              <li><code>displayResX</code> - Integer: Auflösung des Displays in x-Richtung</li>
+              <li><code>displayResY</code> - Integer: Auflösung des Displays in y-Richtung</li>                                         
+              <li><code>manufacturer</code> - String: Hersteller des Gerätes</li>                           
+              <li><code>model</code> - String: Model des Gerätes</li>
             </ul>
           </td>
         </tr>      
@@ -980,7 +751,7 @@
 <pre>
 {
   "successful": true
-}                                 
+}
 </pre>  
           </td>
         </tr>
@@ -992,7 +763,8 @@
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
-      </table>-->
+      </table>
+      
       
       
       
