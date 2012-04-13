@@ -132,7 +132,7 @@ public class ActivityPresets extends Activity {
      * Start the import when such a request was found.
      */
     private void checkPresetSetImportRequest() {
-        if (GUITools.handleIntentAction(getIntent()).equals(GUIConstants.DOWNLOAD_PRESET_SET)) {
+        if (GUITools.getIntentAction(getIntent()).equals(GUIConstants.DOWNLOAD_PRESET_SET)) {
             String id = GUITools.getPresetSetId(getIntent());
             importPresetSet(id);
         }
