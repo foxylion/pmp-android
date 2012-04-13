@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spezifikation - vHike</title>
+	<script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../_layout/script.js"></script>
+	<script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">13. April 2012</div>
+		<div id="page-head-title">vHike</div>
+		<div id="page-title">vHike <p>Spezifikation</p></div>
+		<div id="page-version">Version 3.1</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the specification -->
+		<div id="content">
+				
+            <h1 id="versionshistorie">Versionshistorie</h1>
+            <h3>Version 1.2 (30.01.2012)</h3>
+            Reviewkandidat
+            
+            <h3>Version 1.1 (20.01.2012)</h3>
+            Überarbeitung der Spezifikation und Aufarbeitung der nötigen Kapitel
+            <ul>
+                <li>Kapitel <span class="reference" title="#funkt_anforderungen"></span> hinzugefügt</li>
+                <li>Kapitel <span class="reference" title="#anforderungen"></span> hinzugefügt</li>
+                <li>Kapitel <span class="reference" title="#prototyp"></span> hinzugefügt.
+					</ul>
+
+
+			
+			<h1 id="einleitung">Einleitung</h1>
+			<p></p>
+			
+            <h2 id="zweck">Zweck</h2>
+            <p>
+        	Dieses Dokument stellt die Spezifikation des Projektes 				„vHike“ dar.
+			Die Spezifikation definiert hier einen Prototypen für die 				spätere Benutzeroberfläche und beschreibt dessen
+			Funktionsabläufe.
+            </p>
+            
+            <h2 id="motivation">Motivation</h2>
+            <p>
+			Dieses Projekt ist ein Teilprojekt vom Projekt „Privacy Managment Platform“. „vHike“ sollte im
+			Rahmen dieses Projektes als Beispiel App implementiert werden.
+			„vHike“ sollte die Funktionalitäten von „PMP“ aufzeigen und diese in den Vordergrund stellen.
+            </p>
+            <h1 id="ext_libs">Externe Bibliotheken</h1>
+            <p>
+			Beim Einsatz werden unteranderem auch externe Bibliotheken eingesetzt.
+			In diesem Falle ist es die GSON Bilbiothek von Google.<br>
+			- gson-2.0.jar
+            </p>
+            <h1 id="funkt_anforderungen">Funktionale Anforderungen</h1>
+            <h2 id="use_cases">Use Cases</h2>
+            <p>
+    		<a href="UseCaseDiagramm.png" rel="ui-prototype" class="fancybox">
+				<img src="UseCaseDiagramm.png" alt="usecase" width="70%">
+                    </a>
+            </p>
+            <h3 id="funktionen">Funktionen</h3>
+            <h4 id= "fkt_registrieren">Registrieren</h4>
+            <p>
+			Es wird möglich sein neue Benutzer zu registrieren.
+			Es wird eine aktive Email-Adresse benötigt. Anzugeben sind eine aktive Email-Adresse, Benutzername und Passwort. Optional sind Name, Vorname, Beschreibung (?) und Telefonnummer (?) (optional/pflicht?).
+            </p>
+            <h4 id= "fkt_login">Einloggen</h4>
+            <p>
+			Um sich im System einzuloggen benötigt man einen Benutzer und ein Passwort,
+			welcher bei der Registrierung angegeben wurde. Über anhaken des entsprechenden Radio-Buttons erfolgt die Anmeldung automatisch.
+            </p>
+            <h4 id= "fkt_logout">Ausloggen</h4>
+            <p>
+            Über das Hauptmenü kann aus vHike ausgeloggt werden. Nach dem Logout wird der Login-Screen angezeigt.
+            </p>
+            <h4 id= "fkt_profil_ansehen">Profil ansehen</h4>
+            <p>
+			Es wird möglich sein in eigenes Profil einzusehen und die eigene Bewertung abzufragen.
+			Unteranderem sollte hier die Möglichkeit bestehen seine Profildaten zu ändern.
+            </p>
+            <h4 id= "fkt_history_anzeigen">History anzeigen</h4>
+            <p>
+			Die History wird die Fahrten anzeigen, bei welchen man selbst dabei war. Entweder als Fahrer oder Mitfahrer. Eine Fahrt gibt Datum und Zielstadt an.
+            Je Fahrt werden Fahrer und alle Mitfahrer angezeigt.</p>
+            <h4 id= "fkt_profil_bewerten">Profil bewerten</h4>
+            <p>
+			Aus der History heraus wird es möglich sein andere Mitfahrer zu bewerten. Die Bewertung kann pro Profil nur einmal duchgeführt werden.
+            </p>
+            <h4 id= "fkt_fahrt_starten">Fahrt starten (WLAN)</h4>
+            <p>
+			Es wird möglich sein eine Fahrt bis zu einem Ziel zu starten und die Anzahl der freien Plätzen anzugeben. Zudem ist es möglich Zwischenziele hinzuzufügen.
+			Dabei werden der Standort bestimmt, als auch automatisch nach potentiellen Mitfahrer innerhalb eines festgelegten Umkreises gesucht. Gefundene Mitfahrer werden auf der Karte angezeigt und können eingeladen werden. Nach einer angenommen Einladung wird der Fahrer benachrichtigt und kann ihn über einen Button-Klick abholen.
+            </p>
+            <h4 id= "fkt_fahrt_suchen">Fahrt suchen (WLAN)</h4>
+            <p>
+			Es wird möglich sein nach Fahrten bis zu einem Ziel zusuchen. Zwischenziele sind nicht möglich.
+			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, 				warten. Ein Einladung kann entweder abgelehnt oder angenommen werden. Wird ein Fahrer abgelehnt verschwindet er von der Karte und kann von diesem nicht mehr eingeladen werden. Wird die Einladung akzeptiert, wird die Karte geschlossen und man kehrt zum vorherigem Menü zurück.
+            </p>
+            <h4 id= "fkt_weg_einzeichnen">Weg einzeichnen</h4>
+            <p>
+            Automatisch, falls Einladung angenommen wurde. Für beide?
+            </p>
+            <h4 id= "fkt_kommunikation_tel">Über Telefon kommunizieren</h4>
+            <p>
+            Über Icon-Klick-Dialog, Profile, Slider?
+            </p>
+            <h4 id= "fkt_kommunikation_sms">Über SMS kommunizieren</h4>
+            <p>
+            Über Icon-Klick-Dialog, Profile, Slider?
+            </p>
+            <h4 id= "fkt_fahrt_planen">Mitfahrgelegenheit anlegen</h4>
+            <p>
+            Bei einer Änderung des Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden.
+            </p>
+            <h4 id= "fkt_fahrt_teilnehmen">An Mitfahrgelegenheit teilnehmen</h4>
+            <p>
+            Über das Hauptmenü gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit Datum, Zielort(e) und Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden. (evtl. ohne auswählen direkt in der Auswahl anfragen?)
+            </p>
+            <h4 id= "fkt_fahrt_planen_blt">Fahrt starten (Bluetooth)</h4>
+            <p>
+            Fahrt über Bluetooth starten...
+            </p>
+            <h4 id= "fkt_fahrt_suchen_blt">Fahrt suchen (Bluetooth)</h4>
+            <p>
+            Fahrt über Bluetooth suchen...
+            </p>
+            <h4 id= "fkt_observationsmodus">Observationsmodus für Eltern</h4>
+            <p>
+            Web.
+            </p>
+            <h4 id= "fkt_statistik">Statistik anzeigen</h4>
+            <p>
+            Web.
+            </p>
+        <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
+            <h2 id="rg-location">Ortung</h2>
+			<ul>
+				<li><b>Name:</b> Location</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.location</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>useAbsoluteLocation</td>
+							<td>Genaue Ortung</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useCoordinates</td>
+							<td>Koordinaten Ortung</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position via Koordinaten.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useAccuracy</td>
+							<td>Genauigkeit nutzen</td>
+							<td>Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useSpeed</td>
+							<td>Aktuelle Geschwindigkeit</td>
+							<td>Erlaubt Zugriff auf die aktuelle Geschwindigkeit.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useLocationDescription</td>
+							<td>Genauigkeit der Beschreibung</td>
+							<td>Erlaubt Zugriff auf eine mehr oder weniger genaue Beschreibung der aktuellen Position.</td>
+							<td>NONE, COUNTRY, CITY, STREET</td>
+						</tr>
+						<tr>
+							<td>locationPrecision</td>
+							<td>Genauigkeit der Ortung</td>
+							<td>Wie genau die Ortung sein soll.</td>
+							<td>Integer größer oder gleich 0</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
+        
+            <h2 id="rg-location">vHike-RG</h2>
+			<ul>
+				<li><b>Name:</b> Location</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.vhikeresourcegroup</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>ananymousProfile</td>
+							<td>Profil ausblenden</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position.</td>
+							<td>true, false</td>
+						</tr>
+											</table>
+				</li>
+			</ul>
+</body>
+</html>
