@@ -27,17 +27,20 @@ import android.os.Looper;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.gui.app.ActivityApp;
+import de.unistuttgart.ipvs.pmp.gui.preset.ActivityPreset;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.ActivityResourceGroups;
 import de.unistuttgart.ipvs.pmp.gui.resourcegroup.TabAvailable;
 import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
+import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 
 public class GUITools {
     
     /**
      * @return the action as a String, or an empty String if no action is given.
      */
-    public static String handleIntentAction(Intent intent) {
+    public static String getIntentAction(Intent intent) {
         /* Intent should never be null */
         if (intent == null) {
             throw new IllegalArgumentException("Intent can't be null");
@@ -149,6 +152,13 @@ public class GUITools {
     }
     
     
+    public static Intent createPresetIntent(IPreset preset) {
+        Intent intent = new Intent(PMPApplication.getContext(), ActivityPreset.class);
+        intent.putExtra(GUIConstants.PRESET_IDENTIFIER, preset.getLocalIdentifier());
+        return intent;
+    }
+    
+    
     /**
      * Returns the id for a requested PresetSet.
      * 
@@ -170,6 +180,43 @@ public class GUITools {
         }
         
         return presetSetId;
+    }
+    
+    
+    /**
+     * Returns all the requested Service Features.
+     * 
+     * @param intent
+     *            Intent which should be handled.
+     * @return The requested Service Features.
+     */
+    public static String[] getRequestedServiceFeatures(Intent intent) {
+        String action = getIntentAction(intent);
+        String[] requestedSFs = null;
+        if (action != null && action.equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
+            requestedSFs = intent.getStringArrayExtra(GUIConstants.REQUIRED_SERVICE_FEATURE);
+        }
+        
+        if (requestedSFs == null) {
+            requestedSFs = new String[0];
+        }
+        
+        return requestedSFs;
+    }
+    
+    
+    /**
+     * @return Validates to true if the Service Feature was requested by the Intent.
+     */
+    public static boolean isServiceFeatureRequested(Intent intent, IServiceFeature sf) {
+        String[] requestedSFs = getRequestedServiceFeatures(intent);
+        for (String reqSF : requestedSFs) {
+            if (reqSF.equals(sf.getLocalIdentifier())) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     

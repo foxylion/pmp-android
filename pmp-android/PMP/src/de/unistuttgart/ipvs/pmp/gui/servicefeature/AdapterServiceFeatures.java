@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
     /**
      * {@link Context} which is used to create the Views of each App.
      */
-    private Context context;
+    private Activity activity;
     
     /**
      * List of all Service Features which should be displayed.
@@ -51,8 +52,8 @@ public class AdapterServiceFeatures extends BaseAdapter {
     private Map<IServiceFeature, ListItemServiceFeature> serviceFeatureViews = new HashMap<IServiceFeature, ListItemServiceFeature>();
     
     
-    public AdapterServiceFeatures(Context context, List<IServiceFeature> serviceFeatures) {
-        this.context = context;
+    public AdapterServiceFeatures(Activity activity, List<IServiceFeature> serviceFeatures) {
+        this.activity = activity;
         this.serviceFeatures = serviceFeatures;
     }
     
@@ -80,7 +81,7 @@ public class AdapterServiceFeatures extends BaseAdapter {
         IServiceFeature serviceFeature = this.serviceFeatures.get(position);
         
         ListItemServiceFeature entryView;
-        entryView = new ListItemServiceFeature(this.context, serviceFeature, this);
+        entryView = new ListItemServiceFeature(this.activity, serviceFeature, this);
         this.serviceFeatureViews.put(serviceFeature, entryView);
         
         return entryView;

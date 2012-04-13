@@ -96,8 +96,8 @@ public class ActivityResourceGroups extends TabActivity {
     
     
     private String checkExtendedIntentActions() {
-        if (GUITools.handleIntentAction(getIntent()) != null
-                && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.FILTER_AVAILABLE_RGS)) {
+        if (GUITools.getIntentAction(getIntent()) != null
+                && GUITools.getIntentAction(getIntent()).equals(GUIConstants.FILTER_AVAILABLE_RGS)) {
             return TAB_AVAILABLE;
         }
         
