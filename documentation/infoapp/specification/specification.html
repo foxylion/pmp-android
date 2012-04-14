@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>Spezifikation - InfoApp (Informations-App)</title>
@@ -355,19 +355,21 @@
             
             <h3 id="panel-hardware">Hardware-Panel</h3>
             <div class="uip">
-				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				<a href="gui-prototype/panel-hardware.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/panel-hardware.png" alt="Home" class="left" width="300" />
 				</a>
 				<p>
 					<ul>
-						<li>Gesamtlaufzeit des Geräts</li>
-						<li>Speicherverfügbarkeit interner/externer Speicher</li>
+						<li>Hersteller</li>
 						<li>SDK-Version</li>
 						<li>Kernel-Version</li>
-						<li>Hersteller</li>
-						<li>Modell</li>
+						<li>Benützeroberfläche</li>
 						<li>Displayauflösung</li>
-						<li>Weitere technische Daten</li>
+						<li>Prozessor</li>
+						<li>Speicherverfügbarkeit interner/externer Speicher</li>
+						<li>Kamera</li>
+						<li>Sensoren</li>
+						<li>Gesamtlaufzeit des Geräts</li>
 					</ul>
 				</p>
 				<p><br/>
@@ -668,6 +670,29 @@
 					</ul>
 				</li>
 			</ul>
+
+			<h2 id="sf-hardware-stats">Hardwaredaten auswerten</h2>
+			<ul>
+				<li><b>Identifier:</b> hardware_statistics</li>
+				<li><b>Name:</b> Evalute the hardware data</li>
+				<li><b>Beschreibung:</b> Send all data of hardware to a statistic server.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.hardware (<span class="reference" title="#rg-hardware"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>upload-data</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
 			
 			<div class="pagebreak"></div>
 
@@ -875,6 +900,66 @@
 							<td>manufacturer</td>
 							<td>Hersteller</td>
 							<td>Hersteller auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>sdk-version</td>
+							<td>SDK-Version</td>
+							<td>SDK-Version auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>kernel-version</td>
+							<td>Kernel-Version</td>
+							<td>Kernel-Version auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>user-interface</td>
+							<td>Benützeroberfläche</td>
+							<td>Benützeroberfläche auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>display-resolution</td>
+							<td>Displayauflösung</td>
+							<td>Displayauflösung auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>processor</td>
+							<td>Prozessor</td>
+							<td>Prozessor auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>internal-memory</td>
+							<td>Interner Speicher</td>
+							<td>Interner Speicher auslesen (Aktueller, Maximalwert)</td>
+							<td>current, all</td>
+						</tr>
+						<tr>
+							<td>external-memory</td>
+							<td>Externer Speicher</td>
+							<td>Externer Speicher auslesen (Aktueller, Maximalwert)</td>
+							<td>current, all, none</td>
+						</tr>
+						<tr>
+							<td>camera</td>
+							<td>Kamera</td>
+							<td>Kamera auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>sensors</td>
+							<td>Sensoren</td>
+							<td>Sensoren auslesen (Betriebszeit gesamt, Batteriebetriebszeit, Aufladedauer)</td>
+							<td>all, none</td>
+						</tr>
+						<tr>
+							<td>runtime</td>
+							<td>Gesamtlaufzeit des Geräts</td>
+							<td>Gesamtlaufzeit des Geräts auslesen</td>
 							<td>true, false</td>
 						</tr>
 						<tr>
