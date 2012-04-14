@@ -16,10 +16,10 @@
   Noch fehlende Serives: E-Mail ändern, Passwort ändern
   -->
   <div id="wrapper">
-    <div id="page-head-date">11. April 2012</div>
+    <div id="page-head-date">14. April 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">Spezifikation - Webservice InfoApp</div>
-    <div id="page-version">Version 4.1</div>
+    <div id="page-version">Version 4.2</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -138,7 +138,7 @@
           <li>DeviceID: Identifikation des Endgerätes. Hierbei handelt es sich
             um einen 32-Stelligen MD5-Hash, der als String übertragen wird (z. B.
             b7c2e4787e7f950c89909795907208d3). Der Hash wird über 
-            <code>TelephonyManager.getDeviceId();</code> gebildet (<i>TODO:</i> noch abklären)</li>
+            <code>TelephonyManager.getDeviceId();</code> gebildet</li>
           <li>Boolean: Wird als Zeichenkette <code>true</code> oder <code>false</code>
             übergeben. Zeichenketten, die nicht <code>true</code> entsprechen, darunter
             auch leere Zeichenketten, werden (sofern nichts anderes vermerkt), als
@@ -397,7 +397,7 @@
       </table>
       
       
-      <h3 id="interface_upload_battery_events">Akku-Events übertragen</h3>
+      <h3 id="interface_upload_battery_events">Batterie-Events übertragen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -406,7 +406,7 @@
         <tr>
           <th class="left">Beschreibung</th>
           <td>
-            Protokollierte Akku-Events an den Server übertragen.
+            Protokollierte Batterie-Events an den Server übertragen.
           </td>
         </tr>
         <tr>
@@ -437,7 +437,7 @@
       "level": Integer,         // Prozent (0 bis 100)
       "plugged": Character,     // Werte: n, a, u
                                 // (Entspr. "not", "ac", "usb")
-      "present": Boolean,
+      "present": Boolean,       // Batterie eingelegt/entfernt
       "status": Character,      // Werte: c, d, f, n, u
                                 // (Enstpr. "charg.", "discharg.", 
                                 //   "full", "not charg", "unkn.")
@@ -469,7 +469,7 @@
       </table>
       
       
-      <h3 id="interface_query_battery">Akku Informationen aktualisieren</h3>
+      <h3 id="interface_query_battery">Batterie Informationen aktualisieren</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
@@ -478,7 +478,7 @@
         <tr>
           <th class="left">Beschreibung</th>
           <td>
-            Informationen zum Akku übertragen
+            Informationen zur Batterie übertragen
           </td>
         </tr>
         <tr>
@@ -494,83 +494,11 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>technology</code> - String: Technologie des Akkus</li>
-              <li><code>health</code> - Integer (0 &le; x &le; 100): Akkuverschleiß</li>
-              <!--<li><code>batteryLife</code> - Float: (Durchschnittliche) Akkulaufzeit in Minuten</li>
-              <li><code>rechargeDuarten</code> - Float: (Durchschnitliche) Aufladezeit</li>
-              <li><code>rechargeInterval</code> - Float: Durchschnittliche Aufladeintervalle pro Tag</li>-->
+              <li><code>technology</code> - String: Technologie der Batterie</li>
+              <li><code>health</code> - Integer (0 &le; x &le; 100): Batterieverschleiß</li>
             </ul>
           </td>
         </tr>      
-        <tr>
-          <th class="left">Rückgabe (Aufbau)</th>
-          <td>
-<pre>
-{
-  "successful": true
-}
-</pre>  
-          </td>
-        </tr>
-        <tr>   
-          <th class="left">Rückgabe (Beschreibung)</th>
-          <td>-</td>
-        </tr>           
-        <tr>  
-          <th class="left">Status</th>
-          <td>Nicht implementiert</td>
-        </tr>
-      </table>
-      
-      
-      <h3 id="interface_upload_profile_events">Akku-Events übertragen</h3>
-      <table>
-        <tr>
-          <th class="left">PHP-Skript</th>
-          <td>upload_profile_events.php</td>
-        </tr> 
-        <tr>
-          <th class="left">Beschreibung</th>
-          <td>
-            Protokollierte Profil-Events an den Server übertragen.
-          </td>
-        </tr>
-        <tr>
-          <th class="left">Zugriffsrecht</th>
-          <td>Jeder</td>
-        </tr>
-        <tr>
-          <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>     
-        <tr>
-          <th class="left">POST-Parameter</th>
-          <td>
-            <ul>
-              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
-              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
-            </ul>
-          </td>
-        </tr>      
-        <tr>
-          <th class="left">JSON-Paramerer</th>
-          <td>
-<pre>
-{
-  [
-    {
-      "timestamp": Integer,
-      "event": Character,       // Art des Events
-                                // Werte: c (Call), s (SMS)
-      "direction": Character,   // "Richtung" des Events
-                                // Werte: i (eingehend), o (ausgehend)
-      "city": String
-    },
-    ...
-  ]
-}
-</pre>
-          </td>
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
           <td>
@@ -655,6 +583,139 @@
         </tr>
       </table>
       
+
+      <h3 id="interface_upload_screen_events">Bildschirm-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_screen_events.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Bildschirm-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "screen": Boolean          // Bildschirm an/aus
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_upload_profile_events">Profil-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_profile_events.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Profil-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  [
+    {
+      "timestamp": Integer,
+      "event": Character,       // Art des Events
+                                // Werte: c (Call), s (SMS)
+      "direction": Character,   // "Richtung" des Events
+                                // Werte: i (eingehend), o (ausgehend)
+      "city": String
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
       
       
       <h3 id="interface_update_profile">Profil aktualisieren</h3>
@@ -734,8 +795,8 @@
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
               <li><code>runtime</code> - Float: Gesamtlaufzeit des Gerätes in Minuten</li>
-              <li><code>freeMemoryInternal</code> - Float: Freier Speicherplatz im internen Speicher in Prozent (0 bis 100)</li>
-              <li><code>freeMemoryExternal</code> - Float: Freier Speicherplatz im externen Speicher in Prozent (0 bis 100)</li>    
+              <li><code>freeMemoryInternal</code> - Float (0 &le; x &le; 100): Freier Speicherplatz im internen Speicher in Prozent</li>
+              <li><code>freeMemoryExternal</code> - Float (0 &le; x &le; 100): Freier Speicherplatz im externen Speicher in Prozent</li>
               <li><code>apiLevel</code> - Integer: API-Level bzw. SDK-Version</li>                                          
               <li><code>kernel</code> - String: Kernel-Version</li>
               <li><code>displayResX</code> - Integer: Auflösung des Displays in x-Richtung</li>
@@ -772,10 +833,15 @@
             
       <h1 id="versions">Versionshistorie</h1> 
       
+      <h3>Version 4.2</h3>
+      <ul>
+        <li>Noch fehlende Services hinzugefügt und nach Absprache Fehler beseitigt</li>
+      </ul>
+      
       <h3>Version 4.1</h3>
       <ul>
         <li>Bestehende Services an geänderte Bedingungen (Event-System) angepasst und
-          weitere Services (Akku, Profil) hinzugefügt</li>
+          weitere Services (Batterie, Profil) hinzugefügt</li>
       </ul>
       
       <h3>Version 4.0</h3>
