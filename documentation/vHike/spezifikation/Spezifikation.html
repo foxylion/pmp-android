@@ -88,62 +88,72 @@
             <h4 id= "fkt_profil_ansehen">Profil ansehen</h4>
             <p>
 			Es wird möglich sein in eigenes Profil einzusehen und die eigene Bewertung abzufragen.
-			Unteranderem sollte hier die Möglichkeit bestehen seine Profildaten zu ändern.
-            </p>
+			Unteranderem sollte hier die Möglichkeit bestehen seine Profildaten zu ändern. </p>
+            <p>Profile anderer Benutzer lassen sich während einer Fahrt über Klicken des Benutzernamen öffnen.</p>
             <h4 id= "fkt_history_anzeigen">History anzeigen</h4>
             <p>
 			Die History wird die Fahrten anzeigen, bei welchen man selbst dabei war. Entweder als Fahrer oder Mitfahrer. Eine Fahrt gibt Datum und Zielstadt an.
             Je Fahrt werden Fahrer und alle Mitfahrer angezeigt.</p>
             <h4 id= "fkt_profil_bewerten">Profil bewerten</h4>
             <p>
-			Aus der History heraus wird es möglich sein andere Mitfahrer zu bewerten. Die Bewertung kann pro Profil nur einmal duchgeführt werden.
+			Aus der History heraus wird es möglich sein andere Benutzer zu bewerten. Die Bewertung kann pro Profil nur einmal duchgeführt werden.
             </p>
             <h4 id= "fkt_fahrt_starten">Fahrt starten (WLAN)</h4>
             <p>
 			Es wird möglich sein eine Fahrt bis zu einem Ziel zu starten und die Anzahl der freien Plätzen anzugeben. Zudem ist es möglich Zwischenziele hinzuzufügen.
-			Dabei werden der Standort bestimmt, als auch automatisch nach potentiellen Mitfahrer innerhalb eines festgelegten Umkreises gesucht. Gefundene Mitfahrer werden auf der Karte angezeigt und können eingeladen werden. Nach einer angenommen Einladung wird der Fahrer benachrichtigt und kann ihn über einen Button-Klick abholen.
+			Dabei werden der Standort bestimmt, als auch automatisch nach potentiellen Mitfahrer innerhalb eines festgelegten Umkreises gesucht. Gefundene Mitfahrer werden auf der Karte angezeigt und über eine Statusbar-Benachrichtigung geworfen. Zusätzlich wird ein Slider geöffnet, der alle gefundenen Mitfahrer anzeigt.
+            </p>
+            <h4 id= "fkt_einladen">Mitfahrer einladen/verwerfen (WLAN)</h4>
+            <p>
+                Sind Benutzer in dem Slider hinzugefügt worden, können diese über Klicken eines grünen Häkchens eingeladen oder eines roten Kreuzes verworfen werden. Im Falle einer Einladung verändert sich das Häkchen zu einem gelben Fragezeichen und wartet nun auf eine Interaktion des Eingeladenen. Wird ein Benutzer verworfen wird wird dieser aus der Liste als auch von der Karte entfernt und kann erst wieder bei einer neu angelegten Fahrt gefunden werden.
             </p>
             <h4 id= "fkt_fahrt_suchen">Fahrt suchen (WLAN)</h4>
             <p>
-			Es wird möglich sein nach Fahrten bis zu einem Ziel zusuchen. Zwischenziele sind nicht möglich.
-			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, 				warten. Ein Einladung kann entweder abgelehnt oder angenommen werden. Wird ein Fahrer abgelehnt verschwindet er von der Karte und kann von diesem nicht mehr eingeladen werden. Wird die Einladung akzeptiert, wird die Karte geschlossen und man kehrt zum vorherigem Menü zurück.
+			Es wird möglich sein nach Fahrten zu einem Ziel zusuchen. Zwischenziele sind nicht möglich.
+			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, warten.             </p>
+            <h4 id= "fkt_einladung_erhalten">Einladung akzeptieren/ablehnen (WLAN)</h4>
+            <p>
+            Ein Einladung kann entweder abgelehnt oder angenommen werden. Wird ein Fahrer abgelehnt verschwindet er von der Karte und kann von diesem nicht mehr eingeladen werden und erst wieder nach neu Anlegen einer Suche gefunden werden. Wird die Einladung akzeptiert (In Auto einsteigen), wird die Karte geschlossen und man kehrt zum vorherigem Menü zurück. Zudem wird eine Statusbar-Benachrichtigung geworfen. Diese öffnet einen Dialog mit dem sich das Aussteigen aus einem Auto simuliert wird.
             </p>
             <h4 id= "fkt_weg_einzeichnen">Weg einzeichnen</h4>
             <p>
-            Automatisch, falls Einladung angenommen wurde. Für beide?
+            Als Fahrer kann eine Route vom Benutzerstandort zum Ziel eingezeichnet werden. Für Mitfahrer besteht diese Möglichkeit nicht.
             </p>
-            <h4 id= "fkt_kommunikation_tel">Über Telefon kommunizieren</h4>
+            <h4 id= "fkt_kommunikation_telSMSemail">Über Telefon/SMS/Email kommunizieren</h4>
             <p>
-            Über Icon-Klick-Dialog, Profile, Slider?
+            vHike ermöglicht eine Kommunikation zwischen Fahrer und potentiellen Mitfahrern über einen Anruf, SMS oder Email. Wird auf einen gefundenen Mitfahrer-Icon gedrückt erscheint ein Dialog mit genau diesen drei Möglichkeiten als Buttons. Beim Öffnen anderer Benutzerprofile, ergibt sich diese Kommunikation ebenfalls über die drei entsprechende Buttons (Anruf, SMS, Email).
             </p>
-            <h4 id= "fkt_kommunikation_sms">Über SMS kommunizieren</h4>
-            <p>
-            Über Icon-Klick-Dialog, Profile, Slider?
-            </p>
+            
             <h4 id= "fkt_fahrt_planen">Mitfahrgelegenheit anlegen</h4>
             <p>
-            Bei einer Änderung des Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden.
+            Bei einer Änderung des Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden. 
             </p>
+            <p>(Dang)</p>
             <h4 id= "fkt_fahrt_teilnehmen">An Mitfahrgelegenheit teilnehmen</h4>
             <p>
-            Über das Hauptmenü gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit Datum, Zielort(e) und Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden. (evtl. ohne auswählen direkt in der Auswahl anfragen?)
+            Über das Hauptmenü gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit Datum, Zielort(e) und Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden.
             </p>
+            <p>(Dang)</p>
             <h4 id= "fkt_fahrt_planen_blt">Fahrt starten (Bluetooth)</h4>
             <p>
             Fahrt über Bluetooth starten...
             </p>
+            <p>(Alex, Dang, Andre)</p>
             <h4 id= "fkt_fahrt_suchen_blt">Fahrt suchen (Bluetooth)</h4>
             <p>
-            Fahrt über Bluetooth suchen...
+            Fahrt über Bluetooth suchen... 
             </p>
+            <p>(Alex, Dang, Andre)</p>
             <h4 id= "fkt_observationsmodus">Observationsmodus für Eltern</h4>
             <p>
             Web.
             </p>
+            <p>(Alex)</p>
             <h4 id= "fkt_statistik">Statistik anzeigen</h4>
             <p>
             Web.
             </p>
+            <p>(Alex)</p>
         <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
             <h2 id="rg-location">Ortung</h2>
 			<ul>
@@ -173,12 +183,6 @@
 							<td>useAccuracy</td>
 							<td>Genauigkeit nutzen</td>
 							<td>Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</td>
-							<td>true, false</td>
-						</tr>
-						<tr>
-							<td>useSpeed</td>
-							<td>Aktuelle Geschwindigkeit</td>
-							<td>Erlaubt Zugriff auf die aktuelle Geschwindigkeit.</td>
 							<td>true, false</td>
 						</tr>
 						<tr>
@@ -216,6 +220,46 @@
 							<td>true, false</td>
 						</tr>
 											</table>
+				</li>
+			</ul>
+            
+            <h2 id="rg-location">Notification</h2>
+			<ul>
+				<li><b>Name:</b> Notification</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.notification</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>statusbarNotification</td>
+							<td>Statusbar-Benachrichtigung</td>
+							<td>Benachrichtigungen werden über die Statusbar geworfen</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>emailNotification</td>
+							<td>Email-Benachrichtigung</td>
+							<td>Benachrichtigungen werden über Emails verschickt</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>phoneNotification</td>
+							<td>Telefon-Benachrichtigung</td>
+							<td>Benachrichtigungen werden über Anrufe betätigt</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>smsNotification</td>
+							<td>SMS-Benachrichtigung</td>
+							<td>Benachrichtigungen werden über die SMS gesendet</td>
+							<td>true, false</td>
+						</tr>
+                    </table>
 				</li>
 			</ul>
 </body>
