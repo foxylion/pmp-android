@@ -366,7 +366,8 @@
 						<li>Benützeroberfläche</li>
 						<li>Displayauflösung</li>
 						<li>Prozessor</li>
-						<li>Speicherverfügbarkeit interner/externer Speicher</li>
+						<li>Interner Speicher</li>
+						<li>Externer Speicher</li>
 						<li>Kamera</li>
 						<li>Sensoren</li>
 						<li>Gesamtlaufzeit des Geräts</li>
@@ -665,6 +666,88 @@
 									<td>upload-data</td>
 									<td>true</td>
 								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<h2 id="sf-hardware-info">Hardware-Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> hardware-info</li>
+				<li><b>Name:</b> Hardware-Information</li>
+				<li><b>Beschreibung:</b> Get information about the hardware.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.hardware (<span class="reference" title="#rg-hardware"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>manufacturer</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>display-resolution</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>processor</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>internal-memory</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>external-memory</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>camera</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>sensors</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>runtime</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<h2 id="sf-software-info">Software-Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> software-info</li>
+				<li><b>Name:</b> Software-Information</li>
+				<li><b>Beschreibung:</b> Get information about the software.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.hardware (<span class="reference" title="#rg-hardware"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>sdk-version</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>kernel-version</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>user-interface</td>
+									<td>true</td>
+								</tr>								
 							</table>
 						</li>
 					</ul>
