@@ -109,7 +109,7 @@
             </p>
             <h4 id= "fkt_fahrt_suchen">Fahrt suchen (WLAN)</h4>
             <p>
-			Es wird möglich sein nach Fahrten zu einem Ziel zusuchen. Zwischenziele sind nicht möglich.
+			Es wird möglich sein nach Fahrten zu einem Ziel zu suchen. Zwischenziele sind nicht möglich.
 			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, warten.             </p>
             <h4 id= "fkt_einladung_erhalten">Einladung akzeptieren/ablehnen (WLAN)</h4>
             <p>
@@ -117,13 +117,14 @@
             </p>
             <h4 id= "fkt_weg_einzeichnen">Weg einzeichnen</h4>
             <p>
-            Als Fahrer kann eine Route vom Benutzerstandort zum Ziel eingezeichnet werden. Für Mitfahrer besteht diese Möglichkeit nicht.
+            Für den Fahrer besteht die Möglichkeit eine Route von seinem momentanen Standort bis zu einem Zielort oder Fahrt-Suchenden einzeichnen zu lassen. Mehrere Routen, zum Beispiel zum Zielort und zu einem Fahrt-Suchenden wird nicht unterstützt.
             </p>
             <h4 id= "fkt_kommunikation_telSMSemail">Über Telefon/SMS/Email kommunizieren</h4>
             <p>
-            vHike ermöglicht eine Kommunikation zwischen Fahrer und potentiellen Mitfahrern über einen Anruf, SMS oder Email. Wird auf einen gefundenen Mitfahrer-Icon gedrückt erscheint ein Dialog mit genau diesen drei Möglichkeiten als Buttons. Beim Öffnen anderer Benutzerprofile, ergibt sich diese Kommunikation ebenfalls über die drei entsprechende Buttons (Anruf, SMS, Email).
+            vHike ermöglicht eine Kommunikation zwischen Fahrer und potentiellen Mitfahrern über einen Anruf, SMS oder Email. Dies wird ermöglicht über das Öffnen eines Benutzerprofils oder über einen entsprechenden Dialog, der sich über Klicken eines Suchenden-Icon öffnet.
             </p>
-            
+            <p>
+                Diese Funktion steht nicht zur Verfügung, falls ein Benutzer das Service Feature "Anonymous Profile" aktiviert hat.</p>
             <h4 id= "fkt_fahrt_planen">Mitfahrgelegenheit anlegen</h4>
             <p>
             Bei einer Änderung des Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden. 
@@ -203,7 +204,7 @@
         
             <h2 id="rg-location">vHike-RG</h2>
 			<ul>
-				<li><b>Name:</b> Location</li>
+				<li><b>Name:</b> vHike-RG</li>
 				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.vhikeresourcegroup</li>
 				<li><b>Privacy Settings:</b>
 					<table>
@@ -214,9 +215,15 @@
 							<th>Mögliche Werte</th>
 						</tr>
 						<tr>
-							<td>ananymousProfile</td>
+							<td>anonymousProfile</td>
 							<td>Profil ausblenden</td>
 							<td>Erlaubt Zugriff auf die aktuell exakte Position.</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>shareLocation</td>
+							<td>Ortung freigeben</td>
+							<td>Erlaubt anderen Benutzer im Web eine Fahrt zu verfolgen.</td>
 							<td>true, false</td>
 						</tr>
 											</table>
@@ -241,6 +248,22 @@
 							<td>Benachrichtigungen werden über die Statusbar geworfen</td>
 							<td>true, false</td>
 						</tr>
+                    </table>
+				</li>
+			</ul>
+            
+            <h2 id="rg-location">Contact</h2>
+			<ul>
+				<li><b>Name:</b> Contact</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.contact</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
                         <tr>
 							<td>emailNotification</td>
 							<td>Email-Benachrichtigung</td>
@@ -262,5 +285,105 @@
                     </table>
 				</li>
 			</ul>
+            
+            <h2 id="rg-location"> Bluetooth</h2>
+			<ul>
+				<li><b>Name:</b> Bluetooth</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>enableBluetooth</td>
+							<td>Bluetooth</td>
+							<td>Erlaubt Aktivierung von Bluetooth</td>
+							<td>true, false</td>
+						</tr>
+                    </table>
+				</li>
+			</ul>
+            <h1 id="prototyp">Benutzeroberfläche</h1>
+            <h2 id="ui-home">Hauptmenü</h2>
+			
+			<div class="uip">
+				<a href="images/login.png" rel="ui-prototype" class="fancybox">
+					<img src="images/login.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Loginmenü der App vHike.</p>
+				<p>Hier hat der Benutzer die Möglichkeit sich einzuloggen, oder über <span title="#ui-register" class="reference"></span> einen neuen Benutzer anzulegen.</p>
+                
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-register">Registrieren</h2>
+			<div class="uip">
+				<a href="images/register.png" rel="ui-prototype" class="fancybox">
+					<img src="images/register.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Registrieren eines neuen Benutzers.</p>
+				<p>Hier ist es möglich einen neuen Benutzer anzulegen.</p>
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-hauptmenu">Hauptmenü</h2>
+			<div class="uip">
+				<a href="images/hauptmenu.png" rel="ui-prototype" class="fancybox">
+					<img src="images/hauptmenu.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Hauptmenü der App vHike.</p>
+				<p>Von hier kommt man zu verschiedenen Funktionen von der App "vHike".</p>
+				<p>Es können folgende Ansichten erreicht werden:</p>
+				<p><span title="#ui-fahrten" class="reference"></span></p>
+				<p><span title="#ui-profil" class="reference"></span></p>
+				<p><span title="#ui-history" class="reference"></span></p>
+				<p><span title="#ui-settings" class="reference"></span></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-fahrten">Fahrten</h2>
+			<div class="uip">
+				<a href="images/ride.png" rel="ui-prototype" class="fancybox">
+					<img src="images/ride.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Fahrtenansicht.</p>
+				<p>Hier kann man neue Fahrten starten und nach Fahrten suchen, nachdem man sein Ziel und die verfügbaren Plätze als Fahrer bzw. die benötigte Sitzanzahl, festgelegt hat.</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-profil">Profil</h2>
+			<div class="uip">
+				<a href="images/profil.png" rel="ui-prototype" class="fancybox">
+					<img src="images/profil.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Profilansicht.</p>
+				<p>Hier kann man in sein eigenes Profil einsehen so wie über den "Menü-Button" sein Profil editieren</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-history">History</h2>
+			<div class="uip">
+				<a href="images/history.png" rel="ui-prototype" class="fancybox">
+					<img src="images/history.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Historyansicht.</p>
+				<p>Hier kann man vergangene Fahrten ansehen und daraus die Benutzer bewerten.</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-settings">Einstellungen</h2>
+			<div class="uip">
+				<p>In den Einstellungen kann man die Ressourcen verwalten, dabei wird man auf die App PMP weitergeleitet.</p>
+				<div class="clear"></div>
+			</div>
+        </div>
+
 </body>
 </html>
