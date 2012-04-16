@@ -59,8 +59,8 @@
             </p>
             <h1 id="ext_libs">Externe Bibliotheken</h1>
             <p>
-			Beim Einsatz werden unteranderem auch externe Bibliotheken eingesetzt.
-			In diesem Falle ist es die GSON Bilbiothek von Google.<br>
+			Beim Einsatz werden unteranderem auch externe Bibliotheken 
+			eingesetzt. In diesem Falle ist es die Open-Source-Bilbiothek GSON.<br>
 			- gson-2.0.jar
             </p>
             <h1 id="funkt_anforderungen">Funktionale Anforderungen</h1>
@@ -70,86 +70,108 @@
 				<img src="UseCaseDiagramm.png" alt="usecase" width="70%">
                     </a>
             </p>
-            <h3 id="funktionen">Funktionen</h3>
-            <h4 id= "fkt_registrieren">Registrieren</h4>
+            <h2 id="funktionen">Funktionen</h2>
+            <h3 id= "fkt_registrieren">Registrieren</h3>
             <p>
-			Es wird möglich sein neue Benutzer zu registrieren.
-			Es wird eine aktive Email-Adresse benötigt. Anzugeben sind eine aktive Email-Adresse, Benutzername und Passwort. Optional sind Name, Vorname, Beschreibung (?) und Telefonnummer (?) (optional/pflicht?).
+			Es wird möglich sein neue Benutzer zu registrieren. Es wird 
+			eine aktive Email-Adresse benötigt. Anzugeben sind eine aktive 
+			Email-Adresse, Benutzername und Passwort. Optional sind Name, 
+			Vorname, Beschreibung und Telefonnummer.
             </p>
-            <h4 id= "fkt_login">Einloggen</h4>
+            <h3 id= "fkt_login">Einloggen</h3>
             <p>
 			Um sich im System einzuloggen benötigt man einen Benutzer und ein Passwort,
 			welcher bei der Registrierung angegeben wurde. Über anhaken des entsprechenden Radio-Buttons erfolgt die Anmeldung automatisch.
             </p>
-            <h4 id= "fkt_logout">Ausloggen</h4>
+            <h3 id= "fkt_logout">Ausloggen</h3>
             <p>
             Über das Hauptmenü kann aus vHike ausgeloggt werden. Nach dem Logout wird der Login-Screen angezeigt.
             </p>
-            <h4 id= "fkt_profil_ansehen">Profil ansehen</h4>
+            <h3 id= "fkt_profil_ansehen">Profil ansehen</h3>
             <p>
 			Es wird möglich sein in eigenes Profil einzusehen und die eigene Bewertung abzufragen.
 			Unteranderem sollte hier die Möglichkeit bestehen seine Profildaten zu ändern. </p>
             <p>Profile anderer Benutzer lassen sich während einer Fahrt über Klicken des Benutzernamen öffnen.</p>
-            <h4 id= "fkt_history_anzeigen">History anzeigen</h4>
+            <h3 id= "fkt_history_anzeigen">History anzeigen</h3>
             <p>
 			Die History wird die Fahrten anzeigen, bei welchen man selbst dabei war. Entweder als Fahrer oder Mitfahrer. Eine Fahrt gibt Datum und Zielstadt an.
             Je Fahrt werden Fahrer und alle Mitfahrer angezeigt.</p>
-            <h4 id= "fkt_profil_bewerten">Profil bewerten</h4>
+            <h3 id= "fkt_profil_bewerten">Profil bewerten</h3>
             <p>
 			Aus der History heraus wird es möglich sein andere Benutzer zu bewerten. Die Bewertung kann pro Profil nur einmal duchgeführt werden.
             </p>
-            <h4 id= "fkt_fahrt_starten">Fahrt starten (WLAN)</h4>
+            <h3 id= "fkt_fahrt_starten">Fahrt starten (Internet)</h3>
             <p>
 			Es wird möglich sein eine Fahrt bis zu einem Ziel zu starten und die Anzahl der freien Plätzen anzugeben. Zudem ist es möglich Zwischenziele hinzuzufügen.
 			Dabei werden der Standort bestimmt, als auch automatisch nach potentiellen Mitfahrer innerhalb eines festgelegten Umkreises gesucht. Gefundene Mitfahrer werden auf der Karte angezeigt und über eine Statusbar-Benachrichtigung geworfen. Zusätzlich wird ein Slider geöffnet, der alle gefundenen Mitfahrer anzeigt.
             </p>
-            <h4 id= "fkt_einladen">Mitfahrer einladen/verwerfen (WLAN)</h4>
+            <h3 id= "fkt_einladen">Mitfahrer einladen/verwerfen (Internet)</h3>
             <p>
                 Sind Benutzer in dem Slider hinzugefügt worden, können diese über Klicken eines grünen Häkchens eingeladen oder eines roten Kreuzes verworfen werden. Im Falle einer Einladung verändert sich das Häkchen zu einem gelben Fragezeichen und wartet nun auf eine Interaktion des Eingeladenen. Wird ein Benutzer verworfen wird wird dieser aus der Liste als auch von der Karte entfernt und kann erst wieder bei einer neu angelegten Fahrt gefunden werden.
             </p>
-            <h4 id= "fkt_fahrt_suchen">Fahrt suchen (WLAN)</h4>
+            <h3 id= "fkt_fahrt_suchen">Fahrt suchen (Internet)</h3>
             <p>
 			Es wird möglich sein nach Fahrten zu einem Ziel zu suchen. Zwischenziele sind nicht möglich.
 			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, warten.             </p>
-            <h4 id= "fkt_einladung_erhalten">Einladung akzeptieren/ablehnen (WLAN)</h4>
+            <h3 id= "fkt_einladung_erhalten">Einladung akzeptieren/ablehnen (Internet)</h3>
             <p>
             Ein Einladung kann entweder abgelehnt oder angenommen werden. Wird ein Fahrer abgelehnt verschwindet er von der Karte und kann von diesem nicht mehr eingeladen werden und erst wieder nach neu Anlegen einer Suche gefunden werden. Wird die Einladung akzeptiert (In Auto einsteigen), wird die Karte geschlossen und man kehrt zum vorherigem Menü zurück. Zudem wird eine Statusbar-Benachrichtigung geworfen. Diese öffnet einen Dialog mit dem sich das Aussteigen aus einem Auto simuliert wird.
             </p>
-            <h4 id= "fkt_weg_einzeichnen">Weg einzeichnen</h4>
+            <h3 id= "fkt_weg_einzeichnen">Weg einzeichnen</h3>
             <p>
-            Für den Fahrer besteht die Möglichkeit eine Route von seinem momentanen Standort bis zu einem Zielort oder Fahrt-Suchenden einzeichnen zu lassen. Mehrere Routen, zum Beispiel zum Zielort und zu einem Fahrt-Suchenden wird nicht unterstützt.
-            </p>
-            <h4 id= "fkt_kommunikation_telSMSemail">Über Telefon/SMS/Email kommunizieren</h4>
+            Für den Fahrer besteht die Möglichkeit eine Route von seinem momentanen Standort bis zu einem Zielort oder Fahrt-Suchenden einzeichnen zu lassen. 
+			Eine Route vom Fahrer bis zu seinem momentanen Standort ist auch für 
+			Mitfahrer verfügbar. Mehrere Routen, zum Beispiel zum Zielort und zu einem Fahrt-Suchenden wird nicht unterstützt.</p>
+			<p>
+            Zusätzlich sind Informationen über Abstanz, Geschwindigkeit und 
+			geschätzte Ankunftszeit zu sehen.</p>
+            <h3 id= "fkt_kommunikation_telSMSemail">Über Telefon/SMS/Email kommunizieren</h3>
             <p>
-            vHike ermöglicht eine Kommunikation zwischen Fahrer und potentiellen Mitfahrern über einen Anruf, SMS oder Email. Dies wird ermöglicht über das Öffnen eines Benutzerprofils oder über einen entsprechenden Dialog, der sich über Klicken eines Suchenden-Icon öffnet.
-            </p>
+            vHike ermöglicht eine Kommunikation zwischen Fahrer und potentiellen Mitfahrern über einen Anruf, SMS oder Email. Dies wird ermöglicht über das Öffnen eines Benutzerprofils oder über einen entsprechenden Dialog, der sich über Klicken eines Suchenden-Icons öffnet.             </p>
             <p>
                 Diese Funktion steht nicht zur Verfügung, falls ein Benutzer das Service Feature "Anonymous Profile" aktiviert hat.</p>
-            <h4 id= "fkt_fahrt_planen">Mitfahrgelegenheit anlegen</h4>
+            <h3 id= "fkt_fahrt_planen">Fahrt vorabplanen</h3>
             <p>
-            Bei einer Änderung des Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden. 
+            BBei einer 
+			Auswahl eines zukünftigen Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden. 
             </p>
-            <p>(Dang)</p>
-            <h4 id= "fkt_fahrt_teilnehmen">An Mitfahrgelegenheit teilnehmen</h4>
+            <h3 id= "fkt_fahrt_teilnehmen">An vorabgeplannte Fahrt teilnehmen</h3>
             <p>
-            Über das Hauptmenü gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit Datum, Zielort(e) und Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden.
-            </p>
-            <p>(Dang)</p>
-            <h4 id= "fkt_fahrt_planen_blt">Fahrt starten (Bluetooth)</h4>
+            Bei einer Suche mit Angaben von Zielort und Datum gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit 
+			dem gleichen Datum, dem gleichen Zielort und einer passenden Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden.</p>
+            <h3 id= "fkt_fahrt_planen_blt">Vorgeplannte Fahrt starten</h3>
             <p>
-            Fahrt über Bluetooth starten...
-            </p>
-            <p>(Alex, Dang, Andre)</p>
-            <h4 id= "fkt_fahrt_suchen_blt">Fahrt suchen (Bluetooth)</h4>
+            In der Liste von allen Fährte und Suchen eines Benutzers besteht die 
+			Möglichkeit, einen vorgeplannten Fahrt sofort zu starten. Wenn der 
+			Benutzer momentan schon eine Fahrt stattgefindet ist, wird er 
+			verlangt, das Ende dieser Fahrt zu bestätigen. Der Fahrer kann 
+			seiner Mitfahrern über den Fahrtsstart per SMS, Email oder 
+			Telefongespräch informieren.</p>
+            <h3 id= "fkt_fahrt_planen_blt">Mitfahrer/Fahrer suchen (Bluetooth)</h3>
             <p>
-            Fahrt über Bluetooth suchen... 
-            </p>
-            <p>(Alex, Dang, Andre)</p>
-            <h4 id= "fkt_observationsmodus">Observationsmodus für Eltern</h4>
+            Wenn ein Benutzer momentan eine stattgefundene Fahrt bzw. Gesuche im 
+			Internet hat, hat er die Möglichkeit nach potentiellen Mit-/Fahrern 
+			in der Nähe mit Bluetooth zu suchen. Infomation über die 
+			Fahrt/Gesuche und vHikes Kenzeichen wird automatisch als seinen 
+			Bluetoothname gestellt. Falls der Benutzer momentan keine Fahrt bzw. 
+			Gesuche besitzt oder er keinen Internetzugang hat, kann er diese 
+			Infomationen kurz ausfüllen und sofort nach Mit-/Fahrern suchen, 
+			ohne mit vHike-WebService verbinden zu müssen.</p>
+			<p>
+            Nachdem Bluetoothfunktion des Geräts erfolgreich eingeschaltet wird, 
+			steht der Benutzer eine Liste von anderen vHike-Benutzern zur 
+			Verfügung. Er kann jetzt bevorzugte Benutzer anschreiben und hoffen, 
+			dass er oder sie antwortet. Falls ein nicht vHike-Benutzer mit ihm 
+			verbinden will, wird der vHike-Benutzt davor gewarnt.</p>
+			<h3 id= "fkt_observationsmodus">Observationsmodus</h3>
             <p>
-			Der Observationsmodus ist eine Webbasierte-Internet-Informationsseite, welche Informationen über eigene Aktivitäten liefert. Diese Seite ermöglicht es den Mitglieder ihre eigenen Fahrten zu kontrollieren. Die Seite kann nur mit einem aktiven Benutzer betretten werden. 
-            </p>
-            <h4 id= "fkt_statistik">Statistik anzeigen</h4>
+			Der Observationsmodus ist eine Funktion, die einen anderen 
+			vHike-Benutzer erlaubt, Information über eingene Fahrte, auch die 
+			jetzige Position zu sehen. Der observierte Benutzer wird mit einem 
+			besonderen Icon gekennzeichnet, damit die potentielle 
+			Fahrtmitglieder entscheiben können, ob sie ihre Information 
+			weitergeben wollen.</p>
+            <h3 id= "fkt_statistik">Statistik anzeigen</h3>
             <p>
 				Die statistischen Auswertungen können über einen Internetbrowser eingesehen werden.
 				Hier erscheinen Informationen über die folgenden Werte:
@@ -204,7 +226,7 @@
 						<tr>
 							<td>locationPrecision</td>
 							<td>Genauigkeit der Ortung</td>
-							<td>Wie genau die Ortung sein soll.</td>
+							<td>Wie genau die Ortung sein soll in meter.</td>
 							<td>Integer größer oder gleich 0</td>
 						</tr>
 					</table>
@@ -274,21 +296,21 @@
 							<th>Mögliche Werte</th>
 						</tr>
                         <tr>
-							<td>emailNotification</td>
-							<td>Email-Benachrichtigung</td>
-							<td>Benachrichtigungen werden über Emails verschickt</td>
+							<td>email</td>
+							<td>Email</td>
+							<td>Erlaubt Sendung von Emails</td>
 							<td>true, false</td>
 						</tr>
                         <tr>
-							<td>phoneNotification</td>
-							<td>Telefon-Benachrichtigung</td>
-							<td>Benachrichtigungen werden über Anrufe betätigt</td>
+							<td>phone</td>
+							<td>Telefon</td>
+							<td>Erlaubt Führung von Telefongespräche</td>
 							<td>true, false</td>
 						</tr>
                         <tr>
-							<td>smsNotification</td>
-							<td>SMS-Benachrichtigung</td>
-							<td>Benachrichtigungen werden über die SMS gesendet</td>
+							<td>sms</td>
+							<td>SMS</td>
+							<td>Erlaubt Sendung von SMS</td>
 							<td>true, false</td>
 						</tr>
                     </table>
@@ -308,7 +330,7 @@
 							<th>Mögliche Werte</th>
 						</tr>
 						<tr>
-							<td>enableBluetooth</td>
+							<td>enable</td>
 							<td>Bluetooth</td>
 							<td>Erlaubt Aktivierung von Bluetooth</td>
 							<td>true, false</td>
