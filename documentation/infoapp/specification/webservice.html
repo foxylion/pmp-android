@@ -27,6 +27,29 @@
     <!-- here comes the content of the specification -->
     <div id="content">
     
+      <h1 id="versions">Versionshistorie</h1>
+
+      <h3>Version 4.3</h3>
+      <ul>
+        <li>Letzte Fehler korrigiert (Reviewkandidat)</li>
+      </ul>
+
+      <h3>Version 4.2</h3>
+      <ul>
+        <li>Noch fehlende Services hinzugefügt und nach Absprache Fehler beseitigt</li>
+      </ul>
+
+      <h3>Version 4.1</h3>
+      <ul>
+        <li>Bestehende Services an geänderte Bedingungen (Event-System) angepasst und
+          weitere Services (Batterie, Profil) hinzugefügt</li>
+      </ul>
+
+      <h3>Version 4.0</h3>
+      <ul>
+        <li>Mit Erstellen des Dokuments auf Basis der Dokumentation des vHike-Webservices erstellt</li>
+      </ul>
+    
       <h1 id="introduction">Einleitung</h1>
       <p>
         Dieses Dokument stellt die Webservices der InfoApp und deren
@@ -90,25 +113,20 @@
         Der Wert des Schlüssels <code>error</code> definiert die Ursache des Fehlers.
         Momentan sind folgende Werte vorgesehen:
         <ul>
-          <li><code>not_logged_in</code> - der Benutzer ist nicht angemeldet, die
-            Ausführung der Anfrage erfordert dies jedoch</li>
-          <li><code>invalid_database-query</code> - interner Fehler. Die für die Bearbeitung
-            der Anfrage durchgeführte Datenbankabfrage ist fehlerhaft</li>
-          <li><code>cannot_connect_to_database</code> - interner Fehler. Die Verbindung
-            zur Datenbank bzw. zum Datenbank-Server konnte nicht hergestellt werden.</li>   
+          <li><code>internal_database_error</code> - interner Fehler. Beim Durchführen einer
+            Datenbankabfrage ist ein Fehler aufgetreten</li>
           <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
             ungültigen Wert enthält (z.B. Integer verlangt, Wert jedoch kein Integer)</li>
         </ul>
         Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
         innerhalb der auf den Webservice zugreifenden Applikation.
-        Wird z. B. beim Zugriff auf einen Service ein <code>not_logged_in</code>-Fehler
-        zurückgegeben, so kann das Login-Skript aufgerufen werden, und anschließend 
-        erneut die Anfrage, die zuvor diesen Fehler
-        erzeugte.
+        Wird z. B. beim Zugriff auf einen Service ein <code>internal_database_error</code>-Fehler
+        zurückgegeben, so kann dem Benutzer eine Meldung angezeigt werden,
+        dass seine Anfrage momentan nicht ausgeführt werden kann.
       </p>
       <p>
         In vielen Fällen genügt der Fehler-Schlüssel jedoch nicht, um den Fehler genau beschreiben 
-        zu können.  So ist es etwa bei einem <code>invalid_database-query</code>-Fehler
+        zu können.  So ist es etwa bei einem <code>internal_database_error</code>-Fehler
         hilfreich zu wissen, worin der Fehler genau bestand (Tabelle nicht vorhanden etc.).
         Daher existiert der Schlüssel <code>msg</code>, über den weitere Informationen
         über den Fehler ausgegeben werden können.
@@ -140,16 +158,13 @@
             übergeben. Zeichenketten, die nicht <code>true</code> entsprechen, darunter
             auch leere Zeichenketten, werden (sofern nichts anderes vermerkt), als
             <code>false</code> interpretiert</li>
-          <li>Integer</li>
-          <li>Float</li>
+          <li>Character</code>: Einzelner Buchstabe. Mögliche Werte werden in der
+            Beschreibung erläutert</li>
+          <li>Integer: Ganzahliger Wert. Wertebereich wird i. Alg. angegeben</li>
+          <li>Float: Fließkommazahl. Wertebereich wird i. Alg. angegeben</li>
           <li>Json: Eine Zeichenkette, die ein JSON-Objekt darstellt. Der Aufbau
             des Objekts wird in der Zeile "JSON-Parameter" erläutert</li>
-          <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>  
-          <li>Date: Eine Zeichenkette, die eine Datumsangabe darstellt.
-            Die Angabe hat das Format <code>yyyy-mm-dd</code> (z. B. 2012-01-22)</li>
-          <li>DateTime: Eine Zeichenkette, die eine Datums- und Zeitangabe darstellt.
-            Die Angabe hat das Format <code>yyyy-mm-dd hh:mm:ss</code> (24-Stunden-Format, 
-            z. B. 2012-01-22 16:11:33)</li>
+          <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>
         </ul>
       </p>
       
@@ -684,7 +699,7 @@
     {
       "timestamp": Integer,
       "event": Character,       // Art des Events
-                                // Werte: c (Call), s (SMS)
+                                // Werte: c (Call), e (Email), s (SMS)
       "direction": Character,   // "Richtung" des Events
                                 // Werte: i (eingehend), o (ausgehend)
       "city": String
@@ -740,6 +755,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>ring</code> - Character: Art des Klingelns. Werte: r (Ton), s (Lautlos), v (Vibration)</li>
               <li><code>contacts</code> - Integer: Anzahl vorhandener Kontakte</li>
               <li><code>apps</code> - Integer: Anzahl installierter Apps</li>
             </ul>
@@ -828,34 +844,6 @@
           <td>Nicht implementiert</td>
         </tr>
       </table>
-      
-      
-      
-      
-      
-            
-      <h1 id="versions">Versionshistorie</h1> 
-      
-      <h3>Version 4.3</h3>
-      <ul>
-        <li>Letzte Fehler korrigiert (Reviewkandidat)</li>
-      </ul>
-      
-      <h3>Version 4.2</h3>
-      <ul>
-        <li>Noch fehlende Services hinzugefügt und nach Absprache Fehler beseitigt</li>
-      </ul>
-      
-      <h3>Version 4.1</h3>
-      <ul>
-        <li>Bestehende Services an geänderte Bedingungen (Event-System) angepasst und
-          weitere Services (Batterie, Profil) hinzugefügt</li>
-      </ul>
-      
-      <h3>Version 4.0</h3>
-      <ul>
-        <li>Mit Erstellen des Dokuments auf Basis der Dokumentation des vHike-Webservices erstellt</li>
-      </ul>
       
     </div>
     <!-- // end of specification's content -->
