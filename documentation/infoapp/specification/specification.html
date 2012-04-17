@@ -150,7 +150,7 @@
                 <p>Die Oberfläche der InfoApp wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
                 <h3 id="standardeinstellungen">Standardeinstellungen</h3>
-                <p>Die InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. Die einzige Bedingung ist, dass PMP installiert sein muss.</p>
+                <p>Die InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, sofern PMP (ab Version 4.x) auf dem Gerät installiert ist. Der volle Funktionumfang der InfoApp kann genutzt werden, wenn die im Kapitel <span class="reference" title="#ui-resourcegroups"></span> aufgeführten Ressourcengruppen auf dem Gerät installiert sind.</p>
 
 
                 <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
@@ -158,7 +158,7 @@
                 <p>Die InfoApp wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
 
                 <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
-                <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+                <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones, oder eines Geräts mit ähnlicher Hardware, Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
                 <p>Die InfoApp wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v4.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
@@ -214,37 +214,38 @@
 					<li>Profilinformationen (<span class="reference" title="#panel-profile"></span>)</li>
 					<li>Technische Geräteinformationen (<span class="reference" title="#panel-hardware"></span>)</li>
 				</ul>
+				Sollte ein Service Feature, das für die Abfrage eines Werts benötigt wird, nicht aktiviert sein, wird an der Stelle des Werts der Text "k.A." ( = keine Angabe) angezeigt. Tippt der Benutzer diesen Text an, wird ihm das Service Feature angezeigt, das für die Anzeige des Werts aktiviert werden muss.
 			</p>
 
-            <h3  id="panel-connections">Connections-Panel</h3>
+            <h3  id="panel-connections">Connections</h3>
 			<div class="uip">
 				<a href="gui-prototype/connections-panel.png" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/connections-panel.png" alt="Home" class="left" width="300" />
 				</a>
 				<p>
 					<ul>    
-						Wifi:
-						<li>State: on/off</li>
-						<li>Connected (last 24 hours): hh:mm</li>
-						<li>Connected (last month): dd:hh:mm</li>
-						<li>Configured networks: number of networks</li>
-						<li>Cities where you have been connected... (öffnet den Dialog unterhalb)</li><br>
+						WLAN:
+						<li>Status: an/aus</li>
+						<li>Verbunden (letzte 24 Stunden): hh:mm</li>
+						<li>Verbunden (letzter Monat): dd:hh:mm</li>
+						<li>Konfigurierte Netzwerke: Anzahl der Netzwerke</li>
+						<li>Städte, in denen eine Verbindung aufgebaut wurde... (öffnet Dialog unterhalb)</li><br>
 						
 						Bluetooth:
-						<li>State: on/off</li>
-						<li>Connected (last 24 hours): hh:mm</li>
-						<li>Connected (last month): dd:hh:mm</li>
-						<li>Paired devices: number of paired devices</li>
-						<li>Cities where you have been connected... (öffnet den Dialog unterhalb)</li><br>
+						<li>Status: an/aus</li>
+						<li>Verbunden (letzte 24 Stunden): hh:mm</li>
+						<li>Verbunden (letzter Monat): dd:hh:mm</li>
+						<li>Gekoppelte Geräte: Anzahl der gekoppelten Geräten</li>
+						<li>Städte, in denen eine Verbindung aufgebaut wurde... (öffnet Dialog unterhalb)</li><br>
 						
-						Data connection:
-						<li>State: connected/not connected</li><br>
+						Datenverbindung:
+						<li>Status: verbunden/nicht verbunden</li><br>
 						
-						Cellular phone network:
-						<li>Connected to: provider</li>
-						<li>Signal strength: -xxx dBm</li>
-						<li>Roaming: active/not active</li>
-						<li>Airplane mode last 24 hours: hh:mm</li>
+						Mobilfunk-Netzwerk:
+						<li>Verbunden mit: Provider</li>
+						<li>Signalstärke: -xxx dBm</li>
+						<li>Roaming: aktiv/nicht aktiv</li>
+						<li>Flugzeugmodus in den letzten 24 Stunden: hh:mm</li>
 					</ul>
 				</p>
 				<a href="gui-prototype/connections-panel-dialog.png" rel="ui-prototype" class="fancybox">
@@ -267,7 +268,7 @@
 				</div>
             </div>
 
-            <h3 id="panel-energy">Energy-Panel</h3>
+            <h3 id="panel-energy">Energy</h3>
 			<div class="uip">
 				<a href="gui-prototype/energy-panel.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/energy-panel.jpg" alt="Home" class="left" width="300" />
@@ -279,7 +280,7 @@
 					<li>Gesundheit der Batterie</li>
 					<li>Status des Aufladevorgangs (Ja/Nein)</li>
 					<li>Quelle und Zeit des Aufladevorgangs (Falls momentan geladen wird)</li>
-					<li>Temperatur der Batterie</li>
+					<li>Temperatur der Batterie (in °C)</li>
 				</ul>
 				<ul>
 					Werte seit letztem Systemstart:
@@ -291,8 +292,8 @@
 					<li>Dauer Bildschirm an</li>
 					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrauch</li>
 					<li>Anzahl der Ladevorgänge</li>
-					<li>Maximale Temperatur der Batterie</li>
-					<li>Durchschnittliche Temperatur der Batterie</li>
+					<li>Maximale Temperatur der Batterie (in °C)</li>
+					<li>Durchschnittliche Temperatur der Batterie (in °C)</li>
 				</ul>
 				<ul>
 					Gesamtwerte:
@@ -304,8 +305,8 @@
 					<li>Dauer Bildschirm an</li>
 					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrauch</li>
 					<li>Anzahl der Ladevorgänge</li>
-					<li>Maximale Temperatur der Batterie</li>
-					<li>Durchschnittliche Temperatur der Batterie</li>
+					<li>Maximale Temperatur der Batterie (in °C)</li>
+					<li>Durchschnittliche Temperatur der Batterie (in °C)</li>
 				</ul>
 				</p>
 				<p><br/>
@@ -320,7 +321,7 @@
 				</div>
             </div>
 
-            <h3 id="panel-profile">Profile-Panel</h3>
+            <h3 id="panel-profile">Profile</h3>
             <div class="uip">
 				<a href="gui-prototype/panel-profile.png" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/panel-profile.png" alt="Home" class="left" width="300" />
@@ -349,16 +350,13 @@
 						<li>
 							de.unistuttgart.ipvs.pmp.resourcegroups.profile<br/>(<span class="reference" title="#rg-profile"></span>)
 						</li>
-						<li>
-							de.unistuttgart.ipvs.pmp.resourcegroups.location<br/>(<span class="reference" title="#rg-location"></span>)
-						</li>
 					</ul>
 				</p>
 				<div class="clear">
 				</div>
             </div>
             
-            <h3 id="panel-hardware">Hardware-Panel</h3>
+            <h3 id="panel-hardware">Hardware</h3>
             <div class="uip">
 				<a href="gui-prototype/panel-hardware.png" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/panel-hardware.png" alt="Home" class="left" width="300" />
@@ -902,7 +900,7 @@
 							<td>battery-temperature</td>
 							<td>Batterie-Temperatur</td>
 							<td>Temperatur der Batterie auslesen (Aktuelle, Maximalwert, Durchschnittswert)</td>
-							<td>current, all, none</td>
+							<td>current (aktuelle Temparatur),<br>all (aktuelle, maximale und Durchschnittstemparatur),<br>none</td>
 						</tr>
 						<tr>
 							<td>battery-charging-ratio</td>
@@ -920,13 +918,13 @@
 							<td>device-battery-charging-uptime</td>
 							<td>Betriebszeit</td>
 							<td>Betriebszeit des Gerätes auslesen (Betriebszeit gesamt, Batteriebetriebszeit, Aufladedauer)</td>
-							<td>total_time, all, none</td>
+							<td>total_time (Betriebszeit gesamt),<br>all (Betriebszeit gesamt, Batteriebetriebszeit, Aufladedauer),<br>none</td>
 						</tr>
 						<tr>
 							<td>device-dates</td>
 							<td>Betriebsdatum</td>
 							<td>Daten des Geräts auslesen (Datum des letzten Systemstarts, Datum seit Messungsbegin)</td>
-							<td>last_boot, all, none</td>
+							<td>last_boot (Datum des letzten Systemstarts),<br>all (Datum des letzten Systemstarts, Datum seit Messungsbegin),<br>none</td>
 						</tr>
 						<tr>
 							<td>device-screen</td>
@@ -1024,13 +1022,13 @@
 							<td>internal-memory</td>
 							<td>Interner Speicher</td>
 							<td>Interner Speicher auslesen (Aktueller, Maximalwert)</td>
-							<td>current, all, none</td>
+							<td>current (Aktueller interner Speicher), all (Aktueller, Maximalwert interner Speicher), none</td>
 						</tr>
 						<tr>
 							<td>external-memory</td>
 							<td>Externer Speicher</td>
 							<td>Externer Speicher auslesen (Aktueller, Maximalwert)</td>
-							<td>current, all, none</td>
+							<td>current (Aktueller externer Speicher), all (Aktueller, Maximalwert externer Speicher), none</td>
 						</tr>
 						<tr>
 							<td>camera</td>
@@ -1059,7 +1057,7 @@
 					</table>
 				</li>
 			</ul>
-
+<!--
             <h2 id="rg-location">Ortung</h2>
 			<ul>
 				<li><b>Name:</b> Location</li>
@@ -1105,12 +1103,13 @@
 						<tr>
 							<td>locationPrecision</td>
 							<td>Genauigkeit der Ortung</td>
-							<td>Wie genau die Ortung sein soll.</td>
+							<td>Wie genau die Ortung sein soll. Einheit: Meter.</td>
 							<td>Integer größer oder gleich 0</td>
 						</tr>
 					</table>
 				</li>
 			</ul>
+-->
 
             <div class="pagebreak"></div>
             <h1 id="begriffslexikon">Begriffslexikon</h1>
@@ -1132,7 +1131,7 @@
                 <tr><th class="left">Begriff</th><th>Panel</th></tr>
                 <tr><th class="left">Synonyme</th><td>-</td></tr>
                 <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppe von PMP.</td></tr>
-                <tr><th class="left">Beispiele</th><td>Im Wetter-Panel wird das lokale Wetter für die nächsten Tage angezeigt.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Im Energy-Panel werden unter anderem aktuelle Informationen über die Batterie des Geräts angezeigt.</td></tr>
                 <tr><th class="left">Abgrenzung</th><td>-</td></tr>
                 <tr><th class="left">Gültigkeit</th><td>Das Panel bleibt gültig, solange die InfoApp gestartet ist.</td></tr>
                 <tr><th class="left">Bezeichnung</th><td>Das Panel wird durch die zugehörige Ressourcengruppe und den Namen des Panels eindeutig identifiziert.</td></tr>
