@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <title>Spezifikation - InfoApp (Informations-App)</title>
@@ -21,10 +21,10 @@
     </head>
     <body>
         <div id="wrapper">
-            <div id="page-head-date">05. April 2012</div>
+            <div id="page-head-date">18. April 2012</div>
             <div id="page-head-title">InfoApp</div>
             <div id="page-title">InfoApp Spezifikation</div>
-            <div id="page-version">Version 4.0</div>
+            <div id="page-version">Version 4.2</div>
 
             <nav>
                 <div class="title">Inhaltsverzeichnis</div>
@@ -37,6 +37,16 @@
 
                 <h1 id="versionshistorie">Versionshistorie</h1>
 				
+				<h3>Version 4.2 (18.04.2012)</h3>
+				<ul>
+					<li>Korrigierte Version nach Review</li>
+				</ul>
+				
+				<h3>Version 4.1 (15.04.2012)</h3>
+				<ul>
+					<li>Letzte Fehler korrigiert (Reviewkandidat)</li>
+				</ul>
+
 				<h3>Version 4.0 (05.04.2012)</h3>
 				<ul>
 					<li>Erste Version der 4. Iteration</li>
@@ -84,7 +94,8 @@
                     <li>Verbesserter GUI Prototyp</li>
                     <li>Ressourcengruppen hinzugefügt</li>
                 </ul>
-
+				
+				<div class="pagebreak"></div>
 
                 <h3>Version 3.1 (31.01.2012)</h3>
                 <ul>
@@ -125,8 +136,6 @@
                     <li>den Betreuern des Studienprojekts</li>
                 </ul>
 
-                <div class="pagebreak"></div>
-
                 <h2 id="konventionen">Konventionen</h2>
                 <p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
                 <ul>
@@ -145,7 +154,7 @@
                 <p>Die Oberfläche der InfoApp wird sich nahtlos in die Oberfläche von Android einfügen. Dazu gehört eine konsistente und logische Anordnung der Bedienelemente genauso wie eine nachvollziehbare und möglichst einfache Menüstruktur. Es gelten die Android User Interface Guidelines, von denen nur in begründeten Einzelfällen abgewichen wird.</p>
 
                 <h3 id="standardeinstellungen">Standardeinstellungen</h3>
-                <p>Die InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein. Die einzige Bedingung ist, dass PMP installiert sein muss.</p>
+                <p>Die InfoApp wird ohne weitere Konfiguration sofort nach der Installation ("Out of the Box") einsatzbereit sein, sofern PMP (ab Version 4.x) auf dem Gerät installiert ist. Der volle Funktionumfang der InfoApp kann genutzt werden, wenn die im Kapitel <span class="reference" title="#ui-resourcegroups"></span> aufgeführten Ressourcengruppen auf dem Gerät installiert sind.</p>
 
 
                 <h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
@@ -153,7 +162,7 @@
                 <p>Die InfoApp wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
 
                 <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
-                <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+                <p>Die InfoApp wird bei Verwendung eines Motorola Defy Smartphones, oder eines Geräts mit ähnlicher Hardware, Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
 
                 <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
                 <p>Die InfoApp wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v4.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
@@ -182,6 +191,8 @@
                     <p>Nach dem Starten der InfoApp wird automatisch das Start-Panel (hier: Energy-Panel) geöffnet.<br>Grundsätzlich wird in der InfoApp eine Kopfzeile angezeigt, in der unter anderem der Name des gerade aktiven Panels angezeigt wird.</p>
                     <div class="clear"></div>
                 </div>
+				
+				<div class="pagebreak"></div>
 
                 <div class="uip">
                     <a href="gui-prototype/switch-panels.png" rel="ui-prototype" class="fancybox">
@@ -190,6 +201,8 @@
                     <p>Durch eine Wisch-Geste auf dem Bildschirm kann zwischen den einzelnen Panels hin- und hergewechselt werden. Auf jedem Panel werden bestimmte Ressourcengruppen verwendet. Die Anzahl der verfügbaren Panels richtet sich nach den installierten Ressourcengruppen und den gewährten Rechten.<br>Eine Übersicht über alle Panels befindet sich im Kapitel <a href="#ui-panels">Panels</a>.</p>
                     <div class="clear"></div>
                 </div>
+				
+				<div class="pagebreak"></div>
 
                 <div class="uip">
                     <a href="gui-prototype/settings-dialog.png" rel="ui-prototype" class="fancybox">
@@ -200,6 +213,7 @@
                 </div>
             </div>
 
+			<div class="pagebreak"></div>
 
             <h2 id="ui-panels">Panels</h2>
             <p>In jedem Panel werden je nach Berechtigung Informationen dargestellt. Folgende Panels wird die InfoApp zur Verfügung stellen:
@@ -209,37 +223,38 @@
 					<li>Profilinformationen (<span class="reference" title="#panel-profile"></span>)</li>
 					<li>Technische Geräteinformationen (<span class="reference" title="#panel-hardware"></span>)</li>
 				</ul>
+				Sollte ein Service Feature, das für die Abfrage eines Werts benötigt wird, nicht aktiviert sein, wird an der Stelle des Werts der Text "k.A." ( = keine Angabe) angezeigt. Tippt der Benutzer diesen Text an, wird ihm das Service Feature angezeigt, das für die Anzeige des Werts aktiviert werden muss.
 			</p>
 
-            <h3  id="panel-connections">Connections-Panel</h3>
+            <h3  id="panel-connections">Connections</h3>
 			<div class="uip">
 				<a href="gui-prototype/connections-panel.png" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/connections-panel.png" alt="Home" class="left" width="300" />
 				</a>
 				<p>
 					<ul>    
-						Wifi:
-						<li>State: on/off</li>
-						<li>Connected (last 24 hours): hh:mm</li>
-						<li>Connected (last month): dd:hh:mm</li>
-						<li>Configured networks: number of networks</li>
-						<li>Cities where you connected... (öffnet den Dialog unterhalb)</li><br>
+						WLAN:
+						<li>Status: an/aus</li>
+						<li>Verbunden (letzte 24 Stunden): hh:mm</li>
+						<li>Verbunden (letzter Monat): dd:hh:mm</li>
+						<li>Konfigurierte Netzwerke: Anzahl der Netzwerke</li>
+						<li>Städte, in denen eine Verbindung aufgebaut wurde... (öffnet Dialog unterhalb)</li><br>
 						
 						Bluetooth:
-						<li>State: on/off</li>
-						<li>Connected (last 24 hours): hh:mm</li>
-						<li>Connected (last month): dd:hh:mm</li>
-						<li>Paired devices: number of paired devices</li>
-						<li>Cities where you connected... (öffnet den Dialog unterhalb)</li><br>
+						<li>Status: an/aus</li>
+						<li>Verbunden (letzte 24 Stunden): hh:mm</li>
+						<li>Verbunden (letzter Monat): dd:hh:mm</li>
+						<li>Gekoppelte Geräte: Anzahl der gekoppelten Geräten</li>
+						<li>Städte, in denen eine Verbindung aufgebaut wurde... (öffnet Dialog unterhalb)</li><br>
 						
-						Data connection:
-						<li>State: connected/not connected</li><br>
+						Datenverbindung:
+						<li>Status: verbunden/nicht verbunden</li><br>
 						
-						Cellular phone network:
-						<li>Connected to: provider</li>
-						<li>Signal strength: </li>
-						<li>Roaming: active/not active</li>
-						<li>Airplane mode last 24 hours: hh:mm</li>
+						Mobilfunk-Netzwerk:
+						<li>Verbunden mit: Provider</li>
+						<li>Signalstärke: -xxx dBm</li>
+						<li>Roaming: aktiv/nicht aktiv</li>
+						<li>Flugzeugmodus in den letzten 24 Stunden: hh:mm</li>
 					</ul>
 				</p>
 				<a href="gui-prototype/connections-panel-dialog.png" rel="ui-prototype" class="fancybox">
@@ -247,7 +262,7 @@
 				</a>
 				<p>
 					<ul>    
-						Dieser Dialog zeigt eine Liste mit den Städten an, in der der Nutzer mit einem WLan oder Bluetooth verunden war
+						Dieser Dialog zeigt eine Liste mit den Städten an, in der der Nutzer mit einem WLan oder Bluetooth verbunden war
 					</ul>
 				</p>
 				<p><br/>
@@ -262,7 +277,7 @@
 				</div>
             </div>
 
-            <h3 id="panel-energy">Energy-Panel</h3>
+            <h3 id="panel-energy">Energy</h3>
 			<div class="uip">
 				<a href="gui-prototype/energy-panel.jpg" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/energy-panel.jpg" alt="Home" class="left" width="300" />
@@ -274,7 +289,7 @@
 					<li>Gesundheit der Batterie</li>
 					<li>Status des Aufladevorgangs (Ja/Nein)</li>
 					<li>Quelle und Zeit des Aufladevorgangs (Falls momentan geladen wird)</li>
-					<li>Temperatur der Batterie</li>
+					<li>Temperatur der Batterie (in °C)</li>
 				</ul>
 				<ul>
 					Werte seit letztem Systemstart:
@@ -284,23 +299,23 @@
 					<li>Dauer aller Ladevorgänge</li>
 					<li>Verhältnis (Ladebetrieb/Batteriebetrieb)</li>
 					<li>Dauer Bildschirm an</li>
-					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrach</li>
+					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrauch</li>
 					<li>Anzahl der Ladevorgänge</li>
-					<li>Maximale Temperatur der Batterie</li>
-					<li>Durchschnittliche Temperatur der Batterie</li>
+					<li>Maximale Temperatur der Batterie (in °C)</li>
+					<li>Durchschnittliche Temperatur der Batterie (in °C)</li>
 				</ul>
 				<ul>
 					Gesamtwerte:
-					<li>Datum des Messungsbegings</li>
+					<li>Datum des Messungsbegins</li>
 					<li>Betriebszeit</li>
 					<li>Betriebszeit mit Batterie</li>
 					<li>Dauer aller Ladevorgänge</li>
 					<li>Verhältnis (Ladebetrieb/Batteriebetrieb)</li>
 					<li>Dauer Bildschirm an</li>
-					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrach</li>
+					<li>Durchschnittliche Dauer des aktiven Geräts bei 1% Batterieverbrauch</li>
 					<li>Anzahl der Ladevorgänge</li>
-					<li>Maximale Temperatur der Batterie</li>
-					<li>Durchschnittliche Temperatur der Batterie</li>
+					<li>Maximale Temperatur der Batterie (in °C)</li>
+					<li>Durchschnittliche Temperatur der Batterie (in °C)</li>
 				</ul>
 				</p>
 				<p><br/>
@@ -315,27 +330,30 @@
 				</div>
             </div>
 
-            <h3 id="panel-profile">Profile-Panel</h3>
+			<div class="pagebreak"></div>
+			
+            <h3 id="panel-profile">Profile</h3>
             <div class="uip">
 				<a href="gui-prototype/panel-profile.png" rel="ui-prototype" class="fancybox">
 					<img src="gui-prototype/panel-profile.png" alt="Home" class="left" width="300" />
 				</a>
 				<p>
 					<ul>
-						<li>Grafische Übersicht mit Events der letzten 24 Stunden, der letzten Woche oder des letzten Monats.</li>
+						<li>Grafische Übersicht mit Events der letzten 24 Stunden</li>
 						<ul>
 						<li>Anrufe eingehend/Anrufe ausgehend</li>
 						<li>SMS gesendet/SMS empfangen</li>
 						<li>Email empfangen/Email gesendet</li>
 						<li>Telefon aktiv</li>
 						</ul>
+						<li>Anzahl versendeter/empfangener Emails pro Tag</li>
 						<li>Anzahl eingehender/ausgehender SMS pro Tag</li>
 						<li>Anzahl Anrufe (eingehend/ausgehend) pro Tag</li>
-						<li>Ort der Anrufe</li>
 						<li>Art des Klingelns (Vibration, Töne, Lautlos, ..)</li>
 						<li>Anzahl Kontakte</li>
+						<li>Anzahl besuchte Webseiten pro Tag</li>
 						<li>Gerät aktiv pro Tag</li>
-						<li>Anzahl Apps/aktive Apps (parallel)/aktive</li>
+						<li>Anzahl Apps installiert</li>
 					</ul>
 				</p>
 				<p><br/>
@@ -344,30 +362,32 @@
 						<li>
 							de.unistuttgart.ipvs.pmp.resourcegroups.profile<br/>(<span class="reference" title="#rg-profile"></span>)
 						</li>
-						<li>
-							de.unistuttgart.ipvs.pmp.resourcegroups.location<br/>(<span class="reference" title="#rg-location"></span>)
-						</li>
 					</ul>
 				</p>
 				<div class="clear">
 				</div>
             </div>
+			
+			<div class="pagebreak"></div>
             
-            <h3 id="panel-hardware">Hardware-Panel</h3>
+            <h3 id="panel-hardware">Hardware</h3>
             <div class="uip">
-				<a href="gui-prototype/panel-example.png" rel="ui-prototype" class="fancybox">
-					<img src="gui-prototype/panel-example.png" alt="Home" class="left" width="300" />
+				<a href="gui-prototype/panel-hardware.png" rel="ui-prototype" class="fancybox">
+					<img src="gui-prototype/panel-hardware.png" alt="Home" class="left" width="300" />
 				</a>
 				<p>
 					<ul>
-						<li>Gesamtlaufzeit des Geräts</li>
-						<li>Speicherverfügbarkeit interner/externer Speicher</li>
+						<li>Hersteller</li>
 						<li>SDK-Version</li>
 						<li>Kernel-Version</li>
-						<li>Hersteller</li>
-						<li>Modell</li>
+						<li>Benützeroberfläche</li>
 						<li>Displayauflösung</li>
-						<li>Weitere technische Daten</li>
+						<li>Prozessor</li>
+						<li>Interner Speicher</li>
+						<li>Externer Speicher</li>
+						<li>Kamera</li>
+						<li>Sensoren</li>
+						<li>Gesamtlaufzeit des Geräts</li>
 					</ul>
 				</p>
 				<p><br/>
@@ -471,6 +491,8 @@
 				</li>
 			</ul>
 			
+			<div class="pagebreak"></div>
+			
 			<h2 id="sf-cell-phone-info">Mobilfunk Informationen</h2>
 			<ul>
 				<li><b>Identifier:</b> cell-phone-info</li>
@@ -559,6 +581,8 @@
 					</ul>
 				</li>
 			</ul>
+			
+			<div class="pagebreak"></div>
 			
 			<h2 id="sf-energy-since-last-boot">Energiewerte seit letztem Systemstart</h2>
 			<ul>
@@ -671,6 +695,208 @@
 			
 			<div class="pagebreak"></div>
 
+			<h2 id="sf-hardware-info">Hardware-Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> hardware-info</li>
+				<li><b>Name:</b> Hardware-Information</li>
+				<li><b>Beschreibung:</b> Get information about the hardware.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.hardware (<span class="reference" title="#rg-hardware"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>manufacturer</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>display-resolution</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>processor</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>internal-memory</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>external-memory</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>camera</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>sensors</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>runtime</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<h2 id="sf-software-info">Software-Informationen</h2>
+			<ul>
+				<li><b>Identifier:</b> software-info</li>
+				<li><b>Name:</b> Software-Information</li>
+				<li><b>Beschreibung:</b> Get information about the software.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.hardware (<span class="reference" title="#rg-hardware"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>sdk-version</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>kernel-version</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>user-interface</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+
+			<h2 id="sf-hardware-stats">Hardwaredaten auswerten</h2>
+			<ul>
+				<li><b>Identifier:</b> hardware_statistics</li>
+				<li><b>Name:</b> Evalute the hardware data</li>
+				<li><b>Beschreibung:</b> Send all data of hardware to a statistic server.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.hardware (<span class="reference" title="#rg-hardware"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>upload-data</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<div class="pagebreak"></div>
+			
+			<h2 id="sf-profile-info">Profil-Information</h2>
+			<ul>
+				<li><b>Identifier:</b> profile-info</li>
+				<li><b>Name:</b> Profile information</li>
+				<li><b>Beschreibung:</b> Get information about the profile</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.profile (<span class="reference" title="#rg-profile"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>app-information</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>ringtone-information</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>contact-information</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-profile-statistic">Profil-Statistik</h2>
+			<ul>
+				<li><b>Identifier:</b> profile-statistic</li>
+				<li><b>Name:</b> Profile statistic</li>
+				<li><b>Beschreibung:</b> Gather statistic information of the profile.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.profile (<span class="reference" title="#rg-profile"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>device-activity-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>email-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>message-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>call-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>browser-statistics</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-profile-stats">Profildaten auswerten</h2>
+			<ul>
+				<li><b>Identifier:</b> profile-info</li>
+				<li><b>Name:</b> Evalute the profile data</li>
+				<li><b>Beschreibung:</b> Send all data of the profile to a statistic server.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.profile (<span class="reference" title="#rg-profile"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>upload-data</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<div class="pagebreak"></div>
+
             <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
 
             <h2 id="rg-connections">Verbindungen/Netze</h2>
@@ -743,6 +969,8 @@
 				</li>
 			</ul>
 			
+			<div class="pagebreak"></div>
+			
 			<h2 id="rg-energy">Batterie/Energie</h2>
 			<ul>
 				<li><b>Name:</b> Energy</li>
@@ -789,7 +1017,7 @@
 							<td>battery-temperature</td>
 							<td>Batterie-Temperatur</td>
 							<td>Temperatur der Batterie auslesen (Aktuelle, Maximalwert, Durchschnittswert)</td>
-							<td>current, all, none</td>
+							<td>current (aktuelle Temparatur),<br>all (aktuelle, maximale und Durchschnittstemparatur),<br>none</td>
 						</tr>
 						<tr>
 							<td>battery-charging-ratio</td>
@@ -807,13 +1035,13 @@
 							<td>device-battery-charging-uptime</td>
 							<td>Betriebszeit</td>
 							<td>Betriebszeit des Gerätes auslesen (Betriebszeit gesamt, Batteriebetriebszeit, Aufladedauer)</td>
-							<td>total_time, all, none</td>
+							<td>total_time (Betriebszeit gesamt),<br>all (Betriebszeit gesamt, Batteriebetriebszeit, Aufladedauer),<br>none</td>
 						</tr>
 						<tr>
 							<td>device-dates</td>
 							<td>Betriebsdatum</td>
-							<td>Daten des Geräts auslesen (Datum des letzten Systemstarts, Datum seit Messungsbeging)</td>
-							<td>last_boot, all, none</td>
+							<td>Daten des Geräts auslesen (Datum des letzten Systemstarts, Datum seit Messungsbegin)</td>
+							<td>last_boot (Datum des letzten Systemstarts),<br>all (Datum des letzten Systemstarts, Datum seit Messungsbegin),<br>none</td>
 						</tr>
 						<tr>
 							<td>device-screen</td>
@@ -830,8 +1058,10 @@
 					</table>
 				</li>
 			</ul>
+			
+			<div class="pagebreak"></div>
 
-            <h2 id="rg-profile">Profilinformationen</h2>
+            <h2 id="rg-profile">Profil</h2>
 			<ul>
 				<li><b>Name:</b> Profile</li>
 				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.profile</li>
@@ -844,7 +1074,49 @@
 							<th>Mögliche Werte</th>
 						</tr>
 						<tr>
-							<td>contactlist-sum</td>
+							<td>device-activity-statistics</td>
+							<td>Geräteaktivität Statistik</td>
+							<td>Aktivität des Gerätes auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>email-statistics</td>
+							<td>EMail Statistik</td>
+							<td>Anzahl der versendeten und empfangen Emails auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>message-statistics</td>
+							<td>SMS/MMS Statistik</td>
+							<td>Anzahl der versendeten und empfangen SMS/MMS auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>call-statistics</td>
+							<td>Anrufe Statistik</td>
+							<td>Anzahl der ein- und ausgehenden Anrufe auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>browser-statistics</td>
+							<td>Browser Statistik</td>
+							<td>Anzahl der besuchten Webseiten auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>app-information</td>
+							<td>App Statistik</td>
+							<td>Anzahl der installierten Apps auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>ringtone-information</td>
+							<td>Art des Klingelns</td>
+							<td>Art des Klingelns auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>contact-information</td>
 							<td>Anzahl Kontakte</td>
 							<td>Anzahl der Kontakte auslesen</td>
 							<td>true, false</td>
@@ -859,6 +1131,8 @@
 				</li>
 			</ul>
 
+			<div class="pagebreak"></div>
+			
             <h2 id="rg-hardware">Technische Geräteinformationen</h2>
 			<ul>
 				<li><b>Name:</b> Hardware</li>
@@ -878,6 +1152,66 @@
 							<td>true, false</td>
 						</tr>
 						<tr>
+							<td>sdk-version</td>
+							<td>SDK-Version</td>
+							<td>SDK-Version auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>kernel-version</td>
+							<td>Kernel-Version</td>
+							<td>Kernel-Version auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>user-interface</td>
+							<td>Benützeroberfläche</td>
+							<td>Benützeroberfläche auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>display-resolution</td>
+							<td>Displayauflösung</td>
+							<td>Displayauflösung auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>processor</td>
+							<td>Prozessor</td>
+							<td>Prozessor auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>internal-memory</td>
+							<td>Interner Speicher</td>
+							<td>Interner Speicher auslesen (Aktueller, Maximalwert)</td>
+							<td>current (Aktueller interner Speicher), all (Aktueller, Maximalwert interner Speicher), none</td>
+						</tr>
+						<tr>
+							<td>external-memory</td>
+							<td>Externer Speicher</td>
+							<td>Externer Speicher auslesen (Aktueller, Maximalwert)</td>
+							<td>current (Aktueller externer Speicher), all (Aktueller, Maximalwert externer Speicher), none</td>
+						</tr>
+						<tr>
+							<td>camera</td>
+							<td>Kamera</td>
+							<td>Kamera auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>sensors</td>
+							<td>Sensoren</td>
+							<td>Sensoren auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>runtime</td>
+							<td>Gesamtlaufzeit des Geräts</td>
+							<td>Gesamtlaufzeit des Geräts auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
 							<td>upload-data</td>
 							<td>Hochladen</td>
 							<td>Daten auf Auswertungsserver hochladen</td>
@@ -886,7 +1220,7 @@
 					</table>
 				</li>
 			</ul>
-
+<!--
             <h2 id="rg-location">Ortung</h2>
 			<ul>
 				<li><b>Name:</b> Location</li>
@@ -932,12 +1266,13 @@
 						<tr>
 							<td>locationPrecision</td>
 							<td>Genauigkeit der Ortung</td>
-							<td>Wie genau die Ortung sein soll.</td>
+							<td>Wie genau die Ortung sein soll. Einheit: Meter.</td>
 							<td>Integer größer oder gleich 0</td>
 						</tr>
 					</table>
 				</li>
 			</ul>
+-->
 
             <div class="pagebreak"></div>
             <h1 id="begriffslexikon">Begriffslexikon</h1>
@@ -959,15 +1294,16 @@
                 <tr><th class="left">Begriff</th><th>Panel</th></tr>
                 <tr><th class="left">Synonyme</th><td>-</td></tr>
                 <tr><th class="left">Bedeutung</th><td>Panels sind einzelne Blöcke in denen Informationen dargestellt werden. Dabei benutzt jeder Block mindestens eine Ressourcengruppe von PMP.</td></tr>
-                <tr><th class="left">Beispiele</th><td>Im Wetter-Panel wird das lokale Wetter für die nächsten Tage angezeigt.</td></tr>
+                <tr><th class="left">Beispiele</th><td>Im Energy-Panel werden unter anderem aktuelle Informationen über die Batterie des Geräts angezeigt.</td></tr>
                 <tr><th class="left">Abgrenzung</th><td>-</td></tr>
                 <tr><th class="left">Gültigkeit</th><td>Das Panel bleibt gültig, solange die InfoApp gestartet ist.</td></tr>
                 <tr><th class="left">Bezeichnung</th><td>Das Panel wird durch die zugehörige Ressourcengruppe und den Namen des Panels eindeutig identifiziert.</td></tr>
                 <tr><th class="left">Unklarheiten</th><td>-</td></tr>
                 <tr><th class="left">Querverweise</th><td><span class="reference" title="#bgl-ressourcengruppe"></span></td></tr>
             </table>
+			
+			<div class="pagebreak"></div>
                      
-
             <h2 id="bgl-privacysetting">Privacy Setting</h2>
             <table>
                 <tr><th class="left">Begriff</th><th>Privacy Setting</th></tr>

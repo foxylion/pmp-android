@@ -50,6 +50,7 @@
     <string name="no">No</string>
     <string name="open_app">Open app</string>
     <string name="please_enter_a_name">Please enter a name!</string>
+    <string name="please_choose_another_name">Please choose another name.</string>
     <string name="pmp">Privacy Management Platform</string>
     <string name="presets">Presets</string>
     <string name="problems">Problems</string>

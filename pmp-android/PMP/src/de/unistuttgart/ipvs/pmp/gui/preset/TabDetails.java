@@ -85,7 +85,7 @@ public class TabDetails extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preset_tab_details_change_description:
-                new DialogPresetEdit(this, this.callback, this.preset).show();
+                new DialogPresetEdit(this, this.preset, this.callback).show();
                 break;
             
             case R.id.preset_tab_details_remove:

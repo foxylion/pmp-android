@@ -110,8 +110,7 @@ public class TabPresets extends Activity {
                         TabPresets.this.refresh();
                     }
                 };
-                DialogPresetEdit dialog = new DialogPresetEdit(TabPresets.this, callback, null);
-                dialog.show();
+                new DialogPresetEdit(TabPresets.this, null, callback).show();
                 break;
         }
         return super.onMenuItemSelected(featureId, item);

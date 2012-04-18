@@ -6,3 +6,4 @@ gen/
 .directory
 /pmp-android/Webservices/vHike/nbproject/private/
 /pmp-android/Webservices/vHike/nbproject/
+.DS_Store
