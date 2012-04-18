@@ -699,7 +699,7 @@
     {
       "timestamp": Integer,
       "event": Character,       // Art des Events
-                                // Werte: c (Call), e (Email), s (SMS)
+                                // Werte: c (Call), e (Email), s (SMS), a (Device active), w (Website)
       "direction": Character,   // "Richtung" des Events
                                 // Werte: i (eingehend), o (ausgehend)
       "city": String
@@ -755,7 +755,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>ring</code> - Character: Art des Klingelns. Werte: r (Ton), s (Lautlos), v (Vibration)</li>
+              <li><code>ring</code> - Character: Art des Klingelns. Werte: r (Ton), s (Lautlos), v (Vibration), rv (Vibration+Ton)</li>
               <li><code>contacts</code> - Integer: Anzahl vorhandener Kontakte</li>
               <li><code>apps</code> - Integer: Anzahl installierter Apps</li>
             </ul>

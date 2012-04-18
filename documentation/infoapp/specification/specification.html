@@ -328,20 +328,21 @@
 				</a>
 				<p>
 					<ul>
-						<li>Grafische Übersicht mit Events der letzten 24 Stunden, der letzten Woche oder des letzten Monats.</li>
+						<li>Grafische Übersicht mit Events der letzten 24 Stunden</li>
 						<ul>
 						<li>Anrufe eingehend/Anrufe ausgehend</li>
 						<li>SMS gesendet/SMS empfangen</li>
 						<li>Email empfangen/Email gesendet</li>
 						<li>Telefon aktiv</li>
 						</ul>
+						<li>Anzahl versendeter/empfangener Emails pro Tag</li>
 						<li>Anzahl eingehender/ausgehender SMS pro Tag</li>
 						<li>Anzahl Anrufe (eingehend/ausgehend) pro Tag</li>
-						<li>Ort der Anrufe</li>
 						<li>Art des Klingelns (Vibration, Töne, Lautlos, ..)</li>
 						<li>Anzahl Kontakte</li>
+						<li>Anzahl besuchte Webseiten pro Tag</li>
 						<li>Gerät aktiv pro Tag</li>
-						<li>Anzahl Apps/aktive Apps (parallel)/aktive</li>
+						<li>Anzahl Apps installiert</li>
 					</ul>
 				</p>
 				<p><br/>
@@ -780,6 +781,99 @@
 				</li>
 			</ul>
 			
+			<h2 id="sf-profile-info">Profil-Information</h2>
+			<ul>
+				<li><b>Identifier:</b> profile-info</li>
+				<li><b>Name:</b> Profile information</li>
+				<li><b>Beschreibung:</b> Get information about the profile</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.profile (<span class="reference" title="#rg-profile"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>app-information</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>ringtone-information</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>contact-information</td>
+									<td>true</td>
+								</tr>								
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-profile-statistic">Profil-Statistik</h2>
+			<ul>
+				<li><b>Identifier:</b> profile-statistic</li>
+				<li><b>Name:</b> Profile statistic</li>
+				<li><b>Beschreibung:</b> Gather statistic information of the profile.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.profile (<span class="reference" title="#rg-profile"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>device-activity-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>email-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>message-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>call-statistics</td>
+									<td>true</td>
+								</tr>
+								<tr>
+									<td>browser-statistics</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
+			<h2 id="sf-profile-stats">Profildaten auswerten</h2>
+			<ul>
+				<li><b>Identifier:</b> profile-info</li>
+				<li><b>Name:</b> Evalute the profile data</li>
+				<li><b>Beschreibung:</b> Send all data of the profile to a statistic server.</li>
+				<li><b>Benötigte Ressourcengruppen:</b>
+					<ul>
+						<li>de.unistuttgart.ipvs.pmp.resourcegroups.profile (<span class="reference" title="#rg-profile"></span>)
+							<table>
+								<tr>
+									<th>Privacy Setting Identifier</th>
+									<th>Privacy Setting Wert</th>
+								</tr>
+								<tr>
+									<td>upload-data</td>
+									<td>true</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			
 			<div class="pagebreak"></div>
 
             <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
@@ -942,7 +1036,7 @@
 				</li>
 			</ul>
 
-            <h2 id="rg-profile">Profilinformationen</h2>
+            <h2 id="rg-profile">Profil</h2>
 			<ul>
 				<li><b>Name:</b> Profile</li>
 				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.profile</li>
@@ -955,7 +1049,49 @@
 							<th>Mögliche Werte</th>
 						</tr>
 						<tr>
-							<td>contactlist-sum</td>
+							<td>device-activity-statistics</td>
+							<td>Geräteaktivität Statistik</td>
+							<td>Aktivität des Gerätes auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>email-statistics</td>
+							<td>EMail Statistik</td>
+							<td>Anzahl der versendeten und empfangen Emails auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>message-statistics</td>
+							<td>SMS/MMS Statistik</td>
+							<td>Anzahl der versendeten und empfangen SMS/MMS auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>call-statistics</td>
+							<td>Anrufe Statistik</td>
+							<td>Anzahl der ein- und ausgehenden Anrufe auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>browser-statistics</td>
+							<td>Browser Statistik</td>
+							<td>Anzahl der besuchten Webseiten auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>app-information</td>
+							<td>App Statistik</td>
+							<td>Anzahl der installierten Apps auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>ringtone-information</td>
+							<td>Art des Klingelns</td>
+							<td>Art des Klingelns auslesen</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>contact-information</td>
 							<td>Anzahl Kontakte</td>
 							<td>Anzahl der Kontakte auslesen</td>
 							<td>true, false</td>
