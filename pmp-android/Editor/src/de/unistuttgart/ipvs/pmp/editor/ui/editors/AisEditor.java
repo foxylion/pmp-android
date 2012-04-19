@@ -72,7 +72,7 @@ public class AisEditor extends FormEditor {
      */
     @Override
     protected void addPages() {
-        model.setEditor(this);
+        this.model.setEditor(this);
         
         // Download the RGs from the server at startup if it's not done
         if (!DownloadedRGModel.getInstance().isRGListAvailable()) {
@@ -98,7 +98,7 @@ public class AisEditor extends FormEditor {
                 
                 AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
             } catch (ParserException e) {
-                model.setAis(XMLUtilityProxy.getAppUtil().createBlankAIS());
+                this.model.setAis(XMLUtilityProxy.getAppUtil().createBlankAIS());
                 
             }
             /*

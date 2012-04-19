@@ -89,10 +89,10 @@ public class DateTimeDialog extends Dialog {
         new Label(parent, SWT.NONE).setText(I18N.general_datetimedialog_text);
         
         // Calendar to pick a date
-        calendar = new DateTime(parent, SWT.CALENDAR);
+        this.calendar = new DateTime(parent, SWT.CALENDAR);
         
         // Time picker
-        time = new DateTime(parent, SWT.TIME);
+        this.time = new DateTime(parent, SWT.TIME);
         return parent;
     }
     
@@ -100,10 +100,10 @@ public class DateTimeDialog extends Dialog {
     @Override
     public void okPressed() {
         GregorianCalendar cal = new GregorianCalendar();
-        cal.set(calendar.getYear(), calendar.getMonth(), calendar.getDay(), time.getHours(), time.getMinutes(),
-                time.getSeconds());
-        result[0] = cal.getTimeInMillis();
-        this.close();
+        cal.set(this.calendar.getYear(), this.calendar.getMonth(), this.calendar.getDay(), this.time.getHours(),
+                this.time.getMinutes(), this.time.getSeconds());
+        this.result[0] = cal.getTimeInMillis();
+        close();
     }
     
     

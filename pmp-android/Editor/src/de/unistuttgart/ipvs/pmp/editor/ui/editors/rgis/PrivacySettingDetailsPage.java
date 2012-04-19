@@ -27,8 +27,11 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -62,6 +65,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     private Text identifier;
     private Text values;
     private RGISPrivacySetting privacySetting;
+    private Button requestable;
     
     
     public PrivacySettingDetailsPage(PrivacySettingsBlock block) {
@@ -107,9 +111,11 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
             
             @Override
             public void keyReleased(KeyEvent e) {
-                if (!privacySetting.getIdentifier().equals(identifier.getText())) {
-                    privacySetting.setIdentifier(identifier.getText());
-                    block.setDirty(true);
+                if (!PrivacySettingDetailsPage.this.privacySetting.getIdentifier().equals(
+                        PrivacySettingDetailsPage.this.identifier.getText())) {
+                    PrivacySettingDetailsPage.this.privacySetting
+                            .setIdentifier(PrivacySettingDetailsPage.this.identifier.getText());
+                    PrivacySettingDetailsPage.this.block.setDirty(true);
                 }
                 
             }
@@ -134,9 +140,11 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
             
             @Override
             public void keyReleased(KeyEvent e) {
-                if (!privacySetting.getValidValueDescription().equals(values.getText())) {
-                    privacySetting.setValidValueDescription(values.getText());
-                    block.setDirty(true);
+                if (!PrivacySettingDetailsPage.this.privacySetting.getValidValueDescription().equals(
+                        PrivacySettingDetailsPage.this.values.getText())) {
+                    PrivacySettingDetailsPage.this.privacySetting
+                            .setValidValueDescription(PrivacySettingDetailsPage.this.values.getText());
+                    PrivacySettingDetailsPage.this.block.setDirty(true);
                 }
                 
             }
@@ -152,15 +160,35 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.valuesDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         this.valuesDec
                 .setDescriptionText(it.getTranslationWithoutParameters(IssueType.VALID_VALUE_DESCRIPTION_MISSING));
+        
+        /**
+         * Add the requestable check box
+         */
+        this.requestable = new Button(compo, SWT.CHECK);
+        this.requestable.setText(I18N.editor_rgis_ps_Non_Requestable);
+        this.requestable.setToolTipText(I18N.editor_rgis_ps_non_req_tooltip);
         section.setClient(compo);
+        this.requestable.addSelectionListener(new SelectionListener() {
+            
+            @Override
+            public void widgetSelected(SelectionEvent arg0) {
+                // if requestable.getSelection() != ps.getRequestableSetting(){
+                PrivacySettingDetailsPage.this.block.setDirty(true);
+                //TODO Requestable speichern
+                //}
+            }
+            
+            
+            @Override
+            public void widgetDefaultSelected(SelectionEvent arg0) {
+            }
+        });
         
     }
     
     
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-        
     }
     
     
@@ -172,9 +200,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     
     @Override
     public void commit(boolean onSave) {
-        
         this.block.refresh();
-        
     }
     
     
@@ -186,8 +212,6 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     
     @Override
     public void setFocus() {
-        // TODO Auto-generated method stub
-        
     }
     
     
@@ -213,12 +237,14 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
     private void update() {
         this.identifier.setText(this.privacySetting.getIdentifier());
         this.values.setText(this.privacySetting.getValidValueDescription());
+        
+        // TODO Requestable Checkbox setzen
         validate();
     }
     
     
     private void validate() {
-        block.refresh();
+        this.block.refresh();
         RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
         IRGIS rgis = this.block.getModel().getRgis();
         validator.validateRGIS(rgis, true);
@@ -226,7 +252,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.identifierDec.hide();
         this.valuesDec.hide();
         
-        for (IIssue i : privacySetting.getIssues()) {
+        for (IIssue i : this.privacySetting.getIssues()) {
             switch (i.getType()) {
                 case IDENTIFIER_MISSING:
                     this.identifierDec.show();

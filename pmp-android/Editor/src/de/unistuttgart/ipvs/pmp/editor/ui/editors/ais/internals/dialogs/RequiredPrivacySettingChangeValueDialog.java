@@ -156,15 +156,15 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
     @Override
     public void okPressed() {
         // The empty value boolean
-        result[0] = checked.getSelection();
+        this.result[0] = this.checked.getSelection();
         
         // Set the value to an empty string if the empty value is checked
-        if (checked.getSelection()) {
+        if (this.checked.getSelection()) {
             String empty = ""; //$NON-NLS-1$
-            result[1] = empty;
+            this.result[1] = empty;
         } else {
             // Set the value as result
-            result[1] = valueText.getText();
+            this.result[1] = this.valueText.getText();
         }
         close();
     }
@@ -185,7 +185,7 @@ public class RequiredPrivacySettingChangeValueDialog extends Dialog implements M
          * Add the value to the dialog, or enable the empty value checkbox and
          * disable the text field
          */
-        if (emptyValue) {
+        if (this.emptyValue) {
             this.checked.setSelection(true);
             this.valueText.setEnabled(false);
         } else if (this.value != null) {

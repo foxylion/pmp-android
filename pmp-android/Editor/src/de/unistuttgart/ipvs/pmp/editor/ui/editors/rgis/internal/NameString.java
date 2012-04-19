@@ -33,7 +33,7 @@ public class NameString extends EncapsulatedString {
     
     @Override
     public List<ILocalizedString> getStringList() {
-        return ps.getNames();
+        return this.ps.getNames();
     }
     
 }
