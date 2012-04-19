@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Spezifikation - vHike</title>
+	<script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../_layout/script.js"></script>
+	<script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">13. April 2012</div>
+		<div id="page-head-title">vHike</div>
+		<div id="page-title">vHike <p>Spezifikation</p></div>
+		<div id="page-version">Version 4.1</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the specification -->
+		<div id="content">
+				
+            <h1 id="versionshistorie">Versionshistorie</h1>
+            <h3>Version 4.1 (16.04.2012)</h3><p>
+            Kapitel Funktionen überarbeitet und Ressourcengruppen Notification, Contact, vHike-RG hinzugefügt. RG Rating entfernt. 
+            Erweiterungen spezifiziert.</p>
+            <h3>Version 1.2 (30.01.2012)</h3>
+            Reviewkandidat
+            
+            <h3>Version 1.1 (20.01.2012)</h3>
+            Überarbeitung der Spezifikation und Aufarbeitung der nötigen Kapitel
+            <ul>
+                <li>Kapitel <span class="reference" title="#funkt_anforderungen"></span> hinzugefügt</li>
+                <li>Kapitel <span class="reference" title="#prototyp"></span> hinzugefügt.
+					</ul>
+
+
+			
+			<h1 id="einleitung">Einleitung</h1>
+			<p></p>
+			
+            <h2 id="zweck">Zweck</h2>
+            <p>
+        	Dieses Dokument stellt die Spezifikation des Projektes 				„vHike“ dar.
+			Die Spezifikation definiert hier einen Prototypen für die 				spätere Benutzeroberfläche und beschreibt dessen
+			Funktionsabläufe.
+            </p>
+            
+            <h2 id="motivation">Motivation</h2>
+            <p>
+			Dieses Projekt ist ein Teilprojekt vom Projekt „Privacy Managment Platform“. „vHike“ sollte im
+			Rahmen dieses Projektes als Beispiel App implementiert werden.
+			„vHike“ sollte die Funktionalitäten von „PMP“ aufzeigen und diese in den Vordergrund stellen.
+            </p>
+            h2 id="leserkreis">Leserkreis</h2>
+            <p>Diese Spezifikation dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+            <ul>
+                <li>den Entwicklern von der vHike</li>
+                <li>den Entwicklern von PMP</li>
+                <li>dem Kunden</li>
+                <li>den Betreuern des Studienprojekts</li>
+            </ul>
+            
+            <h2 id="konventionen">Konventionen</h2>
+            <p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
+            <ul>
+                <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
+                <li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
+                <li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
+                <li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
+            </ul>
+
+
+<h1 id="nicht-funktionale-anforderungen">Nicht-Funktionale Anforderungen</h1>		
+                <h2 id="bedienbarkeit">Bedienbarkeit</h2>
+                <p>vHike wird von einem durchschnittlichen Android-Nutzer intuitiv bedient werden können.</p>
+
+                <h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
+                <p>vHike wird bei Verwendung eines Motorola Defy Smartphones, oder eines Gerätes mit ähnlicher Hardware, Antwortzeiten von unter einer Sekunde aufweisen. Sollte eine Antwort länger andauern, wird der Benutzer durch eine Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.
+
+                <h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+                <p>vHike wird kompatibel zur aktuellen PMP Version sein (mindestens PMP v4.x), sowie zu allen Android-Systemen der Versionen 2.x (ab Version 2.1.1 aufwärts).</p>
+
+                <h2 id="internationalisierung">Internationalisierung</h2>
+                <p>Die einzige verfügbare Sprache für vHike ist Englisch, wobei weitere Übersetzungen ohne Anpassung des Quellcodes hinzugefügt werden können.</p>
+
+                <h2 id="installation">Installation</h2>
+                <p>vHike wird im apk-Format ausgeliefert und wird manuell auf Androidsystemen installiert.</p>
+
+                <h2 id="wartbarkeit">Wartbarkeit</h2>
+                <p>Es wird auf einen modularisierten Aufbau der einzelnen Komponenten geachtet, der Quelltext wird nach Javadoc-Konventionen kommentiert.</p>
+
+                <h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+                <p>Es gibt keine generellen gesetzlichen Richtlinien oder Normen, die eingehalten werden müssen. Die Universität Stuttgart wird ein zeitlich und personell unbegrenztes Nutzungsrecht an der Software erhalten. vHike wird unter der Open-Source Software Lizenz "Apache License 2.0" freigegeben.</p>
+		<h2 id="ext_libs">Externe Bibliotheken</h2>
+            <p>
+			Beim Entwickeln von vHike werden unteranderem auch externe Bibliotheken 
+			eingesetzt. In diesem Falle ist es die Open-Source-Bilbiothek GSON.<br>
+			- gson-2.0.jar
+            </p>
+
+           
+            <h1 id="funkt_anforderungen">Funktionale Anforderungen</h1>
+            <h2 id="ueberblick_ueber_die_fkt">Übersicht der Funktionen</h2>
+            <p>
+    		Tabelle rein
+            </p>
+            <h2 id="funktionen">Funktionen</h2>
+            <h3 id= "fkt_registrieren">Registrieren</h3>
+            <h4> Benutzer: Alle</h4> 
+            
+			Es wird möglich sein neue Benutzer zu registrieren. Es wird 
+			eine gültige Email-Adresse benötigt. Anzugeben sind eine gültige 
+			Email-Adresse, Benutzername und Passwort. Optional sind Name, 
+			Vorname, Beschreibung und Telefonnummer. Die Aktivierung eines Benutzers nach erfolgreicher Registrierung, erfolgt über einen Link der per Email versendet wird.
+            </p>
+            <h3 id= "fkt_login">Einloggen</h3>
+            <h4> Benutzer: Alle</h4>
+            <p>
+			Um sich im System einzuloggen benötigt man einen Benutzer und ein Passwort,
+			welcher bei der Registrierung angegeben wurde. Es gibt eine Möglichkeit sich automatisch einloggen zu lassen über einen RadioButton.
+            </p>
+            <h3 id= "fkt_logout">Ausloggen</h3>
+            <h4> Benutzer: Alle</h4>
+            <p>
+            Über das Hauptmenü kann aus vHike ausgeloggt werden. Nach dem Logout wird der Login-Screen angezeigt.
+            </p>
+            <h3 id= "fkt_profil_ansehen">Profil ansehen/editieren</h3>
+            <h4> Benutzer: Alle</h4>
+            <p>
+			Es es möglich in sein eigenes Profil einzusehen und die eigene Bewertung abzufragen.
+			Unter anderem sollte hier die Möglichkeit bestehen seine Profildaten zu ändern. Es lassen sich die Email-Adresse und die Telefonnummer verändern.</p>
+            <p>Profile anderer Benutzer lassen sich während einer Fahrt über Anklicken des Benutzernamen öffnen.</p>
+            <h3 id= "fkt_history_anzeigen">History anzeigen</h3>
+            <h4> Benutzer: Alle</h4>
+            <p>
+			Die History wird die Fahrten anzeigen, bei welchen man selbst dabei war. Entweder als Fahrer oder Mitfahrer. Eine Fahrt gibt Datum und Zielstadt an.
+            Je Fahrt werden Fahrer und alle Mitfahrer angezeigt.</p>
+            <h3 id= "fkt_profil_bewerten">Profil bewerten</h3>
+            <h4> Benutzer: Alle</h4>
+            <p>
+			Aus der History heraus wird es möglich sein andere Benutzer zu bewerten. Die Bewertung kann pro Profil nur einmal duchgeführt werden.
+            </p>
+            <h3 id= "fkt_kommunikation_telSMSemail">Über Telefon/SMS/Email kommunizieren</h3>
+            <h4> Benutzer: Alle</h4>
+            vHike ermöglicht eine Kommunikation zwischen Fahrer und potentiellen Mitfahrern über einen Anruf, SMS oder Email. Dies wird ermöglicht über das Öffnen eines Benutzerprofils oder über einen entsprechenden Dialog, der sich über Klicken eines Suchenden-Icons öffnet.             </p>
+            <p>
+            Diese Funktion steht nicht zur Verfügung, falls ein Benutzer das Service Feature "Anonymous Profile" aktiviert hat.</p>
+            
+            <h3 id= "fkt_weg_einzeichnen">Weg einzeichnen</h3>
+            <h4> Benutzer: Fahrer</h4> 
+            <p>
+            Für den Fahrer besteht die Möglichkeit eine Route von seinem momentanen Standort bis zu einem Zielort oder Fahrt-Suchenden einzeichnen zu lassen. 
+			Mehrere Routen, zum Beispiel zum Zielort und zu einem Fahrt-Suchenden wird nicht unterstützt.</p>
+            <h3 id= "fkt_statistik">Statistik anzeigen</h3>
+            <h4> Benutzer: Alle</h4>
+            <p>
+            Die statistischen Auswertungen können über einen Internetbrowser eingesehen werden.
+            Hier erscheinen Informationen über die folgenden Werte:
+            <ul>
+                <li>Anzahl der Fahrten</li>
+                <li>abgeschloßene Fahrten</li>
+                <li>durchschnittliche Fahrtzeit</li>
+                <li>Fahrten pro Monat/Jahr/Quartal</li>
+                <li>offene Fahrten</li>
+                <li>teilgenommene Fahrten als Fahrer</li>
+                <li>teilgenommene Fahrten als Mitfahrer</li>
+                <li>Mitglieder</li>
+            </ul>
+            </p>
+            
+            <h3 id= "fkt_fahrt_starten">Fahrt starten (Internet)</h3>
+            <h4> Benutzer: Fahrer</h4> 
+            <p>
+			Es wird möglich sein eine Fahrt bis zu einem Ziel zu starten und die Anzahl der freien Plätzen anzugeben. Zudem ist es möglich Zwischenziele hinzuzufügen.
+			Dabei werden der Standort bestimmt, als auch automatisch nach potentiellen Mitfahrer innerhalb eines festgelegten Umkreises gesucht. Gefundene Mitfahrer werden auf der Karte angezeigt und über eine Statusbar-Benachrichtigung geworfen. Zusätzlich wird ein Slider geöffnet, der alle gefundenen Mitfahrer anzeigt.
+            </p>
+            <h3 id= "fkt_einladen">Mitfahrer einladen/verwerfen (Internet)</h3>
+            <h4> Benutzer: Fahrer</h4> 
+            <p>
+                Sind Benutzer in dem Slider hinzugefügt worden, können diese über Klicken eines grünen Häkchens eingeladen oder eines roten Kreuzes verworfen werden. Im Falle einer Einladung verändert sich das Häkchen zu einem gelben Fragezeichen und wartet nun auf eine Interaktion des Eingeladenen. Wird ein Benutzer verworfen wird wird dieser aus der Liste als auch von der Karte entfernt und kann erst wieder bei einer neu angelegten Fahrt gefunden werden.
+            </p>
+
+            <h3 id= "fkt_fahrt_planen">Fahrt vorabplanen</h3>
+            <h4> Benutzer: Fahrer</h4> 
+            <p>
+            Bei einer 
+			Auswahl eines zukünftigen Datums können Fahrten vorausgeplant werden. Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze anzugeben. Optional können Zwischenziele angegeben werden. 
+            </p>
+            <h3 id= "fkt_fahrt_planen_blt">Vorgeplannte Fahrt starten</h3>
+            <h4> Benutzer: Fahrer</h4> 
+            <p>
+            In der Liste von allen Fährte und Suchen eines Benutzers besteht die 
+			Möglichkeit, einen vorgeplannten Fahrt sofort zu starten. Wenn der 
+			Benutzer momentan schon eine Fahrt stattgefindet ist, wird er 
+			verlangt, das Ende dieser Fahrt zu bestätigen. Der Fahrer kann 
+			seiner Mitfahrern über den Fahrtsstart per SMS, Email oder 
+			Telefongespräch informieren.</p>
+            <h3 id= "fkt_fahrt_planen_blt">Mitfahrer/Fahrer suchen (Bluetooth)</h3>
+            <h4> Benutzer: Fahrer/Mitfahrer</h4> 
+            <p>
+            Wenn ein Benutzer momentan eine stattgefundene Fahrt bzw. Gesuche im 
+			Internet hat, hat er die Möglichkeit nach potentiellen Mit-/Fahrern 
+			in der Nähe mit Bluetooth zu suchen. Infomation über die 
+			Fahrt/Gesuche und vHikes Kenzeichen wird automatisch als seinen 
+			Bluetoothname gestellt. Falls der Benutzer momentan keine Fahrt bzw. 
+			Gesuche besitzt oder er keinen Internetzugang hat, kann er diese 
+			Infomationen kurz ausfüllen und sofort nach Mit-/Fahrern suchen, 
+			ohne mit vHike-WebService verbinden zu müssen.</p>
+			<p>
+            Nachdem Bluetoothfunktion des Geräts erfolgreich eingeschaltet wird, 
+			steht der Benutzer eine Liste von anderen vHike-Benutzern zur 
+			Verfügung. Er kann jetzt bevorzugte Benutzer anschreiben und hoffen, 
+			dass er oder sie antwortet. Falls ein nicht vHike-Benutzer mit ihm 
+			verbinden will, wird der vHike-Benutzt davor gewarnt.</p>
+            
+            <h3 id= "fkt_fahrt_suchen">Fahrt suchen (Internet)</h3>
+            <h4> Benutzer: Mitfahrer</h4> 
+            <p>
+			Es wird möglich sein nach Fahrten zu einem Ziel zu suchen. Zwischenziele sind nicht möglich.
+			Man wird auf eine Karte weitergeleitet und kann nun auf eine Einladung von einem Fahrer, welcher das gleiche Ziel hat, warten.             </p>
+            <h3 id= "fkt_einladung_erhalten">Einladung akzeptieren/ablehnen (Internet)</h3>
+            <h4> Benutzer: Mitfahrer</h4> 
+            <p>
+            Ein Einladung kann entweder abgelehnt oder angenommen werden. Wird ein Fahrer abgelehnt verschwindet er von der Karte und kann von diesem nicht mehr eingeladen werden und erst wieder nach neu Anlegen einer Suche gefunden werden. Wird die Einladung akzeptiert (In Auto einsteigen), wird die Karte geschlossen und man kehrt zum vorherigem Menü zurück. Zudem wird eine Statusbar-Benachrichtigung geworfen. Diese öffnet einen Dialog mit dem sich das Aussteigen aus einem Auto simuliert wird.
+            </p>
+            <h3 id= "fkt_fahrt_teilnehmen">An vorabgeplannte Fahrt teilnehmen</h3>
+            <h4> Benutzer: Mitfahrer</h4> 
+            <p>
+            Bei einer Suche mit Angaben von Zielort und Datum gelangt man in eine Übersicht, in der alle vorausgeplanten Fahrten mit 
+			dem gleichen Datum, dem gleichen Zielort und einer passenden Anzahl der freien Sitzplätze angezeigt werden. Nach auswählen einer Fahrt kann nach einem freiem Platz angefragt werden.</p>
+
+			<h3 id= "fkt_observationsmodus">Observationsmodus</h3>
+            <h4> Benutzer: Eltern von Minderjährigen</h4>
+            <p>
+			Der Observationsmodus ist eine Funktion, die einen anderen 
+			vHike-Benutzer erlaubt, Information über eingene Fahrte, auch die 
+			jetzige Position zu sehen. Der observierte Benutzer wird mit einem 
+			besonderen Icon gekennzeichnet, damit die potentielle 
+			Fahrtmitglieder entscheiben können, ob sie ihre Information 
+			weitergeben wollen.</p>
+            
+        <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
+            <h2 id="rg-location">Ortung</h2>
+			<ul>
+				<li><b>Name:</b> Location</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.location</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>useAbsoluteLocation</td>
+							<td>Genaue Ortung</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useCoordinates</td>
+							<td>Koordinaten Ortung</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position via Koordinaten.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useAccuracy</td>
+							<td>Genauigkeit nutzen</td>
+							<td>Erlaubt Zugriff auf die aktuell Genauigkeit der Position.</td>
+							<td>true, false</td>
+						</tr>
+						<tr>
+							<td>useLocationDescription</td>
+							<td>Genauigkeit der Beschreibung</td>
+							<td>Erlaubt Zugriff auf eine mehr oder weniger genaue Beschreibung der aktuellen Position.</td>
+							<td>NONE, COUNTRY, CITY, STREET</td>
+						</tr>
+						<tr>
+							<td>locationPrecision</td>
+							<td>Genauigkeit der Ortung</td>
+							<td>Wie genau die Ortung sein soll in meter.</td>
+							<td>Integer größer oder gleich 0</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
+        
+            <h2 id="rg-location">vHike-RG</h2>
+			<ul>
+				<li><b>Name:</b> vHike-RG</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.vhikeresourcegroup</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>anonymousProfile</td>
+							<td>Profil ausblenden</td>
+							<td>Erlaubt Zugriff auf die aktuell exakte Position.</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>shareLocation</td>
+							<td>Ortung freigeben</td>
+							<td>Erlaubt anderen Benutzer im Web eine Fahrt zu verfolgen.</td>
+							<td>true, false</td>
+						</tr>
+											</table>
+				</li>
+			</ul>
+            
+            <h2 id="rg-location">Notification</h2>
+			<ul>
+				<li><b>Name:</b> Notification</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.notification</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>statusbarNotification</td>
+							<td>Statusbar-Benachrichtigung</td>
+							<td>Benachrichtigungen werden über die Statusbar geworfen</td>
+							<td>true, false</td>
+						</tr>
+                    </table>
+				</li>
+			</ul>
+            
+            <h2 id="rg-location">Contact</h2>
+			<ul>
+				<li><b>Name:</b> Contact</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.contact</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+                        <tr>
+							<td>email</td>
+							<td>Email</td>
+							<td>Erlaubt Sendung von Emails</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>phone</td>
+							<td>Telefon</td>
+							<td>Erlaubt Führung von Telefongespräche</td>
+							<td>true, false</td>
+						</tr>
+                        <tr>
+							<td>sms</td>
+							<td>SMS</td>
+							<td>Erlaubt Sendung von SMS</td>
+							<td>true, false</td>
+						</tr>
+                    </table>
+				</li>
+			</ul>
+            
+            <h2 id="rg-location"> Bluetooth</h2>
+			<ul>
+				<li><b>Name:</b> Bluetooth</li>
+				<li><b>Identifier:</b> de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth</li>
+				<li><b>Privacy Settings:</b>
+					<table>
+						<tr>
+							<th>Identifier</th>
+							<th>Name</th>
+							<th>Beschreibung</th>
+							<th>Mögliche Werte</th>
+						</tr>
+						<tr>
+							<td>enable</td>
+							<td>Bluetooth</td>
+							<td>Erlaubt Aktivierung von Bluetooth</td>
+							<td>true, false</td>
+						</tr>
+                    </table>
+				</li>
+			</ul>
+            <h1 id="prototyp">Benutzeroberfläche</h1>
+            <h2 id="ui-home">Hauptmenü</h2>
+			
+			<div class="uip">
+				<a href="images/login.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_login.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Loginmenü der App vHike.</p>
+				<p>Hier hat der Benutzer die Möglichkeit sich einzuloggen, oder über <span title="#ui-register" class="reference"></span> einen neuen Benutzer anzulegen.</p>
+                
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-register">Registrieren</h2>
+			<div class="uip">
+				<a href="images/register.png" rel="ui-prototype" class="fancybox">
+					<img src="images/register.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Registrieren eines neuen Benutzers.</p>
+				<p>Hier ist es möglich einen neuen Benutzer anzulegen.</p>
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-hauptmenu">Hauptmenü</h2>
+			<div class="uip">
+				<a href="images/hauptmenu.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_mainmenu.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Hauptmenü der App vHike.</p>
+				<p>Von hier kommt man zu verschiedenen Funktionen von der App "vHike".</p>
+				<p>Es können folgende Ansichten erreicht werden:</p>
+				<p><span title="#ui-fahrten" class="reference"></span></p>
+				<p><span title="#ui-profil" class="reference"></span></p>
+				<p><span title="#ui-history" class="reference"></span></p>
+				<p><span title="#ui-settings" class="reference"></span></p>
+				<div class="clear"></div>
+			</div>
+			
+			<h2 id="ui-fahrten">Fahrten</h2>
+			<div class="uip">
+				<a href="images/vh_plantrip.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_plantrip.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Fahrtenansicht.</p>
+				<p>Hier kann man neue Fahrten starten und nach Fahrten suchen, nachdem man sein Ziel und die verfügbaren Plätze als Fahrer bzw. die benötigte Sitzanzahl, festgelegt hat.</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-profil">Profil</h2>
+			<div class="uip">
+				<a href="images/profil.png" rel="ui-prototype" class="fancybox">
+					<img src="images/profil.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Profilansicht.</p>
+				<p>Hier kann man in sein eigenes Profil einsehen so wie über den "Menü-Button" sein Profil editieren</p>
+				<div class="clear"></div>
+			</div>
+            <h2 id="ui-profile_change">Profil ändern</h2>
+			<div class="uip">
+				<a href="images/vh_profile_change.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_profile_change.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Profil ändern</p>
+				<p>Über die Menü-Taste können Änderungen an Email und Telefonnummer vorgenommen werden.</p>
+				<div class="clear"></div>
+			</div>
+			<h2 id="ui-history">History</h2>
+			<div class="uip">
+				<a href="images/vh_history_who.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_history_who.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Historyansicht.</p>
+				<p>Hier kann man vergangene Fahrten ansehen und daraus die Benutzer bewerten.</p>
+				<div class="clear"></div>
+			</div>
+            <h2 id="ui-history_entries">History - Fahrten</h2>
+			<div class="uip">
+				<a href="images/vh_history_entries.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_history_entries.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>History - Fahrten.</p>
+				<p>Pro vergangene Fahrt werden Datum, Uhrzeit und Ort angezeigt.</p>
+				<div class="clear"></div>
+			</div>
+            <h2 id="ui-history_users">History - Mitfahrer</h2>
+			<div class="uip">
+				<a href="images/vh_history_users.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_history_users.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Historyansicht - Mitfahrer</p>
+				<p>Wird auf eine vergangene Fahrt geklickt, werden alle Mitfahrer, die im Auto saßen, mit Bewertung angezeigt.</p>
+				<div class="clear"></div>
+			</div>
+            <h2 id="ui-history_rating">History - Bewerten</h2>
+			<div class="uip">
+				<a href="images/vh_rating.png" rel="ui-prototype" class="fancybox">
+					<img src="images/vh_rating.png" alt="Home" height="400px" class="left">
+                        </a>
+				
+				<p>Historyansicht - Bewerten</p>
+				<p>Um einen Mitfahrer zu bewerten, muss auf die Ratingbar mit der gewünschten Anzahl an Sternen geklickt werden.</p>
+				<div class="clear"></div>
+			</div>
+</body>
+</html>
