@@ -6,6 +6,7 @@ public interface IPanel {
 	
 	public View getView();
 	
+	
 	public String getTitle();
 	
 }

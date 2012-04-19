@@ -6,25 +6,28 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 
 public class ConnectionsPanel implements IPanel {
-
+	
 	private TextView view;
-
+	
+	
 	public ConnectionsPanel(Context context) {
-
+		
 		// Instantiate the view
-		view = new TextView(context);
-
+		this.view = new TextView(context);
+		
 		// Set text
-		view.setText("ConnectionsPanel");
-
+		this.view.setText("ConnectionsPanel");
+		
 	}
-
+	
+	
 	public View getView() {
-		return view;
+		return this.view;
 	}
-
+	
+	
 	public String getTitle() {
 		return "Connections";
 	}
-
+	
 }
