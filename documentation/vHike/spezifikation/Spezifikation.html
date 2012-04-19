@@ -18,7 +18,7 @@
 <body>
   <div id="wrapper">
     <div id="page-head-date">
-      18. April 2012
+      19. April 2012
     </div>
 
     <div id="page-head-title">
@@ -32,7 +32,7 @@
     </div>
 
     <div id="page-version">
-      Version 4.2
+      Version 4.3
     </div>
     <nav>
       <div class="title">
@@ -44,6 +44,17 @@
     
     <div id="content">
       <h1 id="versionshistorie">Versionshistorie</h1>
+
+      <h3>Version 4.3 (19.04.2012)</h3>
+
+      <p>Folgende Korrekturen wurden durchgeführt:
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      </p>
 
       <h3>Version 4.2 (18.04.2012)</h3>
 
@@ -191,101 +202,103 @@
               <th>Funktion</th>
 
               <th>Benutzer</th>
-
-              <th>Funktion</th>
-
-              <th>Benutzer</th>
             </tr>
 
             <tr>
               <td> <span class="reference" title="#fkt_registrieren"></span></td>
 
-              <td>Alle</td>
-
+              <td align="center">Alle</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_login"></span></td>
 
-              <td>Alle</td>
+              <td align="center">Alle</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_logout"></span></td>
 
-              <td>Alle</td>
-
+              <td align="center">Alle</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_profil_ansehen"></span></td>
 
-              <td>Alle</td>
+              <td align="center">Alle</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_profil_editieren"></span></td>
 
-              <td>Alle</td>
-
+              <td align="center">Alle</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_profil_bewerten"></span></td>
 
-              <td>Alle</td>
+              <td align="center">Alle</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_history_anzeigen"></span></td>
 
-              <td>Alle</td>
-
+              <td align="center">Alle</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_kommunikation_telSMSemail"></span> *</td>
 
-              <td>Alle</td>
+              <td align="center">Alle</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_weg_einzeichnen"></span> *</td>
 
-              <td>Fahrer</td>
-
+              <td align="center">Fahrer</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_statistik"></span> *</td>
 
-              <td>Alle</td>
+              <td align="center">Alle</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_fahrt_vorplanen"></span> * </td>
 
-              <td>Fahrer</td>
+              <td align="center">Fahrer</td>
+            </tr>
+            <tr>
+              <td><span class="reference" title="#fkt_fahrt_vorgeplant_starten"></span> * 
+              </td>
 
-              <td><span class="reference" title="#fkt_fahrt_vorgeplant_starten"></span> * </td>
-
-              <td>Fahrer</td>
+              <td align="center">Fahrer</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_fahrt_starten"></span></td>
 
-              <td>Fahrer</td>
-
+              <td align="center">Fahrer</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_einladen"></span></td>
 
-              <td>Fahrer</td>
+              <td align="center">Fahrer</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_fahrt_planen_blt"></span> * </td>
 
-              <td>Fahrer/Mitfahrer</td>
-
+              <td align="center">Fahrer/Mitfahrer</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_fahrt_suchen"></span></td>
 
-              <td>Mitfahrer</td>
+              <td align="center">Mitfahrer</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_fahrt_teilnehmen"></span> *</td>
 
-              <td>Mitfahrer</td>
-
+              <td align="center">Mitfahrer</td>
+            </tr>
+            <tr>
               <td><span class="reference" title="#fkt_einladung_erhalten"></span></td>
 
-              <td>Mitfahrer</td>
+              <td align="center">Mitfahrer</td>
             </tr>
             <tr>
               <td> <span class="reference" title="#fkt_observationsmodus"></span> * </td>
 
               <td>Alle: mit Fokus auf Eltern von Minderjährigen vHike Benutzer</td>
-
-              <td></td>
-
-              <td></td>
             </tr>
           </table></p>
 
@@ -362,6 +375,9 @@
 
       <p>Für den Fahrer wird eine mögliche Route von seinem momentanen Standort
       bis zu seinem Zielort über die eingegebenen Zwischenziele eingezeichnet.</p>
+      <p>Bei einer erfolgreichen Einladung wird ein Abstand in Kilometer vom Fahrer bis zum Mitfahrer 
+      angezeigt. Hier gilt für den Mitfahrer, dieser sollte eine Einladung angenommen haben, so wird 
+      auch ein Abstand von ihm zum Fahrer angezeigt.</p>
 
       <h3 id="fkt_statistik">Statistik anzeigen</h3>
 
@@ -395,7 +411,9 @@
       <p>Bei einer Auswahl eines zukünftigen Datums können Fahrten vorausgeplant werden.
       Ein Datum, welches in der Vergangenheit liegt, wird nicht akzeptiert und wird durch
       eine Fehlermeldung abgefangen. Es sind Zielort, Datum und Anzahl der Sitplätze
-      anzugeben. Optional können Zwischenziele angegeben werden.</p>
+      anzugeben. Optional können Zwischenziele angegeben werden. Die Einträge werden nur für angebotene 
+      Fahrten festgehalten, so dass hier wie in einem Forum eine Antwort über einen Kommentar 
+      hinterlassen werden kann.
 
       <h3 id="fkt_fahrt_vorgeplant_starten">Vorgeplannte Fahrt starten</h3>
 
@@ -453,10 +471,8 @@
 
       <h4>Benutzer: Mitfahrer</h4>
 
-      <p>Bei einer Suche mit Angaben über den Zielort und dem Datum gelangt der Mitfaher in ein
-      Übersicht, in der alle vorausgeplanten Fahrten mit dem gleichen Datum, dem gleichen Zielort
-      und einer passenden Anzahl der freien Sitzplätze angezeigt wird. Nach Auswählen
-      einer Fahrt kann nach einem freiem Platz angefragt werden.</p>
+      <p>Der Benutzer kann über eine Liste mit vorabgeplannten Fahrten zu solch einer Fahrt einen 
+      Kommentar hinterlassen. Die weitere Kommunikation ist den Benutzern selbst überlassen.</p>
 
       <h3 id="fkt_einladung_erhalten">Einladung akzeptieren/ablehnen</h3>
 
@@ -479,7 +495,179 @@
       observierte Benutzer wird mit einem besonderen Merkmal gekennzeichnet und im Falle, dass eine 
       Fahrer solch eine Person mitnimmt, so muss er damit rechnen, dass auch seine Informationen    
       automatisch zur Observation freigegeben werden.</p>
+      <p>Die obeservierte Person kann im Profil eine Observationsnummer generieren lassen, mit welcher 
+      auf der Observationswebsite eingeloggt werden kann. Diese Observationsnummer gibt auch  	  
+      gleichzeitig die Erlaubnis, dass sie observiert werden möchte. Diese Observationsnummer kann über 
+      die selbe Aktion im Profil gelöscht werden und die Erlaubnis zur Observation erlischt.</p>
 
+     <h1 id="sf">Service Features</h1>
+     <h2 id="sf-vhike-ws">vHike Webservice</h2>
+     <ul>
+       <li><b>Identifier:</b> vhikeWebService</li>
+       <li><b>Name:</b> vHike Web Service</li>
+       <li><b>Beschreibung:</b> Access for vHike services on the web.</li>
+       <li><b>Benötigte Ressourcengruppen:</b>
+     <ul>
+       <li>de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS (<span class="reference" title="#rg-vHike">
+       </span>)
+       <table>
+          <tr>
+            <th>Privacy Setting Identifier</th>
+            <th>Privacy Setting Wert</th>
+          </tr>
+          <tr>
+            <td>usevHikeWS</td>
+            <td>true</td>
+          </tr>
+       </table>
+       </li>
+     </ul>
+       </li>
+     </ul>
+
+     <h2 id="sf-vhike-anonymousprofile">vHike Hide Contactinfo</h2>
+     <ul>
+       <li><b>Identifier:</b> hideContactInfo</li>
+       <li><b>Name:</b> Profile Privacy</li>
+       <li><b>Beschreibung:</b> Hide your contact information from curious eyes. Who want to share his 		email address if we got 5 star rating, right?</li>
+       <li><b>Benötigte Ressourcengruppen:</b>
+     <ul>
+       <li>de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS (<span class="reference" title="#rg-vHike">
+       </span>)
+       <table>
+          <tr>
+            <th>Privacy Setting Identifier</th>
+            <th>Privacy Setting Wert</th>
+          </tr>
+          <tr>
+            <td>anonymousProfile</td>
+            <td>true</td>
+          </tr>
+       </table>
+       </li>
+     </ul>
+       </li>
+     </ul>
+
+     <h2 id="sf-vhike-contact">vHike Contact</h2>
+     <ul>
+       <li><b>Identifier:</b> contactPremium</li>
+       <li><b>Name:</b> Contact</li>
+       <li><b>Beschreibung:</b> Direct contact with other user via phone call, SMS and email, right here 
+       in vHike.</li>
+       <li><b>Benötigte Ressourcengruppen:</b>
+     <ul>
+       <li>de.unistuttgart.ipvs.pmp.resourcegroups.contact(<span class="reference" title="#rg-contact">
+       </span>)
+       <table>
+          <tr>
+            <th>Privacy Setting Identifier</th>
+            <th>Privacy Setting Wert</th>
+          </tr>
+          <tr>
+            <td>email</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>phone</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>sms</td>
+            <td>true</td>
+          </tr>
+       </table>
+       </li>
+     </ul>
+       </li>
+     </ul>
+
+     <h2 id="sf-vhike-noti">vHike Notification</h2>
+     <ul>
+       <li><b>Identifier:</b> notification</li>
+       <li><b>Name:</b> Notification</li>
+       <li><b>Beschreibung:</b> Notify you about new messages on vHike, even when you're using other 
+       apps.</li>
+       <li><b>Benötigte Ressourcengruppen:</b>
+     <ul>
+       <li>de.unistuttgart.ipvs.pmp.resourcegroups.notification(<span class="reference" title="#rg-notification">
+       </span>)
+       <table>
+          <tr>
+            <th>Privacy Setting Identifier</th>
+            <th>Privacy Setting Wert</th>
+          </tr>
+          <tr>
+            <td>allowNotification</td>
+            <td>allow</td>
+          </tr>
+       </table>
+       </li>
+     </ul>
+       </li>
+     </ul>
+
+     <h2 id="sf-vhike-loc">vHike Ortung</h2>
+     <ul>
+       <li><b>Identifier:</b> useAbsoluteLocation</li>
+       <li><b>Name:</b> Exact Location</li>
+       <li><b>Beschreibung:</b> Provides information about your position for several features of vHike 
+       like searching for a ride or a hiker, sharing your location for other members in your trip, 
+       making finding each other much easier.</li>
+       <li><b>Benötigte Ressourcengruppen:</b>
+     <ul>
+       <li>de.unistuttgart.ipvs.pmp.resourcegroups.location(<span class="reference" title="#rg-location">
+       </span>)
+       <table>
+          <tr>
+            <th>Privacy Setting Identifier</th>
+            <th>Privacy Setting Wert</th>
+          </tr>
+          <tr>
+            <td>useAbsoluteLocation</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>useCoordinates</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>useSpeed</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>useAccuracy</td>
+            <td>true</td>
+          </tr>
+       </table>
+       </li>
+     </ul>
+       </li>
+     </ul>
+
+     <h2 id="sf-vhike-bluetooth">vHike Bluetooth</h2>
+     <ul>
+       <li><b>Identifier:</b> enableBluetooth</li>
+       <li><b>Name:</b> Bluetooth</li>
+       <li><b>Beschreibung:</b> Use vHike without Internet by enabling bluetooth.</li>
+       <li><b>Benötigte Ressourcengruppen:</b>
+     <ul>
+       <li>de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth(<span class="reference" title="#rg-bluetooth">
+       </span>)
+       <table>
+          <tr>
+            <th>Privacy Setting Identifier</th>
+            <th>Privacy Setting Wert</th>
+          </tr>
+          <tr>
+            <td>enable</td>
+            <td>true</td>
+          </tr>
+       </table>
+       </li>
+     </ul>
+       </li>
+     </ul>
       <h1 id="ui-resourcegroups">Ressourcengruppen</h1>
 
       <h2 id="rg-location">Ortung</h2>
@@ -584,8 +772,8 @@
 
               <td>Profil ausblenden</td>
 
-              <td>Erlaubt es einem Benutzer seine Profildaten zu vershcleiern. Es werden Telefonnummer,  
-              sowie die Email-Adresse nciht mehr anderen Benutzer eindeutig gemacht. Auch der Benutzer  
+              <td>Erlaubt es einem Benutzer seine Profildaten zu verschleiern. Es werden Telefonnummer,  
+              sowie die Email-Adresse nicht mehr anderen Benutzer eindeutig gemacht. Auch der Benutzer  
               sieht die Daten anderer nicht.</td>
 
               <td>true, false</td>
@@ -628,13 +816,13 @@
             </tr>
 
             <tr>
-              <td>statusbarNotification</td>
+              <td>allowNotification</td>
 
               <td>Statusbar-Benachrichtigung</td>
 
               <td>Der Benutzer wird über Statusbar-Benachrichtigungen benachrichtigt.</td>
 
-              <td>true, false</td>
+              <td>allow, notallow</td>
             </tr>
           </table>
         </li>
@@ -878,6 +1066,71 @@
 
         <div class="clear"></div>
       </div>
+
+      <h2 id="ui-bluetooth_found">Bluetoothmodus - Mitfahrer gefunden</h2>
+
+      <div class="uip">
+        <a href="images/vh_found_someone.jpg" rel="ui-prototype" class="fancybox"><img src=
+        "images/vh_found_someone.jpg" alt="Home" height="400px" class="left" /></a>
+
+        <p>Bluetoothansicht vom Fahrer</p>
+
+        <p>In dieser Ansicht werden alle Mitfahrer angezeigt, welche über Bluetooth eine Fahrt suchen.
+        </p>
+        <div class="clear"></div>
+      </div>
+      <h2 id="ui-bluetooth_invite">Bluetoothmodus - Mitfahrer einladen</h2>
+
+      <div class="uip">
+        <a href="images/vh_bluetooth_message.jpg" rel="ui-prototype" class="fancybox"><img src=
+        "images/vh_bluetooth_message.jpg" alt="Home" height="400px" class="left" /></a>
+
+        <p>Bluetoothansicht von der Einladung des Mitfahrers</p>
+
+        <p>In dieser Ansicht kann man eine Nachricht an einen Mitfahrer schreiben.</p>
+        <div class="clear"></div>
+      </div>
+  
+      <h2 id="ui-bluetooth_noti">Bluetoothmodus - Benachrichtigung</h2>
+
+      <div class="uip">
+        <a href="images/vh_bluetooth_noti.jpg" rel="ui-prototype" class="fancybox"><img src=
+        "images/vh_bluetooth_noti.jpg" alt="Home" height="400px" class="left" /></a>
+
+        <p>Bluetoothansicht. Benachrichtigung bei einer EInladung</p>
+
+        <p>Ein eingeladener Benutzer wird über einen Dialog benachrichtigt.</p>
+        <div class="clear"></div>
+      </div>
+
+      <h2 id="ui-planing-list">Vorabplannungsansicht mit den Fahrten</h2>
+
+      <div class="uip">
+        <a href="images/vh_planning_list.jpg" rel="ui-prototype" class="fancybox"><img src=
+        "images/vh_planning_list.jpg" alt="Home" height="400px" class="left" /></a>
+
+        <p>Vorabplannungsansicht mit den Fahrten</p>
+
+        <p>Die Fahrten werden in einer Liste dem Datum nach sortiert dargestellt. Hier kann ein 
+        Mitfahrer auf eine beliebige Fahrt eine Nachricht hinterlassen, wobei dies als Anmeldung zur 
+        Fahrt gezählt wird.</p>
+        <div class="clear"></div>
+      </div>
+
+      <h2 id="ui-planing-screen">Vorabplannungsansicht einer Fahrt</h2>
+
+      <div class="uip">
+        <a href="images/vh_planning_screen.jpg" rel="ui-prototype" class="fancybox"><img src=
+        "images/vh_planning_screen.jpg" alt="Home" height="400px" class="left" /></a>
+
+        <p>Vorabplannungsansicht einer Fahrt</p>
+
+        <p>Hier kann der Benutzer einen Kommentar hinterlassen, wobei dies als Anmeldung zur Fahrt 
+        gezählt wird.</p>
+        <div class="clear"></div>
+      </div>
+
+
     </div>
   </div>
 </body>
