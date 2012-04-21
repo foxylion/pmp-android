@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.infoapp;
 
-import android.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -19,7 +18,7 @@ public class InfoAppActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout);
+		setContentView(R.layout.main);
 		
 		mAdapter = new ViewPagerAdapter(this);
 		
