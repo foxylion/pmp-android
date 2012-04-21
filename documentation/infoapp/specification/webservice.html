@@ -117,6 +117,8 @@
             Datenbankabfrage ist ein Fehler aufgetreten</li>
           <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
             ungültigen Wert enthält (z.B. Integer verlangt, Wert jedoch kein Integer)</li>
+          <li><code>invalid_id</code> - die übergebene ID eine Events wird bereits in einem
+            Tabelleneintrag verwendet</li>
         </ul>
         Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
         innerhalb der auf den Webservice zugreifenden Applikation.
@@ -206,6 +208,7 @@
 {
   [
     {
+      "id": Integer,
       "timestamp": Integer,
       "connected": Boolean,     // Verbunden/Verbindung getrennt
       "enabled": Boolean,       // Adapter an/aus
@@ -216,6 +219,7 @@
 }
 </pre>
           </td>
+        </tr>
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
           <td>
@@ -231,6 +235,60 @@
           <td>-</td>
         </tr>           
         <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_connection_event">Letztes gespeichertes Bluetooth/WLan Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_connection_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Bluetooth/WLan Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
@@ -292,7 +350,7 @@
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
-          <td>upload_connection_events.php</td>
+          <td>upload_connection_events_cellular.php</td>
         </tr> 
         <tr>
           <th class="left">Beschreibung</th>
@@ -324,6 +382,7 @@
 {
   [
     {
+      "id": Integer,
       "timestamp": Integer,
       "roaming": Boolean,       // Roaming aktive/nicht aktiv
       "airplane": Boolean       // Airplane-Mode an/aus
@@ -333,6 +392,7 @@
 }
 </pre>
           </td>
+        </tr>
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
           <td>
@@ -348,6 +408,60 @@
           <td>-</td>
         </tr>           
         <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_connection_event_cellular">Letztes gespeichertes Mobilfunk Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_connection_event_cellular.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Mobilfunk Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
@@ -381,10 +495,6 @@
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
               <li><code>provider</code> - String: Mobilfunkanbieter des Benutzer</li>
               <li><code>signalStrength</code> - Integer (0 &le; x &le; 100): Signalstärke</li>
-              <!--li><code>roaming</code> - Boolean: True, wenn Roaming aktiv</li>
-              <li><code>avgAirplaneMode</code> - Float: Gesamtdauer, in dem das Telefon in den letzten 24 Stunden im Airplante-Mode war
-                                          bzw. der Durchschnitt über die letzten Tage seit dem letzten Upload.
-                                          In Minuten</li>-->
             </ul>
           </td>
         </tr>      
@@ -408,13 +518,15 @@
         </tr>
       </table>
       
-      
+
+
+
       <h3 id="interface_upload_battery_events">Batterie-Events übertragen</h3>
       <table>
         <tr>
           <th class="left">PHP-Skript</th>
           <td>upload_battery_events.php</td>
-        </tr> 
+        </tr>
         <tr>
           <th class="left">Beschreibung</th>
           <td>
@@ -428,16 +540,16 @@
         <tr>
           <th class="left">GET-Parameter</th>
           <td>-</td>
-        </tr>     
+        </tr>
         <tr>
           <th class="left">POST-Parameter</th>
           <td>
             <ul>
-              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
               <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
-        </tr>      
+        </tr>
         <tr>
           <th class="left">JSON-Paramerer</th>
           <td>
@@ -445,21 +557,23 @@
 {
   [
     {
+      "id": Integer,
       "timestamp": Integer,
       "level": Integer,         // Prozent (0 bis 100)
       "plugged": Character,     // Werte: n, a, u
                                 // (Entspr. "not", "ac", "usb")
       "present": Boolean,       // Batterie eingelegt/entfernt
       "status": Character,      // Werte: c, d, f, n, u
-                                // (Enstpr. "charg.", "discharg.", 
+                                // (Enstpr. "charg.", "discharg.",
                                 //   "full", "not charg", "unkn.")
-      "temperature": Float 
+      "temperature": Float
     },
     ...
   ]
 }
 </pre>
           </td>
+        </tr>
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
           <td>
@@ -467,14 +581,68 @@
 {
   "successful": true
 }
-</pre>  
+</pre>
           </td>
         </tr>
-        <tr>   
+        <tr>
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>-</td>
-        </tr>           
-        <tr>  
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_connection_event">Letztes gespeichertes Batterie Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_battery_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Batterie Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
@@ -567,6 +735,7 @@
 {
   [
     {
+      "id": Integer,
       "timestamp": Integer,
       "awake": Boolean          // Geräte aktiv/inaktiv
     },
@@ -575,6 +744,7 @@
 }
 </pre>
           </td>
+        </tr>
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
           <td>
@@ -590,6 +760,60 @@
           <td>-</td>
         </tr>           
         <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_awake_event">Letztes gespeichertes Aufweck Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_awake_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Aufweck Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
           <th class="left">Status</th>
           <td>Nicht implementiert</td>
         </tr>
@@ -632,6 +856,7 @@
 {
   [
     {
+      "id": Integer,
       "timestamp": Integer,
       "screen": Boolean          // Bildschirm an/aus
     },
@@ -653,6 +878,60 @@
         <tr>
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_screen_event">Letztes gespeichertes Bildschirm Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_screen_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Bildschirm Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
         </tr>
         <tr>
           <th class="left">Status</th>
@@ -697,6 +976,7 @@
 {
   [
     {
+      "id": Integer,
       "timestamp": Integer,
       "event": Character,       // Art des Events
                                 // Werte: c (Call), e (Email), s (SMS), a (Device active), w (Website)
@@ -709,6 +989,7 @@
 }
 </pre>
           </td>
+        </tr>
         <tr>
           <th class="left">Rückgabe (Aufbau)</th>
           <td>
@@ -722,6 +1003,60 @@
         <tr>
           <th class="left">Rückgabe (Beschreibung)</th>
           <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_profile_event">Letztes gespeichertes Profil Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_profile_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Profil Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
         </tr>
         <tr>
           <th class="left">Status</th>
@@ -819,7 +1154,7 @@
               <li><code>memoryInternalFree</code> - Integer: Freier Speicherplatz im internen Speicher in MB</li>
               <li><code>memoryExternal</code> - Integer: Größe des externen Speichers in MB</li>
               <li><code>memoryExternalFree</code> - Integer: Freier Speicherplatz im externen Speicher in MB</li>
-              <li><code>cameraResolution</code> - Integer: Auflösung der Kamera</li>
+              <li><code>cameraResolution</code> - Float: Auflösung der Kamera in MegaPx</li>
               <li><code>sensors</code> - String: Komma getrennte Liste aller vorhandenen Sensoren</li>
               <li><code>runtime</code> - Float: Gesamtlaufzeit des Gerätes in Minuten</li>
             </ul>
