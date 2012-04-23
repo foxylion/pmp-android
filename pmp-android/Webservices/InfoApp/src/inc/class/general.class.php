@@ -1,17 +1,33 @@
 <?php
 
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: PMP
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 if (!defined("INCLUDE")) {
     exit;
-}
-
-class InputException extends Exception {
-    
 }
 
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.0.0
+ * @version 1.1.0
  */
 class General {
     /**
@@ -39,13 +55,28 @@ class General {
     }
 
     /**
+     * Checks if the given value is a valid id
+     *
+     * @param String $input Input
+     *
+     * @return boolean  True, if argument is a valid id
+     */
+    public static function isValidId($id) {
+        return (is_numeric($id) && $id > 0);
+    }
+    
+    public static function isValidTimestamp($timestamp) {
+        return (is_numeric($timestamp) && $timestamp > 0);
+    }
+    
+    /**
      * Checks if the given parameter is a valid id
      *
      * @param String $input Input
      *
      * @return boolean  True, if parameter is a valid id
      */
-    public static function isValidId($input) {
+    public static function isValidIdParameter($input) {
         return (isset($_POST[$input]) && is_numeric($_POST[$input]) && $_POST[$input] > 0);
     }
 

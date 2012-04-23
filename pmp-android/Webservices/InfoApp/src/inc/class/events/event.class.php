@@ -20,26 +20,41 @@
  * limitations under the License.
  */
 
-/**
- * This file includes files and classes used by all pages.
- * It also connects to the database-server and opens the database.
- */
 if (!defined("INCLUDE")) {
     exit;
 }
 
-// Load config file
-require ("./../inc/config.inc.php");
+/**
+ * Abstract base class for all events that might be used by the webservices.
+ * 
+ * @author Patrick Strobel
+ * @version 1.0.0 
+ */
+abstract class Event {
 
-// Load class-files
-require ("./../inc/class/database.class.php");
-require ("./../inc/class/general.class.php");
-require ("./../inc/class/json.class.php");
+    private $id;
+    private $timestamp;
 
-// Connect to database
-try {
-    Database::getInstance()->connect();
-} catch (DatabaseException $de) {
-    Json::printError("cannot_connect_to_database", $de->__toString());
+    public function __construct($id, $timestamp) {
+        if (!General::isValidId($id)) {
+            throw new InvalidArgumentException("ID is invalid");
+        }
+        if (!General::isValidTimestamp($timestamp)) {
+            throw new InvalidArgumentException("Timestamp is invalid");
+        }
+
+        $this->id = $id;
+        $this->timestamp = $timestamp;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getTimestamp() {
+        return $this->timestamp;
+    }
+
 }
+
 ?>
