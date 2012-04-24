@@ -40,6 +40,6 @@ require ("./../inc/class/json.class.php");
 try {
     Database::getInstance()->connect();
 } catch (DatabaseException $de) {
-    Json::printError("cannot_connect_to_database", $de->__toString());
+    Json::printDatabaseError($de);
 }
 ?>

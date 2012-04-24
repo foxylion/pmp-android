@@ -34,6 +34,7 @@
         <li>Services zum Abfragen der ID der letzten Einträge hinzugefügt</li>
         <li>"Bluetooth/WLan Events übertragen" überarbeitet</li>
         <li>Fehlerrückgabe "invalid_event_order" spezifiziert</li>
+        <li>Parameter von Webservces mit idempotenten Operationen auf "GET" umgeändert</li>
       </ul>
 
       <h3>Version 4.3</h3>
@@ -216,7 +217,7 @@
           <td>
 <pre>
 {
-  [
+  "events" : [
     {
       "id": Integer,
       "timestamp": Integer,
@@ -271,14 +272,16 @@
         </tr>
         <tr>
           <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th class="left">POST-Parameter</th>
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
             </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
           </td>
         </tr>
         <tr>
@@ -332,7 +335,7 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
+              <li><code>medium</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
               <li><code>count</code> - Integer: Anzahl</li>
             </ul>
           </td>
@@ -392,7 +395,7 @@
           <td>
 <pre>
 {
-  [
+  "events" : [
     {
       "id": Integer,
       "timestamp": Integer,
@@ -444,14 +447,16 @@
         </tr>
         <tr>
           <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th class="left">POST-Parameter</th>
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
             </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
           </td>
         </tr>
         <tr>
@@ -567,7 +572,7 @@
           <td>
 <pre>
 {
-  [
+  "events" : [
     {
       "id": Integer,
       "timestamp": Integer,
@@ -625,14 +630,16 @@
         </tr>
         <tr>
           <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th class="left">POST-Parameter</th>
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
             </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
           </td>
         </tr>
         <tr>
@@ -796,14 +803,16 @@
         </tr>
         <tr>
           <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th class="left">POST-Parameter</th>
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
             </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
           </td>
         </tr>
         <tr>
@@ -866,7 +875,7 @@
           <td>
 <pre>
 {
-  [
+  "events" : [
     {
       "id": Integer,
       "timestamp": Integer,
@@ -916,14 +925,16 @@
         </tr>
         <tr>
           <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th class="left">POST-Parameter</th>
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
             </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
           </td>
         </tr>
         <tr>
@@ -986,7 +997,7 @@
           <td>
 <pre>
 {
-  [
+  "events" : [
     {
       "id": Integer,
       "timestamp": Integer,
@@ -1041,14 +1052,16 @@
         </tr>
         <tr>
           <th class="left">GET-Parameter</th>
-          <td>-</td>
-        </tr>
-        <tr>
-          <th class="left">POST-Parameter</th>
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
             </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
           </td>
         </tr>
         <tr>

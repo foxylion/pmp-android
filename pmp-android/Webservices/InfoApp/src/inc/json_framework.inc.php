@@ -39,11 +39,18 @@ require ("./../inc/config.inc.php");
 require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
 require ("./../inc/class/json.class.php");
+require ("./../inc/class/device.class.php");
+
+require ("./../inc/class/eventmanager/eventmanager.class.php");
+require ("./../inc/class/eventmanager/connectioneventmanager.class.php");
+
+require ("./../inc/class/events/event.class.php");
+require ("./../inc/class/events/connectionevent.class.php");
 
 // Connect to database
 try {
     Database::getInstance()->connect();
 } catch (DatabaseException $de) {
-    Json::printError("cannot_connect_to_database", $de->__toString());
+    Json::printDatabaseError($de);
 }
 ?>

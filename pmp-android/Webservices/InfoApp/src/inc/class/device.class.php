@@ -24,7 +24,7 @@
  * This class handles the access to all classes used to manage the stored information
  * 
  * @author Patrick Strobel
- * @version 1.0.0 
+ * @version 1.0.1 
  */
 class Device {
 
@@ -32,8 +32,7 @@ class Device {
 
     /** @var Device */
     private static $instance = null;
-    private $bluetoothMgr = null;
-    private $wifiMgr = null;
+    private $connectionMgr = null;
 
     private function __construct($deviceId) {
         $this->deviceId = $deviceId;
@@ -58,26 +57,16 @@ class Device {
     }
 
     /**
-     * Gets the manager for bluetooth connection events
+     * Gets the manager for bluetooth and wifi connection events
      * @return ConnectionEventManager The manager 
      */
-    public function getBluetoothConnectionManager() {
-        if ($this->bluetoothMgr == null) {
-            $this->bluetoothMgr = new ConnectionEventManager($this->deviceId, ConnectionEventManager::BLUETOOTH);
+    public function getConnectionManager() {
+        if ($this->connectionMgr == null) {
+            $this->connectionMgr = new ConnectionEventManager($this->deviceId);
         }
-        return $this->bluetoothMgr;
+        return $this->connectionMgr;
     }
 
-    /**
-     * Gets the manager for bluetooth connection events
-     * @return ConnectionEventManager The manager 
-     */
-    public function getWifiConnectionManager() {
-        if ($this->wifiMgr == null) {
-            $this->wifiMgr = new ConnectionEventManager($this->deviceId, ConnectionEventManager::WIFI);
-        }
-        return $this->wifiMgr;
-    }
 
 }
 

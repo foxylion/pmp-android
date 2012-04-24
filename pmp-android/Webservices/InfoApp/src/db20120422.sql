@@ -1,4 +1,4 @@
-﻿-- phpMyAdmin SQL Dump
+-- phpMyAdmin SQL Dump
 -- version 3.2.4
 -- http://www.phpmyadmin.net
 --
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `dev_connection` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `device` binary(16) NOT NULL,
   `event_id` int(8) NOT NULL,
-  `timestampt` bigint(19) NOT NULL,
+  `timestamp` bigint(19) NOT NULL,
   `connected` tinyint(1) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,

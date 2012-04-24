@@ -61,10 +61,6 @@ public class ProfileDialog extends Dialog {
         TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
         tv_rating.setText(Float.toString((float) profile.getRating_avg()));
         
-        EditText et_desc = (EditText) findViewById(R.id.et_description_profile);
-        et_desc.setText(this.profile.getDescription());
-        // // car = "";
-        // et_car.setText(car);
         
     }
     
