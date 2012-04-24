@@ -669,9 +669,8 @@ public class ViewModel {
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
-            OverlayItem opPassengerItem = new OverlayItem(gps, "I need a ride", "User: " + passenger.getUsername()
-                    + ", Rating: " + passenger.getRating_avg());
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws);
+            OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()), passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);
             
             // add found passenger to overlay
@@ -698,7 +697,7 @@ public class ViewModel {
                 Log.i(this, "Context null");
             }
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);
