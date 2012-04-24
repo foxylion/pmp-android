@@ -13,10 +13,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">15. April 2012</div>
+    <div id="page-head-date">24. April 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">InfoApp Spezifikation - Webservices</div>
-    <div id="page-version">Version 4.3</div>
+    <div id="page-version">Version 4.4</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,13 @@
     <div id="content">
     
       <h1 id="versions">Versionshistorie</h1>
+      
+      <h3>Version 4.4</h3>
+      <ul>
+        <li>Services zum Abfragen der ID der letzten Einträge hinzugefügt</li>
+        <li>"Bluetooth/WLan Events übertragen" überarbeitet</li>
+        <li>Fehlerrückgabe "invalid_event_order" spezifiziert</li>
+      </ul>
 
       <h3>Version 4.3</h3>
       <ul>
@@ -117,8 +124,12 @@
             Datenbankabfrage ist ein Fehler aufgetreten</li>
           <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
             ungültigen Wert enthält (z.B. Integer verlangt, Wert jedoch kein Integer)</li>
-          <li><code>invalid_id</code> - die übergebene ID eine Events wird bereits in einem
+          <li><code>invalid_event_id</code> - die übergebene ID eine Events wird bereits in einem
             Tabelleneintrag verwendet</li>
+          <li><code>invalid_event_order</code> - die Reihenfolge der übergebenen Events ist nicht
+            korrekt. D. h. die Bedingung, dass die Events aufsteigend nach den ID sortiert sind
+            und für alle zwei Events A und B mit A.timestamp &le; B.timestamp auch A.id &lt; B.id gilt,
+            ist verletzt</li>
         </ul>
         Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
         innerhalb der auf den Webservice zugreifenden Applikation.
@@ -196,7 +207,6 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>          
-              <li><code>connection</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>                                        
               <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
             </ul>
           </td>
@@ -210,6 +220,8 @@
     {
       "id": Integer,
       "timestamp": Integer,
+      "medium": Character,      // Medium der Kommunikation
+                                // Werte: b (bluetooth), w (wifi)
       "connected": Boolean,     // Verbunden/Verbindung getrennt
       "enabled": Boolean,       // Adapter an/aus
       "city": String
