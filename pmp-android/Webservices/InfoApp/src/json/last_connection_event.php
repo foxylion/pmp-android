@@ -20,32 +20,19 @@
  * limitations under the License.
  */
 
-/**
- * Gives access to bluetooth or WiFi events 
- * @author Patrick Strobel
- * @version 1.0.0
- */
-class ConnectionEventManager extends EventManager {
-    
-    const BLUETOOTH = 0;
-    const WIFI = 1;
-    
-    /** @var integer */
-    private $medium;
-    
-    public function __construct($deviceId, $medium) {
-        parent::__construct($deviceId);
-        $this->medium = $medium;
-    }
+define("INCLUDE", true);
+require("./../inc/json_framework.inc.php");
 
-    protected function getLastId() {
-        
-    }
-
-    protected function writeBack($events) {
-        
-    }
-
+try {
+    $device = Device::getInstance($_GET["device"]);
+    $lastId = $device->getConnectionManager()->getLastId();
+    
+    Json::printAsJson(array('successful' => true, 'last_id' => $lastId));
+} catch (InvalidArgumentException $iae) {
+    Json::printInvalidParameterError($iae->getMessage());
+} catch (DatabaseException $de) {
+    Json::printDatabaseError($de);
 }
 
+Database::getInstance()->disconnect();
 ?>

@@ -20,14 +20,23 @@
  * limitations under the License.
  */
 
+if (!defined("INCLUDE")) {
+    exit;
+}
+
 /**
  * Connection events stores information about the state of the connection
  * at a given timestamp
  *
  * @author Patrick Strobel
+ * @version 1.0.1
  */
 class ConnectionEvent extends Event {
     
+    const BLUETOOTH = 'b';
+    const WIFI = 'w';
+    
+    private $medium;
     private $connected;
     private $enabled;
     private $city;
@@ -40,20 +49,24 @@ class ConnectionEvent extends Event {
      * @param String $city
      * @throws InvalidArgumentException
      */
-    public function __construct($id, $timestamp, $connected, $enabled, $city) {
+    public function __construct($id, $timestamp, $medium, $connected, $enabled, $city) {
+        
+        parent::__construct($id, $timestamp);
+        
+        if (!is_string($medium) || $medium != ConnectionEvent::BLUETOOTH && $medium != ConnectionEvent::WIFI) {
+            throw new InvalidArgumentException("\"medium\" is not a valid character");
+        }        
         if (!is_bool($connected)) {
             throw new InvalidArgumentException("\"connected\" is no boolean");
         }
         if (!is_bool($enabled)) {
             throw new InvalidArgumentException("\"enabled\" is no boolean");
         }
-        if (!is_string($city)) {
-            throw new InvalidArgumentException("\"city\" is no string");
-        }
         
-        $this->connected = connected;
-        $this->enabled = enabled;
-        $this->city = city;
+        $this->medium = (string)$medium;
+        $this->connected = (bool)$connected;
+        $this->enabled = (bool)$enabled;
+        $this->city = (string)$city;
     }
     
     /**

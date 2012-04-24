@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Provides general functionality used for JSON output
  * @author  Patrick Strobel
- * @version 1.0.0
+ * @version 1.2.0
  */
 class Json {
 
@@ -65,7 +65,7 @@ class Json {
     }
 
     /**
-     * Prints a JSON-error-message showing that a input-data is invalid
+     * Prints a JSON-error-message showing that an input-data is invalid
      *
      * @param boolean $exit When set to true, the script will be stopped
      */
@@ -73,17 +73,34 @@ class Json {
         if ($message == '') {
             self::printError("invalid_parameter", "At least one POST-Parameter is invalid", $exit);
         } else {
-            self::printError("invalid_parameter", "Invalid argument(s): $message", $exit);
+            self::printError("invalid_parameter", $message, $exit);
         }
     }
-
+    
     /**
-     * Prints a JSON-error-message showing that a input-data is invalid
+     * Prints a JSON-error-message showing that an ID is used twice
      *
      * @param boolean $exit When set to true, the script will be stopped
      */
-    public static function printInvalidIdError($exit = true) {
-        self::printError("invalid_id", "At least one event-ID is invalid. All IDs have to be in an ascending order and used on-time only", $exit);
+    public static function printInvalidEventIdError($message = '', $exit = true) {
+        if ($message == '') {
+            self::printError("invalid_event_id", "At least one ID is used more than once", $exit);
+        } else {
+            self::printError("invalid_event_id", $message, $exit);
+        }
+    }
+    
+    /**
+     * Prints a JSON-error-message showing that the events are not ordered properly
+     *
+     * @param boolean $exit When set to true, the script will be stopped
+     */
+    public static function printInvalidEventOrderError($message = '', $exit = true) {
+        if ($message == '') {
+            self::printError("invalid_event_order", "The events are not orderd properly. All IDs  and timestamps have to be in an ascending order", $exit);
+        } else {
+            self::printError("invalid_event_order", $message, $exit);
+        }
     }
 
     /**
@@ -105,13 +122,41 @@ class Json {
     }
     
     /**
+     * Prints a given array as JSON object
+     * @param array $array Array to print
+     */
+    public static function printAsJson($array) {
+        echo self::arrayToJson($array);
+    }
+
+    /**
      * Converty a JSON object into an array
      * 
      * @param String $input JSON Object
      * @return Object Read data  
+     * @throws InvalidArgumentException Thrown, if input is not a JSON object
      */
     public static function jsonToArry($input) {
-        return json_decode($input);
+        $object = json_decode($input);
+        if (!is_object($object)) {
+            throw new InvalidArgumentException("The given string is not a valid JSON-Object");
+        }
+        return $object;
+    }
+
+    /**
+     * Parses the JSON data parameter and returns the read event array
+     * @param String $input The raw JSON object as string
+     * @return Object[] The parsed event array 
+     */
+    public static function getEventArray($input) {
+        $data = JSON::jsonToArry($_POST["data"]);
+
+        if (!property_exists($data, "events") || !is_array($data->events)) {
+            throw new InvalidArgumentException("Property \"events\" missing in JSON parameter or not an array");
+        }
+
+        return $data->events;
     }
 
     /**
@@ -134,15 +179,15 @@ class Json {
 
         for ($i = 0; $i <= $strLen; $i++) {
 
-            // Grab the next character in the string.
+// Grab the next character in the string.
             $char = substr($json, $i, 1);
 
-            // Are we inside a quoted string?
+// Are we inside a quoted string?
             if ($char == '"' && $prevChar != '\\') {
                 $outOfQuotes = !$outOfQuotes;
 
-                // If this character is the end of an element,
-                // output a new line and indent the next line.
+// If this character is the end of an element,
+// output a new line and indent the next line.
             } else if (($char == '}' || $char == ']') && $outOfQuotes) {
                 $result .= $newLine;
                 $pos--;
@@ -151,11 +196,11 @@ class Json {
                 }
             }
 
-            // Add the character to the result string.
+// Add the character to the result string.
             $result .= $char;
 
-            // If the last character was the beginning of an element,
-            // output a new line and indent the next line.
+// If the last character was the beginning of an element,
+// output a new line and indent the next line.
             if (($char == ',' || $char == '{' || $char == '[') && $outOfQuotes) {
                 $result .= $newLine;
                 if ($char == '{' || $char == '[') {
@@ -174,4 +219,5 @@ class Json {
     }
 
 }
+
 ?>
