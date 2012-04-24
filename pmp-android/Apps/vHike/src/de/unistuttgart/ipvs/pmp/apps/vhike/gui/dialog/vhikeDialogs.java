@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -39,6 +42,8 @@ public class vhikeDialogs extends Activity {
     private RateProfileConfirm rpc;
     
     private ChangeServiceFeature csf;
+    
+    private ContactDialog contactDialog;
     
     public static vhikeDialogs getInstance() {
         if (instance == null) {
@@ -237,5 +242,10 @@ public class vhikeDialogs extends Activity {
                 });
         
         return confirm;
+    }
+    
+    public ContactDialog getContactDialog(Context context, MapView mapView, String userName) {
+        contactDialog = new ContactDialog(context, mapView, userName);
+        return contactDialog;
     }
 }
