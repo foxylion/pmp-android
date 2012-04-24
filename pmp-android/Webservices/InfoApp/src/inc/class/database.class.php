@@ -133,6 +133,7 @@ class Database {
 
     /**
      * Returns the number of rows that have been changed by the update or insert statement
+     * or read by the select statement
      *
      * @return int  Number of rows
      */

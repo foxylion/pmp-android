@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.1.0
+ * @version 1.2.0
  */
 class General {
     /**
@@ -67,6 +67,16 @@ class General {
     
     public static function isValidTimestamp($timestamp) {
         return (is_numeric($timestamp) && $timestamp > 0);
+    }
+    
+    /**
+     * Checks if the given value is a valid device ID.
+     * That is, if the given value is a MD5 hash
+     * @param String $device Input value
+     * @return type 
+     */
+    public static function isValidDeviceId($device) {
+        return !empty($device) && preg_match('/^[a-f0-9]{32}$/', $device);
     }
     
     /**
