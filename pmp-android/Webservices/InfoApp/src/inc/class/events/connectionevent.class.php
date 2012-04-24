@@ -25,11 +25,11 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Connection events stores information about the state of the connection
+ * A connection event stores information about the state of the connection
  * at a given timestamp
  *
  * @author Patrick Strobel
- * @version 1.0.1
+ * @version 1.0.2
  */
 class ConnectionEvent extends Event {
     
@@ -63,9 +63,9 @@ class ConnectionEvent extends Event {
             throw new InvalidArgumentException("\"enabled\" is no boolean");
         }
         
-        $this->medium = (string)$medium;
-        $this->connected = (bool)$connected;
-        $this->enabled = (bool)$enabled;
+        $this->medium = $medium;
+        $this->connected = $connected;
+        $this->enabled = $enabled;
         $this->city = (string)$city;
     }
     
@@ -77,12 +77,28 @@ class ConnectionEvent extends Event {
         return $this->connected;
     }
     
+    /**
+     * Adapter status
+     * @return boolean True, if adapter is activated 
+     */
     public function isEnabled() {
         return $this->enabled;
     }
     
+    /**
+     * City, at which the device has been connected
+     * @return String   Name of the city 
+     */
     public function getCity() {
         return $this->city;
+    }
+    
+    /**
+     * Meidum that has been used for communication
+     * @return char Equivalent to one of the given constants (BLUETOOTH or WIFI) 
+     */
+    public function getMedium() {
+        return $this->medium;
     }
 }
 

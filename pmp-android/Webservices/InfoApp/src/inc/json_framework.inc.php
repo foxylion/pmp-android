@@ -42,9 +42,11 @@ require ("./../inc/class/json.class.php");
 require ("./../inc/class/device.class.php");
 
 require ("./../inc/class/eventmanager/eventmanager.class.php");
+require ("./../inc/class/eventmanager/cellularconnectioneventmanager.class.php");
 require ("./../inc/class/eventmanager/connectioneventmanager.class.php");
 
 require ("./../inc/class/events/event.class.php");
+require ("./../inc/class/events/cellularconnectionevent.class.php");
 require ("./../inc/class/events/connectionevent.class.php");
 
 // Connect to database

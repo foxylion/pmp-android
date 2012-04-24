@@ -24,7 +24,7 @@
  * This class handles the access to all classes used to manage the stored information
  * 
  * @author Patrick Strobel
- * @version 1.0.1 
+ * @version 1.1.0 
  */
 class Device {
 
@@ -32,6 +32,7 @@ class Device {
 
     /** @var Device */
     private static $instance = null;
+    private $cellularConnectionMgr = null;
     private $connectionMgr = null;
 
     private function __construct($deviceId) {
@@ -54,6 +55,17 @@ class Device {
             throw new InvalidArgumentException("The given device id does not match the id of the stored instance");
         }
         return self::$instance;
+    }
+    
+    /**
+     * Gets the manager for cellular connection events
+     * @return ConnectionEventManager The manager 
+     */
+    public function getCellularConnectionManager() {
+        if ($this->cellularConnectionMgr == null) {
+            $this->cellularConnectionMgr = new CellularConnectionEventManager($this->deviceId);
+        }
+        return $this->cellularConnectionMgr;
     }
 
     /**

@@ -25,7 +25,7 @@ require("./../inc/json_framework.inc.php");
 
 try {
     $device = Device::getInstance($_GET["device"]);
-    $lastId = $device->getConnectionManager()->getLastId();
+    $lastId = $device->getCellularConnectionManager()->getLastId();
     
     Json::printAsJson(array('successful' => true, 'last_id' => $lastId));
 } catch (InvalidArgumentException $iae) {

@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Provides general functionality used for JSON output
  * @author  Patrick Strobel
- * @version 1.2.0
+ * @version 1.2.1
  */
 class Json {
 
@@ -67,40 +67,31 @@ class Json {
     /**
      * Prints a JSON-error-message showing that an input-data is invalid
      *
+     * @param InvalidArgumentException $exception
      * @param boolean $exit When set to true, the script will be stopped
      */
-    public static function printInvalidParameterError($message = '', $exit = true) {
-        if ($message == '') {
-            self::printError("invalid_parameter", "At least one POST-Parameter is invalid", $exit);
-        } else {
-            self::printError("invalid_parameter", $message, $exit);
-        }
+    public static function printInvalidParameterError($exception, $exit = true) {
+        self::printError("invalid_parameter", $exception->getMessage(), $exit);
     }
     
     /**
      * Prints a JSON-error-message showing that an ID is used twice
-     *
+     * 
+     * @param InvalidEventIdError $exception
      * @param boolean $exit When set to true, the script will be stopped
      */
-    public static function printInvalidEventIdError($message = '', $exit = true) {
-        if ($message == '') {
-            self::printError("invalid_event_id", "At least one ID is used more than once", $exit);
-        } else {
-            self::printError("invalid_event_id", $message, $exit);
-        }
+    public static function printInvalidEventIdError($exception, $exit = true) {
+        self::printError("invalid_event_id", $exception->getMessage(), $exit);
     }
     
     /**
      * Prints a JSON-error-message showing that the events are not ordered properly
      *
+     * @param InvalidOrderException $exception
      * @param boolean $exit When set to true, the script will be stopped
      */
-    public static function printInvalidEventOrderError($message = '', $exit = true) {
-        if ($message == '') {
-            self::printError("invalid_event_order", "The events are not orderd properly. All IDs  and timestamps have to be in an ascending order", $exit);
-        } else {
-            self::printError("invalid_event_order", $message, $exit);
-        }
+    public static function printInvalidEventOrderError($exception, $exit = true) {
+        self::printError("invalid_event_order", $exception->getMessage(), $exit);
     }
 
     /**

@@ -38,22 +38,18 @@ try {
             throw new InvalidArgumentException("The event array contains a non-object element");
         }
         if (!property_exists($event, "id") || !property_exists($event, "timestamp") || 
-                !property_exists($event, "medium") || !property_exists($event, "connected") || 
-                !property_exists($event, "enabled") || !property_exists($event, "city")) {
+                !property_exists($event, "roaming") || !property_exists($event, "airplane")) {
             throw new InvalidArgumentException("At least one required attribute is missing in one or more events");
         }
         
         // Build event object and add it to the event array
-        $events[] = new ConnectionEvent($event->id, $event->timestamp, $event->medium, 
-                $event->connected, $event->enabled, $event->city);
-        
+        $events[] = new CellularConnectionEvent($event->id, $event->timestamp, $event->roaming, $event->airplane);   
     }
     
     // Write events into table
-    $device->getConnectionManager()->addEvents($events);
+    $device->getCellularConnectionManager()->addEvents($events);
     
-    Json::printAsJson(array('successful' => true));    
-    
+    Json::printAsJson(array('successful' => true));
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidParameterError($iae);
 } catch (IdInUseException $iiue) {

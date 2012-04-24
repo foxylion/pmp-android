@@ -27,16 +27,17 @@ if (!defined("INCLUDE")) {
 /**
  * Gives access to bluetooth or WiFi events 
  * @author Patrick Strobel
- * @version 1.0.1
+ * @version 1.0.0
  */
-class ConnectionEventManager extends EventManager {
-    
+class CellularConnectionEventManager extends EventManager {
+
     protected function isEventTypeValid($event) {
-        return $event instanceof ConnectionEvent;
+        return $event instanceof CellularConnectionEvent;
     }
 
     /**
-     * @param ConnectionEvent[] $events 
+     *
+     * @param CellularConnectionEvent[] $events 
      */
     protected function writeBack($events) {
         $db = Database::getInstance();
@@ -44,31 +45,27 @@ class ConnectionEventManager extends EventManager {
         // Add events
         $lastId = 0;
         foreach ($events as $event) {
-            $db->query("INSERT INTO `" . DB_PREFIX . "_connection` (
+            $db->query("INSERT INTO `" . DB_PREFIX . "_connection_cellular` (
                             `device`, 
                             `event_id`, 
                             `timestamp`, 
-                            `medium`,
-                            `connected`, 
-                            `enabled`, 
-                            `city`
+                            `roaming`,
+                            `airplane`
                         ) VALUES (
                             x'" . $this->deviceId . "', 
                             " . $event->getId() . ", 
                             " . $event->getTimestamp() . ",
-                            \"" . $event->getMedium() . "\",
-                            " . (int)$event->isConnected() . ",
-                            " . (int)$event->isEnabled() . ",
-                            \"" . $event->getCity() . "\"
+                            " . (int)$event->isRoaming() . ",
+                            " . (int)$event->isAirplane() . "
                         )");
             $lastId = $event->getId();
         }
         
-        $this->updateOrInsertLastIdEntry("connection", $lastId);
+        $this->updateOrInsertLastIdEntry("connection_cellular", $lastId);
     }
-    
+
     public function getLastId() {
-        return $this->queryLastId("connection");
+        return $this->queryLastId("connection_cellular");
     }
 
 }

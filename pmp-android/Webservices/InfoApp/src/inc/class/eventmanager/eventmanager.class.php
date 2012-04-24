@@ -36,7 +36,7 @@ class IdInUseException extends Exception {
  * Abstract base class for all event managers that might be used by the webservices.
  * 
  * @author Patrick Strobel
- * @version 1.0.1 
+ * @version 1.0.2 
  */
 abstract class EventManager {
 
@@ -107,6 +107,19 @@ abstract class EventManager {
      * @return The last ID 
      */
     public abstract function getLastId();
+    
+    protected function queryLastId($field) {
+        $db = Database::getInstance();
+
+        $row = $db->fetch($db->query("SELECT `" . $field . "` FROM `" . DB_PREFIX . "_last_event_ids` 
+                                      WHERE device = x'" . $this->deviceId . "'"));
+
+        if ($db->getAffectedRows() <= 0) {
+            return 0;
+        }
+
+        return (int) $row[$field];
+    }
 
     /**
      * Write data into db-table.

@@ -79,12 +79,13 @@ CREATE TABLE IF NOT EXISTS `dev_connection` (
   `device` binary(16) NOT NULL,
   `event_id` int(8) NOT NULL,
   `timestamp` bigint(19) NOT NULL,
+  `medium` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `connected` tinyint(1) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `EVENT` (`device`,`event_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

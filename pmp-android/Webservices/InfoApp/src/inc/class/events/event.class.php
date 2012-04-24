@@ -47,10 +47,18 @@ abstract class Event {
         $this->timestamp = $timestamp;
     }
 
+    /**
+     * Returns the event's ID
+     * @return int  The ID 
+     */
     public function getId() {
         return $this->id;
     }
 
+    /**
+     * Returns the time this event occured
+     * @return int  Timestamp in ms accuracy 
+     */
     public function getTimestamp() {
         return $this->timestamp;
     }
