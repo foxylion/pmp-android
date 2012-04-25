@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Connection Webservices</title>
+        <title>Battery Webservices</title>
         <style type="text/css">
             body, td, th {
                 font-family: Tahoma, Geneva, sans-serif;
@@ -15,9 +15,9 @@
         </style>
     </head>
     <body>
-        <h1>Connections</h1>
-        <h2>Bluetooth/WiFi Events</h2>
-        <form action="../upload_connection_events.php" method="post" target="r">
+        <h1>Battery</h1>
+        <h2>Battery Events</h2>
+        <form action="../upload_battery_events.php" method="post" target="r">
             <table>
                 <tr>
                     <td>Device:</td>
@@ -30,20 +30,22 @@
 {
   "events" : [
     {
-      "id": 0,
+      "id": 1,
       "timestamp": 123,
-      "medium": "b",
-      "connected": true,
-      "enabled": true,
-      "city": "Stuttgart"
+      "level": 42,
+      "plugged": "n",
+      "present": true,
+      "status": "d",
+      "temperature": 32,5
     },
     {
       "id": 1,
       "timestamp": 1337,
-      "medium": "w",
-      "connected": false,
-      "enabled": false,
-      "city": null
+      "level": 42,
+      "plugged": "a",
+      "present": false,
+      "status": "n",
+      "temperature": 0
     }
   ]
 }
@@ -58,8 +60,8 @@
             </table>
         </form>
 
-        <h2>Last Bluetooth/WLan Event</h2>
-        <form action="../last_connection_event.php" method="get" target="r">
+        <h2>Last Battery Event</h2>
+        <form action="../last_battery_event.php" method="get" target="r">
             <table>
                 <tr>
                     <td>Device:</td>
@@ -73,20 +75,20 @@
             </table>
         </form>
 
-        <h2>Update Connection Information</h2>
-        <form action="../update_connection.php" method="post" target="r">
+        <h2>Update Battery Information</h2>
+        <form action="../update_battery.php" method="post" target="r">
             <table>
                 <tr>
                     <td>Device:</td>
                     <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
                 </tr>
                 <tr>
-                    <td>Medium:</td>
-                    <td><input name="medium" type="text" value="b" /></td>
+                    <td>Technology:</td>
+                    <td><input name="technology" type="text" value="Li-Ion" /></td>
                 </tr>
                 <tr>
-                    <td>Count:</td>
-                    <td><input name="count" type="text" value="0" /></td>
+                    <td>Health:</td>
+                    <td><input name="health" type="text" value="50" /></td>
                 </tr>
                 <tr>
                     <td>Buttons:</td>

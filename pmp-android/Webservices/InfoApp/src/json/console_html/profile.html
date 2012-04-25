@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Connection Webservices</title>
+        <title>Profile Webservices</title>
         <style type="text/css">
             body, td, th {
                 font-family: Tahoma, Geneva, sans-serif;
@@ -15,9 +15,9 @@
         </style>
     </head>
     <body>
-        <h1>Connections</h1>
-        <h2>Bluetooth/WiFi Events</h2>
-        <form action="../upload_connection_events.php" method="post" target="r">
+        <h1>Profile</h1>
+        <h2>Profile Events</h2>
+        <form action="../upload_profile_events.php" method="post" target="r">
             <table>
                 <tr>
                     <td>Device:</td>
@@ -30,20 +30,18 @@
 {
   "events" : [
     {
-      "id": 0,
+      "id": 1,
       "timestamp": 123,
-      "medium": "b",
-      "connected": true,
-      "enabled": true,
-      "city": "Stuttgart"
+      "event": "c",
+      "direction": "i",
+      "city": null
     },
     {
-      "id": 1,
-      "timestamp": 1337,
-      "medium": "w",
-      "connected": false,
-      "enabled": false,
-      "city": null
+      "id": 2,
+      "timestamp": 1223,
+      "event": "m",
+      "direction": "o",
+      "city": "Stuttgart"
     }
   ]
 }
@@ -58,8 +56,8 @@
             </table>
         </form>
 
-        <h2>Last Bluetooth/WLan Event</h2>
-        <form action="../last_connection_event.php" method="get" target="r">
+        <h2>Last Profile Event</h2>
+        <form action="../last_profile_event.php" method="get" target="r">
             <table>
                 <tr>
                     <td>Device:</td>
@@ -73,20 +71,24 @@
             </table>
         </form>
 
-        <h2>Update Connection Information</h2>
-        <form action="../update_connection.php" method="post" target="r">
+        <h2>Update Profile Information</h2>
+        <form action="../update_profile.php" method="post" target="r">
             <table>
                 <tr>
                     <td>Device:</td>
                     <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
                 </tr>
                 <tr>
-                    <td>Medium:</td>
-                    <td><input name="medium" type="text" value="b" /></td>
+                    <td>Ring:</td>
+                    <td><input name="technology" type="text" value="r" /></td>
                 </tr>
                 <tr>
-                    <td>Count:</td>
-                    <td><input name="count" type="text" value="0" /></td>
+                    <td>Contacts:</td>
+                    <td><input name="contacts" type="text" value="12" /></td>
+                </tr>
+                <tr>
+                    <td>Apps:</td>
+                    <td><input name="contacts" type="text" value="7" /></td>
                 </tr>
                 <tr>
                     <td>Buttons:</td>
