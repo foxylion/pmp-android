@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@
 
 /**
  * This file includes files and classes used by all pages.
- * It also sets the HTTP header to the valid JSON-header, connects to the database-server and 
+ * It also sets the HTTP header to the valid JSON-header, connects to the database-server and
  * opens the database.
  */
 if (!defined("INCLUDE")) {
@@ -42,14 +42,18 @@ require ("./../inc/class/json.class.php");
 require ("./../inc/class/device.class.php");
 
 require ("./../inc/class/eventmanager/eventmanager.class.php");
+require ("./../inc/class/eventmanager/awakeeventmanager.class.php");
 require ("./../inc/class/eventmanager/batteryeventmanager.class.php");
 require ("./../inc/class/eventmanager/cellularconnectioneventmanager.class.php");
 require ("./../inc/class/eventmanager/connectioneventmanager.class.php");
+require ("./../inc/class/eventmanager/screeneventmanager.class.php");
 
 require ("./../inc/class/events/event.class.php");
+require ("./../inc/class/events/awakeevent.class.php");
 require ("./../inc/class/events/batteryevent.class.php");
 require ("./../inc/class/events/cellularconnectionevent.class.php");
 require ("./../inc/class/events/connectionevent.class.php");
+require ("./../inc/class/events/screenevent.class.php");
 
 // Connect to database
 try {

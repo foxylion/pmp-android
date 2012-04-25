@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +25,10 @@ require("./../inc/json_framework.inc.php");
 
 try {
     $device = Device::getInstance($_POST["device"]);
-    
+
     // Parse JSON parameter
     $rawEvents = JSON::getEventArray($_POST["data"]);
-    
+
     // Build event array
     $events = array();
 
@@ -37,24 +37,24 @@ try {
         if (!is_object($event)) {
             throw new InvalidArgumentException("The event array contains a non-object element");
         }
-        if (!property_exists($event, "id") || !property_exists($event, "timestamp") || 
-                !property_exists($event, "level") || !property_exists($event, "plugged") || 
-                !property_exists($event, "present") || !property_exists($event, "status") || 
+        if (!property_exists($event, "id") || !property_exists($event, "timestamp") ||
+                !property_exists($event, "level") || !property_exists($event, "plugged") ||
+                !property_exists($event, "present") || !property_exists($event, "status") ||
                 !property_exists($event, "temperature")) {
             throw new InvalidArgumentException("At least one required attribute is missing in one or more events");
         }
-        
+
         // Build event object and add it to the event array
-        $events[] = new BatteryEvent($event->id, $event->timestamp, $event->level, 
+        $events[] = new BatteryEvent($event->id, $event->timestamp, $event->level,
                 $event->plugged, $event->present, $event->status, $event->temperature);
-        
+
     }
-    
+
     // Write events into table
-    $device->getBatteryManager()->addEvents($events);
-    
-    Json::printAsJson(array('successful' => true));    
-    
+    $device->getBatteryEventManager()->addEvents($events);
+
+    Json::printAsJson(array('successful' => true));
+
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidParameterError($iae);
 } catch (IdInUseException $iiue) {

@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +25,8 @@ require("./../inc/json_framework.inc.php");
 
 try {
     $device = Device::getInstance($_GET["device"]);
-    $lastId = $device->getBatteryManager()->getLastId();
-    
+    $lastId = $device->getBatteryEventManager()->getLastId();
+
     Json::printAsJson(array('successful' => true, 'last_id' => $lastId));
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidParameterError($iae);
