@@ -38,6 +38,8 @@ class CellularConnectionEvent extends Event {
 
     /**
      * Creates a new cellular connection event
+     * @param int $id           The event's ID
+     * @param long $timestamp   Point in time when this event occured
      * @param boolean $connected
      * @param boolean $enabled
      * @param String $city

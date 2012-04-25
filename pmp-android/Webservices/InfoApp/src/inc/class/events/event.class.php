@@ -32,7 +32,9 @@ if (!defined("INCLUDE")) {
  */
 abstract class Event {
 
+    /** @var int */
     private $id;
+    /** @var long */
     private $timestamp;
 
     public function __construct($id, $timestamp) {
@@ -57,7 +59,7 @@ abstract class Event {
 
     /**
      * Returns the time this event occured
-     * @return int  Timestamp in ms accuracy 
+     * @return long  Timestamp in ms accuracy 
      */
     public function getTimestamp() {
         return $this->timestamp;

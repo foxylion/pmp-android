@@ -24,7 +24,7 @@
  * This class handles the access to all classes used to manage the stored information
  * 
  * @author Patrick Strobel
- * @version 1.1.0 
+ * @version 1.2.0
  */
 class Device {
 
@@ -32,6 +32,7 @@ class Device {
 
     /** @var Device */
     private static $instance = null;
+    private $batteryMgr = null;
     private $cellularConnectionMgr = null;
     private $connectionMgr = null;
 
@@ -55,6 +56,17 @@ class Device {
             throw new InvalidArgumentException("The given device id does not match the id of the stored instance");
         }
         return self::$instance;
+    }
+    
+    /**
+     * Gets the manager for battery events
+     * @return BatteryEventManager The manager 
+     */
+    public function getBatteryManager() {
+        if ($this->batteryMgr == null) {
+            $this->batteryMgr = new BatteryEventManager($this->deviceId);
+        }
+        return $this->batteryMgr;
     }
     
     /**

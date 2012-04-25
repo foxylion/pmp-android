@@ -44,6 +44,8 @@ class ConnectionEvent extends Event {
 
     /**
      * Creates a new connection event
+     * @param int $id           The event's ID
+     * @param long $timestamp   Point in time when this event occured
      * @param boolean $connected
      * @param boolean $enabled
      * @param String $city

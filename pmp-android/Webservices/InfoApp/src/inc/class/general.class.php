@@ -70,6 +70,15 @@ class General {
     }
     
     /**
+     * Checks a given input if it represents a percentage value
+     * @param any $value    Input
+     * @return boolean  True, if argument is an integer and beteween 0 and 100 
+     */
+    public static function isPercentageInt($value) {
+        return is_int($value) && $value >= 0 && $value <= 100;
+    }
+    
+    /**
      * Checks if the given value is a valid device ID.
      * That is, if the given value is a MD5 hash
      * @param String $device Input value
