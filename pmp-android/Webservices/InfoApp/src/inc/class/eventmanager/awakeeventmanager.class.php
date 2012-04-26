@@ -25,7 +25,10 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Gives access to awake events
+ * Gives access to awake events<br />
+ * <b>Warning:</b> This class should not be to instantiated directly as there is
+ * no type or value check in the constructor. Use {@see Device} to get an instance
+ * instead.
  * @author Patrick Strobel
  * @version 1.0.0
  */
@@ -36,7 +39,6 @@ class AwakeEventManager extends EventManager {
     }
 
     /**
-     *
      * @param AwakeEvent[] $events
      */
     protected function writeBack($events) {

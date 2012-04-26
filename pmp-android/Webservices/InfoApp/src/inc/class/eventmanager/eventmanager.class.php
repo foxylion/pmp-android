@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,24 +25,26 @@ if (!defined("INCLUDE")) {
 }
 
 class InvalidOrderException extends Exception {
-    
+
 }
 
 class IdInUseException extends Exception {
-    
+
 }
 
 /**
- * Abstract base class for all event managers that might be used by the webservices.
- * 
+ * Abstract base class for all event managers that might be used by the webservices.<br />
+ * <b>Warning:</b> Sub classes should not be to instantiated directly as there is
+ * no type or value check in the constructor. Use {@see Device} to get an instance
+ * instead.
  * @author Patrick Strobel
- * @version 1.0.2 
+ * @version 1.0.2
  */
 abstract class EventManager {
 
     /**
      * MD5-Hash used to identify the device
-     * @var String 
+     * @var String
      */
     protected $deviceId;
 
@@ -104,14 +106,14 @@ abstract class EventManager {
 
     /**
      * Get the ID of the event that has been added to the db the last time
-     * @return The last ID 
+     * @return The last ID
      */
     public abstract function getLastId();
-    
+
     protected function queryLastId($field) {
         $db = Database::getInstance();
 
-        $row = $db->fetch($db->query("SELECT `" . $field . "` FROM `" . DB_PREFIX . "_last_event_ids` 
+        $row = $db->fetch($db->query("SELECT `" . $field . "` FROM `" . DB_PREFIX . "_last_event_ids`
                                       WHERE device = x'" . $this->deviceId . "'"));
 
         if ($db->getAffectedRows() <= 0) {
@@ -122,16 +124,16 @@ abstract class EventManager {
     }
 
     /**
-     * Write data into db-table.
-     * This function can rely on a correct event-order as this will be checked
-     * before this method is called
-     * @param Event[] $events Events to add to the table 
+     * Writes the data back into the corresponding db-table.
+     * This function can rely on a correct event order as this will be checked
+     * before this method is beeing called
+     * @param Event[] $events Events that should add to the table
      */
     protected abstract function writeBack($events);
 
     /**
      * Checks if the event-type is correct
-     * @return True, if the event's type is valid 
+     * @return True, if the event's type is valid
      */
     protected abstract function isEventTypeValid($event);
 
@@ -145,17 +147,17 @@ abstract class EventManager {
         $db = Database::getInstance();
 
         // Update last ID-field
-        $db->query("UPDATE `" . DB_PREFIX . "_last_event_ids` 
+        $db->query("UPDATE `" . DB_PREFIX . "_last_event_ids`
                     SET `" . $field . "` = " . $value . "
                     WHERE `device` = x'" . $this->deviceId . "'");
 
         // If no entry has been updated, we have to create one
         if ($db->getAffectedRows() <= 0) {
             $db->query("INSERT INTO `" . DB_PREFIX . "_last_event_ids` (
-                            `device`, 
+                            `device`,
                             `$field`
                         ) VALUES (
-                            x'" . $this->deviceId . "', 
+                            x'" . $this->deviceId . "',
                             " . $value . "
                         )");
         }

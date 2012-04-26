@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,18 +25,21 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Gives access to bluetooth or WiFi events 
+ * Gives access to bluetooth or WiFi events<br />
+ * <b>Warning:</b> This class should not be to instantiated directly as there is
+ * no type or value check in the constructor. Use {@see Device} to get an instance
+ * instead.
  * @author Patrick Strobel
  * @version 1.0.1
  */
 class ConnectionEventManager extends EventManager {
-    
+
     protected function isEventTypeValid($event) {
         return $event instanceof ConnectionEvent;
     }
 
     /**
-     * @param ConnectionEvent[] $events 
+     * @param ConnectionEvent[] $events
      */
     protected function writeBack($events) {
         $db = Database::getInstance();
@@ -45,16 +48,16 @@ class ConnectionEventManager extends EventManager {
         $lastId = 0;
         foreach ($events as $event) {
             $db->query("INSERT INTO `" . DB_PREFIX . "_connection` (
-                            `device`, 
-                            `event_id`, 
-                            `timestamp`, 
+                            `device`,
+                            `event_id`,
+                            `timestamp`,
                             `medium`,
-                            `connected`, 
-                            `enabled`, 
+                            `connected`,
+                            `enabled`,
                             `city`
                         ) VALUES (
-                            x'" . $this->deviceId . "', 
-                            " . $event->getId() . ", 
+                            x'" . $this->deviceId . "',
+                            " . $event->getId() . ",
                             " . $event->getTimestamp() . ",
                             \"" . $event->getMedium() . "\",
                             " . (int)$event->isConnected() . ",
@@ -63,10 +66,10 @@ class ConnectionEventManager extends EventManager {
                         )");
             $lastId = $event->getId();
         }
-        
+
         $this->updateOrInsertLastIdEntry("connection", $lastId);
     }
-    
+
     public function getLastId() {
         return $this->queryLastId("connection");
     }

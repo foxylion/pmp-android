@@ -24,7 +24,7 @@
  * This class handles the access to all classes used to manage the stored information
  *
  * @author Patrick Strobel
- * @version 1.3.0
+ * @version 1.4.0
  */
 class Device {
 
@@ -38,6 +38,8 @@ class Device {
     private $cellularConnectionMgr = null;
     private $connectionMgr = null;
     private $screenMgr = null;
+
+    private $deviceProp = null;
 
     private function __construct($deviceId) {
         $this->deviceId = $deviceId;
@@ -73,7 +75,7 @@ class Device {
      */
     public function getAwakeEventManager() {
         if ($this->awakeMgr == null) {
-            $this->awakeMgr = new AwakeEventManager($this->deviceId);
+            $this->awakeMgr = new AwAwakeEventManager($this->deviceId);
         }
         return $this->awakeMgr;
     }
@@ -120,6 +122,17 @@ class Device {
             $this->screenMgr = new ScreenEventManager($this->deviceId);
         }
         return $this->screenMgr;
+    }
+
+    /**
+     * Gets the manager for screen events
+     * @return ScreenEventManager The manager
+     */
+    public function getDeviceProperty() {
+        if ($this->deviceProp == null) {
+            $this->deviceProp = DeviceProperty::load($this->deviceId);
+        }
+        return $this->deviceProp;
     }
 
 

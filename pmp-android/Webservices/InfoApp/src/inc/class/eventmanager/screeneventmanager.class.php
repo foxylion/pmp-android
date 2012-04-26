@@ -25,7 +25,10 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Gives access to screen events
+ * Gives access to screen events<br />
+ * <b>Warning:</b> This class should not be to instantiated directly as there is
+ * no type or value check in the constructor. Use {@see Device} to get an instance
+ * instead.
  * @author Patrick Strobel
  * @version 1.0.0
  */

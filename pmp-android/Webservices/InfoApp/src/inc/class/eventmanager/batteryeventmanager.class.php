@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,10 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Gives access to battery events 
+ * Gives access to battery events<br />
+ * <b>Warning:</b> This class should not be to instantiated directly as there is
+ * no type or value check in the constructor. Use {@see Device} to get an instance
+ * instead.
  * @author Patrick Strobel
  * @version 1.0.0
  */
@@ -37,7 +40,7 @@ class BatteryEventManager extends EventManager {
 
     /**
      *
-     * @param BatteryEvent[] $events 
+     * @param BatteryEvent[] $events
      */
     protected function writeBack($events) {
         $db = Database::getInstance();
@@ -46,17 +49,17 @@ class BatteryEventManager extends EventManager {
         $lastId = 0;
         foreach ($events as $event) {
             $db->query("INSERT INTO `" . DB_PREFIX . "_battery` (
-                            `device`, 
-                            `event_id`, 
-                            `timestamp`, 
+                            `device`,
+                            `event_id`,
+                            `timestamp`,
                             `level`,
                             `plugged`,
                             `present`,
                             `status`,
                             `temperature`
                         ) VALUES (
-                            x'" . $this->deviceId . "', 
-                            " . $event->getId() . ", 
+                            x'" . $this->deviceId . "',
+                            " . $event->getId() . ",
                             " . $event->getTimestamp() . ",
                             " . $event->getLevel() . ",
                             \"" . $event->getPlugged() . "\",
