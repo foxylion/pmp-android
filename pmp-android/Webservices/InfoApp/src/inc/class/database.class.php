@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ if (!defined("INCLUDE")) {
 }
 
 class DatabaseException extends Exception {
-    
+
 }
 
 /**
@@ -45,7 +45,7 @@ class Database {
     private $handler = null;
 
     private function __construct() {
-        
+
     }
 
     /**
@@ -159,7 +159,7 @@ class Database {
      *
      * @return type
      */
-    public function secureInput($input) {
+    public static function secureInput($input) {
         return mysql_real_escape_string($input);
     }
 

@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,15 +32,14 @@ if (!defined("INCLUDE")) {
  * @version 1.0.2
  */
 class ConnectionEvent extends Event {
-    
+
     const BLUETOOTH = 'b';
     const WIFI = 'w';
-    
+
     private $medium;
     private $connected;
     private $enabled;
     private $city;
-    
 
     /**
      * Creates a new connection event
@@ -52,25 +51,34 @@ class ConnectionEvent extends Event {
      * @throws InvalidArgumentException
      */
     public function __construct($id, $timestamp, $medium, $connected, $enabled, $city) {
-        
+
         parent::__construct($id, $timestamp);
-        
+
         if (!is_string($medium) || $medium != ConnectionEvent::BLUETOOTH && $medium != ConnectionEvent::WIFI) {
             throw new InvalidArgumentException("\"medium\" is not a valid character");
-        }        
+        }
         if (!is_bool($connected)) {
             throw new InvalidArgumentException("\"connected\" is no boolean");
         }
         if (!is_bool($enabled)) {
             throw new InvalidArgumentException("\"enabled\" is no boolean");
         }
-        
+
+        // Escape city if it's value is given and check the value
+        if (!$city == null) {
+            $city = Database::secureInput($city);
+
+            if (!General::isValidCity($city)) {
+                throw new InvalidArgumentException("\"city\" is not a valid city name");
+            }
+        }
+
         $this->medium = $medium;
         $this->connected = $connected;
         $this->enabled = $enabled;
-        $this->city = (string)$city;
+        $this->city = (string) $city;
     }
-    
+
     /**
      * Connection status
      * @return boolean True, if device is connected
@@ -78,30 +86,31 @@ class ConnectionEvent extends Event {
     public function isConnected() {
         return $this->connected;
     }
-    
+
     /**
      * Adapter status
-     * @return boolean True, if adapter is activated 
+     * @return boolean True, if adapter is activated
      */
     public function isEnabled() {
         return $this->enabled;
     }
-    
+
     /**
      * City, at which the device has been connected
-     * @return String   Name of the city 
+     * @return String   Name of the city
      */
     public function getCity() {
         return $this->city;
     }
-    
+
     /**
      * Meidum that has been used for communication
-     * @return char Equivalent to one of the given constants (BLUETOOTH or WIFI) 
+     * @return char Equivalent to one of the given constants (BLUETOOTH or WIFI)
      */
     public function getMedium() {
         return $this->medium;
     }
+
 }
 
 ?>

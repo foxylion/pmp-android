@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `dev_connection` (
   `medium` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `connected` tinyint(1) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `city` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `EVENT` (`device`,`event_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `dev_connection_prop` (
   `device` binary(16) NOT NULL,
   `wifi` smallint(5) NOT NULL,
   `bluetooth` smallint(5) NOT NULL,
-  `provider` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `provider` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `signal` tinyint(3) NOT NULL,
   PRIMARY KEY (`device`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -127,11 +127,11 @@ CREATE TABLE IF NOT EXISTS `dev_connection_prop` (
 
 CREATE TABLE IF NOT EXISTS `dev_device_prop` (
   `device` binary(16) NOT NULL,
-  `manufacturer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `manufacturer` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `api` tinyint(3) NOT NULL,
   `kernel` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `model` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `ui` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `model` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `ui` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `display_x` smallint(5) NOT NULL,
   `display_y` smallint(5) NOT NULL,
   `cpu` smallint(5) NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `dev_device_prop` (
   `memory_external` smallint(5) NOT NULL,
   `memory_external_free` smallint(5) NOT NULL,
   `camera` float(3,1) NOT NULL,
-  `sensors` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `sensors` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `runtime` float(10,2) NOT NULL,
   PRIMARY KEY (`device`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `dev_profile` (
   `timestamp` bigint(19) NOT NULL,
   `event` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `direction` char(1) COLLATE utf8_unicode_ci NOT NULL,
-  `city` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `city` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `EVENT` (`device`,`event_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

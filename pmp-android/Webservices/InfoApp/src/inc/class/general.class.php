@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: PMP
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.2.0
+ * @version 1.3.0
  */
 class General {
     /**
@@ -64,30 +64,40 @@ class General {
     public static function isValidId($id) {
         return (is_numeric($id) && $id > 0);
     }
-    
+
     public static function isValidTimestamp($timestamp) {
         return (is_numeric($timestamp) && $timestamp > 0);
     }
-    
+
     /**
      * Checks a given input if it represents a percentage value
      * @param any $value    Input
-     * @return boolean  True, if argument is an integer and beteween 0 and 100 
+     * @return boolean  True, if argument is an integer and beteween 0 and 100
      */
     public static function isPercentageInt($value) {
         return is_int($value) && $value >= 0 && $value <= 100;
     }
-    
+
+    /**
+     * Checks if the given input is a valid city name
+     * @param String $input Input
+     * @return boolean  True, if argument is avalid city name
+     */
+    public static function isValidCity($input) {
+        $length = strlen($input);
+        return $length >= 3 && $length <= 100;
+    }
+
     /**
      * Checks if the given value is a valid device ID.
      * That is, if the given value is a MD5 hash
      * @param String $device Input value
-     * @return type 
+     * @return type
      */
     public static function isValidDeviceId($device) {
         return !empty($device) && preg_match('/^[a-f0-9]{32}$/', $device);
     }
-    
+
     /**
      * Checks if the given parameter is a valid id
      *
