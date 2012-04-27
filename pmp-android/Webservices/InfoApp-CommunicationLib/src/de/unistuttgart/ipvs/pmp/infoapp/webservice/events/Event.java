@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 pmp-android development team
+ * Copyright 2012 pmp-android development team
  * Project: InfoApp-CommunicationLib
  * Project-Site: http://code.google.com/p/pmp-android/
  * 
@@ -17,11 +17,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package unistuttgart.ipvs.pmp.infoapp.webservice.events;
+package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+/**
+ * Abstract base class for all events that might be sent to a webservices.
+ * 
+ * @author Patrick Strobel
+ */
 public abstract class Event {
     
     private int id;
     private long timestamp;
+    
+    
+    public Event(int id, long timestamp) {
+        this.id = id;
+        this.timestamp = timestamp;
+    }
+    
+    
+    /**
+     * Returns the event's ID
+     * 
+     * @return The ID
+     */
+    public int getId() {
+        return this.id;
+    }
+    
+    
+    /**
+     * Returns the time this event occurred
+     * 
+     * @return Timestamp in ms accuracy
+     */
+    public long getTimestamp() {
+        return this.timestamp;
+    }
     
 }
