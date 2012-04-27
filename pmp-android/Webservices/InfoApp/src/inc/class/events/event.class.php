@@ -2,9 +2,9 @@
 
 /*
  * Copyright 2012 pmp-android development team
- * Project: PMP
+ * Project: InfoApp-Webservice
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,9 +26,9 @@ if (!defined("INCLUDE")) {
 
 /**
  * Abstract base class for all events that might be used by the webservices.
- * 
+ *
  * @author Patrick Strobel
- * @version 1.0.0 
+ * @version 1.0.0
  */
 abstract class Event {
 
@@ -51,7 +51,7 @@ abstract class Event {
 
     /**
      * Returns the event's ID
-     * @return int  The ID 
+     * @return int  The ID
      */
     public function getId() {
         return $this->id;
@@ -59,7 +59,7 @@ abstract class Event {
 
     /**
      * Returns the time this event occured
-     * @return long  Timestamp in ms accuracy 
+     * @return long  Timestamp in ms accuracy
      */
     public function getTimestamp() {
         return $this->timestamp;
