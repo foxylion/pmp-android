@@ -75,9 +75,10 @@ public class Preset extends ModelElement implements IPreset {
     @Override
     public String toString() {
         return super.toString()
-                + String.format(" [name = %s, desc = %s, psv = %s, aa = %s, mps = %s, ma = %s, d = %s]", this.name,
-                        this.description, ModelElement.collapseMapToString(this.privacySettingValues),
+                + String.format(" [name = %s, desc = %s, psv = %s, aa = %s, ca = %s, mps = %s, ma = %s, d = %s]",
+                        this.name, this.description, ModelElement.collapseMapToString(this.privacySettingValues),
                         ModelElement.collapseListToString(this.assignedApps),
+                        ModelElement.collapseMapToString(this.contextAnnotations),
                         ModelElement.collapseListToString(this.missingPrivacySettings),
                         ModelElement.collapseListToString(this.missingApps), String.valueOf(this.deleted));
     }
@@ -257,14 +258,14 @@ public class Preset extends ModelElement implements IPreset {
         FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_SETTING_CHANGES, Level.FINE,
                 "Requested to assign service feature '%s' to preset '%s'.", serviceFeature.getName(), getName());
         
-        startUpdate();
+        IPCProvider.getInstance().startUpdate();
         try {
             for (IPrivacySetting ps : serviceFeature.getRequiredPrivacySettings()) {
                 assignPrivacySetting(ps, serviceFeature.getRequiredPrivacySettingValue(ps));
             }
             
         } finally {
-            endUpdate();
+            IPCProvider.getInstance().endUpdate();
         }
     }
     
@@ -287,20 +288,6 @@ public class Preset extends ModelElement implements IPreset {
     public List<MissingApp> getMissingApps() {
         checkCached();
         return new ArrayList<MissingApp>(this.missingApps);
-    }
-    
-    
-    @Override
-    @Deprecated
-    public void startUpdate() {
-        IPCProvider.getInstance().startUpdate();
-    }
-    
-    
-    @Override
-    @Deprecated
-    public void endUpdate() {
-        IPCProvider.getInstance().endUpdate();
     }
     
     
@@ -387,8 +374,6 @@ public class Preset extends ModelElement implements IPreset {
         psList.add(ca);
         
         BootReceiver.startService(PMPApplication.getContext());
-        
-        rollout();
     }
     
     

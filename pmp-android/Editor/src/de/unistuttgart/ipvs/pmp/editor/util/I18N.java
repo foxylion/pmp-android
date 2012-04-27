@@ -154,6 +154,8 @@ public class I18N extends NLS {
     public static String preferences_jpmpps_timeout;
     public static String preferences_jpmpps_unknown;
     public static String preferences_jpmpps_url;
+    public static String editor_rgis_ps_non_req_tooltip;
+    public static String editor_rgis_ps_Non_Requestable;
     public static String wizard_ais_description;
     public static String wizard_ais_replacemsg_text;
     public static String wizard_ais_replacemsg_title;

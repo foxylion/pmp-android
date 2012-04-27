@@ -54,6 +54,8 @@ public class ListItemServiceFeature extends LinearLayout {
     
     protected AdapterServiceFeatures adapterServiceFeatures;
     
+    private Activity activity;
+    
     
     /**
      * Creates a new {@link ListItemServiceFeature}.
@@ -65,10 +67,11 @@ public class ListItemServiceFeature extends LinearLayout {
      * @param adapterServiceFeatures
      *            Can be set to false it is not required to update all other Service Feature views on a change.
      */
-    public ListItemServiceFeature(Context context, IServiceFeature serviceFeature,
+    public ListItemServiceFeature(Activity activity, IServiceFeature serviceFeature,
             AdapterServiceFeatures adapterServiceFeatures) {
-        super(context);
+        super(activity);
         
+        this.activity = activity;
         this.serviceFeature = serviceFeature;
         this.adapterServiceFeatures = adapterServiceFeatures;
         
@@ -116,6 +119,7 @@ public class ListItemServiceFeature extends LinearLayout {
         TextView tvName = (TextView) findViewById(R.id.TextView_Name);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
         CheckBox cb = (CheckBox) findViewById(R.id.CheckBox_SFState);
+        View highlightBox = (View) findViewById(R.id.View_HighlightBox);
         
         // Update name
         if (tvName != null) {
@@ -144,6 +148,15 @@ public class ListItemServiceFeature extends LinearLayout {
                 setBackgroundColor(GUIConstants.COLOR_BG_RED);
             } else {
                 setBackgroundColor(GUIConstants.COLOR_BG_GRAY);
+            }
+        }
+        
+        // Update highlight box
+        if (highlightBox != null) {
+            if (GUITools.isServiceFeatureRequested(this.activity.getIntent(), this.serviceFeature)) {
+                highlightBox.setVisibility(View.VISIBLE);
+            } else {
+                highlightBox.setVisibility(View.INVISIBLE);
             }
         }
         

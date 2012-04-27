@@ -12,10 +12,10 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -40,12 +40,12 @@ public class LocationContextView extends LinearLayout implements IContextView {
     public static final String LONGITUDE_EXTRA = "lon";
     public static final String NEGATE_EXTRA = "neg";
     
-    class ExpandableGeoPointList extends BaseExpandableListAdapter {
+    class GeoPointList extends BaseAdapter {
         
         private final List<PMPGeoPoint> data;
         
         
-        public ExpandableGeoPointList() {
+        public GeoPointList() {
             this.data = new ArrayList<PMPGeoPoint>();
         }
         
@@ -53,71 +53,30 @@ public class LocationContextView extends LinearLayout implements IContextView {
         public void update(List<PMPGeoPoint> data) {
             this.data.clear();
             this.data.addAll(data);
-            notifyDataSetInvalidated();
+            notifyDataSetChanged();
         }
         
         
         @Override
-        public int getGroupCount() {
-            return 1;
-        }
-        
-        
-        @Override
-        public int getChildrenCount(int groupPosition) {
+        public int getCount() {
             return this.data.size();
         }
         
         
         @Override
-        public Object getGroup(int groupPosition) {
-            return getContext().getString(R.string.contexts_location_coordinates);
+        public Object getItem(int position) {
+            return this.data.get(position).toString();
         }
         
         
         @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            return this.data.get(childPosition);
+        public long getItemId(int position) {
+            return position;
         }
         
         
         @Override
-        public long getGroupId(int groupPosition) {
-            return 1;
-        }
-        
-        
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return childPosition;
-        }
-        
-        
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-        
-        
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            TextView tv;
-            if ((convertView != null) && (convertView instanceof TextView)) {
-                tv = (TextView) convertView;
-            } else {
-                tv = new TextView(parent.getContext());
-            }
-            tv.setTextAppearance(parent.getContext(), attr.textAppearanceLarge);
-            tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            tv.setText(getGroup(groupPosition).toString());
-            
-            return tv;
-        }
-        
-        
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
-                ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             TextView tv;
             if ((convertView != null) && (convertView instanceof TextView)) {
                 tv = (TextView) convertView;
@@ -126,14 +85,14 @@ public class LocationContextView extends LinearLayout implements IContextView {
             }
             tv.setTextAppearance(parent.getContext(), attr.textAppearance);
             tv.setGravity(Gravity.CENTER_HORIZONTAL);
-            tv.setText(getChild(groupPosition, childPosition).toString());
+            tv.setText(getItem(position).toString());
             
             return tv;
         }
         
         
         @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
+        public boolean hasStableIds() {
             return false;
         }
         
@@ -147,8 +106,8 @@ public class LocationContextView extends LinearLayout implements IContextView {
     /**
      * List of the coordinates
      */
-    private ExpandableListView points;
-    protected ExpandableGeoPointList pointsList;
+    private ListView points;
+    protected GeoPointList pointsList;
     private Button changeBtn;
     
     /**
@@ -220,8 +179,8 @@ public class LocationContextView extends LinearLayout implements IContextView {
         
         inflate(context, R.layout.contexts_location_view, this);
         
-        this.points = (ExpandableListView) findViewById(R.id.coordinatesExpandableList);
-        this.pointsList = new ExpandableGeoPointList();
+        this.points = (ListView) findViewById(R.id.geoPointsList);
+        this.pointsList = new GeoPointList();
         this.points.setAdapter(this.pointsList);
         this.pointsList.update(this.value.getPolygon());
         
@@ -328,6 +287,8 @@ public class LocationContextView extends LinearLayout implements IContextView {
         
         this.uncertaintySeek.setProgress(metersToSeekBarValue(this.value.getUncertainty()));
         this.hysteresisSeek.setProgress(metersToSeekBarValue(this.value.getHysteresis()));
+        
+        this.pointsList.update(this.value.getPolygon());
         
         // polygon via MapView       
     }

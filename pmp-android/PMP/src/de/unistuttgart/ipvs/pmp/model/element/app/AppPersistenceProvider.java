@@ -26,8 +26,15 @@ import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
  */
 public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
     
+    /**
+     * Whether to ignore not readable resources when loading the app solely to delete it.
+     */
+    private boolean suppressResources;
+    
+    
     public AppPersistenceProvider(App element) {
         super(element);
+        this.suppressResources = false;
     }
     
     
@@ -41,6 +48,11 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
             if (p.isAppAssigned(this.element)) {
                 this.element.assignedPresets.add(p);
             }
+        }
+        
+        if (this.suppressResources) {
+            // do not load AIS
+            return;
         }
         
         InputStream is = null;
@@ -109,6 +121,11 @@ public class AppPersistenceProvider extends ElementPersistenceProvider<App> {
         result.setPersistenceProvider(this);
         
         return result;
+    }
+    
+    
+    public void setSuppressResources() {
+        this.suppressResources = true;
     }
     
 }

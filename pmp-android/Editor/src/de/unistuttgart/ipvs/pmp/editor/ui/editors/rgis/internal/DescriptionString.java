@@ -33,7 +33,7 @@ public class DescriptionString extends EncapsulatedString {
     
     @Override
     public List<ILocalizedString> getStringList() {
-        return ps.getDescriptions();
+        return this.ps.getDescriptions();
     }
     
 }

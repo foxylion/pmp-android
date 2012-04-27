@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Profile Webservices</title>
+        <style type="text/css">
+            body, td, th {
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: small;
+            }
+            body {
+                background-color: #EEE;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Profile</h1>
+        <h2>Profile Events</h2>
+        <form action="../upload_profile_events.php" method="post" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td>
+                        <textarea scrollbar="auto" name="data" cols="70" rows="20">
+{
+  "events" : [
+    {
+      "id": 1,
+      "timestamp": 123,
+      "event": "c",
+      "direction": "i",
+      "city": null
+    },
+    {
+      "id": 2,
+      "timestamp": 1223,
+      "event": "m",
+      "direction": "o",
+      "city": "Stuttgart"
+    }
+  ]
+}
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <h2>Last Profile Event</h2>
+        <form action="../last_profile_event.php" method="get" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <h2>Update Profile Information</h2>
+        <form action="../update_profile.php" method="post" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Ring:</td>
+                    <td><input name="technology" type="text" value="r" /></td>
+                </tr>
+                <tr>
+                    <td>Contacts:</td>
+                    <td><input name="contacts" type="text" value="12" /></td>
+                </tr>
+                <tr>
+                    <td>Apps:</td>
+                    <td><input name="contacts" type="text" value="7" /></td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

@@ -92,9 +92,9 @@ class Trip {
 	/**
 	 * Creates a new trip using
 	 *
-	 * @param User             $driver
-	 * @param int              $availSeats
-	 * @param String           $destination
+	 * @param User			 $driver
+	 * @param int			  $availSeats
+	 * @param String		   $destination
 	 *
 	 * @param null|int|float   $date
 	 *
@@ -344,11 +344,50 @@ class Trip {
 								 DB_PREFIX . "_trip.driver,\n" .
 								 DB_PREFIX . "_trip.avail_seats,\n" .
 								 DB_PREFIX . "_trip.destination,\n" .
-								 "UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.creation) AS creation " .
+								 "UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.creation)*1000 AS creation " .
 								 "FROM `" . DB_PREFIX . "_trip` " .
-								 "WHERE `driver` = $user_id AND `ending` = 0 LIMIT 1");
+								 "WHERE `driver` = $user_id AND `started` >0 AND `ending` = 0 LIMIT 1");
 		if ($db->getNumRows($result) > 0) {
 			return $db->fetch($result);
+		} else {
+			return NULL;
+		}
+	}
+
+	/**
+	 * Returns all trips started by $user_id. If $ended is TRUE, ended trips will also be returned.
+	 *
+	 * @static
+	 *
+	 * @param int	 $user_id
+	 * @param boolean $ended
+	 *
+	 * @return array|null
+	 */
+	public static function  get_trips($user_id, $ended = FALSE) {
+		$db = Database::getInstance();
+
+		$where = '';
+		if ($ended === FALSE) {
+			$where .= 'AND `ending` = 0 ';
+		}
+
+		$result = $db->query("SELECT " . DB_PREFIX . "_trip.id," .
+								 DB_PREFIX . "_trip.driver," .
+								 DB_PREFIX . "_trip.avail_seats," .
+								 DB_PREFIX . "_trip.destination," .
+								 "UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.creation)*1000 AS creation," .
+								 "UNIX_TIMESTAMP(" . DB_PREFIX . "_trip.ending)*1000 AS ending," .
+								 DB_PREFIX . "_trip.started " .
+								 "FROM `" . DB_PREFIX . "_trip` " .
+								 "WHERE `driver` = $user_id " . $where .
+								 "ORDER BY  dev_trip.started ASC, dev_trip.creation DESC");
+		if ($db->getNumRows($result) > 0) {
+			$res = array();
+			while (($row = $db->fetch($result))!=null) {
+				$res[] = $row;
+			}
+			return $res;
 		} else {
 			return NULL;
 		}

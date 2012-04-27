@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp;
 
 import android.app.Application;
 import android.content.Context;
+import android.telephony.TelephonyManager;
 
 /**
  * This acts like an internal provider for {@link Context}.
@@ -52,6 +53,16 @@ public class PMPApplication extends Application {
      */
     public static Context getContext() {
         return instance.getApplicationContext();
+    }
+    
+    
+    /**
+     * 
+     * @return true, if the device has no ANDROID_ID set and likely is an emulator
+     */
+    public static boolean isEmulator() {
+        TelephonyManager telmgr = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        return "000000000000000".equals(telmgr.getDeviceId());
     }
     
 }

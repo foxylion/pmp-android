@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Webservices Spezifikation - InfoApp</title>
+  <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../../_layout/script.js"></script>
+  <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+  <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div id="wrapper">
+    <div id="page-head-date">27. April 2012</div>
+    <div id="page-head-title">Privacy Management Platform</div>
+    <div id="page-title">InfoApp Spezifikation - Webservices</div>
+    <div id="page-version">Version 4.6</div>
+    
+    <nav>
+      <div class="title">Inhaltsverzeichnis</div>
+      <ul>
+      </ul>
+    </nav>
+    
+    <!-- here comes the content of the specification -->
+    <div id="content">
+    
+      <h1 id="versions">Versionshistorie</h1>
+      
+      <h3>Version 4.6</h3>
+      <ul>
+        <li>Schnittstelle des Webservices "update_connection.php" überarbeitet</li>
+      </ul>
+      
+      <h3>Version 4.5</h3>
+      <ul>
+        <li>Webservice "update_battery_info.php" unbenannt nach "update_battery.php"</li>
+      </ul>
+      
+      <h3>Version 4.4</h3>
+      <ul>
+        <li>Services zum Abfragen der ID der letzten Einträge hinzugefügt</li>
+        <li>"Bluetooth/WLan Events übertragen" überarbeitet</li>
+        <li>Fehlerrückgabe "invalid_event_order" spezifiziert</li>
+        <li>Parameter von Webservces mit idempotenten Operationen auf "GET" umgeändert</li>
+      </ul>
+
+      <h3>Version 4.3</h3>
+      <ul>
+        <li>Letzte Fehler korrigiert (Reviewkandidat)</li>
+      </ul>
+
+      <h3>Version 4.2</h3>
+      <ul>
+        <li>Noch fehlende Services hinzugefügt und nach Absprache Fehler beseitigt</li>
+      </ul>
+
+      <h3>Version 4.1</h3>
+      <ul>
+        <li>Bestehende Services an geänderte Bedingungen (Event-System) angepasst und
+          weitere Services (Batterie, Profil) hinzugefügt</li>
+      </ul>
+
+      <h3>Version 4.0</h3>
+      <ul>
+        <li>Mit Erstellen des Dokuments auf Basis der Dokumentation des vHike-Webservices erstellt</li>
+      </ul>
+    
+      <h1 id="introduction">Einleitung</h1>
+      <p>
+        Dieses Dokument stellt die Webservices der InfoApp und deren
+        Schnittstellen dar. Es richtet sich daher hauptsächlich an die Entwickler der
+        InfoApp, die die zur Verfügung gestellten Schnittstellen verwenden.
+      </p>
+      <p>
+        Um den Entwicklern stets einen Überblick über die verfügbaren Webservices
+        bieten zu können, wird dieses Dokument stetig an den aktuellen Stand 
+        der Implementierung angepasst.
+      </p>
+      
+     
+      <h1 id="interface">Schnittstelle</h1>
+      <p>
+        Dieser Abschnitt beschreibt die für den Zugriff auf den Webservice bereitgestellten
+        Schnittstellen.
+      </p>
+      <p>
+        Hierzu werde nachfolgend alle verfügbaren PHP-Skripts aufgelistet, die von
+        diesen erwarteten Parameter genannt und die durch das Skript generierte Ausgabe erläutert.
+      </p>
+      <p>
+        Die Übergabe von Parametern, die keinen Einfluss auf den Zustand des Servers
+        haben (also keine auf den Server gespeicherten Daten manipulieren) 
+        erfolgt über HTTP-GET (d. h. die Parameter werden der URL angehängt).
+        Für alle anderen Parameter sowie Parameter, über die eine große Menge an Daten
+        übertragen wird, erfolgt die Datenübertragung durch HTTP-Post.
+      </p>
+      <p>
+        Die Rückgabe des PHP-Skripts - also die Antwort auf Anfragen - erfolgt
+        in JSON. Hierbei gibt es JSON-Schlüssel, die von jedem Skript zurückgegeben
+        werden sowie Schlüssel, die Skript spezifisch sind.
+      </p>
+        
+      <h2 id="interface_defaultjsonkey">Standard JSON Schlüssel</h2>
+      <p>
+        Die JSON Rückgabe jedes Skripts enthält in der obersten Ebene den 
+        Schlüssel <code>successful</code>. Dieser gibt an, ob die Anfrage erfolgreich
+        bearbeitet werden konnte (<code>successful</code> ist auf <code>true</code>
+        gesetzt), oder ob bei der Bearbeitung Fehler aufgetreten sind 
+        (<code>successful</code> auf <code>false</code>. Z. B. wenn der Benutzer
+        nicht angemeldet ist, die Abfrage jedoch einen angemeldeten Benutzer verlangt).
+      </p>
+      
+      <h2 id="interface_error">Fehlerrückgabe</h2>
+      <p>
+        Wie bereits erwähnt, wird über den Schlüssel <code>successful</code> signalisiert, 
+        ob die Anfrage verarbeitet werden konnte. Ist dieser auf <code>false</code>
+        gesetzt, wurde die Anfrage nicht erfolgreich ausgeführt. In diesem Fall
+        hat die JSON Rückgabe jedes Skripts immer folgenden Aufbau:
+      </p>
+<pre>
+{
+  "successful": false,
+  "error": String,
+  "msg": String
+}
+</pre>
+      <p>
+        Der Wert des Schlüssels <code>error</code> definiert die Ursache des Fehlers.
+        Momentan sind folgende Werte vorgesehen:
+        <ul>
+          <li><code>internal_database_error</code> - interner Fehler. Beim Durchführen einer
+            Datenbankabfrage ist ein Fehler aufgetreten</li>
+          <li><code>invalid_parameter</code> - wenn ein POST-/GET-Parameter einen 
+            ungültigen Wert enthält (z.B. Integer verlangt, Wert jedoch kein Integer)</li>
+          <li><code>invalid_event_id</code> - die übergebene ID eine Events wird bereits in einem
+            Tabelleneintrag verwendet</li>
+          <li><code>invalid_event_order</code> - die Reihenfolge der übergebenen Events ist nicht
+            korrekt. D. h. die Bedingung, dass die Events aufsteigend nach den ID sortiert sind
+            und für alle zwei Events A und B mit A.timestamp &le; B.timestamp auch A.id &lt; B.id gilt,
+            ist verletzt</li>
+        </ul>
+        Diese Fehler-Schlüssel dienen hauptsächlich zur einfachen Fallunterscheidung
+        innerhalb der auf den Webservice zugreifenden Applikation.
+        Wird z. B. beim Zugriff auf einen Service ein <code>internal_database_error</code>-Fehler
+        zurückgegeben, so kann dem Benutzer eine Meldung angezeigt werden,
+        dass seine Anfrage momentan nicht ausgeführt werden kann.
+      </p>
+      <p>
+        In vielen Fällen genügt der Fehler-Schlüssel jedoch nicht, um den Fehler genau beschreiben 
+        zu können.  So ist es etwa bei einem <code>internal_database_error</code>-Fehler
+        hilfreich zu wissen, worin der Fehler genau bestand (Tabelle nicht vorhanden etc.).
+        Daher existiert der Schlüssel <code>msg</code>, über den weitere Informationen
+        über den Fehler ausgegeben werden können.
+      </p>
+      
+      <h2 id="interface_query">Anfragen</h2>
+      <p>
+        Nachfolgend werden alle Anfragen aufgelistet, die vom 
+        Webservice unterstützt werden sollen. Für alle diese Anfragen wird nur der Fall
+        behandelt, in dem die Anfrage erfolgreich bearbeitet werden konnte
+        (<code>successful</code> auf <code>true</code>). Für das Verhalten im Fehlerfall
+        siehe obiger Abschnitt.
+      </p>
+      <p>
+        <b>Hinweis:</b> Mit "Zugriffsrecht" wird angegeben, welche Benutzer 
+        diese Anfrage ausführen können. Ist diese Bedingung nicht erfüllt, wird ein
+        Fehler zurückgegeben (siehe vorhergehender Abschnitt).
+      </p>
+      
+      <h3 id="interface_query_types">Wertetypen</h3>
+      <p>
+        Gegenwärtig werden folgende Wertetypen für die Parameter verwendet:
+        <ul>
+          <li>DeviceID: Identifikation des Endgerätes. Hierbei handelt es sich
+            um einen 32-Stelligen MD5-Hash, der als String übertragen wird (z. B.
+            b7c2e4787e7f950c89909795907208d3). Der Hash wird über 
+            <code>TelephonyManager.getDeviceId();</code> gebildet</li>
+          <li>Boolean: Wird als Zeichenkette <code>true</code> oder <code>false</code>
+            übergeben. Zeichenketten, die nicht <code>true</code> entsprechen, darunter
+            auch leere Zeichenketten, werden (sofern nichts anderes vermerkt), als
+            <code>false</code> interpretiert</li>
+          <li>Character</code>: Einzelner Buchstabe. Mögliche Werte werden in der
+            Beschreibung erläutert</li>
+          <li>Integer: Ganzahliger Wert. Wertebereich wird i. Alg. angegeben</li>
+          <li>Float: Fließkommazahl. Wertebereich wird i. Alg. angegeben</li>
+          <li>Json: Eine Zeichenkette, die ein JSON-Objekt darstellt. Der Aufbau
+            des Objekts wird in der Zeile "JSON-Parameter" erläutert</li>
+          <li>String: Eine Zeichenkette mit i. A. begrenzter Länge</li>
+        </ul>
+      </p>
+      
+      
+      <h3 id="interface_upload_connection_events">Bluetooth/WLan Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_events.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte WLan- oder Bluetooth-Verbindungsevents an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>          
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  "events" : [
+    {
+      "id": Integer,
+      "timestamp": Integer,
+      "medium": Character,      // Medium der Kommunikation
+                                // Werte: b (bluetooth), w (wifi)
+      "connected": Boolean,     // Verbunden/Verbindung getrennt
+      "enabled": Boolean,       // Adapter an/aus
+      "city": String
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_connection_event">Letztes gespeichertes Bluetooth/WLan Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_connection_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Bluetooth/WLan Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+                                  
+      <h3 id="interface_query_connection_update">Verbindungsdaten aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_connection.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Anzahl der konfigurierten Netzwerke bzw. gepaarten Geräte aktualisieren
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>wifi</code> - Integer: Anzahl der WLan-Verbindungen</li>
+              <li><code>bluetooth</code> - Integer: Anzahl der gepaarten Bluetooth-Geräte</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_upload__cellular_events">Mobilfunk-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_connection_events_cellular.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Mobilfunk-Verbindungsevents an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  "events" : [
+    {
+      "id": Integer,
+      "timestamp": Integer,
+      "roaming": Boolean,       // Roaming aktive/nicht aktiv
+      "airplane": Boolean       // Airplane-Mode an/aus
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_connection_event_cellular">Letztes gespeichertes Mobilfunk Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_connection_event_cellular.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Mobilfunk Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_update_connection_cellular">Mobilfunk-Verbindungen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_connection_cellular.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Informationen zur Mobilfunk-Verbindung übertragen
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>provider</code> - String: Mobilfunkanbieter des Benutzer</li>
+              <li><code>signal</code> - Integer (0 &le; x &le; 100): Signalstärke</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+
+
+
+      <h3 id="interface_upload_battery_events">Batterie-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_battery_events.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Batterie-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  "events" : [
+    {
+      "id": Integer,
+      "timestamp": Integer,
+      "level": Integer,         // Prozent (0 bis 100)
+      "plugged": Character,     // Werte: n, a, u
+                                // (Entspr. "not", "ac", "usb")
+      "present": Boolean,       // Batterie eingelegt/entfernt
+      "status": Character,      // Werte: c, d, f, n, u
+                                // (Enstpr. "charg.", "discharg.",
+                                //   "full", "not charg", "unkn.")
+      "temperature": Float
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_connection_event">Letztes gespeichertes Batterie Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_battery_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Batterie Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_query_battery">Batterie Informationen aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_battery.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Informationen zur Batterie übertragen
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>technology</code> - String: Technologie der Batterie</li>
+              <li><code>health</code> - Integer (0 &le; x &le; 100): Batterieverschleiß</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      <h3 id="interface_upload_awake_events">Aufweck-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_awake_events.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Aufweck-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>                                       
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  "events" : [
+    {
+      "id": Integer,
+      "timestamp": Integer,
+      "awake": Boolean          // Geräte aktiv/inaktiv
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_awake_event">Letztes gespeichertes Aufweck Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_awake_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Aufweck Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+
+      <h3 id="interface_upload_screen_events">Bildschirm-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_screen_events.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Bildschirm-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  "events" : [
+    {
+      "id": Integer,
+      "timestamp": Integer,
+      "screen": Boolean          // Bildschirm an/aus
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_screen_event">Letztes gespeichertes Bildschirm Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_screen_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Bildschirm Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_upload_profile_events">Profil-Events übertragen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>upload_profile_events.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Protokollierte Profil-Events an den Server übertragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>data</code> - Json: Events, die an den Server übertragen werden sollen</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">JSON-Paramerer</th>
+          <td>
+<pre>
+{
+  "events" : [
+    {
+      "id": Integer,
+      "timestamp": Integer,
+      "event": Character,       // Art des Events
+                                // Werte: c (Call), e (Email), s (SMS), a (Device active), w (Website)
+      "direction": Character,   // "Richtung" des Events
+                                // Werte: i (eingehend), o (ausgehend)
+      "city": String
+    },
+    ...
+  ]
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_last_profile_event">Letztes gespeichertes Profil Event</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>last_profile_event.php</td>
+        </tr>
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Die ID des zuletzt hinzugefügten Profil Events abfragen.
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            -
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true,
+  "last_id": Integer
+}
+</pre>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>
+            <ul>
+              <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_update_profile">Profil aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_profile.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Daten zum Benutzerprofil aktualisieren
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>ring</code> - Character: Art des Klingelns. Werte: r (Ton), s (Lautlos), v (Vibration), b (Vibration+Ton)</li>
+              <li><code>contacts</code> - Integer: Anzahl vorhandener Kontakte</li>
+              <li><code>apps</code> - Integer: Anzahl installierter Apps</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Nicht implementiert</td>
+        </tr>
+      </table>
+      
+      
+      <h3 id="interface_update_device">Gerätedaten aktualisieren</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>update_device.php</td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>
+            Daten zur Hardware des Gerätes aktualisieren
+          </td>
+        </tr>
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Jeder</td>
+        </tr>
+        <tr>
+          <th class="left">GET-Parameter</th>
+          <td>-</td>
+        </tr>     
+        <tr>
+          <th class="left">POST-Parameter</th>
+          <td>
+            <ul>
+              <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
+              <li><code>manufacturer</code> - String: Hersteller des Gerätes</li>
+              <li><code>apiLevel</code> - Integer: API-Level bzw. SDK-Version</li>
+              <li><code>kernel</code> - String: Kernel-Version</li>
+              <li><code>model</code> - String: Model des Gerätes</li>
+              <li><code>ui</code> - String: Benutzeroberfläche des Herstellers</li>
+              <li><code>displayResX</code> - Integer: Auflösung des Displays in x-Richtung</li>
+              <li><code>displayResY</code> - Integer: Auflösung des Displays in y-Richtung</li>
+              <li><code>cpuFrequency</code> - Integer: Taktrate der CPU in MHz</li>
+              <li><code>memoryInternal</code> - Integer: Größe des internen Speichers in MB</li>
+              <li><code>memoryInternalFree</code> - Integer: Freier Speicherplatz im internen Speicher in MB</li>
+              <li><code>memoryExternal</code> - Integer: Größe des externen Speichers in MB</li>
+              <li><code>memoryExternalFree</code> - Integer: Freier Speicherplatz im externen Speicher in MB</li>
+              <li><code>cameraResolution</code> - Float: Auflösung der Kamera in MegaPx</li>
+              <li><code>sensors</code> - String: Komma getrennte Liste aller vorhandenen Sensoren</li>
+              <li><code>runtime</code> - Float: Gesamtlaufzeit des Gerätes in Minuten</li>
+            </ul>
+          </td>
+        </tr>      
+        <tr>
+          <th class="left">Rückgabe (Aufbau)</th>
+          <td>
+<pre>
+{
+  "successful": true
+}
+</pre>  
+          </td>
+        </tr>
+        <tr>   
+          <th class="left">Rückgabe (Beschreibung)</th>
+          <td>-</td>
+        </tr>           
+        <tr>  
+          <th class="left">Status</th>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
+        </tr>
+      </table>
+      
+    </div>
+    <!-- // end of specification's content -->
+  </div>
+</body>
+</html>

@@ -44,6 +44,7 @@ import de.unistuttgart.ipvs.pmp.gui.util.model.ModelProxy;
 import de.unistuttgart.ipvs.pmp.model.element.contextannotation.IContextAnnotation;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
+import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -294,7 +295,12 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         ((TextView) v.findViewById(R.id.TextView_Context_Value)).setText(getContext().getString(
                 R.string.context_value_when_active)
                 + ": " + context.getOverridePrivacySettingValue());
-        ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context.getContextCondition());
+        try {
+            ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context
+                    .getHumanReadableContextCondition());
+        } catch (InvalidConditionException e) {
+            ((TextView) v.findViewById(R.id.TextView_Context_Description)).setText(context.getContextCondition());
+        }
         
         /*
          * Determine between, active, inactive and problems 'cause it is overridden by another preset

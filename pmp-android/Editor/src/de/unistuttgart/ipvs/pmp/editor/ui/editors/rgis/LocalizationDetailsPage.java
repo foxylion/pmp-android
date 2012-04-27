@@ -97,7 +97,7 @@ public class LocalizationDetailsPage implements IDetailsPage {
             public void doValidate() {
                 RGISValidatorWrapper validator = RGISValidatorWrapper.getInstance();
                 validator.validateRGIS(LocalizationDetailsPage.this.block.getModel().getRgis(), true);
-                block.refresh();
+                LocalizationDetailsPage.this.block.refresh();
             }
             
         };

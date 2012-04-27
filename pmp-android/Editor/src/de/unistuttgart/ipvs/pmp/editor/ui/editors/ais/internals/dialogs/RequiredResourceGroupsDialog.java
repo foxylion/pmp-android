@@ -26,13 +26,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -183,7 +183,7 @@ public class RequiredResourceGroupsDialog extends SelectionDialog implements ISe
                 Long[] result = new Long[1];
                 
                 // Open a dialog with the time and date picker
-                if (new DateTimeDialog(shell, result).open() == Dialog.OK) {
+                if (new DateTimeDialog(RequiredResourceGroupsDialog.this.shell, result).open() == Window.OK) {
                     
                     // Get the display rg
                     RGIS ps = (RGIS) RequiredResourceGroupsDialog.this.listViewer.getTable().getSelection()[0]

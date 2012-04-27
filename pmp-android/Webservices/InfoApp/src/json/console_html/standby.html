@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Standby Webservices</title>
+        <style type="text/css">
+            body, td, th {
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: small;
+            }
+            body {
+                background-color: #EEE;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Standby</h1>
+        <h2>Awake Events</h2>
+        <form action="../upload_awake_events.php" method="post" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td>
+                        <textarea scrollbar="auto" name="data" cols="70" rows="20">
+{
+  "events" : [
+    {
+      "id": 1,
+      "timestamp": 123,
+      "awake": true
+    },
+    {
+      "id": 2,
+      "timestamp": 1337,
+      "awake": false
+    }
+  ]
+}
+
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <h2>Last Awake Event</h2>
+        <form action="../last_awake_event.php" method="get" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+
+
+        <h2>Screen Events</h2>
+        <form action="../upload_screen_events.php" method="post" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Data:</td>
+                    <td>
+                        <textarea scrollbar="auto" name="data" cols="70" rows="20">
+{
+  "events" : [
+    {
+      "id": 1,
+      "timestamp": 123,
+      "screen": true
+    },
+    {
+      "id": 2,
+      "timestamp": 1337,
+      "screen": false
+    }
+  ]
+}
+
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+
+        <h2>Last Screen Event</h2>
+        <form action="../last_screen_event.php" method="get" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+
+
+    </body>
+</html>

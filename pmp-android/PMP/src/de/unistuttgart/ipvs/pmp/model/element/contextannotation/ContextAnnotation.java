@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
@@ -15,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.util.BootReceiver;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 
 /**
@@ -100,6 +102,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         this.condition = condition;
         
         persist();
+        rolloutPreset();
     }
     
     
@@ -122,6 +125,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         this.condition = condition;
         
         persist();
+        rolloutPreset();
     }
     
     
@@ -151,6 +155,7 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
         this.overrideValue = value;
         
         persist();
+        rolloutPreset();
     }
     
     
@@ -226,6 +231,12 @@ public class ContextAnnotation extends ModelElement implements IContextAnnotatio
             Log.e(this, "Invalid value while checking for CA/PS conflicts: ", e);
             return false;
         }
+    }
+    
+    
+    private void rolloutPreset() {
+        // will calculate the CA's activity first, then rollout the presets
+        BootReceiver.startService(PMPApplication.getContext());
     }
     
 }

@@ -163,6 +163,8 @@ public class ActivityApp extends Activity {
         Intent intentSfs = new Intent(this, TabServiceFeatures.class);
         intentSfs.putExtra(GUIConstants.APP_IDENTIFIER, this.app.getIdentifier());
         intentSfs.putExtra(GUIConstants.ACTIVITY_ACTION, getIntent().getStringExtra(GUIConstants.ACTIVITY_ACTION));
+        intentSfs.putExtra(GUIConstants.REQUIRED_SERVICE_FEATURE,
+                getIntent().getStringArrayExtra(GUIConstants.REQUIRED_SERVICE_FEATURE));
         
         sfs.setContent(intentSfs);
         this.mTabHost.addTab(sfs);
@@ -197,8 +199,8 @@ public class ActivityApp extends Activity {
      */
     private String checkExtendedIntentActions() {
         this.app = GUITools.getIAppFromIntent(getIntent());
-        if (GUITools.handleIntentAction(getIntent()) != null
-                && GUITools.handleIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
+        if (GUITools.getIntentAction(getIntent()) != null
+                && GUITools.getIntentAction(getIntent()).equals(GUIConstants.CHANGE_SERVICEFEATURE)) {
             return TAB_SF;
         }
         

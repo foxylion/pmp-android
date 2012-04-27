@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -303,10 +302,10 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                 // The old value of this text field
                 String oldValue;
                 try {
-                    Long value = Long.valueOf(displayed.getMinRevision());
+                    Long value = Long.valueOf(ServiceFeatureRGDetailsPage.this.displayed.getMinRevision());
                     oldValue = XMLConstants.REVISION_DATE_FORMAT.format(new Date(value));
                 } catch (NumberFormatException e) {
-                    oldValue = displayed.getMinRevision();
+                    oldValue = ServiceFeatureRGDetailsPage.this.displayed.getMinRevision();
                 }
                 
                 if (!ServiceFeatureRGDetailsPage.this.revisionField.getText().equals(oldValue)) {
@@ -340,10 +339,12 @@ public class ServiceFeatureRGDetailsPage implements IDetailsPage, IDoubleClickLi
                 Long[] result = new Long[1];
                 
                 // Open a dialog with the time and date picker
-                if (new DateTimeDialog(parentShell, result).open() == Dialog.OK) {
-                    revisionField.setText(XMLConstants.REVISION_DATE_FORMAT.format(new Date(result[0])));
-                    displayed.setMinRevision(String.valueOf(result[0]));
-                    AISValidatorWrapper.getInstance().validateAIS(model.getAis(), true);
+                if (new DateTimeDialog(ServiceFeatureRGDetailsPage.this.parentShell, result).open() == Window.OK) {
+                    ServiceFeatureRGDetailsPage.this.revisionField.setText(XMLConstants.REVISION_DATE_FORMAT
+                            .format(new Date(result[0])));
+                    ServiceFeatureRGDetailsPage.this.displayed.setMinRevision(String.valueOf(result[0]));
+                    AISValidatorWrapper.getInstance()
+                            .validateAIS(ServiceFeatureRGDetailsPage.this.model.getAis(), true);
                     ServiceFeatureRGDetailsPage.this.model.setDirty(true);
                     updateRevisionDec();
                 }

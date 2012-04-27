@@ -283,7 +283,7 @@ public class Model implements IModel, Observer {
             return false;
         } else {
             
-            app.delete();
+            app.lightweightDelete();
             this.cache.getApps().remove(appPackage);
             
             IPCProvider.getInstance().startUpdate();
@@ -651,6 +651,9 @@ public class Model implements IModel, Observer {
                 
                 // update model
                 creatorMap.remove(presetIdentifier);
+                
+                // remove old CAs
+                this.cache.getContextAnnotations().remove(p);
                 
                 IPCProvider.getInstance().startUpdate();
                 try {

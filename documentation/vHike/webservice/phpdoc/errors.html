@@ -37,9 +37,17 @@
       <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
 
 <a href="#Post-parsing">Post-parsing</a><br>
+<a href="#database.class.php">database.class.php</a><br>
+<a href="#fix_cleanup.php">fix_cleanup.php</a><br>
+<a href="#framework.inc.php">framework.inc.php</a><br>
+<a href="#general.class.php">general.class.php</a><br>
+<a href="#get_profile.php">get_profile.php</a><br>
 <a href="#isPicked.php">isPicked.php</a><br>
+<a href="#json.class.php">json.class.php</a><br>
+<a href="#json_framework.inc.php">json_framework.inc.php</a><br>
 <a href="#login.php">login.php</a><br>
 <a href="#logout.php">logout.php</a><br>
+<a href="#offer.class.php">offer.class.php</a><br>
 <a href="#offer.php">offer.php</a><br>
 <a href="#offer_accepted.php">offer_accepted.php</a><br>
 <a href="#offer_handle.php">offer_handle.php</a><br>
@@ -47,71 +55,50 @@
 <a href="#offer_view.php">offer_view.php</a><br>
 <a href="#own_profile.php">own_profile.php</a><br>
 <a href="#pick_up.php">pick_up.php</a><br>
+<a href="#position.class.php">position.class.php</a><br>
+<a href="#posttest.php">posttest.php</a><br>
 <a href="#profile_edit.php">profile_edit.php</a><br>
 <a href="#profile_edit_visibility.php">profile_edit_visibility.php</a><br>
+<a href="#query.class.php">query.class.php</a><br>
 <a href="#query_delete.php">query_delete.php</a><br>
 <a href="#query_search.php">query_search.php</a><br>
 <a href="#query_start.php">query_start.php</a><br>
+<a href="#rating.class.php">rating.class.php</a><br>
 <a href="#register.php">register.php</a><br>
+<a href="#ride.class.php">ride.class.php</a><br>
 <a href="#ride_history.php">ride_history.php</a><br>
 <a href="#ride_rate.php">ride_rate.php</a><br>
 <a href="#ride_search.php">ride_search.php</a><br>
+<a href="#session.class.php">session.class.php</a><br>
+<a href="#trip.class.php">trip.class.php</a><br>
 <a href="#trip.php">trip.php</a><br>
 <a href="#trip_passengers.php">trip_passengers.php</a><br>
 <a href="#trip_update_data.php">trip_update_data.php</a><br>
 <a href="#trip_update_pos.php">trip_update_pos.php</a><br>
+<a href="#user.class.php">user.class.php</a><br>
 <a href="#user_update_pos.php">user_update_pos.php</a><br>
+<a href="#verification.php">verification.php</a><br>
 <a href="#weg.php">weg.php</a><br>
 <a name="Post-parsing"></a>
 <h1>Post-parsing</h1>
 <h2>Warnings:</h2><br>
 <b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_handle.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_status.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_view.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\own_profile.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_accepted.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\weg.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\isPicked.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\login.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\logout.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\pick_up.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\profile_edit.php will be ignored.
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\ride_search.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
 duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\ride_rate.php will be ignored.
-Use an @ignore tag on the original if you want this case to be documented.<br>
-<b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\ride_search.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
 duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\trip_passengers.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
 duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\trip_update_data.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\user_update_pos.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\trip_update_pos.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
 duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\ride_history.php will be ignored.
@@ -129,14 +116,77 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\query_search.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\profile_edit.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
 duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\query_start.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\trip_update_pos.php will be ignored.
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\get_profile.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
 <b>Warning</b> - 
-duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\user_update_pos.php will be ignored.
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\weg.php will be ignored.
 Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\test\posttest.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\logout.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\login.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\isPicked.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_handle.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_accepted.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_status.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\own_profile.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\offer_view.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\verification.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<b>Warning</b> - 
+duplicate define element "INCLUDE" in file E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\pick_up.php will be ignored.
+Use an @ignore tag on the original if you want this case to be documented.<br>
+<a name="config.inc.php"></a>
+<h1>config.inc.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 19</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\config.inc.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="database.class.php"></a>
+<h1>database.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 5</b> - no @package tag was used in a DocBlock for class DatabaseException<br>
+<b>Warning on line 14</b> - no @package tag was used in a DocBlock for class Database<br>
+<b>Warning on line 155</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\database.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="fix_cleanup.php"></a>
+<h1>fix_cleanup.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 82</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\admin\fix_cleanup.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="framework.inc.php"></a>
+<h1>framework.inc.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 31</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\framework.inc.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="general.class.php"></a>
+<h1>general.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 5</b> - no @package tag was used in a DocBlock for class InputException<br>
+<b>Warning on line 13</b> - no @package tag was used in a DocBlock for class General<br>
+<b>Warning on line 140</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\general.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="get_profile.php"></a>
 <h1>get_profile.php</h1>
 <h2>Warnings:</h2><br>
@@ -145,6 +195,15 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>isPicked.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 24</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\isPicked.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="json.class.php"></a>
+<h1>json.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 10</b> - no @package tag was used in a DocBlock for class Json<br>
+<b>Warning on line 149</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\json.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="json_framework.inc.php"></a>
+<h1>json_framework.inc.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 36</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\json_framework.inc.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="login.php"></a>
 <h1>login.php</h1>
 <h2>Warnings:</h2><br>
@@ -153,6 +212,12 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>logout.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 12</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\logout.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="offer.class.php"></a>
+<h1>offer.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 5</b> - no @package tag was used in a DocBlock for class OfferException<br>
+<b>Warning on line 16</b> - no @package tag was used in a DocBlock for class Offer<br>
+<b>Warning on line 323</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\offer.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="offer.php"></a>
 <h1>offer.php</h1>
 <h2>Warnings:</h2><br>
@@ -181,6 +246,15 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>pick_up.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 41</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\pick_up.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="position.class.php"></a>
+<h1>position.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 13</b> - no @package tag was used in a DocBlock for class Position<br>
+<b>Warning on line 157</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\position.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="posttest.php"></a>
+<h1>posttest.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 14</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\test\posttest.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="profile_edit.php"></a>
 <h1>profile_edit.php</h1>
 <h2>Warnings:</h2><br>
@@ -189,6 +263,11 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>profile_edit_visibility.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 21</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\profile_edit_visibility.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="query.class.php"></a>
+<h1>query.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 10</b> - no @package tag was used in a DocBlock for class Query<br>
+<b>Warning on line 244</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\query.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="query_delete.php"></a>
 <h1>query_delete.php</h1>
 <h2>Warnings:</h2><br>
@@ -201,10 +280,20 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>query_start.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 44</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\query_start.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="rating.class.php"></a>
+<h1>rating.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 7</b> - no @package tag was used in a DocBlock for class Rating<br>
+<b>Warning on line 179</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\rating.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="register.php"></a>
 <h1>register.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 57</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\register.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="ride.class.php"></a>
+<h1>ride.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 10</b> - no @package tag was used in a DocBlock for class Ride<br>
+<b>Warning on line 274</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\ride.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="ride_history.php"></a>
 <h1>ride_history.php</h1>
 <h2>Warnings:</h2><br>
@@ -217,10 +306,20 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>ride_search.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 49</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\ride_search.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="session.class.php"></a>
+<h1>session.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 12</b> - no @package tag was used in a DocBlock for class Session<br>
+<b>Warning on line 125</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\session.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="trip.class.php"></a>
+<h1>trip.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 10</b> - no @package tag was used in a DocBlock for class Trip<br>
+<b>Warning on line 396</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\trip.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="trip.php"></a>
 <h1>trip.php</h1>
 <h2>Warnings:</h2><br>
-<b>Warning on line 200</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\console_html\trip.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<b>Warning on line 218</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\console_html\trip.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="trip_passengers.php"></a>
 <h1>trip_passengers.php</h1>
 <h2>Warnings:</h2><br>
@@ -233,17 +332,28 @@ Use an @ignore tag on the original if you want this case to be documented.<br>
 <h1>trip_update_pos.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 36</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\trip_update_pos.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="user.class.php"></a>
+<h1>user.class.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 12</b> - no @package tag was used in a DocBlock for class user<br>
+<b>Warning on line 832</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\inc\class\user.class.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<h2>Errors:</h2><br>
+<b>Error on line 527</b> - Inline tag {@link} in tag  is unterminated, "link Trip::getOpenTrip() instead."<br>
 <a name="user_update_pos.php"></a>
 <h1>user_update_pos.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 36</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\user_update_pos.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
+<a name="verification.php"></a>
+<h1>verification.php</h1>
+<h2>Warnings:</h2><br>
+<b>Warning on line 35</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\verification.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
 <a name="weg.php"></a>
 <h1>weg.php</h1>
 <h2>Warnings:</h2><br>
 <b>Warning on line 26</b> - File "E:\Documents\Uni\Studienprojekt A\pmp5\pmp-android\Webservices\vHike\src\json\weg.php" has no page-level DocBlock, use @package in the first DocBlock to create one<br>
         <div class="credit">
 		    <hr />
-		    Documentation generated on Mon, 19 Mar 2012 00:19:12 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
+		    Documentation generated on Thu, 22 Mar 2012 15:39:06 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.3</a>
 	      </div>
       </td></tr></table>
     </td>

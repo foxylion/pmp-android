@@ -148,13 +148,13 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         compo.setLayout(new GridLayout(2, false));
         
         // Add tree
-        treeViewer = new TreeViewer(compo);
-        treeViewer.setContentProvider(new ServiceFeatureTreeProvider());
-        treeViewer.setLabelProvider(new ServiceFeatureTreeLabelProvider());
-        treeViewer.setInput(this.model.getAis());
+        this.treeViewer = new TreeViewer(compo);
+        this.treeViewer.setContentProvider(new ServiceFeatureTreeProvider());
+        this.treeViewer.setLabelProvider(new ServiceFeatureTreeLabelProvider());
+        this.treeViewer.setInput(this.model.getAis());
         
         // Add decoration
-        this.treeDec = new ControlDecoration(treeViewer.getControl(), SWT.TOP | SWT.LEFT);
+        this.treeDec = new ControlDecoration(this.treeViewer.getControl(), SWT.TOP | SWT.LEFT);
         this.treeDec.setImage(Images.IMG_DEC_FIELD_ERROR);
         
         validate();
@@ -187,30 +187,30 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         treeLayout.grabExcessHorizontalSpace = true;
         
         // Set the layout
-        treeViewer.getControl().setLayoutData(treeLayout);
+        this.treeViewer.getControl().setLayoutData(treeLayout);
         
         final SectionPart spart = new SectionPart(section);
         managedForm.addPart(spart);
         this.sashForm.setOrientation(SWT.HORIZONTAL);
         managedForm.reflow(true);
         
-        TooltipTreeListener tooltipListener = new TooltipTreeListener(treeViewer, this.parentShell);
+        TooltipTreeListener tooltipListener = new TooltipTreeListener(this.treeViewer, this.parentShell);
         
         // Disable the normal tool tips
-        treeViewer.getTree().setToolTipText(""); //$NON-NLS-1$
+        this.treeViewer.getTree().setToolTipText(""); //$NON-NLS-1$
         
-        treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
-        treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
-        treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
-        treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.Dispose, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.KeyDown, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.MouseMove, tooltipListener);
+        this.treeViewer.getTree().addListener(SWT.MouseHover, tooltipListener);
         
-        treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+        this.treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
                 managedForm.fireSelectionChanged(spart, event.getSelection());
                 
-                Tree tree = treeViewer.getTree();
+                Tree tree = ServiceFeatureMasterBlock.this.treeViewer.getTree();
                 int selectionCount = tree.getSelectionCount();
                 
                 if (selectionCount > 0) {
@@ -238,7 +238,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         // Set decoration
         this.treeDec.hide();
         
-        if (model.getAis().hasIssueType(IssueType.NO_SF_EXISTS)) {
+        if (this.model.getAis().hasIssueType(IssueType.NO_SF_EXISTS)) {
             this.treeDec.show();
             this.treeDec.setDescriptionText(new IssueTranslator()
                     .getTranslationWithoutParameters(IssueType.NO_SF_EXISTS));
@@ -267,9 +267,10 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
      */
     @Override
     protected void registerPages(DetailsPart detailsPart) {
-        detailsPart.registerPage(AISServiceFeature.class, new ServiceFeatureNameDetailsPage(this.model, treeViewer));
-        detailsPart.registerPage(AISRequiredResourceGroup.class,
-                new ServiceFeatureRGDetailsPage(this.model, treeViewer));
+        detailsPart.registerPage(AISServiceFeature.class,
+                new ServiceFeatureNameDetailsPage(this.model, this.treeViewer));
+        detailsPart.registerPage(AISRequiredResourceGroup.class, new ServiceFeatureRGDetailsPage(this.model,
+                this.treeViewer));
     }
     
     
@@ -311,7 +312,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
         
             @Override
             public void run() {
-                treeViewer.expandAll();
+                ServiceFeatureMasterBlock.this.treeViewer.expandAll();
             }
         };
         expand.setToolTipText(I18N.editor_ais_sf_expand_all_tooltip);
@@ -362,21 +363,21 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                     this.model.getAis().addServiceFeature(new AISServiceFeature(result));
                     AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
                     validate();
-                    treeViewer.refresh();
+                    this.treeViewer.refresh();
                 }
             }
             
             // Remove was clicked
             if (clicked.getText().equals(I18N.general_remove)) {
                 // Show confirmation message before removing
-                boolean remove = MessageDialog.openConfirm(parentShell, I18N.editor_ais_sf_removesfmsg_title,
+                boolean remove = MessageDialog.openConfirm(this.parentShell, I18N.editor_ais_sf_removesfmsg_title,
                         I18N.editor_ais_sf_removesfmsg_text);
                 
                 if (!remove) {
                     return;
                 }
                 
-                Tree tree = treeViewer.getTree();
+                Tree tree = this.treeViewer.getTree();
                 TreeItem[] selection = tree.getSelection();
                 int selectionCount = tree.getSelectionCount();
                 Boolean deleted = false;
@@ -422,7 +423,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                     AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
                     validate();
                     this.model.setDirty(true);
-                    treeViewer.refresh();
+                    this.treeViewer.refresh();
                 }
             }
             
@@ -435,7 +436,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                     HashMap<String, RGIS> resGroups = new HashMap<String, RGIS>();
                     
                     // Iterate through all set RGs of the Service Feature
-                    Tree tree = treeViewer.getTree();
+                    Tree tree = this.treeViewer.getTree();
                     TreeItem[] selection = tree.getSelection();
                     
                     AISServiceFeature sf = null;
@@ -482,7 +483,7 @@ public class ServiceFeatureMasterBlock extends MasterDetailsBlock implements Sel
                             this.model.setDirty(true);
                             AISValidatorWrapper.getInstance().validateAIS(this.model.getAis(), true);
                             validate();
-                            treeViewer.refresh();
+                            this.treeViewer.refresh();
                         }
                     }
                 }

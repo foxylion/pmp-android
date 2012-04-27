@@ -61,7 +61,7 @@
       </p>
       -->
       <p>    
-        <img src="./db-layout.png" alt="Database Layout" style="width:100%">
+        <a href="./db-layout.png" target="_blank"><img src="./db-layout.png" alt="Database Layout" style="width:100%"></a>
       </p>
       
       <h2 id="database_refavtor">Geplante Änderungen</h2>
@@ -1976,6 +1976,42 @@ der Fahrer gerade keine Fahrt anbietet,  <code>no_query_found</code>  wenn es ke
       </table>
       
             
+      <h3 id="interface_trip_post">Fahrt vorabplanen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>trip_post.php <a href="#star">*</a></td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Fahrer möchte eine neue Fahrt planen. Dieser Skript veröffentlicht die Fahrt, somit andere Benutzer für eine Mitfahrgelegenheit anfragen können.</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr> 
+      </table>
+      
+
+      <h3 id="interface_trip_reply">Anfrage für eine vorabgeplannte Fahrt erstellen</h3>
+      <table>
+        <tr>
+          <th class="left">PHP-Skript</th>
+          <td>trip_reply.php <a href="#star">*</a></td>
+        </tr> 
+        <tr>
+          <th class="left">Beschreibung</th>
+          <td>Ein Mitfahrer möchte eine neue Fahrt planen</td>
+        </tr>   
+        <tr>
+          <th class="left">Zugriffsrecht</th>
+          <td>Angemeldete Benutzer</td>
+        </tr> 
+      </table>
+      
+
+      <p>&nbsp;</p>
+      <p><a id="star"></a>* Siehe PHPDoc für genaue Beschreibung der Parametern und Rückgaben</p>
       <h1 id="versions">Versionshistorie</h1> 
       
       <h3>Version 1.2 (22.01.2012)</h3>

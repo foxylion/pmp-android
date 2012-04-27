@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Profile Webservices</title>
+        <style type="text/css">
+            body, td, th {
+                font-family: Tahoma, Geneva, sans-serif;
+                font-size: small;
+            }
+            body {
+                background-color: #EEE;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Device</h1>
+        <h2>Update Device Information</h2>
+        <form action="../update_device.php" method="post" target="r">
+            <table>
+                <tr>
+                    <td>Device:</td>
+                    <td><input name="device" type="text" size="36" value="b7c2e4787e7f950c89909795907208d3" /></td>
+                </tr>
+                <tr>
+                    <td>Manufacturer:</td>
+                    <td><input name="manufacturer" type="text" value="Motorola" /></td>
+                </tr>
+                <tr>
+                    <td>API Level:</td>
+                    <td><input name="apiLevel" type="text" value="7" /></td>
+                </tr>
+                <tr>
+                    <td>Kernel:</td>
+                    <td><input name="kernel" type="text" value="2.6" /></td>
+                </tr>
+                <tr>
+                    <td>Model:</td>
+                    <td><input name="model" type="text" value="defy" /></td>
+                </tr>
+                <tr>
+                    <td>UI:</td>
+                    <td><input name="ui" type="text" value="Motoblur" /></td>
+                </tr>
+                <tr>
+                    <td>Display Resolution:</td>
+                    <td><input name="displayResX" type="text" size="5" value="800" /> x
+                        <input name="displayResY" type="text" size="5" value="600" /></td>
+                </tr>
+                <tr>
+                    <td>CPU Frequency:</td>
+                    <td><input name="cpuFrequency" type="text" value="800" /></td>
+                </tr>
+                <tr>
+                    <td>Internal Memory:</td>
+                    <td><input name="memoryInternal" type="text" value="2048" /></td>
+                </tr>
+                <tr>
+                    <td>Internal Memory, Free:</td>
+                    <td><input name="memoryInternalFree" type="text" value="123" /></td>
+                </tr>
+                <tr>
+                    <td>External Memory:</td>
+                    <td><input name="memoryExternal" type="text" value="8192" /></td>
+                </tr>
+                <tr>
+                    <td>External Memory Free:</td>
+                    <td><input name="memoryExternalFree" type="text" value="1024" /></td>
+                </tr>
+                <tr>
+                    <td>Camera Resolution:</td>
+                    <td><input name="cameraResolution" type="text" value="3.8" /></td>
+                </tr>
+                <tr>
+                    <td>Sensors:</td>
+                    <td><input name="sensors" type="text" value="compass, gps, tilt" /></td>
+                </tr>
+                <tr>
+                    <td>Runtime:</td>
+                    <td><input name="runtime" type="text" value="12345.76" /></td>
+                </tr>
+                <tr>
+                    <td>Buttons:</td>
+                    <td><input type="submit" />
+                        <input type="reset" /></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

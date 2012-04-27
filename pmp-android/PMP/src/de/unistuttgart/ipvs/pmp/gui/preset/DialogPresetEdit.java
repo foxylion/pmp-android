@@ -109,7 +109,7 @@ public class DialogPresetEdit extends Dialog {
      *            if it's null, an empty dialog will be created (add a new Preset); if it's not null, a dialog with
      *            prefilled text areas will be created (edit a Preset)
      */
-    public DialogPresetEdit(Context context, ICallback callback, IPreset preset) {
+    public DialogPresetEdit(Context context, IPreset preset, ICallback callback) {
         super(context);
         this.callback = callback;
         this.preset = preset;
@@ -259,7 +259,7 @@ public class DialogPresetEdit extends Dialog {
                 Toast.makeText(getContext(), R.string.please_enter_a_name, Toast.LENGTH_SHORT).show();
                 return;
             } else if (nameField.getError() != null) {
-                Toast.makeText(getContext(), "Please choose another name.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.please_choose_another_name, Toast.LENGTH_SHORT).show();
                 return;
             }
             
@@ -268,14 +268,18 @@ public class DialogPresetEdit extends Dialog {
                 IPreset createdPreset = ModelProxy.get().addUserPreset(name, descr);
                 
                 // Open Preset
-                DialogPresetEdit.this.callback.openPreset(createdPreset);
+                if (DialogPresetEdit.this.callback != null) {
+                    DialogPresetEdit.this.callback.openPreset(createdPreset);
+                }
             } else {
                 // Edit the Preset
                 DialogPresetEdit.this.preset.setName(name);
                 DialogPresetEdit.this.preset.setDescription(descr);
                 
                 // Update the Presets
-                DialogPresetEdit.this.callback.refresh();
+                if (DialogPresetEdit.this.callback != null) {
+                    DialogPresetEdit.this.callback.refresh();
+                }
             }
             
             // Dismiss

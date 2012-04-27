@@ -44,7 +44,7 @@ public class LocationContext implements IContext, LocationListener {
      * The maximal time difference above which results are rejected
      */
     // FIXME
-    private static final long TIME_DELTA_REJECT_LIMIT = 24L * 3600L * 1000L;//300000L;
+    private static final long TIME_DELTA_REJECT_LIMIT = 300000L;
     /**
      * The possibly waiting {@link Thread}.
      */
@@ -126,14 +126,15 @@ public class LocationContext implements IContext, LocationListener {
         try {
             Thread.sleep(MAXIMUM_LOCATION_ESTIMATING_TIME);
         } catch (InterruptedException e) {
-            // Do nothing, desired behavior
+            // do nothing, desired behavior
         } finally {
             looping.interrupt();
             lm.removeUpdates(this);
         }
         
-        // reject, if not sufficing
+        // reject, if not sufficing (and not an emulator)
         if (this.lastState.isSet()
+                && (!PMPApplication.isEmulator())
                 && ((this.lastState.getAccuracy() > ACCURACY_REJECT_LIMIT) || (System.currentTimeMillis()
                         - this.lastState.getTime() > TIME_DELTA_REJECT_LIMIT))) {
             this.lastState.unset();
@@ -163,24 +164,28 @@ public class LocationContext implements IContext, LocationListener {
         if (location == null) {
             return;
         }
-        boolean update = false;
         
-        // reject when too old
+        // only check if this might not be an emulator
+        boolean update = PMPApplication.isEmulator();
         long now = System.currentTimeMillis();
-        if (location.getTime() < now - TIME_DELTA_REJECT_LIMIT) {
-            return;
-        }
-        // or too bad
-        // FIXME
-        //if ((!location.hasAccuracy()) || (location.getAccuracy() > ACCURACY_REJECT_LIMIT)) {
-        //    return;
-        //}
         
-        // if it's better, take it
-        update |= (location.getAccuracy() < this.lastState.getAccuracy());
-        // if it's not too worse, but newer, take it
-        update |= (location.getAccuracy() < this.lastState.getAccuracy() * MAXIMUM_ACCURACY_LOSS)
-                && (location.getTime() > this.lastState.getTime());
+        if (!update) {
+            
+            // reject when too old
+            if (location.getTime() < now - TIME_DELTA_REJECT_LIMIT) {
+                return;
+            }
+            // or too bad
+            if ((!location.hasAccuracy()) || (location.getAccuracy() > ACCURACY_REJECT_LIMIT)) {
+                return;
+            }
+            
+            // if it's better, take it
+            update |= (location.getAccuracy() < this.lastState.getAccuracy());
+            // if it's not too worse, but newer, take it
+            update |= (location.getAccuracy() < this.lastState.getAccuracy() * MAXIMUM_ACCURACY_LOSS)
+                    && (location.getTime() > this.lastState.getTime());
+        }
         
         if (update) {
             this.lastState.update(location);

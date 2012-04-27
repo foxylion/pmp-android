@@ -13,7 +13,7 @@
  * - <b>trip_id</b>
  * - <b>avail_seats</b>
  * - <b>destination</b>
- * - <b>creation</b> long (Unix Timestamp)
+ * - <b>creation</b> (long) millisecond
  *
  * @author  Dang Huynh
  * @version 1.0

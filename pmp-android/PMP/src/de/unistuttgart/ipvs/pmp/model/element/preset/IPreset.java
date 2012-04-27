@@ -34,7 +34,6 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.model.exception.InvalidConditionException;
-import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -211,26 +210,6 @@ public interface IPreset extends IModelElement {
      *             if the privacy setting is not compatible with the value
      */
     public void assignServiceFeature(IServiceFeature serviceFeature) throws PrivacySettingValueException;
-    
-    
-    /**
-     * Starts a cumulative update session. This means, the IPC provider of the {@link IPreset} will start buffering IPC
-     * messages instead of directly delivering them directly. Be sure to always call {@link IPreset#endUpdate()}
-     * afterwards.
-     * 
-     * @deprecated Call {@link IPCProvider#startUpdate()} instead or better yet use {@link IPreset#getTransaction()}.
-     */
-    @Deprecated
-    public void startUpdate();
-    
-    
-    /**
-     * Ends a cumulative update session started by {@link IPreset#startUpdate()}.
-     * 
-     * @deprecated Call {@link IPCProvider#endUpdate()} instead or better yet use {@link IPreset#getTransaction()}.
-     */
-    @Deprecated
-    public void endUpdate();
     
     
     /**
