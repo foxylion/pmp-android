@@ -55,6 +55,9 @@ require ("./../inc/class/events/cellularconnectionevent.class.php");
 require ("./../inc/class/events/connectionevent.class.php");
 require ("./../inc/class/events/screenevent.class.php");
 
+require ("./../inc/class/properties/property.class.php");
+require ("./../inc/class/properties/deviceproperty.class.php");
+
 // Connect to database
 try {
     Database::getInstance()->connect();

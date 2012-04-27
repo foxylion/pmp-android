@@ -126,7 +126,7 @@ class Device {
 
     /**
      * Gets the manager for screen events
-     * @return ScreenEventManager The manager
+     * @return DeviceProperty The manager
      */
     public function getDeviceProperty() {
         if ($this->deviceProp == null) {

@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.3.0
+ * @version 1.3.1
  */
 class General {
     /**
@@ -95,7 +95,7 @@ class General {
      * @return type
      */
     public static function isValidDeviceId($device) {
-        return !empty($device) && preg_match('/^[a-f0-9]{32}$/', $device);
+        return !empty($device) && preg_match('/^[a-fA-F0-9]{32}$/', $device);
     }
 
     /**
