@@ -13,10 +13,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">25. April 2012</div>
+    <div id="page-head-date">27. April 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">InfoApp Spezifikation - Webservices</div>
-    <div id="page-version">Version 4.5</div>
+    <div id="page-version">Version 4.6</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,11 @@
     <div id="content">
     
       <h1 id="versions">Versionshistorie</h1>
+      
+      <h3>Version 4.6</h3>
+      <ul>
+        <li>Schnittstelle des Webservices "update_connection.php" überarbeitet</li>
+      </ul>
       
       <h3>Version 4.5</h3>
       <ul>
@@ -340,8 +345,8 @@
           <td>
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
-              <li><code>medium</code> - String: Medium, über das die Kommunikation stattfand. Mögliche Werte: wifi, bluetooth</li>
-              <li><code>count</code> - Integer: Anzahl</li>
+              <li><code>wifi</code> - Integer: Anzahl der WLan-Verbindungen</li>
+              <li><code>bluetooth</code> - Integer: Anzahl der gepaarten Bluetooth-Geräte</li>
             </ul>
           </td>
         </tr>      
@@ -361,7 +366,7 @@
         </tr>           
         <tr>  
           <th class="left">Status</th>
-          <td>Nicht implementiert</td>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
         </tr>
       </table>
       
@@ -536,7 +541,7 @@
         </tr>           
         <tr>  
           <th class="left">Status</th>
-          <td>Nicht implementiert</td>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
         </tr>
       </table>
       
@@ -719,7 +724,7 @@
         </tr>           
         <tr>  
           <th class="left">Status</th>
-          <td>Nicht implementiert</td>
+          <td>Implementiert, aber ungetestet und nicht hochgeladen</td>
         </tr>
       </table>
       

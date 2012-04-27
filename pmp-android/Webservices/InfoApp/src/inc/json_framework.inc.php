@@ -55,8 +55,10 @@ require ("./../inc/class/events/cellularconnectionevent.class.php");
 require ("./../inc/class/events/connectionevent.class.php");
 require ("./../inc/class/events/screenevent.class.php");
 
-require ("./../inc/class/properties/property.class.php");
-require ("./../inc/class/properties/deviceproperty.class.php");
+require ("./../inc/class/properties/properties.class.php");
+require ("./../inc/class/properties/batteryproperties.class.php");
+require ("./../inc/class/properties/connectionproperties.class.php");
+require ("./../inc/class/properties/deviceproperties.class.php");
 
 // Connect to database
 try {

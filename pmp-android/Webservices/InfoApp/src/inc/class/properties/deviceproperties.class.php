@@ -25,11 +25,11 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Stores information about a device and allow to update or insert a new information set
+ * Stores information about a device and allows to update or insert a new device information set
  * @author Patrick Strobel
  * @version 1.0.1
  */
-class DeviceProperty extends Property {
+class DeviceProperties extends Properties {
 
     /** @var String */
     private $manufacturer = "unknown";
@@ -73,10 +73,6 @@ class DeviceProperty extends Property {
     /** @var float */
     private $runtime = 0.0;
 
-    protected function __construct($deviceId) {
-        parent::__construct($deviceId);
-    }
-
     /**
      * Load the data for a given device from the db and returns a instance of
      * this class storing this information<br />
@@ -84,10 +80,10 @@ class DeviceProperty extends Property {
      * no type or value check for the argument. Use {@see Device} to get an instance
      * instead.
      * @param String $deviceId The device's MD5-Hash this EventManager will be bound to
-     * @return DeviceProperty   Instance of this class storing the loaded information
+     * @return DeviceProperties   Instance of this class storing the loaded information
      */
     public static function load($deviceId) {
-        $instance = new DeviceProperty($deviceId);
+        $instance = new DeviceProperties($deviceId);
 
         $db = Database::getInstance();
 
@@ -113,6 +109,87 @@ class DeviceProperty extends Property {
         }
 
         return $instance;
+    }
+
+    public function writeBack() {
+        $db = Database::getInstance();
+
+        // Build sensors string
+        $sensorString = "";
+        $first = true;
+
+        foreach ($this->sensors as $sensor) {
+            if ($first) {
+                $first = false;
+            } else {
+                $sensorString .= ",";
+            }
+            $sensorString .= $sensor;
+        }
+
+        // getAffectedRows() may also return 0 if the entry already exists but
+        // the user wants to save the same data again. So we have to do
+        // a query first to distinguish between "UPDATE" or "INSERT"
+        $row = $db->fetch($db->query("SELECT * FROM `" . DB_PREFIX . "_device_prop`
+                                      WHERE device = x'" . $this->deviceId . "'"));
+        if (isset($row["device"])) {
+            // Update the entry if it exists
+            $db->query("UPDATE `" . DB_PREFIX . "_device_prop`
+                    SET
+                        `manufacturer`          = \"" . $this->manufacturer . "\",
+                        `api`                   = " . $this->api . ",
+                        `kernel`                = \"" . $this->kernel . "\",
+                        `model`                 = \"" . $this->model . "\",
+                        `ui`                    = \"" . $this->ui . "\",
+                        `display_x`             = " . $this->display["x"] . ",
+                        `display_y`             = " . $this->display["y"] . ",
+                        `cpu`                   = " . $this->cpu . ",
+                        `memory_internal`       = " . $this->memoryInt . ",
+                        `memory_internal_free`  = " . $this->memoryIntFree . ",
+                        `memory_external`       = " . $this->memoryExt . ",
+                        `memory_external_free`  = " . $this->memoryExtFree . ",
+                        `camera`                = " . $this->camera . ",
+                        `sensors`               = \"" . $sensorString . "\",
+                        `runtime`               = " . $this->runtime . "
+                    WHERE `device` = x'" . $this->deviceId . "'");
+        } else {
+            // If no entry has been updated, we have to create one
+            $db->query("INSERT INTO `" . DB_PREFIX . "_device_prop` (
+                            `device`,
+                            `manufacturer`,
+                            `api`,
+                            `kernel`,
+                            `model`,
+                            `ui`,
+                            `display_x`,
+                            `display_y`,
+                            `cpu`,
+                            `memory_internal`,
+                            `memory_internal_free`,
+                            `memory_external`,
+                            `memory_external_free`,
+                            `camera`,
+                            `sensors`,
+                            `runtime`
+                        ) VALUES (
+                            x'" . $this->deviceId . "',
+                            \"" . $this->manufacturer . "\",
+                            " . $this->api . ",
+                            \"" . $this->kernel . "\",
+                            \"" . $this->model . "\",
+                            \"" . $this->ui . "\",
+                            " . $this->display["x"] . ",
+                            " . $this->display["y"] . ",
+                            " . $this->cpu . ",
+                            " . $this->memoryInt . ",
+                            " . $this->memoryIntFree . ",
+                            " . $this->memoryExt . ",
+                            " . $this->memoryExtFree . ",
+                            " . $this->camera . ",
+                            \"" . $sensorString . "\",
+                            " . $this->runtime . "
+                        )");
+        }
     }
 
     /**
@@ -153,7 +230,7 @@ class DeviceProperty extends Property {
      */
     public function setApiLevel($level) {
         if (!is_int($level) || $level <= 0 || $level > 99) {
-            throw new InvalidArgumentException("\"level\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"level\" is no integer or its value is invalid");
         }
         $this->api = $level;
     }
@@ -243,10 +320,10 @@ class DeviceProperty extends Property {
      */
     public function setDisplayResolution($x, $y) {
         if (!is_int($x) || $x < 0 || $x > 30000) {
-            throw new InvalidArgumentException("\"displayx\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"displayx\" is no integer or its value is invalid");
         }
         if (!is_int($y) || $y < 0 || $y > 30000) {
-            throw new InvalidArgumentException("\"displayy\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"displayy\" is no integer or its value is invalid");
         }
 
         $this->display["x"] = $x;
@@ -268,7 +345,7 @@ class DeviceProperty extends Property {
      */
     public function setCpuFrequency($freq) {
         if (!is_int($freq) || $freq < 0 || $freq > 30000) {
-            throw new InvalidArgumentException("\"cpufrequency\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"cpufrequency\" is no integer or its value is invalid");
         }
 
         $this->cpu = $freq;
@@ -289,7 +366,7 @@ class DeviceProperty extends Property {
      */
     public function setInternalMemory($memory) {
         if (!is_int($memory) || $memory < 0 || $memory > 30000) {
-            throw new InvalidArgumentException("\"interalmemory\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"interalmemory\" is no integer or its value is invalid");
         }
 
         $this->memoryInt = $memory;
@@ -310,7 +387,7 @@ class DeviceProperty extends Property {
      */
     public function setInternalMemoryFree($memory) {
         if (!is_int($memory) || $memory < 0 || $memory > 30000) {
-            throw new InvalidArgumentException("\"freeinternalmemory\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"freeinternalmemory\" is no integer or its value is invalid");
         }
 
         $this->memoryIntFree = $memory;
@@ -331,7 +408,7 @@ class DeviceProperty extends Property {
      */
     public function setExternalMemory($memory) {
         if (!is_int($memory) || $memory < 0 || $memory > 30000) {
-            throw new InvalidArgumentException("\"externalmemory\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"externalmemory\" is no integer or its value is invalid");
         }
 
         $this->memoryExt = $memory;
@@ -352,7 +429,7 @@ class DeviceProperty extends Property {
      */
     public function setExternalMemoryFree($memory) {
         if (!is_int($memory) || $memory < 0 || $memory > 30000) {
-            throw new InvalidArgumentException("\"freeexternalmemory\" is no integer or it's value is invalid");
+            throw new InvalidArgumentException("\"freeexternalmemory\" is no integer or its value is invalid");
         }
 
         $this->memoryExtFree = $memory;
@@ -373,7 +450,7 @@ class DeviceProperty extends Property {
      */
     public function setCameraResolution($res) {
         if (!is_float($res) || $res < 0 || $res >= 100) {
-            throw new InvalidArgumentException("\"resolution\" is no float or it's value is invalid");
+            throw new InvalidArgumentException("\"resolution\" is no float or its value is invalid");
         }
 
         $this->camera = $res;
@@ -416,91 +493,10 @@ class DeviceProperty extends Property {
 
     public function setRuntime($time) {
         if (!is_float($time) || $time < 0 || $time >= 100000000) {
-            throw new InvalidArgumentException("\"runtime\" is no float or it's value is invalid");
+            throw new InvalidArgumentException("\"runtime\" is no float or its value is invalid");
         }
 
         $this->runtime = $time;
-    }
-
-    public function writeBack() {
-        $db = Database::getInstance();
-
-        // Build sensors string
-        $sensorString = "";
-        $first = true;
-
-        foreach ($this->sensors as $sensor) {
-            if ($first) {
-                $first = false;
-            } else {
-                $sensorString .= ",";
-            }
-            $sensorString .= $sensor;
-        }
-
-        // getAffectedRows() may also return 0 if the entry already exists but
-        // the user wants to save the same data again. So we have to do
-        // a query first to distinguish between "UPDATE" or "INSERT"
-        $row = $db->fetch($db->query("SELECT * FROM `" . DB_PREFIX . "_device_prop`
-                                      WHERE device = x'" . $this->deviceId . "'"));
-        if (isset($row["device"])) {
-            // Update the entry if it exists
-            $db->query("UPDATE `" . DB_PREFIX . "_device_prop`
-                    SET
-                        `manufacturer`          = \"" . $this->manufacturer . "\",
-                        `api`                   = " . $this->api . ",
-                        `kernel`                = \"" . $this->kernel . "\",
-                        `model`                 = \"" . $this->model . "\",
-                        `ui`                    = \"" . $this->ui . "\",
-                        `display_x`             = " . $this->display["x"] . ",
-                        `display_y`             = " . $this->display["y"] . ",
-                        `cpu`                   = " . $this->cpu . ",
-                        `memory_internal`       = " . $this->memoryInt . ",
-                        `memory_internal_free`  = " . $this->memoryIntFree . ",
-                        `memory_external`       = " . $this->memoryExt . ",
-                        `memory_external_free`  = " . $this->memoryExtFree . ",
-                        `camera`                = " . $this->camera . ",
-                        `sensors`               = \"" . $sensorString . "\",
-                        `runtime`               = " . $this->runtime . "
-                    WHERE `device` = x'" . $this->deviceId . "'");
-        } else {
-            // If no entry has been updated, we have to create one
-            $db->query("INSERT INTO `" . DB_PREFIX . "_device_prop` (
-                            `device`,
-                            `manufacturer`,
-                            `api`,
-                            `kernel`,
-                            `model`,
-                            `ui`,
-                            `display_x`,
-                            `display_y`,
-                            `cpu`,
-                            `memory_internal`,
-                            `memory_internal_free`,
-                            `memory_external`,
-                            `memory_external_free`,
-                            `camera`,
-                            `sensors`,
-                            `runtime`
-                        ) VALUES (
-                            x'" . $this->deviceId . "',
-                            \"" . $this->manufacturer . "\",
-                            " . $this->api . ",
-                            \"" . $this->kernel . "\",
-                            \"" . $this->model . "\",
-                            \"" . $this->ui . "\",
-                            " . $this->display["x"] . ",
-                            " . $this->display["y"] . ",
-                            " . $this->cpu . ",
-                            " . $this->memoryInt . ",
-                            " . $this->memoryIntFree . ",
-                            " . $this->memoryExt . ",
-                            " . $this->memoryExtFree . ",
-                            " . $this->camera . ",
-                            \"" . $sensorString . "\",
-                            " . $this->runtime . "
-                        )");
-        }
     }
 }
 ?>

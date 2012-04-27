@@ -39,6 +39,8 @@ class Device {
     private $connectionMgr = null;
     private $screenMgr = null;
 
+    private $batteryProp = null;
+    private $connectionProp = null;
     private $deviceProp = null;
 
     private function __construct($deviceId) {
@@ -125,12 +127,34 @@ class Device {
     }
 
     /**
-     * Gets the manager for screen events
-     * @return DeviceProperty The manager
+     * Gets the connection property manager
+     * @return BatteryProperties The manager
      */
-    public function getDeviceProperty() {
+    public function getBatteryProperties() {
+        if ($this->batteryProp == null) {
+            $this->batteryProp = BatteryProperties::load($this->deviceId);
+        }
+        return $this->batteryProp;
+    }
+
+    /**
+     * Gets the connection property manager
+     * @return ConnectionProperties The manager
+     */
+    public function getConnectionProperties() {
+        if ($this->connectionProp == null) {
+            $this->connectionProp = ConnectionProperties::load($this->deviceId);
+        }
+        return $this->connectionProp;
+    }
+
+    /**
+     * Gets the device property manager
+     * @return DeviceProperties The manager
+     */
+    public function getDeviceProperties() {
         if ($this->deviceProp == null) {
-            $this->deviceProp = DeviceProperty::load($this->deviceId);
+            $this->deviceProp = DeviceProperties::load($this->deviceId);
         }
         return $this->deviceProp;
     }

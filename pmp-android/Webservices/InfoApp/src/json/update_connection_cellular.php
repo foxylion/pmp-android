@@ -25,28 +25,10 @@ require("./../inc/json_framework.inc.php");
 
 try {
     $device = Device::getInstance($_POST["device"]);
-    $prop = $device->getDeviceProperties();
+    $prop = $device->getConnectionProperties();
 
-    $prop->setManufacturer($_POST["manufacturer"]);
-    $prop->setApiLevel((int) $_POST["apiLevel"]);
-    $prop->setKernelVersion($_POST["kernel"]);
-    $prop->setModel($_POST["model"]);
-    $prop->setUi($_POST["ui"]);
-    $prop->setDisplayResolution((int) $_POST["displayResX"], (int) $_POST["displayResY"]);
-    $prop->setCpuFrequency((int) $_POST["cpuFrequency"]);
-    $prop->setInternalMemory((int) $_POST["memoryInternal"]);
-    $prop->setInternalMemoryFree((int) $_POST["memoryInternalFree"]);
-    $prop->setExternalMemory((int) $_POST["memoryExternal"]);
-    $prop->setExternalMemoryFree((int) $_POST["memoryExternalFree"]);
-    $prop->setCameraResolution((float) $_POST["cameraResolution"]);
-
-    $sensors = explode(",", $_POST["sensors"]);
-    foreach ($sensors as $index => $sensor) {
-        $sensors[$index] = trim($sensor);
-    }
-    $prop->setSensors($sensors);
-
-    $prop->setRuntime((float) $_POST["runtime"]);
+    $prop->setProvider($_POST["provider"]);
+    $prop->setSignalStrength((int) $_POST["signal"]);
 
     $prop->writeBack();
 

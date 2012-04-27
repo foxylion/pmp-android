@@ -32,7 +32,7 @@ if (!defined("INCLUDE")) {
  * @author Patrick Strobel
  * @version 1.0.0
  */
-abstract class Property {
+abstract class Properties {
 
     /**
      * MD5-Hash used to identify the device
@@ -47,6 +47,17 @@ abstract class Property {
     protected function __construct($deviceId) {
         $this->deviceId = $deviceId;
     }
+
+    /**
+     * Load the data from the db and returns a instance of
+     * a sub class of {@see Property} storing this information<br />
+     * <b>Warning:</b> This method should not be used as there is
+     * no type or value check for the argument. Use {@see Device} to get an instance
+     * instead.
+     * @param String $deviceId The device's MD5-Hash this EventManager will be bound to
+     * @return Properties   Instance of this class storing the loaded information
+     */
+    public abstract static function load($deviceId);
 
     /**
      * Writes the data back into the corresponding db-table.
