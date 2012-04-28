@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * A connection event stores information about the state of the connection
  * at a given timestamp
@@ -104,4 +107,24 @@ public class ConnectionEvent extends Event {
         return this.city;
     }
     
+    
+    @Override
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = super.toJSONObject();
+        
+        switch (this.medium) {
+            case BLUETOOTH:
+                json.put("medium", "b");
+                break;
+            
+            case WIFI:
+                json.put("medium", "w");
+                break;
+        }
+        
+        json.put("connected", this.connected);
+        json.put("enabled", this.enabled);
+        json.put("city", this.city);
+        return json;
+    }
 }
