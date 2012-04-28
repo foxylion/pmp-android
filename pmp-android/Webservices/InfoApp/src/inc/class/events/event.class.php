@@ -58,7 +58,7 @@ abstract class Event {
     }
 
     /**
-     * Returns the time this event occured
+     * Returns the time this event occurred
      * @return long  Timestamp in ms accuracy
      */
     public function getTimestamp() {
