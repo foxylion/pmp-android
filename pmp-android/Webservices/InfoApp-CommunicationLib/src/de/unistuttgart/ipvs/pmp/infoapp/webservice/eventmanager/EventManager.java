@@ -2,6 +2,9 @@ package de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager;
 
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
@@ -36,5 +39,15 @@ public abstract class EventManager {
      * @return The last event's ID
      */
     public abstract int getLastId() throws IOException;
+    
+    
+    protected int getLastId(String service) throws IOException {
+        try {
+            JSONObject json = this.service.requestGetService(service);
+            return json.getInt("last_id");
+        } catch (JSONException e) {
+            throw new IOException("Server returned no valid JSON object");
+        }
+    }
     
 }

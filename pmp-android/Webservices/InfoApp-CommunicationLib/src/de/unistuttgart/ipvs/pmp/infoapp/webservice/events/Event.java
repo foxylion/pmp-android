@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Abstract base class for all events that might be sent to a webservices.
  * 
@@ -55,4 +58,11 @@ public abstract class Event {
         return this.timestamp;
     }
     
+    
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("id", this.id);
+        json.put("timestamp", this.timestamp);
+        return json;
+    }
 }

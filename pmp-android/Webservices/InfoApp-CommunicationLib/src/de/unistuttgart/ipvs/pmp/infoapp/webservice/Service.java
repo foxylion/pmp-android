@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,12 +37,28 @@ public class Service {
     
     
     /**
-     * Requests a webservice using HTTP-GET
+     * Requests a webservice using HTTP-GET. The device ID is automatically added to the parameter list
+     * 
+     * @param service
+     *            The scripts name (filename, e. g. upload_connection_events.php)
+     * @return Result returned by the service
+     * @throws IOException
+     *             Thrown, if communication with server failed
+     * @throws JSONException
+     *             Thrown, if no JSON-string was returned by the server
+     */
+    public JSONObject requestGetService(String service) throws IOException, JSONException {
+        return requestGetService(service, new BasicHttpParams());
+    }
+    
+    
+    /**
+     * Requests a webservice using HTTP-GET. The device ID is automatically added to the parameter list
      * 
      * @param service
      *            The scripts name (filename, e. g. upload_connection_events.php)
      * @param params
-     *            Get parameters that should be sent to the service
+     *            Additional GET parameters that should be sent to the service
      * @return Result returned by the service
      * @throws IOException
      *             Thrown, if communication with server failed
@@ -50,6 +67,7 @@ public class Service {
      */
     public JSONObject requestGetService(String service, HttpParams params) throws IOException, JSONException {
         HttpGet httpGet = new HttpGet(url + "/" + service);
+        params.setParameter("device", this.deviceId);
         httpGet.setParams(params);
         
         HttpClient client = new DefaultHttpClient();
