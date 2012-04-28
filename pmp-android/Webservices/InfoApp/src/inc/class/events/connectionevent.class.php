@@ -104,7 +104,7 @@ class ConnectionEvent extends Event {
     }
 
     /**
-     * Meidum that has been used for communication
+     * Medium that has been used for communication
      * @return char Equivalent to one of the given constants (BLUETOOTH or WIFI)
      */
     public function getMedium() {

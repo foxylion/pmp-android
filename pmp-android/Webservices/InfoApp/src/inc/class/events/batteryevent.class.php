@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp-Webservice
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,17 +33,17 @@ if (!defined("INCLUDE")) {
  */
 
 class BatteryEvent extends Event {
-    
+
     const AC_ADAPTER = "a";
     const USB_ADAPTER = "u";
     const ADAPTER_NOT_PLUGGED = "n";
-    
+
     const CHARGING = "c";
     const DISCHARGING = "d";
     const FULL = "f";
     const NOT_CHARGING = "n";
     const UNKNOWN = "u";
-    
+
     /** @var int */
     private $level;
     /** @var char */
@@ -54,33 +54,33 @@ class BatteryEvent extends Event {
     private $status;
     /** @var float */
     private $temperature;
-    
+
     /**
      * Creates a new battery event
      * @param int $id           The event's ID
-     * @param long $timestamp   Point in time when this event occured
+     * @param long $timestamp   Point in time when this event occurred
      * @param int $level        The battery's level
      * @param char $plugged     "a" if AC-adapter or "u" if USB-adapter is plugged, otherwise "n"
      * @param boolean $present  True, if the battery is installed in the device
      * @param char $status      Charging status (c, d, f, n or u)
-     * @param float $temperature    The battery'S temperature 
+     * @param float $temperature    The battery's temperature
      */
     public function __construct($id, $timestamp, $level, $plugged, $present, $status, $temperature) {
-        
+
         parent::__construct($id, $timestamp);
-        
+
         if (!General::isPercentageInt($level)) {
             throw new InvalidArgumentException("\"level\" is no integer or has no percentage value");
         }
-        if (!is_string($plugged) || 
-                $plugged != BatteryEvent::AC_ADAPTER && $plugged != BatteryEvent::USB_ADAPTER && 
+        if (!is_string($plugged) ||
+                $plugged != BatteryEvent::AC_ADAPTER && $plugged != BatteryEvent::USB_ADAPTER &&
                 $plugged != BatteryEvent::ADAPTER_NOT_PLUGGED) {
             throw new InvalidArgumentException("\"plugged\" is not a valid character");
         }
         if (!is_bool($present)) {
             throw new InvalidArgumentException("\"present\" is no boolean");
         }
-        if (!is_string($status) || 
+        if (!is_string($status) ||
                 $status != BatteryEvent::CHARGING && $status != BatteryEvent::DISCHARGING &&
                 $status != BatteryEvent::FULL && $status != BatteryEvent::NOT_CHARGING &&
                 $status != BatteryEvent::UNKNOWN) {
@@ -89,25 +89,25 @@ class BatteryEvent extends Event {
         if (!(is_float($temperature) || is_int($temperature)) || $temperature < -100 || $temperature > 100) {
             throw new InvalidArgumentException("\"temperature\" is no floating point value or out of range");
         }
-        
+
         $this->level = $level;
         $this->plugged = $plugged;
         $this->present = $present;
         $this->status = $status;
         $this->temperature = $temperature;
     }
-    
+
     /**
      * Gets the battery's level
-     * @return int  Level in percent 
+     * @return int  Level in percent
      */
     public function getLevel() {
         return $this->level;
     }
-    
+
     /**
      * Gets the ac-adapter status.
-     * @return char Adapter status 
+     * @return char Adapter status
      * @see BatteryEvent::AC_ADAPTER
      * @see BatteryEvent::ADAPTER_NOT_PLUGGED
      * @see BatteryEvent::USB_ADAPTER
@@ -115,18 +115,18 @@ class BatteryEvent extends Event {
     public function getPlugged() {
         return $this->plugged;
     }
-    
+
     /**
-     * Returns if the battery is installed
-     * @return boolean  True, if the battery is installed in the device 
+     * Gets the installation status of the battery
+     * @return boolean  True, if the battery is installed in the device
      */
     public function isPresent() {
         return $this->present;
     }
-    
+
     /**
      * Gets the charging status
-     * @return char Charging statis 
+     * @return char Charging status
      * @see BatteryEvent::CHARGING
      * @see BatteryEvent::DISCHARGING
      * @see BatteryEvent::FULL
@@ -136,10 +136,10 @@ class BatteryEvent extends Event {
     public function getStatus() {
         return $this->status;
     }
-    
+
     /**
-     * RGets the battery's temperature
-     * @return float    Temperature 
+     * Gets the battery's temperature
+     * @return float    Temperature
      */
     public function getTemperature() {
         return $this->temperature;

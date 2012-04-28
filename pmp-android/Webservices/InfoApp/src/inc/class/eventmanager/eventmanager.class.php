@@ -105,7 +105,7 @@ abstract class EventManager {
     }
 
     /**
-     * Get the ID of the event that has been added to the db the last time
+     * Gets the ID of the event that has been added to the db the last time
      * @return The last ID
      */
     public abstract function getLastId();
