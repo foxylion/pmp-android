@@ -2,6 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Programme/Android/android-sdk/platforms/android-7/android.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/httpclient-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/httpclient-cache-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/httpcore-4.1.4.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/httpmime-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/InfoApp-Filler/lib/orgjson.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

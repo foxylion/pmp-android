@@ -1,15 +1,36 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: InfoApp-CommunicationLib
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager;
 
 import java.io.IOException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
+/**
+ * Gives access to bluetooth or WiFi events
+ * 
+ * @author Patrick Strobel
+ * 
+ */
 public class ConnectionEventManager extends EventManager {
     
     public ConnectionEventManager(Service service) {
@@ -18,33 +39,14 @@ public class ConnectionEventManager extends EventManager {
     
     
     @Override
-    public void commitEvents(Event[] events) throws IOException {
-        if (!(events instanceof ConnectionEvent[])) {
-            throw new IllegalArgumentException("Event array has to be of type \"ConnectionEvent[]\"");
-        }
-        
-        JSONObject data = new JSONObject();
-        
-        JSONArray jsonEvents = new JSONArray();
-        try {
-            for (Event event : events) {
-                
-                jsonEvents.put(event.toJSONObject());
-                
-            }
-            data.put("events", jsonEvents);
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // TODO Auto-generated method stub
-        
+    public void commitEvents(List<? extends Event> events) throws IOException {
+        commitEvents(events, "upload_connection_events.php");
     }
     
     
     @Override
     public int getLastId() throws IOException {
-        return getLastId("last_id");
+        return getLastId("last_connection_event.php");
     }
     
 }

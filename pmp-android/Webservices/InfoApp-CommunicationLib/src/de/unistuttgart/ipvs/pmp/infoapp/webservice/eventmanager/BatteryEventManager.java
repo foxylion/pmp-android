@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp-CommunicationLib
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,16 +17,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions;
+package de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager;
 
 import java.io.IOException;
+import java.util.List;
 
-public class InvalidParameterException extends IOException {
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
+
+/**
+ * Gives access to battery events
+ * 
+ * @author Patrick Strobel
+ */
+public class BatteryEventManager extends EventManager {
     
-    private static final long serialVersionUID = -2092222093133784651L;
-    
-    
-    public InvalidParameterException(String s) {
-        super(s);
+    public BatteryEventManager(Service service) {
+        super(service);
     }
+    
+    
+    @Override
+    public void commitEvents(List<? extends Event> events) throws IOException {
+        commitEvents(events, "upload_battery_events.php");
+    }
+    
+    
+    @Override
+    public int getLastId() throws IOException {
+        return getLastId("last_battery_event.php");
+    }
+    
 }

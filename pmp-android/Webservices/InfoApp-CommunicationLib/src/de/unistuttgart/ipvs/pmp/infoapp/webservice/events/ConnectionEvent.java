@@ -114,17 +114,17 @@ public class ConnectionEvent extends Event {
         
         switch (this.medium) {
             case BLUETOOTH:
-                json.put("medium", 'b');
+                json.put("medium", "b");
                 break;
             
             case WIFI:
-                json.put("medium", 'w');
+                json.put("medium", "w");
                 break;
         }
         
         json.put("connected", this.connected);
         json.put("enabled", this.enabled);
         json.put("city", this.city);
-        return null;
+        return json;
     }
 }
