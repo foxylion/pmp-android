@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.IInterface;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -19,6 +20,7 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
     protected static IAbsoluteLocation rgLocation;
     protected static IvHikeWebservice rgvHike;
     protected static INotification rgNotification;
+    protected static IContact rgContact;
     
     
     /**
@@ -42,6 +44,9 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
                 rgvHike = (IvHikeWebservice) resourceGroup;
+                break;
+            case Constants.RG_CONTACT:
+                rgContact = (IContact) resourceGroup;
                 break;
         }
     }
@@ -80,6 +85,11 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
                             resourceGroupId);
                 }
                 return rgvHike;
+            case Constants.RG_CONTACT:
+                if (rgContact == null) {
+                    rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, resourceGroupId);
+                }
+                return rgContact;
         }
         return null;
     }
@@ -142,6 +152,14 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
                     Constants.RG_VHIKE_WEBSERVICE);
         }
         return rgvHike;
+    }
+    
+    
+    protected IContact getContact(ResourceGroupReadyActivity activity) {
+        if (rgContact == null) {
+            rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
+        }
+        return rgContact;
     }
     
     

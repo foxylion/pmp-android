@@ -28,6 +28,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
@@ -51,11 +52,17 @@ public class ViewModel {
     private boolean locationIsCanceled = false;
     private boolean queryIsCanceled = false;
     private IvHikeWebservice ws;
+    private IContact iContact;
     
     
     public void setvHikeWSRGandCreateController(IvHikeWebservice ws) {
         this.ws = ws;
         ctrl = new Controller(ws);
+    }
+    
+    
+    public void setContactRG(IContact iContact) {
+        this.iContact = iContact;
     }
     
     
@@ -448,9 +455,11 @@ public class ViewModel {
         return this.destinationPassenger;
     }
     
+    
     public void clearDestinations() {
         spinnersDest.clear();
     }
+    
     
     /**
      * set number of seats available/needed depending on users wishes
@@ -669,8 +678,14 @@ public class ViewModel {
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws);
-            OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()), passenger.getUsername());
+
+            if (iContact == null) {
+                Log.i(this, "Contact null");
+            }
+            
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact);
+            OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
+                    passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);
             
             // add found passenger to overlay
@@ -697,7 +712,7 @@ public class ViewModel {
                 Log.i(this, "Context null");
             }
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);
