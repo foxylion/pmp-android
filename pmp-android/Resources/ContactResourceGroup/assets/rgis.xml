@@ -5,7 +5,7 @@
 		icon="res/drawable-hdpi/contact_icon.png" 
 		className="ContactResourceGroup">
 		<name lang="en">contact</name>
-		<description lang="en">Obtains access to the contact bar.</description>
+		<description lang="en">Allows communication through phone dialer, sms or email.</description>
 	</resourceGroupInformation>
 	<privacySettings>
 		<privacySetting identifier="openDialer" validValueDescription="'true', 'false'">
