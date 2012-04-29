@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp-CommunicationLib
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,13 @@ package de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions;
 
 import java.io.IOException;
 
+/**
+ * This exception will be thrown whenever a server request failed (JSON-result contains '"successful" : false'}
+ * with a "invalid_event_order". See webservice specification for details. A copy of the message returned my the server
+ * (JSON-result field 'msg') is stored in the exceptions message.
+ * 
+ * @author Patrick Strobel
+ */
 public class InvalidEventOrderException extends IOException {
     
     private static final long serialVersionUID = -2092222093133784651L;
