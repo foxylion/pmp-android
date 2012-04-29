@@ -17,24 +17,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions;
-
-import java.io.IOException;
+package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
 /**
- * This exception will be thrown whenever a server request failed (JSON-result contains '"successful" : false'}
- * with a "internal_database_error". See webservice specification for details. A copy of the message returned my the
- * server
- * (JSON-result field 'msg') is stored in the exceptions message.
+ * An awake event stores information about the state of the device
+ * at a given timestamp
  * 
  * @author Patrick Strobel
  */
-public class InternalDatabaseException extends IOException {
+public class AwakeEvent extends Event {
     
-    private static final long serialVersionUID = -2092222093133784651L;
+    private boolean awake;
     
     
-    public InternalDatabaseException(String s) {
-        super(s);
+    /**
+     * Creates a new awake event
+     * 
+     * @param id
+     *            The event's ID
+     * @param timestamp
+     *            Point in time when this event occurred
+     * @param awake
+     *            Indicates if the device is active (true) or in standby (false)
+     */
+    public AwakeEvent(int id, long timestamp, boolean awake) {
+        super(id, timestamp);
+        this.awake = awake;
     }
+    
+    
+    /**
+     * Gets the device's awake status
+     * 
+     * @return True, if device is active
+     */
+    public boolean isAwake() {
+        return this.awake;
+    }
+    
 }

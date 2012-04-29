@@ -15,11 +15,12 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// Setup service url and device ID
-		Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208d3");
+		//Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208d3");
+		Service s = new Service(Service.DEFAUL_URL, "b7c2e4787e7f950c89909795907208d3");
 		
 		// Create some events and...
-		ConnectionEvent e1 = new ConnectionEvent(2, 123, ConnectionEvent.Mediums.BLUETOOTH, true, true, "Stuttgart");
-		ConnectionEvent e2 = new ConnectionEvent(1, 1337, ConnectionEvent.Mediums.WIFI, false, false, "Stuttgart");
+		ConnectionEvent e1 = new ConnectionEvent(1, 123, ConnectionEvent.Mediums.BLUETOOTH, true, true, "Stuttgart");
+		ConnectionEvent e2 = new ConnectionEvent(2, 1337, ConnectionEvent.Mediums.WIFI, false, false, "Stuttgart");
 		
 		// ...bind them to a list
 		List<ConnectionEvent> events = new ArrayList<ConnectionEvent>();

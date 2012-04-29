@@ -17,24 +17,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions;
+package de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager;
 
 import java.io.IOException;
+import java.util.List;
+
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
 /**
- * This exception will be thrown whenever a server request failed (JSON-result contains '"successful" : false'}
- * with a "internal_database_error". See webservice specification for details. A copy of the message returned my the
- * server
- * (JSON-result field 'msg') is stored in the exceptions message.
+ * Gives access to awake events
  * 
  * @author Patrick Strobel
  */
-public class InternalDatabaseException extends IOException {
+public class AwakeEventManager extends EventManager {
     
-    private static final long serialVersionUID = -2092222093133784651L;
-    
-    
-    public InternalDatabaseException(String s) {
-        super(s);
+    public AwakeEventManager(Service service) {
+        super(service);
     }
+    
+    
+    @Override
+    public void commitEvents(List<? extends Event> events) throws IOException {
+        commitEvents(events, "upload_awake_events.php");
+    }
+    
+    
+    @Override
+    public int getLastId() throws IOException {
+        return getLastId("last_awake_event.php");
+    }
+    
 }

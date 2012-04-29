@@ -17,24 +17,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions;
+package de.unistuttgart.ipvs.pmp.infoapp.webservice.properties;
 
 import java.io.IOException;
 
-/**
- * This exception will be thrown whenever a server request failed (JSON-result contains '"successful" : false'}
- * with a "internal_database_error". See webservice specification for details. A copy of the message returned my the
- * server
- * (JSON-result field 'msg') is stored in the exceptions message.
- * 
- * @author Patrick Strobel
- */
-public class InternalDatabaseException extends IOException {
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
+
+public abstract class Properties {
     
-    private static final long serialVersionUID = -2092222093133784651L;
+    protected Service service;
     
     
-    public InternalDatabaseException(String s) {
-        super(s);
+    public Properties(Service service) {
+        this.service = service;
     }
+    
+    
+    public abstract void commit() throws IOException;
+    
 }
