@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation 
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.contact"
+		icon="res/drawable-hdpi/contact_icon.png" 
+		className="ContactResourceGroup">
+		<name lang="en">contact</name>
+		<description lang="en">Obtains access to the contact bar.</description>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="openDialer" validValueDescription="'true', 'false'">
+			<name lang="en">Dialer</name>
+			<description lang="en">Allows calling through dialer</description>
+			<changeDescription lang="en">Allows opening dialer</changeDescription>
+		</privacySetting>
+		<privacySetting identifier="sendSMS" validValueDescription="'true', 'false'">
+			<name lang="en">SMS</name>
+			<description lang="en">Allows sending text messages</description>
+			<changeDescription lang="en">Allows sending text messages</changeDescription>
+		</privacySetting>
+		<privacySetting identifier="sendEmail" validValueDescription="'true', 'false'">
+			<name lang="en">Email</name>
+			<description lang="en">Allows sending an email</description>
+			<changeDescription lang="en">Allows sending an email</changeDescription>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>

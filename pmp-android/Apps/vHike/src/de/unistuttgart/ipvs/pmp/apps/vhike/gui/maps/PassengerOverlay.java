@@ -13,6 +13,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
@@ -28,6 +29,7 @@ public class PassengerOverlay extends ItemizedOverlay {
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
     private MapView mapView;
     private IvHikeWebservice ivhs;
+    private IContact iContact;
     
     /**
      * set passenger icon through drawable and context for onTap method
@@ -35,11 +37,12 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param defaultMarker
      * @param context
      */
-    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IvHikeWebservice ivhs) {
+    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IvHikeWebservice ivhs, IContact iContact) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
         this.mapView = mapView;
         this.ivhs = ivhs;
+        this.iContact = iContact;
     }
     
     
@@ -63,7 +66,7 @@ public class PassengerOverlay extends ItemizedOverlay {
         Controller ctrl = new Controller(ivhs);
         Profile user = ctrl.getProfile(Model.getInstance().getSid(), id);
 //        int lat = user.
-        vhikeDialogs.getInstance().getContactDialog(mContext, mapView, item.getSnippet()).show();
+        vhikeDialogs.getInstance().getContactDialog(mContext, mapView, item.getSnippet(), iContact).show();
         return true;
     }
     

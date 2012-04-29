@@ -20,6 +20,7 @@ import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
@@ -244,8 +245,8 @@ public class vhikeDialogs extends Activity {
         return confirm;
     }
     
-    public ContactDialog getContactDialog(Context context, MapView mapView, String userName) {
-        contactDialog = new ContactDialog(context, mapView, userName);
+    public ContactDialog getContactDialog(Context context, MapView mapView, String userName, IContact iContact) {
+        contactDialog = new ContactDialog(context, mapView, userName, iContact);
         return contactDialog;
     }
 }

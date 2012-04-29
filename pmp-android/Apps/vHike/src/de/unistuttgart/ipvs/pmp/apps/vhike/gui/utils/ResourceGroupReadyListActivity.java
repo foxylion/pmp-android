@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.os.IInterface;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -19,6 +20,7 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
     protected static IAbsoluteLocation rgLocation;
     protected static IvHikeWebservice rgvHike;
     protected static INotification rgNotification;
+    protected static IContact rgContact;
     
     
     /**
@@ -42,6 +44,9 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
                 rgvHike = (IvHikeWebservice) resourceGroup;
+                break;
+            case Constants.RG_CONTACT:
+                rgContact = (IContact) resourceGroup;
                 break;
         }
     }
@@ -80,6 +85,11 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
                             resourceGroupId);
                 }
                 return rgvHike;
+            case Constants.RG_CONTACT:
+                if (rgContact == null) {
+                    rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, resourceGroupId);
+                }
+                return rgContact;
         }
         return null;
     }
@@ -144,6 +154,12 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
         return rgvHike;
     }
     
+    protected IContact getContactRG(ResourceGroupReadyListActivity activity) {
+        if (rgContact == null) {
+            rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
+        }
+        return rgContact;
+    }
     
     /**
      * Reload a resource group even when it's cached. This method should be called when your resource group returns a
