@@ -2,7 +2,7 @@
 
 /*
  * Copyright 2012 pmp-android development team
- *
+ * Project: InfoApp-Webservice
  * Project-Site: http://code.google.com/p/pmp-android/
  *
  * ---------------------------------------------------------------------
@@ -40,7 +40,7 @@ class AwakeEvent extends Event {
     /**
      * Creates a new awake event
      * @param int $id           The event's ID
-     * @param long $timestamp   Point in time when this event occured
+     * @param long $timestamp   Point in time when this event occurred
      * @param boolean $awake    Indicates if the device is active (true) or in standby (false)
      * @throws InvalidArgumentException
      */
@@ -56,7 +56,7 @@ class AwakeEvent extends Event {
     }
 
     /**
-     * Returns if the device is awake or in standby
+     * Gets the device's awake status
      * @return boolean  True, if device is active
      */
     public function isAwake() {

@@ -83,7 +83,7 @@ class BatteryProperties extends Properties {
     }
 
     /**
-     * Gets the technology that is beeing used for the device's battery
+     * Gets the technology that is being used for the device's battery
      * @return String   Battery technology
      */
     public function getTechnology() {
@@ -91,7 +91,7 @@ class BatteryProperties extends Properties {
     }
 
     /**
-     * Sets the technology that is beeing used for the device's battery
+     * Sets the technology that is being used for the device's battery
      * @param String $tech  Battery technology
      * @throws InvalidArgumentException Thrown, if the argument is no string or has an invalid length
      */
