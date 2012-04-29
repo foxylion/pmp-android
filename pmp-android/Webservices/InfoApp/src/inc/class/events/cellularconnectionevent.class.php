@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp-Webservice
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,38 +39,37 @@ class CellularConnectionEvent extends Event {
     /**
      * Creates a new cellular connection event
      * @param int $id           The event's ID
-     * @param long $timestamp   Point in time when this event occured
-     * @param boolean $connected
-     * @param boolean $enabled
-     * @param String $city
+     * @param long $timestamp   Point in time when this event occurred
+     * @param boolean $roaming  Indicates if the device was in roaming mode when this event occurred
+     * @param boolean $airplane Indicates if the device was in airplane mode when this event occurred
      * @throws InvalidArgumentException
      */
     public function __construct($id, $timestamp, $roaming, $airplane) {
-        
+
         parent::__construct($id, $timestamp);
-        
+
         if (!is_bool($roaming)) {
             throw new InvalidArgumentException("\"roaming\" is no boolean");
         }
         if (!is_bool($airplane)) {
             throw new InvalidArgumentException("\"airplane\" is no boolean");
         }
-        
+
         $this->roaming = $roaming;
         $this->airplane = $airplane;
     }
-    
+
     /**
-     * Airplane mode status
-     * @return boolean  True, if airplane mode is enabled 
+     * Gets the airplane mode status
+     * @return boolean  True, if airplane mode is enabled
      */
     public function isAirplane() {
         return $this->airplane;
     }
-    
+
     /**
-     * Roaming status
-     * @return boolean  True, if roaming in active 
+     * Get the roaming status
+     * @return boolean  True, if roaming is active
      */
     public function isRoaming() {
         return $this->roaming;

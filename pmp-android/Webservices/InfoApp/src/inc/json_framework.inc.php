@@ -29,6 +29,20 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+// Automatically escape string in HTTP-Paramters if "magic_quotes_gpc" is enabled in php.ini
+// Fallback if .htaccess is ingnored
+// Based on http://www.php.net/manual/de/security.magicquotes.disabling.php#91585
+if (get_magic_quotes_gpc()) {
+    function stripslashes_gpc(&$value)
+    {
+        $value = stripslashes($value);
+    }
+    array_walk_recursive($_GET, 'stripslashes_gpc');
+    array_walk_recursive($_POST, 'stripslashes_gpc');
+    array_walk_recursive($_COOKIE, 'stripslashes_gpc');
+    array_walk_recursive($_REQUEST, 'stripslashes_gpc');
+}
+
 // Set JSON-Header
 header("Content-type: application/json");
 

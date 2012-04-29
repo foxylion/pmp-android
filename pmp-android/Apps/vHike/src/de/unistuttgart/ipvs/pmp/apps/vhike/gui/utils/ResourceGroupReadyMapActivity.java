@@ -6,6 +6,7 @@ import com.google.android.maps.MapActivity;
 
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -21,6 +22,7 @@ public abstract class ResourceGroupReadyMapActivity extends MapActivity implemen
     protected static IAbsoluteLocation rgLocation;
     protected static IvHikeWebservice rgvHike;
     protected static INotification rgNotification;
+    protected static IContact rgContact;
     
     
     /**
@@ -44,6 +46,9 @@ public abstract class ResourceGroupReadyMapActivity extends MapActivity implemen
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
                 rgvHike = (IvHikeWebservice) resourceGroup;
+                break;
+            case Constants.RG_CONTACT:
+                rgContact = (IContact) resourceGroup;
                 break;
         }
     }
@@ -82,6 +87,11 @@ public abstract class ResourceGroupReadyMapActivity extends MapActivity implemen
                             resourceGroupId);
                 }
                 return rgvHike;
+            case Constants.RG_CONTACT:
+                if (rgContact == null) {
+                    rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, resourceGroupId);
+                }
+                return rgContact;
         }
         return null;
     }
@@ -144,6 +154,20 @@ public abstract class ResourceGroupReadyMapActivity extends MapActivity implemen
                     Constants.RG_VHIKE_WEBSERVICE);
         }
         return rgvHike;
+    }
+    
+    
+    /**
+     * 
+     * 
+     * @param activity
+     * @return
+     */
+    protected IContact getContactRG(ResourceGroupReadyMapActivity activity) {
+        if (rgContact == null) {
+            rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
+        }
+        return rgContact;
     }
     
     

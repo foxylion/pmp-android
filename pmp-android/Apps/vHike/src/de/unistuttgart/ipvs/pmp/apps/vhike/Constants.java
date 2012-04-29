@@ -79,4 +79,5 @@ public class Constants {
     public static final int RG_LOCATION = 0;
     public static final int RG_VHIKE_WEBSERVICE = 1;
     public static final int RG_NOTIFICATION = 2;
+    public static final int RG_CONTACT = 3;
 }

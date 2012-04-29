@@ -6,6 +6,8 @@ import android.os.IInterface;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
@@ -84,6 +86,24 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 this.profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
             }
             
+            final Button anonymous = (Button) findViewById(R.id.btn_anonymous);
+            anonymous.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // if (anonymous = active)
+                    anonymous.setBackgroundResource(R.drawable.btn_anonymous);
+                }
+            });
+            
+            final Button observation = (Button) findViewById(R.id.btn_observation);
+            observation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {   
+                    // if observation = active
+                    observation.setBackgroundResource(R.drawable.btn_observation);
+                }
+            });
+            
             TextView tv_username = (TextView) findViewById(R.id.tv_username);
             tv_username.setText(this.profile.getUsername());
             
@@ -127,11 +147,6 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             
             TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
             tv_rating.setText(Float.toString((float) profile.getRating_avg()));
-            
-            EditText et_desc = (EditText) findViewById(R.id.et_description_profile);
-            et_desc.setText(this.profile.getDescription());
-            // // car = "";
-            // et_car.setText(car);
             
         }
         

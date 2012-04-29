@@ -78,9 +78,10 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         
         setMapView();
         
-        if (getvHikeRG(this) != null && getLocationRG(this) != null) {
+        if (getvHikeRG(this) != null && getLocationRG(this) != null && getContactRG(this) != null) {
             ctrl = new Controller(rgvHike);
             ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
+            ViewModel.getInstance().setContactRG(rgContact);
             resourceCached();
             showHitchhikers();
         }
@@ -88,8 +89,18 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     
     @Override
-    protected void onResume() {
+    public void onPause() {
+        super.onPause();
+        
+        // store lats and lngs?
+    }
+    
+    
+    @Override
+    public void onResume() {
         super.onResume();
+        
+        // draw lats and lngs?
     }
     
     
@@ -105,6 +116,10 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 public void run() {
                     ctrl = new Controller(rgvHike);
                     ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
+                    if (rgContact == null) {
+                        Log.i(this, "Contact, rgContact null");
+                    }
+                    ViewModel.getInstance().setContactRG(rgContact);
                     resourceCached();
                     showHitchhikers();
                 }
@@ -165,7 +180,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ;
         }
         startContinousLookup();
