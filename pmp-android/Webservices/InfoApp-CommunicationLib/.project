@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>ext</name>
-			<type>2</type>
-			<location>D:/Eigene Dateien/EclipseProjects/pmp-android/pmp-android/Webservices/InfoApp-Filler/src/org</location>
-		</link>
-	</linkedResources>
 </projectDescription>

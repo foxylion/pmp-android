@@ -41,7 +41,7 @@ public class BatteryEvent extends Event {
         UNKNOWN
     }
     
-    private int level;
+    private byte level;
     private Adapter plugged;
     private boolean present;
     private Status stat;
@@ -66,7 +66,7 @@ public class BatteryEvent extends Event {
      * @param temperature
      *            The battery's temperature
      */
-    public BatteryEvent(int id, long timestamp, int level, Adapter plugged, boolean present, Status status,
+    public BatteryEvent(int id, long timestamp, byte level, Adapter plugged, boolean present, Status status,
             float temperature) {
         super(id, timestamp);
         
@@ -83,7 +83,7 @@ public class BatteryEvent extends Event {
      * 
      * @return Level in percent
      */
-    public int getLevel() {
+    public byte getLevel() {
         return this.level;
     }
     

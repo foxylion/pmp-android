@@ -33,50 +33,50 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderE
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
 /**
- * Stores information about the device's battery and allows to update or insert a new device information set
+ * Stores information about the device's short range connection and allows to update or insert a new device information
+ * set
  * 
  * @author Patrick Strobel
  */
-public class BatteryProperties extends Properties {
+public class ConnectionProperties extends Properties {
     
-    private String technology;
-    private byte health;
+    private short wifiCount;
+    private short bluetoothCount;
     
     
     /**
-     * Creates a new battery property-set
      * 
      * @param service
      *            Helper class used for communication with the webservice
-     * @param technology
-     *            The technology that is being used for the device's battery
-     * @param health
-     *            The battery's health in percent
+     * @param wifiCount
+     *            Number of wifi-networks the device has been connected to
+     * @param bluetoothCount
+     *            Number of bluetooth devices this device has been paired with
      */
-    public BatteryProperties(Service service, String technology, byte health) {
+    public ConnectionProperties(Service service, short wifiCount, short bluetoothCount) {
         super(service);
-        this.technology = technology;
-        this.health = health;
+        this.wifiCount = wifiCount;
+        this.bluetoothCount = bluetoothCount;
     }
     
     
     /**
-     * Gets the technology that is being used for the device's battery
+     * Gets the number of wifi-networks the device has been connected to
      * 
-     * @return Battery technology
+     * @return Number of wifis
      */
-    public String getTechnology() {
-        return this.technology;
+    public short getWifiCount() {
+        return this.wifiCount;
     }
     
     
     /**
-     * Gets the battery's health
+     * Gets the number of bluetooth device the device has paired with
      * 
-     * @return Battery's health in percent
+     * @return Number of bluetooth devices
      */
-    public byte getHealth() {
-        return this.health;
+    public short getBluetoothCount() {
+        return this.bluetoothCount;
     }
     
     
@@ -85,9 +85,9 @@ public class BatteryProperties extends Properties {
             InvalidEventOrderException, IOException {
         try {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            params.add(new BasicNameValuePair("technology", this.technology));
-            params.add(new BasicNameValuePair("health", Byte.toString(this.health)));
-            super.service.requestPostService("update_battery.php", params);
+            params.add(new BasicNameValuePair("wifi", Short.toString(this.wifiCount)));
+            params.add(new BasicNameValuePair("bluetooth", Short.toString(this.bluetoothCount)));
+            super.service.requestPostService("update_connection.php", params);
         } catch (JSONException e) {
             throw new IOException("Server returned no valid JSON object: " + e);
         }

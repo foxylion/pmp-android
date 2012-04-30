@@ -33,14 +33,14 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderE
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
 /**
- * Stores information about the device's battery and allows to update or insert a new device information set
+ * Stores information about the device's cellular connection and allows to update or insert a new device information set
  * 
  * @author Patrick Strobel
  */
-public class BatteryProperties extends Properties {
+public class CellularConnectionProperties extends Properties {
     
-    private String technology;
-    private byte health;
+    private String provider;
+    private byte signal;
     
     
     /**
@@ -48,35 +48,35 @@ public class BatteryProperties extends Properties {
      * 
      * @param service
      *            Helper class used for communication with the webservice
-     * @param technology
-     *            The technology that is being used for the device's battery
-     * @param health
-     *            The battery's health in percent
+     * @param provider
+     *            Name of the network provider
+     * @param signal
+     *            Signal strength in percent
      */
-    public BatteryProperties(Service service, String technology, byte health) {
+    public CellularConnectionProperties(Service service, String provider, byte signal) {
         super(service);
-        this.technology = technology;
-        this.health = health;
+        this.provider = provider;
+        this.signal = signal;
     }
     
     
     /**
-     * Gets the technology that is being used for the device's battery
+     * Gets the network provider's name
      * 
-     * @return Battery technology
+     * @return Name of the provider
      */
-    public String getTechnology() {
-        return this.technology;
+    public String getProvider() {
+        return this.provider;
     }
     
     
     /**
-     * Gets the battery's health
+     * Gets the signal's strength
      * 
-     * @return Battery's health in percent
+     * @return Gets the signal's strength
      */
-    public byte getHealth() {
-        return this.health;
+    public byte getSignalStrength() {
+        return this.signal;
     }
     
     
@@ -85,9 +85,9 @@ public class BatteryProperties extends Properties {
             InvalidEventOrderException, IOException {
         try {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            params.add(new BasicNameValuePair("technology", this.technology));
-            params.add(new BasicNameValuePair("health", Byte.toString(this.health)));
-            super.service.requestPostService("update_battery.php", params);
+            params.add(new BasicNameValuePair("provider", this.provider));
+            params.add(new BasicNameValuePair("signal", Byte.toString(this.signal)));
+            super.service.requestPostService("update_connection_cellular.php", params);
         } catch (JSONException e) {
             throw new IOException("Server returned no valid JSON object: " + e);
         }

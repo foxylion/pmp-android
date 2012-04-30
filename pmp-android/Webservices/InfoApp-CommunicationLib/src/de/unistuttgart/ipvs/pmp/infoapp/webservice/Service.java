@@ -42,6 +42,12 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdExce
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
+/**
+ * This class handles the connection between the application and the webservices.
+ * To do so, it stores the webservices' URL and the unique device ID
+ * 
+ * @author Patrick Strobel
+ */
 public class Service {
     
     public static String DEFAUL_URL = "http://infoapp.no-ip.org/json";
@@ -63,6 +69,11 @@ public class Service {
     }
     
     
+    /**
+     * Gets the HEX-string used to identify the device
+     * 
+     * @return 16-bit (32 characters) HEX-value used the uniquely identify the Android device
+     */
     public String getDeviceId() {
         return this.deviceId;
     }

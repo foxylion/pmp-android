@@ -22,6 +22,8 @@ package de.unistuttgart.ipvs.pmp.infoapp.webservice.properties;
 import java.io.IOException;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
 public abstract class Properties {
     
@@ -33,6 +35,16 @@ public abstract class Properties {
     }
     
     
-    public abstract void commit() throws IOException;
+    /**
+     * Uploads the properteis to the webservice
+     * 
+     * @throws InternalDatabaseException
+     *             Thrown, if an internal database error occurred while the webservice was running
+     * @throws InvalidParameterException
+     *             Thrown, if one parameter set by the constructor or a set-methode was not accepted by the webservice
+     * @throws IOException
+     *             Thrown, if another communication error occured while contacting the webserviced
+     */
+    public abstract void commit() throws InternalDatabaseException, InvalidParameterException, IOException;
     
 }

@@ -24,6 +24,10 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
 /**
  * Gives access to screen events
@@ -32,19 +36,27 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
  */
 public class ScreenEventManager extends EventManager {
     
+    /**
+     * Creates a new manager for screen events
+     * 
+     * @param service
+     *            Helper class used for communication with the webservice
+     */
     public ScreenEventManager(Service service) {
         super(service);
     }
     
     
     @Override
-    public void commitEvents(List<? extends Event> events) throws IOException {
+    public void commitEvents(List<? extends Event> events) throws InternalDatabaseException, InvalidParameterException,
+            InvalidEventIdException, InvalidEventOrderException, IOException {
         commitEvents(events, "upload_screen_events.php");
     }
     
     
     @Override
-    public int getLastId() throws IOException {
+    public int getLastId() throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
+            InvalidEventOrderException, IOException {
         return getLastId("last_screen_event.php");
     }
     

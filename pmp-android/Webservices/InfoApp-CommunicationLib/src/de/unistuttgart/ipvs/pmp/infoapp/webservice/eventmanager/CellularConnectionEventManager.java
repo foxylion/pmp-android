@@ -24,6 +24,10 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
 /**
  * Gives access to bluetooth or WiFi events
@@ -33,19 +37,27 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
  */
 public class CellularConnectionEventManager extends EventManager {
     
+    /**
+     * Creates a new manager for cellular connection events
+     * 
+     * @param service
+     *            Helper class used for communication with the webservice
+     */
     public CellularConnectionEventManager(Service service) {
         super(service);
     }
     
     
     @Override
-    public void commitEvents(List<? extends Event> events) throws IOException {
+    public void commitEvents(List<? extends Event> events) throws InternalDatabaseException, InvalidParameterException,
+            InvalidEventIdException, InvalidEventOrderException, IOException {
         commitEvents(events, "upload_connection_events_cellular.php");
     }
     
     
     @Override
-    public int getLastId() throws IOException {
+    public int getLastId() throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
+            InvalidEventOrderException, IOException {
         return getLastId("last_connection_event_cellular.php");
     }
     
