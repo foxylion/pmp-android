@@ -85,12 +85,23 @@ public class Service {
      * @param service
      *            The scripts name (filename, e. g. upload_connection_events.php)
      * @return Result returned by the service
+     * @throws InternalDatabaseException
+     *             Thrown, if an internal database error occurred while the webservice was running
+     * @throws InvalidParameterException
+     *             Thrown, if one parameter set by the constructor or a set-methode was not accepted by the webservice
+     * @throws InvalidEventIdException
+     *             Thrown, if the given events were not accepted by the webservice because at least one ID is already in
+     *             use by a database entry
+     * @throws InvalidEventOrderException
+     *             Thrown, if the events are not ordered properly. That is, the IDs and timestamps are not in ascending
+     *             order. See webservice specification for details
      * @throws IOException
-     *             Thrown, if communication with server failed
+     *             Thrown, if another communication error occured while contacting the webservice
      * @throws JSONException
      *             Thrown, if no JSON-string was returned by the server
      */
-    public JSONObject requestGetService(String service) throws IOException, JSONException {
+    public JSONObject requestGetService(String service) throws InternalDatabaseException, InvalidParameterException,
+            InvalidEventIdException, InvalidEventOrderException, IOException, JSONException {
         return requestGetService(service, new ArrayList<BasicNameValuePair>(1));
     }
     
@@ -103,13 +114,24 @@ public class Service {
      * @param params
      *            Additional GET parameters that should be sent to the service
      * @return Result returned by the service
+     * @throws InternalDatabaseException
+     *             Thrown, if an internal database error occurred while the webservice was running
+     * @throws InvalidParameterException
+     *             Thrown, if one parameter set by the constructor or a set-methode was not accepted by the webservice
+     * @throws InvalidEventIdException
+     *             Thrown, if the given events were not accepted by the webservice because at least one ID is already in
+     *             use by a database entry
+     * @throws InvalidEventOrderException
+     *             Thrown, if the events are not ordered properly. That is, the IDs and timestamps are not in ascending
+     *             order. See webservice specification for details
      * @throws IOException
-     *             Thrown, if communication with server failed. May be a subclass from the "exceptions" subpackage
+     *             Thrown, if another communication error occured while contacting the webservice
      * @throws JSONException
      *             Thrown, if no JSON-string was returned by the server
      */
-    public JSONObject requestGetService(String service, List<BasicNameValuePair> params) throws IOException,
-            JSONException {
+    public JSONObject requestGetService(String service, List<BasicNameValuePair> params)
+            throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
+            InvalidEventOrderException, IOException, JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
         String paramString = URLEncodedUtils.format(params, "UTF-8");
         HttpGet httpGet = new HttpGet(url + "/" + service + "?" + paramString);
@@ -128,13 +150,24 @@ public class Service {
      * @param params
      *            Additional POST parameters that should be sent to the service
      * @return Result returned by the service
+     * @throws InternalDatabaseException
+     *             Thrown, if an internal database error occurred while the webservice was running
+     * @throws InvalidParameterException
+     *             Thrown, if one parameter set by the constructor or a set-methode was not accepted by the webservice
+     * @throws InvalidEventIdException
+     *             Thrown, if the given events were not accepted by the webservice because at least one ID is already in
+     *             use by a database entry
+     * @throws InvalidEventOrderException
+     *             Thrown, if the events are not ordered properly. That is, the IDs and timestamps are not in ascending
+     *             order. See webservice specification for details
      * @throws IOException
-     *             Thrown, if communication with server failed. May be a subclass from the "exceptions" subpackage
+     *             Thrown, if another communication error occured while contacting the webservice
      * @throws JSONException
      *             Thrown, if no JSON-string was returned by the server
      */
-    public JSONObject requestPostService(String service, List<BasicNameValuePair> params) throws IOException,
-            JSONException {
+    public JSONObject requestPostService(String service, List<BasicNameValuePair> params)
+            throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
+            InvalidEventOrderException, IOException, JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
         HttpPost httpPost = new HttpPost(url + "/" + service);
         httpPost.setEntity(new UrlEncodedFormEntity(params));
@@ -145,7 +178,8 @@ public class Service {
     }
     
     
-    private JSONObject getContent(HttpResponse res) throws JSONException, IOException {
+    private JSONObject getContent(HttpResponse res) throws InternalDatabaseException, InvalidParameterException,
+            InvalidEventIdException, InvalidEventOrderException, IOException, JSONException {
         HttpEntity entity = res.getEntity();
         
         if (entity == null) {
@@ -171,7 +205,7 @@ public class Service {
     
     
     /**
-     * Inspects a result and throws a exception is an error was returned
+     * Inspects a result and throws a exception if an error was returned
      * 
      * @param res
      * @throws JSONException

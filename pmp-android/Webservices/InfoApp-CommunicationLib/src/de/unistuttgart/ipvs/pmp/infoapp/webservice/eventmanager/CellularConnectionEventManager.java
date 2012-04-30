@@ -56,8 +56,7 @@ public class CellularConnectionEventManager extends EventManager {
     
     
     @Override
-    public int getLastId() throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
-            InvalidEventOrderException, IOException {
+    public int getLastId() throws InternalDatabaseException, InvalidParameterException, IOException {
         return getLastId("last_connection_event_cellular.php");
     }
     

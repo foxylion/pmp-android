@@ -55,8 +55,7 @@ public class BatteryEventManager extends EventManager {
     
     
     @Override
-    public int getLastId() throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
-            InvalidEventOrderException, IOException {
+    public int getLastId() throws InternalDatabaseException, InvalidParameterException, IOException {
         return getLastId("last_battery_event.php");
     }
     
