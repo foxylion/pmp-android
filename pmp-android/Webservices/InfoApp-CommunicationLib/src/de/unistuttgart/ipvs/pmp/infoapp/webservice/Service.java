@@ -44,10 +44,19 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterEx
 
 public class Service {
     
+    public static String DEFAUL_URL = "http://infoapp.no-ip.org/json";
     private String url;
     private String deviceId;
     
     
+    /**
+     * Creates a new service-instance used for communicating with the webservices
+     * 
+     * @param url
+     *            URL of the webservices.
+     * @param deviceId
+     *            16-bit (32 characters) HEX-value used the uniquely identify the Android device
+     */
     public Service(String url, String deviceId) {
         this.url = url;
         this.deviceId = deviceId;
@@ -84,7 +93,7 @@ public class Service {
      *            Additional GET parameters that should be sent to the service
      * @return Result returned by the service
      * @throws IOException
-     *             Thrown, if communication with server failed
+     *             Thrown, if communication with server failed. May be a subclass from the "exceptions" subpackage
      * @throws JSONException
      *             Thrown, if no JSON-string was returned by the server
      */
@@ -109,7 +118,7 @@ public class Service {
      *            Additional POST parameters that should be sent to the service
      * @return Result returned by the service
      * @throws IOException
-     *             Thrown, if communication with server failed
+     *             Thrown, if communication with server failed. May be a subclass from the "exceptions" subpackage
      * @throws JSONException
      *             Thrown, if no JSON-string was returned by the server
      */

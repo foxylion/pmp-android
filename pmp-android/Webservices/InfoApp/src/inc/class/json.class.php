@@ -4,7 +4,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp-Webservice
  * Project-Site: http://code.google.com/p/pmp-android/
- * 
+ *
  * ---------------------------------------------------------------------
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,17 +73,17 @@ class Json {
     public static function printInvalidParameterError($exception, $exit = true) {
         self::printError("invalid_parameter", $exception->getMessage(), $exit);
     }
-    
+
     /**
      * Prints a JSON-error-message showing that an ID is used twice
-     * 
+     *
      * @param InvalidEventIdError $exception
      * @param boolean $exit When set to true, the script will be stopped
      */
     public static function printInvalidEventIdError($exception, $exit = true) {
         self::printError("invalid_event_id", $exception->getMessage(), $exit);
     }
-    
+
     /**
      * Prints a JSON-error-message showing that the events are not ordered properly
      *
@@ -111,7 +111,7 @@ class Json {
 
         return $json;
     }
-    
+
     /**
      * Prints a given array as JSON object
      * @param array $array Array to print
@@ -122,15 +122,15 @@ class Json {
 
     /**
      * Converty a JSON object into an array
-     * 
+     *
      * @param String $input JSON Object
-     * @return Object Read data  
+     * @return Object Read data
      * @throws InvalidArgumentException Thrown, if input is not a JSON object
      */
     public static function jsonToArry($input) {
         $object = json_decode($input);
         if (!is_object($object)) {
-            throw new InvalidArgumentException("The given string is not a valid JSON-Object");
+            throw new InvalidArgumentException("The given string is not a valid JSON-Object: ".$input);
         }
         return $object;
     }
@@ -138,7 +138,7 @@ class Json {
     /**
      * Parses the JSON data parameter and returns the read event array
      * @param String $input The raw JSON object as string
-     * @return Object[] The parsed event array 
+     * @return Object[] The parsed event array
      */
     public static function getEventArray($input) {
         $data = JSON::jsonToArry($_POST["data"]);

@@ -38,10 +38,10 @@ class ScreenEvent extends Event {
     private $display;
 
     /**
-     * Creates a new awake event
+     * Creates a new screen event
      * @param int $id           The event's ID
-     * @param long $timestamp   Point in time when this event occured
-     * @param boolean $display  Indicates if the device's display is turned on (true) or turned off  (false)
+     * @param long $timestamp   Point in time when this event occurred
+     * @param boolean $display  Indicates if the device's display is turned on (true) or turned off (false)
      * @throws InvalidArgumentException
      */
     public function __construct($id, $timestamp, $display) {
@@ -56,7 +56,7 @@ class ScreenEvent extends Event {
     }
 
     /**
-     * Returns if the device's display is turned on
+     * Get the device's display status
      * @return boolean  True, if display is on
      */
     public function isDisplayOn() {
