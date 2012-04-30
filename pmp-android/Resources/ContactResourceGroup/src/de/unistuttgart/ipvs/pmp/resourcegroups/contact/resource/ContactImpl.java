@@ -7,36 +7,36 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
 public class ContactImpl extends IContact.Stub {
 
-	private ContactResourceGroup RG;
-	private ContactResource RES;
+	private ContactResourceGroup contactRG;
+	private ContactResource contactR;
 	private String appIdentifier;
 
 	private PermissionValidator psv;
 
-	public ContactImpl(ContactResourceGroup RG, ContactResource RES,
+	public ContactImpl(ContactResourceGroup contactRG, ContactResource contactR,
 			String appIdentifier) {
-		this.RG = RG;
-		this.RES = RES;
+		this.contactRG = contactRG;
+		this.contactR = contactR;
 		this.appIdentifier = appIdentifier;
-		this.psv = new PermissionValidator(this.RG, this.appIdentifier);
+		this.psv = new PermissionValidator(this.contactRG, this.appIdentifier);
 	}
 
 	@Override
 	public void call(int tel) throws RemoteException {
 		this.psv.validate(ContactResourceGroup.PS_OPEN_DIALER, "true");
-		this.RES.call(tel);
+		this.contactR.call(tel);
 	}
 
 	@Override
 	public void sms(int tel, String message) throws RemoteException {
 		this.psv.validate(ContactResourceGroup.PS_SEND_SMS, "true");
-		this.RES.sms(tel, message);
+		this.contactR.sms(tel, message);
 	}
 
 	@Override
 	public void email(String recipient, String message) throws RemoteException {
 		this.psv.validate(ContactResourceGroup.PS_SEND_EMAIL, "true");
-		this.RES.email(recipient, message);
+		this.contactR.email(recipient, message);
 	}
 
 }

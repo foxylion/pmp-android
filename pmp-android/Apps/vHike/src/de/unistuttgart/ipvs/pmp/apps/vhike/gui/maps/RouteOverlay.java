@@ -12,6 +12,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
+import de.unistuttgart.ipvs.pmp.Log;
+
 public class RouteOverlay extends Overlay {
     
     private GeoPoint gp1;
@@ -72,6 +74,7 @@ public class RouteOverlay extends Overlay {
                         point.x + mRadius, point.y + mRadius);
                 // start point
                 canvas.drawOval(oval, paint);
+                Log.i(this, "Draw route mode 1");
             }
             // mode=2&#65306;path
             else if (mode == 2) {
@@ -84,6 +87,7 @@ public class RouteOverlay extends Overlay {
                 paint.setStrokeWidth(5);
                 paint.setAlpha(defaultColor == Color.parseColor("#6C8715") ? 220 : 120);
                 canvas.drawLine(point.x, point.y, point2.x, point2.y, paint);
+                Log.i(this, "Draw route mode 2");
             }
             /* mode=3&#65306;end */
             else if (mode == 3) {
@@ -104,6 +108,7 @@ public class RouteOverlay extends Overlay {
                 /* end point */
                 paint.setAlpha(255);
                 canvas.drawOval(oval, paint);
+                Log.i(this, "Draw route mode 3");
             }
         }
         return super.draw(canvas, mapView, shadow, when);

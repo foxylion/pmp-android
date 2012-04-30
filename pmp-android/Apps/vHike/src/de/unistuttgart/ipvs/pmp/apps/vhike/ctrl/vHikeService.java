@@ -18,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.IResourceGroupReady;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -39,7 +40,10 @@ public class vHikeService extends Service {
             "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS", "vHikeWebserviceResource");
     private static final PMPResourceIdentifier RGNotificationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.notification", "NotificationResource");
-    private static final PMPResourceIdentifier[] resourceGroupIDs = { RGLocationID, RGVHikeID, RGNotificationID };
+    private static final PMPResourceIdentifier RGContactID = PMPResourceIdentifier.make(
+            "de.unistuttgart.ipvs.pmp.resourcegroups.contact", "contactResource");
+    private static final PMPResourceIdentifier[] resourceGroupIDs = { RGLocationID, RGVHikeID, RGNotificationID,
+            RGContactID };
     
     
     /**
@@ -135,25 +139,25 @@ public class vHikeService extends Service {
         PMP.get(app).requestServiceFeatures(activity, serviceFeatures[serviceFeatureID]);
     }
     
-    
     /**
      * Show the activity to request a set of service features
      * 
      * @param activity
      * @param serviceFeatureIDs
      */
-//    public void requestServiceFeatures(Activity activity, int[] serviceFeatureIDs) {
-//        List<String> l = new ArrayList<String>(serviceFeatureIDs.length);
-//        for (int i : serviceFeatureIDs) {
-//            l.add(serviceFeatures[i]);
-//        }
-//        PMP.get(app).requestServiceFeatures(activity, l);
-//    }
+    //    public void requestServiceFeatures(Activity activity, int[] serviceFeatureIDs) {
+    //        List<String> l = new ArrayList<String>(serviceFeatureIDs.length);
+    //        for (int i : serviceFeatureIDs) {
+    //            l.add(serviceFeatures[i]);
+    //        }
+    //        PMP.get(app).requestServiceFeatures(activity, l);
+    //    }
     
     private IBinder binder;
     private IAbsoluteLocation loc;
     private IvHikeWebservice ws;
     private INotification noti;
+    private IContact con;
     
     
     public IInterface requestResourceGroup(Activity activity, int resourceGroupId) {
@@ -176,6 +180,13 @@ public class vHikeService extends Service {
                 else
                     return ws;
                 break;
+            case Constants.RG_CONTACT:
+                if (con == null) {
+                    reloadResourceGroup(activity, resourceGroupId);
+                } 
+                else
+                    return con;
+                break;
         }
         return null;
     }
@@ -186,6 +197,7 @@ public class vHikeService extends Service {
             case Constants.RG_LOCATION:
             case Constants.RG_NOTIFICATION:
             case Constants.RG_VHIKE_WEBSERVICE:
+            case Constants.RG_CONTACT:
                 reloadResourceGroup(activity, resourceGroupId);
                 break;
         }
@@ -211,6 +223,10 @@ public class vHikeService extends Service {
             case Constants.RG_NOTIFICATION:
                 noti = INotification.Stub.asInterface(this.binder);
                 act.onResourceGroupReady(noti, resourceGroupId);
+                break;
+            case Constants.RG_CONTACT:
+                con = IContact.Stub.asInterface(this.binder);
+                act.onResourceGroupReady(con, resourceGroupId);
                 break;
         }
     }

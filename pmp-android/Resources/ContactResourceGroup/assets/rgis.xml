@@ -4,7 +4,7 @@
 		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.contact"
 		icon="res/drawable-hdpi/contact_icon.png" 
 		className="ContactResourceGroup">
-		<name lang="en">contact</name>
+		<name lang="en">Contact</name>
 		<description lang="en">Allows communication through phone dialer, sms or email.</description>
 	</resourceGroupInformation>
 	<privacySettings>

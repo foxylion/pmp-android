@@ -46,8 +46,8 @@
 				<requiredPrivacySetting identifier="anonymous">hide</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
-		<serviceFeature identifier="contactPremium">
-			<name lang="en">Contact +</name>
+		<serviceFeature identifier="contactResource">
+			<name lang="en">Contact</name>
 			<description lang="en">Direct contact with other user via phone call, SMS and email, right here in vHike.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.contact" minRevision="0">

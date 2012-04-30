@@ -1,4 +1,4 @@
-package de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils;
+package de.unistuttgart.ipvs.pmp.apps.vhike.tools;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -2,12 +2,9 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.RemoteException;
 import android.telephony.PhoneStateListener;
-import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +16,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.RouteOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.PhoneCallListener;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PhoneCallListener;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
 /**
@@ -53,6 +50,7 @@ public class ContactDialog extends Dialog {
     
     private void setButtons() {
         
+        // needed to return to activity after phone call
         PhoneCallListener phoneListener = new PhoneCallListener((Activity) context);
         TelephonyManager telephonyManager = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
@@ -71,8 +69,7 @@ public class ContactDialog extends Dialog {
                     }
                     
                 } catch (RemoteException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    Log.i(this, "Failed to open dialer");
                 }
                 cancel();
             }
@@ -83,11 +80,11 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                PendingIntent pi = PendingIntent.getActivity(v.getContext(), 0,
-                        new Intent(v.getContext(), null), 0);
-                SmsManager sms = SmsManager.getDefault();
-                sms.sendTextMessage("5556", null, "Test", pi, null);
-                cancel();
+                try {
+                    iContact.sms(5554, "vHike Testmessage");
+                } catch (RemoteException e) {
+                    Log.i(this, "Failed to open sms app");
+                }
             }
         });
         
@@ -111,8 +108,7 @@ public class ContactDialog extends Dialog {
                 int lng2 = (int) (-122.08090000 * 1E6);
                 GeoPoint to = new GeoPoint(lat2, lng2);
                 
-                ViewModel.getInstance().getDriverOverlayList(mapView).add(new RouteOverlay(from, to, 0));
-                Log.i(this, "Draw route");
+                ViewModel.getInstance().getDriverOverlayList(mapView).add(new RouteOverlay(from, to, 2));
                 cancel();
             }
         });
