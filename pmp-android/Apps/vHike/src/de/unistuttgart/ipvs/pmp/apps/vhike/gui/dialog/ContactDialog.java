@@ -114,12 +114,14 @@ public class ContactDialog extends Dialog {
                     route.setBackgroundResource(R.drawable.btn_route);
                     
                     int lat1 = (int) (37.42221 * 1E6);
-                    int lng1 = (int) (122.083984 * 1E6);
+                    int lng1 = (int) (-122.083984 * 1E6);
                     GeoPoint from = new GeoPoint(lat1, lng1);
+//                    GeoPoint from1 = new GeoPoint(3742221, 122083984);
                     
                     int lat2 = (int) (37.4055 * 1E6);
                     int lng2 = (int) (-122.0809 * 1E6);
                     GeoPoint to = new GeoPoint(lat2, lng2);
+//                    GeoPoint to1 = new GeoPoint(374055, -122)
                     
                     RouteOverlay routeOverlay = new RouteOverlay(context, from, to);
                     ViewModel.getInstance().getDriverOverlayList(mapView).add(routeOverlay);

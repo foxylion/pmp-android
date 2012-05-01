@@ -306,7 +306,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     @Override
     protected boolean isRouteDisplayed() {
-        return true;
+        return false;
     }
     
 }

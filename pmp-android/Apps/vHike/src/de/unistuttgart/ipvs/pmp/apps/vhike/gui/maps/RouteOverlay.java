@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Point;
 
@@ -34,8 +33,10 @@ public class RouteOverlay extends Overlay {
         
         Paint pathPaint = new Paint();
         pathPaint.setAntiAlias(true);
-        pathPaint.setStyle(Style.STROKE);
-        pathPaint.setStrokeWidth(4f);
+        pathPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        pathPaint.setStrokeJoin(Paint.Join.ROUND);
+        pathPaint.setStrokeCap(Paint.Cap.ROUND);
+        pathPaint.setStrokeWidth(4);
         pathPaint.setColor(context.getResources().getColor(R.color.emirates_red));
         pathPaint.setAlpha(120);
         
