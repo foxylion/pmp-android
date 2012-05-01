@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -17,7 +18,7 @@ import com.google.android.maps.Projection;
 
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.ContactDialog;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
@@ -40,6 +41,9 @@ public class PassengerOverlay extends ItemizedOverlay {
     private String name;
     private GeoPoint mGps;
     
+    private ContactDialog contactDialog;
+    private int itsMe;
+    
     
     /**
      * set passenger icon through drawable and context for onTap method
@@ -48,7 +52,7 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param context
      */
     public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IvHikeWebservice ivhs,
-            IContact iContact, String name, GeoPoint gps) {
+            IContact iContact, String name, GeoPoint gps, ContactDialog contactDialog, int itsMe) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
         this.mapView = mapView;
@@ -56,6 +60,9 @@ public class PassengerOverlay extends ItemizedOverlay {
         this.iContact = iContact;
         this.name = name;
         this.mGps = gps;
+        
+        this.contactDialog = contactDialog;
+        this.itsMe = itsMe;
     }
     
     
@@ -71,15 +78,22 @@ public class PassengerOverlay extends ItemizedOverlay {
     @Override
     protected boolean onTap(int i) {
         OverlayItem item = this.mOverlays.get(i);
-        //        AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
-        //        dialog.setTitle(item.getTitle());
-        //        dialog.setMessage(item.getSnippet());
-        //        dialog.show();
-        int id = Integer.valueOf(item.getTitle());
-        Controller ctrl = new Controller(ivhs);
-        Profile user = ctrl.getProfile(Model.getInstance().getSid(), id);
-        //        int lat = user.
-        vhikeDialogs.getInstance().getContactDialog(mContext, mapView, item.getSnippet(), iContact).show();
+        
+        //if 0, passenger, if 1 user
+        if (itsMe == 0) {
+            int id = Integer.valueOf(item.getTitle());
+            Controller ctrl = new Controller(ivhs);
+            Profile user = ctrl.getProfile(Model.getInstance().getSid(), id);
+            //        int lat = user. (get lat lng
+            
+            contactDialog.show();
+        } else {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
+            dialog.setTitle(item.getTitle());
+            dialog.setMessage(item.getSnippet());
+            dialog.show();
+        }
+        //        vhikeDialogs.getInstance().getContactDialog(mContext, mapView, item.getSnippet(), iContact).show();
         return true;
     }
     

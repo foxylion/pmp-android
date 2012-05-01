@@ -25,6 +25,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.ContactDialog;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -725,7 +726,7 @@ public class ViewModel {
             }
             
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact,
-                    passenger.getUsername(), gps);
+                    passenger.getUsername(), gps, new ContactDialog(context, mapView, passenger.getUsername(), iContact), 0);
             OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
                     passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);
@@ -756,7 +757,7 @@ public class ViewModel {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
             Profile me = Model.getInstance().getOwnProfile();
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact,
-                    me.getUsername(), gps);
+                    me.getUsername(), gps, null, 1);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);
