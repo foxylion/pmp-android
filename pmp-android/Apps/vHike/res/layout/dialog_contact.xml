@@ -34,6 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="-3dip"
         android:layout_marginRight="-3dip"
-        android:background="@drawable/btn_route" />
+        android:background="@drawable/btn_route_disabled" />
 
 </LinearLayout>

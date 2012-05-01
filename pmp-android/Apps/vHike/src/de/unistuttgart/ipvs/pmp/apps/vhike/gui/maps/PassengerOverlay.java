@@ -3,12 +3,19 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.Projection;
 
+import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -30,6 +37,9 @@ public class PassengerOverlay extends ItemizedOverlay {
     private MapView mapView;
     private IvHikeWebservice ivhs;
     private IContact iContact;
+    private String name;
+    private GeoPoint mGps;
+    
     
     /**
      * set passenger icon through drawable and context for onTap method
@@ -37,12 +47,15 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param defaultMarker
      * @param context
      */
-    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IvHikeWebservice ivhs, IContact iContact) {
+    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IvHikeWebservice ivhs,
+            IContact iContact, String name, GeoPoint gps) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
         this.mapView = mapView;
         this.ivhs = ivhs;
         this.iContact = iContact;
+        this.name = name;
+        this.mGps = gps;
     }
     
     
@@ -58,14 +71,14 @@ public class PassengerOverlay extends ItemizedOverlay {
     @Override
     protected boolean onTap(int i) {
         OverlayItem item = this.mOverlays.get(i);
-//        AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
-//        dialog.setTitle(item.getTitle());
-//        dialog.setMessage(item.getSnippet());
-//        dialog.show();
+        //        AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
+        //        dialog.setTitle(item.getTitle());
+        //        dialog.setMessage(item.getSnippet());
+        //        dialog.show();
         int id = Integer.valueOf(item.getTitle());
         Controller ctrl = new Controller(ivhs);
         Profile user = ctrl.getProfile(Model.getInstance().getSid(), id);
-//        int lat = user.
+        //        int lat = user.
         vhikeDialogs.getInstance().getContactDialog(mContext, mapView, item.getSnippet(), iContact).show();
         return true;
     }
@@ -80,6 +93,24 @@ public class PassengerOverlay extends ItemizedOverlay {
     @Override
     public int size() {
         return this.mOverlays.size();
+    }
+    
+    
+    @Override
+    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+        super.draw(canvas, mapView, shadow);
+        Projection projection = mapView.getProjection();
+        
+        Point point = new Point();
+        Paint paint = new Paint();
+        paint.setColor(mContext.getResources().getColor(R.color.orange));
+        paint.setAntiAlias(true);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        projection.toPixels(mGps, point);
+        
+        canvas.drawText(name, point.x - 20, point.y - 55, paint);
+        
+        return true;
     }
     
 }

@@ -4,11 +4,19 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.Projection;
+
+import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 
 /**
  * OverlayItem for drivers which holds the driver logo and the perimeter
@@ -22,6 +30,7 @@ public class DriverOverlay extends ItemizedOverlay {
     private Context mContext;
     private GeoPoint mGps;
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+    private String name;
     
     
     /**
@@ -32,10 +41,11 @@ public class DriverOverlay extends ItemizedOverlay {
      * @param context
      * @param gps
      */
-    public DriverOverlay(Drawable defaultMarker, Context context, GeoPoint gps) {
+    public DriverOverlay(Drawable defaultMarker, Context context, GeoPoint gps, String name) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
         this.mGps = gps;
+        this.name = name;
     }
     
     
@@ -75,23 +85,22 @@ public class DriverOverlay extends ItemizedOverlay {
     /**
      * custom draw implementation to draw the perimeter
      */
-//    @Override
-//    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-//        super.draw(canvas, mapView, shadow);
-//        // convert point to pixels
-//        Point screenPts = new Point();
-//        mapView.getProjection().toPixels(this.mGps, screenPts);
-//        
-//        Paint myCircle = new Paint();
-//        myCircle.setColor(Color.BLUE);
-//        myCircle.setAntiAlias(true);
-//        myCircle.setStyle(Style.FILL);
-//        myCircle.setAlpha(30);
-//        
-//        canvas.drawCircle(screenPts.x, screenPts.y - 15, 100, myCircle);
-//        
-//        return true;
-//    }
+    @Override
+    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+        super.draw(canvas, mapView, shadow);
+        Projection projection = mapView.getProjection();
+        
+        Point point = new Point();
+        Paint paint = new Paint();
+        paint.setColor(mContext.getResources().getColor(R.color.lime_green));
+        paint.setAntiAlias(true);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        projection.toPixels(mGps, point);
+        
+        canvas.drawText(name, point.x - 15, point.y - 55, paint);
+        
+        return true;
+    }
     
     
     /**

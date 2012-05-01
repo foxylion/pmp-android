@@ -34,6 +34,7 @@ public class ContactDialog extends Dialog {
     private Button email;
     private Button route;
     private IContact iContact;
+    private String userName;
     
     
     public ContactDialog(Context context, MapView mapView, String userName, IContact iContact) {
@@ -42,6 +43,7 @@ public class ContactDialog extends Dialog {
         setContentView(R.layout.dialog_contact);
         this.context = context;
         this.mapView = mapView;
+        this.userName = userName;
         this.iContact = iContact;
         
         setButtons();
@@ -65,7 +67,7 @@ public class ContactDialog extends Dialog {
                     if (iContact == null) {
                         Log.i(this, "iContact null");
                     } else {
-                        iContact.call(5556);    
+                        iContact.call(5556);
                     }
                     
                 } catch (RemoteException e) {
@@ -101,15 +103,31 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                int lat1 = (int) (37.42221000 * 1E6);
-                int lng1 = (int) (122.08398400 * 1E6);
-                GeoPoint from = new GeoPoint(lat1, lng1);
-                int lat2 = (int) (37.40550000 * 1E6);
-                int lng2 = (int) (-122.08090000 * 1E6);
-                GeoPoint to = new GeoPoint(lat2, lng2);
                 
-                ViewModel.getInstance().getDriverOverlayList(mapView).add(new RouteOverlay(from, to, 2));
-                cancel();
+                if (ViewModel.getInstance().isRouteDrawn(userName)) {
+                    Log.i(this, userName + " is drawn, removing DIALOG");
+                    ViewModel.getInstance().removeRoute(ViewModel.getInstance().getRouteOverlay(userName));
+                    ViewModel.getInstance().getRoutes.put(userName, false);
+                    route.setBackgroundResource(R.drawable.btn_route_disabled);
+                    cancel();
+                } else {
+                    route.setBackgroundResource(R.drawable.btn_route);
+                    
+                    int lat1 = (int) (37.42221 * 1E6);
+                    int lng1 = (int) (122.083984 * 1E6);
+                    GeoPoint from = new GeoPoint(lat1, lng1);
+                    
+                    int lat2 = (int) (37.4055 * 1E6);
+                    int lng2 = (int) (-122.0809 * 1E6);
+                    GeoPoint to = new GeoPoint(lat2, lng2);
+                    
+                    RouteOverlay routeOverlay = new RouteOverlay(context, from, to);
+                    ViewModel.getInstance().getDriverOverlayList(mapView).add(routeOverlay);
+                    ViewModel.getInstance().getRouteHM.put(userName, routeOverlay);
+                    ViewModel.getInstance().getRoutes.put(userName, true);
+                    Log.i(this, userName + " is not drawn, drawing DIALOG");
+                    cancel();
+                }
             }
         });
     }
