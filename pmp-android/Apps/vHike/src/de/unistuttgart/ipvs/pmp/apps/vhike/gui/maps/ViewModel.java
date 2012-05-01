@@ -186,7 +186,7 @@ public class ViewModel {
         int my_new_lon = (int) (this.my_lon * 1E6);
         GeoPoint my_point = new GeoPoint(my_new_lat, my_new_lon);
         ViewModel.getInstance().add2DriverOverlay(this.context, my_point, Model.getInstance().getOwnProfile(),
-                this.mapView, 0);
+                this.mapView, 0, my_point);
         
         try {
             for (QueryObject queryObject : queries) {
@@ -213,18 +213,12 @@ public class ViewModel {
             GeoPoint gpsPassenger = new GeoPoint(lat, lng);
             if (vObject.getStatus() != Constants.V_OBJ_SATUS_PICKED_UP) {
                 ViewModel.getInstance().add2DriverOverlay(this.context, gpsPassenger, vObject.getProfile(),
-                        this.mapView, 1);
+                        this.mapView, 1, my_point);
                 // if drawing route is enabled for user, draw route
                 if (isRouteDrawn(vObject.getProfile().getUsername())) {
                     mapDriverOverlays.add(getRouteOverlay(vObject.getProfile().getUsername()));
                     Log.i(this, "Redrawn route for " + vObject.getProfile().getUsername());
-                } else {
-                    if (getRouteOverlay(vObject.getProfile().getUsername()) != null) {
-                        removeRoute(getRouteOverlay(vObject.getProfile().getUsername()));
-                        getRoutes.put(vObject.getProfile().getUsername(), false);
-                        Log.i(this, "Removed route for " + vObject.getProfile().getUsername());
-                    }
-                }
+                } 
             }
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
             
@@ -705,7 +699,7 @@ public class ViewModel {
      * @param passenger
      * @param mapView
      */
-    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1) {
+    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1, GeoPoint mypoint) {
         Drawable drawable;
         if (which1 == 0) {
             Profile me = Model.getInstance().getOwnProfile();
@@ -726,7 +720,7 @@ public class ViewModel {
             }
             
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact,
-                    passenger.getUsername(), gps, new ContactDialog(context, mapView, passenger.getUsername(), iContact), 0);
+                    passenger.getUsername(), gps, new ContactDialog(context, mapView, passenger.getUsername(), iContact, mypoint), 0);
             OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
                     passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);

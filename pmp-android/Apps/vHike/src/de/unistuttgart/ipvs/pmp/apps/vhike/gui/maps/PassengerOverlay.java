@@ -79,13 +79,14 @@ public class PassengerOverlay extends ItemizedOverlay {
     protected boolean onTap(int i) {
         OverlayItem item = this.mOverlays.get(i);
         
-        //if 0, passenger, if 1 user
+        //if 0 passenger, if 1 user
         if (itsMe == 0) {
             int id = Integer.valueOf(item.getTitle());
             Controller ctrl = new Controller(ivhs);
             Profile user = ctrl.getProfile(Model.getInstance().getSid(), id);
             //        int lat = user. (get lat lng
             
+            contactDialog.setToGPS(mGps);
             contactDialog.show();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);

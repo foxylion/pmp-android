@@ -35,9 +35,11 @@ public class ContactDialog extends Dialog {
     private Button route;
     private IContact iContact;
     private String userName;
+    private GeoPoint toGPS;
+    private GeoPoint myGPS;
     
     
-    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact) {
+    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, GeoPoint myGPS) {
         super(context);
         setTitle(userName);
         setContentView(R.layout.dialog_contact);
@@ -45,10 +47,14 @@ public class ContactDialog extends Dialog {
         this.mapView = mapView;
         this.userName = userName;
         this.iContact = iContact;
+        this.myGPS = myGPS;
         
         setButtons();
     }
     
+    public void setToGPS(GeoPoint toGPS) {
+        this.toGPS = toGPS;
+    }
     
     private void setButtons() {
         
@@ -99,6 +105,9 @@ public class ContactDialog extends Dialog {
         });
         
         route = (Button) findViewById(R.id.btn_route);
+        if (ViewModel.getInstance().isRouteDrawn(userName)) {
+            route.setBackgroundResource(R.drawable.btn_route);
+        }
         route.setOnClickListener(new View.OnClickListener() {
             
             @Override
@@ -111,23 +120,13 @@ public class ContactDialog extends Dialog {
                     route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
                 } else {
-                    route.setBackgroundResource(R.drawable.btn_route);
                     
-                    int lat1 = (int) (37.42221 * 1E6);
-                    int lng1 = (int) (-122.083984 * 1E6);
-                    GeoPoint from = new GeoPoint(lat1, lng1);
-//                    GeoPoint from1 = new GeoPoint(3742221, 122083984);
-                    
-                    int lat2 = (int) (37.4055 * 1E6);
-                    int lng2 = (int) (-122.0809 * 1E6);
-                    GeoPoint to = new GeoPoint(lat2, lng2);
-//                    GeoPoint to1 = new GeoPoint(374055, -122)
-                    
-                    RouteOverlay routeOverlay = new RouteOverlay(context, from, to);
+                    RouteOverlay routeOverlay = new RouteOverlay(context, myGPS, toGPS);
                     ViewModel.getInstance().getDriverOverlayList(mapView).add(routeOverlay);
                     ViewModel.getInstance().getRouteHM.put(userName, routeOverlay);
                     ViewModel.getInstance().getRoutes.put(userName, true);
                     Log.i(this, userName + " is not drawn, drawing DIALOG");
+                    route.setBackgroundResource(R.drawable.btn_route);
                     cancel();
                 }
             }
