@@ -50,7 +50,7 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterEx
  */
 public class Service {
     
-    public static String DEFAUL_URL = "http://infoapp.no-ip.org/json";
+    public static String DEFAULT_URL = "http://infoapp.no-ip.org/json";
     private String url;
     private String deviceId;
     
@@ -170,7 +170,7 @@ public class Service {
             InvalidEventOrderException, IOException, JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
         HttpPost httpPost = new HttpPost(url + "/" + service);
-        httpPost.setEntity(new UrlEncodedFormEntity(params));
+        httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         
         HttpClient client = new DefaultHttpClient();
         
