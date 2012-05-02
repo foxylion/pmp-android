@@ -29,8 +29,8 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
-// Automatically escape string in HTTP-Paramters if "magic_quotes_gpc" is enabled in php.ini
-// Fallback if .htaccess is ingnored
+// Automatically escape strings in HTTP-Paramters if "magic_quotes_gpc" is enabled in php.ini
+// Fallback if .htaccess is ignored
 // Based on http://www.php.net/manual/de/security.magicquotes.disabling.php#91585
 if (get_magic_quotes_gpc()) {
     function stripslashes_gpc(&$value)

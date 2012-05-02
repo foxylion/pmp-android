@@ -38,6 +38,18 @@ class General {
     const REG_INTCHARS = "A-Za-zÃ„Ã¤Ã–Ã¶ÃŸÃœÃ¼Ã�Ã€Ã‚Ã¡Ã Ã¢Ã‰ÃˆÃŠÃ©Ã¨ÃªÃ�ÃŒÃŽÃ­Ã¬Ã®Ã“Ã’Ã”Ã³Ã²Ã´ÃšÃ™Ã›ÃºÃ¹Ã»Ã‡Ã§";
 
     /**
+     * Converts a timestamp given in MS into a formated date/time string
+     * @param String $format    Format to which the date/time should be converted
+     * @param long $millis      Timestamp in MS that needs to be converted
+     * @return String           Formated date/time
+     */
+    public static function timeMillisToString($format, $millis) {
+        // Convert millis to seconds
+        $sec = $millis / 1000;
+        return date($format, $sec);
+    }
+
+    /**
      * Checks if the length of an input string is valid
      *
      * @param String $input Input

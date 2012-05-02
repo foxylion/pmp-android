@@ -138,7 +138,7 @@ class ConnectionProperties extends Properties {
 
     /**
      * Gets the network provider's name
-     * @return String   Name of the provicer
+     * @return String   Name of the provider
      */
     public function getProvider() {
         return $this->provider;
