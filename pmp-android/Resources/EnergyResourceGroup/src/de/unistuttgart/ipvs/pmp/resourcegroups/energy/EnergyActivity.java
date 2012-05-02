@@ -3,11 +3,15 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.energy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ToggleButton;
 
+/**
+ * 
+ * @author Marcus Vetter
+ *
+ */
 public class EnergyActivity extends Activity implements OnClickListener {
 
 	private ToggleButton tb;
@@ -22,7 +26,6 @@ public class EnergyActivity extends Activity implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		Log.i(EnergyConstants.LOG_TAG, "Clicked! " + tb.isChecked());
 		if (tb.isChecked()) {
 			startService(new Intent(this, EnergyService.class));
 		} else {
