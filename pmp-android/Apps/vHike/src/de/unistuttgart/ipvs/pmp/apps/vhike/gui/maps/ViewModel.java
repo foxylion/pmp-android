@@ -216,8 +216,10 @@ public class ViewModel {
                         this.mapView, 1, my_point);
                 // if drawing route is enabled for user, draw route
                 if (isRouteDrawn(vObject.getProfile().getUsername())) {
-                    mapDriverOverlays.add(getRouteOverlay(vObject.getProfile().getUsername()));
-                    Log.i(this, "Redrawn route for " + vObject.getProfile().getUsername());
+                    RouteOverlay routeOverlay = new RouteOverlay(context, my_point, gpsPassenger);
+                    mapDriverOverlays.add(routeOverlay);
+                    getRoutes.put(vObject.getProfile().getUsername(), true);
+                    getRouteHM.put(vObject.getProfile().getUsername(), routeOverlay);
                 } 
             }
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
@@ -377,6 +379,10 @@ public class ViewModel {
         this.mapDriverOverlays.remove(routeOverlay);
     }
     
+    public void clearRoutes() {
+        getRoutes = null;
+        getRouteHM = null;
+    }
     
     public void updatePosition(IAbsoluteLocation loc, int whichHitcher) throws RemoteException {
         

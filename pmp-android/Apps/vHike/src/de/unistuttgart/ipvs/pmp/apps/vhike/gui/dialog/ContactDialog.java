@@ -123,9 +123,8 @@ public class ContactDialog extends Dialog {
                     
                     RouteOverlay routeOverlay = new RouteOverlay(context, myGPS, toGPS);
                     ViewModel.getInstance().getDriverOverlayList(mapView).add(routeOverlay);
-                    ViewModel.getInstance().getRouteHM.put(userName, routeOverlay);
                     ViewModel.getInstance().getRoutes.put(userName, true);
-                    Log.i(this, userName + " is not drawn, drawing DIALOG");
+                    ViewModel.getInstance().getRouteHM.put(userName, routeOverlay);
                     route.setBackgroundResource(R.drawable.btn_route);
                     cancel();
                 }

@@ -218,7 +218,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearHitchPassengers();
                 ViewModel.getInstance().clearDriverNotificationAdapter();
-                //  locationManager.removeUpdates(luh);
+                ViewModel.getInstance().clearRoutes();
                 stopContinousLookup();
                 
                 Log.i(this, "Trip ENDED");
@@ -256,7 +256,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().clearViewModel();
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
-                        //  locationManager.removeUpdates(luh);
+                        ViewModel.getInstance().clearRoutes();
                         stopContinousLookup();
                         
                         Log.i(this, "Trip ENDED");
