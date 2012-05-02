@@ -17,41 +17,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups.energy.broadcastreceiver;
+package de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiManager;
 
 /**
- * {@link BroadcastReceiver} for Wifi connection changed events
+ * {@link BroadcastReceiver} to get the bluetooth events
  * 
  * @author Thorsten Berberich
+ * 
  */
-public class WifiReceiver extends BroadcastReceiver {
+public class BluetoothReceiver extends BroadcastReceiver {
 	
 	/* (non-Javadoc)
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// Get the wifi state
-		int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
+		// Get state or not available 10 = off
+		int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 10);
 		
-		// Check the wifi state
-		switch (extraWifiState) {
-			case WifiManager.WIFI_STATE_DISABLED:
+		switch (state) {
+			case BluetoothAdapter.STATE_OFF:
 				break;
-			case WifiManager.WIFI_STATE_DISABLING:
+			case BluetoothAdapter.STATE_ON:
 				break;
-			case WifiManager.WIFI_STATE_ENABLED:
+			case BluetoothAdapter.STATE_TURNING_OFF:
 				break;
-			case WifiManager.WIFI_STATE_ENABLING:
-				break;
-			case WifiManager.WIFI_STATE_UNKNOWN:
+			case BluetoothAdapter.STATE_TURNING_ON:
 				break;
 		}
+		
 	}
 	
 }

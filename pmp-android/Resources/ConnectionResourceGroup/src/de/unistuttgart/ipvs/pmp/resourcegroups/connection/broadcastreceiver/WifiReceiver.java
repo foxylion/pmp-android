@@ -17,40 +17,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups.energy.broadcastreceiver;
+package de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 /**
- * {@link BroadcastReceiver} to get the bluetooth events
+ * {@link BroadcastReceiver} for Wifi connection changed events
  * 
  * @author Thorsten Berberich
- * 
  */
-public class BluetoothReceiver extends BroadcastReceiver {
+public class WifiReceiver extends BroadcastReceiver {
 	
 	/* (non-Javadoc)
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		// Get state or not available 10 = off
-		int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 10);
 		
-		switch (state) {
-			case BluetoothAdapter.STATE_OFF:
-				break;
-			case BluetoothAdapter.STATE_ON:
-				break;
-			case BluetoothAdapter.STATE_TURNING_OFF:
-				break;
-			case BluetoothAdapter.STATE_TURNING_ON:
-				break;
+		// Get the ConnectivityManager
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = null;
+		
+		// Get the network information for the wifi if the ConnectivityManager is not null
+		if (connectivityManager != null) {
+			networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		}
 		
+		// Check if the wifi is connected or not
+		if (networkInfo != null) {
+			if (networkInfo.isConnected()) {
+				// Connected
+			} else {
+				// Not Connected
+			}
+		}
 	}
 	
 }

@@ -17,34 +17,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.resourcegroups.energy.broadcastreceiver;
+package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.provider.Settings;
+import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.resource.Resource;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.Connection;
 
 /**
- * {@link BroadcastReceiver} to get the airplane mode events
+ * The resource of the {@link ResourceGroup}
  * 
  * @author Thorsten Berberich
+ * 
  */
-public class CellPhoneReceiver extends BroadcastReceiver {
+public class ConnectionResource extends Resource {
 	
 	/* (non-Javadoc)
-	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+	 * @see de.unistuttgart.ipvs.pmp.resource.Resource#getAndroidInterface(java.lang.String)
 	 */
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
-		
-		if (airplaneMode == 0) {
-			// Airplane mode is off
-			
-		} else {
-			// Airplane mode is on
-			
-		}
+	public IBinder getAndroidInterface(String appIdentifier) {
+		Connection connectionRG = (Connection) getResourceGroup();
+		return new ConnectionImpl(connectionRG.getContext());
 	}
 	
 }
