@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy;
 
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.BatteryChangedHandler;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.BatteryHandler;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.ScreenHandler;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.content.Intent;
  * 
  */
 public class EnergyBroadcastReceiver extends BroadcastReceiver {
-
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
@@ -20,11 +20,11 @@ public class EnergyBroadcastReceiver extends BroadcastReceiver {
 		 * Handle the intents
 		 */
 		if (action.equals(EnergyConstants.ACTION_SCREEN_ON)) {
-			ScreenHandler.handle(true);
+			ScreenHandler.handle(true, context);
 		} else if (action.equals(EnergyConstants.ACTION_SCREEN_OFF)) {
-			ScreenHandler.handle(false);
+			ScreenHandler.handle(false, context);
 		} else if (action.equals(EnergyConstants.ACTION_BATTERY_CHANGED)) {
-			BatteryChangedHandler.handle(intent);
+			BatteryHandler.handle(intent, context);
 		}
 	}
 }

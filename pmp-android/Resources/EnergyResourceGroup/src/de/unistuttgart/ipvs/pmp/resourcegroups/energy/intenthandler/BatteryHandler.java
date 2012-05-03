@@ -1,16 +1,20 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.BatteryManager;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.DBConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.BatteryEvent;
 
 /**
+ * 
  * @author Marcus Vetter
+ * 
  */
-public class BatteryChangedHandler {
+public class BatteryHandler {
 
-	public static void handle(Intent intent) {
+	public static void handle(Intent intent, Context context) {
 		int level = intent.getIntExtra(EnergyConstants.EXTRA_LEVEL, 0);
 		int healthIndicator = intent.getIntExtra(EnergyConstants.EXTRA_HEALTH,
 				0);
@@ -98,9 +102,10 @@ public class BatteryChangedHandler {
 		/*
 		 * Store to database
 		 */
-		DBConnector.getInstance().storeBatteryState(System.currentTimeMillis(),
+		BatteryEvent be = new BatteryEvent(-1, System.currentTimeMillis(),
 				level, health, status, plugged, present, technology,
 				temperature, voltage);
+		DBConnector.getInstance(context).storeBatteryEvent(be);
 	}
 
 }
