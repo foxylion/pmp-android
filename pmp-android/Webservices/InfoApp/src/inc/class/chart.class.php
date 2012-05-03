@@ -26,23 +26,56 @@ if (!defined("INCLUDE")) {
 
 class Chart {
 
-    public static function getJsDataObject($array) {
-        $object = "[\n";
+    /**
+     *
+     * @param String[][] $columns
+     * @param string[][] $data
+     */
+    public static function getDataObject($columns, $rows) {
 
-        $first = true;
+        $data = "var data = new google.visualization.DataTable();\n";
 
-        // Put event data into JS-object
-        foreach ($array as $key => $value) {
-            if ($first) {
-                $first = false;
+        // Create column field
+        foreach ($columns as $value) {
+            if (is_array($value)) {
+                $data .= "data.addColumn('" . $value[0] . "', '" . $value[1] . "');\n";
             } else {
-                $object .= ",\n";
+                $data .= "data.addColumn(" . $value . ");\n";
             }
-            $object .= "['" . $key . "', " . $value . "]";
         }
 
-        $object .= "\n]";
-        return $object;
+        $data .= "data.addRows([\n";
+
+        $outerFirst = true;
+        foreach ($rows as $key => $value) {
+            if ($outerFirst) {
+                $outerFirst = false;
+            } else {
+                $data .= ", \n";
+            }
+
+            $innerFirst = true;
+            $data .= "[";
+
+            for ($i = 0; $i < count($value); $i++) {
+                if ($innerFirst) {
+                    $innerFirst = false;
+                } else {
+                    $data .= ", ";
+                }
+                if ($columns[$i][0] == "string" || !is_array($columns[$i])) {
+                    $data .= "'";
+                }
+                $data .= $value[$i];
+                if ($columns[$i][0] == "string" || !is_array($columns[$i])) {
+                    $data .= "'";
+                }
+            }
+            $data .= "]";
+        }
+
+        $data .= "\n]);\n";
+        return $data;
     }
 
     /**
@@ -52,12 +85,10 @@ class Chart {
      * @return String           Formated date/time
      */
     public static function timeMillisToString($format, $millis) {
-        // Convert millis to seconds
+// Convert millis to seconds
         $sec = $millis / 1000;
         return date($format, $sec);
     }
 
-
 }
-
 ?>

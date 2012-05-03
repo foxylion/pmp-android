@@ -27,49 +27,54 @@ $device = Device::getInstance("f2305a2fbef51bd82008c7cf3788250f");
 $events = $device->getConnectionEventManager()->getEventsOneDay(1335909600312);
 
 // Count connections per city
-$citiesBluetooth = array();
-$citiesWifi = array();
-$connectionBluetoothRows = array();
+$citiesBluetoothColumns = array(array("string", "Cities"),array("number", "Paired devices"));
+$citiesWifiColumns = array(array("string", "Cities"),array("number", "Paired devices"));
+$citiesConnectionColumns = array(array("datetime","Date"),array("number","Enabled"),array("number","Connected"),"{type:'string',role:'annotation'}","{type:'string',role:'annotationText'}");
+$citiesBluetoothRows = array();
+$citiesWifiRows = array();
+$citiesBluetoothConnectionRows = array();
+$citiesWifiConnectionRows = array();
+
 foreach ($events as $event) {
-    // City counter
+
     $city = $event->getCity();
     switch ($event->getMedium()) {
         case ConnectionEvent::BLUETOOTH:
-            if (key_exists($city, $citiesBluetooth)) {
-                $citiesBluetooth[$city]++;
+            // City counter
+            if (key_exists($city, $citiesBluetoothRows)) {
+                $citiesBluetoothRows[$city][1]++;
             } else {
-                $citiesBluetooth[$city] = 1;
+                $citiesBluetoothRows[$city][1] = 1;
+                $citiesBluetoothRows[$city][0] = $city;
             }
+
+            // Connection status
+            $citiesBluetoothConnectionRows[] = array("new Date(".$event->getTimestamp().")", (int)$event->isEnabled(),(int)$event->isConnected(), "i", $event->getCity());
             break;
 
         case ConnectionEvent::WIFI:
-            if (key_exists($city, $citiesWifi)) {
-                $citiesWifi[$city]++;
+            // City counter
+            if (key_exists($city, $citiesWifiRows)) {
+                $citiesWifiRows[$city][1]++;
             } else {
-                $citiesWifi[$city] = 1;
+                $citiesWifiRows[$city][1] = 1;
+                $citiesWifiRows[$city][0] = $city;
             }
+
+            // Connection status
+            $citiesWifiConnectionRows[] = array("new Date(".$event->getTimestamp().")", (int)$event->isEnabled(),(int)$event->isConnected(), "i", $event->getCity());
             break;
+
     }
 
-    // Connection status
-    $timeString = Chart::timeMillisToString("Y-m-d, H:i:s", $event->getTimestamp());
-    $status = array(array("v" => $timeString), array("v" => (int)$event->isEnabled()),
-    array("v" => (int)$event->isConnected()));
-    $connectionBluetoothRows[] = array("c" => $status);
 }
 
-$connectionCols = array(array("id" => "time", "label" => "Date", "type" => "string"),
-    array("id" => "enabled", "label" => "Enabled", "type" => "number"),
-    array("id" => "connected", "label" => "Connected", "type" => "number"));
-
-
-
-$connectionBluetooth = array("cols" => $connectionCols, "rows" => $connectionBluetoothRows);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Connection</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <!--Load the AJAX API-->
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -85,13 +90,15 @@ $connectionBluetooth = array("cols" => $connectionCols, "rows" => $connectionBlu
             // draws it.
             function drawChart() {
                 drawBluetoothConnection();
+                drawWifiConnection();
                 drawBluetoothChart();
                 drawWifiChart();
             }
 
             function drawBluetoothConnection() {
-                var data = new google.visualization.DataTable(<?php echo Json::arrayToJson($connectionBluetooth) ?>);
-
+                <?php
+                echo Chart::getDataObject($citiesConnectionColumns, $citiesBluetoothConnectionRows);
+                ?>
                 var options = {
                     title: 'Bluetooth adapter status',
                     'width':800,
@@ -101,16 +108,30 @@ $connectionBluetooth = array("cols" => $connectionCols, "rows" => $connectionBlu
 
                 var chart = new google.visualization.AreaChart(document.getElementById('connectionBluetooth'));
                 chart.draw(data, options);
-
             }
+
+            function drawWifiConnection() {
+                <?php
+                echo Chart::getDataObject($citiesConnectionColumns, $citiesWifiConnectionRows);
+                ?>
+                var options = {
+                    title: 'Wifi adapter status',
+                    'width':800,
+                    'height':450
+                };
+
+
+                var chart = new google.visualization.AreaChart(document.getElementById('connectionWifi'));
+                chart.draw(data, options);
+            }
+
 
             function drawBluetoothChart() {
 
                 // Create the data table.
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Cities');
-                data.addColumn('number', 'Paired devices');
-                data.addRows(<?php echo Chart::getJsDataObject($citiesBluetooth) ?>);
+                <?php
+                echo Chart::getDataObject($citiesBluetoothColumns, $citiesBluetoothRows);
+                ?>
 
                 // Set chart options
                 var options = {'title':'Number of paired bluetooth devices',
@@ -125,10 +146,9 @@ $connectionBluetooth = array("cols" => $connectionCols, "rows" => $connectionBlu
             function drawWifiChart() {
 
                 // Create the data table.
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Cities');
-                data.addColumn('number', 'WIFI connections');
-                data.addRows(<?php echo Chart::getJsDataObject($citiesWifi) ?>);
+                <?php
+                echo Chart::getDataObject($citiesWifiColumns, $citiesWifiRows);
+                ?>
 
                 // Set chart options
                 var options = {'title':'Number of WIFI networks the device has been connected to',
@@ -144,6 +164,7 @@ $connectionBluetooth = array("cols" => $connectionCols, "rows" => $connectionBlu
     <body>
         <h1>Connection Events</h1>
         <div id="connectionBluetooth" style="width:800; height:450"></div>
+        <div id="connectionWifi" style="width:800; height:450"></div>
         <div id="countBluetooth" style="width:800; height:450"></div>
         <div id="countWifi" style="width:800; height:450"></div>
     </body>
