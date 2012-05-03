@@ -70,6 +70,26 @@ class ConnectionEventManager extends EventManager {
         $this->updateOrInsertLastIdEntry("connection", $lastId);
     }
 
+    public function getEventsInterval($fromTs, $toTs) {
+        if (!is_numeric($fromTs) || !is_numeric($toTs)) {
+            throw new InvalidArgumentException("at least one timestamp is no long");
+        }
+        $db = Database::getInstance();
+
+        $res = $db->query("SELECT * FROM `" . DB_PREFIX . "_connection`
+                           WHERE `device` = x'" . $this->deviceId . "'
+                           AND `timestamp` >= $fromTs
+                           AND `timestamp` <= $toTs
+                           ORDER BY `event_id` ASC");
+
+        $events = array();
+        while (($row = $db->fetch($res)) != null ) {
+            $events[] = new ConnectionEvent($row["id"], $row["timestamp"], $row["medium"], (bool)$row["connected"], (bool)$row["enabled"], $row["city"]);
+        }
+
+        return $events;
+    }
+
     public function getLastId() {
         return $this->queryLastId("connection");
     }

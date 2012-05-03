@@ -20,6 +20,10 @@
  * limitations under the License.
  */
 
+if (!defined("INCLUDE")) {
+    exit;
+}
+
 /**
  * This class handles the access to all classes used to manage the stored information
  *

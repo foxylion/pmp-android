@@ -105,6 +105,23 @@ abstract class EventManager {
     }
 
     /**
+     * Gets all available events for a one-day-period
+     * @param long $startTimestamp Start timestamp
+     * @return Events[] The loaded events
+     */
+    public function getEventsOneDay($startTs) {
+        return $this->getEventsInterval($startTs, $startTs + 86400000);
+    }
+
+    /**
+     * Gets all available events stored in the DB for the given interval
+     * @param long  $fromTs Start timestamp in MS
+     * @param long  $toTs   End timestamp in MS
+     * @return Events[] The loaded events
+     */
+    public abstract function getEventsInterval($fromTs, $toTs);
+
+    /**
      * Gets the ID of the event that has been added to the db the last time
      * @return The last ID
      */

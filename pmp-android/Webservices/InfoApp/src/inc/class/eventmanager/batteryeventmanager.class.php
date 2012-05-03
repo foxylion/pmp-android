@@ -73,6 +73,10 @@ class BatteryEventManager extends EventManager {
         $this->updateOrInsertLastIdEntry("battery", $lastId);
     }
 
+    public function getEventsInterval($fromTs, $toTs) {
+
+    }
+
     public function getLastId() {
         return $this->queryLastId("battery");
     }

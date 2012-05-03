@@ -65,6 +65,10 @@ class ScreenEventManager extends EventManager {
         $this->updateOrInsertLastIdEntry("screen", $lastId);
     }
 
+    public function getEventsInterval($fromTs, $toTs) {
+
+    }
+
     public function getLastId() {
         return $this->queryLastId("screen");
     }

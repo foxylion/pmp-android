@@ -67,6 +67,10 @@ class CellularConnectionEventManager extends EventManager {
         $this->updateOrInsertLastIdEntry("connection_cellular", $lastId);
     }
 
+    public function getEventsInterval($fromTs, $toTs) {
+
+    }
+
     public function getLastId() {
         return $this->queryLastId("connection_cellular");
     }

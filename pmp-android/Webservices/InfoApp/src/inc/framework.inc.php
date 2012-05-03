@@ -32,6 +32,7 @@ if (!defined("INCLUDE")) {
 require ("./../inc/config.inc.php");
 
 // Load class-files
+require ("./../inc/class/chart.class.php");
 require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
 require ("./../inc/class/json.class.php");
