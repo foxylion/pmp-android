@@ -1,5 +1,9 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.BatteryEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.DeviceBootEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
+
 /**
  * 
  * @author Marcus Vetter
@@ -8,47 +12,27 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 public interface IDBConnector {
 
 	/**
-	 * Store the current state of the battery
+	 * Store a battery event
 	 * 
-	 * @param timestamp
-	 *            the time stamp (in ms) of the record
-	 * @param level
-	 *            level of the battery
-	 * @param health
-	 *            health of the battery
-	 * @param status
-	 *            status of the battery
-	 * @param plugged
-	 *            USB/AC-plugged, nullable
-	 * @param present
-	 *            true, if the battery is present
-	 * @param technology
-	 *            the technology of the battery
-	 * @param temperature
-	 *            the temperature of the battery
-	 * @param voltage
-	 *            the voltage of the battery
+	 * @param be
+	 *            the battery event
 	 */
-	public void storeBatteryState(long timestamp, int level, String health,
-			String status, String plugged, boolean present, String technology,
-			int temparature, int voltage);
+	public void storeBatteryEvent(BatteryEvent be);
 
 	/**
-	 * Store the current state of the screen
+	 * Store the screen event
 	 * 
-	 * @param timestamp
-	 *            the time stamp (in ms) of the record
-	 * @param changedTo
-	 *            true, if the screen turned on
+	 * @param se
+	 *            the screen event
 	 */
-	public void storeScreenState(long timestamp, boolean changedTo);
+	public void storeScreenEvent(ScreenEvent se);
 
 	/**
-	 * Store the event, if the device booted completly
+	 * Store the device boot event
 	 * 
-	 * @param timestamp
-	 *            the time stamp (in ms) of the record
+	 * @param dbe
+	 *            the device boot event
 	 */
-	public void storeDeviceBoot(long timestamp);
+	public void storeDeviceBootEvent(DeviceBootEvent dbe);
 
 }
