@@ -311,8 +311,8 @@ public class DialogContextChange extends Dialog {
                                 Toast.LENGTH_LONG);
                     }
                     
-                    if (callback != null) {
-                        callback.callback();
+                    if (DialogContextChange.this.callback != null) {
+                        DialogContextChange.this.callback.callback();
                     }
                     
                     dismiss();

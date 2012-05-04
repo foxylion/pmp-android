@@ -52,7 +52,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //        PMP.get(getApplication());
-        handler = new Handler();
+        this.handler = new Handler();
         
         // Show the main activity if already logged in
         if (Model.getInstance().isLoggedIn()) {
@@ -64,10 +64,10 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         
         setContentView(R.layout.activity_login);
         
-        cbAutologin = (CheckBox) findViewById(R.id.Checkbox_Remember);
-        etUsername = (EditText) findViewById(R.id.edit_login);
-        etPW = (EditText) findViewById(R.id.edit_password);
-        pbLogin = (ProgressBar) findViewById(R.id.pb_login);
+        this.cbAutologin = (CheckBox) findViewById(R.id.Checkbox_Remember);
+        this.etUsername = (EditText) findViewById(R.id.edit_login);
+        this.etPW = (EditText) findViewById(R.id.edit_password);
+        this.pbLogin = (ProgressBar) findViewById(R.id.pb_login);
         
         registerListeners();
     }
@@ -78,7 +78,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
@@ -94,25 +94,25 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         super.onResume();
         
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
-        username = settings.getString("USERNAME", "");
-        pw = settings.getString("PASSWORD", "");
+        this.username = settings.getString("USERNAME", "");
+        this.pw = settings.getString("PASSWORD", "");
         
         if (settings.getBoolean("AUTOLOGIN", false) && !settings.getBoolean("ERROR", false)
                 && vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE)) {
-            cbAutologin.setChecked(true);
+            this.cbAutologin.setChecked(true);
             findViewById(R.id.layout_login).setVisibility(View.GONE);
             findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
-            etUsername.setEnabled(false);
-            etPW.setEnabled(false);
-            etUsername.setText(username);
-            etPW.setText(pw);
-            pbLogin.setVisibility(View.VISIBLE);
-            loginTimer = new Timer();
-            loginTimer.schedule(new TimerTask() {
+            this.etUsername.setEnabled(false);
+            this.etPW.setEnabled(false);
+            this.etUsername.setText(this.username);
+            this.etPW.setText(this.pw);
+            this.pbLogin.setVisibility(View.VISIBLE);
+            this.loginTimer = new Timer();
+            this.loginTimer.schedule(new TimerTask() {
                 
                 @Override
                 public void run() {
-                    handler.post(new Runnable() {
+                    LoginActivity.this.handler.post(new Runnable() {
                         
                         @Override
                         public void run() {
@@ -122,14 +122,14 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 }
             }, 1500);
         } else {
-            cbAutologin.setChecked(false);
+            this.cbAutologin.setChecked(false);
             findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
             findViewById(R.id.layout_autologin).setVisibility(View.GONE);
-            etUsername.setEnabled(true);
-            etPW.setEnabled(true);
+            this.etUsername.setEnabled(true);
+            this.etPW.setEnabled(true);
             if (settings.getBoolean("AUTOLOGIN", false)) {
-                etUsername.setText(username);
-                etPW.setText(pw);
+                this.etUsername.setText(this.username);
+                this.etPW.setText(this.pw);
             }
         }
     }
@@ -155,13 +155,14 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void onClick(View v) {
-                isCanceled = true;
-                if (loginTimer != null)
-                    loginTimer.cancel();
+                LoginActivity.this.isCanceled = true;
+                if (LoginActivity.this.loginTimer != null) {
+                    LoginActivity.this.loginTimer.cancel();
+                }
                 findViewById(R.id.layout_login).setVisibility(View.VISIBLE);
                 findViewById(R.id.layout_autologin).setVisibility(View.GONE);
-                etUsername.setEnabled(true);
-                etPW.setEnabled(true);
+                LoginActivity.this.etUsername.setEnabled(true);
+                LoginActivity.this.etPW.setEnabled(true);
             }
         });
         
@@ -171,21 +172,21 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             @Override
             public void onClick(View v) {
                 
-                username = etUsername.getText().toString();
-                pw = etPW.getText().toString();
+                LoginActivity.this.username = LoginActivity.this.etUsername.getText().toString();
+                LoginActivity.this.pw = LoginActivity.this.etPW.getText().toString();
                 
-                if (username.equals("") || pw.equals("")) {
+                if (LoginActivity.this.username.equals("") || LoginActivity.this.pw.equals("")) {
                     Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
                 } else {
                     
-                    isCanceled = false;
+                    LoginActivity.this.isCanceled = false;
                     
                     // Save auto login state
                     SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                     SharedPreferences.Editor prefsEditor = prefs.edit();
-                    prefsEditor.putBoolean("AUTOLOGIN", cbAutologin.isChecked());
-                    prefsEditor.putString("USERNAME", etUsername.getText().toString());
-                    prefsEditor.putString("PASSWORD", etPW.getText().toString());
+                    prefsEditor.putBoolean("AUTOLOGIN", LoginActivity.this.cbAutologin.isChecked());
+                    prefsEditor.putString("USERNAME", LoginActivity.this.etUsername.getText().toString());
+                    prefsEditor.putString("PASSWORD", LoginActivity.this.etPW.getText().toString());
                     prefsEditor.commit();
                     
                     // Check service feature
@@ -202,8 +203,9 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     
     
     private void login() {
-        if (isCanceled)
+        if (this.isCanceled) {
             return;
+        }
         try {
             try {
                 ((Button) findViewById(R.id.button_cancel)).setEnabled(false);
@@ -214,11 +216,11 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             // Get resource group 
             if (getvHikeRG(this) != null) {
                 Log.v(this, "Logging in");
-                ctrl = new Controller(rgvHike);
+                this.ctrl = new Controller(rgvHike);
                 LoginActivity.this.findViewById(R.id.layout_login).setVisibility(View.GONE);
                 LoginActivity.this.findViewById(R.id.layout_autologin).setVisibility(View.VISIBLE);
                 
-                boolean loggedin = ctrl.login(username, pw);
+                boolean loggedin = this.ctrl.login(this.username, this.pw);
                 
                 SharedPreferences prefs = getPreferences(MODE_PRIVATE);
                 SharedPreferences.Editor prefsEditor = prefs.edit();
@@ -237,10 +239,10 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                     Intent intent = new Intent(this, MainActivity.class);
                     startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
                     
-                    if (cbAutologin.isChecked()) { // Save password
-                        prefsEditor.putBoolean("AUTOLOGIN", cbAutologin.isChecked());
-                        prefsEditor.putString("USERNAME", etUsername.getText().toString());
-                        prefsEditor.putString("PASSWORD", etPW.getText().toString());
+                    if (this.cbAutologin.isChecked()) { // Save password
+                        prefsEditor.putBoolean("AUTOLOGIN", this.cbAutologin.isChecked());
+                        prefsEditor.putString("USERNAME", this.etUsername.getText().toString());
+                        prefsEditor.putString("PASSWORD", this.etPW.getText().toString());
                         prefsEditor.commit();
                     } else { // Clear saved password
                         prefsEditor.putBoolean("AUTOLOGIN", false);

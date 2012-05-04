@@ -36,6 +36,7 @@ public abstract class ResourceGroupReadyMapActivity extends MapActivity implemen
      * @param resourceGroupId
      *            The ID of that resource group
      */
+    @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
         switch (resourceGroupId) {
             case Constants.RG_LOCATION:

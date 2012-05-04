@@ -21,83 +21,83 @@ import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 
 public class RSSPanel implements IPanel {
-	
-	private List<String> headlines;
-	private List<String> links;
-	
-	private ListView view;
-	
-	private Context context;
-	
-	
-	public RSSPanel(Context context) {
-		this.context = context;
-		
-		this.view = new ListView(context);
-		
-		this.headlines = new ArrayList<String>();
-		this.links = new ArrayList<String>();
-		
-		try {
-			URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
-			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-			factory.setNamespaceAware(false);
-			XmlPullParser xpp = factory.newPullParser();
-			try {
-				xpp.setInput(url.openConnection().getInputStream(), "UTF_8");
-			} catch (XmlPullParserException e) {
-				e.printStackTrace();
-			}
-			boolean insideItem = false;
-			int eventType = xpp.getEventType();
-			
-			while (eventType != XmlPullParser.END_DOCUMENT) {
-				if (eventType == XmlPullParser.START_TAG) {
-					if (xpp.getName().equalsIgnoreCase("item")) {
-						insideItem = true;
-					} else if (xpp.getName().equalsIgnoreCase("title")) {
-						if (insideItem) {
-							this.headlines.add(xpp.nextText()); // extract the
-							// headline
-						}
-					} else if (xpp.getName().equalsIgnoreCase("link")) {
-						if (insideItem) {
-							this.links.add(xpp.nextText()); // extract the link of
-							// article
-						}
-					}
-				} else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
-					insideItem = false;
-				}
-				
-				eventType = xpp.next(); // move to next element
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.view.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, this.headlines));
-		this.view.setOnItemClickListener(new OnItemClickListener() {
-			
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Uri uri = Uri.parse(RSSPanel.this.links.get(pos));
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				RSSPanel.this.context.startActivity(intent);
-			}
-		});
-	}
-	
-	
-	public View getView() {
-		return this.view;
-	}
-	
-	
-	public String getTitle() {
-		return "RSS";
-	}
-	
+    
+    private List<String> headlines;
+    private List<String> links;
+    
+    private ListView view;
+    
+    private Context context;
+    
+    
+    public RSSPanel(Context context) {
+        this.context = context;
+        
+        this.view = new ListView(context);
+        
+        this.headlines = new ArrayList<String>();
+        this.links = new ArrayList<String>();
+        
+        try {
+            URL url = new URL("http://feeds.pcworld.com/pcworld/latestnews");
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(false);
+            XmlPullParser xpp = factory.newPullParser();
+            try {
+                xpp.setInput(url.openConnection().getInputStream(), "UTF_8");
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+            }
+            boolean insideItem = false;
+            int eventType = xpp.getEventType();
+            
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG) {
+                    if (xpp.getName().equalsIgnoreCase("item")) {
+                        insideItem = true;
+                    } else if (xpp.getName().equalsIgnoreCase("title")) {
+                        if (insideItem) {
+                            this.headlines.add(xpp.nextText()); // extract the
+                            // headline
+                        }
+                    } else if (xpp.getName().equalsIgnoreCase("link")) {
+                        if (insideItem) {
+                            this.links.add(xpp.nextText()); // extract the link of
+                            // article
+                        }
+                    }
+                } else if (eventType == XmlPullParser.END_TAG && xpp.getName().equalsIgnoreCase("item")) {
+                    insideItem = false;
+                }
+                
+                eventType = xpp.next(); // move to next element
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.view.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, this.headlines));
+        this.view.setOnItemClickListener(new OnItemClickListener() {
+            
+            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+                Uri uri = Uri.parse(RSSPanel.this.links.get(pos));
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                RSSPanel.this.context.startActivity(intent);
+            }
+        });
+    }
+    
+    
+    public View getView() {
+        return this.view;
+    }
+    
+    
+    public String getTitle() {
+        return "RSS";
+    }
+    
 }

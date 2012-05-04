@@ -45,7 +45,7 @@ public class AddStopOverListener implements OnClickListener {
             this.spinner.setAdapter(adapter);
             
             // add Spinner to "StopOver-List"/Spinner-List
-            ViewModel.getInstance().getDestinationSpinners().add(spinner);
+            ViewModel.getInstance().getDestinationSpinners().add(this.spinner);
             
             this.spinner.setOnLongClickListener(new OnLongClickListener() {
                 

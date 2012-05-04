@@ -22,11 +22,13 @@ public class HistoryRideActivity extends ResourceGroupReadyListActivity {
     int tripid;
     Handler handler;
     
+    
+    @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
@@ -36,20 +38,23 @@ public class HistoryRideActivity extends ResourceGroupReadyListActivity {
         }
     }
     
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(de.unistuttgart.ipvs.pmp.apps.vhike.R.layout.activity_history_profile_list);
-        if(getvHikeRG(this)!= null)
+        if (getvHikeRG(this) != null) {
             goForward();
+        }
     }
     
-    public void goForward(){
-        ctrl = new Controller(rgvHike);
-        handler = new Handler();
+    
+    public void goForward() {
+        this.ctrl = new Controller(rgvHike);
+        this.handler = new Handler();
         int id = getIntent().getExtras().getInt("ID");
         String role = getIntent().getExtras().getString("ROLE");
-       
+        
         List<HistoryRideObject> historyRides = this.ctrl.getHistory(Model.getInstance().getSid(), role);
         if (historyRides.size() == 0) {
             this.hPersonObjects = new ArrayList<HistoryPersonObject>();

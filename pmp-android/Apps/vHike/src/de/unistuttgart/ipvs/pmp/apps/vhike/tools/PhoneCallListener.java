@@ -36,7 +36,7 @@ public class PhoneCallListener extends PhoneStateListener {
             // active
             Log.i(this, "OFFHOOK");
             
-            isPhoneCalling = true;
+            this.isPhoneCalling = true;
         }
         
         if (TelephonyManager.CALL_STATE_IDLE == state) {
@@ -44,20 +44,19 @@ public class PhoneCallListener extends PhoneStateListener {
             // need detect flag from CALL_STATE_OFFHOOK
             Log.i(this, "IDLE");
             
-            if (isPhoneCalling) {
+            if (this.isPhoneCalling) {
                 
                 Log.i(this, "restart app");
                 
                 // restart app
-                Intent i = activity.getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(
-                                activity.getBaseContext().getPackageName());
-                Intent intent = new Intent(activity, DriverViewActivity.class);
+                Intent i = this.activity.getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage(this.activity.getBaseContext().getPackageName());
+                Intent intent = new Intent(this.activity, DriverViewActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 // activity.startActivity(i);
-                activity.startActivity(intent);
+                this.activity.startActivity(intent);
                 
-                isPhoneCalling = false;
+                this.isPhoneCalling = false;
             }
             
         }

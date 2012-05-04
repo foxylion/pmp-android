@@ -42,9 +42,10 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_profile);
-        handler = new Handler();
-        if (getvHikeRG(this) != null)
+        this.handler = new Handler();
+        if (getvHikeRG(this) != null) {
             setUpProfile();
+        }
     }
     
     
@@ -53,7 +54,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
@@ -82,12 +83,13 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             if (whoIsIt == 0) {
                 this.profile = Model.getInstance().getOwnProfile();
             } else {
-                ctrl = new Controller(rgvHike);
-                this.profile = ctrl.getProfile(Model.getInstance().getSid(), profileID);
+                this.ctrl = new Controller(rgvHike);
+                this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), profileID);
             }
             
             final Button anonymous = (Button) findViewById(R.id.btn_anonymous);
             anonymous.setOnClickListener(new View.OnClickListener() {
+                
                 @Override
                 public void onClick(View v) {
                     // if (anonymous = active)
@@ -97,8 +99,9 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             
             final Button observation = (Button) findViewById(R.id.btn_observation);
             observation.setOnClickListener(new View.OnClickListener() {
+                
                 @Override
-                public void onClick(View v) {   
+                public void onClick(View v) {
                     // if observation = active
                     observation.setBackgroundResource(R.drawable.btn_observation);
                 }
@@ -146,7 +149,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             }
             
             TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
-            tv_rating.setText(Float.toString((float) profile.getRating_avg()));
+            tv_rating.setText(Float.toString((float) this.profile.getRating_avg()));
             
         }
         

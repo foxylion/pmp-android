@@ -317,7 +317,7 @@ public class JSonRequestReader {
         
         listToParse.add(new ParamObject("destination", destination, true));
         listToParse.add(new ParamObject("avail_seats", String.valueOf(avail_seats), true));
-        if(date != null){
+        if (date != null) {
             listToParse.add(new ParamObject("date", String.valueOf(date.getTime()), true));
         }
         if (current_lat < Constants.COORDINATE_INVALID) {

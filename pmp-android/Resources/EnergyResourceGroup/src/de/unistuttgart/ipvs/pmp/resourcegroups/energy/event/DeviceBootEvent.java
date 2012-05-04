@@ -6,13 +6,13 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.energy.event;
  * 
  */
 public class DeviceBootEvent extends AbstractEvent {
-
-	/**
-	 * Constructor
-	 */
-	public DeviceBootEvent(int id, long timestamp) {
-		this.id = id;
-		this.timestamp = timestamp;
-	}
-
+    
+    /**
+     * Constructor
+     */
+    public DeviceBootEvent(int id, long timestamp) {
+        this.id = id;
+        this.timestamp = timestamp;
+    }
+    
 }

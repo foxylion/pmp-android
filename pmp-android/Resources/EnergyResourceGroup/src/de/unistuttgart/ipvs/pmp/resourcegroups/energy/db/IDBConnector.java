@@ -10,29 +10,31 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
  * 
  */
 public interface IDBConnector {
-
-	/**
-	 * Store a battery event
-	 * 
-	 * @param be
-	 *            the battery event
-	 */
-	public void storeBatteryEvent(BatteryEvent be);
-
-	/**
-	 * Store the screen event
-	 * 
-	 * @param se
-	 *            the screen event
-	 */
-	public void storeScreenEvent(ScreenEvent se);
-
-	/**
-	 * Store the device boot event
-	 * 
-	 * @param dbe
-	 *            the device boot event
-	 */
-	public void storeDeviceBootEvent(DeviceBootEvent dbe);
-
+    
+    /**
+     * Store a battery event
+     * 
+     * @param be
+     *            the battery event
+     */
+    public void storeBatteryEvent(BatteryEvent be);
+    
+    
+    /**
+     * Store the screen event
+     * 
+     * @param se
+     *            the screen event
+     */
+    public void storeScreenEvent(ScreenEvent se);
+    
+    
+    /**
+     * Store the device boot event
+     * 
+     * @param dbe
+     *            the device boot event
+     */
+    public void storeDeviceBootEvent(DeviceBootEvent dbe);
+    
 }

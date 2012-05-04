@@ -136,12 +136,13 @@ public class MainActivity extends ResourceGroupReadyActivity {
             public void onClick(View v) {
                 try {
                     ((Button) findViewById(R.id.Button_Logout)).setEnabled(false);
-                    if (logoutTimer == null)
-                        logoutTimer = new Timer();
+                    if (MainActivity.this.logoutTimer == null) {
+                        MainActivity.this.logoutTimer = new Timer();
+                    }
                     if (getvHikeRG(MainActivity.this) != null) {
-                        logoutTimer.schedule(logoutTask, 0);
+                        MainActivity.this.logoutTimer.schedule(MainActivity.this.logoutTask, 0);
                     } else {
-                        logoutTimer.schedule(logoutTask, 10);
+                        MainActivity.this.logoutTimer.schedule(MainActivity.this.logoutTask, 10);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -158,12 +159,13 @@ public class MainActivity extends ResourceGroupReadyActivity {
         public void run() {
             if (rgvHike != null) {
                 Controller ctrl = new Controller(rgvHike);
-                if (ctrl.logout(Model.getInstance().getSid()))
+                if (ctrl.logout(Model.getInstance().getSid())) {
                     MainActivity.this.finish();
-                else
+                } else {
                     ((Button) findViewById(R.id.Button_Logout)).setEnabled(true);
+                }
             } else {
-                logoutTimer.schedule(logoutTask, 10);
+                MainActivity.this.logoutTimer.schedule(MainActivity.this.logoutTask, 10);
             }
         }
     };

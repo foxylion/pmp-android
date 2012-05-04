@@ -333,14 +333,16 @@ public class AISValidator extends AbstractValidator {
         /*
          * Validate, if the value is missing 
          */
-        if (!rps.isEmptyValue() && !checkValueSet(rps.getValue()))
+        if (!rps.isEmptyValue() && !checkValueSet(rps.getValue())) {
             issueList.add(new Issue(IssueType.VALUE_MISSING, rps));
+        }
         
         /*
          * Validate, if an empty value conflict occurred
          */
-        if (rps.isEmptyValue() && checkValueSet(rps.getValue()))
+        if (rps.isEmptyValue() && checkValueSet(rps.getValue())) {
             issueList.add(new Issue(IssueType.VALUE_CONFLICT, rps));
+        }
         
         // Attach data
         attachData(issueList, attachData);

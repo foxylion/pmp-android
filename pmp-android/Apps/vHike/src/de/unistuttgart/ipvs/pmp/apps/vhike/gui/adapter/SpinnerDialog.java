@@ -28,7 +28,7 @@ public class SpinnerDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 
-                Log.i(this, "Size be4: "+ ViewModel.getInstance().getDestinationSpinners().size());
+                Log.i(this, "Size be4: " + ViewModel.getInstance().getDestinationSpinners().size());
                 if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
                     
                     int sNumber = ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition();

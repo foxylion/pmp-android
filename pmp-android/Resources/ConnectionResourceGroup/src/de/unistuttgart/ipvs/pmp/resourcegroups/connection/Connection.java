@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,30 +31,30 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource.ConnectionRes
  * 
  */
 public class Connection extends ResourceGroup {
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param pmpci
-	 *            {@link IPMPConnectionInterface}
-	 */
-	public Connection(IPMPConnectionInterface pmpci) {
-		super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
-		
-		// Register the resource
-		registerResource(ConnectionConstants.RES_ENERGY, new ConnectionResource());
-		
-		// Register all privacy settings
-		registerPrivacySetting(ConnectionConstants.PS_BLUETOOTH_DEVICES, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_BLUETOOTH_STATUS, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_BT_CONNECTED_CITIES, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_CELL_STATUS, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_CELL_STATUS, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_CONFIGURED_NETWORKS, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_DATA_STATUS, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_UPLOAD_DATA, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, new BooleanPrivacySetting());
-		registerPrivacySetting(ConnectionConstants.PS_WIFI_STATUS, new BooleanPrivacySetting());
-	}
-	
+    
+    /**
+     * Constructor
+     * 
+     * @param pmpci
+     *            {@link IPMPConnectionInterface}
+     */
+    public Connection(IPMPConnectionInterface pmpci) {
+        super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
+        
+        // Register the resource
+        registerResource(ConnectionConstants.RES_ENERGY, new ConnectionResource());
+        
+        // Register all privacy settings
+        registerPrivacySetting(ConnectionConstants.PS_BLUETOOTH_DEVICES, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_BLUETOOTH_STATUS, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_BT_CONNECTED_CITIES, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_CELL_STATUS, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_CELL_STATUS, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_CONFIGURED_NETWORKS, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_DATA_STATUS, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_UPLOAD_DATA, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, new BooleanPrivacySetting());
+        registerPrivacySetting(ConnectionConstants.PS_WIFI_STATUS, new BooleanPrivacySetting());
+    }
+    
 }

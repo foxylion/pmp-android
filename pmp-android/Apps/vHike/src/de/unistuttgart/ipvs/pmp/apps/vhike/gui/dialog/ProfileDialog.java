@@ -19,7 +19,7 @@ public class ProfileDialog extends Dialog {
     
     
     @SuppressWarnings("static-access")
-    public ProfileDialog(IvHikeWebservice ws,Context context, int profileID) {
+    public ProfileDialog(IvHikeWebservice ws, Context context, int profileID) {
         super(context);
         requestWindowFeature(getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_profile);
@@ -59,8 +59,7 @@ public class ProfileDialog extends Dialog {
         rb.setRating((float) this.profile.getRating_avg());
         
         TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
-        tv_rating.setText(Float.toString((float) profile.getRating_avg()));
-        
+        tv_rating.setText(Float.toString((float) this.profile.getRating_avg()));
         
     }
     

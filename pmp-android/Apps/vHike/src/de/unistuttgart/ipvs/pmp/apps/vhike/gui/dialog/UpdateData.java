@@ -32,17 +32,18 @@ public class UpdateData extends Dialog {
     private Button apply;
     private Button cancel;
     
-    public UpdateData(Context context, IvHikeWebservice ws){
+    
+    public UpdateData(Context context, IvHikeWebservice ws) {
         super(context);
-        ctrl = new Controller(ws);
+        this.ctrl = new Controller(ws);
     }
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_update_data);
         setTitle("Change trip");
-        
         
         this.spinner_destination = (Spinner) findViewById(R.id.update_spinner);
         this.spinner_numSeats = (Spinner) findViewById(R.id.update_spinner_numSeats);
