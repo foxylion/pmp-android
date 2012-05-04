@@ -24,6 +24,12 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Helper class for easier creation of Google Charts
+ *
+ * @author Patrick Strobel
+ * @version 4.0.0
+ */
 class Chart {
 
     /**
@@ -85,9 +91,17 @@ class Chart {
      * @return String           Formated date/time
      */
     public static function timeMillisToString($format, $millis) {
-// Convert millis to seconds
         $sec = $millis / 1000;
         return date($format, $sec);
+    }
+
+    /**
+     * Converts a php timestamp into a Java MS-timestamp
+     * @param long $timestamp   PHP Timestamp
+     * @return long Java timestamp
+     */
+    public static function timestampToMillis($timestamp) {
+        return $timestamp * 1000;
     }
 
 }
