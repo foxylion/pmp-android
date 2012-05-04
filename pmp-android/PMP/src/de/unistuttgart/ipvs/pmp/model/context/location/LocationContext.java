@@ -119,7 +119,7 @@ public class LocationContext implements IContext, LocationListener {
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, LocationContext.this);
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, LocationContext.this);
                 Looper.loop();
-            };
+            }
         };
         
         looping.start();
