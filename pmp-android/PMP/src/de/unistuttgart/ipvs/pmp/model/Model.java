@@ -502,7 +502,7 @@ public class Model implements IModel, Observer {
             // apply new PS to DB, then model
             for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
-                        ps.getIdentifier(), true/*ps.isRequestable()*/);
+                        ps.getIdentifier(), ps.isRequestable());
                 Assert.nonNull(newPS, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newPS", newPS);
                 this.cache.getPrivacySettings().get(newRG).put(ps.getIdentifier(), newPS);
             }
