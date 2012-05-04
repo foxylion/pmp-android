@@ -11,7 +11,7 @@ public class DBConstants {
      * Database name and version
      */
     protected static final String DATABASE_NAME = "energy.db";
-    protected static final int DATABASE_VERSION = 2;
+    protected static final int DATABASE_VERSION = 3;
     
     /**
      * Table names
