@@ -27,8 +27,12 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
 import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.PresetController;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
+import de.unistuttgart.ipvs.pmp.resource.RGMode;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.service.pmp.IPMPService;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
@@ -97,6 +101,32 @@ public class PMPServiceImplementation extends IPMPService.Stub {
             GUITools.startIntent(intent);
             
             return true;
+        }
+    }
+    
+    
+    @Override
+    public boolean isMocked(String appPackage, String rgPackage) {
+        IResourceGroup rg = Model.getInstance().getResourceGroup(rgPackage);
+        IApp app = Model.getInstance().getApp(appPackage);
+        if (rg == null || app == null) {
+            return false;
+        } else {
+            // if best == null
+            RGMode mode = null;
+            
+            try {
+                mode = RGMode.valueOf(PresetController.findBestValue(app,
+                        rg.getPrivacySetting(PersistenceConstants.MODE_PRIVACY_SETTING)));
+            } catch (PrivacySettingValueException psve) {
+                psve.printStackTrace();
+            }
+            
+            if (mode == null) {
+                mode = RGMode.NORMAL;
+            }
+            
+            return mode.equals(RGMode.MOCK);
         }
     }
     

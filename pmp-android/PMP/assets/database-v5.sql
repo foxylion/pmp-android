@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS ResourceGroup (
 CREATE TABLE IF NOT EXISTS PrivacySetting (
 	ResourceGroupPackage TEXT NOT NULL,
 	Identifier TEXT NOT NULL,
+	Requestable INT NOT NULL,
 	PRIMARY KEY(ResourceGroupPackage,
 	            Identifier)
 );

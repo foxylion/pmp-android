@@ -8,12 +8,18 @@ import java.util.logging.Level;
 
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
+import de.unistuttgart.ipvs.pmp.model.PresetController;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
 import de.unistuttgart.ipvs.pmp.model.assertion.ModelMisuseError;
 import de.unistuttgart.ipvs.pmp.model.element.ModelElement;
+import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
+import de.unistuttgart.ipvs.pmp.resource.RGMode;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 import de.unistuttgart.ipvs.pmp.xmlutil.rgis.IRGIS;
 
@@ -127,8 +133,35 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
             deactivate(t);
         }
         
+        IApp a = Model.getInstance().getApp(appPackage);
+        if (a == null) {
+            return null;
+        }
+        
+        // find the state
+        RGMode mode = null;
+        try {
+            mode = RGMode.valueOf(PresetController.findBestValue(a,
+                    this.privacySettings.get(PersistenceConstants.MODE_PRIVACY_SETTING)));
+        } catch (PrivacySettingValueException e) {
+            e.printStackTrace();
+        }
+        
+        // if best == null
+        if (mode == null) {
+            mode = RGMode.NORMAL;
+        }
+        
         if (res != null) {
-            return res.getAndroidInterface(appPackage);
+            switch (mode) {
+                default:
+                    return res.getAndroidInterface(appPackage);
+                case MOCK:
+                    return res.getMockedAndroidInterface(appPackage);
+                case CLOAK:
+                    return res.getCloakedAndroidInterface(appPackage);
+            }
+            
         } else {
             return null;
         }

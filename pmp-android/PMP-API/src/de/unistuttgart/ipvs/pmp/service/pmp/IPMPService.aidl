@@ -67,4 +67,13 @@ interface IPMPService {
      *            the names of the service features to request
      */
     boolean requestServiceFeature(String appPackage, in String[] requiredServiceFeatures);
+    
+    /**
+     * Whether the resource is mocked.
+     * @param appPackage
+     *            the identifier for the app that requests the status
+     * @param rgPackage 
+     *            the identifier for the RG whose status is requested
+     */
+     boolean isMocked(String appPackage, String rgPackage);
 }

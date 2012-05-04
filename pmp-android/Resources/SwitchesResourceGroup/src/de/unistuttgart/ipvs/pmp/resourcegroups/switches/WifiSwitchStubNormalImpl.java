@@ -22,8 +22,6 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
-import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resourcegroups.switches.IWifiSwitch.Stub;
 
 /**
@@ -32,14 +30,14 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.switches.IWifiSwitch.Stub;
  * @author Tobias Kuhn
  * 
  */
-public class WifiSwitchStubImpl extends Stub {
+public class WifiSwitchStubNormalImpl extends Stub {
     
     private String appIdentifier;
     private WifiSwitchResource resource;
     private Context context;
     
     
-    public WifiSwitchStubImpl(String appIdentifier, WifiSwitchResource resource, Context context) {
+    public WifiSwitchStubNormalImpl(String appIdentifier, WifiSwitchResource resource, Context context) {
         this.appIdentifier = appIdentifier;
         this.resource = resource;
         this.context = context;
@@ -48,8 +46,7 @@ public class WifiSwitchStubImpl extends Stub {
     
     @Override
     public boolean getState() throws RemoteException {
-        if (!verifyAccessAllowed(Switches.PRIVACY_SETTING_WIFI_SWITCH)
-                && !verifyAccessAllowed(Switches.PRIVACY_SETTING_WIFI_STATE)) {
+        if (!this.resource.verifyAccessAllowed(this.appIdentifier, Switches.PRIVACY_SETTING_WIFI_STATE)) {
             throw new SecurityException();
         }
         
@@ -66,7 +63,7 @@ public class WifiSwitchStubImpl extends Stub {
     
     @Override
     public void setState(boolean newState) throws RemoteException {
-        if (!verifyAccessAllowed(Switches.PRIVACY_SETTING_WIFI_SWITCH)) {
+        if (!this.resource.verifyAccessAllowed(this.appIdentifier, Switches.PRIVACY_SETTING_WIFI_SWITCH)) {
             throw new SecurityException();
         }
         
@@ -74,19 +71,4 @@ public class WifiSwitchStubImpl extends Stub {
         wm.setWifiEnabled(newState);
     }
     
-    
-    /**
-     * Verifies that the access is allowed.
-     * 
-     * @return True, iff the access was allowed.
-     */
-    private boolean verifyAccessAllowed(String privacySetting) {
-        BooleanPrivacySetting bpl = (BooleanPrivacySetting) this.resource.getPrivacySetting(privacySetting);
-        try {
-            return bpl.permits(this.appIdentifier, true);
-        } catch (PrivacySettingValueException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 }
