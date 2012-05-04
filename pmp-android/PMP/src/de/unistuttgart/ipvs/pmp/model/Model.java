@@ -441,6 +441,7 @@ public class Model implements IModel, Observer {
             // check they implemented the resources correct
             for (String res : rg.getResources()) {
                 Resource r = rg.getResource(res);
+                
                 IBinder nb = r.getAndroidInterface(Constants.PMP_IDENTIFIER);
                 IBinder mb = r.getMockedAndroidInterface(Constants.PMP_IDENTIFIER);
                 IBinder cb = r.getCloakedAndroidInterface(Constants.PMP_IDENTIFIER);
@@ -548,6 +549,23 @@ public class Model implements IModel, Observer {
             FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.CONFIG,
                     "ResourceGroup '%s' has been successfully installed.", rgPackage);
             return true;
+        } catch (IncompatibleClassChangeError icce) {
+            /* error due to invalid API */
+            FileLog.get().logWithForward(this, icce, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                    "ResourceGroup '%s' has failed registration with PMP: Using an API that now is out of date.",
+                    rgPackage);
+            return false;
+        } catch (LinkageError le) {
+            /* error due to invalid class loading */
+            FileLog.get()
+                    .logWithForward(
+                            this,
+                            le,
+                            FileLog.GRANULARITY_COMPONENT_CHANGES,
+                            Level.WARNING,
+                            "ResourceGroup '%s' has failed registration with PMP: An unexpected error occurred during linking the class files.",
+                            rgPackage);
+            return false;
         } catch (ParserException xmlpe) {
             /* error during XML validation */
             FileLog.get().logWithForward(this, xmlpe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
