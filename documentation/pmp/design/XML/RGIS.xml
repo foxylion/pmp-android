@@ -12,7 +12,8 @@
 	<privacySettings>
 		<privacySetting
 			identifier="read"
-			validValueDescription="'true' and 'false' are valid values.">
+			validValueDescription="'true' and 'false' are valid values."
+			requestable="false">
 			<name lang="en">Read</name>
 			<name lang="de">Lesen</name>
 			<description lang="en">Indicate the right to read an existed database.</description>

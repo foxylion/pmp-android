@@ -109,7 +109,7 @@ public class RGISCompiler extends BasicISCompiler {
             
             // Compile the change descriptions
             for (ILocalizedString changeDescr : ps.getChangeDescriptions()) {
-                XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION);
+                XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION_ATTR);
                 changeDescrNode.setContent(changeDescr.getString());
                 changeDescrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, changeDescr.getLocale()
                         .getLanguage()));

@@ -49,6 +49,11 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     private String validValueDescription = "";
     
     /**
+     * The requestable attribute
+     */
+    private boolean requestable = true;
+    
+    /**
      * List of change descriptions as {@link ILocalizedString}s
      */
     private List<ILocalizedString> changeDescriptions = new ArrayList<ILocalizedString>();
@@ -139,6 +144,18 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
         for (ILocalizedString changeDescr : getChangeDescriptions()) {
             changeDescr.clearIssues();
         }
+    }
+    
+    
+    @Override
+    public boolean isRequestable() {
+        return requestable;
+    }
+    
+    
+    @Override
+    public void setRequestable(boolean requestable) {
+        this.requestable = requestable;
     }
     
 }

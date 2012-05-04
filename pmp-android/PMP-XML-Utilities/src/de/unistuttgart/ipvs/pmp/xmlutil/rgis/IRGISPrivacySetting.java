@@ -86,4 +86,21 @@ public interface IRGISPrivacySetting extends IBasicIS, IIdentifierIS {
      */
     public abstract String getChangeDescriptionForLocale(Locale locale);
     
+    
+    /**
+     * True, if the {@link IRGISPrivacySetting} is requestable
+     * 
+     * @return flag
+     */
+    public abstract boolean isRequestable();
+    
+    
+    /**
+     * Set if the {@link IRGISPrivacySetting} requestable
+     * 
+     * @param requestable
+     *            flag
+     */
+    public abstract void setRequestable(boolean requestable);
+    
 }
