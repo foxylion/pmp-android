@@ -31,7 +31,7 @@ public class AdapterConflictingPresets extends BaseAdapter {
     
     @Override
     public Object getItem(int arg0) {
-        return presets.get(arg0);
+        return this.presets.get(arg0);
     }
     
     
@@ -43,6 +43,6 @@ public class AdapterConflictingPresets extends BaseAdapter {
     
     @Override
     public View getView(int arg0, View arg1, ViewGroup arg2) {
-        return new ViewConflictingPreset(this.context, contextAnnotation, this.presets.get(arg0));
+        return new ViewConflictingPreset(this.context, this.contextAnnotation, this.presets.get(arg0));
     }
 }

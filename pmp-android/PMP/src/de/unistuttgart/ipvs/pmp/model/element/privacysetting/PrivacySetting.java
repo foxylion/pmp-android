@@ -30,6 +30,7 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
      * internal data & links
      */
     protected AbstractPrivacySetting<?> link;
+    protected boolean requestable;
     
     
     /* organizational */
@@ -190,6 +191,13 @@ public class PrivacySetting extends ModelElement implements IPrivacySetting {
             this.resourceGroup.deactivate(t);
             return "";
         }
+    }
+    
+    
+    @Override
+    public boolean isRequestable() {
+        checkCached();
+        return this.requestable;
     }
     
     

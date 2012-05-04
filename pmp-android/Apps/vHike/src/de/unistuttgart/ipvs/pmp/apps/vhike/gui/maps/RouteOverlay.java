@@ -37,20 +37,20 @@ public class RouteOverlay extends Overlay {
         pathPaint.setStrokeJoin(Paint.Join.ROUND);
         pathPaint.setStrokeCap(Paint.Cap.ROUND);
         pathPaint.setStrokeWidth(4);
-        pathPaint.setColor(context.getResources().getColor(R.color.emirates_red));
+        pathPaint.setColor(this.context.getResources().getColor(R.color.emirates_red));
         pathPaint.setAlpha(120);
         
         Point startPoint = new Point();
-        projection.toPixels(gp1, startPoint);
+        projection.toPixels(this.gp1, startPoint);
         
         Point endPoint = new Point();
-        projection.toPixels(gp2, endPoint);
+        projection.toPixels(this.gp2, endPoint);
         
         Path path = new Path();
         path.moveTo(startPoint.x, startPoint.y);
         path.lineTo(endPoint.x, endPoint.y);
         
-//        canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, pathPaint);
+        //        canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, pathPaint);
         canvas.drawPath(path, pathPaint);
         
         return super.draw(canvas, mapView, shadow, when);

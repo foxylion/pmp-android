@@ -92,12 +92,12 @@ public class DriverOverlay extends ItemizedOverlay {
         
         Point point = new Point();
         Paint paint = new Paint();
-        paint.setColor(mContext.getResources().getColor(R.color.lime_green));
+        paint.setColor(this.mContext.getResources().getColor(R.color.lime_green));
         paint.setAntiAlias(true);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        projection.toPixels(mGps, point);
+        projection.toPixels(this.mGps, point);
         
-        canvas.drawText(name, point.x - 15, point.y - 55, paint);
+        canvas.drawText(this.name, point.x - 15, point.y - 55, paint);
         
         return true;
     }

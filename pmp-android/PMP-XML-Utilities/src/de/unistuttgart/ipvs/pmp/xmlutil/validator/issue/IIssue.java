@@ -84,6 +84,7 @@ public interface IIssue {
      * 
      * @return the string representation of the {@link IIssue}
      */
+    @Override
     public abstract String toString();
     
 }

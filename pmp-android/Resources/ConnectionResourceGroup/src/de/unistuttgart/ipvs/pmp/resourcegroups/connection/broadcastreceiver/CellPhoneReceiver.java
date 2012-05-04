@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,21 +30,21 @@ import android.provider.Settings;
  * @author Thorsten Berberich
  */
 public class CellPhoneReceiver extends BroadcastReceiver {
-	
-	/* (non-Javadoc)
-	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
-	 */
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
-		
-		if (airplaneMode == 0) {
-			// Airplane mode is off
-			
-		} else {
-			// Airplane mode is on
-			
-		}
-	}
-	
+    
+    /* (non-Javadoc)
+     * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+     */
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
+        
+        if (airplaneMode == 0) {
+            // Airplane mode is off
+            
+        } else {
+            // Airplane mode is on
+            
+        }
+    }
+    
 }

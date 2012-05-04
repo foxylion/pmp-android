@@ -28,12 +28,36 @@ public class ResourceGroupTest extends InstrumentationTestCase {
         public IBinder getAndroidInterface(String appIdentifier) {
             throw new RuntimeException(R1_ID);
         }
+        
+        
+        @Override
+        public IBinder getMockedAndroidInterface(String appIdentifier) {
+            throw new RuntimeException(R1_ID);
+        }
+        
+        
+        @Override
+        public IBinder getCloakedAndroidInterface(String appIdentifier) {
+            throw new RuntimeException(R1_ID);
+        }
     };
     
     public static final Resource r2 = new Resource() {
         
         @Override
         public IBinder getAndroidInterface(String appIdentifier) {
+            throw new RuntimeException(R2_ID);
+        }
+        
+        
+        @Override
+        public IBinder getMockedAndroidInterface(String appIdentifier) {
+            throw new RuntimeException(R2_ID);
+        }
+        
+        
+        @Override
+        public IBinder getCloakedAndroidInterface(String appIdentifier) {
             throw new RuntimeException(R2_ID);
         }
     };

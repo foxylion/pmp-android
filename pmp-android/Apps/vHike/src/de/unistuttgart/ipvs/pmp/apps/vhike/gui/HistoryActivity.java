@@ -28,21 +28,23 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
     Controller ctrl;
     Handler handler;
     boolean isD;
+    
+    
     @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
-                    ctrl = new Controller(rgvHike);
-                    if (isD) {
+                    HistoryActivity.this.ctrl = new Controller(rgvHike);
+                    if (HistoryActivity.this.isD) {
                         createDriverActivity();
                     } else {
                         createPassengerActivity();
-                    } 
+                    }
                 }
             });
         }
@@ -53,16 +55,17 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        handler = new Handler();
+        this.handler = new Handler();
         // Get and prepare Title
         this.btv = (BasicTitleView) findViewById(R.id.btv);
         this.title = (TextView) this.btv.findViewById(R.id.TextView_Title);
         
         // Read extras
         boolean isDriver = getIntent().getExtras().getBoolean("IS_DRIVER");
-        isD = isDriver;
-        if(getvHikeRG(this)!= null)
-            ctrl = new Controller(rgvHike);
+        this.isD = isDriver;
+        if (getvHikeRG(this) != null) {
+            this.ctrl = new Controller(rgvHike);
+        }
         
         if (isDriver) {
             createDriverActivity();

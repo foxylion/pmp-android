@@ -65,7 +65,7 @@ public enum TimeContextIntervalType {
         }
         
         for (String day : list.split(DAY_SEPARATOR)) {
-            result.add(Integer.parseInt(day), 0);
+            result.add(Integer.parseInt(day));
         }
         
         return result;

@@ -12,7 +12,7 @@ interface IEnergy {
 	/**
 	* Get the current level
 	*/
-	int getCurrentLevel();
+	String getCurrentLevel();
 	
 	/**
 	* Get the current health
@@ -22,7 +22,7 @@ interface IEnergy {
 	/**
 	* Get the current charging state
 	*/
-	boolean getCurrentCharging();
+	String getCurrentCharging();
 	
 	/**
 	* Get the current charging source

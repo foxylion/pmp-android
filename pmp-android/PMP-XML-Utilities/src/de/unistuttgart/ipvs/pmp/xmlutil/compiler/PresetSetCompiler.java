@@ -158,8 +158,9 @@ public class PresetSetCompiler extends BasicISCompiler {
                 contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_CONDITION_ATTR, context.getCondition()));
                 
                 // Add the empty condition attribute
-                if (context.isEmptyCondition())
+                if (context.isEmptyCondition()) {
                     contextNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_EMPTY_CONDITION_ATTR, "true"));
+                }
                 
                 /*
                  *  Create the overrideValue-Node
@@ -168,9 +169,10 @@ public class PresetSetCompiler extends BasicISCompiler {
                 overrideValueNode.setCDATAContent(context.getOverrideValue());
                 
                 // Add the empty override value attribute
-                if (context.isEmptyOverrideValue())
+                if (context.isEmptyOverrideValue()) {
                     overrideValueNode.addAttribute(new XMLAttribute(XMLConstants.CONTEXT_EMPTY_OVERRIDE_VALUE_ATTR,
                             "true"));
+                }
                 
                 // Add the override value child to the context
                 contextNode.addChild(overrideValueNode);

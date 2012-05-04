@@ -21,10 +21,12 @@ public class Check4Offers extends TimerTask {
     private Controller ctrl;
     private List<OfferObject> loo;
     
-    public Check4Offers(IvHikeWebservice ws){
+    
+    public Check4Offers(IvHikeWebservice ws) {
         this.handler = new Handler();
         this.ctrl = new Controller(ws);
     }
+    
     
     @Override
     public void run() {

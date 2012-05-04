@@ -71,11 +71,11 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         // TODO if not logged in
         
         setContentView(R.layout.activity_trip);
-        handler = new Handler();
+        this.handler = new Handler();
         registerListener();
         
         if (getvHikeRG(this) != null) {
-            ctrl = new Controller(rgvHike);
+            this.ctrl = new Controller(rgvHike);
         }
     }
     
@@ -95,11 +95,11 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
-                    ctrl = new Controller(rgvHike);
+                    PlanTripActivity.this.ctrl = new Controller(rgvHike);
                     Log.i(this, "OnRGReady: Controller");
                 }
             });
@@ -158,7 +158,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         
         // Button Drive and Search
         Button btnDrive = (Button) findViewById(R.id.Button_Drive);
-        now = (RadioButton) findViewById(R.id.radio_now);
+        this.now = (RadioButton) findViewById(R.id.radio_now);
         
         btnDrive.setOnClickListener(new OnClickListener() {
             
@@ -167,9 +167,9 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                 
                 if (vHikeService.isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
                     Log.v(this, "Enable");
-                    if (now.isChecked()) {
+                    if (PlanTripActivity.this.now.isChecked()) {
                         // See if an open trip is open
-                        switch (ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
+                        switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
                             case Constants.STATUS_ERROR:
                                 // TODO ERROR
                                 Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG)
@@ -267,7 +267,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                     TimePicker t = (TimePicker) getDialog(dialogId).findViewById(R.id.tpicker);
                     if (this.plannedDate == null) {
                         this.plannedDate = Calendar.getInstance();
-                        Log.i(this, "Planned :" + plannedDate.toString());
+                        Log.i(this, "Planned :" + this.plannedDate.toString());
                     }
                     this.plannedDate.set(d.getYear(), d.getMonth(), d.getDayOfMonth(), t.getCurrentHour(),
                             t.getCurrentMinute(), 0);
@@ -318,19 +318,19 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         Log.d(this, "Destination and StopOvers: " + ViewModel.getInstance().getDestination());
         
         Date date = null;
-        if (!now.isChecked()) {
-            date = plannedDate.getTime();
+        if (!this.now.isChecked()) {
+            date = this.plannedDate.getTime();
         }
         
-        switch (this.ctrl.announceTrip(this.sid, ViewModel.getInstance().getDestination(),
-                Constants.COORDINATE_INVALID,
-                Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
+        switch (this.ctrl
+                .announceTrip(this.sid, ViewModel.getInstance().getDestination(), Constants.COORDINATE_INVALID,
+                        Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
         
             case Constants.STATUS_SUCCESS:
                 // TODO inform
                 Log.d(this, "Trip announced succesfully");
                 
-                if (now.isChecked()) {
+                if (this.now.isChecked()) {
                     // TODO Check RG Location
                     // Show progress dialog for getting position
                     vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();

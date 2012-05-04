@@ -25,6 +25,7 @@ import de.unistuttgart.ipvs.pmp.model.element.IModelElement;
 import de.unistuttgart.ipvs.pmp.model.element.preset.IPreset;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.model.element.servicefeature.IServiceFeature;
+import de.unistuttgart.ipvs.pmp.model.element.servicefeature.ServiceFeature;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
 /**
@@ -154,5 +155,11 @@ public interface IPrivacySetting extends IModelElement {
      *         the value that was displayed, compiled to a string
      */
     public String getViewValue(Context context);
+    
+    
+    /**
+     * Whether this privacy setting is requestable by a {@link ServiceFeature}.
+     */
+    public boolean isRequestable();
     
 }

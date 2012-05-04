@@ -27,7 +27,8 @@ public class RateProfileConfirm extends Dialog {
     private int tripID;
     
     
-    public RateProfileConfirm(IvHikeWebservice ws, Context context, final int profileID, final int rating, final int tripID) {
+    public RateProfileConfirm(IvHikeWebservice ws, Context context, final int profileID, final int rating,
+            final int tripID) {
         super(context);
         setContentView(R.layout.dialog_rate_profile);
         setTitle("Confirm rating");

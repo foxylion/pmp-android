@@ -51,20 +51,20 @@ public class ViewConflictingPreset extends LinearLayout {
     private void refresh() {
         boolean conflictsRemaining = false;
         
-        ((TextView) findViewById(R.id.TextView_PresetName)).setText(preset.getName());
+        ((TextView) findViewById(R.id.TextView_PresetName)).setText(this.preset.getName());
         
         /* List all apps */
         ((LinearLayout) findViewById(R.id.LinearLayout_ConflictingApps)).removeAllViews();
         
-        for (IApp app : contextAnnotation.getPreset().getAssignedApps()) {
-            if (preset.getAssignedApps().contains(app)) {
+        for (IApp app : this.contextAnnotation.getPreset().getAssignedApps()) {
+            if (this.preset.getAssignedApps().contains(app)) {
                 /* Create an entry for the App */
                 addView(app);
             }
         }
         
         LinearLayout psConflict = (LinearLayout) findViewById(R.id.LinearLayout_PrivacySettingsConflict);
-        if (contextAnnotation.isPrivacySettingConflicting(preset)) {
+        if (this.contextAnnotation.isPrivacySettingConflicting(this.preset)) {
             psConflict.setVisibility(View.VISIBLE);
             conflictsRemaining = true;
         } else {
@@ -73,12 +73,12 @@ public class ViewConflictingPreset extends LinearLayout {
         
         /* Update the PrivacySetting Description */
         ((TextView) findViewById(R.id.TextView_PS_Description)).setText(getContext().getString(
-                R.string.context_conflict_ps_description, preset.getName()));
+                R.string.context_conflict_ps_description, this.preset.getName()));
         
         /* List all contexts */
         boolean contextConflict = false;
         ((LinearLayout) findViewById(R.id.LinearLayout_ConflictingContexts)).removeAllViews();
-        for (IContextAnnotation ca : contextAnnotation.getConflictingContextAnnotations(preset)) {
+        for (IContextAnnotation ca : this.contextAnnotation.getConflictingContextAnnotations(this.preset)) {
             addView(ca);
             
             contextConflict = true;
@@ -104,7 +104,7 @@ public class ViewConflictingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                if (!conflictsRemaining) {
+                if (!ViewConflictingPreset.this.conflictsRemaining) {
                     return;
                 }
                 
@@ -124,22 +124,28 @@ public class ViewConflictingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                new DialogPrivacySettingEdit(getContext(), contextAnnotation.getPrivacySetting(), preset
-                        .getGrantedPrivacySettingValue(contextAnnotation.getPrivacySetting()), new ICallback() {
-                    
-                    @Override
-                    public void result(boolean save, String newValue) {
-                        if (save) {
-                            try {
-                                preset.assignPrivacySetting(contextAnnotation.getPrivacySetting(), newValue);
-                                refresh();
-                            } catch (PrivacySettingValueException e) {
-                                Toast.makeText(getContext(), getContext().getString(R.string.preset_invalid_ps_value),
-                                        Toast.LENGTH_LONG).show();
+                new DialogPrivacySettingEdit(getContext(), ViewConflictingPreset.this.contextAnnotation
+                        .getPrivacySetting(),
+                        ViewConflictingPreset.this.preset
+                                .getGrantedPrivacySettingValue(ViewConflictingPreset.this.contextAnnotation
+                                        .getPrivacySetting()), new ICallback() {
+                            
+                            @Override
+                            public void result(boolean save, String newValue) {
+                                if (save) {
+                                    try {
+                                        ViewConflictingPreset.this.preset.assignPrivacySetting(
+                                                ViewConflictingPreset.this.contextAnnotation.getPrivacySetting(),
+                                                newValue);
+                                        refresh();
+                                    } catch (PrivacySettingValueException e) {
+                                        Toast.makeText(getContext(),
+                                                getContext().getString(R.string.preset_invalid_ps_value),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                }
                             }
-                        }
-                    }
-                }).show();
+                        }).show();
             }
         });
         
@@ -150,14 +156,18 @@ public class ViewConflictingPreset extends LinearLayout {
                 new DialogConfirmDelete(getContext(), getContext().getString(R.string.preset_confirm_remove_ps),
                         getContext().getString(
                                 R.string.preset_confirm_remove_ps_description,
-                                contextAnnotation.getPrivacySetting().getResourceGroup().getName() + " - "
-                                        + contextAnnotation.getPrivacySetting().getName()),
+                                ViewConflictingPreset.this.contextAnnotation.getPrivacySetting().getResourceGroup()
+                                        .getName()
+                                        + " - "
+                                        + ViewConflictingPreset.this.contextAnnotation.getPrivacySetting().getName()),
                         new DialogConfirmDelete.ICallback() {
                             
                             @Override
                             public void callback(boolean confirmed) {
                                 if (confirmed) {
-                                    preset.removePrivacySetting(contextAnnotation.getPrivacySetting());
+                                    ViewConflictingPreset.this.preset
+                                            .removePrivacySetting(ViewConflictingPreset.this.contextAnnotation
+                                                    .getPrivacySetting());
                                     refresh();
                                 }
                             }
@@ -183,18 +193,18 @@ public class ViewConflictingPreset extends LinearLayout {
             
             @Override
             public void onClick(View v) {
-                contextAnnotation.getPreset().removeApp(app);
+                ViewConflictingPreset.this.contextAnnotation.getPreset().removeApp(app);
                 refresh();
             }
         });
         
         Button remove2 = (Button) appView.findViewById(R.id.Button_Remove2);
-        remove2.setText(preset.getName());
+        remove2.setText(this.preset.getName());
         remove2.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                preset.removeApp(app);
+                ViewConflictingPreset.this.preset.removeApp(app);
                 refresh();
             }
         });
@@ -212,7 +222,7 @@ public class ViewConflictingPreset extends LinearLayout {
         /* Read out context condition */
         String condition;
         try {
-            condition = contextAnnotation.getHumanReadableContextCondition();
+            condition = this.contextAnnotation.getHumanReadableContextCondition();
         } catch (InvalidConditionException e) {
             Log.e(this, "Condition can't be converted into a human readable version", e);
             condition = ca.getContextCondition();
@@ -221,8 +231,8 @@ public class ViewConflictingPreset extends LinearLayout {
         /* Read out override value */
         String overrideValue;
         try {
-            overrideValue = contextAnnotation.getPrivacySetting().getHumanReadableValue(
-                    contextAnnotation.getOverridePrivacySettingValue());
+            overrideValue = this.contextAnnotation.getPrivacySetting().getHumanReadableValue(
+                    this.contextAnnotation.getOverridePrivacySettingValue());
         } catch (PrivacySettingValueException e) {
             Log.e(this, "PrivacySetting value can't be converted into a human readable version", e);
             overrideValue = ca.getOverridePrivacySettingValue();
@@ -231,15 +241,16 @@ public class ViewConflictingPreset extends LinearLayout {
         ((TextView) contextView.findViewById(R.id.TextView_ContextCondition)).setText(condition);
         ((TextView) contextView.findViewById(R.id.TextView_OverrideValue)).setText(overrideValue);
         
-        ((ImageView) contextView.findViewById(R.id.ImageView_ContextIcon)).setImageDrawable(contextAnnotation
+        ((ImageView) contextView.findViewById(R.id.ImageView_ContextIcon)).setImageDrawable(this.contextAnnotation
                 .getContext().getIcon());
         
         ((Button) contextView.findViewById(R.id.Button_Change)).setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                new DialogContextChange(getContext(), preset, contextAnnotation.getPrivacySetting(), contextAnnotation,
-                        new DialogContextChange.ICallback() {
+                new DialogContextChange(getContext(), ViewConflictingPreset.this.preset,
+                        ViewConflictingPreset.this.contextAnnotation.getPrivacySetting(),
+                        ViewConflictingPreset.this.contextAnnotation, new DialogContextChange.ICallback() {
                             
                             @Override
                             public void callback() {

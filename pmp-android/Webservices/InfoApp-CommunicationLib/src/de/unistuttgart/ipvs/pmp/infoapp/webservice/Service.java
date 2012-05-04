@@ -134,7 +134,7 @@ public class Service {
             InvalidEventOrderException, IOException, JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
         String paramString = URLEncodedUtils.format(params, "UTF-8");
-        HttpGet httpGet = new HttpGet(url + "/" + service + "?" + paramString);
+        HttpGet httpGet = new HttpGet(this.url + "/" + service + "?" + paramString);
         
         HttpClient client = new DefaultHttpClient();
         
@@ -169,7 +169,7 @@ public class Service {
             throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
             InvalidEventOrderException, IOException, JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
-        HttpPost httpPost = new HttpPost(url + "/" + service);
+        HttpPost httpPost = new HttpPost(this.url + "/" + service);
         httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         
         HttpClient client = new DefaultHttpClient();

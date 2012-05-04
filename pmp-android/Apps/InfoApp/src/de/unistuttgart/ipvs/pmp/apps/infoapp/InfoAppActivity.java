@@ -8,24 +8,24 @@ import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
 public class InfoAppActivity extends Activity {
-	
-	ViewPagerAdapter mAdapter;
-	ViewPager mPager;
-	PageIndicator mIndicator;
-	
-	
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		
-		mAdapter = new ViewPagerAdapter(this);
-		
-		mPager = (ViewPager) findViewById(R.id.pager);
-		mPager.setAdapter(mAdapter);
-		
-		mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
-		mIndicator.setViewPager(mPager);
-	}
+    
+    ViewPagerAdapter mAdapter;
+    ViewPager mPager;
+    PageIndicator mIndicator;
+    
+    
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        
+        this.mAdapter = new ViewPagerAdapter(this);
+        
+        this.mPager = (ViewPager) findViewById(R.id.pager);
+        this.mPager.setAdapter(this.mAdapter);
+        
+        this.mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
+        this.mIndicator.setViewPager(this.mPager);
+    }
 }

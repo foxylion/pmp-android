@@ -128,12 +128,11 @@ public class DialogAvailableDetails extends Dialog {
                     @Override
                     public void run() {
                         boolean success = false;
-                        String error = null;
+                        String error = "see LogCat";
                         
                         try {
-                            ModelProxy.get().installResourceGroup(
+                            success = ModelProxy.get().installResourceGroup(
                                     DialogAvailableDetails.this.rgInformation.getIdentifier(), false);
-                            success = true;
                         } catch (InvalidXMLException e) {
                             error = e.getMessage();
                         } catch (InvalidPluginException e) {

@@ -1,0 +1,24 @@
+#!/usr/bin/python
+
+import sys
+import commands
+import os
+
+author = ""
+if (len(sys.argv) > 1):
+    author = sys.argv[1]
+hist = commands.getoutput("git log --shortstat --reverse --pretty=oneline --no-merges --author=\"" + author + "\"")
+
+hist = hist.split("\n")
+totalins = 0
+totaldels = 0
+
+for line in hist:
+    if line.startswith(' '):
+        ins = line.split(",")[1]
+        dels = line.split(",")[2]
+        totalins = totalins + int(ins.split(" ")[1])
+        totaldels = totaldels + int(dels.split(" ")[1])
+
+
+print "<" + author + "> inserted " + str(totalins) + " loc, deleted " + str(totaldels) + " loc"

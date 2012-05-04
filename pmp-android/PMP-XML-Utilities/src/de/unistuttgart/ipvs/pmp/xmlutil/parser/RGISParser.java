@@ -135,12 +135,21 @@ public class RGISParser extends AbstractParser {
                     privacySettingElement.getAttribute(XMLConstants.IDENTIFIER_ATTR),
                     privacySettingElement.getAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTR));
             
+            // Add the attribute requestable
+            String reqAttribute = privacySettingElement.getAttribute(XMLConstants.REQUESTABLE_ATTR);
+            if (reqAttribute.toLowerCase().equals("false")) {
+                ps.setRequestable(false);
+            } else if (!reqAttribute.toLowerCase().equals("true") && !reqAttribute.equals("")) {
+                throw new ParserException(Type.REQUESTABLE_BOOLEAN_EXCEPTION,
+                        "The value of the attribute \"requestable\" of a Privacy Setting is not a boolean.");
+            }
+            
             // Parse names and descriptions
             parseNameDescriptionNodes(privacySettingElement, ps);
             
             // Parse change descriptions and add them
-            List<ParsedNode> changeDescriptionList = parseNodes(privacySettingElement, XMLConstants.CHANGE_DESCRIPTION,
-                    XMLConstants.LANGUAGE_ATTR);
+            List<ParsedNode> changeDescriptionList = parseNodes(privacySettingElement,
+                    XMLConstants.CHANGE_DESCRIPTION_ATTR, XMLConstants.LANGUAGE_ATTR);
             for (ParsedNode changeDescriptionNode : changeDescriptionList) {
                 LocalizedString changeDescr = new LocalizedString();
                 changeDescr.setLocale(new Locale(changeDescriptionNode.getAttribute(XMLConstants.LANGUAGE_ATTR)));

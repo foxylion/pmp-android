@@ -311,8 +311,8 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
         
         /* Calculate distance to last position. */
         double distanceToLastPosition = 100000000000.0;
-        if (lastRILocation != null) {
-            distanceToLastPosition = newLocation.getDistance(lastRILocation);
+        if (this.lastRILocation != null) {
+            distanceToLastPosition = newLocation.getDistance(this.lastRILocation);
         }
         
         /* 
