@@ -55,7 +55,7 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
@@ -81,8 +81,9 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
         this.et_desc = (EditText) findViewById(R.id.et_description);
         
         validator();
-        if (getvHikeRG(this) != null)
-            register(); 
+        if (getvHikeRG(this) != null) {
+            register();
+        }
         
     }
     

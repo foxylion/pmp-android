@@ -101,13 +101,13 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
         
         IPrivacySetting ps = (IPrivacySetting) getChild(groupPosition, childPosition);
         
-        if (cachedViews.containsKey(ps)) {
-            return cachedViews.get(ps);
+        if (this.cachedViews.containsKey(ps)) {
+            return this.cachedViews.get(ps);
         }
         
         View view = new ViewPrivacySettingPreset(this.context, this.preset, ps, this);
         
-        cachedViews.put(ps, view);
+        this.cachedViews.put(ps, view);
         
         return view;
     }
@@ -212,7 +212,7 @@ public class AdapterPrivacySettings extends BaseExpandableListAdapter {
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         
-        for (Map.Entry<IPrivacySetting, View> entry : cachedViews.entrySet()) {
+        for (Map.Entry<IPrivacySetting, View> entry : this.cachedViews.entrySet()) {
             if (entry.getValue() instanceof ViewPrivacySettingPreset) {
                 ((ViewPrivacySettingPreset) entry.getValue()).refresh();
             }

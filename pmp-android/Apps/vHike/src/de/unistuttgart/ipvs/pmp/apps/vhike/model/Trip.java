@@ -22,6 +22,7 @@ public class Trip {
     private long creation;
     private long ending;
     
+    
     public Trip() {
         
     }
@@ -46,62 +47,52 @@ public class Trip {
         // TODO Check ID
         this.id = id;
     }
-
-
+    
     
     public int getDriverID() {
-        return driverID;
+        return this.driverID;
     }
-
-
+    
     
     public void setDriverID(int driverID) {
         this.driverID = driverID;
     }
-
-
+    
     
     public int getAvail_seats() {
-        return avail_seats;
+        return this.avail_seats;
     }
-
-
+    
     
     public void setAvail_seats(int avail_seats) {
         this.avail_seats = avail_seats;
     }
-
-
+    
     
     public String getDestination() {
-        return destination;
+        return this.destination;
     }
-
-
+    
     
     public void setDestination(String destination) {
         this.destination = destination;
     }
-
-
+    
     
     public long getCreation() {
-        return creation;
+        return this.creation;
     }
-
-
+    
     
     public void setCreation(long creation) {
         this.creation = creation;
     }
-
-
+    
     
     public long getEnding() {
-        return ending;
+        return this.ending;
     }
-
-
+    
     
     public void setEnding(long ending) {
         this.ending = ending;

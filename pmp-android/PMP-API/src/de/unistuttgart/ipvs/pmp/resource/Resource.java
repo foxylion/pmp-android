@@ -70,7 +70,7 @@ public abstract class Resource {
     
     
     /**
-     * Sets the {@link IBinder} defined in AIDL for communicating over a Service.
+     * Gets the {@link IBinder} defined in AIDL for communicating over a Service.
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
@@ -81,5 +81,36 @@ public abstract class Resource {
      *         this resource.
      */
     public abstract IBinder getAndroidInterface(String appIdentifier);
+    
+    
+    /**
+     * Gets the {@link IBinder} defined in AIDL for communicating over a Service, but only containing obviously fake
+     * data. <b>Note that you must not return the equal or subclass of {@link Resource#getAndroidInterface(String)}.</b>
+     * 
+     * @see http://developer.android.com/guide/developing/tools/aidl.html
+     * 
+     * @param appIdentifier
+     *            the identifier for the app accessing the interface.
+     * 
+     * @return The IBinder that shall be returned when an App binds against the {@link ResourceGroupService} requesting
+     *         this resource.
+     */
+    public abstract IBinder getMockedAndroidInterface(String appIdentifier);
+    
+    
+    /**
+     * Gets the {@link IBinder} defined in AIDL for communicating over a Service, but only containing data that is
+     * indistinguishable from real one, but is actually fake. <b>Note that you must not return the equal or subclass of
+     * {@link Resource#getAndroidInterface(String)}.</b>
+     * 
+     * @see http://developer.android.com/guide/developing/tools/aidl.html
+     * 
+     * @param appIdentifier
+     *            the identifier for the app accessing the interface.
+     * 
+     * @return The IBinder that shall be returned when an App binds against the {@link ResourceGroupService} requesting
+     *         this resource.
+     */
+    public abstract IBinder getCloakedAndroidInterface(String appIdentifier);
     
 }

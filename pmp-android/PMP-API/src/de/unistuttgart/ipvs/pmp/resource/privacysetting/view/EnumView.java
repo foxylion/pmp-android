@@ -33,7 +33,6 @@ public class EnumView<T extends Enum<T>> implements IPrivacySettingView<T> {
     }
     
     
-    @SuppressWarnings("unchecked")
     @Override
     public T getViewValue() {
         return (T) this.spinner.getSelectedItem();

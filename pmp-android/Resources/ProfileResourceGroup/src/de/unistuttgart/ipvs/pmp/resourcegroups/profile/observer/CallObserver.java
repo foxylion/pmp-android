@@ -5,16 +5,19 @@ import android.os.Handler;
 import de.unistuttgart.ipvs.pmp.resourcegroups.profile.ProfileService;
 
 public class CallObserver extends ContentObserver {
-	ProfileService ps;
-
-	public CallObserver(ProfileService ps) {
-		super(new Handler());
-		this.ps = ps;
-	}
-
-	@Override
-	public void onChange(boolean selfChange) {
-		super.onChange(selfChange);
-		ps.processCallEvent();
-	}
+    
+    ProfileService ps;
+    
+    
+    public CallObserver(ProfileService ps) {
+        super(new Handler());
+        this.ps = ps;
+    }
+    
+    
+    @Override
+    public void onChange(boolean selfChange) {
+        super.onChange(selfChange);
+        this.ps.processCallEvent();
+    }
 }

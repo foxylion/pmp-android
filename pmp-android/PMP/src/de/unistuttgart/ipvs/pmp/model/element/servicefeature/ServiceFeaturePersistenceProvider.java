@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,6 +18,7 @@ import de.unistuttgart.ipvs.pmp.model.element.app.App;
 import de.unistuttgart.ipvs.pmp.model.element.missing.MissingPrivacySettingValue;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.PrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.util.FileLog;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredPrivacySetting;
 import de.unistuttgart.ipvs.pmp.xmlutil.ais.IAISRequiredResourceGroup;
 
@@ -68,7 +70,19 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                                 reqValue));
                         
                     } else {
-                        this.element.privacySettingValues.put(ps, reqValue);
+                        if (ps.isRequestable()) {
+                            this.element.privacySettingValues.put(ps, reqValue);
+                        } else {
+                            FileLog.get()
+                                    .logWithForward(
+                                            this,
+                                            null,
+                                            FileLog.GRANULARITY_SETTING_CHANGES,
+                                            Level.WARNING,
+                                            "Service Feature '%s' of '%s' has tried to access the non-requestable privacy setting '%s' of '%s'.",
+                                            this.element.getLocalIdentifier(), this.element.app.getIdentifier(),
+                                            rgPackage, psIdentifier);
+                        }
                     }
                 }
             } while (c.moveToNext());

@@ -67,9 +67,9 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         
         PMP.get(getApplication());
         
-        locationHandler = new Handler();
-        queryHandler = new Handler();
-        handler = new Handler();
+        this.locationHandler = new Handler();
+        this.queryHandler = new Handler();
+        this.handler = new Handler();
         ViewModel.getInstance().initPassengersList();
         ViewModel.getInstance().resetTimers();
         
@@ -79,7 +79,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         setMapView();
         
         if (getvHikeRG(this) != null && getLocationRG(this) != null && getContactRG(this) != null) {
-            ctrl = new Controller(rgvHike);
+            this.ctrl = new Controller(rgvHike);
             ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
             ViewModel.getInstance().setContactRG(rgContact);
             resourceCached();
@@ -112,11 +112,11 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         
         Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
-            handler.post(new Runnable() {
+            this.handler.post(new Runnable() {
                 
                 @Override
                 public void run() {
-                    ctrl = new Controller(rgvHike);
+                    DriverViewActivity.this.ctrl = new Controller(rgvHike);
                     ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
                     ViewModel.getInstance().setContactRG(rgContact);
                     resourceCached();
@@ -129,7 +129,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     
     public DriverViewActivity() {
-        context = DriverViewActivity.this;
+        this.context = DriverViewActivity.this;
     }
     
     
@@ -140,7 +140,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         
         ListView pLV = (ListView) findViewById(R.id.ListView_SearchingHitchhikers);
         pLV.setClickable(true);
-        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(context, mapView));
+        pLV.setAdapter(ViewModel.getInstance().getDriverAdapter(this.context, this.mapView));
     }
     
     
@@ -151,7 +151,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
      */
     public void addHitchhiker(Profile hitchhiker) {
         ViewModel.getInstance().getHitchPassengers().add(hitchhiker);
-        ViewModel.getInstance().getDriverAdapter(context, mapView).notifyDataSetChanged();
+        ViewModel.getInstance().getDriverAdapter(this.context, this.mapView).notifyDataSetChanged();
     }
     
     
@@ -160,16 +160,16 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
      */
     @SuppressWarnings("deprecation")
     private void setMapView() {
-        mapView = (MapView) findViewById(R.id.driverMapView);
+        this.mapView = (MapView) findViewById(R.id.driverMapView);
         
-        LinearLayout zoomView = (LinearLayout) mapView.getZoomControls();
+        LinearLayout zoomView = (LinearLayout) this.mapView.getZoomControls();
         
         zoomView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         
         zoomView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         zoomView.setVerticalScrollBarEnabled(true);
-        mapView.addView(zoomView);
+        this.mapView.addView(zoomView);
     }
     
     
@@ -187,16 +187,16 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     
     private void startContinousLookup() {
-        locationTimer = new Timer();
-        queryTimer = new Timer();
+        this.locationTimer = new Timer();
+        this.queryTimer = new Timer();
         
-        c4l = new Check4Location(rgvHike, rgLocation, mapView, context, locationHandler, 0);
-        locationTimer.schedule(c4l, 10000, 10000);
+        this.c4l = new Check4Location(rgvHike, rgLocation, this.mapView, this.context, this.locationHandler, 0);
+        this.locationTimer.schedule(this.c4l, 10000, 10000);
         Log.i(this, "Location started");
         // Start Check4Queries Class to check for queries
         
-        c4q = new Check4Queries(rgvHike, queryHandler);
-        queryTimer.schedule(c4q, 10000, 10000);
+        this.c4q = new Check4Queries(rgvHike, this.queryHandler);
+        this.queryTimer.schedule(this.c4q, 10000, 10000);
     }
     
     
@@ -211,7 +211,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     @Override
     public void onBackPressed() {
         
-        switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+        switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
             case Constants.STATUS_SUCCESS: {
                 
                 ViewModel.getInstance().clearDriverOverlayList();
@@ -249,7 +249,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         switch (item.getItemId()) {
             case R.id.mi_endTrip:
                 
-                switch (ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+                switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
                     case Constants.STATUS_SUCCESS: {
                         
                         ViewModel.getInstance().clearDriverOverlayList();
@@ -280,7 +280,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 break;
             
             case R.id.mi_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, this.context).show();
                 break;
         }
         return true;
@@ -289,13 +289,13 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     private void stopContinousLookup() {
         
-        if (locationTimer != null) {
+        if (this.locationTimer != null) {
             DriverViewActivity.this.locationTimer.cancel();
             ViewModel.getInstance().cancelLocation();
             Log.i(this, "Timer Location cancel");
         }
         
-        if (queryTimer != null) {
+        if (this.queryTimer != null) {
             DriverViewActivity.this.queryTimer.cancel();
             ViewModel.getInstance().cancelQuery();
             Log.i(this, "Timer Query cancel");

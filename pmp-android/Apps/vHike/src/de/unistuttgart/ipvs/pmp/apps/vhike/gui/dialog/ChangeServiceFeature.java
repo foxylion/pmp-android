@@ -25,10 +25,10 @@ public class ChangeServiceFeature extends Dialog {
     
     
     private void setLayout() {
-        cancel = (Button) findViewById(R.id.btn_cancel_change);
-        change_SF = (Button) findViewById(R.id.btn_open_pmp);
+        this.cancel = (Button) findViewById(R.id.btn_cancel_change);
+        this.change_SF = (Button) findViewById(R.id.btn_open_pmp);
         
-        cancel.setOnClickListener(new View.OnClickListener() {
+        this.cancel.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
@@ -36,12 +36,13 @@ public class ChangeServiceFeature extends Dialog {
             }
         });
         
-        change_SF.setOnClickListener(new View.OnClickListener() {
+        this.change_SF.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
+                vHikeService.getInstance();
                 // Open PMP
-                vHikeService.getInstance().requestServiceFeature((Activity) context, 0);
+                vHikeService.requestServiceFeature((Activity) ChangeServiceFeature.this.context, 0);
             }
         });
     }

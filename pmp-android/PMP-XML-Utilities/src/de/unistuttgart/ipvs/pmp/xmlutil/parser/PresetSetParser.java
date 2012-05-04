@@ -101,13 +101,11 @@ public class PresetSetParser extends AbstractParser {
         // Instantiate new Preset
         Preset preset = new Preset(identifier, creator, name, description);
         
-        int maxValid = 0;
         // Get the assignedApps-NodeList and parse the elements
         NodeList assignedAppsNodeList = presetElement.getElementsByTagName(XMLConstants.ASSIGNED_APPS);
         if (assignedAppsNodeList.getLength() == 1) {
             // Parse the assignedAppsElement
             parseAssignedApps((Element) assignedAppsNodeList.item(0), preset);
-            maxValid++;
         } else if (assignedAppsNodeList.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node " + XMLConstants.ASSIGNED_APPS
                     + " occurred too often!");
@@ -118,7 +116,6 @@ public class PresetSetParser extends AbstractParser {
         if (assignedPSsNodeList.getLength() == 1) {
             // Parse the assignedPrivacySettingsElement
             parseAssignedPSs((Element) assignedPSsNodeList.item(0), preset);
-            maxValid++;
         } else if (assignedPSsNodeList.getLength() > 1) {
             throw new ParserException(Type.NODE_OCCURRED_TOO_OFTEN, "The node "
                     + XMLConstants.ASSIGNED_PRIVACY_SETTINGS + " occurred too often!");
@@ -217,8 +214,9 @@ public class PresetSetParser extends AbstractParser {
                 if (emptyValueAttr.toLowerCase().equals("true")) {
                     assignedPS.setEmptyValue(true);
                     // Set the value to "", if it is null
-                    if (assignedPS.getValue() == null)
+                    if (assignedPS.getValue() == null) {
                         assignedPS.setValue("");
+                    }
                 } else if (!emptyValueAttr.toLowerCase().equals("false") && !emptyValueAttr.equals("")) {
                     throw new ParserException(Type.EMPTY_CONDITION_BOOLEAN_EXCEPTION,
                             "The value of the attribute \"emptyValue\" of a assigned privacy setting is not a boolean.");
@@ -274,8 +272,9 @@ public class PresetSetParser extends AbstractParser {
             if (emptyConditionAttr.toLowerCase().equals("true")) {
                 context.setEmptyCondition(true);
                 // Set the condition to "", if it is null
-                if (context.getCondition() == null)
+                if (context.getCondition() == null) {
                     context.setCondition("");
+                }
             } else if (!emptyConditionAttr.toLowerCase().equals("false") && !emptyConditionAttr.equals("")) {
                 throw new ParserException(Type.EMPTY_CONDITION_BOOLEAN_EXCEPTION,
                         "The value of the attribute \"emptyCondition\" of a context is not a boolean.");
@@ -296,8 +295,9 @@ public class PresetSetParser extends AbstractParser {
                 if (emptyOverrideValueAttr.toLowerCase().equals("true")) {
                     context.setEmptyOverrideValue(true);
                     // Set the override value to "", if it is null
-                    if (context.getOverrideValue() == null)
+                    if (context.getOverrideValue() == null) {
                         context.setOverrideValue("");
+                    }
                     
                 } else if (!emptyOverrideValueAttr.toLowerCase().equals("false") && !emptyOverrideValueAttr.equals("")) {
                     throw new ParserException(Type.EMPTY_OVERRIDE_VALUE_BOOLEAN_EXCEPTION,

@@ -244,7 +244,7 @@ public class LocationContextMapView extends MapActivity {
                         float distY = this.lastClickY - ev.getY();
                         float distClickSqr = distX * distX + distY * distY;
                         
-                        this.moving |= (distClickSqr > MAX_MOVE_SIZE_FOR_LONG_TAP_SQR);
+                        this.moving |= (distClickSqr > this.MAX_MOVE_SIZE_FOR_LONG_TAP_SQR);
                         break;
                     
                     case MotionEvent.ACTION_UP:

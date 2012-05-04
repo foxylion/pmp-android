@@ -137,10 +137,12 @@ public class Controllerstable {
      * @param destination
      * @return STATUS_SUCCESS, TRIP_STATUS_OPEN_TRIP, STATUS_ERROR
      */
-    public int announceTrip(String session_id, String destination, float current_lat, float current_lon, int avail_seats, Date date) {
+    public int announceTrip(String session_id, String destination, float current_lat, float current_lon,
+            int avail_seats, Date date) {
         Log.v(this, "announceTrip: " + session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", "
                 + avail_seats);
-        String status = JSonRequestReader.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, date);
+        String status = JSonRequestReader.announceTrip(session_id, destination, current_lat, current_lon, avail_seats,
+                date);
         
         if (status.equals("announced")) {
             return Constants.STATUS_SUCCESS;

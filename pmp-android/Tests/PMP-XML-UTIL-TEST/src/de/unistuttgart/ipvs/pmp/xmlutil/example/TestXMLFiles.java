@@ -27,21 +27,10 @@ import de.unistuttgart.ipvs.pmp.xmlutil.PresetUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.RGUtil;
 import de.unistuttgart.ipvs.pmp.xmlutil.XMLUtilityProxy;
 import de.unistuttgart.ipvs.pmp.xmlutil.presetset.IPresetSet;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.AISValidator;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.PresetSetValidator;
-import de.unistuttgart.ipvs.pmp.xmlutil.validator.RGISValidator;
 
 public class TestXMLFiles {
     
-    //private static String aisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/AIS.xml";
-    private static String ais3URL = "http://mvvt.de/ais3.xml";
-    private static String rgisURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/RGIS.xml";
-    private static String presetSetURL = "http://pmp-android.googlecode.com/git-history/trunk/documentation/pmp/design/XML/presetSet.xml";
     private static String presetSet2URL = "http://mvvt.de/presetset2.xml";
-    
-    private static String presetSetDefectURL = "http://mvvt.de/presetset_defect.xml";
-    private static String aisDefectURL = "http://mvvt.de/ais_defect.xml";
-    private static String rgisDefectURL = "http://mvvt.de/rgis_defect.xml";
     
     
     /**
@@ -54,9 +43,9 @@ public class TestXMLFiles {
         RGUtil rgUtil = XMLUtilityProxy.getRGUtil();
         PresetUtil presetUtil = XMLUtilityProxy.getPresetUtil();
         
-        AISValidator aisValidator = appUtil.getValidator();
-        RGISValidator rgisValidator = rgUtil.getValidator();
-        PresetSetValidator presetSetValidator = presetUtil.getValidator();
+        appUtil.getValidator();
+        rgUtil.getValidator();
+        presetUtil.getValidator();
         
         try {
             //            // Test AIS

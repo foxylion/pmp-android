@@ -34,6 +34,7 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
      * @param resourceGroupId
      *            The ID of that resource group
      */
+    @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
         switch (resourceGroupId) {
             case Constants.RG_LOCATION:
@@ -154,12 +155,14 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
         return rgvHike;
     }
     
+    
     protected IContact getContactRG(ResourceGroupReadyListActivity activity) {
         if (rgContact == null) {
             rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
         }
         return rgContact;
     }
+    
     
     /**
      * Reload a resource group even when it's cached. This method should be called when your resource group returns a

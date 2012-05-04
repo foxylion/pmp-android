@@ -73,8 +73,8 @@ public class vhikeDialogs extends Activity {
     
     
     public ChangeServiceFeature getChangeSF(Context context) {
-        csf = new ChangeServiceFeature(context);
-        return csf;
+        this.csf = new ChangeServiceFeature(context);
+        return this.csf;
     }
     
     

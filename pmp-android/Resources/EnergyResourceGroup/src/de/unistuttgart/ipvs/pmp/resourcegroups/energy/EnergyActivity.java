@@ -10,27 +10,29 @@ import android.widget.ToggleButton;
 /**
  * 
  * @author Marcus Vetter
- *
+ * 
  */
 public class EnergyActivity extends Activity implements OnClickListener {
-
-	private ToggleButton tb;
-
-	@Override
-	public void onCreate(Bundle icicle) {
-		super.onCreate(icicle);
-		setContentView(R.layout.main);
-
-		tb = (ToggleButton) findViewById(R.id.toggleButton);
-		tb.setOnClickListener(this);
-	}
-
-	public void onClick(View v) {
-		if (tb.isChecked()) {
-			startService(new Intent(this, EnergyService.class));
-		} else {
-			stopService(new Intent(this, EnergyService.class));
-		}
-	}
-
+    
+    private ToggleButton tb;
+    
+    
+    @Override
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
+        setContentView(R.layout.main);
+        
+        this.tb = (ToggleButton) findViewById(R.id.toggleButton);
+        this.tb.setOnClickListener(this);
+    }
+    
+    
+    public void onClick(View v) {
+        if (this.tb.isChecked()) {
+            startService(new Intent(this, EnergyService.class));
+        } else {
+            stopService(new Intent(this, EnergyService.class));
+        }
+    }
+    
 }

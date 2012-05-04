@@ -24,13 +24,14 @@ public class Check4AcceptedOffers extends TimerTask {
     private int offer_id;
     
     
-    public Check4AcceptedOffers(IvHikeWebservice ws,ViewObject object, int offer_id) {
+    public Check4AcceptedOffers(IvHikeWebservice ws, ViewObject object, int offer_id) {
         this.handler = new Handler();
         this.ctrl = new Controller(ws);
         this.object = object;
         this.offer_id = offer_id;
         
     }
+    
     
     @Override
     public void run() {

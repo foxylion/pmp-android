@@ -9,6 +9,7 @@ import android.os.IInterface;
  * 
  */
 public interface IResourceGroupReady {
+    
     /**
      * Callback function when your requested resource group is ready. This method set the local resource group variables
      * to real RG-object by default. Override this method and add your own logic.

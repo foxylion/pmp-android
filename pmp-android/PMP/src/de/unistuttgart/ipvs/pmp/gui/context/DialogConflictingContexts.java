@@ -39,15 +39,15 @@ public class DialogConflictingContexts extends Dialog {
     private void refresh() {
         List<IPreset> presets = new ArrayList<IPreset>();
         for (IPreset pr : ModelProxy.get().getPresets()) {
-            if (!pr.equals(contextAnnotation.getPreset())
-                    && (contextAnnotation.isPrivacySettingConflicting(pr) || contextAnnotation
+            if (!pr.equals(this.contextAnnotation.getPreset())
+                    && (this.contextAnnotation.isPrivacySettingConflicting(pr) || this.contextAnnotation
                             .getConflictingContextAnnotations(pr).size() > 0)) {
                 presets.add(pr);
             }
         }
         
         ListView listView = (ListView) findViewById(R.id.ListView_PresetConflicts);
-        AdapterConflictingPresets adapter = new AdapterConflictingPresets(getContext(), contextAnnotation, presets);
+        AdapterConflictingPresets adapter = new AdapterConflictingPresets(getContext(), this.contextAnnotation, presets);
         listView.setAdapter(adapter);
     }
     
@@ -57,7 +57,7 @@ public class DialogConflictingContexts extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vpsp.refresh();
+                DialogConflictingContexts.this.vpsp.refresh();
                 dismiss();
             }
         });

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,31 +31,31 @@ import android.net.NetworkInfo;
  * @author Thorsten Berberich
  */
 public class WifiReceiver extends BroadcastReceiver {
-	
-	/* (non-Javadoc)
-	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
-	 */
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		
-		// Get the ConnectivityManager
-		ConnectivityManager connectivityManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = null;
-		
-		// Get the network information for the wifi if the ConnectivityManager is not null
-		if (connectivityManager != null) {
-			networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		}
-		
-		// Check if the wifi is connected or not
-		if (networkInfo != null) {
-			if (networkInfo.isConnected()) {
-				// Connected
-			} else {
-				// Not Connected
-			}
-		}
-	}
-	
+    
+    /* (non-Javadoc)
+     * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+     */
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        
+        // Get the ConnectivityManager
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        
+        // Get the network information for the wifi if the ConnectivityManager is not null
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        }
+        
+        // Check if the wifi is connected or not
+        if (networkInfo != null) {
+            if (networkInfo.isConnected()) {
+                // Connected
+            } else {
+                // Not Connected
+            }
+        }
+    }
+    
 }

@@ -85,6 +85,7 @@ public interface PersistenceConstants {
     static final String CONTEXT_TYPE = "ContextType";
     static final String CONTEXT_CONDITION = "ContextCondition";
     static final String OVERRIDE_GRANTED_VALUE = "OverrideGrantedValue";
+    static final String REQUESTABLE = "Requestable";
     
     /*
      * meta data constants
@@ -100,4 +101,8 @@ public interface PersistenceConstants {
      */
     public static final String APP_XML_NAME = "ais.xml";
     
+    /**
+     * the implicit mode-privacy setting name for mock/cloak functionality
+     */
+    public static final String MODE_PRIVACY_SETTING = "Mode";
 }

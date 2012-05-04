@@ -110,7 +110,7 @@ public class SettingCheckBox extends SettingAbstract<Boolean> {
      */
     private void checkBoxChanged(boolean checked) {
         setValue(checked);
-        adapter.notifyDataSetChanged();
+        this.adapter.notifyDataSetChanged();
     }
     
     

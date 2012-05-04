@@ -20,7 +20,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.ContactDialog;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
@@ -35,9 +34,7 @@ public class PassengerOverlay extends ItemizedOverlay {
     
     private Context mContext;
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
-    private MapView mapView;
     private IvHikeWebservice ivhs;
-    private IContact iContact;
     private String name;
     private GeoPoint mGps;
     
@@ -55,9 +52,7 @@ public class PassengerOverlay extends ItemizedOverlay {
             IContact iContact, String name, GeoPoint gps, ContactDialog contactDialog, int itsMe) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
-        this.mapView = mapView;
         this.ivhs = ivhs;
-        this.iContact = iContact;
         this.name = name;
         this.mGps = gps;
         
@@ -80,14 +75,13 @@ public class PassengerOverlay extends ItemizedOverlay {
         OverlayItem item = this.mOverlays.get(i);
         
         //if 0 passenger, if 1 user
-        if (itsMe == 0) {
+        if (this.itsMe == 0) {
             int id = Integer.valueOf(item.getTitle());
-            Controller ctrl = new Controller(ivhs);
-            Profile user = ctrl.getProfile(Model.getInstance().getSid(), id);
-            //        int lat = user. (get lat lng
+            Controller ctrl = new Controller(this.ivhs);
+            ctrl.getProfile(Model.getInstance().getSid(), id);
             
-            contactDialog.setToGPS(mGps);
-            contactDialog.show();
+            this.contactDialog.setToGPS(this.mGps);
+            this.contactDialog.show();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
             dialog.setTitle(item.getTitle());
@@ -118,12 +112,12 @@ public class PassengerOverlay extends ItemizedOverlay {
         
         Point point = new Point();
         Paint paint = new Paint();
-        paint.setColor(mContext.getResources().getColor(R.color.orange));
+        paint.setColor(this.mContext.getResources().getColor(R.color.orange));
         paint.setAntiAlias(true);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
-        projection.toPixels(mGps, point);
+        projection.toPixels(this.mGps, point);
         
-        canvas.drawText(name, point.x - 20, point.y - 55, paint);
+        canvas.drawText(this.name, point.x - 20, point.y - 55, paint);
         
         return true;
     }

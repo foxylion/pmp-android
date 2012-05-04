@@ -16,10 +16,20 @@ public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting
     
     private final Class<T> clazz;
     
+    private final T defaultValue;
+    
     
     public EnumPrivacySetting(Class<T> enumClass) {
         super();
         this.clazz = enumClass;
+        this.defaultValue = enumClass.getEnumConstants()[0];
+    }
+    
+    
+    public EnumPrivacySetting(Class<T> enumClass, T defaultValue) {
+        super();
+        this.clazz = enumClass;
+        this.defaultValue = defaultValue;
     }
     
     
@@ -27,7 +37,7 @@ public class EnumPrivacySetting<T extends Enum<T>> extends DefaultPrivacySetting
     public T parseValue(String value) throws PrivacySettingValueException {
         try {
             if (value == null) {
-                value = this.clazz.getEnumConstants()[0].name();
+                return this.defaultValue;
             }
             return Enum.valueOf(this.clazz, value);
         } catch (IllegalArgumentException iae) {

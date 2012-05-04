@@ -1,7 +1,9 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum;
 
 public enum PSDeviceDatesEnum {
-
-	NONE, LAST_BOOT, ALL;
-	
+    
+    NONE,
+    LAST_BOOT,
+    ALL;
+    
 }

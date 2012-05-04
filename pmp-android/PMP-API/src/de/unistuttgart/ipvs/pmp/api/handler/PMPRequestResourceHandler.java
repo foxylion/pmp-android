@@ -21,7 +21,9 @@ public class PMPRequestResourceHandler extends PMPHandler {
      *            the identifier of the resource
      * @param binder
      *            the AIDL interface for the resource, or null, if no such resource exists
+     * @param isMocked
+     *            whether the resource returns obvious fake data
      */
-    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
     }
 }
