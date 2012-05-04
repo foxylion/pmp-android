@@ -241,8 +241,8 @@ public class vHikeService extends Service {
             PMP.get(app).getResource(resourceGroupIDs[resourceGroupId], new PMPRequestResourceHandler() {
                 
                 @Override
-                public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                    super.onReceiveResource(resource, binder);
+                public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
+                    super.onReceiveResource(resource, binder, isMocked);
                     Log.v(TAG, "onReceiveResource");
                     getResourceFromCache(activity, resourceGroupId, binder);
                 }
