@@ -554,23 +554,22 @@ public class Model implements IModel, Observer {
             FileLog.get().logWithForward(this, icce, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
                     "ResourceGroup '%s' has failed registration with PMP: Using an API that now is out of date.",
                     rgPackage);
-            return false;
+            throw new InvalidPluginException("Using an API that now is out of date.", icce);
         } catch (LinkageError le) {
             /* error due to invalid class loading */
-            FileLog.get()
-                    .logWithForward(
-                            this,
-                            le,
-                            FileLog.GRANULARITY_COMPONENT_CHANGES,
-                            Level.WARNING,
-                            "ResourceGroup '%s' has failed registration with PMP: An unexpected error occurred during linking the class files.",
-                            rgPackage);
-            return false;
+            FileLog.get().logWithForward(
+                    this,
+                    le,
+                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                    Level.WARNING,
+                    "ResourceGroup '%s' has failed registration with PMP:"
+                            + " An unexpected error occurred during linking the class files.", rgPackage);
+            throw new InvalidXMLException("An unexpected error occurred during linking the class files.", le);
         } catch (ParserException xmlpe) {
             /* error during XML validation */
             FileLog.get().logWithForward(this, xmlpe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
                     "ResourceGroup '%s' has failed registration with PMP: Could not verify XML file.", rgPackage);
-            return false;
+            throw new InvalidXMLException("Could not verify XML file.", xmlpe);
         }
     }
     
