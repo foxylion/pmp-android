@@ -128,7 +128,7 @@ public class DialogAvailableDetails extends Dialog {
                     @Override
                     public void run() {
                         boolean success = false;
-                        String error = null;
+                        String error = "see LogCat";
                         
                         try {
                             success = ModelProxy.get().installResourceGroup(
