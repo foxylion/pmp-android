@@ -456,7 +456,7 @@ public class Model implements IModel, Observer {
                                     Level.WARNING,
                                     "ResourceGroup '%s' has failed registration with PMP: Resource '%s' does not provide all IBinders.",
                                     rgPackage, res);
-                    throw new InvalidPluginException("Resource '%s' does not provide all IBinders.");
+                    throw new InvalidPluginException("Resource '" + res + "' does not provide all IBinders.");
                 }
                 
                 // assert that mocking and cloaking are REALLY different classes from normal
@@ -470,8 +470,8 @@ public class Model implements IModel, Observer {
                                     "ResourceGroup '%s' has failed registration with PMP:"
                                             + " Resource '%s' may not provide normal and mocked IBinders which are subtypes of each other.",
                                     rgPackage, res);
-                    throw new InvalidPluginException(
-                            "Resource '%s' may not provide normal and mocked IBinders which are subtypes of each other.");
+                    throw new InvalidPluginException("Resource '" + res
+                            + "' may not provide normal and mocked IBinders which are subtypes of each other.");
                 }
                 
                 if (nb.getClass().isAssignableFrom(cb.getClass()) || cb.getClass().isAssignableFrom(nb.getClass())) {
@@ -484,8 +484,8 @@ public class Model implements IModel, Observer {
                                     "ResourceGroup '%s' has failed registration with PMP:"
                                             + " Resource '%s' may not provide normal and cloaked IBinders which are subtypes of each other.",
                                     rgPackage, res);
-                    throw new InvalidPluginException(
-                            "Resource '%s' may not provide normal and cloaked IBinders which are subtypes of each other.");
+                    throw new InvalidPluginException("Resource '" + res
+                            + "' may not provide normal and cloaked IBinders which are subtypes of each other.");
                 }
                 
             }
