@@ -46,9 +46,10 @@ public class PrivacySettingPersistenceProvider extends ElementPersistenceProvide
             qb.setTables(TBL_PRIVACYSETTING);
             
             // load privacy setting values
-            Cursor c = qb.query(rdb, new String[] { REQUESTABLE }, PRIVACYSETTING_IDENTIFIER + " = ? AND "
-                    + PRIVACYSETTING_RESOURCEGROUP_PACKAGE + " = ?", new String[] { this.element.getLocalIdentifier(),
-                    this.element.resourceGroup.getIdentifier() }, null, null, null);
+            Cursor c = qb.query(rdb, new String[] { REQUESTABLE }, IDENTIFIER + " = ? AND " + RESOURCEGROUP_PACKAGE
+                    + " = ?",
+                    new String[] { this.element.getLocalIdentifier(), this.element.resourceGroup.getIdentifier() },
+                    null, null, null);
             
             this.element.requestable = c.moveToFirst() ? c.getInt(c.getColumnIndex(REQUESTABLE)) != 0 : false;
             c.close();
