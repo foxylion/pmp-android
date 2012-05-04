@@ -32,6 +32,35 @@ if (!defined("INCLUDE")) {
  */
 class Chart {
 
+    const DAY = "day";
+    const MONTH = "month";
+    const YEAR = "year";
+
+    private $scale = Chart::DAY;
+
+    public function setScale($scale) {
+        if ($scale == Chart::DAY || $scale == Chart::MONTH || $scale == Chart::YEAR) {
+            $this->scale = $scale;
+        } else {
+            $this->scale = Chart::DAY;
+        }
+    }
+
+    public function getScale() {
+        return $this->scale;
+    }
+
+    public function getEventsByScale(EventManager $manager, $startTs, $daysInMonth) {
+        switch ($this->scale) {
+            case Chart::DAY:
+                return $manager->getEventsOneDay($startTs);
+            case Chart::MONTH:
+                return $manager->getEventsMultDays($startTs, $daysInMonth);
+            case Chart::YEAR:
+                return $manager->getEventsMultDays($startTs, 365);
+        }
+    }
+
     /**
      *
      * @param String[][] $columns
@@ -105,4 +134,5 @@ class Chart {
     }
 
 }
+
 ?>

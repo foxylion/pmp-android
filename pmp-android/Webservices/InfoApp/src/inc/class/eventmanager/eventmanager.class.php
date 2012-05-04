@@ -114,6 +114,16 @@ abstract class EventManager {
     }
 
     /**
+     * Gets all available events for a multiple-day-period
+     * @param long $startTimestamp Start timestamp
+     * @param int $days   Number of days
+     * @return Events[] The loaded events
+     */
+    public function getEventsMultDays($startTs, $days) {
+        return $this->getEventsInterval($startTs, $startTs + $days * 86400000);
+    }
+
+    /**
      * Gets all available events stored in the DB for the given interval
      * @param long  $fromTs Start timestamp in MS
      * @param long  $toTs   End timestamp in MS

@@ -68,7 +68,23 @@ class CellularConnectionEventManager extends EventManager {
     }
 
     public function getEventsInterval($fromTs, $toTs) {
+        if (!is_numeric($fromTs) || !is_numeric($toTs)) {
+            throw new InvalidArgumentException("At least one timestamp is not numeric");
+        }
+        $db = Database::getInstance();
 
+        $res = $db->query("SELECT * FROM `" . DB_PREFIX . "_connection_cellular`
+                           WHERE `device` = x'" . $this->deviceId . "'
+                           AND `timestamp` >= $fromTs
+                           AND `timestamp` <= $toTs
+                           ORDER BY `event_id` ASC");
+
+        $events = array();
+        while (($row = $db->fetch($res)) != null ) {
+            $events[] = new CellularConnectionEvent($row["id"], $row["timestamp"], (bool)$row["roaming"], (bool)$row["airplane"]);
+        }
+
+        return $events;
     }
 
     public function getLastId() {

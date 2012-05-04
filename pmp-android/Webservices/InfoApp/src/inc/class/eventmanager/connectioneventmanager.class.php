@@ -72,7 +72,7 @@ class ConnectionEventManager extends EventManager {
 
     public function getEventsInterval($fromTs, $toTs) {
         if (!is_numeric($fromTs) || !is_numeric($toTs)) {
-            throw new InvalidArgumentException("at least one timestamp is no long");
+            throw new InvalidArgumentException("At least one timestamp is not numeric");
         }
         $db = Database::getInstance();
 

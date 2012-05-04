@@ -27,6 +27,7 @@
         <title>InfoApp - <?php echo $tmplt["pageTitle"] ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" type="text/css" href="./../res/main.css" media="screen"/>
+        <?php if (isset($tmplt["jsFunctDrawChart"])) {?>
         <!--Load the AJAX API-->
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -49,15 +50,34 @@
 
 
         </script>
+        <?php } ?>
     </head>
     <body>
         <div id="leftarea">
-            <ul>
-                <li><a href="./battery.php?<?php echo $tmplt["getParams"] ?>">Battery</a></li>
-                <li><a href="./connection.php?<?php echo $tmplt["getParams"] ?>">Connection</a></li>
+            <h1>Device Charts:</h1>
+            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <ul id="navigation">
+                <li><a href="./battery.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
+                <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
+                <li><a href="./connection.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
             </ul>
 
+            <h1>Date:</h1>
             <?php echo $calendar->getHtml() ?>
+
+            <h1>Scale:</h1>
+            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["deviceGetParam"] ?>
+            <ul id="scale">
+                <li <?php if($tmplt["scaleDay"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=day">Day</a>
+                </li>
+                <li <?php if($tmplt["scaleMonth"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=month">Month</a>
+                </li>
+                <li <?php if($tmplt["scaleYear"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=year">Year</a>
+                </li>
+            </ul>
         </div>
         <div id="contentarea">
             <?php echo $tmplt["content"] ?>

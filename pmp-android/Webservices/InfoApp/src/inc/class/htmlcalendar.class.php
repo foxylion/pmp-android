@@ -138,6 +138,10 @@ class HtmlCalendar {
         return $this->year + 1;
     }
 
+    public function getDaysInMonth() {
+        return cal_days_in_month(CAL_GREGORIAN, $this->month, $this->year);
+    }
+
     /**
      * Gets the selected date as timetamp
      * @return long Timestamp in seconds. Hours, minutes and secondes are set to zero

@@ -75,6 +75,17 @@ class Device {
         return self::$instance;
     }
 
+    public static function eventsExists($deviceId) {
+        if (!General::isValidDeviceId($deviceId)) {
+            return false;
+        }
+        $db = Database::getInstance();
+
+        $db->query("SELECT * FROM " . DB_PREFIX . "_last_event_ids WHERE `device` = x'" . $deviceId . "'");
+
+        return $db->getAffectedRows() > 0;
+    }
+
     /**
      * Gets the manager for awake events
      * @return AwakeEventManager The manager

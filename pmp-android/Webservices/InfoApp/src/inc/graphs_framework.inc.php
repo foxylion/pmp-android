@@ -33,7 +33,30 @@ try {
     Json::printDatabaseError($de);
 }
 
+// Get device data
+// ---------------
+$deviceIdValid = isset($_GET["device"]) && Device::eventsExists($_GET["device"]);
+if ($deviceIdValid) {
+    $device = Device::getInstance($_GET["device"]);
+    $deviceId = $_GET["device"];
+} else {
+    $device = null;
+    $deviceId = 0;
+}
+
+
+// Prepare chart
+// -------------
+$chart = new Chart();
+if (isset($_GET["scale"])) {
+    $chart->setScale($_GET["scale"]);
+} else {
+    $chart->setScale(Chart::DAY);
+}
+
+
 // Prepare callendar
+// -----------------
 if (isset($_GET["year"]) && is_numeric($_GET["year"])) {
     $year = $_GET["year"];
 } else {
@@ -53,15 +76,55 @@ if (isset($_GET["day"]) && is_numeric($_GET["day"])) {
 }
 
 $calendar = new HtmlCalendar($year, $month, $day);
-$calendar->urlPrevMonth = "connection.php?year=" . $calendar->getYearOfPrevMonth() . "&month=" .$calendar->getPrevMonth();
-$calendar->urlNextMonth = "connection.php?year=" . $calendar->getYearOfNextMonth() . "&month=" .$calendar->getNextMonth();
-$calendar->urlPrevYear = "connection.php?year=" . $calendar->getPrevYear() . "&month=" . $calendar->getMonth();
-$calendar->urlNextYear = "connection.php?year=" . $calendar->getNextYear() . "&month=" . $calendar->getMonth();
-$calendar->urlSelectDay = "connection.php?year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=%d";
+$restOfGetParam = "&day=" . $calendar->getDay() . "&scale=" . $chart->getScale() . "&device=" . $deviceId;
 
-$timeMs =  Chart::timestampToMillis($calendar->getTimestamp());
-// Gather event data
-$device = Device::getInstance("f2305a2fbef51bd82008c7cf3788250f");
+$calendar->urlPrevMonth = "connection.php?year=" . $calendar->getYearOfPrevMonth() .
+        "&month=" . $calendar->getPrevMonth() . $restOfGetParam;
+$calendar->urlNextMonth = "connection.php?year=" . $calendar->getYearOfNextMonth() .
+        "&month=" . $calendar->getNextMonth() . $restOfGetParam;
+$calendar->urlPrevYear = "connection.php?year=" . $calendar->getPrevYear() .
+        "&month=" . $calendar->getMonth() . $restOfGetParam;
+$calendar->urlNextYear = "connection.php?year=" . $calendar->getNextYear() .
+        "&month=" . $calendar->getMonth() . $restOfGetParam;
+$calendar->urlSelectDay = "connection.php?year=" . $calendar->getYear() .
+        "&month=" . $calendar->getMonth() . "&day=%d&scale=" . $chart->getScale() . "&device=" . $deviceId;
 
-$tmplt["getParams"] = "year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=" . $calendar->getDay();
+$timeMs = Chart::timestampToMillis($calendar->getTimestamp());
+
+
+// Prepare global template vars
+// ----------------------------
+$tmplt["dateGetParams"] = "year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=" . $calendar->getDay();
+$tmplt["scaleGetParam"] = "scale=" . $chart->getScale();
+$tmplt["deviceGetParam"] = "device=" . $deviceId;
+
+$tmplt["filename"] = basename($_SERVER["SCRIPT_NAME"], ".php");
+
+// Chart scale
+$tmplt["scaleDay"] = $tmplt["scaleMonth"] = $tmplt["scaleYear"] = false;
+
+switch ($chart->getScale()) {
+    case Chart::DAY:
+        $tmplt["scaleDay"] = true;
+        break;
+    case Chart::MONTH:
+        $tmplt["scaleMonth"] = true;
+        break;
+    case Chart::YEAR:
+        $tmplt["scaleYear"] = true;
+        break;
+}
+
+// Set remaining temp-vars to default values used to display the error message
+$tmplt["pageTitle"] = "No valid device ID";
+$tmplt["content"] = "
+            <h1>No valid device ID</h1>
+            <p>
+                No valid device ID has been given. Please enter a valid ID.
+
+                <form method=\"get\" action=\"" . $tmplt["filename"] . ".php\">
+                    <input type=\"text\" name=\"device\" size=\"32\" value=\"f2305a2fbef51bd82008c7cf3788250f\" />
+                    <input type=\"submit\">
+                </form>
+            </p>";
 ?>
