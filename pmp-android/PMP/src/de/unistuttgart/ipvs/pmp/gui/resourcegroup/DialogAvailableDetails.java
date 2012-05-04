@@ -131,9 +131,8 @@ public class DialogAvailableDetails extends Dialog {
                         String error = null;
                         
                         try {
-                            ModelProxy.get().installResourceGroup(
+                            success = ModelProxy.get().installResourceGroup(
                                     DialogAvailableDetails.this.rgInformation.getIdentifier(), false);
-                            success = true;
                         } catch (InvalidXMLException e) {
                             error = e.getMessage();
                         } catch (InvalidPluginException e) {
