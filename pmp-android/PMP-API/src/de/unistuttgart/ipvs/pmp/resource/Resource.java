@@ -85,7 +85,7 @@ public abstract class Resource {
     
     /**
      * Gets the {@link IBinder} defined in AIDL for communicating over a Service, but only containing obviously fake
-     * data.
+     * data. <b>Note that you must not return the equal or subclass of {@link Resource#getAndroidInterface(String)}.</b>
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
@@ -100,7 +100,8 @@ public abstract class Resource {
     
     /**
      * Gets the {@link IBinder} defined in AIDL for communicating over a Service, but only containing data that is
-     * indistinguishable from real one, but is actually fake.
+     * indistinguishable from real one, but is actually fake. <b>Note that you must not return the equal or subclass of
+     * {@link Resource#getAndroidInterface(String)}.</b>
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
