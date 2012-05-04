@@ -97,7 +97,7 @@ public class BatteryHandler {
          * Store to database
          */
         BatteryEvent be = new BatteryEvent(-1, System.currentTimeMillis(), level, health, status, plugged, present,
-                technology, temperature, voltage);
+                technology, temperature / 10, voltage);
         DBConnector.getInstance(context).storeBatteryEvent(be);
     }
     

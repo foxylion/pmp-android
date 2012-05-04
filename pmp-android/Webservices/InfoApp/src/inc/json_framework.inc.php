@@ -46,33 +46,7 @@ if (get_magic_quotes_gpc()) {
 // Set JSON-Header
 header("Content-type: application/json");
 
-// Load config-file
-require ("./../inc/config.inc.php");
-
-// Load class-files
-require ("./../inc/class/database.class.php");
-require ("./../inc/class/general.class.php");
-require ("./../inc/class/json.class.php");
-require ("./../inc/class/device.class.php");
-
-require ("./../inc/class/eventmanager/eventmanager.class.php");
-require ("./../inc/class/eventmanager/awakeeventmanager.class.php");
-require ("./../inc/class/eventmanager/batteryeventmanager.class.php");
-require ("./../inc/class/eventmanager/cellularconnectioneventmanager.class.php");
-require ("./../inc/class/eventmanager/connectioneventmanager.class.php");
-require ("./../inc/class/eventmanager/screeneventmanager.class.php");
-
-require ("./../inc/class/events/event.class.php");
-require ("./../inc/class/events/awakeevent.class.php");
-require ("./../inc/class/events/batteryevent.class.php");
-require ("./../inc/class/events/cellularconnectionevent.class.php");
-require ("./../inc/class/events/connectionevent.class.php");
-require ("./../inc/class/events/screenevent.class.php");
-
-require ("./../inc/class/properties/properties.class.php");
-require ("./../inc/class/properties/batteryproperties.class.php");
-require ("./../inc/class/properties/connectionproperties.class.php");
-require ("./../inc/class/properties/deviceproperties.class.php");
+require ("./../inc/classloader.inc.php");
 
 // Connect to database
 try {

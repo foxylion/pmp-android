@@ -101,6 +101,7 @@ public class RGISCompiler extends BasicISCompiler {
             psNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, ps.getIdentifier()));
             psNode.addAttribute(new XMLAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTR, ps
                     .getValidValueDescription()));
+            psNode.addAttribute(new XMLAttribute(XMLConstants.REQUESTABLE_ATTR, String.valueOf(ps.isRequestable())));
             
             // Add the name and description nodes
             for (XMLNode nameDescrNode : createNameDescriptionNodes(ps)) {
@@ -122,5 +123,4 @@ public class RGISCompiler extends BasicISCompiler {
         
         return nodeList;
     }
-    
 }

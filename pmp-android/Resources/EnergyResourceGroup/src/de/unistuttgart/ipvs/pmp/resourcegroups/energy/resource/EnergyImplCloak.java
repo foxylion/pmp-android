@@ -23,11 +23,11 @@ public class EnergyImplCloak extends IEnergy.Stub {
     }
     
     
-    public int getCurrentLevel() throws RemoteException {
+    public String getCurrentLevel() throws RemoteException {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
         
-        return 0;
+        return "0";
     }
     
     
@@ -39,11 +39,11 @@ public class EnergyImplCloak extends IEnergy.Stub {
     }
     
     
-    public boolean getCurrentCharging() throws RemoteException {
+    public String getCurrentCharging() throws RemoteException {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_STATUS, "true");
         
-        return false;
+        return "No";
     }
     
     

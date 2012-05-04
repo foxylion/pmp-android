@@ -29,11 +29,11 @@ public class EnergyImplMock extends IEnergy.Stub {
     }
     
     
-    public int getCurrentLevel() throws RemoteException {
+    public String getCurrentLevel() throws RemoteException {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
         
-        return new Random().nextInt(101);
+        return String.valueOf(new Random().nextInt(101)) + " %";
     }
     
     
@@ -61,11 +61,15 @@ public class EnergyImplMock extends IEnergy.Stub {
     }
     
     
-    public boolean getCurrentCharging() throws RemoteException {
+    public String getCurrentCharging() throws RemoteException {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_STATUS, "true");
         
-        return new Random().nextBoolean();
+        if (new Random().nextBoolean()) {
+            return "Yes";
+        } else {
+            return "No";
+        }
     }
     
     

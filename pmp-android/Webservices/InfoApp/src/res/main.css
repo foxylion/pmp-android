@@ -1,0 +1,53 @@
+body {
+  color:#000000;
+  background-color:#FFF;
+  font-family:Verdana,Arial,Helvetica,sans-serif;
+  font-size: .8em;
+  margin:15px;
+}
+
+body a:link, body a:visited, body a:active {
+  color: #000000;
+  text-decoration: underline;
+}
+
+body a:hover {
+  color:#505050;
+  text-decoration: none;
+}
+
+table {
+    border-collapse:collapse;
+}
+
+.calendar th {
+    background-color: #f2f2f2;
+}
+.calendar th, .calendar td {
+    border: 1px solid #000;
+    text-align: center;
+}
+
+.calendar .currentDay {
+    border-width: 2px;
+}
+
+.calendar .selectedDay {
+    font-weight: bold;
+}
+
+
+h1 {
+  font-size: 1.5em;
+  margin-top:0px;
+}
+h2 {font-size: 1.3em;}
+h3 {font-size: 1.1em;}
+
+#leftarea {
+    float: left;
+}
+
+#contentarea {
+  margin-left: 12em;
+}

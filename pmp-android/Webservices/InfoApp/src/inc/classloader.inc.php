@@ -35,6 +35,7 @@ require ("./../inc/config.inc.php");
 require ("./../inc/class/chart.class.php");
 require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
+require ("./../inc/class/htmlcalendar.class.php");
 require ("./../inc/class/json.class.php");
 require ("./../inc/class/device.class.php");
 
@@ -56,11 +57,4 @@ require ("./../inc/class/properties/properties.class.php");
 require ("./../inc/class/properties/batteryproperties.class.php");
 require ("./../inc/class/properties/connectionproperties.class.php");
 require ("./../inc/class/properties/deviceproperties.class.php");
-
-// Connect to database
-try {
-    Database::getInstance()->connect();
-} catch (DatabaseException $de) {
-    Json::printDatabaseError($de);
-}
 ?>
