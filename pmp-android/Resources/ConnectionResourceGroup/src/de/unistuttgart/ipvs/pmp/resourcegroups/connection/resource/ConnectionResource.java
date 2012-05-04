@@ -41,4 +41,24 @@ public class ConnectionResource extends Resource {
         return new ConnectionImpl(connectionRG.getContext());
     }
     
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getMockedAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getCloakedAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }
