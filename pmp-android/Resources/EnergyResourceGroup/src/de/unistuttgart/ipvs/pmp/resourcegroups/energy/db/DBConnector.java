@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -10,6 +11,9 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.BatteryEvent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.DeviceBootEvent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
 
 /**
  * 
@@ -159,6 +163,79 @@ public class DBConnector implements IDBConnector {
         // Log
         Log.i(EnergyConstants.LOG_TAG, "Stored device boot event in database (ID: " + id + ")");
         Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + dbe.getTimestamp());
+    }
+    
+    
+    public ResultSetCurrentValues getCurrentValues() {
+        ResultSetCurrentValues rs = new ResultSetCurrentValues();
+        
+        open();
+        Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS, null, null, null,
+                null, null);
+        if (cursor.moveToLast()) {
+            BatteryEvent lastBE = cursorToBatteryEvent(cursor);
+            rs.setLevel(String.valueOf(lastBE.getLevel()) + " %");
+            rs.setHealth(lastBE.getHealth());
+            rs.setStatus(lastBE.getStatus());
+            if (!lastBE.getPlugged().equals(EnergyConstants.PLUGGED_NOT_PLUGGED)) {
+                rs.setPlugged(lastBE.getPlugged());
+            }
+            rs.setTemperature(String.valueOf(lastBE.getTemperature()) + " °C");
+            // Calculate the time
+            long pluggedTime = System.currentTimeMillis();
+            while (!cursor.isBeforeFirst()) {
+                pluggedTime = cursor.getLong(1);
+                if (cursor.moveToPrevious()) {
+                    if (!cursor.getString(4).equals(rs.getStatus())) {
+                        break;
+                    }
+                }
+                
+            }
+            long currentTime = System.currentTimeMillis();
+            rs.setStatusTime((currentTime - pluggedTime) + "ms");
+        }
+        cursor.close();
+        close();
+        return rs;
+    }
+    
+    
+    public ResultSetLastBootValues getLastBootValues() {
+        ResultSetLastBootValues rs = new ResultSetLastBootValues();
+        return rs;
+    }
+    
+    
+    public ResultSetTotalValues getTotalValues() {
+        ResultSetTotalValues rs = new ResultSetTotalValues();
+        return rs;
+    }
+    
+    
+    /**
+     * Convert the cursor into a {@link BatteryEvent}-Object
+     * 
+     * @param cursor
+     * @return {@link BatteryEvent}-Object
+     */
+    private BatteryEvent cursorToBatteryEvent(Cursor cursor) {
+        BatteryEvent be = new BatteryEvent();
+        be.setId(cursor.getInt(0));
+        be.setTimestamp(cursor.getLong(1));
+        be.setLevel(cursor.getInt(2));
+        be.setHealth(cursor.getString(3));
+        be.setStatus(cursor.getString(4));
+        be.setPlugged(cursor.getString(5));
+        if (cursor.getInt(6) == 1) {
+            be.setPresent(true);
+        } else {
+            be.setPresent(false);
+        }
+        be.setTechnology(cursor.getString(7));
+        be.setTemperature(cursor.getFloat(8));
+        be.setVoltage(cursor.getInt(9));
+        return be;
     }
     
 }
