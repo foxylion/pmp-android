@@ -35,6 +35,7 @@ require ("./../inc/config.inc.php");
 require ("./../inc/class/chart.class.php");
 require ("./../inc/class/database.class.php");
 require ("./../inc/class/general.class.php");
+require ("./../inc/class/googlechart.class.php");
 require ("./../inc/class/htmlcalendar.class.php");
 require ("./../inc/class/json.class.php");
 require ("./../inc/class/device.class.php");

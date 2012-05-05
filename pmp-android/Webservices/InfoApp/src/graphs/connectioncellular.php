@@ -27,21 +27,29 @@ if ($deviceIdValid) {
     $eventManager = $device->getCellularConnectionEventManager();
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
-    // Get data used to display the charts
-    $connectionColumns = array(array("datetime", "Date"), array("number", "Airplane"), array("number", "Roaming"));
-    $connectionRows = array();
+    // cellular connection status
+    $dateColumn = new GColumn("datetime", "d", "Date");
+    $airplaneColumn = new GColumn("number", "a", "Airplane");
+    $roamingColumn = new GColumn("number", "r", "Roaming");
+
+    $connectionData = new GDataTable();
+    $connectionData->addColumn($dateColumn);
+    $connectionData->addColumn($airplaneColumn);
+    $connectionData->addColumn($roamingColumn);
 
     foreach ($events as $event) {
-                // Connection status
-                $connectionRows[] = array("new Date(" . $event->getTimestamp() . ")", (int) $event->isAirplane(), (int) $event->isRoaming());
-
+        $row = new GRow();
+        $row->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        $row->addCell(new GCell((int) $event->isAirplane()));
+        $row->addCell(new GCell((int) $event->isRoaming()));
+        $connectionData->addRow($row);
     }
 
     $tmplt["pageTitle"] = "Connection";
     $tmplt["jsFunctDrawChart"] = "drawConnection();";
 
     $tmplt["jsDrawFunctions"] = "function drawConnection() {
-        " . Chart::getDataObject($connectionColumns, $connectionRows) . "
+        var data = new google.visualization.DataTable(" . $connectionData->getJsonObject()  . ");
 
         var options = {
             title: 'Cellular connection status',

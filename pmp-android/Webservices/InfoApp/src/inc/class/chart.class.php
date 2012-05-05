@@ -68,6 +68,7 @@ class Chart {
      *
      * @param String[][] $columns
      * @param string[][] $data
+     * @deprecated Use class GDataObject instead
      */
     public static function getDataObject($columns, $rows) {
 
