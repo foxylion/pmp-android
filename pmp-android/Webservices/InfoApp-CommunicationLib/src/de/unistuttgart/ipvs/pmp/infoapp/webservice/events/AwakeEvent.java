@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * An awake event stores information about the state of the device
  * at a given timestamp
@@ -53,6 +56,14 @@ public class AwakeEvent extends Event {
      */
     public boolean isAwake() {
         return this.awake;
+    }
+    
+    
+    @Override
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = super.toJSONObject();
+        json.put("awake", this.awake);
+        return json;
     }
     
 }

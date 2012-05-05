@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * A screen event stores information about the state of the device's display
  * at a given timestamp
@@ -53,6 +56,14 @@ public class ScreenEvent extends Event {
      */
     public boolean isDisplayOn() {
         return this.display;
+    }
+    
+    
+    @Override
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = super.toJSONObject();
+        json.put("screen", this.display);
+        return json;
     }
     
 }

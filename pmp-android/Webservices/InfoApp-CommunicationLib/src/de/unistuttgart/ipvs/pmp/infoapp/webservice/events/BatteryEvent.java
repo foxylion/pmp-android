@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * A battery event stores information about the state of the battery
  * at a given timestamp
@@ -44,7 +47,7 @@ public class BatteryEvent extends Event {
     private byte level;
     private Adapter plugged;
     private boolean present;
-    private Status stat;
+    private Status status;
     private float temperature;
     
     
@@ -73,7 +76,7 @@ public class BatteryEvent extends Event {
         this.level = level;
         this.plugged = plugged;
         this.present = present;
-        this.stat = status;
+        this.status = status;
         this.temperature = temperature;
     }
     
@@ -114,7 +117,7 @@ public class BatteryEvent extends Event {
      * @return Charging status
      */
     public Status getStatus() {
-        return this.stat;
+        return this.status;
     }
     
     
@@ -125,6 +128,48 @@ public class BatteryEvent extends Event {
      */
     public float getTemperature() {
         return this.temperature;
+    }
+    
+    
+    @Override
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = super.toJSONObject();
+        json.put("level", this.level);
+        
+        switch (this.plugged) {
+            case AC:
+                json.put("plugged", "a");
+                break;
+            case NOT_PLUGGED:
+                json.put("plugged", "n");
+                break;
+            case USB:
+                json.put("plugged", "u");
+                break;
+        }
+        
+        json.put("present", this.present);
+        
+        switch (this.status) {
+            case CHARGING:
+                json.put("status", "c");
+                break;
+            case DISCHARGING:
+                json.put("status", "d");
+                break;
+            case FULL:
+                json.put("status", "f");
+                break;
+            case NOT_CHARGING:
+                json.put("status", "n");
+                break;
+            case UNKNOWN:
+                json.put("status", "u");
+                break;
+        }
+        
+        json.put("temperature", this.temperature);
+        return json;
     }
     
 }
