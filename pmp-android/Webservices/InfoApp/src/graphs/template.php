@@ -71,6 +71,9 @@
                 <li <?php if($tmplt["scaleDay"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=day">Day</a>
                 </li>
+                <li <?php if($tmplt["scaleWeek"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=week">Week</a>
+                </li>
                 <li <?php if($tmplt["scaleMonth"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=month">Month</a>
                 </li>

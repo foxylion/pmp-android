@@ -28,18 +28,19 @@ if (!defined("INCLUDE")) {
  * Helper class for easier creation of Google Charts
  *
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 class Chart {
 
     const DAY = "day";
+    const WEEK = "week";
     const MONTH = "month";
     const YEAR = "year";
 
     private $scale = Chart::DAY;
 
     public function setScale($scale) {
-        if ($scale == Chart::DAY || $scale == Chart::MONTH || $scale == Chart::YEAR) {
+        if ($scale == Chart::DAY || $scale == Chart::WEEK ||$scale == Chart::MONTH || $scale == Chart::YEAR) {
             $this->scale = $scale;
         } else {
             $this->scale = Chart::DAY;
@@ -54,6 +55,8 @@ class Chart {
         switch ($this->scale) {
             case Chart::DAY:
                 return $manager->getEventsOneDay($startTs);
+            case Chart::WEEK:
+                return $manager->getEventsMultDays($startTs, 7);
             case Chart::MONTH:
                 return $manager->getEventsMultDays($startTs, $daysInMonth);
             case Chart::YEAR:

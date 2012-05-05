@@ -38,7 +38,7 @@ class IdInUseException extends Exception {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 1.0.2
+ * @version 4.0.2
  */
 abstract class EventManager {
 

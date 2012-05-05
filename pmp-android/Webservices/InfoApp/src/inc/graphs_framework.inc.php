@@ -101,11 +101,14 @@ $tmplt["deviceGetParam"] = "device=" . $deviceId;
 $tmplt["filename"] = basename($_SERVER["SCRIPT_NAME"], ".php");
 
 // Chart scale
-$tmplt["scaleDay"] = $tmplt["scaleMonth"] = $tmplt["scaleYear"] = false;
+$tmplt["scaleDay"] = $tmplt["scaleWeek"] = $tmplt["scaleMonth"] = $tmplt["scaleYear"] = false;
 
 switch ($chart->getScale()) {
     case Chart::DAY:
         $tmplt["scaleDay"] = true;
+        break;
+    case Chart::WEEK:
+        $tmplt["scaleWeek"] = true;
         break;
     case Chart::MONTH:
         $tmplt["scaleMonth"] = true;

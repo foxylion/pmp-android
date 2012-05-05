@@ -28,7 +28,7 @@ if (!defined("INCLUDE")) {
  * This class handles the access to all classes used to manage the stored information
  *
  * @author Patrick Strobel
- * @version 1.4.0
+ * @version 4.4.1
  */
 class Device {
 
@@ -92,7 +92,7 @@ class Device {
      */
     public function getAwakeEventManager() {
         if ($this->awakeMgr == null) {
-            $this->awakeMgr = new AwAwakeEventManager($this->deviceId);
+            $this->awakeMgr = new AwakeEventManager($this->deviceId);
         }
         return $this->awakeMgr;
     }
