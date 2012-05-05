@@ -41,12 +41,15 @@ if ($deviceIdValid) {
         $city = $event->getCity();
         switch ($event->getMedium()) {
             case ConnectionEvent::BLUETOOTH:
-                // City counter
-                if (key_exists($city, $citiesBluetoothRows)) {
-                    $citiesBluetoothRows[$city][1]++;
-                } else {
-                    $citiesBluetoothRows[$city][1] = 1;
-                    $citiesBluetoothRows[$city][0] = $city;
+
+                // Count cities if a connection has been established
+                if ($event->isConnected()) {
+                    if (key_exists($city, $citiesBluetoothRows)) {
+                        $citiesBluetoothRows[$city][1]++;
+                    } else {
+                        $citiesBluetoothRows[$city][1] = 1;
+                        $citiesBluetoothRows[$city][0] = $city;
+                    }
                 }
 
                 // Connection status
@@ -54,12 +57,15 @@ if ($deviceIdValid) {
                 break;
 
             case ConnectionEvent::WIFI:
-                // City counter
-                if (key_exists($city, $citiesWifiRows)) {
-                    $citiesWifiRows[$city][1]++;
-                } else {
-                    $citiesWifiRows[$city][1] = 1;
-                    $citiesWifiRows[$city][0] = $city;
+                
+                // Count cities if a connection has been established
+                if ($event->isConnected()) {
+                    if (key_exists($city, $citiesWifiRows)) {
+                        $citiesWifiRows[$city][1]++;
+                    } else {
+                        $citiesWifiRows[$city][1] = 1;
+                        $citiesWifiRows[$city][0] = $city;
+                    }
                 }
 
                 // Connection status
@@ -92,7 +98,7 @@ if ($deviceIdValid) {
         " . Chart::getDataObject($citiesConnectionColumns, $citiesWifiConnectionRows) . "
 
         var options = {
-            title: 'Wifi adapter status',
+            title: 'Wi-Fi adapter status',
             'width':800,
             'height':150
         };
@@ -106,7 +112,7 @@ if ($deviceIdValid) {
     function drawBluetoothChart() {
         " . Chart::getDataObject($citiesBluetoothColumns, $citiesBluetoothRows) . "
 
-        var options = {'title':'Number of paired bluetooth devices',
+        var options = {'title':'Number of bluetooth parings per city',
             'width':600,
             'height':400};
 
@@ -117,7 +123,7 @@ if ($deviceIdValid) {
     function drawWifiChart() {
         " . Chart::getDataObject($citiesWifiColumns, $citiesWifiRows) . "
 
-        var options = {'title':'Number of WIFI networks the device has been connected to',
+        var options = {'title':'Number of Wi-Fi connections per city',
             'width':600,
             'height':400};
 
