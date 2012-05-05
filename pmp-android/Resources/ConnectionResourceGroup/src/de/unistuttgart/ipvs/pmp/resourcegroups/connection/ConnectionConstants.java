@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,33 +26,33 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.connection;
  * 
  */
 public class ConnectionConstants {
-	
-	/**
-	 * The package name of the resource group
-	 */
-	public static final String RG_PACKAGE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.connection";
-	
-	/**
-	 * The resource
-	 */
-	public static final String RES_ENERGY = "connectionResource";
-	
-	/**
-	 * The privacy settings
-	 */
-	public static final String PS_WIFI_STATUS = "wifi-status-connection-status";
-	public static final String PS_CONFIGURED_NETWORKS = "wifi-configured-networks";
-	public static final String PS_WIFI_CONNECTED_CITIES = "wifi-connected-cities";
-	public static final String PS_BLUETOOTH_STATUS = "bluetooth-status-connection-status";
-	public static final String PS_BLUETOOTH_DEVICES = "bluetooth-paired-devices";
-	public static final String PS_BT_CONNECTED_CITIES = "bluetooth-connected-cities";
-	public static final String PS_DATA_STATUS = "data-connection-status";
-	public static final String PS_CELL_STATUS = "cell-phone-network-status";
-	public static final String PS_UPLOAD_DATA = "upload-data";
-	
-	/**
-	 * The log tag
-	 */
-	public static final String LOG_TAG = "ConnectionResourceGroup";
-	
+    
+    /**
+     * The package name of the resource group
+     */
+    public static final String RG_PACKAGE_NAME = "de.unistuttgart.ipvs.pmp.resourcegroups.connection";
+    
+    /**
+     * The resource
+     */
+    public static final String RES_ENERGY = "connectionResource";
+    
+    /**
+     * The privacy settings
+     */
+    public static final String PS_WIFI_STATUS = "wifi-status-connection-status";
+    public static final String PS_CONFIGURED_NETWORKS = "wifi-configured-networks";
+    public static final String PS_WIFI_CONNECTED_CITIES = "wifi-connected-cities";
+    public static final String PS_BLUETOOTH_STATUS = "bluetooth-status-connection-status";
+    public static final String PS_BLUETOOTH_DEVICES = "bluetooth-paired-devices";
+    public static final String PS_BT_CONNECTED_CITIES = "bluetooth-connected-cities";
+    public static final String PS_DATA_STATUS = "data-connection-status";
+    public static final String PS_CELL_STATUS = "cell-phone-network-status";
+    public static final String PS_UPLOAD_DATA = "upload-data";
+    
+    /**
+     * The log tag
+     */
+    public static final String LOG_TAG = "ConnectionResourceGroup";
+    
 }

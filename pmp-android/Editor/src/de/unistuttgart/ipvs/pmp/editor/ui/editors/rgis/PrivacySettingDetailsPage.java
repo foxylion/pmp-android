@@ -165,17 +165,15 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
          * Add the requestable check box
          */
         this.requestable = new Button(compo, SWT.CHECK);
-        this.requestable.setText(I18N.editor_rgis_ps_Non_Requestable);
-        this.requestable.setToolTipText(I18N.editor_rgis_ps_non_req_tooltip);
+        this.requestable.setText(I18N.editor_rgis_ps_Requestable);
+        this.requestable.setToolTipText(I18N.editor_rgis_ps_req_tooltip);
         section.setClient(compo);
         this.requestable.addSelectionListener(new SelectionListener() {
             
             @Override
             public void widgetSelected(SelectionEvent arg0) {
-                // if requestable.getSelection() != ps.getRequestableSetting(){
                 PrivacySettingDetailsPage.this.block.setDirty(true);
-                //TODO Requestable speichern
-                //}
+                privacySetting.setRequestable(requestable.getSelection());
             }
             
             
@@ -238,7 +236,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.identifier.setText(this.privacySetting.getIdentifier());
         this.values.setText(this.privacySetting.getValidValueDescription());
         
-        // TODO Requestable Checkbox setzen
+        requestable.setSelection(privacySetting.isRequestable());
         validate();
     }
     

@@ -28,7 +28,7 @@ if (!defined("INCLUDE")) {
  * Abstract base class for all events that might be used by the webservices.
  *
  * @author Patrick Strobel
- * @version 1.0.0
+ * @version 4.0.0
  */
 abstract class Event {
 

@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.IBinder;
+import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.api.ipc.IPCConnection;
@@ -46,6 +48,7 @@ import de.unistuttgart.ipvs.pmp.model.exception.PluginNotFoundException;
 import de.unistuttgart.ipvs.pmp.model.ipc.IPCProvider;
 import de.unistuttgart.ipvs.pmp.model.plugin.PluginProvider;
 import de.unistuttgart.ipvs.pmp.model.server.ServerProvider;
+import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.service.pmp.RegistrationResult;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
@@ -398,6 +401,7 @@ public class Model implements IModel, Observer {
             // check it is valid
             de.unistuttgart.ipvs.pmp.resource.ResourceGroup rg = PluginProvider.getInstance().getResourceGroupObject(
                     rgPackage);
+            // inconsistencies
             if (!rgPackage.equals(rgis.getIdentifier())) {
                 FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
                         "ResourceGroup '%s' has failed registration with PMP: XML inconsistent with PMP data.",
@@ -412,6 +416,19 @@ public class Model implements IModel, Observer {
                         rg.getRgPackage());
             }
             for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
+                // mode-ps
+                if (ps.getIdentifier().equals(PersistenceConstants.MODE_PRIVACY_SETTING)) {
+                    FileLog.get().logWithForward(
+                            this,
+                            null,
+                            FileLog.GRANULARITY_COMPONENT_CHANGES,
+                            Level.WARNING,
+                            "ResourceGroup '%s' has failed registration with PMP:"
+                                    + " XML must not contain Privacy Setting 'Mode'.", rgPackage);
+                    throw new InvalidXMLException("XML must not contain Privacy Setting 'Mode'.");
+                }
+                
+                // does it already exist in the model?
                 AbstractPrivacySetting<?> aps = rg.getPrivacySetting(ps.getIdentifier());
                 if (aps == null) {
                     FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
@@ -421,6 +438,57 @@ public class Model implements IModel, Observer {
                             ps.getIdentifier());
                 }
             }
+            // check they implemented the resources correct
+            for (String res : rg.getResources()) {
+                Resource r = rg.getResource(res);
+                
+                IBinder nb = r.getAndroidInterface(Constants.PMP_IDENTIFIER);
+                IBinder mb = r.getMockedAndroidInterface(Constants.PMP_IDENTIFIER);
+                IBinder cb = r.getCloakedAndroidInterface(Constants.PMP_IDENTIFIER);
+                
+                // let's check everybody's here.
+                if (nb == null || mb == null || cb == null) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    null,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP: Resource '%s' does not provide all IBinders.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res + "' does not provide all IBinders.");
+                }
+                
+                // assert that mocking and cloaking are REALLY different classes from normal
+                if (nb.getClass().isAssignableFrom(mb.getClass()) || mb.getClass().isAssignableFrom(nb.getClass())) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    null,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP:"
+                                            + " Resource '%s' may not provide normal and mocked IBinders which are subtypes of each other.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res
+                            + "' may not provide normal and mocked IBinders which are subtypes of each other.");
+                }
+                
+                if (nb.getClass().isAssignableFrom(cb.getClass()) || cb.getClass().isAssignableFrom(nb.getClass())) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    null,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP:"
+                                            + " Resource '%s' may not provide normal and cloaked IBinders which are subtypes of each other.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res
+                            + "' may not provide normal and cloaked IBinders which are subtypes of each other.");
+                }
+                
+            }
             
             // apply new RG to DB, then model
             ResourceGroup newRG = new ResourceGroupPersistenceProvider(null).createElementData(rgPackage);
@@ -428,10 +496,14 @@ public class Model implements IModel, Observer {
             this.cache.getResourceGroups().put(rgPackage, newRG);
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
+            // create the mock/cloak PS
+            new PrivacySettingPersistenceProvider(null).createElementData(newRG,
+                    PersistenceConstants.MODE_PRIVACY_SETTING, false);
+            
             // apply new PS to DB, then model
             for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {
                 PrivacySetting newPS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
-                        ps.getIdentifier());
+                        ps.getIdentifier(), ps.isRequestable());
                 Assert.nonNull(newPS, ModelIntegrityError.class, Assert.ILLEGAL_NULL, "newPS", newPS);
                 this.cache.getPrivacySettings().get(newRG).put(ps.getIdentifier(), newPS);
             }
@@ -477,11 +549,27 @@ public class Model implements IModel, Observer {
             FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.CONFIG,
                     "ResourceGroup '%s' has been successfully installed.", rgPackage);
             return true;
+        } catch (IncompatibleClassChangeError icce) {
+            /* error due to invalid API */
+            FileLog.get().logWithForward(this, icce, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
+                    "ResourceGroup '%s' has failed registration with PMP: Using an API that now is out of date.",
+                    rgPackage);
+            throw new InvalidPluginException("Using an API that now is out of date.", icce);
+        } catch (LinkageError le) {
+            /* error due to invalid class loading */
+            FileLog.get().logWithForward(
+                    this,
+                    le,
+                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                    Level.WARNING,
+                    "ResourceGroup '%s' has failed registration with PMP:"
+                            + " An unexpected error occurred during linking the class files.", rgPackage);
+            throw new InvalidXMLException("An unexpected error occurred during linking the class files.", le);
         } catch (ParserException xmlpe) {
             /* error during XML validation */
             FileLog.get().logWithForward(this, xmlpe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
                     "ResourceGroup '%s' has failed registration with PMP: Could not verify XML file.", rgPackage);
-            return false;
+            throw new InvalidXMLException("Could not verify XML file.", xmlpe);
         }
     }
     

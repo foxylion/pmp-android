@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,14 +31,34 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.Connection;
  * 
  */
 public class ConnectionResource extends Resource {
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resource.Resource#getAndroidInterface(java.lang.String)
-	 */
-	@Override
-	public IBinder getAndroidInterface(String appIdentifier) {
-		Connection connectionRG = (Connection) getResourceGroup();
-		return new ConnectionImpl(connectionRG.getContext());
-	}
-	
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getAndroidInterface(String appIdentifier) {
+        Connection connectionRG = (Connection) getResourceGroup();
+        return new ConnectionImpl(connectionRG.getContext());
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getMockedAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getCloakedAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

@@ -51,6 +51,7 @@ public class Controller {
         this.ws = ws;
     }
     
+    
     /**
      * Announce a trip to the web servprintStackTraceice
      * 
@@ -63,18 +64,18 @@ public class Controller {
         Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
         String ret = "";
         try {
-            if (date == null)
-                ret = ws.announceTrip(session_id, destination, current_lat, current_lon,
-                        avail_seats, 0);
-            else
-                ret = ws.announceTrip(session_id, destination, current_lat, current_lon,
-                        avail_seats, date.getTime());
+            if (date == null) {
+                ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, 0);
+            } else {
+                ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats,
+                        date.getTime());
+            }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         int tripId = -1;
         JsonElement status = object.get("status");
@@ -125,13 +126,13 @@ public class Controller {
         Log.d(this, "getOpentrip " + sessionID);
         String ret = "";
         try {
-            ret = ws.getOpenTrip(sessionID);
+            ret = this.ws.getOpenTrip(sessionID);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject json = parser.parse(ret).getAsJsonObject();
+        JsonObject json = this.parser.parse(ret).getAsJsonObject();
         String status = "";
         if (json != null && json.get(ERROR) == null) {
             if (json.get("trip_id") != null) {
@@ -165,24 +166,24 @@ public class Controller {
     public int endTrip(final String sid, final int trip_id) {
         String ret = null;
         try {
-            ret = ws.endTrip(sid, trip_id);
+            ret = this.ws.endTrip(sid, trip_id);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
         Log.i(TAG, "End trip: " + ret);
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         String status = object.get("status").getAsString();
         int retStatus = Constants.STATUS_ERROR;
         if (status.equals("invalid_id")) {
-            retStatus = Constants.STATUS_INVALID_USER; 
+            retStatus = Constants.STATUS_INVALID_USER;
         } else if (status.equals("nothing_to_update")) {
-            retStatus = Constants.STATUS_NO_TRIP; 
+            retStatus = Constants.STATUS_NO_TRIP;
         } else if (status.equals("trip_ended")) {
             retStatus = Constants.STATUS_SUCCESS;
-        } 
+        }
         return retStatus;
     }
     
@@ -197,13 +198,13 @@ public class Controller {
     public List<HistoryRideObject> getHistory(final String sid, final String role) {
         String ret = "";
         try {
-            ret = ws.getHistory(sid, role);
+            ret = this.ws.getHistory(sid, role);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         List<HistoryRideObject> historyObjects = null;
         List<HistoryPersonObject> historyPersons = null;
@@ -290,12 +291,12 @@ public class Controller {
     public Profile getProfile(final String session_id, final int user_id) {
         String ret = "";
         try {
-            ret = ws.getProfile(session_id, user_id);
+            ret = this.ws.getProfile(session_id, user_id);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String username = null;
@@ -358,12 +359,12 @@ public class Controller {
     public PositionObject getUserPosition(final String sid, final int user_id) {
         String ret = "";
         try {
-            ret = ws.getUserPosition(sid, user_id);
+            ret = this.ws.getUserPosition(sid, user_id);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
         JsonArray array;
         PositionObject posObj = null;
@@ -394,13 +395,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.handleOffer(sid, offer_id, accept);
+            ret = this.ws.handleOffer(sid, offer_id, accept);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = "";
@@ -440,13 +441,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.isPicked(sid);
+            ret = this.ws.isPicked(sid);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
         boolean picked = false;
         if (object != null) {
@@ -471,13 +472,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.login(username, pw);
+            ret = this.ws.login(username, pw);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         if (object != null) {
@@ -507,13 +508,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.getOwnProfile(sid);
+            ret = this.ws.getOwnProfile(sid);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         int id = 0;
@@ -575,13 +576,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.logout(sid);
+            ret = this.ws.logout(sid);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = object.get("successful").getAsBoolean();
         if (suc) {
             Model.getInstance().logout();
@@ -618,13 +619,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.offer_accepted(sid, offer_id);
+            ret = this.ws.offer_accepted(sid, offer_id);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = "";
@@ -658,13 +659,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.pick_up(sid, user_id);
+            ret = this.ws.pick_up(sid, user_id);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
@@ -680,13 +681,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.rateUser(sid, userid, tripid, rating);
+            ret = this.ws.rateUser(sid, userid, tripid, rating);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = "";
@@ -710,7 +711,7 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.register(list.get("username"), list.get("password"), list.get("email"),
+            ret = this.ws.register(list.get("username"), list.get("password"), list.get("email"),
                     list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
                     Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
                     Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
@@ -719,7 +720,7 @@ public class Controller {
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         String status = "";
         if (object != null) {
@@ -765,10 +766,9 @@ public class Controller {
         String ret = "";
         List<QueryObject> queryObjects = null;
         try {
-            ret = ws.searchQuery(sid, lat, lon, perimeter);
+            ret = this.ws.searchQuery(sid, lat, lon, perimeter);
             
-
-            JsonObject object = parser.parse(ret).getAsJsonObject();
+            JsonObject object = this.parser.parse(ret).getAsJsonObject();
             
             boolean suc = false;
             if (object != null) {
@@ -816,7 +816,7 @@ public class Controller {
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (NullPointerException ne){
+        } catch (NullPointerException ne) {
             
         }
         
@@ -838,13 +838,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.searchRides(sid, lat, lon, perimeter);
+            ret = this.ws.searchRides(sid, lat, lon, perimeter);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
         List<RideObject> rideObjects = null;
         if (object != null) {
@@ -898,13 +898,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.sendOffer(sid, trip_id, query_id, message);
+            ret = this.ws.sendOffer(sid, trip_id, query_id, message);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = "";
@@ -950,13 +950,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.startQuery(sid, destination, current_lat, current_lon, avail_seats);
+            ret = this.ws.startQuery(sid, destination, current_lat, current_lon, avail_seats);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         Log.i(this, ret);
         
         boolean suc = false;
@@ -990,13 +990,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.stopQuery(sid, queryId);
+            ret = this.ws.stopQuery(sid, queryId);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = null;
@@ -1036,13 +1036,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.tripUpdateData(sid, trip_id, avail_seats);
+            ret = this.ws.tripUpdateData(sid, trip_id, avail_seats);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         String status = null;
         if (object != null) {
@@ -1077,13 +1077,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.userUpdatePos(sid, lat, lon);
+            ret = this.ws.userUpdatePos(sid, lat, lon);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = "update_fail";
@@ -1114,13 +1114,13 @@ public class Controller {
         String ret = "";
         
         try {
-            ret = ws.viewOffer(sid);
+            ret = this.ws.viewOffer(sid);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        JsonObject object = parser.parse(ret).getAsJsonObject();
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
         List<OfferObject> offerObjects = null;
         if (object != null) {

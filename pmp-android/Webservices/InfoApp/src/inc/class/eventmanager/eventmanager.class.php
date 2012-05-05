@@ -38,7 +38,7 @@ class IdInUseException extends Exception {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 1.0.2
+ * @version 4.0.2
  */
 abstract class EventManager {
 
@@ -103,6 +103,33 @@ abstract class EventManager {
         // Write data into db
         $this->writeBack($events);
     }
+
+    /**
+     * Gets all available events for a one-day-period
+     * @param long $startTimestamp Start timestamp
+     * @return Events[] The loaded events
+     */
+    public function getEventsOneDay($startTs) {
+        return $this->getEventsInterval($startTs, $startTs + 86400000);
+    }
+
+    /**
+     * Gets all available events for a multiple-day-period
+     * @param long $startTimestamp Start timestamp
+     * @param int $days   Number of days
+     * @return Events[] The loaded events
+     */
+    public function getEventsMultDays($startTs, $days) {
+        return $this->getEventsInterval($startTs, $startTs + $days * 86400000);
+    }
+
+    /**
+     * Gets all available events stored in the DB for the given interval
+     * @param long  $fromTs Start timestamp in MS
+     * @param long  $toTs   End timestamp in MS
+     * @return Events[] The loaded events
+     */
+    public abstract function getEventsInterval($fromTs, $toTs);
 
     /**
      * Gets the ID of the event that has been added to the db the last time

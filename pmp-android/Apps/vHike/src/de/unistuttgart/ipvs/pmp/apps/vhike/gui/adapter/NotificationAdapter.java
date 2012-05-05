@@ -102,18 +102,20 @@ public class NotificationAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 
-                if (mWhichHitcher == 0) {
+                if (NotificationAdapter.this.mWhichHitcher == 0) {
                     List<QueryObject> lqo = Model.getInstance().getQueryHolder();
                     
-                    userID = lqo.get(position).getUserid();
+                    NotificationAdapter.this.userID = lqo.get(position).getUserid();
                     Log.i(this, "ProfileID: " + NotificationAdapter.this.userID + ", Position: " + position);
                 } else {
                     List<OfferObject> loo = Model.getInstance().getOfferHolder();
-                    userID = loo.get(position).getUser_id();
+                    NotificationAdapter.this.userID = loo.get(position).getUser_id();
                 }
                 
-                vhikeDialogs.getInstance()
-                        .getProfileDialog(ws, NotificationAdapter.this.context, NotificationAdapter.this.userID).show();
+                vhikeDialogs
+                        .getInstance()
+                        .getProfileDialog(NotificationAdapter.this.ws, NotificationAdapter.this.context,
+                                NotificationAdapter.this.userID).show();
             }
         });
         

@@ -164,8 +164,9 @@ public class AISParser extends AbstractParser {
                     if (evAttribute.toLowerCase().equals("true")) {
                         ps.setEmptyValue(true);
                         // Set the value to "", if it is null
-                        if (ps.getValue() == null)
+                        if (ps.getValue() == null) {
                             ps.setValue("");
+                        }
                     } else if (!evAttribute.toLowerCase().equals("false") && !evAttribute.equals("")) {
                         throw new ParserException(Type.EMPTY_VALUE_BOOLEAN_EXCEPTION,
                                 "The value of the attribute \"emptyValue\" of a required Privacy Setting is not a boolean.");

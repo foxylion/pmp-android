@@ -78,7 +78,7 @@ public class TCPObjectServer {
         
         @Override
         public void run() {
-            while (!isInterrupted() && !socket.isClosed()) {
+            while (!isInterrupted() && !TCPObjectServer.this.socket.isClosed()) {
                 try {
                     // TODO use a thread pool to limit the number of threads at the same time, so DDOSing
                     //      will be a little bit more difficult.
@@ -113,10 +113,12 @@ public class TCPObjectServer {
          */
         private ConnectionController controller;
         
+        
         /**
          * Creates a new {@link SocketProcessingThread}.
          * 
-         * @param socket The {@link Socket} which is connnected to the client.
+         * @param socket
+         *            The {@link Socket} which is connnected to the client.
          */
         public SocketProcessingThread(Socket socket) {
             this.socket = socket;

@@ -101,6 +101,7 @@ public class RGISCompiler extends BasicISCompiler {
             psNode.addAttribute(new XMLAttribute(XMLConstants.IDENTIFIER_ATTR, ps.getIdentifier()));
             psNode.addAttribute(new XMLAttribute(XMLConstants.VALID_VALUE_DESCRIPTION_ATTR, ps
                     .getValidValueDescription()));
+            psNode.addAttribute(new XMLAttribute(XMLConstants.REQUESTABLE_ATTR, String.valueOf(ps.isRequestable())));
             
             // Add the name and description nodes
             for (XMLNode nameDescrNode : createNameDescriptionNodes(ps)) {
@@ -109,7 +110,7 @@ public class RGISCompiler extends BasicISCompiler {
             
             // Compile the change descriptions
             for (ILocalizedString changeDescr : ps.getChangeDescriptions()) {
-                XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION);
+                XMLNode changeDescrNode = new XMLNode(XMLConstants.CHANGE_DESCRIPTION_ATTR);
                 changeDescrNode.setContent(changeDescr.getString());
                 changeDescrNode.addAttribute(new XMLAttribute(XMLConstants.LANGUAGE_ATTR, changeDescr.getLocale()
                         .getLanguage()));
@@ -122,5 +123,4 @@ public class RGISCompiler extends BasicISCompiler {
         
         return nodeList;
     }
-    
 }

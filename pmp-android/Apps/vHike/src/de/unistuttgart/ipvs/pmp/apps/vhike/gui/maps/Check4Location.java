@@ -113,14 +113,15 @@ public class Check4Location extends TimerTask {
                 
                 if (isFixedD) {
                     
-                    if (mapView == null) {
+                    if (Check4Location.this.mapView == null) {
                         Log.i(this, "MapView null");
                     } else {
                         Log.i(this, "MapView not null");
                     }
-                    MapController controller = mapView.getController();
+                    MapController controller = Check4Location.this.mapView.getController();
                     try {
-                        ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD, whichHitcher);
+                        ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD,
+                                Check4Location.this.whichHitcher);
                         /**
                          * send server updated latitude and longitude
                          */
@@ -135,8 +136,8 @@ public class Check4Location extends TimerTask {
                                         .show();
                                 break;
                             case Constants.STATUS_ERROR:
-//                                Toast.makeText(Check4Location.this.context, "Error Update position", Toast.LENGTH_SHORT)
-//                                        .show();
+                                //                                Toast.makeText(Check4Location.this.context, "Error Update position", Toast.LENGTH_SHORT)
+                                //                                        .show();
                                 break;
                         }
                         Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "

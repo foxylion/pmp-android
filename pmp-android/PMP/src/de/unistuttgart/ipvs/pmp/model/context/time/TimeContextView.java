@@ -60,7 +60,7 @@ public class TimeContextView extends LinearLayout implements IContextView {
     /**
      * The layouts for the interval selection
      */
-    private LinearLayout weeklyLayout, monthlyLayout, yearlyLayout;
+    protected LinearLayout weeklyLayout, monthlyLayout, yearlyLayout;
     
     /**
      * The buttons for the layouts

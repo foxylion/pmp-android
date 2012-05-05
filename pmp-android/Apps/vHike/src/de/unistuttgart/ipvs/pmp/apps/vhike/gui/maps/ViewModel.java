@@ -59,7 +59,7 @@ public class ViewModel {
     
     public void setvHikeWSRGandCreateController(IvHikeWebservice ws) {
         this.ws = ws;
-        ctrl = new Controller(ws);
+        this.ctrl = new Controller(ws);
     }
     
     
@@ -69,38 +69,38 @@ public class ViewModel {
     
     
     public void cancelLocation() {
-        locationIsCanceled = true;
+        this.locationIsCanceled = true;
     }
     
     
     public void startLocation() {
-        locationIsCanceled = false;
+        this.locationIsCanceled = false;
     }
     
     
     public void cancelQuery() {
-        queryIsCanceled = true;
+        this.queryIsCanceled = true;
     }
     
     
     public void startQuery() {
-        queryIsCanceled = false;
+        this.queryIsCanceled = false;
     }
     
     
     public boolean locationIsCanceled() {
-        return locationIsCanceled;
+        return this.locationIsCanceled;
     }
     
     
     public boolean queryIsCanceled() {
-        return queryIsCanceled;
+        return this.queryIsCanceled;
     }
     
     
     public void resetTimers() {
-        locationIsCanceled = false;
-        queryIsCanceled = false;
+        this.locationIsCanceled = false;
+        this.queryIsCanceled = false;
     }
     
     
@@ -197,7 +197,7 @@ public class ViewModel {
                         updateViewObject(queryObject.getUserid(), lat, lon);
                     } else {
                         Profile profile = this.ctrl.getProfile(Model.getInstance().getSid(), queryObject.getUserid());
-                        ViewObject vObject = new ViewObject(ws, lat, lon, profile);
+                        ViewObject vObject = new ViewObject(this.ws, lat, lon, profile);
                         vObject.setqObject(queryObject);
                         this.lvo.add(vObject);
                         this.newFound = true;
@@ -216,11 +216,11 @@ public class ViewModel {
                         this.mapView, 1, my_point);
                 // if drawing route is enabled for user, draw route
                 if (isRouteDrawn(vObject.getProfile().getUsername())) {
-                    RouteOverlay routeOverlay = new RouteOverlay(context, my_point, gpsPassenger);
-                    mapDriverOverlays.add(routeOverlay);
-                    getRoutes.put(vObject.getProfile().getUsername(), true);
-                    getRouteHM.put(vObject.getProfile().getUsername(), routeOverlay);
-                } 
+                    RouteOverlay routeOverlay = new RouteOverlay(this.context, my_point, gpsPassenger);
+                    this.mapDriverOverlays.add(routeOverlay);
+                    this.getRoutes.put(vObject.getProfile().getUsername(), true);
+                    this.getRouteHM.put(vObject.getProfile().getUsername(), routeOverlay);
+                }
             }
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
             
@@ -258,7 +258,7 @@ public class ViewModel {
                         updateViewObject(offerObject.getUser_id(), lat, lng);
                     } else {
                         Profile driver = this.ctrl.getProfile(Model.getInstance().getSid(), offerObject.getUser_id());
-                        ViewObject vObject = new ViewObject(ws, lat, lng, driver);
+                        ViewObject vObject = new ViewObject(this.ws, lat, lng, driver);
                         vObject.setoObject(offerObject);
                         this.lvo.add(vObject);
                         this.newFound = true;
@@ -356,16 +356,16 @@ public class ViewModel {
     
     
     public RouteOverlay getRouteOverlay(String userRoute) {
-        return getRouteHM.get(userRoute);
+        return this.getRouteHM.get(userRoute);
     }
     
     
     public boolean isRouteDrawn(String name) {
         
-        if (getRoutes.get(name) == null) {
+        if (this.getRoutes.get(name) == null) {
             Log.i(this, name + "'s route not drawn VIEW");
             return false;
-        } else if (getRoutes.get(name)) {
+        } else if (this.getRoutes.get(name)) {
             Log.i(this, name + "'s route is drawn VIEW");
             return true;
         } else {
@@ -379,10 +379,12 @@ public class ViewModel {
         this.mapDriverOverlays.remove(routeOverlay);
     }
     
+    
     public void clearRoutes() {
-        getRoutes = null;
-        getRouteHM = null;
+        this.getRoutes = null;
+        this.getRouteHM = null;
     }
+    
     
     public void updatePosition(IAbsoluteLocation loc, int whichHitcher) throws RemoteException {
         
@@ -487,7 +489,7 @@ public class ViewModel {
     
     
     public void setDestination4Passenger(Spinner spDestination) {
-        destinationPassenger = "";
+        this.destinationPassenger = "";
         this.destinationPassenger = spDestination.getSelectedItem().toString();
     }
     
@@ -498,7 +500,7 @@ public class ViewModel {
     
     
     public void clearDestinations() {
-        spinnersDest.clear();
+        this.spinnersDest.clear();
     }
     
     
@@ -603,7 +605,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (this.driverAdapter == null) {
-            this.driverAdapter = new NotificationAdapter(ws, context, getHitchPassengers(), 0);
+            this.driverAdapter = new NotificationAdapter(this.ws, context, getHitchPassengers(), 0);
         }
         return this.driverAdapter;
     }
@@ -627,7 +629,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (this.passengerAdapter == null) {
-            this.passengerAdapter = new NotificationAdapter(ws, context, getHitchDrivers(), 1);
+            this.passengerAdapter = new NotificationAdapter(this.ws, context, getHitchDrivers(), 1);
         }
         return this.passengerAdapter;
     }
@@ -705,7 +707,8 @@ public class ViewModel {
      * @param passenger
      * @param mapView
      */
-    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1, GeoPoint mypoint) {
+    public void add2DriverOverlay(Context context, GeoPoint gps, Profile passenger, MapView mapView, int which1,
+            GeoPoint mypoint) {
         Drawable drawable;
         if (which1 == 0) {
             Profile me = Model.getInstance().getOwnProfile();
@@ -721,12 +724,13 @@ public class ViewModel {
         } else {
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
             
-            if (iContact == null) {
+            if (this.iContact == null) {
                 Log.i(this, "Contact null");
             }
             
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact,
-                    passenger.getUsername(), gps, new ContactDialog(context, mapView, passenger.getUsername(), iContact, mypoint), 0);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.ws,
+                    this.iContact, passenger.getUsername(), gps, new ContactDialog(context, mapView,
+                            passenger.getUsername(), this.iContact, mypoint), 0);
             OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
                     passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);
@@ -756,8 +760,8 @@ public class ViewModel {
             }
             drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
             Profile me = Model.getInstance().getOwnProfile();
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, ws, iContact,
-                    me.getUsername(), gps, null, 1);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.ws,
+                    this.iContact, me.getUsername(), gps, null, 1);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);

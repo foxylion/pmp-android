@@ -26,17 +26,6 @@ package de.unistuttgart.ipvs.pmp;
  */
 public class Log {
     
-    /**
-     * Do not call me. No more effect.
-     * 
-     * @param sufix
-     * @deprecated Removed. No effect anymore.
-     */
-    @Deprecated
-    public static void setTagSufix(String sufix) {
-    }
-    
-    
     private static String getTag(Object reference) {
         if (reference == null) {
             return "null";

@@ -31,8 +31,7 @@ public class vHikeService extends Service {
     
     private static vHikeService instance;
     private static final String TAG = "vHikeService";
-    private static final String[] serviceFeatures = {
-            "useAbsoluteLocation", "hideExactLocation", "hideContactInfo",
+    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "hideContactInfo",
             "contactPremium", "notification", "vhikeWebService" };
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
@@ -163,29 +162,32 @@ public class vHikeService extends Service {
     public IInterface requestResourceGroup(Activity activity, int resourceGroupId) {
         switch (resourceGroupId) {
             case Constants.RG_LOCATION:
-                if (loc == null)
+                if (this.loc == null) {
                     reloadResourceGroup(activity, resourceGroupId);
-                else
-                    return loc;
+                } else {
+                    return this.loc;
+                }
                 break;
             case Constants.RG_NOTIFICATION:
-                if (noti == null)
+                if (this.noti == null) {
                     reloadResourceGroup(activity, resourceGroupId);
-                else
-                    return noti;
+                } else {
+                    return this.noti;
+                }
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
-                if (ws == null)
+                if (this.ws == null) {
                     reloadResourceGroup(activity, resourceGroupId);
-                else
-                    return ws;
+                } else {
+                    return this.ws;
+                }
                 break;
             case Constants.RG_CONTACT:
-                if (con == null) {
+                if (this.con == null) {
                     reloadResourceGroup(activity, resourceGroupId);
-                } 
-                else
-                    return con;
+                } else {
+                    return this.con;
+                }
                 break;
         }
         return null;
@@ -213,20 +215,20 @@ public class vHikeService extends Service {
         }
         switch (resourceGroupId) {
             case Constants.RG_LOCATION:
-                loc = IAbsoluteLocation.Stub.asInterface(this.binder);
-                act.onResourceGroupReady(loc, resourceGroupId);
+                this.loc = IAbsoluteLocation.Stub.asInterface(this.binder);
+                act.onResourceGroupReady(this.loc, resourceGroupId);
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
-                ws = IvHikeWebservice.Stub.asInterface(this.binder);
-                act.onResourceGroupReady(ws, resourceGroupId);
+                this.ws = IvHikeWebservice.Stub.asInterface(this.binder);
+                act.onResourceGroupReady(this.ws, resourceGroupId);
                 break;
             case Constants.RG_NOTIFICATION:
-                noti = INotification.Stub.asInterface(this.binder);
-                act.onResourceGroupReady(noti, resourceGroupId);
+                this.noti = INotification.Stub.asInterface(this.binder);
+                act.onResourceGroupReady(this.noti, resourceGroupId);
                 break;
             case Constants.RG_CONTACT:
-                con = IContact.Stub.asInterface(this.binder);
-                act.onResourceGroupReady(con, resourceGroupId);
+                this.con = IContact.Stub.asInterface(this.binder);
+                act.onResourceGroupReady(this.con, resourceGroupId);
                 break;
         }
     }
@@ -239,8 +241,8 @@ public class vHikeService extends Service {
             PMP.get(app).getResource(resourceGroupIDs[resourceGroupId], new PMPRequestResourceHandler() {
                 
                 @Override
-                public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                    super.onReceiveResource(resource, binder);
+                public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
+                    super.onReceiveResource(resource, binder, isMocked);
                     Log.v(TAG, "onReceiveResource");
                     getResourceFromCache(activity, resourceGroupId, binder);
                 }

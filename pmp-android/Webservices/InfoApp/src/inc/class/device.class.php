@@ -20,11 +20,15 @@
  * limitations under the License.
  */
 
+if (!defined("INCLUDE")) {
+    exit;
+}
+
 /**
  * This class handles the access to all classes used to manage the stored information
  *
  * @author Patrick Strobel
- * @version 1.4.0
+ * @version 4.4.1
  */
 class Device {
 
@@ -71,13 +75,24 @@ class Device {
         return self::$instance;
     }
 
+    public static function eventsExists($deviceId) {
+        if (!General::isValidDeviceId($deviceId)) {
+            return false;
+        }
+        $db = Database::getInstance();
+
+        $db->query("SELECT * FROM " . DB_PREFIX . "_last_event_ids WHERE `device` = x'" . $deviceId . "'");
+
+        return $db->getAffectedRows() > 0;
+    }
+
     /**
      * Gets the manager for awake events
      * @return AwakeEventManager The manager
      */
     public function getAwakeEventManager() {
         if ($this->awakeMgr == null) {
-            $this->awakeMgr = new AwAwakeEventManager($this->deviceId);
+            $this->awakeMgr = new AwakeEventManager($this->deviceId);
         }
         return $this->awakeMgr;
     }

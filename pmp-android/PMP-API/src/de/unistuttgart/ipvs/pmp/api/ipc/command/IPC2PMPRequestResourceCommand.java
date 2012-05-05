@@ -27,7 +27,8 @@ public class IPC2PMPRequestResourceCommand extends IPC2PMPCommand<PMPRequestReso
     @Override
     protected void executeOnPMP(IPMPService pmp) throws RemoteException {
         getPMPHandler().onReceiveResource(this.resource,
-                pmp.getResource(getSourceService(), this.resource.getResourceGroup(), this.resource.getResource()));
+                pmp.getResource(getSourceService(), this.resource.getResourceGroup(), this.resource.getResource()),
+                pmp.isMocked(getSourceService(), this.resource.getResourceGroup()));
         
     }
     

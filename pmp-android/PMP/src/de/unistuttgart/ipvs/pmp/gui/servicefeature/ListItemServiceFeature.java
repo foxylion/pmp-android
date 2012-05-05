@@ -119,7 +119,7 @@ public class ListItemServiceFeature extends LinearLayout {
         TextView tvName = (TextView) findViewById(R.id.TextView_Name);
         TextView tvDescription = (TextView) findViewById(R.id.TextView_Description);
         CheckBox cb = (CheckBox) findViewById(R.id.CheckBox_SFState);
-        View highlightBox = (View) findViewById(R.id.View_HighlightBox);
+        View highlightBox = findViewById(R.id.View_HighlightBox);
         
         // Update name
         if (tvName != null) {

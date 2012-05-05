@@ -1,54 +1,67 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.BatteryEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.DeviceBootEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
+
 /**
  * 
  * @author Marcus Vetter
  * 
  */
 public interface IDBConnector {
-
-	/**
-	 * Store the current state of the battery
-	 * 
-	 * @param timestamp
-	 *            the time stamp (in ms) of the record
-	 * @param level
-	 *            level of the battery
-	 * @param health
-	 *            health of the battery
-	 * @param status
-	 *            status of the battery
-	 * @param plugged
-	 *            USB/AC-plugged, nullable
-	 * @param present
-	 *            true, if the battery is present
-	 * @param technology
-	 *            the technology of the battery
-	 * @param temperature
-	 *            the temperature of the battery
-	 * @param voltage
-	 *            the voltage of the battery
-	 */
-	public void storeBatteryState(long timestamp, int level, String health,
-			String status, String plugged, boolean present, String technology,
-			int temparature, int voltage);
-
-	/**
-	 * Store the current state of the screen
-	 * 
-	 * @param timestamp
-	 *            the time stamp (in ms) of the record
-	 * @param changedTo
-	 *            true, if the screen turned on
-	 */
-	public void storeScreenState(long timestamp, boolean changedTo);
-
-	/**
-	 * Store the event, if the device booted completly
-	 * 
-	 * @param timestamp
-	 *            the time stamp (in ms) of the record
-	 */
-	public void storeDeviceBoot(long timestamp);
-
+    
+    /**
+     * Store a {@link BatteryEvent}
+     * 
+     * @param be
+     *            the {@link BatteryEvent}
+     */
+    public void storeBatteryEvent(BatteryEvent be);
+    
+    
+    /**
+     * Store the {@link ScreenEvent}
+     * 
+     * @param se
+     *            the {@link ScreenEvent}
+     */
+    public void storeScreenEvent(ScreenEvent se);
+    
+    
+    /**
+     * Store the {@link DeviceBootEvent}
+     * 
+     * @param dbe
+     *            the {@link DeviceBootEvent}
+     */
+    public void storeDeviceBootEvent(DeviceBootEvent dbe);
+    
+    
+    /**
+     * Get the current values
+     * 
+     * @return a object of {@link ResultSetCurrentValues}
+     */
+    public ResultSetCurrentValues getCurrentValues();
+    
+    
+    /**
+     * Get the values since last boot
+     * 
+     * @return a object of {@link ResultSetLastBootValues}
+     */
+    public ResultSetLastBootValues getLastBootValues();
+    
+    
+    /**
+     * Get the total values
+     * 
+     * @return a object of {@link ResultSetTotalValues}
+     */
+    public ResultSetTotalValues getTotalValues();
+    
 }

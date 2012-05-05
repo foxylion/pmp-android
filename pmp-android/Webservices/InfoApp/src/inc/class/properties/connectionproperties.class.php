@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Stores information about the device's connection and allows to update or insert a new device information set
  * @author Patrick Strobel
- * @version 1.0.0
+ * @version 4.0.0
  */
 class ConnectionProperties extends Properties {
 
@@ -138,7 +138,7 @@ class ConnectionProperties extends Properties {
 
     /**
      * Gets the network provider's name
-     * @return String   Name of the provicer
+     * @return String   Name of the provider
      */
     public function getProvider() {
         return $this->provider;

@@ -134,6 +134,7 @@ public class ParserException extends RuntimeException {
         EMPTY_VALUE_BOOLEAN_EXCEPTION,
         EMPTY_OVERRIDE_VALUE_BOOLEAN_EXCEPTION,
         EMPTY_CONDITION_BOOLEAN_EXCEPTION,
+        REQUESTABLE_BOOLEAN_EXCEPTION,
         
         /**
          * The parser crashed, unknown reason

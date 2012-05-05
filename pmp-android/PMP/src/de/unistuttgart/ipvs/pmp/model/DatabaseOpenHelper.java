@@ -52,7 +52,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     /**
      * Current database version.
      */
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
     
     /**
      * The context used to open the files from assets folder.

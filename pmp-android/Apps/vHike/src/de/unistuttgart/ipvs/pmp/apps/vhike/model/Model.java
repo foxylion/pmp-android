@@ -208,11 +208,12 @@ public class Model {
         this.id = id;
     }
     
+    
     public boolean isLoggedIn() {
-        return sid != null && !sid.equals("");
+        return this.sid != null && !this.sid.equals("");
     }
-
-
+    
+    
     public void logout() {
         theInstance = null;
     }

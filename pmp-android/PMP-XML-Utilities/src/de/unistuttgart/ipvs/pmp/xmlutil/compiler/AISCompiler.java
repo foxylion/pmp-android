@@ -151,8 +151,9 @@ public class AISCompiler extends BasicISCompiler {
                     rpsNode.setCDATAContent(rps.getValue());
                 }
                 // Add the empty value attribute
-                if (rps.isEmptyValue())
+                if (rps.isEmptyValue()) {
                     rpsNode.addAttribute(new XMLAttribute(XMLConstants.EMPTY_VALUE_ATTR, "true"));
+                }
                 
                 // add the child
                 rrgNode.addChild(rpsNode);

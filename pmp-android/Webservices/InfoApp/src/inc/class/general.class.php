@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.3.1
+ * @version 4.4.0
  */
 class General {
     /**

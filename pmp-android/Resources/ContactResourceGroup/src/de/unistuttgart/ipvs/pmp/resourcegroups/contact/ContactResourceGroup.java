@@ -27,5 +27,5 @@ public class ContactResourceGroup extends ResourceGroup {
         registerPrivacySetting(PS_SEND_SMS, new BooleanPrivacySetting());
         registerPrivacySetting(PS_SEND_EMAIL, new BooleanPrivacySetting());
     }
-	
+    
 }

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,174 +32,174 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
  * 
  */
 public class ConnectionImpl extends IConnection.Stub {
-	
-	/**
-	 * Constructor to get a context
-	 * 
-	 * @param context
-	 *            {@link Context} of the rg
-	 */
-	public ConnectionImpl(Context context) {
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionStatus()
-	 */
-	@Override
-	public boolean getWifiConnectionStatus() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionLastTwentyFourHours()
-	 */
-	@Override
-	public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionLastMonth()
-	 */
-	@Override
-	public long getWifiConnectionLastMonth() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getConfigureddWifiNetworks()
-	 */
-	@Override
-	public List<String> getConfigureddWifiNetworks() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getConnectedWifiCities()
-	 */
-	@Override
-	public List<String> getConnectedWifiCities() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getBluetoothStatus()
-	 */
-	@Override
-	public boolean getBluetoothStatus() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getPairedBluetoothDevices()
-	 */
-	@Override
-	public List<String> getPairedBluetoothDevices() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getBTConnectionLastTwentyFourHours()
-	 */
-	@Override
-	public long getBTConnectionLastTwentyFourHours() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getBTConnectionLastMonth()
-	 */
-	@Override
-	public long getBTConnectionLastMonth() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getConnectedBTCities()
-	 */
-	@Override
-	public List<String> getConnectedBTCities() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getDataConnectionStatus()
-	 */
-	@Override
-	public boolean getDataConnectionStatus() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getProvider()
-	 */
-	@Override
-	public String getProvider() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getCellPhoneSignalStrength()
-	 */
-	@Override
-	public int getCellPhoneSignalStrength() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getRoamingStatus()
-	 */
-	@Override
-	public boolean getRoamingStatus() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getAirplaneModeLastTwentyFourHours()
-	 */
-	@Override
-	public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getAirplaneModeLastMonth()
-	 */
-	@Override
-	public long getAirplaneModeLastMonth() throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
+    
+    /**
+     * Constructor to get a context
+     * 
+     * @param context
+     *            {@link Context} of the rg
+     */
+    public ConnectionImpl(Context context) {
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionStatus()
+     */
+    @Override
+    public boolean getWifiConnectionStatus() throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionLastTwentyFourHours()
+     */
+    @Override
+    public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionLastMonth()
+     */
+    @Override
+    public long getWifiConnectionLastMonth() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getConfigureddWifiNetworks()
+     */
+    @Override
+    public List<String> getConfigureddWifiNetworks() throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getConnectedWifiCities()
+     */
+    @Override
+    public List<String> getConnectedWifiCities() throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getBluetoothStatus()
+     */
+    @Override
+    public boolean getBluetoothStatus() throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getPairedBluetoothDevices()
+     */
+    @Override
+    public List<String> getPairedBluetoothDevices() throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getBTConnectionLastTwentyFourHours()
+     */
+    @Override
+    public long getBTConnectionLastTwentyFourHours() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getBTConnectionLastMonth()
+     */
+    @Override
+    public long getBTConnectionLastMonth() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getConnectedBTCities()
+     */
+    @Override
+    public List<String> getConnectedBTCities() throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getDataConnectionStatus()
+     */
+    @Override
+    public boolean getDataConnectionStatus() throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getProvider()
+     */
+    @Override
+    public String getProvider() throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getCellPhoneSignalStrength()
+     */
+    @Override
+    public int getCellPhoneSignalStrength() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getRoamingStatus()
+     */
+    @Override
+    public boolean getRoamingStatus() throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getAirplaneModeLastTwentyFourHours()
+     */
+    @Override
+    public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getAirplaneModeLastMonth()
+     */
+    @Override
+    public long getAirplaneModeLastMonth() throws RemoteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    
 }

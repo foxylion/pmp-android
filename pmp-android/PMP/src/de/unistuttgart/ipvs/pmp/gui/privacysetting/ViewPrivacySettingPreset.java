@@ -308,7 +308,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         /* GEt all conflicting presets */
         final List<IPreset> conflictingPrivacySettings = new ArrayList<IPreset>();
         for (IPreset pr : ModelProxy.get().getPresets()) {
-            if (!pr.equals(preset) && context.isPrivacySettingConflicting(pr)) {
+            if (!pr.equals(this.preset) && context.isPrivacySettingConflicting(pr)) {
                 conflictingPrivacySettings.add(pr);
             }
         }
@@ -317,7 +317,7 @@ public class ViewPrivacySettingPreset extends LinearLayout {
         final List<IContextAnnotation> conflictingContextAnnotations = new ArrayList<IContextAnnotation>();
         for (IPreset pr : ModelProxy.get().getPresets()) {
             List<IContextAnnotation> temp;
-            if (!pr.equals(preset) && (temp = context.getConflictingContextAnnotations(pr)).size() > 0) {
+            if (!pr.equals(this.preset) && (temp = context.getConflictingContextAnnotations(pr)).size() > 0) {
                 conflictingContextAnnotations.addAll(temp);
             }
         }

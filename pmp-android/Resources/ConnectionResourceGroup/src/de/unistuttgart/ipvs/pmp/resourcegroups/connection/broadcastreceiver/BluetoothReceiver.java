@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,26 +31,26 @@ import android.content.Intent;
  * 
  */
 public class BluetoothReceiver extends BroadcastReceiver {
-	
-	/* (non-Javadoc)
-	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
-	 */
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		// Get state or not available 10 = off
-		int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 10);
-		
-		switch (state) {
-			case BluetoothAdapter.STATE_OFF:
-				break;
-			case BluetoothAdapter.STATE_ON:
-				break;
-			case BluetoothAdapter.STATE_TURNING_OFF:
-				break;
-			case BluetoothAdapter.STATE_TURNING_ON:
-				break;
-		}
-		
-	}
-	
+    
+    /* (non-Javadoc)
+     * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+     */
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        // Get state or not available 10 = off
+        int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 10);
+        
+        switch (state) {
+            case BluetoothAdapter.STATE_OFF:
+                break;
+            case BluetoothAdapter.STATE_ON:
+                break;
+            case BluetoothAdapter.STATE_TURNING_OFF:
+                break;
+            case BluetoothAdapter.STATE_TURNING_ON:
+                break;
+        }
+        
+    }
+    
 }

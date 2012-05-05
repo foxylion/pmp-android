@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.infoapp.filler;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;

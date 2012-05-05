@@ -21,6 +21,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.switches;
 
 import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
+import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
 
 /**
  * {@link Resource} for the Wifi Switch.
@@ -34,7 +36,35 @@ public class WifiSwitchResource extends Resource {
     public IBinder getAndroidInterface(String appIdentifier) {
         // we want to pass some value from the RG
         Switches srg = (Switches) getResourceGroup();
-        return new WifiSwitchStubImpl(appIdentifier, this, srg.getContext());
+        return new WifiSwitchStubNormalImpl(appIdentifier, this, srg.getContext());
+    }
+    
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        return new WifiSwitchStubMockImpl(appIdentifier, this);
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        return new WifiSwitchStubCloakImpl(appIdentifier, this);
+    }
+    
+    
+    /**
+     * Verifies that the access is allowed.
+     * 
+     * @return True, iff the access was allowed.
+     */
+    boolean verifyAccessAllowed(String appPackage, String privacySetting) {
+        BooleanPrivacySetting bpl = (BooleanPrivacySetting) getPrivacySetting(privacySetting);
+        try {
+            return bpl.permits(appPackage, true);
+        } catch (PrivacySettingValueException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     
 }

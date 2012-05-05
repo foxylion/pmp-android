@@ -165,7 +165,7 @@ public class PMP implements IPMP {
      * @param resource
      * @param binder
      */
-    protected void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+    protected void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
         Log.d(this, " caching resource...");
         if (binder != null) {
             this.resCache.put(resource, binder);
@@ -285,9 +285,9 @@ public class PMP implements IPMP {
         PMPRequestResourceHandler nativeHandler = new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
-                PMP.this.onReceiveResource(resource, binder);
-                handler.onReceiveResource(resource, binder);
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
+                PMP.this.onReceiveResource(resource, binder, isMocked);
+                handler.onReceiveResource(resource, binder, isMocked);
             }
             
             
