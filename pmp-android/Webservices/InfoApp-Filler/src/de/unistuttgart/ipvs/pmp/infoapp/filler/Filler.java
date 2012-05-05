@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.infoapp.filler;
 
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,33 +8,53 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
 public abstract class Filler {
 	
-	public Service service = new Service(Service.DEFAULT_URL, "f2305a2fbef51bd82008c7cf3788250f");
+	protected Service service;
+	protected int id = 0;
+	private long fromMillis;
+	private long toMillis;
+	
+	
+	public Filler(Service service, long fromMillis, long toMillis) {
+		this.service = service;
+		this.fromMillis = fromMillis;
+		this.toMillis = toMillis;
+	}
+	
 	
 	public void fill() {
+		System.out.print("Generating... ");
 		List<Event> events = new LinkedList<Event>();
-		Calendar startC = Calendar.getInstance();
-		startC.set(2012, 4, 2, 00, 00, 00);
 		
-		Calendar stopC = Calendar.getInstance();
-		stopC.set(2012, 4, 10, 00, 00, 00);
+		long timeMillis = this.fromMillis;
+		int spreading = this.maxSpreading() * 60000;
 		
-		long timeMillis = startC.getTimeInMillis();
-		
-		while (timeMillis < stopC.getTimeInMillis()) {
+		while (timeMillis < this.toMillis) {
 			
-			startC.setTimeInMillis(timeMillis);
 			events.add(generateEvent(timeMillis));
-
+			
 			// Increment date/time randomly with a value between 0 ms and 100 minutes
-			int inc = (int) (Math.random() * 6000000);
-			timeMillis +=inc;
+			int inc = (int) (Math.random() * spreading);
+			timeMillis += inc;
 		}
+		System.out.print("Uploading (" + events.size() + " Events)... ");
 		uploadEvents(events);
+		System.out.println("Done!");
 		
 	}
 	
+	
+	/**
+	 * Maximum time between two events.
+	 * 
+	 * @return The time between two events is computed randomly between 0 and the returned value in
+	 *         minutes
+	 */
+	protected abstract int maxSpreading();
+	
+	
 	public abstract Event generateEvent(long time);
 	
+	
 	public abstract void uploadEvents(List<Event> events);
-
+	
 }

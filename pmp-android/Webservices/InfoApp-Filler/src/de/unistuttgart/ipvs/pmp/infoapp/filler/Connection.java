@@ -3,20 +3,26 @@ package de.unistuttgart.ipvs.pmp.infoapp.filler;
 import java.io.IOException;
 import java.util.List;
 
-
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
-public class Contacts extends Filler {
+public class Connection extends Filler {
 	
-	private int id = 0;
-	private String[] cities = {"Stuttgart", "Vaihingen", "Böblingen", "Esslingen"};
-
+	public Connection(Service service, long fromMillis, long toMillis) {
+		super(service, fromMillis, toMillis);
+	}
+	
+	private String[] cities = { "Stuttgart", "Vaihingen", "Böblingen", "Esslingen" };
+	
+	
+	@Override
+	protected int maxSpreading() {
+		return 120;
+	}
+	
+	
 	@Override
 	public Event generateEvent(long time) {
 		ConnectionEvent.Mediums medium = ConnectionEvent.Mediums.BLUETOOTH;
@@ -35,36 +41,23 @@ public class Contacts extends Filler {
 			}
 		}
 		
-		
-		int cityNum = (int)(Math.random() * cities.length);
+		int cityNum = (int) (Math.random() * cities.length);
 		
 		ConnectionEvent event = new ConnectionEvent(++id, time, medium, connected, enabled, cities[cityNum]);
 		return event;
 	}
-
+	
+	
 	@Override
 	public void uploadEvents(List<Event> events) {
 		ConnectionEventManager cem = new ConnectionEventManager(service);
 		
 		try {
 			cem.commitEvents(events);
-		} catch (InternalDatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidParameterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidEventIdException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidEventOrderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
-
+	
 }
