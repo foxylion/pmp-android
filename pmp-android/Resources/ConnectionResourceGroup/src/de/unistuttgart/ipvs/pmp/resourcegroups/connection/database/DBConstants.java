@@ -25,7 +25,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
  * @author Thorsten Berberich
  * 
  */
-public class Constants {
+public class DBConstants {
     
     /**
      * Database name and version

@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
 
+import java.util.List;
+
 /**
  * Interface for the database functions
  * 
@@ -120,5 +122,15 @@ public interface IDBConnector {
      *            want to check a id
      */
     public long getTimeDuration(String tableName, long duration, int id);
+    
+    
+    /**
+     * Get all cities where the user was connected
+     * 
+     * @param tableName
+     *            Name of the table, see {@link DBConstants}
+     * @return List of strings with the cities and the times where the user connected, e.g. :"10x Stuttgart"
+     */
+    public List<String> getConnectedCities(String tableName);
     
 }

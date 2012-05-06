@@ -22,8 +22,13 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 import java.util.List;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 
 /**
  * Implements the IConnection aidl file
@@ -34,12 +39,19 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
 public class ConnectionImpl extends IConnection.Stub {
     
     /**
+     * Context of the RG
+     */
+    Context context;
+    
+    
+    /**
      * Constructor to get a context
      * 
      * @param context
      *            {@link Context} of the rg
      */
     public ConnectionImpl(Context context) {
+        this.context = context;
     }
     
     
@@ -48,8 +60,13 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        ConnectivityManager connManager = (ConnectivityManager) this.context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (mWifi == null) {
+            return false;
+        }
+        return mWifi.isConnected();
     }
     
     
@@ -58,8 +75,11 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        DBConnector.getInstance(this.context).open();
+        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
+                ConnectionConstants.ONE_DAY, 0);
+        DBConnector.getInstance(this.context).close();
+        return result;
     }
     
     
@@ -68,8 +88,11 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public long getWifiConnectionLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        DBConnector.getInstance(this.context).open();
+        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
+                ConnectionConstants.ONE_MONTH, 0);
+        DBConnector.getInstance(this.context).close();
+        return result;
     }
     
     
@@ -88,8 +111,10 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConnectedWifiCities() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        DBConnector.getInstance(this.context).open();
+        List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_WIFI);
+        DBConnector.getInstance(this.context).close();
+        return result;
     }
     
     
@@ -118,8 +143,11 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public long getBTConnectionLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        DBConnector.getInstance(this.context).open();
+        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
+                ConnectionConstants.ONE_DAY, 0);
+        DBConnector.getInstance(this.context).close();
+        return result;
     }
     
     
@@ -128,8 +156,11 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public long getBTConnectionLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        DBConnector.getInstance(this.context).open();
+        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
+                ConnectionConstants.ONE_MONTH, 0);
+        DBConnector.getInstance(this.context).close();
+        return result;
     }
     
     
@@ -138,8 +169,10 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConnectedBTCities() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        DBConnector.getInstance(this.context).open();
+        List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_BT);
+        DBConnector.getInstance(this.context).close();
+        return result;
     }
     
     
@@ -200,6 +233,16 @@ public class ConnectionImpl extends IConnection.Stub {
     public long getAirplaneModeLastMonth() throws RemoteException {
         // TODO Auto-generated method stub
         return 0;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#uploadData()
+     */
+    @Override
+    public boolean uploadData() throws RemoteException {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }
