@@ -71,6 +71,7 @@ class CellularConnectionEventManager extends EventManager {
         if (!is_numeric($fromTs) || !is_numeric($toTs)) {
             throw new InvalidArgumentException("At least one timestamp is not numeric");
         }
+        
         $db = Database::getInstance();
 
         $res = $db->query("SELECT * FROM `" . DB_PREFIX . "_connection_cellular`

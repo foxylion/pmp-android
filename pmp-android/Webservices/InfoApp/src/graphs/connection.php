@@ -31,8 +31,8 @@ if ($deviceIdValid) {
     $dateColumn = new GColumn("datetime", "d", "Date");
     $enabledColumn = new GColumn("number", "e", "Enabled");
     $connectedColumn = new GColumn("number", "c", "Connected");
-    $cityIColumn = new GColumn("string", "i", "City Tooltip", null, "{\"role\": \"annotation\"}");
-    $cityNameColumn = new GColumn("string", "i", "City Name", null, "{\"role\": \"annotationText\"}");
+    $cityIColumn = new GColumn("string", "ca", "City Annotation", null, "{\"role\": \"annotation\"}");
+    $cityNameColumn = new GColumn("string", "cn", "City Name", null, "{\"role\": \"annotationText\"}");
 
     $bluetoothAdapterData = new GDataTable();
     $bluetoothAdapterData->addColumn($dateColumn);
@@ -80,14 +80,14 @@ if ($deviceIdValid) {
                 }
 
                 // Connection status
-                $row = new GRow();
-                $row->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
-                $row->addCell(new GCell((int) $event->isEnabled()));
-                $row->addCell(new GCell((int) $event->isConnected()));
-                $row->addCell(new GCell("i"));
-                $row->addCell(new GCell($event->getCity()));
+                $levelRow = new GRow();
+                $levelRow->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
+                $levelRow->addCell(new GCell((int) $event->isEnabled()));
+                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow->addCell(new GCell("i"));
+                $levelRow->addCell(new GCell($event->getCity()));
 
-                $bluetoothAdapterData->addRow($row);
+                $bluetoothAdapterData->addRow($levelRow);
 
                 break;
 
@@ -103,14 +103,14 @@ if ($deviceIdValid) {
                 }
 
                 // Connection status
-                $row = new GRow();
-                $row->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
-                $row->addCell(new GCell((int) $event->isEnabled()));
-                $row->addCell(new GCell((int) $event->isConnected()));
-                $row->addCell(new GCell("i"));
-                $row->addCell(new GCell($event->getCity()));
+                $levelRow = new GRow();
+                $levelRow->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
+                $levelRow->addCell(new GCell((int) $event->isEnabled()));
+                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow->addCell(new GCell("i"));
+                $levelRow->addCell(new GCell($event->getCity()));
 
-                $wifiAdapterData->addRow($row);
+                $wifiAdapterData->addRow($levelRow);
                 break;
         }
     }

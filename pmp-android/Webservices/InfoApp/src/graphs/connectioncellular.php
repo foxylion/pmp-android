@@ -38,11 +38,11 @@ if ($deviceIdValid) {
     $connectionData->addColumn($roamingColumn);
 
     foreach ($events as $event) {
-        $row = new GRow();
-        $row->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
-        $row->addCell(new GCell((int) $event->isAirplane()));
-        $row->addCell(new GCell((int) $event->isRoaming()));
-        $connectionData->addRow($row);
+        $levelRow = new GRow();
+        $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        $levelRow->addCell(new GCell((int) $event->isAirplane()));
+        $levelRow->addCell(new GCell((int) $event->isRoaming()));
+        $connectionData->addRow($levelRow);
     }
 
     $tmplt["pageTitle"] = "Connection";
