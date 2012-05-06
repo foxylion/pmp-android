@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resourceGroupInformationSet>
+   <resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" icon="res/drawable-xhdpi/signal.png" className="Connection">
+      <name lang="en">Connection</name>
+      <name lang="de">Verbindung</name>
+      <description lang="de">Bietet Zugriff auf Verbindungen des Telefons</description>
+      <description lang="en">Offers access to connections of the phone</description>
+   </resourceGroupInformation>
+   <privacySettings>
+      <privacySetting identifier="wifi-status-connection-status" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read wifi connection status</name>
+         <name lang="de">Wlan-Verbindungs-Status lesen</name>
+         <description lang="en">Read the status of the wifi</description>
+         <description lang="de">Wlan Status auslesen</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get the wifi status.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den Wlan Status auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="wifi-configured-networks" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read configured wifi networks</name>
+         <name lang="de">Konfigurierte Wlan Netzwerke lesen</name>
+         <description lang="de">Die Anzahl konfigurierten Wlan Netzwerke auslesen</description>
+         <description lang="en">Read the number configured wifi networks</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get number of configured wifi networks.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den die Anzahl der konfigurierten Wlan Netzwerke auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="wifi-connected-cities" validValueDescription="true and false" requestable="true"/>
+      <privacySetting identifier="bluetooth-status-connection-status" validValueDescription="true and false" requestable="true"/>
+      <privacySetting identifier="bluetooth-paired-devices" validValueDescription="true and false" requestable="true"/>
+      <privacySetting identifier="bluetooth-connected-cities" validValueDescription="true and false" requestable="true"/>
+      <privacySetting identifier="data-connection-status" validValueDescription="true and false" requestable="true"/>
+      <privacySetting identifier="cell-phone-network-status" validValueDescription="true and false" requestable="true"/>
+      <privacySetting identifier="upload-data" validValueDescription="true and false" requestable="true"/>
+   </privacySettings>
+</resourceGroupInformationSet>
