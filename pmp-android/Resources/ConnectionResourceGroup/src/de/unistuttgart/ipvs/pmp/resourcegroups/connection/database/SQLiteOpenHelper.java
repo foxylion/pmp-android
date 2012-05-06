@@ -36,23 +36,23 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     /**
      * Create statement for the wifi table with the columns id, timestamp, event and city
      */
-    private static final String CREATE_WIFI_TABLE = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_WIFI + " ( "
-            + Constants.COLUMN_ID + " integer primary key autoincrement, " + Constants.COLUMN_TIMESTAMP + " integer, "
-            + Constants.COLUMN_EVENT + " text, " + Constants.COLUMN_CITY + " text );";
+    private static final String CREATE_WIFI_TABLE = "CREATE TABLE IF NOT EXISTS " + DBConstants.TABLE_WIFI + " ( "
+            + DBConstants.COLUMN_ID + " integer primary key autoincrement, " + DBConstants.COLUMN_TIMESTAMP
+            + " integer, " + DBConstants.COLUMN_EVENT + " text, " + DBConstants.COLUMN_CITY + " text );";
     
     /**
      * Create statement for the bluetooth table with the columns id, timestamp, event and city
      */
-    private static final String CREATE_BT_TABLE = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_BT + " ( "
-            + Constants.COLUMN_ID + " integer primary key autoincrement, " + Constants.COLUMN_TIMESTAMP + " integer, "
-            + Constants.COLUMN_EVENT + " text, " + Constants.COLUMN_CITY + " text );";
+    private static final String CREATE_BT_TABLE = "CREATE TABLE IF NOT EXISTS " + DBConstants.TABLE_BT + " ( "
+            + DBConstants.COLUMN_ID + " integer primary key autoincrement, " + DBConstants.COLUMN_TIMESTAMP
+            + " integer, " + DBConstants.COLUMN_EVENT + " text, " + DBConstants.COLUMN_CITY + " text );";
     
     /**
      * Create statement for the cell phone table with the columns id, timestamp and event
      */
-    private static final String CREATE_CELL_TABLE = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_CELL + " ( "
-            + Constants.COLUMN_ID + " integer primary key autoincrement, " + Constants.COLUMN_TIMESTAMP + " integer, "
-            + Constants.COLUMN_EVENT + " text ); ";
+    private static final String CREATE_CELL_TABLE = "CREATE TABLE IF NOT EXISTS " + DBConstants.TABLE_CELL + " ( "
+            + DBConstants.COLUMN_ID + " integer primary key autoincrement, " + DBConstants.COLUMN_TIMESTAMP
+            + " integer, " + DBConstants.COLUMN_EVENT + " text ); ";
     
     
     /**
@@ -89,9 +89,9 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(ConnectionConstants.LOG_TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_BT);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_CELL);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_WIFI);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_BT);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_CELL);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstants.TABLE_WIFI);
         onCreate(db);
     }
     

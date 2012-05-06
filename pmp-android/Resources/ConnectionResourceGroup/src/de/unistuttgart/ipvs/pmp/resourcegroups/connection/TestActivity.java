@@ -19,11 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Constants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
 
 /**
@@ -44,7 +46,12 @@ public class TestActivity extends Activity {
         DBConnector.getInstance(this).storeWifiEvent(160, EventEnum.ON, "bla");
         DBConnector.getInstance(this).storeWifiEvent(170, EventEnum.OFF, "bla");
         
-        Long l = DBConnector.getInstance(this).getTimeDuration(Constants.TABLE_WIFI, 24000, 4);
-        Toast.makeText(this, String.valueOf(l), Toast.LENGTH_LONG).show();
+        DBConnector.getInstance(this).storeWifiEvent(170, EventEnum.OFF, null);
+        DBConnector.getInstance(this).storeWifiEvent(170, EventEnum.OFF, null);
+        
+        List<String> res = DBConnector.getInstance(this).getConnectedCities(DBConstants.TABLE_WIFI);
+        for (String res2 : res) {
+            Toast.makeText(this, res2, Toast.LENGTH_LONG).show();
+        }
     }
 }

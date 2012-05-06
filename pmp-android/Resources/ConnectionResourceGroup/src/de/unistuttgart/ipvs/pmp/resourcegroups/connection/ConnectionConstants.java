@@ -55,4 +55,9 @@ public class ConnectionConstants {
      */
     public static final String LOG_TAG = "ConnectionResourceGroup";
     
+    /**
+     * Time durations
+     */
+    public static final long ONE_DAY = 86400000L;
+    public static final long ONE_MONTH = 2592000000L;
 }
