@@ -70,9 +70,9 @@ interface IConnection {
     
     
     /**
-     * Get the connection status of the bluetooth
+     * Get the status of the bluetooth
      * 
-     * @return True iff connected, false otherwise
+     * @return True iff enabled, false otherwise
      */
     boolean getBluetoothStatus();
     

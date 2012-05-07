@@ -19,10 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver;
 
+import java.util.Date;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
 
 /**
  * {@link BroadcastReceiver} to get the airplane mode events
@@ -36,15 +40,17 @@ public class CellPhoneReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        long time = new Date().getTime();
         int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
+        DBConnector.getInstance(context).open();
         
         if (airplaneMode == 0) {
             // Airplane mode is off
-            
+            DBConnector.getInstance(context).storeCellPhoneEvent(time, EventEnum.OFF);
         } else {
             // Airplane mode is on
-            
+            DBConnector.getInstance(context).storeCellPhoneEvent(time, EventEnum.ON);
         }
+        DBConnector.getInstance(context).close();
     }
-    
 }

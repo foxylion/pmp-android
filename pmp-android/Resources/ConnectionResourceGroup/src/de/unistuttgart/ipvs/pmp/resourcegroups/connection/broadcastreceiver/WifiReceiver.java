@@ -19,11 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver;
 
+import java.util.Date;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 
 /**
  * {@link BroadcastReceiver} for Wifi connection changed events
@@ -37,6 +40,8 @@ public class WifiReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        long time = new Date().getTime();
+        DBConnector.getInstance(context).open();
         
         // Get the ConnectivityManager
         ConnectivityManager connectivityManager = (ConnectivityManager) context
@@ -56,6 +61,7 @@ public class WifiReceiver extends BroadcastReceiver {
                 // Not Connected
             }
         }
+        DBConnector.getInstance(context).close();
     }
     
 }

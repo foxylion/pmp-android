@@ -43,7 +43,7 @@ public class ConnectionConstants {
     public static final String PS_WIFI_STATUS = "wifi-status-connection-status";
     public static final String PS_CONFIGURED_NETWORKS = "wifi-configured-networks";
     public static final String PS_WIFI_CONNECTED_CITIES = "wifi-connected-cities";
-    public static final String PS_BLUETOOTH_STATUS = "bluetooth-status-connection-status";
+    public static final String PS_BLUETOOTH_STATUS = "bluetooth-connection-status";
     public static final String PS_BLUETOOTH_DEVICES = "bluetooth-paired-devices";
     public static final String PS_BT_CONNECTED_CITIES = "bluetooth-connected-cities";
     public static final String PS_DATA_STATUS = "data-connection-status";
