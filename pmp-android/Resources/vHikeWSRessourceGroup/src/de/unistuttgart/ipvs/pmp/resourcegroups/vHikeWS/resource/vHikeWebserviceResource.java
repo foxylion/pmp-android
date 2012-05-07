@@ -533,4 +533,18 @@ public class vHikeWebserviceResource extends Resource {
         return ret;
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }
