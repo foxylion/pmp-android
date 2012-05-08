@@ -132,6 +132,9 @@ public class RegistrationDialog extends Dialog implements IRegistrationUI {
                         RegistrationDialog.this.elements.setState(5, State.PROCESSING);
                         RegistrationDialog.this.dismiss();
                         break;
+                    
+                    case ALREADY_REGISTERED:
+                        break;
                 }
             }
         });

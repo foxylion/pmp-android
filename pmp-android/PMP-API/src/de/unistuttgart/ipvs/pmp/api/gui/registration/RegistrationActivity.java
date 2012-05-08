@@ -207,6 +207,9 @@ public class RegistrationActivity extends Activity implements IRegistrationUI {
                         RegistrationActivity.this.elements.setState(5, State.PROCESSING);
                         switchToMainActivity(true);
                         break;
+                    
+                    case ALREADY_REGISTERED:
+                        break;
                 }
             }
         });

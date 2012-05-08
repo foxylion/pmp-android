@@ -74,13 +74,13 @@ public abstract class Resource {
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
-     * @param appIdentifier
-     *            the identifier for the app accessing the interface.
+     * @param appPackage
+     *            the package for the app accessing the interface.
      * 
      * @return The IBinder that shall be returned when an App binds against the {@link ResourceGroupService} requesting
      *         this resource.
      */
-    public abstract IBinder getAndroidInterface(String appIdentifier);
+    public abstract IBinder getAndroidInterface(String appPackage);
     
     
     /**
@@ -89,13 +89,13 @@ public abstract class Resource {
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
-     * @param appIdentifier
-     *            the identifier for the app accessing the interface.
+     * @param appPackage
+     *            the package for the app accessing the interface.
      * 
      * @return The IBinder that shall be returned when an App binds against the {@link ResourceGroupService} requesting
      *         this resource.
      */
-    public abstract IBinder getMockedAndroidInterface(String appIdentifier);
+    public abstract IBinder getMockedAndroidInterface(String appPackage);
     
     
     /**
@@ -105,12 +105,12 @@ public abstract class Resource {
      * 
      * @see http://developer.android.com/guide/developing/tools/aidl.html
      * 
-     * @param appIdentifier
-     *            the identifier for the app accessing the interface.
+     * @param appPackage
+     *            the package for the app accessing the interface.
      * 
      * @return The IBinder that shall be returned when an App binds against the {@link ResourceGroupService} requesting
      *         this resource.
      */
-    public abstract IBinder getCloakedAndroidInterface(String appIdentifier);
+    public abstract IBinder getCloakedAndroidInterface(String appPackage);
     
 }
