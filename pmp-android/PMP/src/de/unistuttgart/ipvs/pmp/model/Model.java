@@ -460,6 +460,20 @@ public class Model implements IModel, Observer {
                     throw new InvalidPluginException("Resource '" + res + "' does not provide all IBinders.");
                 }
                 
+                // disallow anonymous classes
+                if (nb.getClass().isAnonymousClass() || mb.getClass().isAnonymousClass()
+                        || cb.getClass().isAnonymousClass()) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    null,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP: Resource '%s' does provide illegal anonymous IBinders.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res + "' does provide illegal anonymous IBinders.");
+                }
+                
                 // assert that normal, mocking and cloaking are really DIFFERENT classes
                 if (nb.getClass().isAssignableFrom(mb.getClass()) || mb.getClass().isAssignableFrom(nb.getClass())) {
                     FileLog.get()
