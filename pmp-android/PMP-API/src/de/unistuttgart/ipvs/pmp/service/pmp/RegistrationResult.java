@@ -79,7 +79,7 @@ public class RegistrationResult implements Parcelable {
      * @param source
      *            Parcel-Source
      */
-    private RegistrationResult(Parcel source) {
+    protected RegistrationResult(Parcel source) {
         boolean[] bools = new boolean[1];
         source.readBooleanArray(bools);
         this.success = bools[0];
