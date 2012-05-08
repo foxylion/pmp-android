@@ -24,8 +24,24 @@ public class vHikeWebserviceResource extends Resource {
     
     
     @Override
-    public IBinder getAndroidInterface(String identifier) {
-        return new vHikeWebserviceImpl(this.vHikeRG, this, identifier);
+    public IBinder getAndroidInterface(String appIdentifier) {
+        return new vHikeWebserviceImpl(this.vHikeRG, this, appIdentifier);
+    }
+    
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return new vHikeWebserviceImpl(this.vHikeRG, this, appIdentifier) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Auto-generated method stub
+        return new vHikeWebserviceImpl(this.vHikeRG, this, appIdentifier) {
+        };
     }
     
     
@@ -531,20 +547,6 @@ public class vHikeWebserviceResource extends Resource {
         }
         
         return ret;
-    }
-    
-    
-    @Override
-    public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    
-    @Override
-    public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
     }
     
 }

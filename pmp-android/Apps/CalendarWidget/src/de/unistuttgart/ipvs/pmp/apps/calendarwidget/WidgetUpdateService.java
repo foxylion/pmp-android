@@ -133,7 +133,7 @@ class UIUpdateThread extends Thread {
             
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder == null) {
                     WidgetUpdateService.buildUpdate(UIUpdateThread.this.context, null, true);
                     Log.d(WidgetUpdateService.class, "Failed to use resource, pmp returned a NULL-Binder.");

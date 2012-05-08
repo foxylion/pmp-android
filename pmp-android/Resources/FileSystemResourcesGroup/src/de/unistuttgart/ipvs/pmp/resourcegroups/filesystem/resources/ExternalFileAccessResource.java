@@ -50,4 +50,20 @@ public class ExternalFileAccessResource extends Resource {
         return new ExternalFileAccess(appIdentifier, this, this.directory);
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Implement mocked AndroidInterface
+        return new ExternalFileAccess(appIdentifier, this, this.directory) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Implement cloaked AndroidInterface
+        return new ExternalFileAccess(appIdentifier, this, this.directory) {
+        };
+    }
+    
 }

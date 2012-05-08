@@ -37,4 +37,20 @@ public class GenericFileAccessResource extends Resource {
         return new GenericFileAccess(appIdentifier, this);
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Implement mocked AndroidInterface
+        return new GenericFileAccess(appIdentifier, this) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Implement cloaked AndroidInterface
+        return new GenericFileAccess(appIdentifier, this) {
+        };
+    }
+    
 }

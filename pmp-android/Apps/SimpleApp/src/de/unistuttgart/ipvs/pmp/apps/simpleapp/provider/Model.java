@@ -44,7 +44,7 @@ public class Model {
         PMP.get().getResource(RES_WIFI, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 IWifiSwitch remote = IWifiSwitch.Stub.asInterface(binder);
                 Model.this.activity.runOnUiThread(new Runnable() {
                     
@@ -70,7 +70,7 @@ public class Model {
         PMP.get().getResource(RES_WIFI, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 final IWifiSwitch remote = IWifiSwitch.Stub.asInterface(binder);
                 
                 Model.this.activity.runOnUiThread(new Runnable() {
