@@ -81,7 +81,7 @@ public class ServiceFeaturePersistenceProvider extends ElementPersistenceProvide
                                             Level.WARNING,
                                             "Service Feature '%s' of '%s' has tried to access the non-requestable privacy setting '%s' of '%s'.",
                                             this.element.getLocalIdentifier(), this.element.app.getIdentifier(),
-                                            rgPackage, psIdentifier);
+                                            psIdentifier, rgPackage);
                         }
                     }
                 }
