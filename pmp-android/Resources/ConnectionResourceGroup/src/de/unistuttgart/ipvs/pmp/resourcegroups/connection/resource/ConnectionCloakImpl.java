@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: ConnectionResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,13 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
 
 /**
@@ -32,12 +36,36 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
  */
 public class ConnectionCloakImpl extends IConnection.Stub {
     
+    /**
+     * {@link PermissionValidator}
+     */
+    private PermissionValidator validator;
+    
+    
+    /**
+     * Constructor to get a context
+     * 
+     * @param context
+     *            {@link Context} of the rg
+     * @param rg
+     *            {@link ResourceGroup}
+     * @param appIdentifier
+     *            identifier of the app that wants to do sth.
+     * 
+     */
+    public ConnectionCloakImpl(ResourceGroup rg, String appIdentifier) {
+        this.validator = new PermissionValidator(rg, appIdentifier);
+    }
+    
+    
     /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionStatus()
      */
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        
         return false;
     }
     
@@ -47,7 +75,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        
         return 0;
     }
     
@@ -57,7 +87,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public long getWifiConnectionLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        
         return 0;
     }
     
@@ -67,8 +99,10 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConfigureddWifiNetworks() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
+        
+        return new ArrayList<String>();
     }
     
     
@@ -77,8 +111,10 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConnectedWifiCities() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
+        
+        return new ArrayList<String>();
     }
     
     
@@ -87,7 +123,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public boolean getBluetoothStatus() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        
         return false;
     }
     
@@ -97,8 +135,10 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getPairedBluetoothDevices() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
+        
+        return new ArrayList<String>();
     }
     
     
@@ -107,7 +147,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public long getBTConnectionLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        
         return 0;
     }
     
@@ -117,7 +159,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public long getBTConnectionLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        
         return 0;
     }
     
@@ -127,8 +171,10 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConnectedBTCities() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
+        
+        return new ArrayList<String>();
     }
     
     
@@ -137,7 +183,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public boolean getDataConnectionStatus() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
+        
         return false;
     }
     
@@ -147,8 +195,10 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public String getProvider() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
+        return "Cloak Provider";
     }
     
     
@@ -157,7 +207,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public int getCellPhoneSignalStrength() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
         return 0;
     }
     
@@ -167,7 +219,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public boolean getRoamingStatus() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
         return false;
     }
     
@@ -177,7 +231,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
         return 0;
     }
     
@@ -187,7 +243,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public long getAirplaneModeLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
         return 0;
     }
     
@@ -197,8 +255,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     @Override
     public boolean uploadData() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
+        
         return false;
     }
-    
 }

@@ -47,8 +47,8 @@ public class ConnectionResource extends Resource {
      */
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return new ConnectionMockImpl();
+        Connection connectionRG = (Connection) getResourceGroup();
+        return new ConnectionMockImpl(connectionRG, appIdentifier);
     }
     
     
@@ -57,8 +57,8 @@ public class ConnectionResource extends Resource {
      */
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return new ConnectionCloakImpl();
+        Connection connectionRG = (Connection) getResourceGroup();
+        return new ConnectionCloakImpl(connectionRG, appIdentifier);
     }
     
 }

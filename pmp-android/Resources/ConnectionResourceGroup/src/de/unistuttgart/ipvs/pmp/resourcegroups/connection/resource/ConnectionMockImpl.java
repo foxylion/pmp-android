@@ -19,27 +19,65 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
+import android.content.Context;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.ConnectedCitiesComparator;
 
 /**
  * 
- * Moch implementation of the IConnection interface
+ * Mock implementation of the IConnection interface
  * 
  * @author Thorsten Berberich
  * 
  */
 public class ConnectionMockImpl extends IConnection.Stub {
     
+    /**
+     * {@link PermissionValidator}
+     */
+    private PermissionValidator validator;
+    
+    /**
+     * List with cities
+     */
+    private ArrayList<String> cities;
+    
+    
+    /**
+     * Constructor to get a context
+     * 
+     * @param context
+     *            {@link Context} of the rg
+     * @param rg
+     *            {@link ResourceGroup}
+     * @param appIdentifier
+     *            identifier of the app that wants to do sth.
+     * 
+     */
+    public ConnectionMockImpl(ResourceGroup rg, String appIdentifier) {
+        this.validator = new PermissionValidator(rg, appIdentifier);
+        cities = new ArrayList<String>();
+        addCities();
+    }
+    
+    
     /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getWifiConnectionStatus()
      */
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        
+        return new Random().nextBoolean();
     }
     
     
@@ -48,8 +86,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        
+        return new Random().nextInt(86400001);
     }
     
     
@@ -58,8 +98,14 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public long getWifiConnectionLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -68,8 +114,17 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConfigureddWifiNetworks() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
+        
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(15);
+        for (int itr = 0; itr < numbers; itr++) {
+            Random r = new Random();
+            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            result.add(token);
+        }
+        return result;
     }
     
     
@@ -78,8 +133,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConnectedWifiCities() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
+        
+        return getRandomCities();
     }
     
     
@@ -88,8 +145,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public boolean getBluetoothStatus() throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        
+        return new Random().nextBoolean();
     }
     
     
@@ -98,8 +157,17 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getPairedBluetoothDevices() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
+        
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(15);
+        for (int itr = 0; itr < numbers; itr++) {
+            Random r = new Random();
+            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            result.add(token);
+        }
+        return result;
     }
     
     
@@ -108,8 +176,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public long getBTConnectionLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        
+        return new Random().nextInt(86400001);
     }
     
     
@@ -118,8 +188,14 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public long getBTConnectionLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -128,8 +204,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public List<String> getConnectedBTCities() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
+        
+        return getRandomCities();
     }
     
     
@@ -138,8 +216,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public boolean getDataConnectionStatus() throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
+        
+        return new Random().nextBoolean();
     }
     
     
@@ -148,8 +228,12 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public String getProvider() throws RemoteException {
-        // TODO Auto-generated method stub
-        return null;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
+        Random r = new Random();
+        String token = Long.toString(Math.abs(r.nextLong()), 36);
+        return token;
     }
     
     
@@ -158,7 +242,9 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public int getCellPhoneSignalStrength() throws RemoteException {
-        // TODO Auto-generated method stub
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
         return 0;
     }
     
@@ -168,8 +254,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public boolean getRoamingStatus() throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
+        return new Random().nextBoolean();
     }
     
     
@@ -178,8 +266,10 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        
+        return new Random().nextInt(86400001);
     }
     
     
@@ -188,8 +278,14 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public long getAirplaneModeLastMonth() throws RemoteException {
-        // TODO Auto-generated method stub
-        return 0;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -198,8 +294,60 @@ public class ConnectionMockImpl extends IConnection.Stub {
      */
     @Override
     public boolean uploadData() throws RemoteException {
-        // TODO Auto-generated method stub
-        return false;
+        // Check the privacy setting
+        validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
+        
+        return new Random().nextBoolean();
     }
     
+    
+    /**
+     * Adds some cities to the list
+     */
+    private void addCities() {
+        cities.add("Stuttgart");
+        cities.add("Munich");
+        cities.add("Berlin");
+        cities.add("New York");
+        cities.add("Washington");
+        cities.add("Tallahassee");
+        cities.add("Las Vegas");
+        cities.add("Detroit");
+        cities.add("Chicago");
+        cities.add("Los Angeles");
+        cities.add("Dallas");
+        cities.add("Pittsburgh");
+        cities.add("New Orleans");
+        cities.add("Paris");
+        cities.add("Madrid");
+        cities.add("Rome");
+    }
+    
+    
+    /**
+     * Get a list with random cities
+     * 
+     * @return {@link List} with random cities
+     */
+    private List<String> getRandomCities() {
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(40);
+        List<String> tmp = new ArrayList<String>();
+        for (int itr = 0; itr < numbers; itr++) {
+            String city = cities.get(new Random().nextInt(16));
+            if (!tmp.contains(city)) {
+                tmp.add(city);
+            }
+        }
+        
+        // Get the times for every city
+        for (String city : tmp) {
+            int timesConnected = new Random().nextInt(50);
+            result.add(timesConnected + "x " + city);
+        }
+        // Sort the list
+        Collections.sort(result, new ConnectedCitiesComparator());
+        
+        return result;
+    }
 }

@@ -80,7 +80,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
         switch (state) {
             case BluetoothAdapter.STATE_OFF:
                 event = EventEnum.OFF;
-                storeEvent();
+                DBConnector.getInstance(context).storeBTEvent(time, event, null);
+                DBConnector.getInstance(context).close();
                 break;
             case BluetoothAdapter.STATE_ON:
                 event = EventEnum.ON;
@@ -94,30 +95,51 @@ public class BluetoothReceiver extends BroadcastReceiver {
     }
     
     
+    /**
+     * Store a event an try to get the location
+     */
     private void storeEvent() {
         locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
+        boolean network_enabled = false;
+        
+        //Get the GPS Provider
         try {
             gps_enabled = locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception ex) {
         }
         
+        // Get the network provider
+        try {
+            network_enabled = locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+        }
+        
         // Get the network information for the wifi if the ConnectivityManager is not null
         if (gps_enabled) {
-            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new GPSLocationListener());
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new CityLocationListener());
+        } else if (network_enabled) {
+            locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new CityLocationListener());
         } else {
             DBConnector.getInstance(context).storeBTEvent(time, event, null);
             DBConnector.getInstance(context).close();
         }
     }
     
-    class GPSLocationListener implements LocationListener {
+    /**
+     * Stores the event with the location at the database
+     * 
+     * @author Thorsten Berberich
+     * 
+     */
+    class CityLocationListener implements LocationListener {
         
         /* (non-Javadoc)
          * @see android.location.LocationListener#onLocationChanged(android.location.Location)
          */
         @Override
         public void onLocationChanged(Location location) {
+            // New geocoder to get the city
             Geocoder gc = new Geocoder(context, Locale.getDefault());
             List<Address> addresses = null;
             try {
@@ -126,6 +148,8 @@ public class BluetoothReceiver extends BroadcastReceiver {
                 e.printStackTrace();
             }
             String city = null;
+            
+            // Try to get the city
             if (addresses.size() > 0 && addresses != null) {
                 city = addresses.get(0).getLocality();
             }
@@ -140,8 +164,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
          */
         @Override
         public void onProviderDisabled(String provider) {
-            // TODO Auto-generated method stub
-            
         }
         
         
@@ -150,8 +172,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
          */
         @Override
         public void onProviderEnabled(String provider) {
-            // TODO Auto-generated method stub
-            
         }
         
         
@@ -160,10 +180,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
          */
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            // TODO Auto-generated method stub
-            
         }
         
     }
-    
 }
