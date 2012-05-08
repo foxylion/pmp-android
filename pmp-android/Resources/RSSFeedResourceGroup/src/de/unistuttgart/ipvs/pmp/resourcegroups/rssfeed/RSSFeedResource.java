@@ -15,4 +15,22 @@ public class RSSFeedResource extends Resource {
         return new RSSFeedAdapter(ressFeed.getContext(), this, appIdentifier);
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO implement mocked AndroidInterface
+        RSSFeedResourceGroup ressFeed = (RSSFeedResourceGroup) getResourceGroup();
+        return new RSSFeedAdapter(ressFeed.getContext(), this, appIdentifier) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO implement cloaked AndroidInterface
+        RSSFeedResourceGroup ressFeed = (RSSFeedResourceGroup) getResourceGroup();
+        return new RSSFeedAdapter(ressFeed.getContext(), this, appIdentifier) {
+        };
+    }
+    
 }

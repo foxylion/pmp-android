@@ -151,7 +151,7 @@ public class FileSystemConnector {
         PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 Looper.prepare();
                 if (binder != null) {
                     try {
@@ -196,7 +196,7 @@ public class FileSystemConnector {
         PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     try {
                         Looper.prepare();
@@ -383,7 +383,7 @@ public class FileSystemConnector {
         PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     Looper.prepare();
                     try {
@@ -461,7 +461,7 @@ public class FileSystemConnector {
         PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 Looper.prepare();
                 if (binder != null) {
                     Log.d(this, rgIdentifier + " connected");
@@ -496,7 +496,7 @@ public class FileSystemConnector {
         PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     Log.d(this, rgIdentifier + " connected");
                     try {
@@ -523,7 +523,7 @@ public class FileSystemConnector {
         PMP.get().getResource(this.pmpIdentifier, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     Log.d(this, rgIdentifier + " connected");
                     try {

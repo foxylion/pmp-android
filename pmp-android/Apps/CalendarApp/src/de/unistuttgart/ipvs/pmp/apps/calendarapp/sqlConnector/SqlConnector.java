@@ -84,7 +84,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -159,7 +159,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -232,7 +232,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -288,7 +288,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -332,7 +332,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -382,7 +382,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     
@@ -438,7 +438,7 @@ public class SqlConnector {
         PMP.get().getResource(PMP_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 if (binder != null) {
                     IDatabaseConnection idc = IDatabaseConnection.Stub.asInterface(binder);
                     try {

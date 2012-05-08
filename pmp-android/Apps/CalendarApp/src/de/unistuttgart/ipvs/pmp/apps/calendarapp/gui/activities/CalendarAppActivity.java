@@ -220,7 +220,7 @@ public class CalendarAppActivity extends ListActivity {
                     new PMPRequestResourceHandler() {
                         
                         @Override
-                        public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+                        public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                             if (binder != null) {
                                 IEmailOperations emailOP = IEmailOperations.Stub.asInterface(binder);
                                 try {

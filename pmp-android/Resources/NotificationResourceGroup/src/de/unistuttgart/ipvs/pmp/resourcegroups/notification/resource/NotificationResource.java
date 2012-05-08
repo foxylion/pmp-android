@@ -50,15 +50,17 @@ public class NotificationResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO implement mocked AndroidInterface
+        return new NotificationImpl(this.RG, this, appIdentifier) {
+        };
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO cloaked AndroidInterface
+        return new NotificationImpl(this.RG, this, appIdentifier) {
+        };
     }
     
 }
