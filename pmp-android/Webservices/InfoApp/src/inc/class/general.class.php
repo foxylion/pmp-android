@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Encapsulates generic functions used by many parts of the application
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.4.0
+ * @version 4.4.0
  */
 class General {
     /**
@@ -36,7 +36,7 @@ class General {
      */
 
     const REG_INTCHARS = "A-Za-zÃ„Ã¤Ã–Ã¶ÃŸÃœÃ¼Ã�Ã€Ã‚Ã¡Ã Ã¢Ã‰ÃˆÃŠÃ©Ã¨ÃªÃ�ÃŒÃŽÃ­Ã¬Ã®Ã“Ã’Ã”Ã³Ã²Ã´ÃšÃ™Ã›ÃºÃ¹Ã»Ã‡Ã§";
-    
+
     /**
      * Checks if the length of an input string is valid
      *

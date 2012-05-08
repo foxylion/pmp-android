@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Provides general functionality used for JSON output
  * @author  Patrick Strobel
- * @version 1.2.1
+ * @version 4.2.1
  */
 class Json {
 

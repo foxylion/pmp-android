@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Stores information about a device and allows to update or insert a new device information set
  * @author Patrick Strobel
- * @version 1.0.1
+ * @version 4.0.1
  */
 class DeviceProperties extends Properties {
 

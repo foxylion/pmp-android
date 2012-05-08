@@ -29,7 +29,7 @@ if (!defined("INCLUDE")) {
  * at a given timestamp
  *
  * @author Patrick Strobel
- * @version 1.0.2
+ * @version 4.0.2
  */
 class ConnectionEvent extends Event {
 

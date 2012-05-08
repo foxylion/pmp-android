@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Stores information about the device's connection and allows to update or insert a new device information set
  * @author Patrick Strobel
- * @version 1.0.0
+ * @version 4.0.0
  */
 class ConnectionProperties extends Properties {
 

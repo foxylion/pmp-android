@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 1.0.1
+ * @version 4.0.1
  */
 class ConnectionEventManager extends EventManager {
 
@@ -72,7 +72,7 @@ class ConnectionEventManager extends EventManager {
 
     public function getEventsInterval($fromTs, $toTs) {
         if (!is_numeric($fromTs) || !is_numeric($toTs)) {
-            throw new InvalidArgumentException("at least one timestamp is no long");
+            throw new InvalidArgumentException("At least one timestamp is not numeric");
         }
         $db = Database::getInstance();
 

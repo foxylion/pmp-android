@@ -38,7 +38,27 @@ public class ConnectionResource extends Resource {
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
         Connection connectionRG = (Connection) getResourceGroup();
-        return new ConnectionImpl(connectionRG.getContext());
+        return new ConnectionImpl(connectionRG.getContext(), connectionRG, appIdentifier);
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getMockedAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        Connection connectionRG = (Connection) getResourceGroup();
+        return new ConnectionMockImpl(connectionRG, appIdentifier);
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resource.Resource#getCloakedAndroidInterface(java.lang.String)
+     */
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        Connection connectionRG = (Connection) getResourceGroup();
+        return new ConnectionCloakImpl(connectionRG, appIdentifier);
     }
     
 }

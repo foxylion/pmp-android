@@ -180,7 +180,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (Exception ex) {
-            ;
+            ex.printStackTrace();
         }
         startContinousLookup();
     };

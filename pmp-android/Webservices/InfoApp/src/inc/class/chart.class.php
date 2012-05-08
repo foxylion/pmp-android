@@ -24,12 +24,51 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Helper class for easier creation of Google Charts
+ *
+ * @author Patrick Strobel
+ * @version 4.1.0
+ */
 class Chart {
+
+    const DAY = "day";
+    const WEEK = "week";
+    const MONTH = "month";
+    const YEAR = "year";
+
+    private $scale = Chart::DAY;
+
+    public function setScale($scale) {
+        if ($scale == Chart::DAY || $scale == Chart::WEEK ||$scale == Chart::MONTH || $scale == Chart::YEAR) {
+            $this->scale = $scale;
+        } else {
+            $this->scale = Chart::DAY;
+        }
+    }
+
+    public function getScale() {
+        return $this->scale;
+    }
+
+    public function getEventsByScale(EventManager $manager, $startTs, $daysInMonth) {
+        switch ($this->scale) {
+            case Chart::DAY:
+                return $manager->getEventsOneDay($startTs);
+            case Chart::WEEK:
+                return $manager->getEventsMultDays($startTs, 7);
+            case Chart::MONTH:
+                return $manager->getEventsMultDays($startTs, $daysInMonth);
+            case Chart::YEAR:
+                return $manager->getEventsMultDays($startTs, 365);
+        }
+    }
 
     /**
      *
      * @param String[][] $columns
      * @param string[][] $data
+     * @deprecated Use class GDataObject instead
      */
     public static function getDataObject($columns, $rows) {
 
@@ -85,10 +124,19 @@ class Chart {
      * @return String           Formated date/time
      */
     public static function timeMillisToString($format, $millis) {
-// Convert millis to seconds
         $sec = $millis / 1000;
         return date($format, $sec);
     }
 
+    /**
+     * Converts a php timestamp into a Java MS-timestamp
+     * @param long $timestamp   PHP Timestamp
+     * @return long Java timestamp
+     */
+    public static function timestampToMillis($timestamp) {
+        return $timestamp * 1000;
+    }
+
 }
+
 ?>

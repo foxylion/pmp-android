@@ -21,4 +21,18 @@ public class EnergyResource extends Resource {
         return new EnergyImpl(this.rg);
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        EnergyConstants.APP_IDENTIFIER = appIdentifier;
+        return new EnergyImplMock(this.rg);
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        EnergyConstants.APP_IDENTIFIER = appIdentifier;
+        return new EnergyImplCloak(this.rg);
+    }
+    
 }

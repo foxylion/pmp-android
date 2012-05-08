@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice.events;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * A cellular connection event stores information about the state of the cellular connection
  * at a given timestamp
@@ -67,6 +70,15 @@ public class CellularConnectionEvent extends Event {
      */
     public boolean isAirplane() {
         return this.airplane;
+    }
+    
+    
+    @Override
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = super.toJSONObject();
+        json.put("roaming", this.roaming);
+        json.put("airplane", this.airplane);
+        return json;
     }
     
 }

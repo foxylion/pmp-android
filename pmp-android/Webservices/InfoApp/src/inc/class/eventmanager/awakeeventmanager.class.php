@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 1.0.0
+ * @version 4.0.0
  */
 class AwakeEventManager extends EventManager {
 

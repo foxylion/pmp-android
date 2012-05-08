@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2012 pmp-android development team
  * Project: InfoApp-Webservice
@@ -20,156 +21,171 @@
  */
 
 define("INCLUDE", true);
-require("./../inc/framework.inc.php");
+require("./../inc/graphs_framework.inc.php");
 
-$device = Device::getInstance("f2305a2fbef51bd82008c7cf3788250f");
-// TODO: device per get und zeitspanne
-$events = $device->getConnectionEventManager()->getEventsOneDay(1335909600312);
+if ($deviceIdValid) {
+    $eventManager = $device->getConnectionEventManager();
+    $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
-// Count connections per city
-$citiesBluetoothColumns = array(array("string", "Cities"),array("number", "Paired devices"));
-$citiesWifiColumns = array(array("string", "Cities"),array("number", "Paired devices"));
-$citiesConnectionColumns = array(array("datetime","Date"),array("number","Enabled"),array("number","Connected"),"{type:'string',role:'annotation'}","{type:'string',role:'annotationText'}");
-$citiesBluetoothRows = array();
-$citiesWifiRows = array();
-$citiesBluetoothConnectionRows = array();
-$citiesWifiConnectionRows = array();
+    // Bluetooth and wifi adapter chart
+    $dateColumn = new GColumn("datetime", "d", "Date");
+    $enabledColumn = new GColumn("number", "e", "Enabled");
+    $connectedColumn = new GColumn("number", "c", "Connected");
+    $cityIColumn = new GColumn("string", "ca", "City Annotation", null, "{\"role\": \"annotation\"}");
+    $cityNameColumn = new GColumn("string", "cn", "City Name", null, "{\"role\": \"annotationText\"}");
 
-foreach ($events as $event) {
+    $bluetoothAdapterData = new GDataTable();
+    $bluetoothAdapterData->addColumn($dateColumn);
+    $bluetoothAdapterData->addColumn($enabledColumn);
+    $bluetoothAdapterData->addColumn($connectedColumn);
+    $bluetoothAdapterData->addColumn($cityIColumn);
+    $bluetoothAdapterData->addColumn($cityNameColumn);
 
-    $city = $event->getCity();
-    switch ($event->getMedium()) {
-        case ConnectionEvent::BLUETOOTH:
-            // City counter
-            if (key_exists($city, $citiesBluetoothRows)) {
-                $citiesBluetoothRows[$city][1]++;
-            } else {
-                $citiesBluetoothRows[$city][1] = 1;
-                $citiesBluetoothRows[$city][0] = $city;
-            }
+    $wifiAdapterData = new GDataTable();
+    $wifiAdapterData->addColumn($dateColumn);
+    $wifiAdapterData->addColumn($enabledColumn);
+    $wifiAdapterData->addColumn($connectedColumn);
+    $wifiAdapterData->addColumn($cityIColumn);
+    $wifiAdapterData->addColumn($cityNameColumn);
 
-            // Connection status
-            $citiesBluetoothConnectionRows[] = array("new Date(".$event->getTimestamp().")", (int)$event->isEnabled(),(int)$event->isConnected(), "i", $event->getCity());
-            break;
+    // City chart
+    $cityColumn = new GColumn("string", "c", "Cities");
+    $countColumn = new GColumn("number", "n", "Connections");
 
-        case ConnectionEvent::WIFI:
-            // City counter
-            if (key_exists($city, $citiesWifiRows)) {
-                $citiesWifiRows[$city][1]++;
-            } else {
-                $citiesWifiRows[$city][1] = 1;
-                $citiesWifiRows[$city][0] = $city;
-            }
+    $bluetoothCitiesData = new GDataTable();
+    $bluetoothCitiesData->addColumn($cityColumn);
+    $bluetoothCitiesData->addColumn($countColumn);
 
-            // Connection status
-            $citiesWifiConnectionRows[] = array("new Date(".$event->getTimestamp().")", (int)$event->isEnabled(),(int)$event->isConnected(), "i", $event->getCity());
-            break;
+    $wifiCitiesData = new GDataTable();
+    $wifiCitiesData->addColumn($cityColumn);
+    $wifiCitiesData->addColumn($countColumn);
 
+    // Get data used to display the charts
+    $citiesBluetooth = array();
+    $citiesWifi = array();
+
+    foreach ($events as $event) {
+
+        $city = $event->getCity();
+        switch ($event->getMedium()) {
+            case ConnectionEvent::BLUETOOTH:
+
+                // Count cities if a connection has been established
+                if ($event->isConnected()) {
+                    if (key_exists($city, $citiesBluetooth)) {
+                        $citiesBluetooth[$city]++;
+                    } else {
+                        $citiesBluetooth[$city] = 1;
+                    }
+                }
+
+                // Connection status
+                $levelRow = new GRow();
+                $levelRow->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
+                $levelRow->addCell(new GCell((int) $event->isEnabled()));
+                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow->addCell(new GCell("i"));
+                $levelRow->addCell(new GCell($event->getCity()));
+
+                $bluetoothAdapterData->addRow($levelRow);
+
+                break;
+
+            case ConnectionEvent::WIFI:
+
+                // Count cities if a connection has been established
+                if ($event->isConnected()) {
+                    if (key_exists($city, $citiesWifi)) {
+                        $citiesWifi[$city]++;
+                    } else {
+                        $citiesWifi[$city] = 1;
+                    }
+                }
+
+                // Connection status
+                $levelRow = new GRow();
+                $levelRow->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
+                $levelRow->addCell(new GCell((int) $event->isEnabled()));
+                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow->addCell(new GCell("i"));
+                $levelRow->addCell(new GCell($event->getCity()));
+
+                $wifiAdapterData->addRow($levelRow);
+                break;
+        }
     }
 
-}
+    $bluetoothCitiesData->addRowsAssocArray($citiesBluetooth);
+    $wifiCitiesData->addRowsAssocArray($citiesWifi);
 
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Connection</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <!--Load the AJAX API-->
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script type="text/javascript">
-            // Load the Visualization API library and the piechart library.
-
-            // Set a callback to run when the Google Visualization API is loaded.
-            google.setOnLoadCallback(drawChart);
-
-            google.load('visualization', '1.0', {'packages':['corechart']});
-
-            // Callback that creates and populates a data table,
-            // instantiates the pie chart, passes in the data and
-            // draws it.
-            function drawChart() {
-                drawBluetoothConnection();
+    $tmplt["pageTitle"] = "Connection";
+    $tmplt["jsFunctDrawChart"] = "drawBluetoothConnection();
                 drawWifiConnection();
                 drawBluetoothChart();
-                drawWifiChart();
-            }
+                drawWifiChart();";
 
-            function drawBluetoothConnection() {
-                <?php
-                echo Chart::getDataObject($citiesConnectionColumns, $citiesBluetoothConnectionRows);
-                ?>
-                var options = {
-                    title: 'Bluetooth adapter status',
-                    'width':800,
-                    'height':450
-                };
+    $tmplt["jsDrawFunctions"] = "function drawBluetoothConnection() {
+        var data = new google.visualization.DataTable(" . $bluetoothAdapterData->getJsonObject()  . ");
+
+        var options = {
+            title: 'Bluetooth adapter status',
+            'width':800,
+            'height':150
+        };
 
 
-                var chart = new google.visualization.AreaChart(document.getElementById('connectionBluetooth'));
-                chart.draw(data, options);
-            }
+        var chart = new google.visualization.AreaChart(document.getElementById('connectionBluetooth'));
+        chart.draw(data, options);
+    }
 
-            function drawWifiConnection() {
-                <?php
-                echo Chart::getDataObject($citiesConnectionColumns, $citiesWifiConnectionRows);
-                ?>
-                var options = {
-                    title: 'Wifi adapter status',
-                    'width':800,
-                    'height':450
-                };
+    function drawWifiConnection() {
+        var data = new google.visualization.DataTable(" . $wifiAdapterData->getJsonObject()  . ");
 
-
-                var chart = new google.visualization.AreaChart(document.getElementById('connectionWifi'));
-                chart.draw(data, options);
-            }
+        var options = {
+            title: 'Wi-Fi adapter status',
+            'width':800,
+            'height':150
+        };
 
 
-            function drawBluetoothChart() {
+        var chart = new google.visualization.AreaChart(document.getElementById('connectionWifi'));
+        chart.draw(data, options);
+    }
 
-                // Create the data table.
-                <?php
-                echo Chart::getDataObject($citiesBluetoothColumns, $citiesBluetoothRows);
-                ?>
 
-                // Set chart options
-                var options = {'title':'Number of paired bluetooth devices',
-                    'width':800,
-                    'height':450};
+    function drawBluetoothChart() {
+        var data = new google.visualization.DataTable(" . $bluetoothCitiesData->getJsonObject()  . ");
 
-                // Instantiate and draw our chart, passing in some options.
-                var chart = new google.visualization.PieChart(document.getElementById('countBluetooth'));
-                chart.draw(data, options);
-            }
+        var options = {'title':'Number of bluetooth parings per city',
+            'width':600,
+            'height':400};
 
-            function drawWifiChart() {
+        var chart = new google.visualization.PieChart(document.getElementById('countBluetooth'));
+        chart.draw(data, options);
+    }
 
-                // Create the data table.
-                <?php
-                echo Chart::getDataObject($citiesWifiColumns, $citiesWifiRows);
-                ?>
+    function drawWifiChart() {
+        var data = new google.visualization.DataTable(" . $wifiCitiesData->getJsonObject()  . ");
 
-                // Set chart options
-                var options = {'title':'Number of WIFI networks the device has been connected to',
-                    'width':800,
-                    'height':450};
+        var options = {'title':'Number of Wi-Fi connections per city',
+            'width':600,
+            'height':400};
 
-                // Instantiate and draw our chart, passing in some options.
-                var chart = new google.visualization.PieChart(document.getElementById('countWifi'));
-                chart.draw(data, options);
-            }
-        </script>
-    </head>
-    <body>
-        <h1>Connection Events</h1>
-        <div id="connectionBluetooth" style="width:800; height:450"></div>
-        <div id="connectionWifi" style="width:800; height:450"></div>
-        <div id="countBluetooth" style="width:800; height:450"></div>
-        <div id="countWifi" style="width:800; height:450"></div>
-    </body>
-</html>
+        var chart = new google.visualization.PieChart(document.getElementById('countWifi'));
+        chart.draw(data, options)
+    }";
+
+    $tmplt["content"] = "
+            <h1>Connection Events</h1>
+            <div id=\"connectionBluetooth\" style=\"width:800; height:150\"></div>
+            <div id=\"connectionWifi\" style=\"width:800; height:150\"></div>
+            <div id=\"countBluetooth\" style=\"width:600; height:400\"></div>
+            <div id=\"countWifi\" style=\"width:600; height:400\"></div>";
+}
+include ("template.php");
+?>
 <?php
+
 Database::getInstance()->disconnect();
 ?>
 

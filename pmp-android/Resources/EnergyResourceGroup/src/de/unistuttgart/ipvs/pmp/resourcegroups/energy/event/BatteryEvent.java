@@ -39,6 +39,13 @@ public class BatteryEvent extends AbstractEvent {
     
     
     /**
+     * Constructor without attributes
+     */
+    public BatteryEvent() {
+    }
+    
+    
+    /**
      * @return the level
      */
     public int getLevel() {

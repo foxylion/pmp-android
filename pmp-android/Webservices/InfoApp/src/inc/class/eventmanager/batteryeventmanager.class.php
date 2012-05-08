@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 1.0.0
+ * @version 4.0.1
  */
 class BatteryEventManager extends EventManager {
 
@@ -74,7 +74,25 @@ class BatteryEventManager extends EventManager {
     }
 
     public function getEventsInterval($fromTs, $toTs) {
+        if (!is_numeric($fromTs) || !is_numeric($toTs)) {
+            throw new InvalidArgumentException("At least one timestamp is not numeric");
+        }
 
+        $db = Database::getInstance();
+
+        $res = $db->query("SELECT * FROM `" . DB_PREFIX . "_battery`
+                           WHERE `device` = x'" . $this->deviceId . "'
+                           AND `timestamp` >= $fromTs
+                           AND `timestamp` <= $toTs
+                           ORDER BY `event_id` ASC");
+
+        $events = array();
+        while (($row = $db->fetch($res)) != null) {
+            $events[] = new BatteryEvent($row["id"], $row["timestamp"], (int) $row["level"],
+                    $row["plugged"], (bool) $row["present"], $row["status"], (float) $row["temperature"]);
+        }
+
+        return $events;
     }
 
     public function getLastId() {
