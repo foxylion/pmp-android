@@ -37,18 +37,12 @@ public class DatabaseResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Implement mocked AndroidInterface
-        Database drg = (Database) getResourceGroup();
-        return new DatabaseConnectionImpl(drg.getContext(), this, appIdentifier) {
-        };
+        return new DatabaseConnectionMockImpl();
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Implement cloaked AndroidInterface
-        Database drg = (Database) getResourceGroup();
-        return new DatabaseConnectionImpl(drg.getContext(), this, appIdentifier) {
-        };
+        return new DatabaseConnectionCloakImpl();
     }
 }
