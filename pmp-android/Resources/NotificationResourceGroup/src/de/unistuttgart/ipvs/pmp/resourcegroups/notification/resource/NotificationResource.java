@@ -50,17 +50,12 @@ public class NotificationResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO implement mocked AndroidInterface
-        return new NotificationImpl(this.RG, this, appIdentifier) {
-        };
+        return new NotificationMockImpl();
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO cloaked AndroidInterface
-        return new NotificationImpl(this.RG, this, appIdentifier) {
-        };
+        return new NotificationCloakImpl();
     }
-    
 }

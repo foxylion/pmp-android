@@ -48,15 +48,13 @@ public class ContactResource extends Resource {
 
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
+        return new ContactMockImpl();
     }
 
 
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
+        return new ContactCloakImpl();
     }
     
 }
