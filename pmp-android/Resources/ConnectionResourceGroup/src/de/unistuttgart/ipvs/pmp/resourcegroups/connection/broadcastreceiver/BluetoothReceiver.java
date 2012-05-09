@@ -44,7 +44,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         long time = new Date().getTime();
-        DBConnector.getInstance(context).open();
         
         // Get state or not available 10 = off
         int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 10);
@@ -52,7 +51,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
         switch (state) {
             case BluetoothAdapter.STATE_OFF:
                 DBConnector.getInstance(context).storeBTEvent(time, EventEnum.OFF, null);
-                DBConnector.getInstance(context).close();
                 break;
             case BluetoothAdapter.STATE_ON:
                 storeEvent(context, time, EventEnum.ON);
@@ -94,7 +92,6 @@ public class BluetoothReceiver extends BroadcastReceiver {
                     locManager, time, event, DBConstants.DEVICE_BT));
         } else {
             DBConnector.getInstance(context).storeBTEvent(time, event, null);
-            DBConnector.getInstance(context).close();
         }
     }
     

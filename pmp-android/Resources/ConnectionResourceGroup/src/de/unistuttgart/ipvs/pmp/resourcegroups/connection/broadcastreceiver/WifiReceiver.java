@@ -44,7 +44,6 @@ public class WifiReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         long time = new Date().getTime();
-        DBConnector.getInstance(context).open();
         
         // Get the ConnectivityManager
         ConnectivityManager connectivityManager = (ConnectivityManager) context
@@ -64,7 +63,6 @@ public class WifiReceiver extends BroadcastReceiver {
             } else {
                 // Not Connected
                 DBConnector.getInstance(context).storeWifiEvent(time, EventEnum.OFF, null);
-                DBConnector.getInstance(context).close();
             }
         }
     }
@@ -99,7 +97,6 @@ public class WifiReceiver extends BroadcastReceiver {
                     locManager, time, event, DBConstants.DEVICE_WIFI));
         } else {
             DBConnector.getInstance(context).storeBTEvent(time, event, null);
-            DBConnector.getInstance(context).close();
         }
     }
 }

@@ -43,7 +43,6 @@ public class CellPhoneReceiver extends BroadcastReceiver {
         long time = new Date().getTime();
         
         int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
-        DBConnector.getInstance(context).open();
         
         if (airplaneMode == 0) {
             // Airplane mode is off
@@ -52,6 +51,5 @@ public class CellPhoneReceiver extends BroadcastReceiver {
             // Airplane mode is on
             DBConnector.getInstance(context).storeCellPhoneEvent(time, EventEnum.ON);
         }
-        DBConnector.getInstance(context).close();
     }
 }
