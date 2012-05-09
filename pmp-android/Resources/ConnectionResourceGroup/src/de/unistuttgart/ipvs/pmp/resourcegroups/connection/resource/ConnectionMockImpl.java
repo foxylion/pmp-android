@@ -293,11 +293,12 @@ public class ConnectionMockImpl extends IConnection.Stub {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#uploadData()
      */
     @Override
-    public boolean uploadData() throws RemoteException {
+    public String uploadData() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
-        return new Random().nextBoolean();
+        String mockLink = "http://" + Long.toString(Math.abs(new Random().nextLong()), 36) + ".com";
+        return mockLink;
     }
     
     

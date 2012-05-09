@@ -41,6 +41,7 @@ public class CellPhoneReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         long time = new Date().getTime();
+        
         int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
         DBConnector.getInstance(context).open();
         

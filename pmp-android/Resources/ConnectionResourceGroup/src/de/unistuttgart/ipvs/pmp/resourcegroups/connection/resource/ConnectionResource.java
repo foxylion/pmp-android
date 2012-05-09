@@ -38,7 +38,7 @@ public class ConnectionResource extends Resource {
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
         Connection connectionRG = (Connection) getResourceGroup();
-        return new ConnectionImpl(connectionRG.getContext(), connectionRG, appIdentifier);
+        return new ConnectionImpl(connectionRG.getContext(appIdentifier), connectionRG, appIdentifier);
     }
     
     

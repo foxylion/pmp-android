@@ -385,11 +385,10 @@ public class ConnectionImpl extends IConnection.Stub {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#uploadData()
      */
     @Override
-    public boolean uploadData() throws RemoteException {
+    public String uploadData() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
-        
-        return false;
+        return "";
     }
     
     /**

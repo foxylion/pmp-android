@@ -161,7 +161,7 @@ interface IConnection {
     /**
      * Upload the data to the server
      * 
-     * @return true if successful, false otherwise
+     * @return String with a link to the server, or an error message
      */
-    boolean uploadData();
+    String uploadData();
 }
