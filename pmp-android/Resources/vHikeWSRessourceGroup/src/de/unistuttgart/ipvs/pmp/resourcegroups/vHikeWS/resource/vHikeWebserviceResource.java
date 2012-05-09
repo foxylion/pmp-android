@@ -550,20 +550,6 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
-    @Override
-    public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    
-    @Override
-    public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    
     public String disableObservation(String sessionID, String user_id) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sessionID, false));
