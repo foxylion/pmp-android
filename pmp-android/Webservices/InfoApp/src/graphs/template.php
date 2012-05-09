@@ -31,7 +31,11 @@
         <!--Load the AJAX API-->
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
-            // Load the Visualization API library and the piechart library.
+
+            // Show warning if connection to google failed
+            if (typeof(google) == 'undefined') {
+                alert("Graphs cannot be drawn because a connection to the Google-Server couldn't be established!");
+            }
 
             // Set a callback to run when the Google Visualization API is loaded.
             google.setOnLoadCallback(drawChart);
@@ -55,19 +59,20 @@
     <body>
         <div id="leftarea">
             <h1>Device Charts:</h1>
-            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
             <ul id="navigation">
                 <li><a href="./battery.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
                 <li><a href="./connection.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
+                <li><a href="./standby.php?<?php echo $tmplt["navGetParams"] ?>">Standby</a></li>
             </ul>
 
             <h1>Date:</h1>
             <?php echo $calendar->getHtml() ?>
 
             <h1>Scale:</h1>
-            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["deviceGetParam"] ?>
-            <ul id="scale">
+            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <ul class="inline">
                 <li <?php if($tmplt["scaleDay"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=day">Day</a>
                 </li>
@@ -81,6 +86,16 @@
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=year">Year</a>
                 </li>
             </ul>
+
+            <h1>Annotations:</h1>
+            <?php $tmplt["annotationsGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <ul class="inline">
+                <li <?php if($tmplt["showAnnotations"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["annotationsGetParams"] ?>">show</a>
+                </li>
+                <li <?php if(!$tmplt["showAnnotations"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["annotationsGetParams"] ?>&annotations=hide">hide</a>
+                </li>
         </div>
         <div id="contentarea">
             <?php echo $tmplt["content"] ?>

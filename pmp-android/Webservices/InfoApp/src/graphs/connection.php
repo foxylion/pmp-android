@@ -81,11 +81,13 @@ if ($deviceIdValid) {
 
                 // Connection status
                 $levelRow = new GRow();
-                $levelRow->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
+                $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
                 $levelRow->addCell(new GCell((int) $event->isEnabled()));
                 $levelRow->addCell(new GCell((int) $event->isConnected()));
-                $levelRow->addCell(new GCell("i"));
-                $levelRow->addCell(new GCell($event->getCity()));
+                if ($chart->showAnnotations()) {
+                    $levelRow->addCell(new GCell("i"));
+                    $levelRow->addCell(new GCell($event->getCity()));
+                }
 
                 $bluetoothAdapterData->addRow($levelRow);
 
@@ -104,11 +106,13 @@ if ($deviceIdValid) {
 
                 // Connection status
                 $levelRow = new GRow();
-                $levelRow->addCell(new GCell("new Date(" .  $event->getTimestamp() . ")"));
+                $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
                 $levelRow->addCell(new GCell((int) $event->isEnabled()));
                 $levelRow->addCell(new GCell((int) $event->isConnected()));
-                $levelRow->addCell(new GCell("i"));
-                $levelRow->addCell(new GCell($event->getCity()));
+                if ($chart->showAnnotations()) {
+                    $levelRow->addCell(new GCell("i"));
+                    $levelRow->addCell(new GCell($event->getCity()));
+                }
 
                 $wifiAdapterData->addRow($levelRow);
                 break;
@@ -125,7 +129,7 @@ if ($deviceIdValid) {
                 drawWifiChart();";
 
     $tmplt["jsDrawFunctions"] = "function drawBluetoothConnection() {
-        var data = new google.visualization.DataTable(" . $bluetoothAdapterData->getJsonObject()  . ");
+        var data = new google.visualization.DataTable(" . $bluetoothAdapterData->getJsonObject() . ");
 
         var options = {
             title: 'Bluetooth adapter status',
@@ -139,7 +143,7 @@ if ($deviceIdValid) {
     }
 
     function drawWifiConnection() {
-        var data = new google.visualization.DataTable(" . $wifiAdapterData->getJsonObject()  . ");
+        var data = new google.visualization.DataTable(" . $wifiAdapterData->getJsonObject() . ");
 
         var options = {
             title: 'Wi-Fi adapter status',
@@ -154,7 +158,7 @@ if ($deviceIdValid) {
 
 
     function drawBluetoothChart() {
-        var data = new google.visualization.DataTable(" . $bluetoothCitiesData->getJsonObject()  . ");
+        var data = new google.visualization.DataTable(" . $bluetoothCitiesData->getJsonObject() . ");
 
         var options = {'title':'Number of bluetooth parings per city',
             'width':600,
@@ -165,7 +169,7 @@ if ($deviceIdValid) {
     }
 
     function drawWifiChart() {
-        var data = new google.visualization.DataTable(" . $wifiCitiesData->getJsonObject()  . ");
+        var data = new google.visualization.DataTable(" . $wifiCitiesData->getJsonObject() . ");
 
         var options = {'title':'Number of Wi-Fi connections per city',
             'width':600,
