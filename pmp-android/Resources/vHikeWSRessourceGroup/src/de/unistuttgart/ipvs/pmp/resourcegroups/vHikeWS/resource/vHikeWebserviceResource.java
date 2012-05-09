@@ -31,17 +31,13 @@ public class vHikeWebserviceResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return new vHikeWebserviceImpl(this.vHikeRG, this, appIdentifier) {
-        };
+        return new vHikeWebserviceMockImpl(this.vHikeRG, this, appIdentifier);
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO Auto-generated method stub
-        return new vHikeWebserviceImpl(this.vHikeRG, this, appIdentifier) {
-        };
+        return new vHikeWebserviceCloakImpl(this.vHikeRG, this, appIdentifier);
     }
     
     
