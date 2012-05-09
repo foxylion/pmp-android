@@ -78,10 +78,6 @@ public class ConnectionImpl extends IConnection.Stub {
     public ConnectionImpl(Context context, ResourceGroup rg, String appIdentifier) {
         this.context = context;
         this.validator = new PermissionValidator(rg, appIdentifier);
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (manager != null) {
-            manager.listen(new SignalPhoneStateListener(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-        }
         signal = -1;
     }
     
@@ -91,6 +87,11 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
+        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (manager != null) {
+            manager.listen(new SignalPhoneStateListener(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        }
+        
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
