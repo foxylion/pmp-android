@@ -213,4 +213,18 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.getOpenTrip(sessionID);
     }
     
+    
+    @Override
+    public String enableObservation(String sessionID, String user_id) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.enableObservation(sessionID, user_id);
+    }
+    
+    
+    @Override
+    public String disableObservation(String sessionID, String user_id) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.disableObservation(sessionID, user_id);
+    }
+    
 }
