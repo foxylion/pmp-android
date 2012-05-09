@@ -9,5 +9,4 @@
 
 # Project target.
 target=Google Inc.:Google APIs:7
-android.library.reference.1=..\\InfoAppViewPagerIndicator
-android.library.reference.2=../../PMP-API
+android.library.reference.1=../InfoAppViewPagerIndicator
