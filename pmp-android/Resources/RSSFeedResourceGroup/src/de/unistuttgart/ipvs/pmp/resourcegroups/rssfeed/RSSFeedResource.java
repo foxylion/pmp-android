@@ -20,7 +20,7 @@ public class RSSFeedResource extends Resource {
     public IBinder getMockedAndroidInterface(String appIdentifier) {
         // TODO implement mocked AndroidInterface
         RSSFeedResourceGroup ressFeed = (RSSFeedResourceGroup) getResourceGroup();
-        return new RSSFeedAdapter(ressFeed.getContext(), this, appIdentifier) {
+        return new RSSFeedMockAdapter(ressFeed.getContext(), this, appIdentifier) {
         };
     }
     
@@ -29,7 +29,7 @@ public class RSSFeedResource extends Resource {
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
         // TODO implement cloaked AndroidInterface
         RSSFeedResourceGroup ressFeed = (RSSFeedResourceGroup) getResourceGroup();
-        return new RSSFeedAdapter(ressFeed.getContext(), this, appIdentifier) {
+        return new RSSFeedCloakAdapter(ressFeed.getContext(), this, appIdentifier) {
         };
     }
     
