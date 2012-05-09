@@ -24,7 +24,7 @@ public class NotificationImpl extends INotification.Stub {
     
     public void notify(String tickerText, String title, String message) throws RemoteException {
         this.psv.validate(NotificationResourceGroup.PS_USE_NOTIFY, "true");
-        this.RES.notify(tickerText, title, message);
+        this.RES.notify(this.appIdentifier, tickerText, title, message);
     }
     
 }
