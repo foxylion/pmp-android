@@ -18,8 +18,8 @@ public class EnergyImplCloak extends IEnergy.Stub {
     private PSValidator psv;
     
     
-    public EnergyImplCloak(ResourceGroup rg) {
-        this.psv = new PSValidator(rg);
+    public EnergyImplCloak(ResourceGroup rg, String appIdentifier) {
+        this.psv = new PSValidator(rg, appIdentifier);
     }
     
     

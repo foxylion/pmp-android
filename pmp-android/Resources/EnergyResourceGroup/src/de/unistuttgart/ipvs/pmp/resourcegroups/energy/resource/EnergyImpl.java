@@ -18,8 +18,8 @@ public class EnergyImpl extends IEnergy.Stub {
     private PSValidator psv;
     
     
-    public EnergyImpl(ResourceGroup rg) {
-        this.psv = new PSValidator(rg);
+    public EnergyImpl(ResourceGroup rg, String appIdentifier) {
+        this.psv = new PSValidator(rg, appIdentifier);
     }
     
     

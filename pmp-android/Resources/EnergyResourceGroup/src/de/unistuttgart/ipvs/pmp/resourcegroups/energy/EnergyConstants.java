@@ -21,11 +21,6 @@ public class EnergyConstants {
     public static final String RES_ENERGY = "energyResource";
     
     /**
-     * The app identifier
-     */
-    public static String APP_IDENTIFIER = "";
-    
-    /**
      * The privacy settings
      */
     public static final String PS_BATTERY_STATUS = "battery-status";
