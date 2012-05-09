@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.0.1
  */
 class AwakeEventManager extends EventManager {
 
@@ -65,7 +65,24 @@ class AwakeEventManager extends EventManager {
     }
 
     public function getEventsInterval($fromTs, $toTs) {
+        if (!is_numeric($fromTs) || !is_numeric($toTs)) {
+            throw new InvalidArgumentException("At least one timestamp is not numeric");
+        }
 
+        $db = Database::getInstance();
+
+        $res = $db->query("SELECT * FROM `" . DB_PREFIX . "_awake`
+                           WHERE `device` = x'" . $this->deviceId . "'
+                           AND `timestamp` >= $fromTs
+                           AND `timestamp` <= $toTs
+                           ORDER BY `event_id` ASC");
+
+        $events = array();
+        while (($row = $db->fetch($res)) != null) {
+            $events[] = new AwakeEvent($row["event_id"], $row["timestamp"], (bool) $row["awake"]);
+        }
+
+        return $events;
     }
 
     public function getLastId() {

@@ -88,7 +88,7 @@ class BatteryEventManager extends EventManager {
 
         $events = array();
         while (($row = $db->fetch($res)) != null) {
-            $events[] = new BatteryEvent($row["id"], $row["timestamp"], (int) $row["level"],
+            $events[] = new BatteryEvent($row["event_id"], $row["timestamp"], (int) $row["level"],
                     $row["plugged"], (bool) $row["present"], $row["status"], (float) $row["temperature"]);
         }
 

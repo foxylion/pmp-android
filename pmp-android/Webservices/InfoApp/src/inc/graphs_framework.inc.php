@@ -54,6 +54,10 @@ if (isset($_GET["scale"])) {
     $chart->setScale(Chart::DAY);
 }
 
+if (isset($_GET["annotations"]) && $_GET["annotations"] == "hide") {
+    $chart->setShowAnntotations(false);
+}
+
 
 // Prepare callendar
 // -----------------
@@ -76,7 +80,14 @@ if (isset($_GET["day"]) && is_numeric($_GET["day"])) {
 }
 
 $calendar = new HtmlCalendar($year, $month, $day);
-$restOfGetParam = "&day=" . $calendar->getDay() . "&scale=" . $chart->getScale() . "&device=" . $deviceId;
+
+
+if ($chart->showAnnotations()) {
+    $annotationParam = "show";
+} else {
+    $annotationParam = "hide";
+}
+$restOfGetParam = "&day=" . $calendar->getDay() . "&scale=" . $chart->getScale() . "&annotations=" . $annotationParam . "&device=" . $deviceId;
 
 $calendar->urlPrevMonth = "connection.php?year=" . $calendar->getYearOfPrevMonth() .
         "&month=" . $calendar->getPrevMonth() . $restOfGetParam;
@@ -87,7 +98,7 @@ $calendar->urlPrevYear = "connection.php?year=" . $calendar->getPrevYear() .
 $calendar->urlNextYear = "connection.php?year=" . $calendar->getNextYear() .
         "&month=" . $calendar->getMonth() . $restOfGetParam;
 $calendar->urlSelectDay = "connection.php?year=" . $calendar->getYear() .
-        "&month=" . $calendar->getMonth() . "&day=%d&scale=" . $chart->getScale() . "&device=" . $deviceId;
+        "&month=" . $calendar->getMonth() . "&day=%d&scale=" . $chart->getScale() . "&annotations=" . $annotationParam . "&device=" . $deviceId;
 
 $timeMs = Chart::timestampToMillis($calendar->getTimestamp());
 
@@ -97,6 +108,11 @@ $timeMs = Chart::timestampToMillis($calendar->getTimestamp());
 $tmplt["dateGetParams"] = "year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=" . $calendar->getDay();
 $tmplt["scaleGetParam"] = "scale=" . $chart->getScale();
 $tmplt["deviceGetParam"] = "device=" . $deviceId;
+if ($chart->showAnnotations()) {
+    $tmplt["annotationGetParam"] = "annotations=show";
+} else {
+    $tmplt["annotationGetParam"] = "annotations=hide";
+}
 
 $tmplt["filename"] = basename($_SERVER["SCRIPT_NAME"], ".php");
 
@@ -117,6 +133,9 @@ switch ($chart->getScale()) {
         $tmplt["scaleYear"] = true;
         break;
 }
+
+// Annotations
+$tmplt["showAnnotations"] = $chart->showAnnotations();
 
 // Set remaining temp-vars to default values used to display the error message
 $tmplt["pageTitle"] = "No valid device ID";

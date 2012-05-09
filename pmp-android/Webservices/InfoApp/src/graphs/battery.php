@@ -126,18 +126,22 @@ if ($deviceIdValid) {
         }
 
         if ($lastStatus != $event->getStatus()) {
-            $levelRow->addCell(new GCell($event->getStatus()));
-            $levelRow->addCell(new GCell($statusText));
-            $tempRow->addCell(new GCell($event->getStatus()));
-            $tempRow->addCell(new GCell($statusText));
+            if ($chart->showAnnotations()) {
+                $levelRow->addCell(new GCell($event->getStatus()));
+                $levelRow->addCell(new GCell($statusText));
+                $tempRow->addCell(new GCell($event->getStatus()));
+                $tempRow->addCell(new GCell($statusText));
+            }
             $lastStatus = $event->getStatus();
         }
 
         if ($lastAdapter != $event->getPlugged()) {
-            $levelRow->addCell(new GCell(($event->getPlugged())));
-            $levelRow->addCell(new GCell($adapterText));
-            $tempRow->addCell(new GCell(($event->getPlugged())));
-            $tempRow->addCell(new GCell($adapterText));
+            if ($chart->showAnnotations()) {
+                $levelRow->addCell(new GCell(($event->getPlugged())));
+                $levelRow->addCell(new GCell($adapterText));
+                $tempRow->addCell(new GCell(($event->getPlugged())));
+                $tempRow->addCell(new GCell($adapterText));
+            }
             $lastAdapter = $event->getPlugged();
         }
 
@@ -150,7 +154,6 @@ if ($deviceIdValid) {
         } else {
             $batteryNotPresents++;
         }
-
     }
 
 

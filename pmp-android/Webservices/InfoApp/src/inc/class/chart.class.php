@@ -28,7 +28,7 @@ if (!defined("INCLUDE")) {
  * Helper class for easier creation of Google Charts
  *
  * @author Patrick Strobel
- * @version 4.1.0
+ * @version 4.2.0
  */
 class Chart {
 
@@ -38,6 +38,7 @@ class Chart {
     const YEAR = "year";
 
     private $scale = Chart::DAY;
+    private $showAnnotations = true;
 
     public function setScale($scale) {
         if ($scale == Chart::DAY || $scale == Chart::WEEK ||$scale == Chart::MONTH || $scale == Chart::YEAR) {
@@ -62,6 +63,16 @@ class Chart {
             case Chart::YEAR:
                 return $manager->getEventsMultDays($startTs, 365);
         }
+    }
+
+    public function setShowAnntotations($show) {
+        if (is_bool($show)) {
+            $this->showAnnotations = $show;
+        }
+    }
+
+    public function showAnnotations() {
+        return $this->showAnnotations;
     }
 
     /**

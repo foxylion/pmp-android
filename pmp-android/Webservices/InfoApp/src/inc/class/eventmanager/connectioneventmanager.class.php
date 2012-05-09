@@ -84,7 +84,7 @@ class ConnectionEventManager extends EventManager {
 
         $events = array();
         while (($row = $db->fetch($res)) != null ) {
-            $events[] = new ConnectionEvent($row["id"], $row["timestamp"], $row["medium"], (bool)$row["connected"], (bool)$row["enabled"], $row["city"]);
+            $events[] = new ConnectionEvent($row["event_id"], $row["timestamp"], $row["medium"], (bool)$row["connected"], (bool)$row["enabled"], $row["city"]);
         }
 
         return $events;

@@ -52,13 +52,12 @@ ul#navigation{
     list-style: square;
 }
 
-ul#scale {
-    padding: 0px;
+ul.inline {
+    padding-left: 20px;
     margin: 0px;
-    text-align: center;
 }
 
-ul#scale li {
+ul.inline li {
     list-style: none;
     display: inline;
 }
