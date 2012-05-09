@@ -26,6 +26,8 @@ import android.support.v4.view.ViewPager;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
+import de.unistuttgart.ipvs.pmp.api.PMP;
+
 public class InfoAppActivity extends Activity {
     
     ViewPagerAdapter mAdapter;
@@ -46,5 +48,7 @@ public class InfoAppActivity extends Activity {
         
         this.mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
         this.mIndicator.setViewPager(this.mPager);
+        
+        PMP.get(this.getApplication()).register(this);
     }
 }
