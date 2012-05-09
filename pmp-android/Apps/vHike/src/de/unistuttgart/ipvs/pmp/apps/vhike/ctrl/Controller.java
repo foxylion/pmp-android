@@ -1156,4 +1156,47 @@ public class Controller {
         
     }
     
+    
+    public int enableObservation(final String sid, int user_id) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.enableObservation(sid, String.valueOf(user_id));
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        int obs_nr = 0;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                obs_nr = object.get("obs_nr").getAsInt();
+            }
+        }
+        return obs_nr;
+    }
+    
+    
+    public boolean disableObservation(final String sid, int user_id) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.disableObservation(sid, String.valueOf(user_id));
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        int obs_nr = 0;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            
+        }
+        return suc;
+    }
 }

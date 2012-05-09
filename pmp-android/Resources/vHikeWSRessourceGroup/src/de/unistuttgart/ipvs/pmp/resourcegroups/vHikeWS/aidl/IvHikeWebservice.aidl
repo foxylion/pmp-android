@@ -112,5 +112,7 @@ interface IvHikeWebservice{
 	float current_lon, int avail_seats, long date);
 	
 	String getOpenTrip(String sessionID);
+	String enableObservation(String sessionID, String user_id);
+	String disableObservation(String sessionID, String user_id); 
 	
 }

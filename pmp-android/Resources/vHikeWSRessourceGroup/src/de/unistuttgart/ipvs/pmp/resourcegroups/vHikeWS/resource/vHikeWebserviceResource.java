@@ -549,4 +549,41 @@ public class vHikeWebserviceResource extends Resource {
         return ret;
     }
     
+    
+    public String disableObservation(String sessionID, String user_id) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sessionID, false));
+        listToParse.add(new ParamObject("user_id", user_id, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "activate_observation.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+        }
+        
+        return ret;
+    }
+    
+    
+    public String enableObservation(String sessionID, String user_id) {
+        
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sessionID, false));
+        listToParse.add(new ParamObject("user_id", user_id, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "deactivate_observation.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+        }
+        
+        return ret;
+    }
+    
 }
