@@ -119,10 +119,8 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
                 ConnectionConstants.ONE_DAY, 0);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -135,10 +133,8 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
                 ConnectionConstants.ONE_MONTH, 0);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -176,9 +172,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
         
-        DBConnector.getInstance(this.context).open();
         List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_WIFI);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -232,10 +226,8 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
                 ConnectionConstants.ONE_DAY, 0);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -248,10 +240,8 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
                 ConnectionConstants.ONE_MONTH, 0);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -264,9 +254,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
         
-        DBConnector.getInstance(this.context).open();
         List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_BT);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -357,10 +345,8 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
                 ConnectionConstants.ONE_DAY, 0);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
@@ -373,10 +359,8 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
                 ConnectionConstants.ONE_MONTH, 0);
-        DBConnector.getInstance(this.context).close();
         return result;
     }
     
