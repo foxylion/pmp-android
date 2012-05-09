@@ -127,6 +127,22 @@ public class AbsoluteLocationResource extends Resource {
     }
     
     
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO implement mocked AndroidInterface
+        return new AbsoluteLocationImpl(this.locationRG, this, appIdentifier) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO implement cloaked AndroidInterface
+        return new AbsoluteLocationImpl(this.locationRG, this, appIdentifier) {
+        };
+    }
+    
+    
     /**
      * Starts a new location lookup.
      * 

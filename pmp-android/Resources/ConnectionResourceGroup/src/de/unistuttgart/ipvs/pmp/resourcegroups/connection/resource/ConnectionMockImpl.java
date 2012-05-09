@@ -20,38 +20,25 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.Random;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiManager;
 import android.os.RemoteException;
-import android.telephony.PhoneStateListener;
-import android.telephony.SignalStrength;
-import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.ConnectedCitiesComparator;
 
 /**
- * Implements the IConnection aidl file
+ * 
+ * Mock implementation of the IConnection interface
  * 
  * @author Thorsten Berberich
  * 
  */
-public class ConnectionImpl extends IConnection.Stub {
-    
-    /**
-     * Context of the RG
-     */
-    private Context context;
+public class ConnectionMockImpl extends IConnection.Stub {
     
     /**
      * {@link PermissionValidator}
@@ -59,9 +46,9 @@ public class ConnectionImpl extends IConnection.Stub {
     private PermissionValidator validator;
     
     /**
-     * GSM signal strength in asu
+     * List with cities
      */
-    private int signal;
+    private ArrayList<String> cities;
     
     
     /**
@@ -75,14 +62,10 @@ public class ConnectionImpl extends IConnection.Stub {
      *            identifier of the app that wants to do sth.
      * 
      */
-    public ConnectionImpl(Context context, ResourceGroup rg, String appIdentifier) {
-        this.context = context;
+    public ConnectionMockImpl(ResourceGroup rg, String appIdentifier) {
         this.validator = new PermissionValidator(rg, appIdentifier);
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (manager != null) {
-            manager.listen(new SignalPhoneStateListener(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-        }
-        signal = -1;
+        cities = new ArrayList<String>();
+        addCities();
     }
     
     
@@ -94,20 +77,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        boolean result = false;
-        
-        ConnectivityManager connManager = (ConnectivityManager) this.context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        
-        if (connManager != null) {
-            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (mWifi == null) {
-                return false;
-            } else {
-                result = mWifi.isConnected();
-            }
-        }
-        return result;
+        return new Random().nextBoolean();
     }
     
     
@@ -119,11 +89,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
-        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
-                ConnectionConstants.ONE_DAY, 0);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        return new Random().nextInt(86400001);
     }
     
     
@@ -134,12 +100,12 @@ public class ConnectionImpl extends IConnection.Stub {
     public long getWifiConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
-        
-        DBConnector.getInstance(this.context).open();
-        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
-                ConnectionConstants.ONE_MONTH, 0);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -152,17 +118,11 @@ public class ConnectionImpl extends IConnection.Stub {
         validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
         
         List<String> result = new ArrayList<String>();
-        
-        // Get the wifi manager
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        
-        if (wifi != null) {
-            List<WifiConfiguration> configs = wifi.getConfiguredNetworks();
-            
-            // Iterate over all wifi configurations to get the SSIDs
-            for (WifiConfiguration config : configs) {
-                result.add(config.SSID);
-            }
+        int numbers = new Random().nextInt(15);
+        for (int itr = 0; itr < numbers; itr++) {
+            Random r = new Random();
+            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            result.add(token);
         }
         return result;
     }
@@ -176,10 +136,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
         
-        DBConnector.getInstance(this.context).open();
-        List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_WIFI);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        return getRandomCities();
     }
     
     
@@ -191,13 +148,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        Boolean result = false;
-        
-        // Check if the BluetoothAdapter is supported
-        if (BluetoothAdapter.getDefaultAdapter() != null) {
-            result = BluetoothAdapter.getDefaultAdapter().isEnabled();
-        }
-        return result;
+        return new Random().nextBoolean();
     }
     
     
@@ -210,15 +161,11 @@ public class ConnectionImpl extends IConnection.Stub {
         validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
         List<String> result = new ArrayList<String>();
-        
-        // Check if the BluetoothAdapter is supported
-        if (BluetoothAdapter.getDefaultAdapter() != null) {
-            Set<BluetoothDevice> devices = BluetoothAdapter.getDefaultAdapter().getBondedDevices();
-            if (devices != null) {
-                for (BluetoothDevice device : devices) {
-                    result.add(device.getName());
-                }
-            }
+        int numbers = new Random().nextInt(15);
+        for (int itr = 0; itr < numbers; itr++) {
+            Random r = new Random();
+            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            result.add(token);
         }
         return result;
     }
@@ -232,11 +179,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
-        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
-                ConnectionConstants.ONE_DAY, 0);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        return new Random().nextInt(86400001);
     }
     
     
@@ -247,12 +190,12 @@ public class ConnectionImpl extends IConnection.Stub {
     public long getBTConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
-        
-        DBConnector.getInstance(this.context).open();
-        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
-                ConnectionConstants.ONE_MONTH, 0);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -264,10 +207,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
         
-        DBConnector.getInstance(this.context).open();
-        List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_BT);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        return getRandomCities();
     }
     
     
@@ -279,21 +219,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
         
-        // Get the telephony manager
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (manager != null) {
-            //Get the data state
-            int state = manager.getDataState();
-            switch (state) {
-                case TelephonyManager.DATA_DISCONNECTED:
-                    return false;
-                case TelephonyManager.DATA_CONNECTED:
-                    return true;
-                case TelephonyManager.DATA_CONNECTING:
-                    return true;
-            }
-        }
-        return false;
+        return new Random().nextBoolean();
     }
     
     
@@ -305,12 +231,9 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        // Get the telephony manager
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (manager != null) {
-            return manager.getNetworkOperatorName();
-        }
-        return "-";
+        Random r = new Random();
+        String token = Long.toString(Math.abs(r.nextLong()), 36);
+        return token;
     }
     
     
@@ -322,11 +245,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        if (signal == -1 || signal == 99) {
-            return 99;
-        } else {
-            return (2 * signal) - 113;
-        }
+        return 0;
     }
     
     
@@ -338,14 +257,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        boolean result = false;
-        
-        // Get the telephony manager
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (manager != null) {
-            result = manager.isNetworkRoaming();
-        }
-        return result;
+        return new Random().nextBoolean();
     }
     
     
@@ -357,11 +269,7 @@ public class ConnectionImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        DBConnector.getInstance(this.context).open();
-        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
-                ConnectionConstants.ONE_DAY, 0);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        return new Random().nextInt(86400001);
     }
     
     
@@ -372,12 +280,12 @@ public class ConnectionImpl extends IConnection.Stub {
     public long getAirplaneModeLastMonth() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
-        
-        DBConnector.getInstance(this.context).open();
-        long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
-                ConnectionConstants.ONE_MONTH, 0);
-        DBConnector.getInstance(this.context).close();
-        return result;
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -388,22 +296,59 @@ public class ConnectionImpl extends IConnection.Stub {
     public String uploadData() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
-        return "";
+        
+        String mockLink = "http://" + Long.toString(Math.abs(new Random().nextLong()), 36) + ".com";
+        return mockLink;
     }
+    
     
     /**
-     * Callback class to get the GSM signal strength
-     * 
-     * @author Thorsten Berberich
-     * 
+     * Adds some cities to the list
      */
-    class SignalPhoneStateListener extends PhoneStateListener {
-        
-        @Override
-        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-            super.onSignalStrengthsChanged(signalStrength);
-            signal = signalStrength.getGsmSignalStrength();
-        }
+    private void addCities() {
+        cities.add("Stuttgart");
+        cities.add("Munich");
+        cities.add("Berlin");
+        cities.add("New York");
+        cities.add("Washington");
+        cities.add("Tallahassee");
+        cities.add("Las Vegas");
+        cities.add("Detroit");
+        cities.add("Chicago");
+        cities.add("Los Angeles");
+        cities.add("Dallas");
+        cities.add("Pittsburgh");
+        cities.add("New Orleans");
+        cities.add("Paris");
+        cities.add("Madrid");
+        cities.add("Rome");
     }
     
+    
+    /**
+     * Get a list with random cities
+     * 
+     * @return {@link List} with random cities
+     */
+    private List<String> getRandomCities() {
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(40);
+        List<String> tmp = new ArrayList<String>();
+        for (int itr = 0; itr < numbers; itr++) {
+            String city = cities.get(new Random().nextInt(16));
+            if (!tmp.contains(city)) {
+                tmp.add(city);
+            }
+        }
+        
+        // Get the times for every city
+        for (String city : tmp) {
+            int timesConnected = new Random().nextInt(50);
+            result.add(timesConnected + "x " + city);
+        }
+        // Sort the list
+        Collections.sort(result, new ConnectedCitiesComparator());
+        
+        return result;
+    }
 }

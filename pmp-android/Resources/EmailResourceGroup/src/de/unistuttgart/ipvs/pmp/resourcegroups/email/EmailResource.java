@@ -31,4 +31,22 @@ public class EmailResource extends Resource {
         return new EmailOperationsStubImpl(appIdentifier, this, srg.getContext());
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO Implement mocked AndroidInterface
+        Email srg = (Email) getResourceGroup();
+        return new EmailOperationsStubImpl(appIdentifier, this, srg.getContext()) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO Implement cloaked AndroidInterface
+        Email srg = (Email) getResourceGroup();
+        return new EmailOperationsStubImpl(appIdentifier, this, srg.getContext()) {
+        };
+    }
+    
 }

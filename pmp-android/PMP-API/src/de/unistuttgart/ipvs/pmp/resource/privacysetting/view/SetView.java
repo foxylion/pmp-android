@@ -115,7 +115,7 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
     }
     
     
-    private void addSubView(T value) throws PrivacySettingValueException {
+    protected void addSubView(T value) throws PrivacySettingValueException {
         /* Create a new view and assign value */
         final IPrivacySettingView<T> newView = createSubView();
         newView.setViewValue(value);
@@ -162,14 +162,14 @@ public class SetView<T> extends LinearLayout implements IPrivacySettingView<Set<
     }
     
     
-    private void removeView(IPrivacySettingView<T> view) {
+    protected void removeView(IPrivacySettingView<T> view) {
         this.mainContainer.removeView(this.viewContainers.get(view));
         this.viewContainers.remove(view);
         this.views.remove(view);
     }
     
     
-    private IPrivacySettingView<T> createSubView() throws PrivacySettingValueException {
+    protected IPrivacySettingView<T> createSubView() throws PrivacySettingValueException {
         try {
             if (this.childViewConstructorInvocation.length == 0) {
                 return this.childViewConstructor.newInstance(getContext());

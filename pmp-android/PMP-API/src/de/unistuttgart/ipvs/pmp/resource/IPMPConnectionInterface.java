@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
 import android.content.Context;
+import android.test.mock.MockContext;
 
 /**
  * Interface for communication from the {@link ResourceGroup} plugin to the PMP model.
@@ -27,7 +28,19 @@ public interface IPMPConnectionInterface {
      * 
      * @param rgPackage
      * @return an Android context
+     * @deprecated Results are undefined. Use {@link #getContext(String, String)} instead.
      */
+    @Deprecated
     public Context getContext(String rgPackage);
+    
+    
+    /**
+     * Ability to get a context for a resource group for a specific app.
+     * 
+     * @param rgPackage
+     * @param appPackage
+     * @return an Android {@link Context}, if the operation was allowed, a {@link MockContext} otherwise
+     */
+    public Context getContext(String rgPackage, String appPackage);
     
 }

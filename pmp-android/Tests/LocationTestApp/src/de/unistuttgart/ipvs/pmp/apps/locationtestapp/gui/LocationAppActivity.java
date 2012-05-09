@@ -75,7 +75,7 @@ public class LocationAppActivity extends MapActivity {
         PMP.get().getResource(R_ID, new PMPRequestResourceHandler() {
             
             @Override
-            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder) {
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 resourceCached();
             }
             

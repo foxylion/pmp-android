@@ -47,4 +47,10 @@ public class DBConstants {
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_EVENT = "event";
     public static final String COLUMN_CITY = "city";
+    
+    /**
+     * Devices
+     */
+    public static final String DEVICE_WIFI = "wifi";
+    public static final String DEVICE_BT = "bluetooth";
 }

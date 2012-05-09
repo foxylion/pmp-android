@@ -17,6 +17,7 @@ import java.util.logging.Level;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.IBinder;
+import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Constants;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
@@ -459,7 +460,21 @@ public class Model implements IModel, Observer {
                     throw new InvalidPluginException("Resource '" + res + "' does not provide all IBinders.");
                 }
                 
-                // assert that mocking and cloaking are REALLY different classes from normal
+                // disallow anonymous classes
+                if (nb.getClass().isAnonymousClass() || mb.getClass().isAnonymousClass()
+                        || cb.getClass().isAnonymousClass()) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    null,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP: Resource '%s' does provide illegal anonymous IBinders.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res + "' does provide illegal anonymous IBinders.");
+                }
+                
+                // assert that normal, mocking and cloaking are really DIFFERENT classes
                 if (nb.getClass().isAssignableFrom(mb.getClass()) || mb.getClass().isAssignableFrom(nb.getClass())) {
                     FileLog.get()
                             .logWithForward(
@@ -473,7 +488,6 @@ public class Model implements IModel, Observer {
                     throw new InvalidPluginException("Resource '" + res
                             + "' may not provide normal and mocked IBinders which are subtypes of each other.");
                 }
-                
                 if (nb.getClass().isAssignableFrom(cb.getClass()) || cb.getClass().isAssignableFrom(nb.getClass())) {
                     FileLog.get()
                             .logWithForward(
@@ -486,6 +500,81 @@ public class Model implements IModel, Observer {
                                     rgPackage, res);
                     throw new InvalidPluginException("Resource '" + res
                             + "' may not provide normal and cloaked IBinders which are subtypes of each other.");
+                }
+                if (mb.getClass().isAssignableFrom(cb.getClass()) || cb.getClass().isAssignableFrom(mb.getClass())) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    null,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP:"
+                                            + " Resource '%s' may not provide mocked and cloaked IBinders which are subtypes of each other.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res
+                            + "' may not provide mocked and cloaked IBinders which are subtypes of each other.");
+                }
+                
+                // assert that they are still implementing the SAME interface
+                try {
+                    if (!nb.getInterfaceDescriptor().equals(mb.getInterfaceDescriptor())) {
+                        FileLog.get()
+                                .logWithForward(
+                                        this,
+                                        null,
+                                        FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                        Level.WARNING,
+                                        "ResourceGroup '%s' has failed registration with PMP:"
+                                                + " Resource '%s' may not provide normal and mocked IBinders which do implement a different interface.",
+                                        rgPackage, res);
+                        throw new InvalidPluginException(
+                                "Resource '"
+                                        + res
+                                        + "' may not provide normal and mocked IBinders which do implement a different interface.");
+                    }
+                    if (!nb.getInterfaceDescriptor().equals(cb.getInterfaceDescriptor())) {
+                        FileLog.get()
+                                .logWithForward(
+                                        this,
+                                        null,
+                                        FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                        Level.WARNING,
+                                        "ResourceGroup '%s' has failed registration with PMP:"
+                                                + " Resource '%s' may not provide normal and cloaked IBinders which do implement a different interface.",
+                                        rgPackage, res);
+                        throw new InvalidPluginException(
+                                "Resource '"
+                                        + res
+                                        + "' may not provide normal and cloaked IBinders which do implement a different interface.");
+                    }
+                    if (!mb.getInterfaceDescriptor().equals(cb.getInterfaceDescriptor())) {
+                        FileLog.get()
+                                .logWithForward(
+                                        this,
+                                        null,
+                                        FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                        Level.WARNING,
+                                        "ResourceGroup '%s' has failed registration with PMP:"
+                                                + " Resource '%s' may not provide mocked and cloaked IBinders which do implement a different interface.",
+                                        rgPackage, res);
+                        throw new InvalidPluginException(
+                                "Resource '"
+                                        + res
+                                        + "' may not provide mocked and cloaked IBinders which do implement a different interface.");
+                    }
+                    
+                } catch (RemoteException re) {
+                    FileLog.get()
+                            .logWithForward(
+                                    this,
+                                    re,
+                                    FileLog.GRANULARITY_COMPONENT_CHANGES,
+                                    Level.WARNING,
+                                    "ResourceGroup '%s' has failed registration with PMP:"
+                                            + " Resource '%s' has thrown RemoteException during check of interface descriptors.",
+                                    rgPackage, res);
+                    throw new InvalidPluginException("Resource '" + res
+                            + "' has thrown RemoteException during check of interface descriptors.");
                 }
                 
             }

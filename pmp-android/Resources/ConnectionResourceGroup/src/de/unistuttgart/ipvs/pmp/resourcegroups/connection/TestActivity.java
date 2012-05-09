@@ -19,13 +19,15 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection;
 
-import java.util.List;
-
 import android.app.Activity;
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
 
 /**
@@ -34,9 +36,14 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
  */
 public class TestActivity extends Activity {
     
+    private int signal = 0;
+    Context context;
+    
+    
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        context = this;
         this.setContentView(R.layout.main);
         DBConnector.getInstance(this).open();
         DBConnector.getInstance(this).storeWifiEvent(100, EventEnum.ON, "bla");
@@ -49,9 +56,60 @@ public class TestActivity extends Activity {
         DBConnector.getInstance(this).storeWifiEvent(170, EventEnum.OFF, null);
         DBConnector.getInstance(this).storeWifiEvent(170, EventEnum.OFF, null);
         
-        List<String> res = DBConnector.getInstance(this).getConnectedCities(DBConstants.TABLE_WIFI);
-        for (String res2 : res) {
-            Toast.makeText(this, res2, Toast.LENGTH_LONG).show();
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setSpeedRequired(false);
+        
+        String bestProvider = locationManager.getBestProvider(criteria, false);
+        locationManager.requestLocationUpdates(bestProvider, 2000, 1, new LocationListener() {
+            
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            
+            @Override
+            public void onProviderEnabled(String provider) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            
+            @Override
+            public void onProviderDisabled(String provider) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            
+            @Override
+            public void onLocationChanged(Location location) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
+        System.out.println("Best Provider " + bestProvider);
+        Location location = locationManager.getLastKnownLocation(bestProvider);
+        
+        if (location != null) {
+            Toast.makeText(this,
+                    "Long: " + String.valueOf(location.getLongitude() + " Lat: " + location.getLatitude()),
+                    Toast.LENGTH_LONG).show();
+            System.out.println("Long: " + String.valueOf(location.getLongitude() + " Lat: " + location.getLatitude()));
+        } else {
+            Toast.makeText(this, "Provider null", Toast.LENGTH_LONG).show();
         }
+        
     }
+    
+    
+    public void showToast() {
+        Toast.makeText(this, String.valueOf(signal), Toast.LENGTH_SHORT).show();
+    }
+    
 }

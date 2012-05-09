@@ -85,22 +85,22 @@ public abstract class ResourceGroup {
     /**
      * Registers resource as resource "identifier" in this resource group.
      * 
-     * @param identifier
+     * @param resIdentifier
      * @param resource
      */
-    public void registerResource(String identifier, Resource resource) {
+    public void registerResource(String resIdentifier, Resource resource) {
         resource.assignResourceGroup(this);
-        this.resources.put(identifier, resource);
+        this.resources.put(resIdentifier, resource);
     }
     
     
     /**
      * 
-     * @param identifier
+     * @param resIdentifier
      * @return the resource identified by "identifier", if present, null otherwise
      */
-    public Resource getResource(String identifier) {
-        return this.resources.get(identifier);
+    public Resource getResource(String resIdentifier) {
+        return this.resources.get(resIdentifier);
     }
     
     
@@ -116,22 +116,22 @@ public abstract class ResourceGroup {
     /**
      * Registers privacySetting as privacy setting "identifier" in this resource group.
      * 
-     * @param identifier
+     * @param psIdentifier
      * @param privacySetting
      */
-    public void registerPrivacySetting(String identifier, AbstractPrivacySetting<?> privacySetting) {
-        privacySetting.assignResourceGroup(this, identifier);
-        this.privacySettings.put(identifier, privacySetting);
+    public void registerPrivacySetting(String psIdentifier, AbstractPrivacySetting<?> privacySetting) {
+        privacySetting.assignResourceGroup(this, psIdentifier);
+        this.privacySettings.put(psIdentifier, privacySetting);
     }
     
     
     /**
      * 
-     * @param identifier
+     * @param psIdentifier
      * @return the privacy setting identified by "identifier", if present, null otherwise
      */
-    public AbstractPrivacySetting<?> getPrivacySetting(String identifier) {
-        return this.privacySettings.get(identifier);
+    public AbstractPrivacySetting<?> getPrivacySetting(String psIdentifier) {
+        return this.privacySettings.get(psIdentifier);
     }
     
     
@@ -147,16 +147,26 @@ public abstract class ResourceGroup {
     /**
      * @see IPMPConnectionInterface#getPrivacySettingValue(String, String, String)
      */
-    public String getPMPPrivacySettingValue(String privacySettingIdentifier, String appIdentifier) {
-        return this.pmpci.getPrivacySettingValue(this.rgPackage, privacySettingIdentifier, appIdentifier);
+    public String getPMPPrivacySettingValue(String privacySettingPackage, String appPackage) {
+        return this.pmpci.getPrivacySettingValue(this.rgPackage, privacySettingPackage, appPackage);
     }
     
     
     /**
      * @see IPMPConnectionInterface#getContext(String)
+     * @deprecated Use {@link #getContext(String)} instead. Results may be undefined.
      */
+    @Deprecated
     public Context getContext() {
         return this.pmpci.getContext(this.rgPackage);
+    }
+    
+    
+    /**
+     * @see IPMPConnectionInterface#getContext(String, String)
+     */
+    public Context getContext(String appPackage) {
+        return this.pmpci.getContext(this.rgPackage, appPackage);
     }
     
     

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resourceGroupInformationSet>
+   <resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" icon="res/drawable-xhdpi/signal.png" className="Connection">
+      <name lang="en">Connection</name>
+      <name lang="de">Verbindung</name>
+      <description lang="de">Bietet Zugriff auf Verbindungen des Telefons</description>
+      <description lang="en">Offers access to connections of the phone</description>
+   </resourceGroupInformation>
+   <privacySettings>
+      <privacySetting identifier="wifi-status-connection-status" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read wifi connection status</name>
+         <name lang="de">Wlan-Verbindungs-Status lesen</name>
+         <description lang="en">Read the status of the wifi</description>
+         <description lang="de">Wlan Status auslesen</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get the wifi status.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den Wlan Status auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="wifi-configured-networks" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read configured wifi networks</name>
+         <name lang="de">Konfigurierte Wlan Netzwerke lesen</name>
+         <description lang="de">Die Anzahl konfigurierten Wlan Netzwerke auslesen</description>
+         <description lang="en">Read the number configured wifi networks</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get number of configured wifi networks.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den die Anzahl der konfigurierten Wlan Netzwerke auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="wifi-connected-cities" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read connected cities (wifi)</name>
+         <name lang="de">Verbundene Städte (Wlan) auslesen</name>
+         <description lang="en">Get the cities where the user was connected to a wifi network</description>
+         <description lang="de">Die Stäte auslesen, in denen der Benutzer mit einem Wlan-Netzwerk verbunden war.</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get cities where the user was connected to wifi networks.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den die Anzahl die Städte in denen der Nutzer mit einem Wlan-Netzwerk verbunden war auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="bluetooth-connection-status" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read bluetooth status</name>
+         <name lang="de">Bluetooth status auslesen</name>
+         <description lang="en">Read the status of the bluetooth</description>
+         <description lang="de">Den Bluetooth-Status auslesen</description>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den Bluetooth-Status auslesen.</changeDescription>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get the bluetooth status.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="bluetooth-paired-devices" validValueDescription="true and false" requestable="true">
+         <name lang="en">Bluetooth paired devices</name>
+         <name lang="de">Bluetooth gekoppelte Geräte</name>
+         <description lang="en">Read the paired bluetooth devices</description>
+         <description lang="de">Gekoppelte Bluetooth-Geräte auslesen</description>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps die gekoppelten Bluetooth-Geräte auslesen.</changeDescription>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get the paired bluetooth devices.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="bluetooth-connected-cities" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read connected cities (Bluetooth)</name>
+         <name lang="de">Verbundene Städte (Bluetooth) auslesen</name>
+         <description lang="en">Get the cities where the user was connected to a bluetooth device</description>
+         <description lang="de">Die Stäte auslesen, in denen der Benutzer mit einem Bluetooth-Gerät verbunden war.</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get cities where the user was connected to bluetooth devices.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den die Anzahl die Städte in denen der Nutzer mit einem Bluetooth-Gerät verbunden war auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="data-connection-status" validValueDescription="true and false" requestable="true">
+         <name lang="en">Read data connection status</name>
+         <name lang="de">Datenverbindungsstatus auslesen</name>
+         <description lang="de">Status der Datenverbindung auslesen</description>
+         <description lang="en">Read the status of the data connection</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get status of the data connection.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den Datenverbindungsstatus auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="cell-phone-network-status" validValueDescription="true and false" requestable="true">
+         <name lang="de">Mobilfunkstatus auslesen</name>
+         <name lang="en">Read cell phone status</name>
+         <description lang="en">Read the cell phone network status</description>
+         <description lang="de">Mobilfunknetzwerkstatus auslesen</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to get the cell phone network status.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps den Mobilfunkstatus auslesen.</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="upload-data" validValueDescription="true and false" requestable="true">
+         <name lang="en">Upload data</name>
+         <name lang="de">Daten hochladen</name>
+         <description lang="en">Upload the connection data to the server</description>
+         <description lang="de">Die Verbindungsdaten auf den Server hochladen</description>
+         <changeDescription lang="en">By ticking off the checkbox all assigned Apps are allowed to upload the connection data to the server.</changeDescription>
+         <changeDescription lang="de">Durch aktivieren der Checkbox dürfen alle zugewiesenen Apps die Verbindungsdaten auf den Server hochladen.</changeDescription>
+      </privacySetting>
+   </privacySettings>
+</resourceGroupInformationSet>

@@ -3,14 +3,17 @@ package de.unistuttgart.ipvs.pmp.model.plugin;
 import java.util.logging.Level;
 
 import android.content.Context;
+import android.test.mock.MockContext;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.Model;
+import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.PresetController;
 import de.unistuttgart.ipvs.pmp.model.element.app.IApp;
 import de.unistuttgart.ipvs.pmp.model.element.privacysetting.IPrivacySetting;
 import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
+import de.unistuttgart.ipvs.pmp.resource.RGMode;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 import de.unistuttgart.ipvs.pmp.util.FileLog;
 
@@ -76,9 +79,35 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
     
     
     @Override
+    @Deprecated
     public Context getContext(String rgPackage) {
-        // here it would be nice to have a security-wise adapter
-        return PMPApplication.getContext();
+        return getContext(rgPackage, "");
+    }
+    
+    
+    @Override
+    public Context getContext(String rgPackage, String appPackage) {
+        IResourceGroup rg = Model.getInstance().getResourceGroup(rgPackage);
+        IApp app = Model.getInstance().getApp(appPackage);
+        if (rg == null || app == null) {
+            return new MockContext();
+        } else {
+            // if best == null
+            RGMode mode = null;
+            
+            try {
+                mode = RGMode.valueOf(PresetController.findBestValue(app,
+                        rg.getPrivacySetting(PersistenceConstants.MODE_PRIVACY_SETTING)));
+            } catch (PrivacySettingValueException psve) {
+                psve.printStackTrace();
+            }
+            
+            if (mode == null) {
+                mode = RGMode.NORMAL;
+            }
+            
+            return new SecurityContextAdapter(PMPApplication.getContext(), rg, app);
+        }
     }
     
 }

@@ -19,10 +19,16 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver;
 
+import java.util.Date;
+
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
 
 /**
  * {@link BroadcastReceiver} to get the bluetooth events
@@ -37,20 +43,59 @@ public class BluetoothReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        long time = new Date().getTime();
+        DBConnector.getInstance(context).open();
+        
         // Get state or not available 10 = off
         int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 10);
         
         switch (state) {
             case BluetoothAdapter.STATE_OFF:
+                DBConnector.getInstance(context).storeBTEvent(time, EventEnum.OFF, null);
+                DBConnector.getInstance(context).close();
                 break;
             case BluetoothAdapter.STATE_ON:
+                storeEvent(context, time, EventEnum.ON);
                 break;
             case BluetoothAdapter.STATE_TURNING_OFF:
                 break;
             case BluetoothAdapter.STATE_TURNING_ON:
                 break;
         }
+    }
+    
+    
+    /**
+     * Store a event an try to get the location
+     */
+    private void storeEvent(Context context, long time, EventEnum event) {
+        LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
         
+        //Get the GPS Provider
+        try {
+            gps_enabled = locManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+        
+        // Get the network provider
+        try {
+            network_enabled = locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception e) {
+        }
+        
+        // Get the network information for the wifi if the ConnectivityManager is not null
+        if (gps_enabled) {
+            locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new CityLocationListener(context,
+                    locManager, time, event, DBConstants.DEVICE_BT));
+        } else if (network_enabled) {
+            locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new CityLocationListener(context,
+                    locManager, time, event, DBConstants.DEVICE_BT));
+        } else {
+            DBConnector.getInstance(context).storeBTEvent(time, event, null);
+            DBConnector.getInstance(context).close();
+        }
     }
     
 }

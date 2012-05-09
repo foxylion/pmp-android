@@ -78,7 +78,7 @@ public class DBConnector implements IDBConnector {
      * @param context
      *            {@link Context} of the rg
      */
-    private DBConnector(Context context) {
+    private DBConnector(final Context context) {
         this.context = context;
         initialize();
     }

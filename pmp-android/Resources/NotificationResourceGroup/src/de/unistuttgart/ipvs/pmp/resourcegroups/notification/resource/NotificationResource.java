@@ -47,4 +47,20 @@ public class NotificationResource extends Resource {
         mNotificationManager.notify(HELLO_ID, notification);
     }
     
+    
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        // TODO implement mocked AndroidInterface
+        return new NotificationImpl(this.RG, this, appIdentifier) {
+        };
+    }
+    
+    
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        // TODO cloaked AndroidInterface
+        return new NotificationImpl(this.RG, this, appIdentifier) {
+        };
+    }
+    
 }

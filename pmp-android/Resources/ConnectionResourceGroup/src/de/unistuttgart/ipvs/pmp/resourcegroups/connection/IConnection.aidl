@@ -70,9 +70,9 @@ interface IConnection {
     
     
     /**
-     * Get the connection status of the bluetooth
+     * Get the status of the bluetooth
      * 
-     * @return True iff connected, false otherwise
+     * @return True iff enabled, false otherwise
      */
     boolean getBluetoothStatus();
     
@@ -161,7 +161,7 @@ interface IConnection {
     /**
      * Upload the data to the server
      * 
-     * @return true if successful, false otherwise
+     * @return String with a link to the server, or an error message
      */
-    boolean uploadData();
+    String uploadData();
 }
