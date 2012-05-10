@@ -42,7 +42,7 @@ public class Connection extends ResourceGroup {
         super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
         
         // Register the resource
-        registerResource(ConnectionConstants.RES_ENERGY, new ConnectionResource());
+        registerResource(ConnectionConstants.RES_CONNECTION, new ConnectionResource());
         
         // Register all privacy settings
         registerPrivacySetting(ConnectionConstants.PS_BLUETOOTH_DEVICES, new BooleanPrivacySetting());
