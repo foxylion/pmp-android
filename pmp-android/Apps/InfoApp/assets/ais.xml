@@ -67,7 +67,7 @@
             <requiredPrivacySetting identifier="battery-status"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-plugged"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-status-time"><![CDATA[true]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[current]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[CURRENT]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
       <serviceFeature identifier="energy-since-last-boot">
@@ -76,11 +76,11 @@
          <description lang="en">Get information about the values of the battery and energy management of the device since last boot</description>
          <description lang="de">Erhalte Information über die Batterie- und Energiewerte des Geräts seit dem letzten Systemstart</description>
          <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-09 00:00:00:000 MESZ">
-            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[all]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[ALL]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-ratio"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-count"><![CDATA[true]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[all]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-dates"><![CDATA[last_boot]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[ALL]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-dates"><![CDATA[LAST_BOOT]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="device-screen"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
@@ -90,11 +90,11 @@
          <description lang="en">Get information about the values of the battery and energy management of the device since start of measurement</description>
          <description lang="de">Erhalte Information über die Batterie- und Energiewerte des Geräts seit Beginn der Aufzeichnung</description>
          <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-09 00:00:00:000 MESZ">
-            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[all]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[ALL]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-ratio"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-count"><![CDATA[true]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[all]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-dates"><![CDATA[all]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[ALL]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-dates"><![CDATA[ALL]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="device-screen"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
