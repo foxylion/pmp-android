@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -48,6 +49,17 @@ public class ConnectionsPanel implements IPanel {
      */
     private LinearLayout view;
     
+    /**
+     * The adapter of the {@link ExpandableListView}
+     * 
+     */
+    private ListViewAdapater adapter;
+    
+    /**
+     * {@link Context}
+     */
+    private Context context;
+    
     
     /**
      * Constructor for the panel
@@ -56,6 +68,7 @@ public class ConnectionsPanel implements IPanel {
      *            {@link Context}
      */
     public ConnectionsPanel(Context context) {
+        this.context = context;
         // load the layout from the xml file
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = (LinearLayout) inflater.inflate(R.layout.connection_panel, null);
@@ -70,7 +83,9 @@ public class ConnectionsPanel implements IPanel {
         test.add("test");
         test.add("test");
         test.add("iefnweifujn cIties");
-        listView.setAdapter(new ListViewAdapater(context, test, test, test, test));
+        adapter = new ListViewAdapater(context, test, test, test, test);
+        listView.setAdapter(adapter);
+        
         //        createLists();
     }
     
@@ -91,7 +106,7 @@ public class ConnectionsPanel implements IPanel {
     }
     
     
-    private void createLists() {
+    private void updateLists() {
         //Try to get the cached ressource
         PMPResourceIdentifier identifier = PMPResourceIdentifier.make(Constants.CONNECTION_RG_IDENTIFIER,
                 Constants.CONNECTION_RG_RESOURCE);
@@ -100,33 +115,124 @@ public class ConnectionsPanel implements IPanel {
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 IConnection connectionStub = IConnection.Stub.asInterface(binder);
-                
-                // Fill the wifi list
-                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
-                    
-                } else {
-                    
-                }
-                
-                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
-                    
-                } else {
-                    
-                }
-                
-                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
-                    
-                } else {
-                    
-                }
-                
-                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
-                    
-                } else {
-                    
-                }
+                fillLists(connectionStub);
             }
+            
         });
+    }
+    
+    
+    /**
+     * Fills the list with the information of the rg
+     * 
+     * @param connectionStub
+     *            Stub of the connected connection rg
+     */
+    private void fillLists(IConnection connectionStub) {
+        // New lists
+        ArrayList<String> wifiList = new ArrayList<String>();
+        ArrayList<String> btList = new ArrayList<String>();
+        ArrayList<String> dataList = new ArrayList<String>();
+        ArrayList<String> cellPhoneList = new ArrayList<String>();
         
+        // Fill the wifi list
+        if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
+            try {
+                //State
+                wifiList.add(context.getString(R.string.connection_panel_state)
+                        + booleanToString(connectionStub.getWifiConnectionStatus()));
+                
+                // Connected time
+                wifiList.add(context.getString(R.string.connection_panel_connected_twentyfour)
+                        + connectionStub.getWifiConnectionLastTwentyFourHours());
+                wifiList.add(context.getString(R.string.connection_panel_connected_thirty_days)
+                        + connectionStub.getWifiConnectionLastMonth());
+                
+                wifiList.add(context.getString(R.string.connection_panel_connected_cities));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            wifiList.add(context.getString(R.string.sf_insufficient));
+        }
+        
+        // Fill the bluetooth list
+        if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
+            try {
+                //State
+                btList.add(context.getString(R.string.connection_panel_state)
+                        + booleanToString(connectionStub.getBluetoothStatus()));
+                
+                //Active time
+                btList.add(context.getString(R.string.connection_panel_active_twentyfour)
+                        + connectionStub.getBTConnectionLastTwentyFourHours());
+                btList.add(context.getString(R.string.connection_panel_active_thirty_days)
+                        + connectionStub.getBTConnectionLastMonth());
+                
+                // Cities
+                btList.add(context.getString(R.string.connection_panel_connected_cities));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            btList.add(context.getString(R.string.sf_insufficient));
+        }
+        
+        // Fill the cell phone list
+        if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
+            try {
+                // Provider
+                cellPhoneList.add(context.getString(R.string.connection_panel_provider) + connectionStub.getProvider());
+                
+                //Signal strength
+                cellPhoneList.add(context.getString(R.string.connection_panel_signal_strength)
+                        + connectionStub.getCellPhoneSignalStrength() + " dBm");
+                
+                // Roaming status
+                cellPhoneList.add(context.getString(R.string.connection_panel_roaming)
+                        + booleanToString(connectionStub.getRoamingStatus()));
+                
+                // Connection time
+                cellPhoneList.add(context.getString(R.string.connection_panel_active_twentyfour)
+                        + connectionStub.getAirplaneModeLastTwentyFourHours());
+                cellPhoneList.add(context.getString(R.string.connection_panel_active_thirty_days)
+                        + connectionStub.getAirplaneModeLastMonth());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            cellPhoneList.add(context.getString(R.string.sf_insufficient));
+        }
+        
+        // Fill the data connection info
+        if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
+            try {
+                // Status
+                dataList.add(context.getString(R.string.connection_panel_state)
+                        + booleanToString(connectionStub.getDataConnectionStatus()));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        } else {
+            dataList.add(context.getString(R.string.sf_insufficient));
+        }
+        // Update the view
+        adapter.updateLists(wifiList, btList, dataList, cellPhoneList);
+    }
+    
+    
+    /**
+     * Converts a boolean to active or not active
+     * 
+     * @param convert
+     *            to convert
+     * @return active iff convert =true else not active
+     */
+    private String booleanToString(boolean convert) {
+        if (convert) {
+            return context.getString(R.string.connection_panel_active);
+        } else {
+            return context.getString(R.string.connection_panel_not_active);
+        }
     }
 }

@@ -25,7 +25,7 @@ public class EnergyImplCloak extends IEnergy.Stub {
     
     public String getCurrentLevel() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_LEVEL, "true");
         
         return "0";
     }
@@ -39,26 +39,17 @@ public class EnergyImplCloak extends IEnergy.Stub {
     }
     
     
-    public String getCurrentCharging() throws RemoteException {
-        // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_STATUS, "true");
-        
-        return "No";
+    public String getCurrentStatus() throws RemoteException {
+        return EnergyConstants.STATUS_UNKNOWN;
     }
     
     
-    public String getCurrentChargingSource() throws RemoteException {
-        // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_SOURCE, "true");
-        
+    public String getCurrentPlugged() throws RemoteException {
         return EnergyConstants.PLUGGED_NOT_PLUGGED;
     }
     
     
-    public String getCurrentChargingTime() throws RemoteException {
-        // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_TIME, "true");
-        
+    public String getCurrentStatusTime() throws RemoteException {
         return "0";
     }
     

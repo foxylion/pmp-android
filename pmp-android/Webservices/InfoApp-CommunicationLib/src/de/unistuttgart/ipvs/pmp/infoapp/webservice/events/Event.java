@@ -33,6 +33,11 @@ public abstract class Event {
     private long timestamp;
     
     
+    public Event(long timestamp) {
+        this.timestamp = timestamp;
+    }
+    
+    
     public Event(int id, long timestamp) {
         this.id = id;
         this.timestamp = timestamp;
@@ -61,7 +66,6 @@ public abstract class Event {
     
     public JSONObject toJSONObject() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("id", this.id);
         json.put("timestamp", this.timestamp);
         return json;
     }

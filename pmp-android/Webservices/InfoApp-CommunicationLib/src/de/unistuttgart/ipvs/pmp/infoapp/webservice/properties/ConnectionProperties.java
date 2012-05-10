@@ -28,8 +28,6 @@ import org.json.JSONException;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
 /**
@@ -81,8 +79,7 @@ public class ConnectionProperties extends Properties {
     
     
     @Override
-    public void commit() throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
-            InvalidEventOrderException, IOException {
+    public void commit() throws InternalDatabaseException, InvalidParameterException, IOException {
         try {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("wifi", Short.toString(this.wifiCount)));

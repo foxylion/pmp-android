@@ -37,6 +37,23 @@ public class CellularConnectionEvent extends Event {
     /**
      * Creates a new battery event
      * 
+     * @param timestamp
+     *            Point in time when this event occurred
+     * @param roaming
+     *            Indicates if the device was in roaming mode when this event occurred
+     * @param airplane
+     *            Indicates if the device was in airplane mode when this event occurred
+     */
+    public CellularConnectionEvent(long timestamp, boolean roaming, boolean airplane) {
+        super(timestamp);
+        this.roaming = roaming;
+        this.airplane = airplane;
+    }
+    
+    
+    /**
+     * Creates a new battery event
+     * 
      * @param id
      *            The event's ID
      * @param timestamp

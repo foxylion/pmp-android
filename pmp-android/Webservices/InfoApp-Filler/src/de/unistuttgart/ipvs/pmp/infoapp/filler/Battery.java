@@ -44,22 +44,31 @@ public class Battery extends Filler {
     private BatteryEvent.Adapter lastPlugged = Adapter.NOT_PLUGGED;
     private BatteryEvent.Status lastStatus = Status.NOT_CHARGING;
     private float lastTemp = 21f;
-    private byte lastLevel = 50;
+    private int lastLevel = 50;
+    private int lastVoltage = 3600;
     
     
     @Override
     public Event generateEvent(long time) {
         
-        // Set level depending on last charging status
+        // Set level and voltage depending on last charging status
         if (this.lastStatus == Status.CHARGING) {
-            this.lastLevel = (byte) (this.lastLevel + Math.random() * 25);
+            this.lastLevel = (int) (this.lastLevel + Math.random() * 25);
+            this.lastVoltage = (int) (this.lastLevel + Math.random() * 10);
             if (this.lastLevel > 100) {
                 this.lastLevel = 100;
             }
+            if (this.lastVoltage > 3650) {
+                this.lastLevel = 3650;
+            }
         } else if (this.lastStatus == Status.DISCHARGING) {
-            this.lastLevel = (byte) (this.lastLevel - Math.random() * 20);
+            this.lastLevel = (int) (this.lastLevel - Math.random() * 20);
+            this.lastVoltage = (int) (this.lastLevel + Math.random() * 5);
             if (this.lastLevel < 0) {
                 this.lastLevel = 0;
+            }
+            if (this.lastVoltage < 3400) {
+                this.lastLevel = 33400;
             }
         }
         
@@ -111,8 +120,8 @@ public class Battery extends Filler {
             this.lastTemp = -100;
         }
         
-        BatteryEvent event = new BatteryEvent(++this.id, time, this.lastLevel, this.lastPlugged, present,
-                this.lastStatus, this.lastTemp);
+        BatteryEvent event = new BatteryEvent(++this.id, time, this.lastLevel, this.lastVoltage, this.lastPlugged,
+                present, this.lastStatus, this.lastTemp);
         return event;
     }
     

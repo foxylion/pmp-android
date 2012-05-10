@@ -40,7 +40,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
     /**
      * Title of all group elements
      */
-    private static final String groups[] = { "Wifi", "BLuetooth", "Data Connection", "Cellular phone network" };
+    private static final String groups[] = new String[4];
     
     /**
      * List for the wifi data
@@ -87,6 +87,12 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         this.btList = btList;
         this.dataList = dataList;
         this.cellPhoneList = cellPhoneList;
+        
+        // Initialize groups
+        groups[0] = context.getString(R.string.connection_panel_wifi);
+        groups[1] = context.getString(R.string.connection_panel_bluetooth);
+        groups[2] = context.getString(R.string.connection_panel_data_connection);
+        groups[3] = context.getString(R.string.connection_panel_cell_phone);
     }
     
     
@@ -130,7 +136,6 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         switch (group) {
             case 0:
                 text.setText(this.wifiList.get(index));
-                
                 break;
             case 1:
                 text.setText(this.btList.get(index));
@@ -216,16 +221,59 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
      * @see android.widget.ExpandableListAdapter#isChildSelectable(int, int)
      */
     public boolean isChildSelectable(int group, int index) {
-        if (group == 0) {
-            String item = this.wifiList.get(index);
-            return item.toLowerCase().contains("cities");
-        }
-        
-        if (group == 1) {
-            String item = this.btList.get(index);
-            return item.toLowerCase().contains("cities");
+        String item;
+        boolean result = false;
+        switch (group) {
+            case 0:
+                item = this.wifiList.get(index);
+                if (item.toLowerCase().contains(context.getString(R.string.connection_panel_connected_cities))) {
+                    result = true;
+                }
+                
+                if (item.contains(context.getString(R.string.sf_insufficient))) {
+                    result = true;
+                }
+                return result;
+            case 1:
+                item = this.btList.get(index);
+                if (item.toLowerCase().contains(context.getString(R.string.connection_panel_connected_cities))) {
+                    result = true;
+                }
+                
+                if (item.contains(context.getString(R.string.sf_insufficient))) {
+                    result = true;
+                }
+                return result;
+            case 2:
+                item = this.dataList.get(index);
+                return item.contains(context.getString(R.string.sf_insufficient));
+            case 3:
+                item = this.cellPhoneList.get(index);
+                return item.contains(context.getString(R.string.sf_insufficient));
         }
         return false;
+    }
+    
+    
+    /**
+     * Update the lists with the information and updates the view
+     * 
+     * @param wifiList
+     *            new wifi list
+     * @param btList
+     *            new bluetooth list
+     * @param dataList
+     *            new data connection list
+     * @param cellPhoneList
+     *            new cellular phone network list
+     */
+    public void updateLists(ArrayList<String> wifiList, ArrayList<String> btList, ArrayList<String> dataList,
+            ArrayList<String> cellPhoneList) {
+        this.wifiList = wifiList;
+        this.btList = btList;
+        this.dataList = dataList;
+        this.cellPhoneList = cellPhoneList;
+        this.notifyDataSetChanged();
     }
     
 }

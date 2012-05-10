@@ -36,6 +36,20 @@ public class AwakeEvent extends Event {
     /**
      * Creates a new awake event
      * 
+     * @param timestamp
+     *            Point in time when this event occurred
+     * @param awake
+     *            Indicates if the device is active (true) or in standby (false)
+     */
+    public AwakeEvent(long timestamp, boolean awake) {
+        super(timestamp);
+        this.awake = awake;
+    }
+    
+    
+    /**
+     * Creates a new awake event
+     * 
      * @param id
      *            The event's ID
      * @param timestamp

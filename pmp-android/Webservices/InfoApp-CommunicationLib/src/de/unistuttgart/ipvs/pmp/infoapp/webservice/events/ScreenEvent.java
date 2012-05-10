@@ -36,6 +36,20 @@ public class ScreenEvent extends Event {
     /**
      * Creates a new screen event
      * 
+     * @param timestamp
+     *            Point in time when this event occurred
+     * @param display
+     *            Indicates if the device's display is turned on (true) or turned off (false)
+     */
+    public ScreenEvent(long timestamp, boolean display) {
+        super(timestamp);
+        this.display = display;
+    }
+    
+    
+    /**
+     * Creates a new screen event
+     * 
      * @param id
      *            The event's ID
      * @param timestamp
