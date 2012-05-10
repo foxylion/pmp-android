@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `dev_battery` (
   `event_id` int(8) NOT NULL,
   `timestamp` bigint(19) NOT NULL,
   `level` tinyint(3) NOT NULL,
+  `voltage` mediumint(4) NOT NULL,
   `plugged` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `present` tinyint(1) NOT NULL,
   `status` char(1) COLLATE utf8_unicode_ci NOT NULL,

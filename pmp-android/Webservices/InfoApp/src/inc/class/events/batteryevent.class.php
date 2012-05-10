@@ -29,7 +29,7 @@ if (!defined("INCLUDE")) {
  * at a given timestamp
  *
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 
 class BatteryEvent extends Event {
@@ -46,6 +46,8 @@ class BatteryEvent extends Event {
 
     /** @var int */
     private $level;
+    /** @var int */
+    private $voltage;
     /** @var char */
     private $plugged;
     /** @var boolean */
@@ -60,17 +62,21 @@ class BatteryEvent extends Event {
      * @param int $id           The event's ID
      * @param long $timestamp   Point in time when this event occurred
      * @param int $level        The battery's level
+     * @param int $voltage      The battery's voltage in mV (between 3000 and 4000)
      * @param char $plugged     "a" if AC-adapter or "u" if USB-adapter is plugged, otherwise "n"
      * @param boolean $present  True, if the battery is installed in the device
      * @param char $status      Charging status (c, d, f, n or u)
      * @param float $temperature    The battery's temperature
      */
-    public function __construct($id, $timestamp, $level, $plugged, $present, $status, $temperature) {
+    public function __construct($id, $timestamp, $level, $voltage, $plugged, $present, $status, $temperature) {
 
         parent::__construct($id, $timestamp);
 
         if (!General::isPercentageInt($level)) {
             throw new InvalidArgumentException("\"level\" is no integer or has no percentage value");
+        }
+        if (!General::isPercentageInt($voltage) && $voltage < 3000 || $voltage > 4000) {
+            throw new InvalidArgumentException("\"voltage\" is no integer or out of range");
         }
         if (!is_string($plugged) ||
                 $plugged != BatteryEvent::AC_ADAPTER && $plugged != BatteryEvent::USB_ADAPTER &&
@@ -103,6 +109,10 @@ class BatteryEvent extends Event {
      */
     public function getLevel() {
         return $this->level;
+    }
+
+    public function getVoltage() {
+        return $this->voltage;
     }
 
     /**

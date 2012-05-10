@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.1.0
+ * @version 4.2.0
  */
 class BatteryEventManager extends EventManager {
 
@@ -53,6 +53,7 @@ class BatteryEventManager extends EventManager {
                             `event_id`,
                             `timestamp`,
                             `level`,
+                            `voltage`,
                             `plugged`,
                             `present`,
                             `status`,
@@ -62,6 +63,7 @@ class BatteryEventManager extends EventManager {
                             " . $event->getId() . ",
                             " . $event->getTimestamp() . ",
                             " . $event->getLevel() . ",
+                            " . $event->getVoltage() . ",
                             \"" . $event->getPlugged() . "\",
                             " . (int) $event->isPresent() . ",
                             \"" . $event->getStatus() . "\",
@@ -89,7 +91,8 @@ class BatteryEventManager extends EventManager {
         $events = array();
         while (($row = $db->fetch($res)) != null) {
             $events[] = new BatteryEvent($row["event_id"], $row["timestamp"], (int) $row["level"],
-                    $row["plugged"], (bool) $row["present"], $row["status"], (float) $row["temperature"]);
+                    (int) $row["voltage"], $row["plugged"], (bool) $row["present"], $row["status"],
+                    (float) $row["temperature"]);
         }
 
         return $events;
