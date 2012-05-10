@@ -21,17 +21,12 @@ public class EnergyConstants {
     public static final String RES_ENERGY = "energyResource";
     
     /**
-     * The device ID
-     */
-    public static String DEVICE_ID = "none";
-    
-    /**
      * The privacy settings
      */
     public static final String PS_BATTERY_LEVEL = "battery-level";
     public static final String PS_BATTERY_HEALTH = "battery-health";
     public static final String PS_BATTERY_STATUS = "battery-status";
-    public static final String PS_BATTERY_PLUGGED = "battery-source";
+    public static final String PS_BATTERY_PLUGGED = "battery-plugged";
     public static final String PS_BATTERY_STATUS_TIME = "battery-status-time";
     public static final String PS_BATTERY_TEMPERATURE = "battery-temperature";
     public static final String PS_BATTERY_CHARGING_RATIO = "battery-charging-ratio";

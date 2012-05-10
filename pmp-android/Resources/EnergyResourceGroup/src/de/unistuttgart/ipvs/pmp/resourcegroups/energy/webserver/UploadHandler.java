@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.BatteryEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.BatteryEvent;
@@ -30,9 +31,12 @@ public class UploadHandler {
     
     
     public UploadHandler(Context context) {
+        // Get the device id
+        TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = tManager.getDeviceId();
         
         // Create service
-        this.service = new Service(Service.DEFAULT_URL, EnergyConstants.DEVICE_ID);
+        this.service = new Service(Service.DEFAULT_URL, deviceId);
         
         // Get the db connection
         this.dbc = DBConnector.getInstance(context);
