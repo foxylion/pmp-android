@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">InfoApp</string>
     <string name="sf_insufficient">The service features are insufficient. Tap here to enable service features...</string>
-    <string name="app_name">InfoApp</string>
-    <string name="app_name">InfoApp</string>
-    <string name="app_name">InfoApp</string>
-    <string name="app_name">InfoApp</string>
-    <string name="app_name">InfoApp</string>
-
+    <string name="connection_panel_wifi">Wifi</string>
+    <string name="connection_panel_bluetooth">Bluetooth</string>
+    <string name="connection_panel_data_connection">Data connection</string>
+    <string name="connection_panel_cell_phone">Cellular phone network</string>
+    <string name="connection_panel_state">State: </string>
+    <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
+    <string name="connection_panel_connected_thirty_days">Connected (last 30 days): </string>
+    <string name="connection_panel_wifi_configured_networks">Configured networks: </string>
+    <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
+    <string name="connection_panel_connected_cities">Cities where you were connected: </string>
+    <string name="connection_panel_active_twentyfour">Active (last 24 hours): </string>
+    <string name="connection_panel_active_thirty_days">Active (last 30 days): </string>
+    <string name="connection_panel_paired_devices">Paired devices: </string>
+    <string name="connection_panel_provider">Provider: </string>
+    <string name="connection_panel_signal_strength">Signal strength: </string>
+    <string name="connection_panel_roaming">Roaming: </string>
+    <string name="connection_panel_airplane_mode_twentyfour">Airplane mode (last 24 hours): </string>
+    <string name="connection_panel_airplane_mode_thirtydays">Airplane mode (last 30 days): </string>
+    
 </resources>

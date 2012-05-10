@@ -40,7 +40,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
     /**
      * Title of all group elements
      */
-    private static final String groups[] = { "Wifi", "Bluetooth", "Data Connection", "Cellular phone network" };
+    private static final String groups[] = new String[4];
     
     /**
      * List for the wifi data
@@ -87,6 +87,12 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         this.btList = btList;
         this.dataList = dataList;
         this.cellPhoneList = cellPhoneList;
+        
+        // Initialize groups
+        groups[0] = context.getString(R.string.connection_panel_wifi);
+        groups[1] = context.getString(R.string.connection_panel_bluetooth);
+        groups[2] = context.getString(R.string.connection_panel_data_connection);
+        groups[3] = context.getString(R.string.connection_panel_cell_phone);
     }
     
     
@@ -130,7 +136,6 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         switch (group) {
             case 0:
                 text.setText(this.wifiList.get(index));
-                
                 break;
             case 1:
                 text.setText(this.btList.get(index));
@@ -221,7 +226,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         switch (group) {
             case 0:
                 item = this.wifiList.get(index);
-                if (item.toLowerCase().contains("cities")) {
+                if (item.toLowerCase().contains(context.getString(R.string.connection_panel_connected_cities))) {
                     result = true;
                 }
                 
@@ -231,7 +236,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
                 return result;
             case 1:
                 item = this.btList.get(index);
-                if (item.toLowerCase().contains("cities")) {
+                if (item.toLowerCase().contains(context.getString(R.string.connection_panel_connected_cities))) {
                     result = true;
                 }
                 
