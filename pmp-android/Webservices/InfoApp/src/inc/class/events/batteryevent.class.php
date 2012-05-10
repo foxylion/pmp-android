@@ -97,6 +97,7 @@ class BatteryEvent extends Event {
         }
 
         $this->level = $level;
+        $this->voltage = $voltage;
         $this->plugged = $plugged;
         $this->present = $present;
         $this->status = $status;

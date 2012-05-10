@@ -38,13 +38,14 @@ try {
             throw new InvalidArgumentException("The event array contains a non-object element");
         }
         if (!property_exists($event, "timestamp") || !property_exists($event, "level") ||
-                !property_exists($event, "plugged") || !property_exists($event, "present") ||
-                !property_exists($event, "status") || !property_exists($event, "temperature")) {
+                !property_exists($event, "voltage") || !property_exists($event, "plugged") ||
+                !property_exists($event, "present") || !property_exists($event, "status") ||
+                !property_exists($event, "temperature")) {
             throw new InvalidArgumentException("At least one required attribute is missing in one or more events");
         }
 
         // Build event object and add it to the event array
-        $events[] = new BatteryEvent(1, $event->timestamp, $event->level,
+        $events[] = new BatteryEvent(1, $event->timestamp, $event->level, $event->voltage,
                 $event->plugged, $event->present, $event->status, $event->temperature);
 
     }
