@@ -94,7 +94,6 @@ public class CityLocationListener implements LocationListener {
         if (device.equals(DBConstants.DEVICE_WIFI)) {
             DBConnector.getInstance(context).storeWifiEvent(this.timestamp, this.event, city);
         }
-        DBConnector.getInstance(context).close();
     }
     
     

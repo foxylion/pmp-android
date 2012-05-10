@@ -99,7 +99,7 @@ public class DBConnector implements IDBConnector {
      * @throws SQLiteException
      *             thrown whenever an error happens
      */
-    public void open() throws SQLiteException {
+    private void open() throws SQLiteException {
         this.db = this.dbHelper.getWritableDatabase();
     }
     
@@ -107,7 +107,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Close the databases
      */
-    public void close() {
+    private void close() {
         this.dbHelper.close();
     }
     
@@ -116,12 +116,14 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeWifiEvent(long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public void storeWifiEvent(long timestamp, EventEnum event, String city) {
+    public synchronized void storeWifiEvent(long timestamp, EventEnum event, String city) {
+        open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         values.put(DBConstants.COLUMN_CITY, city);
         this.db.insert(DBConstants.TABLE_WIFI, null, values);
+        close();
     }
     
     
@@ -129,13 +131,15 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeWifiEvent(int, long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public void storeWifiEvent(int id, long timestamp, EventEnum event, String city) {
+    public synchronized void storeWifiEvent(int id, long timestamp, EventEnum event, String city) {
+        open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_ID, id);
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         values.put(DBConstants.COLUMN_CITY, city);
         this.db.insert(DBConstants.TABLE_WIFI, null, values);
+        close();
     }
     
     
@@ -143,12 +147,14 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeBTEvent(long, java.lang.String, java.lang.String)
      */
     @Override
-    public void storeBTEvent(long timestamp, EventEnum event, String city) {
+    public synchronized void storeBTEvent(long timestamp, EventEnum event, String city) {
+        open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         values.put(DBConstants.COLUMN_CITY, city);
         this.db.insert(DBConstants.TABLE_BT, null, values);
+        close();
     }
     
     
@@ -156,13 +162,15 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeBTEvent(int, long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public void storeBTEvent(int id, long timestamp, EventEnum event, String city) {
+    public synchronized void storeBTEvent(int id, long timestamp, EventEnum event, String city) {
+        open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_ID, id);
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         values.put(DBConstants.COLUMN_CITY, city);
         this.db.insert(DBConstants.TABLE_BT, null, values);
+        close();
     }
     
     
@@ -170,11 +178,13 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeCellPhoneEvent(long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum)
      */
     @Override
-    public void storeCellPhoneEvent(long timestamp, EventEnum event) {
+    public synchronized void storeCellPhoneEvent(long timestamp, EventEnum event) {
+        open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         this.db.insert(DBConstants.TABLE_CELL, null, values);
+        close();
     }
     
     
@@ -182,12 +192,14 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeCellPhoneEvent(int, long, java.lang.String)
      */
     @Override
-    public void storeCellPhoneEvent(int id, long timestamp, EventEnum event) {
+    public synchronized void storeCellPhoneEvent(int id, long timestamp, EventEnum event) {
+        open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_ID, id);
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         this.db.insert(DBConstants.TABLE_CELL, null, values);
+        close();
     }
     
     
@@ -195,7 +207,8 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#getTimeDuration(java.lang.String, long, int)
      */
     @Override
-    public long getTimeDuration(String tableName, long duration, int id) {
+    public synchronized long getTimeDuration(String tableName, long duration, int id) {
+        open();
         long result = 0L;
         
         // Get only the timestamps and event columns
@@ -238,6 +251,7 @@ public class DBConnector implements IDBConnector {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        close();
         return result;
     }
     
@@ -246,7 +260,8 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#getConnectedCities(java.lang.String)
      */
     @Override
-    public List<String> getConnectedCities(String tableName) {
+    public synchronized List<String> getConnectedCities(String tableName) {
+        open();
         List<String> result = new ArrayList<String>();
         
         // Stores the times where the user was connected
@@ -289,6 +304,7 @@ public class DBConnector implements IDBConnector {
         }
         Collections.sort(result, new ConnectedCitiesComparator());
         cursor.close();
+        close();
         
         return result;
     }

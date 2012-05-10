@@ -35,7 +35,7 @@ public class ConnectionConstants {
     /**
      * The resource
      */
-    public static final String RES_ENERGY = "connectionResource";
+    public static final String RES_CONNECTION = "connectionResource";
     
     /**
      * The privacy settings

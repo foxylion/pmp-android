@@ -24,8 +24,8 @@ public class EnergyImplMock extends IEnergy.Stub {
     private PSValidator psv;
     
     
-    public EnergyImplMock(ResourceGroup rg) {
-        this.psv = new PSValidator(rg);
+    public EnergyImplMock(ResourceGroup rg, String appIdentifier) {
+        this.psv = new PSValidator(rg, appIdentifier);
     }
     
     

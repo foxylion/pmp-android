@@ -653,7 +653,7 @@ public class Model implements IModel, Observer {
                     Level.WARNING,
                     "ResourceGroup '%s' has failed registration with PMP:"
                             + " An unexpected error occurred during linking the class files.", rgPackage);
-            throw new InvalidXMLException("An unexpected error occurred during linking the class files.", le);
+            throw new InvalidPluginException("An unexpected error occurred during linking the class files.", le);
         } catch (ParserException xmlpe) {
             /* error during XML validation */
             FileLog.get().logWithForward(this, xmlpe, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,

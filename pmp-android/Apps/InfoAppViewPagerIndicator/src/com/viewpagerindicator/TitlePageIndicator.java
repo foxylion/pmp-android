@@ -180,7 +180,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
         this.mTitlePadding = a.getDimension(R.styleable.TitlePageIndicator_titlePadding, defaultTitlePadding);
         this.mClipPadding = a.getDimension(R.styleable.TitlePageIndicator_clipPadding, defaultClipPadding);
         this.mColorSelected = a.getColor(R.styleable.TitlePageIndicator_selectedColor, defaultSelectedColor);
-        this.mColorText = a.getColor(R.styleable.TitlePageIndicator_textColor, defaultTextColor);
+        this.mColorText = a.getColor(R.styleable.TitlePageIndicator_textColor2, defaultTextColor);
         this.mBoldText = a.getBoolean(R.styleable.TitlePageIndicator_selectedBold, defaultSelectedBold);
         
         final float textSize = a.getDimension(R.styleable.TitlePageIndicator_textSize, defaultTextSize);

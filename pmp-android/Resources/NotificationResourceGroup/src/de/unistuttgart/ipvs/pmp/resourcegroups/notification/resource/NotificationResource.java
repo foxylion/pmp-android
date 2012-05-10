@@ -25,7 +25,7 @@ public class NotificationResource extends Resource {
     }
     
     
-    public void notify(String tickerText, String title, String message) {
+    public void notify(String appPackage, String tickerText, String title, String message) {
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager mNotificationManager = (NotificationManager) this.RG.getContext().getSystemService(ns);
         
@@ -34,7 +34,7 @@ public class NotificationResource extends Resource {
         
         Notification notification = new Notification(icon, tickerText, when);
         
-        Context context = this.RG.getContext();
+        Context context = this.RG.getContext(appPackage);
         CharSequence contentTitle = title;
         CharSequence contentText = message;
         Intent notificationIntent = new Intent();
@@ -50,17 +50,12 @@ public class NotificationResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO implement mocked AndroidInterface
-        return new NotificationImpl(this.RG, this, appIdentifier) {
-        };
+        return new NotificationMockImpl();
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO cloaked AndroidInterface
-        return new NotificationImpl(this.RG, this, appIdentifier) {
-        };
+        return new NotificationCloakImpl();
     }
-    
 }

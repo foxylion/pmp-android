@@ -6,9 +6,6 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +16,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.provider.Settings;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.LocationResourceGroup;
-import de.unistuttgart.ipvs.pmp.resourcegroups.location.R;
 
 /**
  * The {@link AbsoluteLocationResource} provides access to the android GPS location module.
@@ -44,12 +39,12 @@ public class AbsoluteLocationResource extends Resource {
     /**
      * Location manager which provides access to the GPS location.
      */
-    private LocationManager locationManager;
+    protected LocationManager locationManager;
     
     /**
      * {@link LocationListener} to fetch informations from the GPS module.
      */
-    private LocationListener locationListener = null;
+    protected LocationListener locationListener = null;
     
     /**
      * Map holds all current requests.
@@ -59,32 +54,32 @@ public class AbsoluteLocationResource extends Resource {
     /**
      * Boolean is set to true when GPS is enabled.
      */
-    private boolean gpsEnabled = false;
+    protected boolean gpsEnabled = false;
     
     /**
      * Current latitude.
      */
-    private double latitude = 0.0;
+    protected double latitude = 0.0;
     
     /**
      * Current longitude.
      */
-    private double longitude = 0.0;
+    protected double longitude = 0.0;
     
     /**
      * Current accuracy.
      */
-    private float accuracy = 0.0F;
+    protected float accuracy = 0.0F;
     
     /**
      * Current speed.
      */
-    private float speed = 0.0F;
+    protected float speed = 0.0F;
     
     /**
      * Is set to true when the GPS signal is fixed.
      */
-    private boolean fixed = false;
+    protected boolean fixed = false;
     
     /**
      * Broadcast intent action indicating that the GPS has either started or stopped receiving GPS
@@ -115,9 +110,6 @@ public class AbsoluteLocationResource extends Resource {
      */
     public AbsoluteLocationResource(LocationResourceGroup locationRG) {
         this.locationRG = locationRG;
-        
-        this.locationManager = (LocationManager) this.locationRG.getContext()
-                .getSystemService(Context.LOCATION_SERVICE);
     }
     
     
@@ -129,17 +121,13 @@ public class AbsoluteLocationResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO implement mocked AndroidInterface
-        return new AbsoluteLocationImpl(this.locationRG, this, appIdentifier) {
-        };
+        return new AbsoluteLocationMockImpl();
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO implement cloaked AndroidInterface
-        return new AbsoluteLocationImpl(this.locationRG, this, appIdentifier) {
-        };
+        return new AbsoluteLocationCloakImpl();
     }
     
     
@@ -152,6 +140,9 @@ public class AbsoluteLocationResource extends Resource {
      *            Used UpdateRequest with details about minTime and minDistance.
      */
     public void startLocationLookup(String appIdentifier, UpdateRequest request) {
+        this.locationManager = (LocationManager) this.locationRG.getContext(appIdentifier).getSystemService(
+                Context.LOCATION_SERVICE);
+        
         this.requests.put(appIdentifier, request);
         
         /* Create new locationListener, and timer if not already done. */
@@ -172,7 +163,8 @@ public class AbsoluteLocationResource extends Resource {
         }
         
         /* Register the BroadcastReceiver for detecting a GPS location fix. */
-        this.locationRG.getContext().registerReceiver(this.receiver, new IntentFilter(GPS_FIX_CHANGE_ACTION));
+        this.locationRG.getContext(appIdentifier).registerReceiver(this.receiver,
+                new IntentFilter(GPS_FIX_CHANGE_ACTION));
         
         /* Start the request for location updates in a handler-thread to prevent exceptions. */
         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -200,7 +192,7 @@ public class AbsoluteLocationResource extends Resource {
         /* When no more Apps are listening for the location, stop updates. */
         if (this.requests.size() == 0 && this.locationListener != null) {
             this.locationManager.removeUpdates(this.locationListener);
-            this.locationRG.getContext().unregisterReceiver(this.receiver);
+            this.locationRG.getContext(appIdentifier).unregisterReceiver(this.receiver);
             this.locationListener = null;
             this.timeoutTimer.cancel();
             this.gpsEnabled = false;
@@ -272,7 +264,7 @@ public class AbsoluteLocationResource extends Resource {
     /**
      * @return Calculates the minimal distance of all update requests.
      */
-    private float calcMinDistance() {
+    protected float calcMinDistance() {
         float min = Float.MAX_VALUE;
         
         for (Entry<String, UpdateRequest> request : this.requests.entrySet()) {
@@ -288,7 +280,7 @@ public class AbsoluteLocationResource extends Resource {
     /**
      * @return Calculates the minimal time of all update requests.
      */
-    private long calcMinTime() {
+    protected long calcMinTime() {
         long min = Long.MAX_VALUE;
         
         for (Entry<String, UpdateRequest> request : this.requests.entrySet()) {
@@ -304,32 +296,36 @@ public class AbsoluteLocationResource extends Resource {
     /**
      * Creates a new notification.
      */
-    private void createNotification() {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
-        
-        Notification notification = new Notification(R.drawable.pmp_rg_location_error, this.locationRG.getContext()
-                .getString(R.string.pmp_rg_location_notification_infotext), System.currentTimeMillis());
-        notification.setLatestEventInfo(this.locationRG.getContext(),
-                this.locationRG.getContext().getString(R.string.pmp_rg_location_notification_title), this.locationRG
-                        .getContext().getString(R.string.pmp_rg_location_notification_description), pIntent);
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notification.vibrate = new long[] { 250, 250, 250 };
-        
-        NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
-                Context.NOTIFICATION_SERVICE);
-        notificationManager.notify("gpsDisabledNotification", 0, notification);
+    protected void createNotification() {
+        // FIXME: cannot access a context without an app permitting it
+        /*    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            PendingIntent pIntent = PendingIntent.getActivity(this.locationRG.getContext(), 0, intent, 0);
+            
+            Notification notification = new Notification(R.drawable.pmp_rg_location_error, this.locationRG.getContext()
+                    .getString(R.string.pmp_rg_location_notification_infotext), System.currentTimeMillis());
+            notification.setLatestEventInfo(this.locationRG.getContext(),
+                    this.locationRG.getContext().getString(R.string.pmp_rg_location_notification_title), this.locationRG
+                            .getContext().getString(R.string.pmp_rg_location_notification_description), pIntent);
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
+            notification.vibrate = new long[] { 250, 250, 250 };
+            
+            NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
+                    Context.NOTIFICATION_SERVICE);
+            notificationManager.notify("gpsDisabledNotification", 0, notification);*/
     }
     
     
     /**
      * Hides the notification.
      */
-    private void removeNotification() {
+    protected void removeNotification() {
+        // FIXME: cannot access a context without an app permitting it
+        /*
         NotificationManager notificationManager = (NotificationManager) this.locationRG.getContext().getSystemService(
                 Context.NOTIFICATION_SERVICE);
         notificationManager.cancel("gpsDisabledNotification", 0);
+        */
     }
     
     /**

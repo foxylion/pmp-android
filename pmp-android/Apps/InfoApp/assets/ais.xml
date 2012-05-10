@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appInformationSet>
+   <appInformation>
+      <name lang="en">Information App</name>
+      <name lang="de">Information App</name>
+      <description lang="en">Provides information about your device</description>
+      <description lang="de">Bietet Informationen über ihr Gerät an</description>
+   </appInformation>
+   <serviceFeatures>
+      <serviceFeature identifier="wifi-info">
+         <name lang="en">Wifi information</name>
+         <name lang="de">Wlan-Informationen</name>
+         <description lang="en">Show information about the wifi connection.</description>
+         <description lang="de">Informationen über die Wlan-Verbindun anzeigen.</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+            <requiredPrivacySetting identifier="wifi-status-connection-status"><![CDATA[true]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="wifi-configured-networks"><![CDATA[true]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="wifi-connected-cities"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+      <serviceFeature identifier="bluetooth-info">
+         <name lang="en">Bluetooth information</name>
+         <name lang="de">Bluetooth-Informationen</name>
+         <description lang="en">Show information about the bluetooth connection.</description>
+         <description lang="de">Informationen über die Bluetooth-Verbindung. anzeigen</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+            <requiredPrivacySetting identifier="bluetooth-connection-status"><![CDATA[true]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="bluetooth-paired-devices"><![CDATA[true]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="bluetooth-connected-cities"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+      <serviceFeature identifier="data-connection-info">
+         <name lang="en">Data Connection information</name>
+         <name lang="de">Datenverbinduns-Informationen</name>
+         <description lang="en">Show information about the data connection</description>
+         <description lang="de">Informationen über die Datenverbindung anzeigen</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+            <requiredPrivacySetting identifier="data-connection-status"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+      <serviceFeature identifier="cell-phone-info">
+         <name lang="en">Cellular phone network information</name>
+         <name lang="de">Mobilfunk-Informationen</name>
+         <description lang="en">Show information about the cellular phone network</description>
+         <description lang="de">Informationen über die Mobilfunkverbindung anzeigen</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+            <requiredPrivacySetting identifier="cell-phone-network-status"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+      <serviceFeature identifier="connections-statistics">
+         <name lang="en">Evaluate the connection values</name>
+         <name lang="de">Verbindunsdaten auswerten</name>
+         <description lang="en">Send all values of connection to a statistic server to evaluate them.</description>
+         <description lang="de">Alle Verbindungsdaten an einen Statistikserver sendn und auswerten.</description>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+            <requiredPrivacySetting identifier="upload-data"><![CDATA[true]]></requiredPrivacySetting>
+         </requiredResourceGroup>
+      </serviceFeature>
+   </serviceFeatures>
+</appInformationSet>

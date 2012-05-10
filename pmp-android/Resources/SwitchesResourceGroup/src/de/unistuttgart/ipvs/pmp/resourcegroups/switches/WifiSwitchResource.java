@@ -42,17 +42,13 @@ public class WifiSwitchResource extends Resource {
     
     @Override
     public IBinder getMockedAndroidInterface(String appIdentifier) {
-        // TODO implement mocked AndroidInterface
-        return new WifiSwitchStubMockImpl(appIdentifier, this) {
-        };
+        return new WifiSwitchStubMockImpl(appIdentifier, this);
     }
     
     
     @Override
     public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        // TODO cloaked AndroidInterface
-        return new WifiSwitchStubCloakImpl(appIdentifier, this) {
-        };
+        return new WifiSwitchStubCloakImpl(appIdentifier, this);
     }
     
     

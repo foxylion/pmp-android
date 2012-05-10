@@ -45,7 +45,7 @@ public class TestActivity extends Activity {
         super.onCreate(icicle);
         context = this;
         this.setContentView(R.layout.main);
-        DBConnector.getInstance(this).open();
+        
         DBConnector.getInstance(this).storeWifiEvent(100, EventEnum.ON, "bla");
         DBConnector.getInstance(this).storeWifiEvent(110, EventEnum.OFF, "bla");
         DBConnector.getInstance(this).storeWifiEvent(120, EventEnum.ON, "bla");

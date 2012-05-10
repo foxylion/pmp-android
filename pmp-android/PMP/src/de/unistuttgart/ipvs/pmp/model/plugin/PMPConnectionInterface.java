@@ -3,7 +3,6 @@ package de.unistuttgart.ipvs.pmp.model.plugin;
 import java.util.logging.Level;
 
 import android.content.Context;
-import android.test.mock.MockContext;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.Model;
@@ -90,7 +89,7 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
         IResourceGroup rg = Model.getInstance().getResourceGroup(rgPackage);
         IApp app = Model.getInstance().getApp(appPackage);
         if (rg == null || app == null) {
-            return new MockContext();
+            return new MockContext2();
         } else {
             // if best == null
             RGMode mode = null;
