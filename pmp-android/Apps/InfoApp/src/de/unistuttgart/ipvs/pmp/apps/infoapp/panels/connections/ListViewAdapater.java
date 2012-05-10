@@ -216,14 +216,35 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
      * @see android.widget.ExpandableListAdapter#isChildSelectable(int, int)
      */
     public boolean isChildSelectable(int group, int index) {
-        if (group == 0) {
-            String item = this.wifiList.get(index);
-            return item.toLowerCase().contains("cities");
-        }
-        
-        if (group == 1) {
-            String item = this.btList.get(index);
-            return item.toLowerCase().contains("cities");
+        String item;
+        boolean result = false;
+        switch (group) {
+            case 0:
+                item = this.wifiList.get(index);
+                if (item.toLowerCase().contains("cities")) {
+                    result = true;
+                }
+                
+                if (item.contains(context.getString(R.string.sf_insufficient))) {
+                    result = true;
+                }
+                return result;
+            case 1:
+                item = this.btList.get(index);
+                if (item.toLowerCase().contains("cities")) {
+                    result = true;
+                }
+                
+                if (item.contains(context.getString(R.string.sf_insufficient))) {
+                    result = true;
+                }
+                return result;
+            case 2:
+                item = this.dataList.get(index);
+                return item.contains(context.getString(R.string.sf_insufficient));
+            case 3:
+                item = this.cellPhoneList.get(index);
+                return item.contains(context.getString(R.string.sf_insufficient));
         }
         return false;
     }

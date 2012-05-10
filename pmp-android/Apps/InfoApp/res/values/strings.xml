@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, InfoAppActivity!</string>
+    <string name="app_name">InfoApp</string>
+    <string name="sf_insufficient">The service features are insufficient. Tap here to enable service features...</string>
+    <string name="app_name">InfoApp</string>
+    <string name="app_name">InfoApp</string>
+    <string name="app_name">InfoApp</string>
+    <string name="app_name">InfoApp</string>
     <string name="app_name">InfoApp</string>
 
 </resources>

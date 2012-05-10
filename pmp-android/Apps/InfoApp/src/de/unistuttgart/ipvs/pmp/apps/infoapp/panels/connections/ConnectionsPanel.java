@@ -54,6 +54,11 @@ public class ConnectionsPanel implements IPanel {
      */
     private ListViewAdapater adapter;
     
+    /**
+     * {@link Context}
+     */
+    private Context context;
+    
     
     /**
      * Constructor for the panel
@@ -62,6 +67,7 @@ public class ConnectionsPanel implements IPanel {
      *            {@link Context}
      */
     public ConnectionsPanel(Context context) {
+        this.context = context;
         // load the layout from the xml file
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = (LinearLayout) inflater.inflate(R.layout.connection_panel, null);
@@ -119,25 +125,26 @@ public class ConnectionsPanel implements IPanel {
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
                     
                 } else {
-                    wifiList.add("The service features are insufficient. Tap here to enable service features...");
+                    
+                    wifiList.add(context.getString(R.string.sf_insufficient));
                 }
                 
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
                     
                 } else {
-                    btList.add("The service features are insufficient. Tap here to enable service features...");
+                    btList.add(context.getString(R.string.sf_insufficient));
                 }
                 
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
                     
                 } else {
-                    cellPhoneList.add("The service features are insufficient. Tap here to enable service features...");
+                    cellPhoneList.add(context.getString(R.string.sf_insufficient));
                 }
                 
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
                     
                 } else {
-                    dataList.add("The service features are insufficient. Tap here to enable service features...");
+                    dataList.add(context.getString(R.string.sf_insufficient));
                 }
                 
                 // Update the view
