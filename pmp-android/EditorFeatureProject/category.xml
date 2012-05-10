@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/EditorFeatureProject_1.0.0.0.jar" id="EditorFeatureProject" version="1.0.0.0">
+   <feature url="features/EditorFeatureProject_1.0.0.1.jar" id="EditorFeatureProject" version="1.0.0.1">
       <category name="eis"/>
    </feature>
-   <category-def name="eis" label="Editor for Information Sets"/>
+   <category-def name="eis" label="Editor for Information Sets">
+      <description>
+         The Editor for Information Sets (EIS) lets you create and edit
+information sets for apps and ressource groups that are compatible to the Privacy Management Platform (PMP).
+      </description>
+   </category-def>
 </site>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/EditorFeatureProject_1.0.0.0.jar" id="EditorFeatureProject" version="1.0.0.0">
-      <category name="eis"/>
-   </feature>
-   <category-def name="eis" label="Editor for Information Sets"/>
-</site>
->>>>>>> 611e09a9502bb065fc12d62aea30027d183b9174
