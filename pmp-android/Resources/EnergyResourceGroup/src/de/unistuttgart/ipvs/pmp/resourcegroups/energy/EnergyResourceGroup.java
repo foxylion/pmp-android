@@ -16,18 +16,18 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenu
  */
 public class EnergyResourceGroup extends ResourceGroup {
     
-    public EnergyResourceGroup(String rgPackage, IPMPConnectionInterface pmpci) {
+    public EnergyResourceGroup(IPMPConnectionInterface pmpci) {
         super(EnergyConstants.RG_PACKAGE_NAME, pmpci);
         
         // Register the resource
         registerResource(EnergyConstants.RES_ENERGY, new EnergyResource(this));
         
         // Register the privacy settings
-        registerPrivacySetting(EnergyConstants.PS_BATTERY_STATUS, new BooleanPrivacySetting());
+        registerPrivacySetting(EnergyConstants.PS_BATTERY_LEVEL, new BooleanPrivacySetting());
         registerPrivacySetting(EnergyConstants.PS_BATTERY_HEALTH, new BooleanPrivacySetting());
-        registerPrivacySetting(EnergyConstants.PS_BATTERY_CHARGING_STATUS, new BooleanPrivacySetting());
-        registerPrivacySetting(EnergyConstants.PS_BATTERY_CHARGING_SOURCE, new BooleanPrivacySetting());
-        registerPrivacySetting(EnergyConstants.PS_BATTERY_CHARGING_TIME, new BooleanPrivacySetting());
+        registerPrivacySetting(EnergyConstants.PS_BATTERY_STATUS, new BooleanPrivacySetting());
+        registerPrivacySetting(EnergyConstants.PS_BATTERY_PLUGGED, new BooleanPrivacySetting());
+        registerPrivacySetting(EnergyConstants.PS_BATTERY_STATUS_TIME, new BooleanPrivacySetting());
         registerPrivacySetting(EnergyConstants.PS_BATTERY_TEMPERATURE,
                 new EnumPrivacySetting<PSBatteryTemperatureEnum>(PSBatteryTemperatureEnum.class));
         registerPrivacySetting(EnergyConstants.PS_BATTERY_CHARGING_RATIO, new BooleanPrivacySetting());

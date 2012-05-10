@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resourceGroupInformationSet>
-   <resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" icon="res/drawable-xhdpi/signal.png" className="Connection">
+   <resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" icon="res/drawable-xhdpi/ethernet_cable_icon.png" className="Connection">
       <name lang="en">Connection</name>
       <name lang="de">Verbindung</name>
       <description lang="de">Bietet Zugriff auf Verbindungen des Telefons</description>

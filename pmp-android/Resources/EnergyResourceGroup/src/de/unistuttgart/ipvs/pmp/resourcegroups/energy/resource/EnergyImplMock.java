@@ -31,7 +31,7 @@ public class EnergyImplMock extends IEnergy.Stub {
     
     public String getCurrentLevel() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_LEVEL, "true");
         
         return String.valueOf(new Random().nextInt(101)) + " %";
     }
@@ -61,21 +61,31 @@ public class EnergyImplMock extends IEnergy.Stub {
     }
     
     
-    public String getCurrentCharging() throws RemoteException {
-        // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_STATUS, "true");
+    public String getCurrentStatus() throws RemoteException {
         
-        if (new Random().nextBoolean()) {
-            return "Yes";
-        } else {
-            return "No";
+        // Check permission
+        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
+        
+        switch (new Random().nextInt(5)) {
+            case 0:
+                return EnergyConstants.STATUS_CHARGING;
+            case 1:
+                return EnergyConstants.STATUS_DISCHARGING;
+            case 2:
+                return EnergyConstants.STATUS_FULL;
+            case 3:
+                return EnergyConstants.STATUS_NOT_CHARGING;
+            case 4:
+                return EnergyConstants.STATUS_UNKNOWN;
+            default:
+                return EnergyConstants.STATUS_UNKNOWN;
         }
     }
     
     
-    public String getCurrentChargingSource() throws RemoteException {
+    public String getCurrentPlugged() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_SOURCE, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_PLUGGED, "true");
         
         switch (new Random().nextInt(3)) {
             case 0:
@@ -87,13 +97,12 @@ public class EnergyImplMock extends IEnergy.Stub {
             default:
                 return EnergyConstants.PLUGGED_NOT_PLUGGED;
         }
-        
     }
     
     
-    public String getCurrentChargingTime() throws RemoteException {
+    public String getCurrentStatusTime() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_TIME, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS_TIME, "true");
         
         return String.valueOf(new Random().nextInt());
     }

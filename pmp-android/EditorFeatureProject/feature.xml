@@ -2,7 +2,7 @@
 <feature
       id="EditorFeatureProject"
       label="Editor for Information Sets (EIS)"
-      version="1.0.0.0"
+      version="1.0.0.1"
       provider-name="http://code.google.com/p/pmp-android/">
 
    <description url="http://code.google.com/p/pmp-android/">

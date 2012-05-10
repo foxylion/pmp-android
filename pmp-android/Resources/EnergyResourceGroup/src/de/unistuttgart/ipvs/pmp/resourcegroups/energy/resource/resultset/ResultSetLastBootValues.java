@@ -1,6 +1,10 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset;
 
-
-public class ResultSetLastBootValues {
+/**
+ * 
+ * @author Marcus Vetter
+ * 
+ */
+public class ResultSetLastBootValues extends AbstractResultSet {
     
 }

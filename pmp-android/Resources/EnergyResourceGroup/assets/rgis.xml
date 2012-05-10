@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resourceGroupInformationSet>
+   <resourceGroupInformation identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" icon="res/drawable-hdpi/energy72.png" className="EnergyResourceGroup">
+      <name lang="en">Energy</name>
+      <name lang="de">Energie</name>
+      <description lang="de">Zeichnet alle Batterie-Events des Geräts auf und stellt sie zur Verfügung</description>
+      <description lang="en">Records all battery events of the device and provides them</description>
+   </resourceGroupInformation>
+   <privacySettings>
+      <privacySetting identifier="battery-level" validValueDescription="true, false" requestable="true">
+         <name lang="en">Level</name>
+         <description lang="en">Get the battery level</description>
+         <changeDescription lang="en">Change it to true, to get the level</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-health" validValueDescription="true, false" requestable="true">
+         <name lang="en">Health</name>
+         <description lang="en">Get the health</description>
+         <changeDescription lang="en">Change it to true, to get the health</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-status" validValueDescription="true, false" requestable="true">
+         <name lang="en">Status</name>
+         <description lang="en">Get the status</description>
+         <changeDescription lang="en">Change it to true, to get the status</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-plugged" validValueDescription="true, false" requestable="true">
+         <name lang="en">Plugged</name>
+         <description lang="en">Get the plugged</description>
+         <changeDescription lang="en">Change it to true, to get the plugged</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-status-time" validValueDescription="true, false" requestable="true">
+         <name lang="en">Status time</name>
+         <description lang="en">Get the time of the same status</description>
+         <changeDescription lang="en">Change it to true, to get the time of the same status</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-temperature" validValueDescription="current, all, none" requestable="true">
+         <name lang="en">Temperature</name>
+         <description lang="en">Get the temperature</description>
+         <changeDescription lang="en">Change it to current to get the current temperature, change it to all to get the average and peak temerpature</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-charging-ratio" validValueDescription="true, false" requestable="true">
+         <name lang="en">Charging ratio</name>
+         <description lang="en">Get the charging ratio</description>
+         <changeDescription lang="en">Change it to true, to get the charging ratio</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="battery-charging-count" validValueDescription="true, false" requestable="true">
+         <name lang="en">Charging count</name>
+         <description lang="en">Get the charging count</description>
+         <changeDescription lang="en">Change it to true, to get the charging count</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="device-battery-charging-uptime" validValueDescription="total_time, all, none" requestable="true">
+         <name lang="en">Device uptime with battery</name>
+         <description lang="en">Get the device uptime with battery</description>
+         <changeDescription lang="en">Change it to total_time or all, to get the device uptime with battery</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="device-dates" validValueDescription="last_boot, all, none" requestable="true">
+         <name lang="en">Device dates</name>
+         <description lang="en">Get the device dates of first measurement or last boot</description>
+         <changeDescription lang="en">Change it to last_boot, to get the date of the last boot; change it to all to get also the date of first measurement</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="device-screen" validValueDescription="true, false" requestable="true">
+         <name lang="en">Device Screen Time</name>
+         <description lang="en">Get the time of the device with screen on</description>
+         <changeDescription lang="en">Change it to true, to get the time of screen on</changeDescription>
+      </privacySetting>
+      <privacySetting identifier="upload-data" validValueDescription="true, false" requestable="true">
+         <name lang="en">Upload data</name>
+         <description lang="en">Upload all enery events to a webserver and calculate statistics</description>
+         <changeDescription lang="en">Change to true to get the posibility to upload the collected data</changeDescription>
+      </privacySetting>
+   </privacySettings>
+</resourceGroupInformationSet>
