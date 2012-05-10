@@ -21,5 +21,20 @@
     <string name="connection_panel_roaming">Roaming: </string>
     <string name="connection_panel_airplane_mode_twentyfour">Airplane mode (last 24 hours): </string>
     <string name="connection_panel_airplane_mode_thirtydays">Airplane mode (last 30 days): </string>
-    
+    <string name="connection_panel_active">active</string>
+    <string name="connection_panel_not_active">not active</string>
+
+    <plurals name="days">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+
 </resources>
