@@ -44,11 +44,43 @@ public class BatteryEvent extends Event {
         UNKNOWN
     }
     
-    private byte level;
+    private int level;
+    private int voltage;
     private Adapter plugged;
     private boolean present;
     private Status status;
     private float temperature;
+    
+    
+    /**
+     * Creates a new battery event
+     * 
+     * @param timestamp
+     *            Point in time when this event occurred
+     * @param level
+     *            The battery's level in percent
+     * @param voltage
+     *            The battery's voltage in mV
+     * @param plugged
+     *            Power status
+     * @param present
+     *            True, if the battery is installed in the device
+     * @param status
+     *            Charging status
+     * @param temperature
+     *            The battery's temperature
+     */
+    public BatteryEvent(long timestamp, int level, int voltage, Adapter plugged, boolean present, Status status,
+            float temperature) {
+        super(timestamp);
+        
+        this.level = level;
+        this.voltage = voltage;
+        this.plugged = plugged;
+        this.present = present;
+        this.status = status;
+        this.temperature = temperature;
+    }
     
     
     /**
@@ -60,6 +92,8 @@ public class BatteryEvent extends Event {
      *            Point in time when this event occurred
      * @param level
      *            The battery's level
+     * @param voltage
+     *            The battery's voltage in mV
      * @param plugged
      *            Power status
      * @param present
@@ -69,11 +103,12 @@ public class BatteryEvent extends Event {
      * @param temperature
      *            The battery's temperature
      */
-    public BatteryEvent(int id, long timestamp, byte level, Adapter plugged, boolean present, Status status,
-            float temperature) {
+    public BatteryEvent(int id, long timestamp, int level, int voltage, Adapter plugged, boolean present,
+            Status status, float temperature) {
         super(id, timestamp);
         
         this.level = level;
+        this.voltage = voltage;
         this.plugged = plugged;
         this.present = present;
         this.status = status;
@@ -86,8 +121,18 @@ public class BatteryEvent extends Event {
      * 
      * @return Level in percent
      */
-    public byte getLevel() {
+    public int getLevel() {
         return this.level;
+    }
+    
+    
+    /**
+     * Gets the battery's voltage
+     * 
+     * @return Voltage in mV
+     */
+    public int getVoltage() {
+        return this.voltage;
     }
     
     
@@ -135,6 +180,7 @@ public class BatteryEvent extends Event {
     public JSONObject toJSONObject() throws JSONException {
         JSONObject json = super.toJSONObject();
         json.put("level", this.level);
+        json.put("voltage", this.voltage);
         
         switch (this.plugged) {
             case AC:

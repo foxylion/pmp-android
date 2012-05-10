@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
@@ -58,7 +57,8 @@ public abstract class EventManager {
     
     
     /**
-     * Uploads events to the webservice
+     * Uploads events to the webservice. The event's IDs will be calculated automatically. Therefore, ID set using the
+     * events constructor will be ignored.
      * 
      * @param events
      *            Events to upload
@@ -66,9 +66,6 @@ public abstract class EventManager {
      *             Thrown, if an internal database error occurred while the webservice was running
      * @throws InvalidParameterException
      *             Thrown, if one parameter set by the constructor or a set-methode was not accepted by the webservice
-     * @throws InvalidEventIdException
-     *             Thrown, if the given events were not accepted by the webservice because at least one ID is already in
-     *             use by a database entry
      * @throws InvalidEventOrderException
      *             Thrown, if the events are not ordered properly. That is, the IDs and timestamps are not in ascending
      *             order. See webservice specification for details
@@ -76,7 +73,7 @@ public abstract class EventManager {
      *             Thrown, if another communication error occured while contacting the webservice
      */
     public abstract void commitEvents(List<? extends Event> events) throws InternalDatabaseException,
-            InvalidParameterException, InvalidEventIdException, InvalidEventOrderException, IOException;
+            InvalidParameterException, InvalidEventOrderException, IOException;
     
     
     protected void commitEvents(List<? extends Event> events, String service) throws IOException {
@@ -100,9 +97,9 @@ public abstract class EventManager {
     
     
     /**
-     * Gets the ID of the event that has been uploaded to the webservice the last time
+     * Gets the ID and timestamp of the event that has been uploaded to the webservice the last time
      * 
-     * @return The last event's ID
+     * @return The last event's property
      * @throws InternalDatabaseException
      *             Thrown, if an internal database error occurred while the webservice was running
      * @throws InvalidParameterException
@@ -110,13 +107,14 @@ public abstract class EventManager {
      * @throws IOException
      *             Thrown, if another communication error occured while contacting the webservice
      */
-    public abstract int getLastId() throws InternalDatabaseException, InvalidParameterException, IOException;
+    public abstract EventProperty getLastEventProperty() throws InternalDatabaseException, InvalidParameterException,
+            IOException;
     
     
-    protected int getLastId(String service) throws IOException {
+    protected EventProperty getLastEventProperty(String service) throws IOException {
         try {
             JSONObject res = this.service.requestGetService(service);
-            return res.getInt("last_id");
+            return new EventProperty(res.getInt("last_id"), res.getInt("last_timestamp"));
         } catch (JSONException e) {
             throw new IOException("Server returned no valid JSON object: " + e);
         }

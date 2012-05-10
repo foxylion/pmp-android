@@ -38,7 +38,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
@@ -101,7 +100,7 @@ public class Service {
      *             Thrown, if no JSON-string was returned by the server
      */
     public JSONObject requestGetService(String service) throws InternalDatabaseException, InvalidParameterException,
-            InvalidEventIdException, InvalidEventOrderException, IOException, JSONException {
+            InvalidEventOrderException, IOException, JSONException {
         return requestGetService(service, new ArrayList<BasicNameValuePair>(1));
     }
     
@@ -130,8 +129,8 @@ public class Service {
      *             Thrown, if no JSON-string was returned by the server
      */
     public JSONObject requestGetService(String service, List<BasicNameValuePair> params)
-            throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
-            InvalidEventOrderException, IOException, JSONException {
+            throws InternalDatabaseException, InvalidParameterException, InvalidEventOrderException, IOException,
+            JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
         String paramString = URLEncodedUtils.format(params, "UTF-8");
         HttpGet httpGet = new HttpGet(this.url + "/" + service + "?" + paramString);
@@ -166,8 +165,8 @@ public class Service {
      *             Thrown, if no JSON-string was returned by the server
      */
     public JSONObject requestPostService(String service, List<BasicNameValuePair> params)
-            throws InternalDatabaseException, InvalidParameterException, InvalidEventIdException,
-            InvalidEventOrderException, IOException, JSONException {
+            throws InternalDatabaseException, InvalidParameterException, InvalidEventOrderException, IOException,
+            JSONException {
         params.add(new BasicNameValuePair("device", this.deviceId));
         HttpPost httpPost = new HttpPost(this.url + "/" + service);
         httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
@@ -179,7 +178,7 @@ public class Service {
     
     
     private JSONObject getContent(HttpResponse res) throws InternalDatabaseException, InvalidParameterException,
-            InvalidEventIdException, InvalidEventOrderException, IOException, JSONException {
+            InvalidEventOrderException, IOException, JSONException {
         HttpEntity entity = res.getEntity();
         
         if (entity == null) {
@@ -215,7 +214,7 @@ public class Service {
      * @throws InvalidEventOrderException
      */
     private void checkResult(JSONObject res) throws JSONException, InternalDatabaseException,
-            InvalidParameterException, InvalidEventIdException, InvalidEventOrderException {
+            InvalidParameterException, InvalidEventOrderException {
         if (!res.getBoolean("successful")) {
             String error = res.getString("error");
             String msg = res.getString("msg");
@@ -226,10 +225,6 @@ public class Service {
             
             if (error.equalsIgnoreCase("invalid_parameter")) {
                 throw new InvalidParameterException(msg);
-            }
-            
-            if (error.equalsIgnoreCase("invalid_event_id")) {
-                throw new InvalidEventIdException(msg);
             }
             
             if (error.equalsIgnoreCase("invalid_event_order")) {

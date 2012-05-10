@@ -45,6 +45,30 @@ public class ConnectionEvent extends Event {
     /**
      * Creates a new connection event
      * 
+     * @param timestamp
+     *            Point in time when this event occurred
+     * @param medium
+     *            Medium that has been used for communication
+     * @param connected
+     *            Indicates if the device was connected when this even occurred
+     * @param enabled
+     *            Indicates if the communication adapter was turned on when this event occurred
+     * @param city
+     *            City at which this event occurred
+     */
+    public ConnectionEvent(long timestamp, Mediums medium, boolean connected, boolean enabled, String city) {
+        super(timestamp);
+        
+        this.medium = medium;
+        this.connected = connected;
+        this.enabled = enabled;
+        this.city = city;
+    }
+    
+    
+    /**
+     * Creates a new connection event
+     * 
      * @param id
      *            The event's ID
      * @param timestamp

@@ -25,7 +25,6 @@ import java.util.List;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 
@@ -50,14 +49,15 @@ public class ConnectionEventManager extends EventManager {
     
     @Override
     public void commitEvents(List<? extends Event> events) throws InternalDatabaseException, InvalidParameterException,
-            InvalidEventIdException, InvalidEventOrderException, IOException {
+            InvalidEventOrderException, IOException {
         commitEvents(events, "upload_connection_events.php");
     }
     
     
     @Override
-    public int getLastId() throws InternalDatabaseException, InvalidParameterException, IOException {
-        return getLastId("last_connection_event.php");
+    public EventProperty getLastEventProperty() throws InternalDatabaseException, InvalidParameterException,
+            IOException {
+        return getLastEventProperty("last_connection_event.php");
     }
     
 }

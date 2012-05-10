@@ -26,9 +26,9 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.EventProperty;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.DeviceOem;
@@ -37,13 +37,7 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.M
 
 public class Main {
     
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // Create service
-        Service s = new Service(Service.DEFAULT_URL, "f2305a2fbef51bd82008c7cf3788250f");
-        
+    public static void doFill(Service s) {
         // Create range
         Calendar from = Calendar.getInstance();
         from.set(2011, 12, 1, 00, 00, 00);
@@ -71,14 +65,26 @@ public class Main {
         cellCon.fill();
         System.out.println("Screen events:");
         scr.fill();
+    }
+    
+    
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // Create service
+        Service s = new Service(Service.DEFAULT_URL, "f2305a2fbef51bd82008c7cf3788250f");
+        
+        //
+        //doFill(s);
         
         // Setup service url and device ID
         //Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208d3");
         //Service s = new Service(Service.DEFAULT_URL, "b7c2e4787e7f950c89909795907208d3");
         
         // Create some events and...
-        ConnectionEvent e1 = new ConnectionEvent(1, 123, ConnectionEvent.Mediums.BLUETOOTH, true, true, "Stuttgart");
-        ConnectionEvent e2 = new ConnectionEvent(2, 1337, ConnectionEvent.Mediums.WIFI, false, false, "Stuttgart");
+        ConnectionEvent e1 = new ConnectionEvent(2123, ConnectionEvent.Mediums.BLUETOOTH, true, true, "Stuttgart");
+        ConnectionEvent e2 = new ConnectionEvent(1337, ConnectionEvent.Mediums.WIFI, false, false, "Stuttgart");
         
         // ...bind them to a list
         List<ConnectionEvent> events = new ArrayList<ConnectionEvent>();
@@ -88,10 +94,10 @@ public class Main {
         // Contact the service and upload the events
         ConnectionEventManager cem = new ConnectionEventManager(s);
         try {
-            System.out.println("LastID: " + cem.getLastId());
+            EventProperty ep = cem.getLastEventProperty();
+            System.out.println("Last ID: " + ep.getId());
+            System.out.println("Last Timestamp: " + ep.getTimestamp());
             cem.commitEvents(events);
-        } catch (InvalidEventIdException e) {
-            System.out.println("ID in use!");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
