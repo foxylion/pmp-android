@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 /**
@@ -25,11 +24,6 @@ public class EnergyService extends Service {
     @Override
     public void onCreate() {
         Log.i(EnergyConstants.LOG_TAG, "Energy service started.");
-        
-        // Set the Device ID
-        TelephonyManager tManager = (TelephonyManager) getApplicationContext().getSystemService(
-                Context.TELEPHONY_SERVICE);
-        EnergyConstants.DEVICE_ID = tManager.getDeviceId();
         
         // Instantiate the broadcast receiver
         this.br = new EnergyBroadcastReceiver();

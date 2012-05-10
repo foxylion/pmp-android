@@ -16,7 +16,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenu
  */
 public class EnergyResourceGroup extends ResourceGroup {
     
-    public EnergyResourceGroup(String rgPackage, IPMPConnectionInterface pmpci) {
+    public EnergyResourceGroup(IPMPConnectionInterface pmpci) {
         super(EnergyConstants.RG_PACKAGE_NAME, pmpci);
         
         // Register the resource
