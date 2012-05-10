@@ -27,7 +27,7 @@ if (!defined("INCLUDE")) {
 /**
  * Provides general functionality used for JSON output
  * @author  Patrick Strobel
- * @version 4.2.1
+ * @version 4.3.0
  */
 class Json {
 
@@ -92,6 +92,15 @@ class Json {
      */
     public static function printInvalidEventOrderError($exception, $exit = true) {
         self::printError("invalid_event_order", $exception->getMessage(), $exit);
+    }
+
+    /**
+     * Prints a JSON-object containing the ID and timestamp of the last event
+     * @param EventManager $manager Manager used to get the data
+     */
+    public static function printLastEvent(EventManager $manager) {
+        self::printAsJson(array('successful' => true, 'last_id' => $manager->getLastId(),
+                                'last_timestamp' => $manager->getLastTimestamp()));
     }
 
     /**

@@ -28,7 +28,7 @@ if (!defined("INCLUDE")) {
  * Abstract base class for all events that might be used by the webservices.
  *
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 abstract class Event {
 
@@ -50,11 +50,24 @@ abstract class Event {
     }
 
     /**
-     * Returns the event's ID
+     * Gets the event's ID
      * @return int  The ID
      */
     public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Sets the event's ID
+     * @param int $id   The ID
+     * @throws InvalidArgumentException Thrown, if the given ID is no integer or out of range
+     */
+    public function setId($id) {
+        if (!General::isValidId($id)) {
+            throw new InvalidArgumentException("ID is invalid");
+        }
+
+        $this->id = $id;
     }
 
     /**

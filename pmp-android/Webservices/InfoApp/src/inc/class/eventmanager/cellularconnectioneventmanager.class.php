@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 class CellularConnectionEventManager extends EventManager {
 
@@ -90,6 +90,10 @@ class CellularConnectionEventManager extends EventManager {
 
     public function getLastId() {
         return $this->queryLastId("connection_cellular");
+    }
+
+    public function getLastTimestamp() {
+        return $this->queryLastTimestamp("connection_cellular");
     }
 
 }
