@@ -22,12 +22,18 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
 
 /**
  * Displays the connection panel
@@ -65,6 +71,7 @@ public class ConnectionsPanel implements IPanel {
         test.add("test");
         test.add("iefnweifujn cIties");
         listView.setAdapter(new ListViewAdapater(context, test, test, test, test));
+        createLists();
     }
     
     
@@ -83,4 +90,43 @@ public class ConnectionsPanel implements IPanel {
         return "Connections";
     }
     
+    
+    private void createLists() {
+        //Try to get the cached ressource
+        PMPResourceIdentifier identifier = PMPResourceIdentifier.make(Constants.CONNECTION_RG_IDENTIFIER,
+                Constants.CONNECTION_RG_RESOURCE);
+        PMP.get().getResource(identifier, new PMPRequestResourceHandler() {
+            
+            @Override
+            public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
+                IConnection connectionStub = IConnection.Stub.asInterface(binder);
+                
+                // Fill the wifi list
+                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
+                    
+                } else {
+                    
+                }
+                
+                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
+                    
+                } else {
+                    
+                }
+                
+                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
+                    
+                } else {
+                    
+                }
+                
+                if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
+                    
+                } else {
+                    
+                }
+            }
+        });
+        
+    }
 }

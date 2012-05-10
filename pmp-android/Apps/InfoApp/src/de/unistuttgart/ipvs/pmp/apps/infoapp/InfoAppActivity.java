@@ -49,6 +49,6 @@ public class InfoAppActivity extends Activity {
         this.mIndicator = (TabPageIndicator) findViewById(R.id.indicator);
         this.mIndicator.setViewPager(this.mPager);
         
-        PMP.get(this.getApplication()).register(this);
+        PMP.get().register(this);
     }
 }
