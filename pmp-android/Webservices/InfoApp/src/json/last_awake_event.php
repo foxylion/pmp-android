@@ -25,9 +25,7 @@ require("./../inc/json_framework.inc.php");
 
 try {
     $device = Device::getInstance($_GET["device"]);
-    $lastId = $device->getAwakeEventManager()->getLastId();
-
-    Json::printAsJson(array('successful' => true, 'last_id' => $lastId));
+    Json::printLastEvent($device->getAwakeEventManager());
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidParameterError($iae);
 } catch (DatabaseException $de) {

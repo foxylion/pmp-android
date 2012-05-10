@@ -28,17 +28,13 @@ class InvalidOrderException extends Exception {
 
 }
 
-class IdInUseException extends Exception {
-
-}
-
 /**
  * Abstract base class for all event managers that might be used by the webservices.<br />
  * <b>Warning:</b> Sub classes should not be to instantiated directly as there is
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.0.2
+ * @version 4.1.0
  */
 abstract class EventManager {
 
@@ -58,22 +54,20 @@ abstract class EventManager {
 
     /**
      * Adds events to the event-table.
-     * Before events are added, their order will be checked. That is:
-     * <ul>
-     *  <li>if no ID is used twice and not in use by another entry in the database</li>
-     *  <li>for all events A and B: A.timesamp <= B.timesampt <=> A.id < B.id</li>
-     * </ul>
+     * Before events are added, their order will be checked. That is, the events are
+     * ordered ascending by their timestamp.<br />
+     * <b>Note:</b> The event's ID is calculated automatically. Therefore, ID
+     * that might have been set using the constructor or the <code>setId()</code> method
      * @param Event[] $events Events to check
-     * @throws InvalidOrderException Thrown, if the ID or timestamp order is violated
-     * @throws IdInUseException Thrown, if at least on ID is already used in the table
+     * @throws InvalidOrderException Thrown, if the timestamp order is violated
      */
     public function addEvents($events) {
         if (count($events) <= 0) {
             return;
         }
 
-        $lastId = -1;
-        $lastTimestamp = -1;
+        $lastId = $this->getLastId();
+        $lastTimestamp = $this->getLastTimestamp();
 
         // Check ID and timestamp order
         for ($i = 0; $i < count($events); $i++) {
@@ -83,22 +77,17 @@ abstract class EventManager {
                 throw new InvalidArgumentException("At least one event is not a object of the proper sub-class \"Event\"");
             }
 
-            if ($lastId >= $event->getId()) {
-                throw new InvalidOrderException("The order of the event's IDs is invalid or IDs are used twice");
-            }
-
             if ($lastTimestamp > $event->getTimestamp()) {
-                throw new InvalidOrderException("The order of the event's timestampts is invalid");
+                throw new InvalidOrderException("The order of the event's timestampts is invalid or there is already a entry in the database having the same timestamp");
             }
 
-            $lastId = $event->getId();
+            // Autoincrement of the event's ID
+            $lastId++;
+
+            $event->setId($lastId);
             $lastTimestamp = $event->getTimestamp();
         }
 
-        // Check if ID is already in use
-        if ($events[0]->getId() <= $this->getLastId()) {
-            throw new IdInUseException("At least the first event's ID is already in use");
-        }
 
         // Write data into db
         $this->writeBack($events);
@@ -133,9 +122,15 @@ abstract class EventManager {
 
     /**
      * Gets the ID of the event that has been added to the db the last time
-     * @return The last ID
+     * @return int The last ID
      */
     public abstract function getLastId();
+
+    /**
+     * Gets the timestamp of the event that has been added to the db the last time
+     * @return long The last timestamp
+     */
+    public abstract function getLastTimestamp();
 
     protected function queryLastId($field) {
         $db = Database::getInstance();
@@ -148,6 +143,22 @@ abstract class EventManager {
         }
 
         return (int) $row[$field];
+    }
+
+    protected function queryLastTimestamp($table) {
+        $db = Database::getInstance();
+
+        $table = Database::secureInput($table);
+
+        $row = $db->fetch($db->query("SELECT `timestamp` FROM `" . DB_PREFIX . "_" . $table . "`
+                                      WHERE device = x'" . $this->deviceId . "'
+                                      ORDER BY `event_id` DESC"));
+
+        if ($db->getAffectedRows() <= 0) {
+            return 0;
+        }
+
+        return (int) $row["timestamp"];
     }
 
     /**

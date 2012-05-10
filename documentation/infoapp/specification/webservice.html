@@ -13,10 +13,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">27. April 2012</div>
+    <div id="page-head-date">10. Mai 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">InfoApp Spezifikation - Webservices</div>
-    <div id="page-version">Version 4.6</div>
+    <div id="page-version">Version 4.7</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,12 @@
     <div id="content">
     
       <h1 id="versions">Versionshistorie</h1>
+      
+      <h3>Version 4.7</h3>
+      <ul>
+        <li>Schnittstellen der Webservices "last_*_event.php" überarbeitet. Liefern nun auch den Timestamp des letzten Eintrags</li>
+        <li>Schnittstellen der Webservices "upload_*_event.php" überarbeitet. Eine Angabe der ID nicht mehr erforderlich. ID wird automatisch berechnet</li>
+      </ul>
       
       <h3>Version 4.6</h3>
       <ul>
@@ -229,7 +235,6 @@
 {
   "events" : [
     {
-      "id": Integer,
       "timestamp": Integer,
       "medium": Character,      // Medium der Kommunikation
                                 // Werte: b (bluetooth), w (wifi)
@@ -300,7 +305,8 @@
 <pre>
 {
   "successful": true,
-  "last_id": Integer
+  "last_id": Integer,
+  "last_timestamp": Integer
 }
 </pre>
           </td>
@@ -407,7 +413,6 @@
 {
   "events" : [
     {
-      "id": Integer,
       "timestamp": Integer,
       "roaming": Boolean,       // Roaming aktive/nicht aktiv
       "airplane": Boolean       // Airplane-Mode an/aus
@@ -475,7 +480,8 @@
 <pre>
 {
   "successful": true,
-  "last_id": Integer
+  "last_id": Integer,
+  "last_timestamp": Integer
 }
 </pre>
           </td>
@@ -584,7 +590,6 @@
 {
   "events" : [
     {
-      "id": Integer,
       "timestamp": Integer,
       "level": Integer,         // Prozent (0 bis 100)
       "plugged": Character,     // Werte: n, a, u
@@ -658,7 +663,8 @@
 <pre>
 {
   "successful": true,
-  "last_id": Integer
+  "last_id": Integer,
+  "last_timestamp": Integer
 }
 </pre>
           </td>
@@ -764,7 +770,6 @@
 {
   "events" : [
     {
-      "id": Integer,
       "timestamp": Integer,
       "awake": Boolean          // Geräte aktiv/inaktiv
     },
@@ -831,7 +836,8 @@
 <pre>
 {
   "successful": true,
-  "last_id": Integer
+  "last_id": Integer,
+  "last_timestamp": Integer
 }
 </pre>
           </td>
@@ -887,7 +893,6 @@
 {
   "events" : [
     {
-      "id": Integer,
       "timestamp": Integer,
       "screen": Boolean          // Bildschirm an/aus
     },
@@ -953,7 +958,8 @@
 <pre>
 {
   "successful": true,
-  "last_id": Integer
+  "last_id": Integer,
+  "last_timestamp": Integer
 }
 </pre>
           </td>
@@ -1009,7 +1015,6 @@
 {
   "events" : [
     {
-      "id": Integer,
       "timestamp": Integer,
       "event": Character,       // Art des Events
                                 // Werte: c (Call), e (Email), s (SMS), a (Device active), w (Website)
@@ -1080,7 +1085,8 @@
 <pre>
 {
   "successful": true,
-  "last_id": Integer
+  "last_id": Integer,
+  "last_timestamp": Integer
 }
 </pre>
           </td>

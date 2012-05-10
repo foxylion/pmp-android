@@ -37,13 +37,12 @@ try {
         if (!is_object($event)) {
             throw new InvalidArgumentException("The event array contains a non-object element");
         }
-        if (!property_exists($event, "id") || !property_exists($event, "timestamp") ||
-                !property_exists($event, "screen")) {
+        if (!property_exists($event, "timestamp") || !property_exists($event, "screen")) {
             throw new InvalidArgumentException("At least one required attribute is missing in one or more events");
         }
 
         // Build event object and add it to the event array
-        $events[] = new ScreenEvent($event->id, $event->timestamp, $event->screen);
+        $events[] = new ScreenEvent(1, $event->timestamp, $event->screen);
 
     }
 
@@ -54,8 +53,6 @@ try {
 
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidParameterError($iae);
-} catch (IdInUseException $iiue) {
-    Json::printInvalidEventIdError($iiue);
 } catch (InvalidOrderException $ioe) {
     Json::printInvalidEventOrderError($ioe);
 } catch (DatabaseException $de) {

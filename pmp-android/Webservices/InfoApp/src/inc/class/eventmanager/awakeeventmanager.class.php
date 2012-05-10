@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.0.1
+ * @version 4.1.0
  */
 class AwakeEventManager extends EventManager {
 
@@ -87,6 +87,10 @@ class AwakeEventManager extends EventManager {
 
     public function getLastId() {
         return $this->queryLastId("awake");
+    }
+
+    public function getLastTimestamp() {
+        return $this->queryLastTimestamp("awake");
     }
 }
 

@@ -37,15 +37,14 @@ try {
         if (!is_object($event)) {
             throw new InvalidArgumentException("The event array contains a non-object element");
         }
-        if (!property_exists($event, "id") || !property_exists($event, "timestamp") ||
-                !property_exists($event, "level") || !property_exists($event, "plugged") ||
-                !property_exists($event, "present") || !property_exists($event, "status") ||
-                !property_exists($event, "temperature")) {
+        if (!property_exists($event, "timestamp") || !property_exists($event, "level") ||
+                !property_exists($event, "plugged") || !property_exists($event, "present") ||
+                !property_exists($event, "status") || !property_exists($event, "temperature")) {
             throw new InvalidArgumentException("At least one required attribute is missing in one or more events");
         }
 
         // Build event object and add it to the event array
-        $events[] = new BatteryEvent($event->id, $event->timestamp, $event->level,
+        $events[] = new BatteryEvent(1, $event->timestamp, $event->level,
                 $event->plugged, $event->present, $event->status, $event->temperature);
 
     }
@@ -57,8 +56,6 @@ try {
 
 } catch (InvalidArgumentException $iae) {
     Json::printInvalidParameterError($iae);
-} catch (IdInUseException $iiue) {
-    Json::printInvalidEventIdError($iiue);
 } catch (InvalidOrderException $ioe) {
     Json::printInvalidEventOrderError($ioe);
 } catch (DatabaseException $de) {

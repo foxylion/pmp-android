@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.0.1
+ * @version 4.1.0
  */
 class ScreenEventManager extends EventManager {
 
@@ -88,6 +88,10 @@ class ScreenEventManager extends EventManager {
 
     public function getLastId() {
         return $this->queryLastId("screen");
+    }
+
+    public function getLastTimestamp() {
+        return $this->queryLastTimestamp("screen");
     }
 
 }
