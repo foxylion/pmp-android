@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +17,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver.ResultSetUpload;
 
 /**
  * 
@@ -203,13 +207,94 @@ public class DBConnector implements IDBConnector {
     
     public ResultSetLastBootValues getLastBootValues() {
         ResultSetLastBootValues rs = new ResultSetLastBootValues();
+        
+        /**
+         * TODO: REMOVE DUMMY VALUES
+         */
+        rs.setCountOfCharging("-");
+        rs.setDate("-");
+        rs.setDurationOfCharging("-");
+        rs.setRatio("-");
+        rs.setScreenOn("-");
+        rs.setTemperatureAverage("-");
+        rs.setTemperaturePeak("-");
+        rs.setUptime("-");
+        rs.setUptimeBattery("-");
+        
         return rs;
     }
     
     
     public ResultSetTotalValues getTotalValues() {
         ResultSetTotalValues rs = new ResultSetTotalValues();
+        
+        /**
+         * TODO: REMOVE DUMMY VALUES
+         */
+        rs.setCountOfCharging("-");
+        rs.setDate("-");
+        rs.setDurationOfCharging("-");
+        rs.setRatio("-");
+        rs.setScreenOn("-");
+        rs.setTemperatureAverage("-");
+        rs.setTemperaturePeak("-");
+        rs.setUptime("-");
+        rs.setUptimeBattery("-");
+        
+        List<BatteryEvent> beList = getAllBatteryEvents(0);
+        
+        float temperaturePeak = 0;
+        float temperatureSum = 0;
+        for (BatteryEvent be : beList) {
+            // Calculate the temperature average
+            temperatureSum += be.getTemperature();
+            
+            // Calculate the temperature peak
+            if (be.getTemperature() > temperaturePeak) {
+                temperaturePeak = be.getTemperature();
+            }
+        }
+        // Set the temperature average
+        rs.setTemperatureAverage(String.valueOf(temperatureSum / beList.size()) + "°C");
+        
+        // Set the temperature peak
+        rs.setTemperaturePeak(String.valueOf(temperaturePeak) + "°C");
+        
         return rs;
+    }
+    
+    
+    public ResultSetUpload getUploadValues() {
+        ResultSetUpload rs = new ResultSetUpload();
+        rs.setBatteryEvents(getAllBatteryEvents(0));
+        return rs;
+    }
+    
+    
+    /**
+     * Get all battery events since a given time
+     * 
+     * @param since
+     *            time in ms since 1970
+     * @return list of battery events
+     */
+    private List<BatteryEvent> getAllBatteryEvents(long since) {
+        List<BatteryEvent> beList = new ArrayList<BatteryEvent>();
+        open();
+        Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS,
+                "DBConstants.TABLE_BATTERY_COL_TIMESTAMP > " + since, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            BatteryEvent be = cursorToBatteryEvent(cursor);
+            if (since < be.getTimestamp()) {
+                beList.add(be);
+            }
+            cursor.moveToNext();
+        }
+        
+        cursor.close();
+        close();
+        return null;
     }
     
     

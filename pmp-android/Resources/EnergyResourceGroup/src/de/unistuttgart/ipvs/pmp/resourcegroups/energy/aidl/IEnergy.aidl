@@ -20,19 +20,19 @@ interface IEnergy {
 	String getCurrentHealth();
 	
 	/**
-	* Get the current charging state
+	* Get the current status
 	*/
-	String getCurrentCharging();
+	String getCurrentStatus();
 	
 	/**
-	* Get the current charging source
+	* Get the current plugged
 	*/
-	String getCurrentChargingSource();
+	String getCurrentPlugged();
 	
 	/**
 	* Get the current charging time
 	*/
-	String getCurrentChargingTime();
+	String getCurrentStatusTime();
 
 	/**
 	* Get the current temperature
