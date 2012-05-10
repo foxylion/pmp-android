@@ -40,7 +40,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
     /**
      * Title of all group elements
      */
-    private static final String groups[] = { "Wifi", "BLuetooth", "Data Connection", "Cellular phone network" };
+    private static final String groups[] = { "Wifi", "Bluetooth", "Data Connection", "Cellular phone network" };
     
     /**
      * List for the wifi data
@@ -226,6 +226,28 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
             return item.toLowerCase().contains("cities");
         }
         return false;
+    }
+    
+    
+    /**
+     * Update the lists with the information and updates the view
+     * 
+     * @param wifiList
+     *            new wifi list
+     * @param btList
+     *            new bluetooth list
+     * @param dataList
+     *            new data connection list
+     * @param cellPhoneList
+     *            new cellular phone network list
+     */
+    public void updateLists(ArrayList<String> wifiList, ArrayList<String> btList, ArrayList<String> dataList,
+            ArrayList<String> cellPhoneList) {
+        this.wifiList = wifiList;
+        this.btList = btList;
+        this.dataList = dataList;
+        this.cellPhoneList = cellPhoneList;
+        this.notifyDataSetChanged();
     }
     
 }

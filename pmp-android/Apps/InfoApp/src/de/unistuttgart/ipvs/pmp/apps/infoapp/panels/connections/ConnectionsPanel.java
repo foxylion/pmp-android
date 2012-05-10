@@ -48,6 +48,12 @@ public class ConnectionsPanel implements IPanel {
      */
     private LinearLayout view;
     
+    /**
+     * The adapter of the {@link ExpandableListView}
+     * 
+     */
+    private ListViewAdapater adapter;
+    
     
     /**
      * Constructor for the panel
@@ -70,7 +76,9 @@ public class ConnectionsPanel implements IPanel {
         test.add("test");
         test.add("test");
         test.add("iefnweifujn cIties");
-        listView.setAdapter(new ListViewAdapater(context, test, test, test, test));
+        adapter = new ListViewAdapater(context, test, test, test, test);
+        listView.setAdapter(adapter);
+        
         //        createLists();
     }
     
@@ -101,30 +109,39 @@ public class ConnectionsPanel implements IPanel {
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
                 IConnection connectionStub = IConnection.Stub.asInterface(binder);
                 
+                // New lists
+                ArrayList<String> wifiList = new ArrayList<String>();
+                ArrayList<String> btList = new ArrayList<String>();
+                ArrayList<String> dataList = new ArrayList<String>();
+                ArrayList<String> cellPhoneList = new ArrayList<String>();
+                
                 // Fill the wifi list
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
                     
                 } else {
-                    
+                    wifiList.add("The service features are insufficient. Tap here to enable service features...");
                 }
                 
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
                     
                 } else {
-                    
+                    btList.add("The service features are insufficient. Tap here to enable service features...");
                 }
                 
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
                     
                 } else {
-                    
+                    cellPhoneList.add("The service features are insufficient. Tap here to enable service features...");
                 }
                 
                 if (PMP.get().isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
                     
                 } else {
-                    
+                    dataList.add("The service features are insufficient. Tap here to enable service features...");
                 }
+                
+                // Update the view
+                adapter.updateLists(wifiList, btList, dataList, cellPhoneList);
             }
         });
         
