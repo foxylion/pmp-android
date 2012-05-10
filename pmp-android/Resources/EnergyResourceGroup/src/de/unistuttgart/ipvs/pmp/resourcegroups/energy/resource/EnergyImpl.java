@@ -1,12 +1,19 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource;
 
+import android.content.Context;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.DBConnector;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.IDBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum.PSBatteryTemperatureEnum;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum.PSDeviceBatteryChargingUptimeEnum;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum.PSDeviceDatesEnum;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver.UploadHandler;
 
 /**
  * 
@@ -17,17 +24,23 @@ public class EnergyImpl extends IEnergy.Stub {
     
     private PSValidator psv;
     
+    private Context context;
+    
+    private IDBConnector dbc;
+    
     
     public EnergyImpl(ResourceGroup rg, String appIdentifier) {
         this.psv = new PSValidator(rg, appIdentifier);
+        this.context = rg.getContext(appIdentifier);
+        this.dbc = DBConnector.getInstance(this.context);
     }
     
     
     public String getCurrentLevel() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_LEVEL, "true");
         
-        return "0";
+        return getResultSetCV().getLevel();
     }
     
     
@@ -35,31 +48,31 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_HEALTH, "true");
         
-        return null;
+        return getResultSetCV().getHealth();
     }
     
     
-    public String getCurrentCharging() throws RemoteException {
+    public String getCurrentStatus() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_STATUS, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS, "true");
         
-        return "No";
+        return getResultSetCV().getStatus();
     }
     
     
-    public String getCurrentChargingSource() throws RemoteException {
+    public String getCurrentPlugged() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_SOURCE, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_PLUGGED, "true");
         
-        return null;
+        return getResultSetCV().getPlugged();
     }
     
     
-    public String getCurrentChargingTime() throws RemoteException {
+    public String getCurrentStatusTime() throws RemoteException {
         // Check permission
-        this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_TIME, "true");
+        this.psv.validate(EnergyConstants.PS_BATTERY_STATUS_TIME, "true");
         
-        return null;
+        return getResultSetCV().getStatusTime();
     }
     
     
@@ -67,7 +80,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSBatteryTemperatureEnum.CURRENT);
         
-        return null;
+        return getResultSetCV().getTemperature();
     }
     
     
@@ -75,7 +88,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSDeviceDatesEnum.LAST_BOOT);
         
-        return null;
+        return getResultSetLBV().getDate();
     }
     
     
@@ -83,7 +96,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSDeviceDatesEnum.LAST_BOOT);
         
-        return null;
+        return getResultSetLBV().getUptime();
     }
     
     
@@ -91,7 +104,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
         
-        return null;
+        return getResultSetLBV().getUptimeBattery();
     }
     
     
@@ -100,7 +113,7 @@ public class EnergyImpl extends IEnergy.Stub {
         this.psv.validate(PSDeviceDatesEnum.LAST_BOOT);
         this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
         
-        return null;
+        return getResultSetLBV().getDurationOfCharging();
     }
     
     
@@ -108,7 +121,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_RATIO, "true");
         
-        return null;
+        return getResultSetLBV().getRatio();
     }
     
     
@@ -116,7 +129,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSBatteryTemperatureEnum.ALL);
         
-        return null;
+        return getResultSetLBV().getTemperaturePeak();
     }
     
     
@@ -124,7 +137,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSBatteryTemperatureEnum.ALL);
         
-        return null;
+        return getResultSetLBV().getTemperatureAverage();
     }
     
     
@@ -132,7 +145,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_COUNT, "true");
         
-        return null;
+        return getResultSetLBV().getCountOfCharging();
     }
     
     
@@ -140,7 +153,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_DEVICE_SCREEN, "true");
         
-        return null;
+        return getResultSetLBV().getScreenOn();
     }
     
     
@@ -148,7 +161,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSDeviceDatesEnum.ALL);
         
-        return null;
+        return getResultSetTV().getDate();
     }
     
     
@@ -156,7 +169,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSDeviceDatesEnum.ALL);
         
-        return null;
+        return getResultSetTV().getUptime();
     }
     
     
@@ -164,7 +177,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
         
-        return null;
+        return getResultSetTV().getUptimeBattery();
     }
     
     
@@ -173,7 +186,7 @@ public class EnergyImpl extends IEnergy.Stub {
         this.psv.validate(PSDeviceDatesEnum.ALL);
         this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
         
-        return null;
+        return getResultSetTV().getDurationOfCharging();
     }
     
     
@@ -181,7 +194,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_RATIO, "true");
         
-        return null;
+        return getResultSetTV().getRatio();
     }
     
     
@@ -189,7 +202,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSBatteryTemperatureEnum.ALL);
         
-        return null;
+        return getResultSetTV().getTemperaturePeak();
     }
     
     
@@ -197,7 +210,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(PSBatteryTemperatureEnum.ALL);
         
-        return null;
+        return getResultSetTV().getTemperatureAverage();
     }
     
     
@@ -205,7 +218,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_CHARGING_COUNT, "true");
         
-        return null;
+        return getResultSetTV().getCountOfCharging();
     }
     
     
@@ -213,7 +226,7 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_DEVICE_SCREEN, "true");
         
-        return null;
+        return getResultSetTV().getScreenOn();
     }
     
     
@@ -221,7 +234,25 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_UPLOAD_DATA, "true");
         
+        UploadHandler uh = new UploadHandler(this.context);
+        uh.upload();
+        
         return null;
+    }
+    
+    
+    private ResultSetCurrentValues getResultSetCV() {
+        return dbc.getCurrentValues();
+    }
+    
+    
+    private ResultSetLastBootValues getResultSetLBV() {
+        return dbc.getLastBootValues();
+    }
+    
+    
+    private ResultSetTotalValues getResultSetTV() {
+        return dbc.getTotalValues();
     }
     
 }

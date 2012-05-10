@@ -6,6 +6,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver.ResultSetUpload;
 
 /**
  * 
@@ -63,5 +64,13 @@ public interface IDBConnector {
      * @return a object of {@link ResultSetTotalValues}
      */
     public ResultSetTotalValues getTotalValues();
+    
+    
+    /**
+     * Get the values for an upload
+     * 
+     * @return a object of {@link ResultSetUpload}
+     */
+    public ResultSetUpload getUploadValues();
     
 }
