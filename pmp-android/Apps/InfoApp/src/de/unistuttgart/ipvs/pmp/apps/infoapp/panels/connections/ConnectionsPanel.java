@@ -71,7 +71,7 @@ public class ConnectionsPanel implements IPanel {
         test.add("test");
         test.add("iefnweifujn cIties");
         listView.setAdapter(new ListViewAdapater(context, test, test, test, test));
-        createLists();
+        //        createLists();
     }
     
     
