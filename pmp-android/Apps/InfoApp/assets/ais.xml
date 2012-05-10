@@ -61,7 +61,7 @@
          <name lang="de">Aktuelle Energiewerte</name>
          <description lang="en">Get information about current values of the battery and energy management of the device</description>
          <description lang="de">Erhalte Information über die aktuellen Batterie- und Energiewerte des Geräts</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-10 18:25:50:139 MESZ">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-09 00:00:00:000 MESZ">
             <requiredPrivacySetting identifier="battery-level"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-health"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-status"><![CDATA[true]]></requiredPrivacySetting>
@@ -75,7 +75,7 @@
          <name lang="de">Energywerte seit dem letzten Systemstart</name>
          <description lang="en">Get information about the values of the battery and energy management of the device since last boot</description>
          <description lang="de">Erhalte Information über die Batterie- und Energiewerte des Geräts seit dem letzten Systemstart</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-10 18:27:17:276 MESZ">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-09 00:00:00:000 MESZ">
             <requiredPrivacySetting identifier="battery-temperature"><![CDATA[all]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-ratio"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-count"><![CDATA[true]]></requiredPrivacySetting>
@@ -89,7 +89,7 @@
          <name lang="de">Energiewerte seit Beginn der Aufzeichnung</name>
          <description lang="en">Get information about the values of the battery and energy management of the device since start of measurement</description>
          <description lang="de">Erhalte Information über die Batterie- und Energiewerte des Geräts seit Beginn der Aufzeichnung</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-10 18:28:57:986 MESZ">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-09 00:00:00:000 MESZ">
             <requiredPrivacySetting identifier="battery-temperature"><![CDATA[all]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-ratio"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-count"><![CDATA[true]]></requiredPrivacySetting>
@@ -103,7 +103,7 @@
          <name lang="de">Auswertung der Energiewerte</name>
          <description lang="en">Send all values of energy measurement to a statistic server</description>
          <description lang="de">Übertrage alle Energiewerte an einen Statistik-Server</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-10 18:29:09:204 MESZ">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="2012-05-09 00:00:00:000 MESZ">
             <requiredPrivacySetting identifier="upload-data"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
