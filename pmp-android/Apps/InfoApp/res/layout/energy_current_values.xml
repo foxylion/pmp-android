@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/energyCVtableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/energyCVtableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyCVLevelLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Level: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyCVLevel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyCVtableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyCVHealthLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Health: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyCVHealth"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyCVtableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyCVStatusLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Status: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyCVStatus"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyCVtableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyCVPluggedLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Plugged: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyCVPlugged"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyCVtableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyCVStatusTimeLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Status time: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyCVStatusTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyCVtableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyCVTemperatureLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Temperature: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyCVTemperature"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/energyCVNotAvailable"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="No data available, because the required Service Feature (PMP) is not set"
+        android:textStyle="bold" />
+
+</LinearLayout>

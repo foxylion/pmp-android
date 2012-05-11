@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,6 +47,18 @@ public class ProfilePanel implements IPanel {
     
     public String getTitle() {
         return "Profile";
+    }
+    
+    
+    public void update() {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
+    public void upload() {
+        // TODO Auto-generated method stub
+        
     }
     
 }

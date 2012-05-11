@@ -1,11 +1,11 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset;
+package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data;
 
 /**
  * 
  * @author Marcus Vetter
  * 
  */
-public abstract class AbstractResultSet {
+public class AbstractEnergyValues {
     
     /**
      * The attributes

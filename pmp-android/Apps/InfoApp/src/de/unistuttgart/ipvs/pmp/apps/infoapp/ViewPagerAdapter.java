@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,6 @@ import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.EnergyPanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.example.ExamplePanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.hardware.HardwarePanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.profile.ProfilePanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.rss.RSSPanel;
 
 public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
     
@@ -52,7 +51,7 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
         this.panels.add(new EnergyPanel(context));
         this.panels.add(new ProfilePanel(context));
         this.panels.add(new HardwarePanel(context));
-        this.panels.add(new RSSPanel(context));
+        //this.panels.add(new RSSPanel(context));
     }
     
     

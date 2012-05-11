@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/energyTVtableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/energyTVtableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVDateLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Date of first measurement: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVUptimeLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Uptime: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVUptime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVUptimeBatteryLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Uptime with battery: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVUptimeBattery"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVDurationChargingLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Duration of charging: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVDurationCharging"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVRatioLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Ratio (charging:battery): "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVRatio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVCountOfChargingLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Count of charging processes: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVCountOfCharging"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVTemperaturePeakLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Temperature peak: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVTemperaturePeak"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVTemperatureAverageLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Temperature average: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVTemperatureAverage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyTVtableRow9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyTVScreenOnLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Time of Screen on: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyTVScreenOn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/energyTVNotAvailable"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="No data available, because the required Service Feature (PMP) is not set"
+        android:textStyle="bold" />
+
+</LinearLayout>

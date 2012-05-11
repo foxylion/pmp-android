@@ -235,4 +235,16 @@ public class ConnectionsPanel implements IPanel {
             return context.getString(R.string.connection_panel_not_active);
         }
     }
+    
+    
+    public void update() {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    
+    public void upload() {
+        // TODO Auto-generated method stub
+        
+    }
 }

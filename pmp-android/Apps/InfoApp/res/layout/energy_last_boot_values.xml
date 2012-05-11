@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/energyLBVtableLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVDateLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Date of first measurement: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVDate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVUptimeLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Uptime: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVUptime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVUptimeBatteryLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Uptime with battery: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVUptimeBattery"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVDurationChargingLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Duration of charging: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVDurationCharging"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVRatioLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Ratio (charging:battery): "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVRatio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVCountOfChargingLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Count of charging processes: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVCountOfCharging"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVTemperaturePeakLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Temperature peak: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVTemperaturePeak"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVTemperatureAverageLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Temperature average: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVTemperatureAverage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/energyLBVtableRow9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/energyLBVScreenOnLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Time of Screen on: "
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/energyLBVScreenOn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/energyLBVNotAvailable"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="No data available, because the required Service Feature (PMP) is not set"
+        android:textStyle="bold" />
+
+</LinearLayout>

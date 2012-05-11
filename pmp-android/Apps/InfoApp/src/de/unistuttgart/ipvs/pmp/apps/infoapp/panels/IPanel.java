@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +21,38 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.panels;
 
 import android.view.View;
 
+/**
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public interface IPanel {
     
+    /**
+     * The view of the panel
+     * 
+     * @return the view of the panel
+     */
     public View getView();
     
     
+    /**
+     * The title of the panel
+     * 
+     * @return the title of the panel
+     */
     public String getTitle();
+    
+    
+    /**
+     * This method is called, if the panel should update its data
+     */
+    public void update();
+    
+    
+    /**
+     * This method is called, if the panel should upload the data to the statistics server
+     */
+    public void upload();
     
 }
