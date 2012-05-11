@@ -88,11 +88,60 @@ public class EnergyPanel implements IPanel {
     }
     
     
-    public void upload() {
-        // TODO Auto-generated method stub
+    public String upload() {
+        if (PMP.get().isServiceFeatureEnabled(Constants.ENERGY_SF_UPLOAD_DATA)) {
+            final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
+                    Constants.ENERGY_RG_RESOURCE);
+            
+            UploadRequestResourceHandler urrh = new UploadRequestResourceHandler();
+            
+            // PMP.get().getResource(id, urrh);
+            
+            return urrh.getURL();
+        }
         
+        return "";
     }
 }
+
+/**
+ * The upload request resource handler
+ * 
+ * @author Marcus Vetter
+ * 
+ */
+class UploadRequestResourceHandler extends PMPRequestResourceHandler {
+    
+    private String URL = "";
+    
+    
+    @Override
+    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
+        IEnergy energyRG = IEnergy.Stub.asInterface(binder);
+        try {
+            this.setURL(energyRG.uploadData());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * @return the uRL
+     */
+    public String getURL() {
+        return URL;
+    }
+    
+    
+    /**
+     * @param uRL
+     *            the uRL to set
+     */
+    public void setURL(String uRL) {
+        URL = uRL;
+    }
+};
 
 /**
  * The request resource handler

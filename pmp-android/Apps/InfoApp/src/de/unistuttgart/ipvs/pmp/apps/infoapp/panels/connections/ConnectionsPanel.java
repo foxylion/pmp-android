@@ -353,8 +353,8 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     }
     
     
-    public void upload() {
+    public String upload() {
         // TODO Auto-generated method stub
-        
+        return null;
     }
 }
