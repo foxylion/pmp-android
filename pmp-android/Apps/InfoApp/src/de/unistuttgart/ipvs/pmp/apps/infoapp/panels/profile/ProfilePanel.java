@@ -56,9 +56,9 @@ public class ProfilePanel implements IPanel {
     }
     
     
-    public void upload() {
+    public String upload() {
         // TODO Auto-generated method stub
-        
+        return null;
     }
     
 }
