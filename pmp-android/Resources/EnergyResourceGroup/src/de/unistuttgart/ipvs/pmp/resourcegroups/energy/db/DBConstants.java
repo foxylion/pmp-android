@@ -11,7 +11,7 @@ public class DBConstants {
      * Database name and version
      */
     protected static final String DATABASE_NAME = "energy.db";
-    protected static final int DATABASE_VERSION = 3;
+    protected static final int DATABASE_VERSION = 4;
     
     /**
      * Table names
@@ -38,6 +38,7 @@ public class DBConstants {
     public static final String TABLE_SCREEN_COL_CHANGED_TO = "changed_to";
     public static final String TABLE_DEVICE_BOOT_COL_ID = "id";
     public static final String TABLE_DEVICE_BOOT_COL_TIMESTAMP = "timestamp";
+    public static final String TABLE_DEVICE_BOOT_COL_CHANGED_TO = "changed_to";
     
     /**
      * Column arrays
@@ -49,6 +50,6 @@ public class DBConstants {
     public static final String[] TABLE_SCREEN_ALL_COLS = { TABLE_SCREEN_COL_ID, TABLE_SCREEN_COL_TIMESTAMP,
             TABLE_SCREEN_COL_CHANGED_TO };
     public static final String[] TABLE_DEVICE_BOOT_ALL_COLS = { TABLE_DEVICE_BOOT_COL_ID,
-            TABLE_DEVICE_BOOT_COL_TIMESTAMP };
+            TABLE_DEVICE_BOOT_COL_TIMESTAMP, TABLE_DEVICE_BOOT_COL_CHANGED_TO };
     
 }

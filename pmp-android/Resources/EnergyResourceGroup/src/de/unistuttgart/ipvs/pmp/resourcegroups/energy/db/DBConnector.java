@@ -9,11 +9,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.BatteryEvent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.DeviceBootEvent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.AbstractResultSet;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
@@ -114,8 +114,6 @@ public class DBConnector implements IDBConnector {
         long id = this.database.insert(DBConstants.TABLE_BATTERY, null, cvs);
         close();
         
-        Toast.makeText(this.context, "BATTERY ID: " + id, Toast.LENGTH_SHORT).show();
-        
         // Log
         Log.i(EnergyConstants.LOG_TAG, "Stored battery event in database (ID: " + id + ")");
         Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + be.getTimestamp());
@@ -142,8 +140,6 @@ public class DBConnector implements IDBConnector {
         long id = this.database.insert(DBConstants.TABLE_SCREEN, null, cvs);
         close();
         
-        Toast.makeText(this.context, "SCREEN ID: " + id, Toast.LENGTH_SHORT).show();
-        
         // Log
         Log.i(EnergyConstants.LOG_TAG, "Stored screen event in database (ID: " + id + ")");
         Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + se.getTimestamp());
@@ -156,17 +152,17 @@ public class DBConnector implements IDBConnector {
         // Create content values
         ContentValues cvs = new ContentValues();
         cvs.put(DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP, dbe.getTimestamp());
+        cvs.put(DBConstants.TABLE_DEVICE_BOOT_COL_CHANGED_TO, dbe.isChangedTo());
         
         // Insert into database
         open();
         long id = this.database.insert(DBConstants.TABLE_DEVICE_BOOT, null, cvs);
         close();
         
-        Toast.makeText(this.context, "DEVICE_BOOT ID: " + id, Toast.LENGTH_SHORT).show();
-        
         // Log
         Log.i(EnergyConstants.LOG_TAG, "Stored device boot event in database (ID: " + id + ")");
         Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + dbe.getTimestamp());
+        Log.i(EnergyConstants.LOG_TAG, "Changed to: " + dbe.isChangedTo());
     }
     
     
@@ -206,43 +202,140 @@ public class DBConnector implements IDBConnector {
     
     
     public ResultSetLastBootValues getLastBootValues() {
-        ResultSetLastBootValues rs = new ResultSetLastBootValues();
         
-        /**
-         * TODO: REMOVE DUMMY VALUES
-         */
-        rs.setCountOfCharging("-");
-        rs.setDate("-");
-        rs.setDurationOfCharging("-");
-        rs.setRatio("-");
-        rs.setScreenOn("-");
-        rs.setTemperatureAverage("-");
-        rs.setTemperaturePeak("-");
-        rs.setUptime("-");
-        rs.setUptimeBattery("-");
+        // Get the last boot date
+        long lastBootDate;
+        open();
+        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS, null,
+                null, null, null, null);
+        if (cursor.moveToLast()) {
+            lastBootDate = cursor.getLong(1);
+        } else {
+            lastBootDate = 0;
+        }
+        close();
         
-        return rs;
+        // Return the result set
+        return (ResultSetLastBootValues) createResultSet(getAllBatteryEvents(lastBootDate),
+                getAllScreenEvents(lastBootDate), getAllDeviceBootEvents(lastBootDate), new ResultSetLastBootValues(),
+                lastBootDate);
+        
     }
     
     
     public ResultSetTotalValues getTotalValues() {
-        ResultSetTotalValues rs = new ResultSetTotalValues();
         
-        /**
-         * TODO: REMOVE DUMMY VALUES
+        // Get the date of first measurement
+        long dateOfFirstMeasurement;
+        open();
+        Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS, null, null, null,
+                null, null);
+        if (cursor.moveToFirst()) {
+            dateOfFirstMeasurement = cursor.getLong(1);
+        } else {
+            dateOfFirstMeasurement = 0;
+        }
+        close();
+        
+        // Return the result set
+        return (ResultSetTotalValues) createResultSet(getAllBatteryEvents(dateOfFirstMeasurement),
+                getAllScreenEvents(dateOfFirstMeasurement), getAllDeviceBootEvents(dateOfFirstMeasurement),
+                new ResultSetTotalValues(), dateOfFirstMeasurement);
+    }
+    
+    
+    public ResultSetUpload getUploadValues() {
+        ResultSetUpload rs = new ResultSetUpload();
+        rs.setBatteryEvents(getAllBatteryEvents(0));
+        return rs;
+    }
+    
+    
+    /**
+     * Create the result set for Last boot values und total values
+     * 
+     * @param beList
+     * @param rs
+     * @param date
+     */
+    private AbstractResultSet createResultSet(List<BatteryEvent> beList, List<ScreenEvent> seList,
+            List<DeviceBootEvent> dbeList, AbstractResultSet rs, long date) {
+        
+        if (beList.size() == 0 || seList.size() == 0 || dbeList.size() == 0)
+            return rs;
+        
+        /*
+         *  Set the date
          */
-        rs.setCountOfCharging("-");
-        rs.setDate("-");
-        rs.setDurationOfCharging("-");
-        rs.setRatio("-");
-        rs.setScreenOn("-");
-        rs.setTemperatureAverage("-");
-        rs.setTemperaturePeak("-");
-        rs.setUptime("-");
-        rs.setUptimeBattery("-");
+        rs.setDate(String.valueOf(date));
         
-        List<BatteryEvent> beList = getAllBatteryEvents(0);
+        /*
+         * Set the uptime 
+         */
+        long uptime = 0;
+        long lastUptimeTimeStamp = dbeList.get(0).getTimestamp();
+        boolean deviceOn = dbeList.get(0).isChangedTo();
+        for (int itr = 1; itr < dbeList.size(); itr++) {
+            DeviceBootEvent dbe = dbeList.get(itr);
+            if (deviceOn && !dbe.isChangedTo()) {
+                uptime += dbe.getTimestamp() - lastUptimeTimeStamp;
+                deviceOn = false;
+            } else if (!deviceOn && dbe.isChangedTo()) {
+                deviceOn = true;
+            }
+            lastUptimeTimeStamp = dbe.getTimestamp();
+        }
+        rs.setUptime(String.valueOf(uptime));
         
+        /*
+         * Set the duration of charging
+         */
+        long durationOfCharging = 0;
+        long lastDurationTimeStamp = dbeList.get(0).getTimestamp();
+        boolean isChargingD = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
+        for (BatteryEvent be : beList) {
+            if (isChargingD && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                isChargingD = false;
+            } else if (!isChargingD && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                isChargingD = true;
+                durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
+            }
+        }
+        rs.setDurationOfCharging(String.valueOf(durationOfCharging));
+        
+        /*
+         * Set the uptime with battery
+         */
+        long uptimeBattery = uptime - durationOfCharging;
+        rs.setUptimeBattery(String.valueOf(uptimeBattery));
+        
+        /*
+         * Set the ratio (charging:battery)
+         */
+        float ratio = durationOfCharging / uptimeBattery;
+        rs.setRatio(String.valueOf(ratio));
+        
+        /*
+         * Set the count of charging
+         */
+        boolean isCharging = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
+        int chargeCount = 0;
+        if (isCharging) {
+            chargeCount++;
+        }
+        for (BatteryEvent be : beList) {
+            if (isCharging && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                isCharging = false;
+            } else if (!isCharging && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                isCharging = true;
+                chargeCount++;
+            }
+        }
+        rs.setCountOfCharging(String.valueOf(chargeCount) + " times");
+        
+        /*
+         * Set temperature peak and average
+         */
         float temperaturePeak = 0;
         float temperatureSum = 0;
         for (BatteryEvent be : beList) {
@@ -260,13 +353,24 @@ public class DBConnector implements IDBConnector {
         // Set the temperature peak
         rs.setTemperaturePeak(String.valueOf(temperaturePeak) + "°C");
         
-        return rs;
-    }
-    
-    
-    public ResultSetUpload getUploadValues() {
-        ResultSetUpload rs = new ResultSetUpload();
-        rs.setBatteryEvents(getAllBatteryEvents(0));
+        /*
+         * Set the screen on time
+         */
+        long time = 0;
+        long lastTimeStamp = seList.get(0).getTimestamp();
+        boolean screenOn = seList.get(0).isChangedTo();
+        for (int itr = 1; itr < seList.size(); itr++) {
+            ScreenEvent se = seList.get(itr);
+            if (screenOn && !se.isChangedTo()) {
+                time += se.getTimestamp() - lastTimeStamp;
+                screenOn = false;
+            } else if (!screenOn && se.isChangedTo()) {
+                screenOn = true;
+            }
+            lastTimeStamp = se.getTimestamp();
+        }
+        rs.setScreenOn(String.valueOf(time));
+        
         return rs;
     }
     
@@ -282,19 +386,64 @@ public class DBConnector implements IDBConnector {
         List<BatteryEvent> beList = new ArrayList<BatteryEvent>();
         open();
         Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS,
-                "DBConstants.TABLE_BATTERY_COL_TIMESTAMP > " + since, null, null, null, null);
+                DBConstants.TABLE_BATTERY_COL_TIMESTAMP + " >= " + since, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            BatteryEvent be = cursorToBatteryEvent(cursor);
-            if (since < be.getTimestamp()) {
-                beList.add(be);
-            }
+            beList.add(cursorToBatteryEvent(cursor));
             cursor.moveToNext();
         }
         
         cursor.close();
         close();
-        return null;
+        return beList;
+    }
+    
+    
+    /**
+     * Get all screen events since a given time
+     * 
+     * @param since
+     *            time in ms since 1970
+     * @return list of screen events
+     */
+    private List<ScreenEvent> getAllScreenEvents(long since) {
+        List<ScreenEvent> seList = new ArrayList<ScreenEvent>();
+        open();
+        Cursor cursor = database.query(DBConstants.TABLE_SCREEN, DBConstants.TABLE_SCREEN_ALL_COLS,
+                DBConstants.TABLE_SCREEN_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            seList.add(cursorToScreenEvent(cursor));
+            cursor.moveToNext();
+        }
+        
+        cursor.close();
+        close();
+        return seList;
+    }
+    
+    
+    /**
+     * Get all device boot events since a given time
+     * 
+     * @param since
+     *            time in ms since 1970
+     * @return list of device boot events
+     */
+    private List<DeviceBootEvent> getAllDeviceBootEvents(long since) {
+        List<DeviceBootEvent> dbeList = new ArrayList<DeviceBootEvent>();
+        open();
+        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS,
+                DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            dbeList.add(cursorToDeviceBootEvent(cursor));
+            cursor.moveToNext();
+        }
+        
+        cursor.close();
+        close();
+        return dbeList;
     }
     
     
@@ -321,6 +470,44 @@ public class DBConnector implements IDBConnector {
         be.setTemperature(cursor.getFloat(8));
         be.setVoltage(cursor.getInt(9));
         return be;
+    }
+    
+    
+    /**
+     * Convert the cursor into a {@link ScreenEvent}-Object
+     * 
+     * @param cursor
+     * @return {@link ScreenEvent}-Object
+     */
+    private ScreenEvent cursorToScreenEvent(Cursor cursor) {
+        ScreenEvent se = new ScreenEvent();
+        se.setId(cursor.getInt(0));
+        se.setTimestamp(cursor.getLong(1));
+        if (cursor.getInt(2) == 1) {
+            se.setChangedTo(true);
+        } else {
+            se.setChangedTo(false);
+        }
+        return se;
+    }
+    
+    
+    /**
+     * Convert the cursor into a {@link DeviceBootEvent}-Object
+     * 
+     * @param cursor
+     * @return {@link DeviceBootEvent}-Object
+     */
+    private DeviceBootEvent cursorToDeviceBootEvent(Cursor cursor) {
+        DeviceBootEvent dbe = new DeviceBootEvent();
+        dbe.setId(cursor.getInt(0));
+        dbe.setTimestamp(cursor.getLong(1));
+        if (cursor.getInt(2) == 1) {
+            dbe.setChangedTo(true);
+        } else {
+            dbe.setChangedTo(false);
+        }
+        return dbe;
     }
     
 }

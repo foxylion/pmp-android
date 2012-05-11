@@ -25,6 +25,13 @@ public class ScreenEvent extends AbstractEvent {
     
     
     /**
+     * Empty constructor
+     */
+    public ScreenEvent() {
+    }
+    
+    
+    /**
      * @return the changedTo
      */
     public boolean isChangedTo() {

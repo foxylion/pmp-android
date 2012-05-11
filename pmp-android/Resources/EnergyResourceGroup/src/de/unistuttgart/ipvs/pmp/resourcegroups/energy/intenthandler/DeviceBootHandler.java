@@ -11,11 +11,11 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.DeviceBootEvent;
  */
 public class DeviceBootHandler {
     
-    public static void handle(Context context) {
+    public static void handle(Context context, boolean changedTo) {
         /*
          * Store to database
          */
-        DeviceBootEvent dbe = new DeviceBootEvent(-1, System.currentTimeMillis());
+        DeviceBootEvent dbe = new DeviceBootEvent(-1, System.currentTimeMillis(), changedTo);
         DBConnector.getInstance(context).storeDeviceBootEvent(dbe);
     }
     

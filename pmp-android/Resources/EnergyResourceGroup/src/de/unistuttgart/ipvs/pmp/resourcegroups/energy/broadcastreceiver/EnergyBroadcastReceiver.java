@@ -1,8 +1,9 @@
-package de.unistuttgart.ipvs.pmp.resourcegroups.energy;
+package de.unistuttgart.ipvs.pmp.resourcegroups.energy.broadcastreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.BatteryHandler;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.ScreenHandler;
 

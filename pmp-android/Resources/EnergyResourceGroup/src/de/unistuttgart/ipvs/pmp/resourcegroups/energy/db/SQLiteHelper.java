@@ -33,7 +33,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
      */
     private static final String CREATE_TABLE_DEVICE_BOOT = "CREATE TABLE IF NOT EXISTS "
             + DBConstants.TABLE_DEVICE_BOOT + " ( " + DBConstants.TABLE_DEVICE_BOOT_COL_ID
-            + " integer primary key autoincrement, " + DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " integer );";
+            + " integer primary key autoincrement, " + DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " integer, "
+            + DBConstants.TABLE_DEVICE_BOOT_COL_CHANGED_TO + " integer );";
     
     
     public SQLiteHelper(Context context) {

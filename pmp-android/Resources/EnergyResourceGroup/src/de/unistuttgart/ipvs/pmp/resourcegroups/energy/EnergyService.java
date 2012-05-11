@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy;
 
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.broadcastreceiver.EnergyBroadcastReceiver;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
