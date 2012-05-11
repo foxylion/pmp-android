@@ -20,18 +20,23 @@
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.InfoAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
@@ -42,7 +47,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
  * @author Thorsten Berberich
  * 
  */
-public class ConnectionsPanel implements IPanel {
+public class ConnectionsPanel implements IPanel, OnChildClickListener {
     
     /**
      * The view
@@ -60,6 +65,17 @@ public class ConnectionsPanel implements IPanel {
      */
     private Context context;
     
+    /**
+     * The info app activity
+     */
+    private InfoAppActivity activity;
+    
+    /**
+     * PMP resource identifier for the connection rg
+     */
+    private final PMPResourceIdentifier RG_IDENTIFIER = PMPResourceIdentifier.make(Constants.CONNECTION_RG_IDENTIFIER,
+            Constants.CONNECTION_RG_RESOURCE);
+    
     
     /**
      * Constructor for the panel
@@ -67,8 +83,10 @@ public class ConnectionsPanel implements IPanel {
      * @param context
      *            {@link Context}
      */
-    public ConnectionsPanel(Context context) {
+    public ConnectionsPanel(Context context, InfoAppActivity activity) {
         this.context = context;
+        this.activity = activity;
+        
         // load the layout from the xml file
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = (LinearLayout) inflater.inflate(R.layout.connection_panel, null);
@@ -81,12 +99,13 @@ public class ConnectionsPanel implements IPanel {
         test.add("test");
         test.add("test");
         test.add("test");
-        test.add("test");
-        test.add("iefnweifujn cIties");
+        test.add(context.getString(R.string.sf_insufficient));
+        test.add(context.getString(R.string.connection_panel_connected_cities));
         adapter = new ListViewAdapater(context, test, test, test, test);
         listView.setAdapter(adapter);
+        listView.setOnChildClickListener(this);
         
-        //        createLists();
+        //        updateLists();
     }
     
     
@@ -107,10 +126,7 @@ public class ConnectionsPanel implements IPanel {
     
     
     private void updateLists() {
-        //Try to get the cached ressource
-        PMPResourceIdentifier identifier = PMPResourceIdentifier.make(Constants.CONNECTION_RG_IDENTIFIER,
-                Constants.CONNECTION_RG_RESOURCE);
-        PMP.get().getResource(identifier, new PMPRequestResourceHandler() {
+        PMP.get().getResource(RG_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
@@ -144,10 +160,11 @@ public class ConnectionsPanel implements IPanel {
                 
                 // Connected time
                 wifiList.add(context.getString(R.string.connection_panel_connected_twentyfour)
-                        + connectionStub.getWifiConnectionLastTwentyFourHours());
+                        + convertMillsecondsToString(connectionStub.getWifiConnectionLastTwentyFourHours()));
                 wifiList.add(context.getString(R.string.connection_panel_connected_thirty_days)
-                        + connectionStub.getWifiConnectionLastMonth());
+                        + convertMillsecondsToString(connectionStub.getWifiConnectionLastMonth()));
                 
+                // Connected cities
                 wifiList.add(context.getString(R.string.connection_panel_connected_cities));
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -165,9 +182,9 @@ public class ConnectionsPanel implements IPanel {
                 
                 //Active time
                 btList.add(context.getString(R.string.connection_panel_active_twentyfour)
-                        + connectionStub.getBTConnectionLastTwentyFourHours());
+                        + convertMillsecondsToString(connectionStub.getBTConnectionLastTwentyFourHours()));
                 btList.add(context.getString(R.string.connection_panel_active_thirty_days)
-                        + connectionStub.getBTConnectionLastMonth());
+                        + convertMillsecondsToString(connectionStub.getBTConnectionLastMonth()));
                 
                 // Cities
                 btList.add(context.getString(R.string.connection_panel_connected_cities));
@@ -194,9 +211,9 @@ public class ConnectionsPanel implements IPanel {
                 
                 // Connection time
                 cellPhoneList.add(context.getString(R.string.connection_panel_active_twentyfour)
-                        + connectionStub.getAirplaneModeLastTwentyFourHours());
+                        + convertMillsecondsToString(connectionStub.getAirplaneModeLastTwentyFourHours()));
                 cellPhoneList.add(context.getString(R.string.connection_panel_active_thirty_days)
-                        + connectionStub.getAirplaneModeLastMonth());
+                        + convertMillsecondsToString(connectionStub.getAirplaneModeLastMonth()));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -234,5 +251,96 @@ public class ConnectionsPanel implements IPanel {
         } else {
             return context.getString(R.string.connection_panel_not_active);
         }
+    }
+    
+    
+    /**
+     * Converts a timespan in milliseconds into a String representation
+     * 
+     * @param ms
+     *            timespan im milliseconds
+     * @return String representation
+     */
+    private String convertMillsecondsToString(long ms) {
+        String result = "";
+        final long oneDay = 86400000L;
+        final long oneHour = 3600000L;
+        final long oneMinute = 60000L;
+        
+        // Calculate everything
+        long days = ms / oneDay;
+        long hours = ms / oneHour;
+        long minutes = ms / oneMinute;
+        
+        // Add the days to the string
+        if (days != 0) {
+            result += days + " " + this.context.getResources().getQuantityString(R.plurals.days, (int) days);
+        }
+        
+        // Add the hours
+        if (hours != 0 || days != 0) {
+            if (!result.equals("")) {
+                result += " ";
+            }
+            result += hours % 24 + " " + this.context.getResources().getQuantityString(R.plurals.hours, (int) hours);
+        }
+        
+        // Add the minutes
+        if (minutes != 0 || days != 0 || hours != 0) {
+            if (!result.equals("")) {
+                result += " ";
+            }
+            result += minutes % 60 + " minutes"
+                    + this.context.getResources().getQuantityString(R.plurals.minutes, (int) minutes);
+        }
+        
+        // If the string is still empty, then it wasn't used yet
+        if (result.equals("")) {
+            result = this.context.getString(R.string.connection_panel_not_used);
+        }
+        return result;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see android.widget.ExpandableListView.OnChildClickListener#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
+     */
+    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+        String clicked = "";
+        Toast.makeText(context, "clicked", Toast.LENGTH_LONG).show();
+        try {
+            clicked = (String) adapter.getChild(groupPosition, childPosition);
+        } catch (ClassCastException e) {
+            System.out.println("Something went wrong :(:" + e.getMessage());
+        }
+        
+        if (clicked.contains(context.getString(R.string.connection_panel_connected_cities))) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.connection_panel_connected_cities_dialog));
+            final CharSequence[] items = { "Red", "Green", "Blue" };
+            builder.setItems(items, null);
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+        
+        if (clicked.contains(context.getString(R.string.sf_insufficient))) {
+            List<String> sfs = new ArrayList<String>();
+            switch (groupPosition) {
+                case 0:
+                    sfs.add(Constants.CONNECTION_WIFI_INFO);
+                    break;
+                case 1:
+                    sfs.add(Constants.CONNECTION_BT_INFO);
+                    break;
+                case 2:
+                    sfs.add(Constants.CONNECTION_DATA_INFO);
+                    break;
+                case 3:
+                    sfs.add(Constants.CONNECTION_CELL_INFO);
+                    break;
+            }
+            PMP.get().requestServiceFeatures(activity, sfs);
+        }
+        return true;
     }
 }

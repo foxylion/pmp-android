@@ -12,7 +12,8 @@
     <string name="connection_panel_connected_thirty_days">Connected (last 30 days): </string>
     <string name="connection_panel_wifi_configured_networks">Configured networks: </string>
     <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
-    <string name="connection_panel_connected_cities">Cities where you were connected: </string>
+    <string name="connection_panel_connected_cities">Cities where you were connected...</string>
+    <string name="connection_panel_connected_cities_dialog">Cities where you were connected</string>
     <string name="connection_panel_active_twentyfour">Active (last 24 hours): </string>
     <string name="connection_panel_active_thirty_days">Active (last 30 days): </string>
     <string name="connection_panel_paired_devices">Paired devices: </string>
@@ -23,18 +24,19 @@
     <string name="connection_panel_airplane_mode_thirtydays">Airplane mode (last 30 days): </string>
     <string name="connection_panel_active">active</string>
     <string name="connection_panel_not_active">not active</string>
+    <string name="connection_panel_not_used">Not used yet</string>
 
     <plurals name="days">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">1 day</item>
+        <item quantity="other">%d days</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">1 hour</item>
+        <item quantity="other">%d hours</item>
     </plurals>
     <plurals name="minutes">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minutes</item>
     </plurals>
 
 </resources>

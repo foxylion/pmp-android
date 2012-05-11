@@ -226,7 +226,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         switch (group) {
             case 0:
                 item = this.wifiList.get(index);
-                if (item.toLowerCase().contains(context.getString(R.string.connection_panel_connected_cities))) {
+                if (item.contains(context.getString(R.string.connection_panel_connected_cities))) {
                     result = true;
                 }
                 
@@ -236,7 +236,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
                 return result;
             case 1:
                 item = this.btList.get(index);
-                if (item.toLowerCase().contains(context.getString(R.string.connection_panel_connected_cities))) {
+                if (item.contains(context.getString(R.string.connection_panel_connected_cities))) {
                     result = true;
                 }
                 

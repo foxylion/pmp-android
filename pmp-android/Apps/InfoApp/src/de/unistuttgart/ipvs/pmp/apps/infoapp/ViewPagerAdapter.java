@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: InfoApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,13 +42,13 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
     private final List<IPanel> panels = new ArrayList<IPanel>();
     
     
-    public ViewPagerAdapter(Context context) {
+    public ViewPagerAdapter(Context context, InfoAppActivity activity) {
         
         if (!this.panels.isEmpty()) {
             this.panels.clear();
         }
         this.panels.add(new ExamplePanel(context));
-        this.panels.add(new ConnectionsPanel(context));
+        this.panels.add(new ConnectionsPanel(context, activity));
         this.panels.add(new EnergyPanel(context));
         this.panels.add(new ProfilePanel(context));
         this.panels.add(new HardwarePanel(context));
