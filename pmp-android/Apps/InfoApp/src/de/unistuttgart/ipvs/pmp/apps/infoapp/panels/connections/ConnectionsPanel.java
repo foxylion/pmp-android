@@ -348,8 +348,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     
     
     public void update() {
-        // TODO Auto-generated method stub
-        
+        updateLists();
     }
     
     
