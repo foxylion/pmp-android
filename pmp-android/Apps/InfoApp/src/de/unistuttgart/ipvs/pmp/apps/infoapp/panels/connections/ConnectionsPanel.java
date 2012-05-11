@@ -31,7 +31,6 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -307,13 +306,15 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      */
     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
         String clicked = "";
-        Toast.makeText(context, "clicked", Toast.LENGTH_LONG).show();
+        
+        // Try to get clicked object, should be a string
         try {
             clicked = (String) adapter.getChild(groupPosition, childPosition);
         } catch (ClassCastException e) {
             System.out.println("Something went wrong :(:" + e.getMessage());
         }
         
+        // A city child was clicked
         if (clicked.contains(context.getString(R.string.connection_panel_connected_cities))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getString(R.string.connection_panel_connected_cities_dialog));
@@ -323,6 +324,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
             alert.show();
         }
         
+        // Insufficient service features was clicked
         if (clicked.contains(context.getString(R.string.sf_insufficient))) {
             List<String> sfs = new ArrayList<String>();
             switch (groupPosition) {
