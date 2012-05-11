@@ -12,7 +12,6 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.BatteryEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.BatteryEvent.Adapter;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.BatteryEvent.Status;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventIdException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
@@ -54,7 +53,7 @@ public class UploadHandler {
             long timestamp = be.getTimestamp();
             
             // Level
-            byte level = new Byte("0");
+            int level = be.getLevel();
             
             // Plugged
             Adapter plugged;
@@ -86,8 +85,11 @@ public class UploadHandler {
             // Temperature
             float temperature = be.getTemperature();
             
+            // Voltage
+            int voltage = be.getVoltage();
+            
             // Add the data to the list
-            eventList.add(new BatteryEvent(-1, timestamp, level, plugged, present, status, temperature));
+            eventList.add(new BatteryEvent(timestamp, level, voltage, plugged, present, status, temperature));
         }
         
         BatteryEventManager bem = new BatteryEventManager(this.service);
@@ -102,9 +104,6 @@ public class UploadHandler {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InvalidParameterException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InvalidEventIdException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InvalidEventOrderException e) {
