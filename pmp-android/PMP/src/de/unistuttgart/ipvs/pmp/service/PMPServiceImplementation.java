@@ -112,21 +112,17 @@ public class PMPServiceImplementation extends IPMPService.Stub {
         if (rg == null || app == null) {
             return false;
         } else {
-            // if best == null
             RGMode mode = null;
             
             try {
-                mode = RGMode.valueOf(PresetController.findBestValue(app,
-                        rg.getPrivacySetting(PersistenceConstants.MODE_PRIVACY_SETTING)));
+                String bestValue = PresetController.findBestValue(app,
+                        rg.getPrivacySetting(PersistenceConstants.MODE_PRIVACY_SETTING));
+                mode = (bestValue == null) ? RGMode.NORMAL : RGMode.valueOf(bestValue);
             } catch (PrivacySettingValueException psve) {
                 psve.printStackTrace();
             }
             
-            if (mode == null) {
-                mode = RGMode.NORMAL;
-            }
-            
-            return mode.equals(RGMode.MOCK);
+            return RGMode.MOCK.equals(mode);
         }
     }
     

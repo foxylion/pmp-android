@@ -132,39 +132,31 @@ public class ResourceGroup extends ModelElement implements IResourceGroup {
         } catch (Throwable t) {
             deactivate(t);
         }
-        
         IApp a = Model.getInstance().getApp(appPackage);
-        if (a == null) {
+        
+        if ((a == null) || (res == null)) {
             return null;
         }
         
         // find the state
         RGMode mode = null;
         try {
-            mode = RGMode.valueOf(PresetController.findBestValue(a,
-                    this.privacySettings.get(PersistenceConstants.MODE_PRIVACY_SETTING)));
+            String bestValue = PresetController.findBestValue(a,
+                    this.privacySettings.get(PersistenceConstants.MODE_PRIVACY_SETTING));
+            mode = (bestValue == null) ? RGMode.NORMAL : RGMode.valueOf(bestValue);
         } catch (PrivacySettingValueException e) {
             e.printStackTrace();
         }
         
-        // if best == null
-        if (mode == null) {
-            mode = RGMode.NORMAL;
+        switch (mode) {
+            default:
+                return res.getAndroidInterface(appPackage);
+            case MOCK:
+                return res.getMockedAndroidInterface(appPackage);
+            case CLOAK:
+                return res.getCloakedAndroidInterface(appPackage);
         }
         
-        if (res != null) {
-            switch (mode) {
-                default:
-                    return res.getAndroidInterface(appPackage);
-                case MOCK:
-                    return res.getMockedAndroidInterface(appPackage);
-                case CLOAK:
-                    return res.getCloakedAndroidInterface(appPackage);
-            }
-            
-        } else {
-            return null;
-        }
     }
     
     

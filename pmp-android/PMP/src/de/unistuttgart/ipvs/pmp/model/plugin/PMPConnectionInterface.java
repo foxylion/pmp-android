@@ -91,21 +91,21 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
         if (rg == null || app == null) {
             return new MockContext2();
         } else {
-            // if best == null
             RGMode mode = null;
             
             try {
-                mode = RGMode.valueOf(PresetController.findBestValue(app,
-                        rg.getPrivacySetting(PersistenceConstants.MODE_PRIVACY_SETTING)));
+                String bestValue = PresetController.findBestValue(app,
+                        rg.getPrivacySetting(PersistenceConstants.MODE_PRIVACY_SETTING));
+                mode = (bestValue == null) ? RGMode.NORMAL : RGMode.valueOf(bestValue);
             } catch (PrivacySettingValueException psve) {
                 psve.printStackTrace();
             }
             
-            if (mode == null) {
-                mode = RGMode.NORMAL;
+            if (RGMode.NORMAL.equals(mode)) {
+                return new SecurityContextAdapter(PMPApplication.getContext(), rg, app);
+            } else {
+                return new MockContext2();
             }
-            
-            return new SecurityContextAdapter(PMPApplication.getContext(), rg, app);
         }
     }
     
