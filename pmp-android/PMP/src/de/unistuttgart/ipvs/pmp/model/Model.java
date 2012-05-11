@@ -435,8 +435,8 @@ public class Model implements IModel, Observer {
                     FileLog.get().logWithForward(this, null, FileLog.GRANULARITY_COMPONENT_CHANGES, Level.WARNING,
                             "ResourceGroup '%s' has failed registration with PMP: XML inconsistent with PMP data.",
                             rgPackage);
-                    throw new InvalidXMLException("PrivacySetting (XML, objects)", ps.getIdentifier(),
-                            ps.getIdentifier());
+                    throw new InvalidXMLException("PrivacySetting (XML, objects) incosistency: " + ps.getIdentifier()
+                            + "defined in the XML, but not found in the Java ResourceGroup object.");
                 }
             }
             // check they implemented the resources correct
