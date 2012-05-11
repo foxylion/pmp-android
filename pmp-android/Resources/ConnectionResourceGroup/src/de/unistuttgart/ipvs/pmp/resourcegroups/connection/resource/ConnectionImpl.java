@@ -34,6 +34,8 @@ import android.os.RemoteException;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
@@ -373,7 +375,21 @@ public class ConnectionImpl extends IConnection.Stub {
     public String uploadData() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
+        
+        // Get the device id
+        TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = tManager.getDeviceId();
+        
+        // Create service
+        Service service = new Service(Service.DEFAULT_URL, deviceId);
+        
+        //        new ConnectionEventManager().commitEvents(events)
         return "";
+    }
+    
+    
+    private List<? extends Event> getAllEvents() {
+        return null;
     }
     
     /**

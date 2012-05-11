@@ -21,6 +21,9 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
 
 import java.util.List;
 
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.CellularConnectionEvent;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
+
 /**
  * Interface for the database functions
  * 
@@ -132,5 +135,29 @@ public interface IDBConnector {
      * @return List of strings with the cities and the times where the user connected, e.g. :"10x Stuttgart"
      */
     public List<String> getConnectedCities(String tableName);
+    
+    
+    /**
+     * Get all wifi events
+     * 
+     * @return List with {@link ConnectionEvent}s
+     */
+    public List<ConnectionEvent> getWifiEvents();
+    
+    
+    /**
+     * Get all bluetooth events
+     * 
+     * @return List with {@link ConnectionEvent}s
+     */
+    public List<ConnectionEvent> getBluetoothEvents();
+    
+    
+    /**
+     * Get all cellular phone network events
+     * 
+     * @return List with {@link CellularConnectionEvent}s
+     */
+    public List<CellularConnectionEvent> getCellEvents();
     
 }

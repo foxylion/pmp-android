@@ -29,6 +29,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.CellularConnectionEvent;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent.Mediums;
 
 /**
  * Implements the {@link IDBConnector} interface
@@ -306,6 +309,110 @@ public class DBConnector implements IDBConnector {
         cursor.close();
         close();
         
+        return result;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#getWifiEvents()
+     */
+    @Override
+    public synchronized List<ConnectionEvent> getWifiEvents() {
+        open();
+        List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
+        
+        // Get the cities only
+        String columns[] = new String[3];
+        columns[0] = DBConstants.COLUMN_TIMESTAMP;
+        columns[1] = DBConstants.COLUMN_EVENT;
+        columns[2] = DBConstants.COLUMN_CITY;
+        
+        Cursor cursor = this.db.query(DBConstants.TABLE_WIFI, columns, null, null, null, null, null);
+        cursor.moveToFirst();
+        
+        if (cursor.getCount() > 0) {
+            do {
+                long timeStamp = cursor.getLong(0);
+                String eventString = cursor.getString(1);
+                boolean event = false;
+                if (eventString.equals(EventEnum.ON)) {
+                    event = true;
+                }
+                String city = cursor.getString(2);
+                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, false, city));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        close();
+        return result;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#getBluetoothEvents()
+     */
+    @Override
+    public synchronized List<ConnectionEvent> getBluetoothEvents() {
+        open();
+        List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
+        
+        // Get the cities only
+        String columns[] = new String[3];
+        columns[0] = DBConstants.COLUMN_TIMESTAMP;
+        columns[1] = DBConstants.COLUMN_EVENT;
+        columns[2] = DBConstants.COLUMN_CITY;
+        
+        Cursor cursor = this.db.query(DBConstants.TABLE_BT, columns, null, null, null, null, null);
+        cursor.moveToFirst();
+        
+        if (cursor.getCount() > 0) {
+            do {
+                long timeStamp = cursor.getLong(0);
+                String eventString = cursor.getString(1);
+                boolean event = false;
+                if (eventString.equals(EventEnum.ON)) {
+                    event = true;
+                }
+                String city = cursor.getString(2);
+                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, false, event, city));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        close();
+        return result;
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#getCellEvents()
+     */
+    @Override
+    public synchronized List<CellularConnectionEvent> getCellEvents() {
+        open();
+        List<CellularConnectionEvent> result = new ArrayList<CellularConnectionEvent>();
+        
+        // Get the cities only
+        String columns[] = new String[3];
+        columns[0] = DBConstants.COLUMN_TIMESTAMP;
+        columns[1] = DBConstants.COLUMN_EVENT;
+        
+        Cursor cursor = this.db.query(DBConstants.TABLE_CELL, columns, null, null, null, null, null);
+        cursor.moveToFirst();
+        
+        if (cursor.getCount() > 0) {
+            do {
+                long timeStamp = cursor.getLong(0);
+                String eventString = cursor.getString(1);
+                boolean event = false;
+                if (eventString.equals(EventEnum.ON)) {
+                    event = true;
+                }
+                
+                //                result.add(new CellularConnectionEvent(timeStamp, false, airplane));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        close();
         return result;
     }
 }
