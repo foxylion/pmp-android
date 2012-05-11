@@ -20,16 +20,20 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.ConnectedCitiesComparator;
 
 /**
- * Cloaked imlementation of the IConnection interface
+ * 
+ * Mock implementation of the IConnection interface
  * 
  * @author Thorsten Berberich
  * 
@@ -40,6 +44,11 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      * {@link PermissionValidator}
      */
     private PermissionValidator validator;
+    
+    /**
+     * List with cities
+     */
+    private ArrayList<String> cities;
     
     
     /**
@@ -55,6 +64,8 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     public ConnectionCloakImpl(ResourceGroup rg, String appIdentifier) {
         this.validator = new PermissionValidator(rg, appIdentifier);
+        cities = new ArrayList<String>();
+        addCities();
     }
     
     
@@ -66,7 +77,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        return false;
+        return new Random().nextBoolean();
     }
     
     
@@ -78,7 +89,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        return 0;
+        return new Random().nextInt(86400001);
     }
     
     
@@ -89,8 +100,12 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     public long getWifiConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
-        
-        return 0;
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -102,7 +117,14 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
         
-        return new ArrayList<String>();
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(15);
+        for (int itr = 0; itr < numbers; itr++) {
+            Random r = new Random();
+            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            result.add(token);
+        }
+        return result;
     }
     
     
@@ -114,7 +136,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
         
-        return new ArrayList<String>();
+        return getRandomCities();
     }
     
     
@@ -126,7 +148,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        return false;
+        return new Random().nextBoolean();
     }
     
     
@@ -138,7 +160,14 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
-        return new ArrayList<String>();
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(15);
+        for (int itr = 0; itr < numbers; itr++) {
+            Random r = new Random();
+            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            result.add(token);
+        }
+        return result;
     }
     
     
@@ -150,7 +179,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        return 0;
+        return new Random().nextInt(86400001);
     }
     
     
@@ -161,8 +190,12 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     public long getBTConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
-        
-        return 0;
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -174,7 +207,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
         
-        return new ArrayList<String>();
+        return getRandomCities();
     }
     
     
@@ -186,7 +219,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
         
-        return false;
+        return new Random().nextBoolean();
     }
     
     
@@ -198,7 +231,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        return "Cloak Provider";
+        Random r = new Random();
+        String token = Long.toString(Math.abs(r.nextLong()), 36);
+        return token;
     }
     
     
@@ -222,7 +257,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        return false;
+        return new Random().nextBoolean();
     }
     
     
@@ -234,7 +269,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        return 0;
+        return new Random().nextInt(86400001);
     }
     
     
@@ -245,8 +280,12 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     public long getAirplaneModeLastMonth() throws RemoteException {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
-        
-        return 0;
+        while (true) {
+            Long random = new Random().nextLong();
+            if (random < ConnectionConstants.ONE_MONTH + 1) {
+                return random;
+            }
+        }
     }
     
     
@@ -258,6 +297,58 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
-        return "Error";
+        String mockLink = "http://" + Long.toString(Math.abs(new Random().nextLong()), 36) + ".com";
+        return mockLink;
+    }
+    
+    
+    /**
+     * Adds some cities to the list
+     */
+    private void addCities() {
+        cities.add("Stuttgart");
+        cities.add("Munich");
+        cities.add("Berlin");
+        cities.add("New York");
+        cities.add("Washington");
+        cities.add("Tallahassee");
+        cities.add("Las Vegas");
+        cities.add("Detroit");
+        cities.add("Chicago");
+        cities.add("Los Angeles");
+        cities.add("Dallas");
+        cities.add("Pittsburgh");
+        cities.add("New Orleans");
+        cities.add("Paris");
+        cities.add("Madrid");
+        cities.add("Rome");
+    }
+    
+    
+    /**
+     * Get a list with random cities
+     * 
+     * @return {@link List} with random cities
+     */
+    private List<String> getRandomCities() {
+        List<String> result = new ArrayList<String>();
+        int numbers = new Random().nextInt(40);
+        List<String> tmp = new ArrayList<String>();
+        for (int itr = 0; itr < numbers; itr++) {
+            String city = cities.get(new Random().nextInt(16));
+            if (!tmp.contains(city)) {
+                tmp.add(city);
+            }
+        }
+        
+        // Get the times for every city
+        for (String city : tmp) {
+            int timesConnected = new Random().nextInt(50);
+            result.add(timesConnected + "x " + city);
+        }
+        // Sort the list
+        Collections.sort(result, new ConnectedCitiesComparator());
+        
+        return result;
     }
 }

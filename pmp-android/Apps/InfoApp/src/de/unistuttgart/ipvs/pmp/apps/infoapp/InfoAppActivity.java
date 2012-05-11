@@ -41,7 +41,7 @@ public class InfoAppActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        this.mAdapter = new ViewPagerAdapter(this);
+        this.mAdapter = new ViewPagerAdapter(this, this);
         
         this.mPager = (ViewPager) findViewById(R.id.pager);
         this.mPager.setAdapter(this.mAdapter);

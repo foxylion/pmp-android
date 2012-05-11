@@ -41,13 +41,13 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
     private final List<IPanel> panels = new ArrayList<IPanel>();
     
     
-    public ViewPagerAdapter(Context context) {
+    public ViewPagerAdapter(Context context, InfoAppActivity activity) {
         
         if (!this.panels.isEmpty()) {
             this.panels.clear();
         }
         this.panels.add(new ExamplePanel(context));
-        this.panels.add(new ConnectionsPanel(context));
+        this.panels.add(new ConnectionsPanel(context, activity));
         this.panels.add(new EnergyPanel(context));
         this.panels.add(new ProfilePanel(context));
         this.panels.add(new HardwarePanel(context));
