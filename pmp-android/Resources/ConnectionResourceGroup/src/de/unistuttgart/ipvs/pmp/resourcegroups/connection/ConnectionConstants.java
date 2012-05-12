@@ -60,4 +60,10 @@ public class ConnectionConstants {
      */
     public static final long ONE_DAY = 86400000L;
     public static final long ONE_MONTH = 2592000000L;
+    
+    /**
+     * Preferences file
+     */
+    public static final String PREF_FILE = "deunistuttgartipvspmpresourcegroupsconnectionprefs";
+    public static final String PREF_SIGNAL_KEY = "signalstrength";
 }
