@@ -38,14 +38,18 @@ try {
             throw new InvalidArgumentException("The event array contains a non-object element");
         }
         if (!property_exists($event, "timestamp") || !property_exists($event, "medium") ||
-                !property_exists($event, "connected") || !property_exists($event, "enabled") ||
-                !property_exists($event, "city")) {
+                !property_exists($event, "connected") || !property_exists($event, "enabled")) {
             throw new InvalidArgumentException("At least one required attribute is missing in one or more events");
+        }
+
+        $city = null;
+        if(property_exists($event, "city")) {
+            $city = $event->city;
         }
 
         // Build event object and add it to the event array
         $events[] = new ConnectionEvent(1, $event->timestamp, $event->medium,
-                $event->connected, $event->enabled, $event->city);
+                $event->connected, $event->enabled, $city);
 
     }
 
