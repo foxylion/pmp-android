@@ -173,7 +173,7 @@ if ($deviceIdValid) {
     $awakeScreenRatio->addRow($awakeScreenRowO);
 
 
-    $tmplt["pageTitle"] = "Connection";
+    $tmplt["pageTitle"] = "Standby";
     $tmplt["jsFunctDrawChart"] = "drawAreaChart();
             drawAwakeRatio();
             drawScreenRatio();
@@ -236,7 +236,7 @@ if ($deviceIdValid) {
     }";
 
     $tmplt["content"] = "
-            <h1>Battery Events</h1>
+            <h1>Standby Events</h1>
             <div id=\"areaChart\" style=\"width:800; height:150\"></div>
             <div id=\"awakeRatio\" style=\"width:800; height:400\"></div>
             <div id=\"screenRatio\" style=\"width:800; height:400\"></div>

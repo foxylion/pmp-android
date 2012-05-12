@@ -498,5 +498,9 @@ class DeviceProperties extends Properties {
 
         $this->runtime = $time;
     }
+
+    public static function getStatistic() {
+
+    }
 }
 ?>

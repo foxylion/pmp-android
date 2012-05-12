@@ -67,6 +67,13 @@
                 <li><a href="./standby.php?<?php echo $tmplt["navGetParams"] ?>">Standby</a></li>
             </ul>
 
+
+            <h1>Statistics:</h1>
+            <ul id="navigation">
+                <li><a href="./battery_properties.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
+                <li><a href="./connection_properties.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
+            </ul>
+
             <h1>Date:</h1>
             <?php echo $calendar->getHtml() ?>
 

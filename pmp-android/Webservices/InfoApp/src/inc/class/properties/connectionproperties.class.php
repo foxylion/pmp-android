@@ -24,6 +24,58 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+class ConnectionPropertiesStat extends PropertiesStat {
+    /** @var float */
+    private $bluetoothAvg;
+    /** @var float */
+    private $wifiAvg;
+    /** @var String[] */
+    private $providerDist;
+    /** @var float[] */
+    private $signalAvg;
+
+    public function __construct($bluetooh, $wifi, $provider, $signal) {
+        $this->bluetoothAvg = $bluetooh;
+        $this->wifiAvg = $wifi;
+        $this->providerDist = $provider;
+        $this->signalAvg = $signal;
+    }
+
+    /**
+     * Gets the average of bluetooth connection
+     * @return float Average
+     */
+    public function getBluetoothAvg() {
+        return $this->bluetoothAvg;
+    }
+
+    /**
+     * Gets the average of wifi connection
+     * @return float Average
+     */
+    public function getWifiAvg() {
+        return $this->wifiAvg;
+    }
+
+    /**
+     * Gets information about the provider distribution
+     * @return int[] The providers's name is stored in the array's key and
+     *                  the counted value in the value
+     */
+    public function getProviderDist() {
+        return $this->providerDist;
+    }
+
+    /**
+     * Gets information about the signal strength
+     * @return int[] The provider's name is stored in the array's key and
+     *                  the average value in the value
+     */
+    public function getSignalAvg() {
+        return $this->signalAvg;
+    }
+}
+
 /**
  * Stores information about the device's connection and allows to update or insert a new device information set
  * @author Patrick Strobel
@@ -152,7 +204,7 @@ class ConnectionProperties extends Properties {
     public function setProvider($name) {
         $name = Database::secureInput($name);
 
-        if (!is_string($name) || strlen($name) < 3 || strlen($name) > 100) {
+        if (!is_string($name) || strlen($name) < 2 || strlen($name) > 100) {
             throw new InvalidArgumentException("\"provider\" is no string or its length is invalid");
         }
 
@@ -177,6 +229,34 @@ class ConnectionProperties extends Properties {
             throw new InvalidArgumentException("\"signalstrength\" is no integer or its value is invalid");
         }
         $this->signal = $strength;
+    }
+
+    public static function getStatistic() {
+        $db = Database::getInstance();
+
+        // Connections
+        $row = $db->fetch($db->query("SELECT AVG(`bluetooth`) AS 'bluetoothAvg', AVG(`wifi`) AS 'wifiAvg'
+                                      FROM `" . DB_PREFIX . "_connection_prop`"));
+
+        $bluetooth = $row["bluetoothAvg"];
+        $wifi = $row["wifiAvg"];
+
+        // Provider and signal
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `provider`, AVG(`signal`) AS 'signalAvg'
+                              FROM `" . DB_PREFIX . "_connection_prop`
+                              GROUP BY `provider`");
+
+        $providers = array();
+        $signalAvg = array();
+
+        while (($row = $db->fetch($result)) != null) {
+            $provider = $row["provider"];
+            $providers[$provider] = $row["count"];
+            $signalAvg[$provider] = $row["signalAvg"];
+        }
+
+        return new ConnectionPropertiesStat($bluetooth, $wifi, $providers, $signalAvg);
+
     }
 
 }

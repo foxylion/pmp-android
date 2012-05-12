@@ -220,7 +220,7 @@ if ($deviceIdValid) {
     $presentRationData->addRow($presentRationRowN);
 
 
-    $tmplt["pageTitle"] = "Connection";
+    $tmplt["pageTitle"] = "Battery";
     $tmplt["jsFunctDrawChart"] = "drawLevel();
                 drawTemperature();
                 drawChargingRatio();

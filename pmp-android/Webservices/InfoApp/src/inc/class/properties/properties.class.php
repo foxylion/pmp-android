@@ -25,12 +25,21 @@ if (!defined("INCLUDE")) {
 }
 
 /**
+ * Abstract base class for statistical informations
+ * @author Patrick Strobel
+ * @version 4.0.0
+ */
+abstract class PropertiesStat {
+
+}
+
+/**
  * Abstract base class for all properties that might be updated or set by webservices.<br />
  * <b>Warning:</b> Sub classes should not be to instantiated directly as there is
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 abstract class Properties {
 
@@ -65,5 +74,10 @@ abstract class Properties {
      * by all set-methods
      */
     public abstract function writeBack();
+
+    /**
+     * Gets statistical information about the data stored in the db
+     */
+    public static abstract function getStatistic();
 }
 ?>

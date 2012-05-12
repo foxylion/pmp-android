@@ -45,7 +45,7 @@ if ($deviceIdValid) {
         $connectionData->addRow($levelRow);
     }
 
-    $tmplt["pageTitle"] = "Connection";
+    $tmplt["pageTitle"] = "Cellular Connection";
     $tmplt["jsFunctDrawChart"] = "drawConnection();";
 
     $tmplt["jsDrawFunctions"] = "function drawConnection() {
@@ -63,7 +63,7 @@ if ($deviceIdValid) {
     }";
 
     $tmplt["content"] = "
-            <h1>Connection Events</h1>
+            <h1>Cellular Connection Events</h1>
             <div id=\"connection\" style=\"width:800; height:150\"></div>";
 }
 include ("template.php");

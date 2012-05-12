@@ -25,9 +25,47 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Stores information about the device's battery and allows to update or insert a new device information set
+ * Stores statistical information about the devices batteries
  * @author Patrick Strobel
  * @version 4.0.0
+ */
+class BatteryPropertiesStat extends PropertiesStat {
+
+    /** @var int[] */
+    private $technologyDist;
+
+    /** @var float[] */
+    private $healthAvg;
+
+    public function __construct($technologyDist, $healthAvg) {
+        $this->technologyDist = $technologyDist;
+        $this->healthAvg = $healthAvg;
+    }
+
+    /**
+     * Gets information about the technology distribution
+     * @return int[] The technology's name is stored in the array's key and
+     *                  the counted value in the value
+     */
+    public function getTechnologyDist() {
+        return $this->technologyDist;
+    }
+
+    /**
+     * Gets information about the health distribution
+     * @return float[] The technology's name is stored in the array's key and
+     *                  the average health for this technology in the value
+     */
+    public function getHealthAvg() {
+        return $this->healthAvg;
+    }
+
+}
+
+/**
+ * Stores information about the device's battery and allows to update or insert a new device information set
+ * @author Patrick Strobel
+ * @version 4.1.0
  */
 class BatteryProperties extends Properties {
 
@@ -124,6 +162,26 @@ class BatteryProperties extends Properties {
         }
 
         $this->health = $health;
+    }
+
+    public static function getStatistic() {
+        $db = Database::getInstance();
+
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `technology`, AVG(`health`) AS 'healthAvg'
+                              FROM `" . DB_PREFIX . "_battery_prop`
+                              GROUP BY `technology`");
+
+        $technologies = array();
+        $healthAvg = array();
+
+        while (($row = $db->fetch($result)) != null) {
+
+            $tech = $row["technology"];
+            $technologies[$tech] = $row["count"];
+            $healthAvg[$tech] = $row["healthAvg"];
+        }
+
+        return new BatteryPropertiesStat($technologies, $healthAvg);
     }
 
 }
