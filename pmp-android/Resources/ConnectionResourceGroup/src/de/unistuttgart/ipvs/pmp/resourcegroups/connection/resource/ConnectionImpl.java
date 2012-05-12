@@ -26,13 +26,12 @@ import java.util.Set;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
-import android.telephony.PhoneStateListener;
-import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
@@ -60,11 +59,6 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     private PermissionValidator validator;
     
-    /**
-     * GSM signal strength in asu
-     */
-    private int signal;
-    
     
     /**
      * Constructor to get a context
@@ -80,7 +74,6 @@ public class ConnectionImpl extends IConnection.Stub {
     public ConnectionImpl(Context context, ResourceGroup rg, String appIdentifier) {
         this.context = context;
         this.validator = new PermissionValidator(rg, appIdentifier);
-        signal = -1;
     }
     
     
@@ -89,11 +82,6 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        if (manager != null) {
-            manager.listen(new SignalPhoneStateListener(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-        }
-        
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
@@ -310,10 +298,14 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public int getCellPhoneSignalStrength() throws RemoteException {
+        SharedPreferences settings = context.getSharedPreferences(ConnectionConstants.PREF_FILE,
+                Context.MODE_WORLD_READABLE);
+        int signal = settings.getInt(ConnectionConstants.PREF_SIGNAL_KEY, 99);
+        
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        if (signal == -1 || signal == 99) {
+        if (signal == 99) {
             return 99;
         } else {
             return (2 * signal) - 113;
@@ -391,20 +383,4 @@ public class ConnectionImpl extends IConnection.Stub {
     private List<? extends Event> getAllEvents() {
         return null;
     }
-    
-    /**
-     * Callback class to get the GSM signal strength
-     * 
-     * @author Thorsten Berberich
-     * 
-     */
-    class SignalPhoneStateListener extends PhoneStateListener {
-        
-        @Override
-        public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-            super.onSignalStrengthsChanged(signalStrength);
-            signal = signalStrength.getGsmSignalStrength();
-        }
-    }
-    
 }
