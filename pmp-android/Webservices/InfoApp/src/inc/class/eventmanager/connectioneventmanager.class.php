@@ -47,6 +47,10 @@ class ConnectionEventManager extends EventManager {
         // Add events
         $lastId = 0;
         foreach ($events as $event) {
+            $city = "NULL";
+            if ($event->getCity() != null) {
+                $city = "\"" . $event->getCity() . "\"";
+            }
             $db->query("INSERT INTO `" . DB_PREFIX . "_connection` (
                             `device`,
                             `event_id`,
@@ -62,7 +66,7 @@ class ConnectionEventManager extends EventManager {
                             \"" . $event->getMedium() . "\",
                             " . (int)$event->isConnected() . ",
                             " . (int)$event->isEnabled() . ",
-                            \"" . $event->getCity() . "\"
+                            " . $city . "
                         )");
             $lastId = $event->getId();
         }

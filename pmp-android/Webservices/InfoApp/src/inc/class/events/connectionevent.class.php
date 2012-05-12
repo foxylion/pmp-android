@@ -76,7 +76,7 @@ class ConnectionEvent extends Event {
         $this->medium = $medium;
         $this->connected = $connected;
         $this->enabled = $enabled;
-        $this->city = (string) $city;
+        $this->city = $city;
     }
 
     /**
