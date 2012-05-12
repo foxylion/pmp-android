@@ -11,11 +11,14 @@
     <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
     <string name="connection_panel_connected_thirty_days">Connected (last 30 days): </string>
     <string name="connection_panel_wifi_configured_networks">Configured networks: </string>
-    <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
     <string name="connection_panel_connected_cities">Cities where you were connected...</string>
+    <string name="connection_panel_connected_cities_error">An error happened while connection to the resource group</string>
+    <string name="connection_panel_connected_cities_not_found">No cities found</string>
     <string name="connection_panel_connected_cities_dialog">Cities where you were connected</string>
     <string name="connection_panel_active_twentyfour">Active (last 24 hours): </string>
     <string name="connection_panel_active_thirty_days">Active (last 30 days): </string>
+    <string name="connection_panel_active_twentyfour_flight_mode">Flight mode active (last 24 hours): </string>
+    <string name="connection_panel_active_thirty_days_flight_mode">Flight mode active (last 30 days): </string>
     <string name="connection_panel_paired_devices">Paired devices: </string>
     <string name="connection_panel_provider">Provider: </string>
     <string name="connection_panel_signal_strength">Signal strength: </string>
@@ -25,6 +28,7 @@
     <string name="connection_panel_active">active</string>
     <string name="connection_panel_not_active">not active</string>
     <string name="connection_panel_not_used">Not used yet</string>
+    <string name="connection_panel_unknown">Unknown</string>
     <string name="energy_panel_current_values">Current values</string>
     <string name="energy_panel_last_boot_values">Values since last boot</string>
     <string name="energy_panel_total_values">Values in total</string>
