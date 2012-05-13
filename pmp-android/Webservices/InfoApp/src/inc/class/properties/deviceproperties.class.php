@@ -25,9 +25,187 @@ if (!defined("INCLUDE")) {
 }
 
 /**
+ * Stores statistical information about the devices' hard- and software
+ * @author Patrick Strobel
+ * @version 4.0.0
+ */
+class DevicePropertiesStat extends PropertiesStat {
+
+    /** @var String[] */
+    private $manufacturerDist;
+    /** @var String[][] */
+    private $modelDist;
+    /** @var String[][] */
+    private $uiDist;
+    /** @var int[] */
+    private $apiDist;
+    /** @var String[] */
+    private $kernelDist;
+    /** @var int[][] */
+    private $displayDist;
+    /** @var float */
+    private $cpuAvg;
+    /** @var float */
+    private $memoryIntAvg;
+    /** @var float */
+    private $memoryIntFreeAvg;
+    /** @var float */
+    private $memoryExtAvg;
+    /** @var float */
+    private $memoryExtFreeAvg;
+    /** @var float */
+    private $cameraAvg;
+    /** @var String[] */
+    private $sensorsDist;
+    /** @var float */
+    private $runtimeAvg;
+
+    public function __construct($manufacturer, $model, $ui, $api, $kernel,
+            $display, $cpu, $memoryInt, $memoryIntFree, $memoryExt, $memoryExtFree,
+            $camera, $sensors, $runtime) {
+        $this->manufacturerDist = $manufacturer;
+        $this->modelDist = $model;
+        $this->uiDist = $ui;
+        $this->apiDist = $api;
+        $this->kernelDist = $kernel;
+        $this->displayDist = $display;
+        $this->cpuAvg = $cpu;
+        $this->memoryIntAvg = $memoryInt;
+        $this->memoryIntFreeAvg = $memoryIntFree;
+        $this->memoryExtAvg = $memoryExt;
+        $this->memoryExtFreeAvg = $memoryExtFree;
+        $this->cameraAvg = $camera;
+        $this->sensorsDist = $sensors;
+        $this->runtimeAvg = $runtime;
+    }
+
+    /**
+     * Gets information about the manufacturer distribution
+     * @return string[] The manufacturer's name is stored in the array's key and
+     *                  the counted value in the value
+     */
+    public function getManufacturerDist() {
+        return $this->manufacturerDist;
+    }
+
+    /**
+     * Gets information about the model distribution
+     * @return string[][] The manufacturer's name is stored in the array's first key,
+     *                  the model's name in the second key and
+     *                  the counted value in the value
+     */
+    public function getModelDist() {
+        return $this->modelDist;
+    }
+
+    /**
+     * Gets information about the ui distribution
+     * @return string[][] The manufacturer's name is stored in the array's first key,
+     *                  the UI's name in the second key and
+     *                  the counted value in the value
+     */
+    public function getUiDist() {
+        return $this->uiDist;
+    }
+
+    /**
+     * Gets information about the API distribution
+     * @return int[] The API version is stored in the array's first key and
+     *                  the counted value in the value
+     */
+    public function getApiDist() {
+        return $this->apiDist;
+    }
+
+    /**
+     * Gets information about the kernel distribution
+     * @return string[] The Kernel version is stored in the array's first key and
+     *                  the counted value in the value
+     */
+    public function getKernelDist() {
+        return $this->kernelDist;
+    }
+
+    /**
+     * Gets information about the kernel distribution
+     * @return string[][] The display's X- and Y-resolution is stored in the second key and
+     *                  the counted value the second key "count"
+     */
+    public function getDisplayDist() {
+        return $this->displayDist;
+    }
+
+    /**
+     * Gets the average cpu frequency
+     * @return float Average
+     */
+    public function getCpuAvg() {
+        return $this->cpuAvg;
+    }
+
+    /**
+     * Gets the average camera resolution
+     * @return float Average
+     */
+    public function getCameraAvg() {
+        return $this->cameraAvg;
+    }
+
+    /**
+     * Gets the average runtime
+     * @return float Average
+     */
+    public function getRuntimeAvg() {
+        return $this->runtimeAvg;
+    }
+
+    /**
+     * Gets the average space of the internal memory
+     * @return float Average
+     */
+    public function getInternalMemoryAvg() {
+        return $this->memoryIntAvg;
+    }
+
+    /**
+     * Gets the average free space in the internal memory
+     * @return float Average
+     */
+    public function getInternalMemoryFreeAvg() {
+        return $this->memoryIntFreeAvg;
+    }
+
+
+    /**
+     * Gets the average space of the external memory
+     * @return float Average
+     */
+    public function getExternalMemoryAvg() {
+        return $this->memoryExtAvg;
+    }
+
+    /**
+     * Gets the average free space in the external memory
+     * @return float Average
+     */
+    public function getExternalMemoryFreeAvg() {
+        return $this->memoryExtFreeAvg;
+    }
+
+    /**
+     * Gets information about the sensor distribution
+     * @return string[] The sensor's name is stored in the array's key and
+     *                  the counted value in the value
+     */
+    public function getSensorDist() {
+        return $this->sensorsDist;
+    }
+}
+
+/**
  * Stores information about a device and allows to update or insert a new device information set
  * @author Patrick Strobel
- * @version 4.0.1
+ * @version 4.1.0
  */
 class DeviceProperties extends Properties {
 
@@ -500,7 +678,103 @@ class DeviceProperties extends Properties {
     }
 
     public static function getStatistic() {
+        $db = Database::getInstance();
 
+        // Average
+        $avg = $db->fetch($db->query("SELECT
+                                        AVG(`cpu`) AS 'cpu',
+                                        AVG(`memory_internal`) AS 'memoryInt',
+                                        AVG(`memory_internal_free`) AS 'memoryIntFree',
+                                        AVG(`memory_external`) AS 'memoryExt',
+                                        AVG(`memory_external_free`) AS 'memoryExtFree',
+                                        AVG(`camera`) AS 'camera',
+                                        AVG(`runtime`) AS 'runtime'
+                                      FROM `" . DB_PREFIX . "_device_prop`"));
+
+        // Distribution model/manufacturer
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `manufacturer`, `model`
+                              FROM `" . DB_PREFIX . "_device_prop`
+                              GROUP BY `manufacturer`, `model`");
+
+        $model = array();
+        $manufacturer = array();
+        while (($row = $db->fetch($result)) != null) {
+
+            $model[$row["manufacturer"]][$row["model"]] = $row["count"];
+
+            if (key_exists($row["manufacturer"], $manufacturer)) {
+                $manufacturer[$row["manufacturer"]] += $row["count"];
+            } else {
+                $manufacturer[$row["manufacturer"]] = $row["count"];
+            }
+        }
+
+        // Distribution UI
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `manufacturer`, `ui`
+                              FROM `" . DB_PREFIX . "_device_prop`
+                              GROUP BY `ui`");
+
+        $ui = array();
+        while (($row = $db->fetch($result)) != null) {
+            $ui[$row["manufacturer"]][$row["ui"]] = $row["count"];
+        }
+
+        // Distribution API, Kernel
+        $api = self::getEntryDist("api");
+        $kernel = self::getEntryDist("kernel");
+
+        // Distribution Display
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `display_x`, `display_y`
+                              FROM `" . DB_PREFIX . "_device_prop`
+                              GROUP BY `display_x`, `display_y`");
+
+        $display = array();
+        while (($row = $db->fetch($result)) != null) {
+            $display[] = array("x" => $row["display_x"], "y" => $row["display_y"], "count" => $row["count"]);
+        }
+
+        // Distribution Sensors
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `sensors`
+                              FROM `" . DB_PREFIX . "_device_prop`
+                              GROUP BY `sensors`");
+
+        $sensors = array();
+        while (($row = $db->fetch($result)) != null) {
+            // Split and count each sensor
+            foreach (explode(",", $row["sensors"]) as $sensor) {
+                if (array_key_exists($sensor, $sensors)) {
+                    $sensors[$sensor] += $row["count"];
+                } else {
+                    $sensors[$sensor] = $row["count"];
+                }
+            }
+        }
+
+
+        return new DevicePropertiesStat($manufacturer, $model, $ui, $api, $kernel, $display,
+                    $avg["cpu"], $avg["memoryInt"], $avg["memoryIntFree"], $avg["memoryExt"],
+                    $avg["memoryExtFree"], $avg["camera"], $sensors, $avg["runtime"]);
+    }
+
+    /**
+     * Counts how often a same entry exist in the database regarding a specific field
+     * @param String $field Entries having the same entry in this field are counted
+     * @return array[] Array containing the distribution. The value storied in the
+     *          given field is saved in the array's key and the counted value in the array's
+     *          value
+     */
+    private static function getEntryDist($field) {
+        $db = Database::getInstance();
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `" . $field . "` AS 'field'
+                              FROM `" . DB_PREFIX . "_device_prop`
+                              GROUP BY `" . $field . "`");
+
+        $dist = array();
+        while (($row = $db->fetch($result)) != null) {
+            $dist[$row["field"]] = $row["count"];
+        }
+
+        return $dist;
     }
 }
 ?>

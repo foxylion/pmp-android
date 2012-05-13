@@ -60,7 +60,7 @@
         <div id="leftarea">
             <h1>Device Charts:</h1>
             <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
-            <ul id="navigation">
+            <ul class="navigation">
                 <li><a href="./battery.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
                 <li><a href="./connection.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
@@ -69,9 +69,11 @@
 
 
             <h1>Statistics:</h1>
-            <ul id="navigation">
+            <ul class="navigation">
                 <li><a href="./battery_properties.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connection_properties.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
+                <li><a href="./hardware_properties.php?<?php echo $tmplt["navGetParams"] ?>">Hardware</a></li>
+                <li><a href="./software_properties.php?<?php echo $tmplt["navGetParams"] ?>">Software</a></li>
             </ul>
 
             <h1>Date:</h1>

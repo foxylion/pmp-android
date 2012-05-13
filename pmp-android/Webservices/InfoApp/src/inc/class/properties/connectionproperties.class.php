@@ -24,6 +24,11 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * Stores statistical information about the connections
+ * @author Patrick Strobel
+ * @version 4.0.0
+ */
 class ConnectionPropertiesStat extends PropertiesStat {
     /** @var float */
     private $bluetoothAvg;
@@ -79,7 +84,7 @@ class ConnectionPropertiesStat extends PropertiesStat {
 /**
  * Stores information about the device's connection and allows to update or insert a new device information set
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 class ConnectionProperties extends Properties {
 
