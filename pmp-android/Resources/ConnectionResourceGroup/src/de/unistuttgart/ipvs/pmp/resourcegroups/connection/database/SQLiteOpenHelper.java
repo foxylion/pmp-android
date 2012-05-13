@@ -38,7 +38,8 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
      */
     private static final String CREATE_WIFI_TABLE = "CREATE TABLE IF NOT EXISTS " + DBConstants.TABLE_WIFI + " ( "
             + DBConstants.COLUMN_ID + " integer primary key autoincrement, " + DBConstants.COLUMN_TIMESTAMP
-            + " integer, " + DBConstants.COLUMN_EVENT + " text, " + DBConstants.COLUMN_CITY + " text );";
+            + " integer, " + DBConstants.COLUMN_EVENT + " text, " + DBConstants.COLUMN_CITY + " text, "
+            + DBConstants.COLUMN_STATE + " text );";
     
     /**
      * Create statement for the bluetooth table with the columns id, timestamp, event and city

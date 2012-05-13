@@ -42,7 +42,7 @@ public interface IDBConnector {
      * @param city
      *            city where the event happened
      */
-    public void storeWifiEvent(long timestamp, EventEnum event, String city);
+    public void storeWifiEvent(long timestamp, EventEnum event, String city, EventEnum state);
     
     
     /**

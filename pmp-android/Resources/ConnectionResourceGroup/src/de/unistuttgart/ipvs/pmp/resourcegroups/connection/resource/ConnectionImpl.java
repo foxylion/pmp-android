@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,12 @@ import android.net.wifi.WifiManager;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.CellularConnectionProperties;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ConnectionProperties;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
@@ -374,13 +380,29 @@ public class ConnectionImpl extends IConnection.Stub {
         
         // Create service
         Service service = new Service(Service.DEFAULT_URL, deviceId);
+        try {
+            // Upload everything
+            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getWifiEvents());
+            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getBluetoothEvents());
+            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getCellEvents());
+            
+            Integer strength = getCellPhoneSignalStrength();
+            // TODO Strength in percent
+            new CellularConnectionProperties(service, getProvider(), strength.byteValue()).commit();
+            
+            Integer configNetworks = getConfigureddWifiNetworks().size();
+            Integer pairedDevices = getPairedBluetoothDevices().size();
+            new ConnectionProperties(service, configNetworks.shortValue(), pairedDevices.shortValue()).commit();
+        } catch (InternalDatabaseException e) {
+            e.printStackTrace();
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (InvalidEventOrderException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
-        //        new ConnectionEventManager().commitEvents(events)
-        return "";
-    }
-    
-    
-    private List<? extends Event> getAllEvents() {
-        return null;
+        return "URL";
     }
 }

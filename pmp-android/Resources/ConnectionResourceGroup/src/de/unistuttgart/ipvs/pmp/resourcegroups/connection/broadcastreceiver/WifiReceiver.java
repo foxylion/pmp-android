@@ -43,6 +43,21 @@ public class WifiReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        EventEnum state = EventEnum.OFF;
+        
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        
+        if (connManager != null) {
+            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (mWifi == null) {
+                state = EventEnum.OFF;
+            } else {
+                if (mWifi.isConnected()) {
+                    state = EventEnum.ON;
+                }
+            }
+        }
+        
         long time = new Date().getTime();
         
         // Get the ConnectivityManager
@@ -62,7 +77,7 @@ public class WifiReceiver extends BroadcastReceiver {
                 storeEvent(context, time, EventEnum.ON);
             } else {
                 // Not Connected
-                DBConnector.getInstance(context).storeWifiEvent(time, EventEnum.OFF, null);
+                DBConnector.getInstance(context).storeWifiEvent(time, EventEnum.OFF, null, state);
             }
         }
     }
