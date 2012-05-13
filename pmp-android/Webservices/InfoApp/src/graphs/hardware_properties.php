@@ -80,7 +80,7 @@ foreach ($stat->getSensorDist() as $sensor => $count) {
     $sensorData->addRow($row);
 }
 
-$tmplt["pageTitle"] = "Connection";
+$tmplt["pageTitle"] = "Hardware";
 $tmplt["jsFunctDrawChart"] = "drawDisplay();
         drawIntMemoryRatio();
         drawExtMemoryRatio();

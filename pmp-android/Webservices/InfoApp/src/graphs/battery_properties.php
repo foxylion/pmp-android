@@ -48,7 +48,7 @@ foreach ($stat->getHealthAvg() as $tech => $avg) {
     $signalData->addRow($row);
 }
 
-$tmplt["pageTitle"] = "Connection";
+$tmplt["pageTitle"] = "Battery";
 $tmplt["jsFunctDrawChart"] = "drawTechnology();
         drawHealth();";
 

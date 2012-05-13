@@ -103,7 +103,7 @@ foreach ($stat->getKernelDist() as $kernel => $count) {
 
 
 
-$tmplt["pageTitle"] = "Connection";
+$tmplt["pageTitle"] = "Software";
 $tmplt["jsFunctDrawChart"] = "drawManufacturer();
         drawModel();
         drawUi();
