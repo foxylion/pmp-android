@@ -119,12 +119,13 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeWifiEvent(long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public synchronized void storeWifiEvent(long timestamp, EventEnum event, String city) {
+    public synchronized void storeWifiEvent(long timestamp, EventEnum event, String city, EventEnum state) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
         values.put(DBConstants.COLUMN_EVENT, event.toString());
         values.put(DBConstants.COLUMN_CITY, city);
+        values.put(DBConstants.COLUMN_STATE, state.toString());
         this.db.insert(DBConstants.TABLE_WIFI, null, values);
         close();
     }
@@ -253,7 +254,12 @@ public class DBConnector implements IDBConnector {
                     }
                 } catch (NullPointerException e) {
                 }
+                
             } while (cursor.moveToNext());
+        }
+        
+        if (lastTimeStamp != 0) {
+            result += actualTime - lastTimeStamp;
         }
         
         cursor.close();
@@ -325,10 +331,11 @@ public class DBConnector implements IDBConnector {
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
         
         // Get the cities only
-        String columns[] = new String[3];
+        String columns[] = new String[4];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
         columns[2] = DBConstants.COLUMN_CITY;
+        columns[3] = DBConstants.COLUMN_STATE;
         
         Cursor cursor = this.db.query(DBConstants.TABLE_WIFI, columns, null, null, null, null, null);
         cursor.moveToFirst();
@@ -341,8 +348,16 @@ public class DBConnector implements IDBConnector {
                 if (eventString.equals(EventEnum.ON)) {
                     event = true;
                 }
-                String city = cursor.getString(2);
-                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, false, city));
+                String city = null;
+                if (cursor.getString(2) != null) {
+                    city = cursor.getString(2);
+                }
+                String stateString = cursor.getString(3);
+                boolean state = false;
+                if (stateString.equals(EventEnum.ON)) {
+                    state = true;
+                }
+                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, state, city));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -410,7 +425,7 @@ public class DBConnector implements IDBConnector {
                 if (eventString.equals(EventEnum.ON)) {
                     event = true;
                 }
-                
+                // TODO
                 //                result.add(new CellularConnectionEvent(timeStamp, false, airplane));
             } while (cursor.moveToNext());
         }

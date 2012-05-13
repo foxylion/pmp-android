@@ -10,6 +10,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
@@ -72,6 +74,22 @@ public class CityLocationListener implements LocationListener {
      */
     @Override
     public void onLocationChanged(Location location) {
+        EventEnum state = EventEnum.OFF;
+        
+        ConnectivityManager connManager = (ConnectivityManager) this.context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        
+        if (connManager != null) {
+            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (mWifi == null) {
+                state = EventEnum.OFF;
+            } else {
+                if (mWifi.isConnected()) {
+                    state = EventEnum.ON;
+                }
+            }
+        }
+        
         // New geocoder to get the city
         Geocoder gc = new Geocoder(context, Locale.getDefault());
         List<Address> addresses = null;
@@ -83,7 +101,7 @@ public class CityLocationListener implements LocationListener {
         String city = null;
         
         // Try to get the city
-        if (addresses.size() > 0 && addresses != null) {
+        if (addresses != null && addresses.size() > 0) {
             city = addresses.get(0).getLocality();
         }
         locManager.removeUpdates(this);
@@ -92,7 +110,7 @@ public class CityLocationListener implements LocationListener {
             DBConnector.getInstance(context).storeBTEvent(this.timestamp, this.event, city);
         }
         if (device.equals(DBConstants.DEVICE_WIFI)) {
-            DBConnector.getInstance(context).storeWifiEvent(this.timestamp, this.event, city);
+            DBConnector.getInstance(context).storeWifiEvent(this.timestamp, this.event, city, state);
         }
     }
     
