@@ -424,7 +424,9 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     
     
     public void update() {
-        updateLists();
+        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
+            updateLists();
+        }
     }
     
     
