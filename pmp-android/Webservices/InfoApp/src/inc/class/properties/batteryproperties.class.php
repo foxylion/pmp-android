@@ -25,7 +25,7 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Stores statistical information about the devices batteries
+ * Stores statistical information about the devices' batteries
  * @author Patrick Strobel
  * @version 4.0.0
  */

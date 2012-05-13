@@ -27,11 +27,8 @@ if (!defined("INCLUDE")) {
 require ("./../inc/classloader.inc.php");
 
 // Connect to database
-try {
-    Database::getInstance()->connect();
-} catch (DatabaseException $de) {
-    Json::printDatabaseError($de);
-}
+Database::getInstance()->connect();
+
 
 // Get device data
 // ---------------
