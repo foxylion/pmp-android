@@ -212,6 +212,7 @@ public class DBConnector implements IDBConnector {
     @Override
     public synchronized long getTimeDuration(String tableName, long duration, int id) {
         open();
+        long actualTime = new java.util.Date().getTime();
         long result = 0L;
         
         // Get only the timestamps and event columns
@@ -227,9 +228,10 @@ public class DBConnector implements IDBConnector {
         Cursor cursor = this.db.query(tableName, columns, whereClause, null, null, null, orderBy);
         cursor.moveToFirst();
         
+        long lastTimeStamp = 0;
+        
         // Check this only if there are 2 events
-        if (cursor.getCount() > 2) {
-            long lastTimeStamp = 0;
+        if (cursor.getCount() >= 2) {
             do {
                 try {
                     long timeStamp = cursor.getLong(0);
@@ -253,6 +255,7 @@ public class DBConnector implements IDBConnector {
                 }
             } while (cursor.moveToNext());
         }
+        
         cursor.close();
         close();
         return result;
@@ -280,7 +283,7 @@ public class DBConnector implements IDBConnector {
         Cursor cursor = this.db.query(tableName, columns, null, null, null, null, orderBy);
         cursor.moveToFirst();
         
-        // Check this only if there are 1 events
+        // Check this only if there are more than one event
         if (cursor.getCount() > 0) {
             do {
                 try {
@@ -291,7 +294,7 @@ public class DBConnector implements IDBConnector {
                             int oldTimes = times.get(city);
                             times.put(city, oldTimes + 1);
                         } else {
-                            times.put(city, 0);
+                            times.put(city, 1);
                         }
                     }
                 } catch (NullPointerException e) {
