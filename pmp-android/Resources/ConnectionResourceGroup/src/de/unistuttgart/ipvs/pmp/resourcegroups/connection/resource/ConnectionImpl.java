@@ -304,9 +304,7 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public int getCellPhoneSignalStrength() throws RemoteException {
-        SharedPreferences settings = context.getSharedPreferences(ConnectionConstants.PREF_FILE,
-                Context.MODE_WORLD_READABLE);
-        int signal = settings.getInt(ConnectionConstants.PREF_SIGNAL_KEY, 99);
+        int signal = getSignalStrengthASU();
         
         // Check the privacy setting
         validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
@@ -316,6 +314,18 @@ public class ConnectionImpl extends IConnection.Stub {
         } else {
             return (2 * signal) - 113;
         }
+    }
+    
+    
+    /**
+     * Get the signal strength in asu
+     * 
+     * @return gsm signal strength in asu, 99 if not known
+     */
+    private int getSignalStrengthASU() {
+        SharedPreferences settings = context.getSharedPreferences(ConnectionConstants.PREF_FILE,
+                Context.MODE_WORLD_READABLE);
+        return settings.getInt(ConnectionConstants.PREF_SIGNAL_KEY, 99);
     }
     
     
@@ -386,9 +396,7 @@ public class ConnectionImpl extends IConnection.Stub {
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getBluetoothEvents());
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getCellEvents());
             
-            Integer strength = getCellPhoneSignalStrength();
-            // TODO Strength in percent
-            new CellularConnectionProperties(service, getProvider(), strength.byteValue()).commit();
+            new CellularConnectionProperties(service, getProvider(), getSignalStrengthPercentage()).commit();
             
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
@@ -404,5 +412,22 @@ public class ConnectionImpl extends IConnection.Stub {
         }
         
         return "URL";
+    }
+    
+    
+    /**
+     * Get the gsm signal strength in percent
+     * 
+     * @return signal strength in percent
+     */
+    private byte getSignalStrengthPercentage() {
+        int signal = getSignalStrengthASU();
+        
+        if (signal == 99) {
+            return 0;
+        } else {
+            Integer percent = signal / 31;
+            return percent.byteValue();
+        }
     }
 }
