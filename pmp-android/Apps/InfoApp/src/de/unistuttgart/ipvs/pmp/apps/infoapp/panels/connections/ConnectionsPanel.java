@@ -163,14 +163,19 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
                             try {
                                 //State
-                                wifiList.add(context.getString(R.string.connection_panel_state)
+                                wifiList.add(context.getString(R.string.connection_panel_state) + " "
                                         + booleanToString(connectionStub.getWifiConnectionStatus()));
+                                
+                                // Configured networks
+                                wifiList.add(context.getString(R.string.connection_panel_wifi_configured_networks)
+                                        + " " + connectionStub.getConfigureddWifiNetworks().size());
                                 
                                 // Connected time
                                 wifiList.add(context.getString(R.string.connection_panel_connected_twentyfour)
+                                        + " "
                                         + convertMillsecondsToString(connectionStub
                                                 .getWifiConnectionLastTwentyFourHours()));
-                                wifiList.add(context.getString(R.string.connection_panel_connected_thirty_days)
+                                wifiList.add(context.getString(R.string.connection_panel_connected_thirty_days) + " "
                                         + convertMillsecondsToString(connectionStub.getWifiConnectionLastMonth()));
                                 
                                 // Connected cities
@@ -186,18 +191,23 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
                             try {
                                 //State
-                                btList.add(context.getString(R.string.connection_panel_state)
+                                btList.add(context.getString(R.string.connection_panel_state) + " "
                                         + booleanToString(connectionStub.getBluetoothStatus()));
+                                
+                                //Paired devices
+                                btList.add(context.getString(R.string.connection_panel_paired_devices) + " "
+                                        + connectionStub.getPairedBluetoothDevices().size());
                                 
                                 //Active time
                                 btList.add(context.getString(R.string.connection_panel_active_twentyfour)
+                                        + " "
                                         + convertMillsecondsToString(connectionStub
                                                 .getBTConnectionLastTwentyFourHours()));
-                                btList.add(context.getString(R.string.connection_panel_active_thirty_days)
+                                btList.add(context.getString(R.string.connection_panel_active_thirty_days) + " "
                                         + convertMillsecondsToString(connectionStub.getBTConnectionLastMonth()));
                                 
                                 // Cities
-                                btList.add(context.getString(R.string.connection_panel_connected_cities));
+                                btList.add(" " + context.getString(R.string.connection_panel_connected_cities));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
@@ -209,30 +219,32 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
                             try {
                                 // Provider
-                                cellPhoneList.add(context.getString(R.string.connection_panel_provider)
+                                cellPhoneList.add(context.getString(R.string.connection_panel_provider) + " "
                                         + connectionStub.getProvider());
                                 
                                 //Signal strength
                                 int strength = connectionStub.getCellPhoneSignalStrength();
                                 if (strength == 99) {
                                     cellPhoneList.add(context.getString(R.string.connection_panel_signal_strength)
-                                            + context.getString(R.string.connection_panel_unknown));
+                                            + " " + context.getString(R.string.connection_panel_unknown));
                                 } else {
                                     cellPhoneList.add(context.getString(R.string.connection_panel_signal_strength)
-                                            + strength + " dBm");
+                                            + strength + " " + " dBm");
                                 }
                                 
                                 // Roaming status
-                                cellPhoneList.add(context.getString(R.string.connection_panel_roaming)
+                                cellPhoneList.add(context.getString(R.string.connection_panel_roaming) + " "
                                         + booleanToString(connectionStub.getRoamingStatus()));
                                 
                                 // Connection time
                                 cellPhoneList.add(context
                                         .getString(R.string.connection_panel_active_twentyfour_flight_mode)
+                                        + " "
                                         + convertMillsecondsToString(connectionStub
                                                 .getAirplaneModeLastTwentyFourHours()));
                                 cellPhoneList.add(context
                                         .getString(R.string.connection_panel_active_thirty_days_flight_mode)
+                                        + " "
                                         + convertMillsecondsToString(connectionStub.getAirplaneModeLastMonth()));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
@@ -245,13 +257,13 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
                             try {
                                 // Status
-                                dataList.add(context.getString(R.string.connection_panel_state)
+                                dataList.add(context.getString(R.string.connection_panel_state) + " "
                                         + booleanToString(connectionStub.getDataConnectionStatus()));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            dataList.add(context.getString(R.string.sf_insufficient));
+                            dataList.add(" " + context.getString(R.string.sf_insufficient));
                         }
                         // Update the view
                         adapter.updateLists(wifiList, btList, dataList, cellPhoneList);
@@ -306,7 +318,8 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
             if (!result.equals("")) {
                 result += " ";
             }
-            result += hours % 24 + " " + this.context.getResources().getQuantityString(R.plurals.hours, (int) hours);
+            result += hours % 24 + " "
+                    + this.context.getResources().getQuantityString(R.plurals.hours, (int) hours % 24);
         }
         
         // Add the minutes
@@ -314,8 +327,8 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
             if (!result.equals("")) {
                 result += " ";
             }
-            result += minutes % 60 + " minutes"
-                    + this.context.getResources().getQuantityString(R.plurals.minutes, (int) minutes);
+            result += minutes % 60 + " "
+                    + this.context.getResources().getQuantityString(R.plurals.minutes, (int) minutes % 60);
         }
         
         // If the string is still empty, then it wasn't used yet

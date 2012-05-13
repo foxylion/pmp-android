@@ -34,16 +34,16 @@
     <string name="energy_panel_total_values">Values in total</string>
 
     <plurals name="days">
-        <item quantity="one">1 day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one"> day</item>
+        <item quantity="other"> days</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">1 hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one"> hour</item>
+        <item quantity="other"> hours</item>
     </plurals>
     <plurals name="minutes">
-        <item quantity="one">1 minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one"> minute</item>
+        <item quantity="other"> minutes</item>
     </plurals>
 
 </resources>
