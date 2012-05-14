@@ -396,7 +396,8 @@ public class ConnectionImpl extends IConnection.Stub {
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getBluetoothEvents());
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getCellEvents());
             
-            new CellularConnectionProperties(service, getProvider(), getSignalStrengthPercentage()).commit();
+            new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getSignalStrengthPercentage())
+                    .commit();
             
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
