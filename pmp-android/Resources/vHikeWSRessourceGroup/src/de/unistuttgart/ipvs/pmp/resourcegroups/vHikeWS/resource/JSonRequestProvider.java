@@ -32,6 +32,8 @@ public class JSonRequestProvider {
     
     private static final String TAG = "JSonRequestProvider";
     
+    private static final HttpClient httpclient = new DefaultHttpClient();
+    
     
     // private static final boolean debug = false;
     
@@ -79,7 +81,6 @@ public class JSonRequestProvider {
         Log.d(TAG, "Param: " + getParam);
         
         // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
         
         HttpPost httppost = new HttpPost(Constants.WEBSERVICE_URL + getParam);
         
