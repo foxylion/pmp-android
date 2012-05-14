@@ -22,8 +22,14 @@ package de.unistuttgart.ipvs.pmp.infoapp.webservice;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,6 +38,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -49,9 +59,10 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterEx
  */
 public class Service {
     
-    public static String DEFAULT_URL = "http://infoapp.no-ip.org/json";
+    public static String DEFAULT_URL = "https://infoapp.no-ip.org/json";
     private String url;
     private String deviceId;
+    private HttpClient httpClient = new DefaultHttpClient();
     
     
     /**
@@ -63,8 +74,53 @@ public class Service {
      *            16-bit (32 characters) HEX-value used the uniquely identify the Android device
      */
     public Service(String url, String deviceId) {
+        this(url, deviceId, true);
+    }
+    
+    
+    /**
+     * Creates a new service-instance used for communicating with the webservices
+     * 
+     * @param url
+     *            URL of the webservices.
+     * @param deviceId
+     *            16-bit (32 characters) HEX-value used the uniquely identify the Android device
+     * @param acceptAllCerts
+     *            If set to true, all SSL certificates are accepted when using a SSL-connection. This has to be set to
+     *            <code>true</code> when untrusted certificates (e. g. self-signed) are used.
+     */
+    public Service(String url, String deviceId, boolean acceptAllCerts) {
         this.url = url;
         this.deviceId = deviceId;
+        
+        if (acceptAllCerts) {
+            acceptUntrustedCerts();
+        }
+    }
+    
+    
+    /**
+     * Get the HTTP client. The client is prepared to accept untrusted SSL-Certificates
+     */
+    private void acceptUntrustedCerts() {
+        try {
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            
+            // Set trust manager
+            sslContext.init(null, new TrustManager[] { new FakeTrustManager() }, new SecureRandom());
+            SSLSocketFactory sslSocket = new SSLSocketFactory(sslContext, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            ClientConnectionManager conMan = httpClient.getConnectionManager();
+            
+            // Register scheme
+            Scheme httpsScheme = new Scheme("https", 443, sslSocket);
+            SchemeRegistry reg = conMan.getSchemeRegistry();
+            reg.register(httpsScheme);
+            
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
     }
     
     
@@ -135,7 +191,7 @@ public class Service {
         String paramString = URLEncodedUtils.format(params, "UTF-8");
         HttpGet httpGet = new HttpGet(this.url + "/" + service + "?" + paramString);
         
-        HttpClient client = new DefaultHttpClient();
+        HttpClient client = this.httpClient;
         
         return getContent(client.execute(httpGet));
     }
@@ -171,8 +227,7 @@ public class Service {
         HttpPost httpPost = new HttpPost(this.url + "/" + service);
         httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         
-        HttpClient client = new DefaultHttpClient();
-        
+        HttpClient client = this.httpClient;
         return getContent(client.execute(httpPost));
     }
     

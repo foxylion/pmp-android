@@ -44,16 +44,11 @@ public class CellularConnection extends Filler {
     public Event generateEvent(long time) {
         
         boolean airplane = false;
-        boolean roaming = false;
         
         if (Math.random() < 0.2) {
             airplane = true;
-        } else {
-            if (Math.random() < 0.2) {
-                roaming = true;
-            }
         }
-        CellularConnectionEvent event = new CellularConnectionEvent(++this.id, time, roaming, airplane);
+        CellularConnectionEvent event = new CellularConnectionEvent(++this.id, time, airplane);
         return event;
     }
     

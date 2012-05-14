@@ -103,5 +103,6 @@
     <string name="plan_enable_sf">Service Location is not enabled. Do you want to enable Service Feature?</string>
     <string name="open_pmp">Open PMP</string>
     <string name="close_map">Return to planning menu</string>
+    <string name="login_bluetooth">Bluetooth</string>
 
 </resources>

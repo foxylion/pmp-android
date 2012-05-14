@@ -30,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.EventProperty;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.CellularConnectionProperties;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.DeviceOem;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.Display;
@@ -79,11 +80,25 @@ public class Main {
         //doFill(s);
         
         // Setup service url and device ID
-        //Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208d3");
+        //Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208da");
         //Service s = new Service(Service.DEFAULT_URL, "b7c2e4787e7f950c89909795907208d3");
         
+        CellularConnectionProperties ccp = new CellularConnectionProperties(s, "test", true, (byte) 60);
+        try {
+            ccp.commit();
+        } catch (InternalDatabaseException e3) {
+            // TODO Auto-generated catch block
+            e3.printStackTrace();
+        } catch (InvalidParameterException e3) {
+            // TODO Auto-generated catch block
+            e3.printStackTrace();
+        } catch (IOException e3) {
+            // TODO Auto-generated catch block
+            e3.printStackTrace();
+        }
+        
         // Create some events and...
-        ConnectionEvent e1 = new ConnectionEvent(2123, ConnectionEvent.Mediums.BLUETOOTH, true, true, "Stuttgart");
+        ConnectionEvent e1 = new ConnectionEvent(2123, ConnectionEvent.Mediums.BLUETOOTH, true, true, null);
         ConnectionEvent e2 = new ConnectionEvent(1337, ConnectionEvent.Mediums.WIFI, false, false, "Stuttgart");
         
         // ...bind them to a list
