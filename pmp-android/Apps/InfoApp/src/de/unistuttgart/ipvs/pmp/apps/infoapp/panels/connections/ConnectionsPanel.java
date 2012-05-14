@@ -33,7 +33,6 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -433,7 +432,6 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
             UploadRequestResourceHandler handler = new UploadRequestResourceHandler();
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
-            Toast.makeText(this.context, handler.getURL(), Toast.LENGTH_LONG).show();
             return handler.getURL();
         }
         return "";
