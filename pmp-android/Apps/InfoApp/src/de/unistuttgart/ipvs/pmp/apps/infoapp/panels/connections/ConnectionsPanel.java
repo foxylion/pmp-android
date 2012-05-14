@@ -33,6 +33,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -93,7 +94,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         this.context = context;
         this.activity = activity;
         handler = new Handler();
-        
+        upload();
         // load the layout from the xml file
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = (LinearLayout) inflater.inflate(R.layout.connection_panel, null);
@@ -424,14 +425,56 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     
     
     public void update() {
-        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
-            updateLists();
-        }
+        updateLists();
     }
     
     
     public String upload() {
-        // TODO Auto-generated method stub
-        return null;
+        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
+            UploadRequestResourceHandler handler = new UploadRequestResourceHandler();
+            PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
+            Toast.makeText(this.context, handler.getURL(), Toast.LENGTH_LONG).show();
+            return handler.getURL();
+        }
+        return "";
     }
+    
+    /**
+     * The upload request resource handler
+     * 
+     * @author Marcus Vetter
+     * 
+     */
+    class UploadRequestResourceHandler extends PMPRequestResourceHandler {
+        
+        private String URL = "";
+        
+        
+        @Override
+        public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
+            IConnection connectionRG = IConnection.Stub.asInterface(binder);
+            try {
+                this.setURL(connectionRG.uploadData());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
+        /**
+         * @return the uRL
+         */
+        public String getURL() {
+            return URL;
+        }
+        
+        
+        /**
+         * @param uRL
+         *            the uRL to set
+         */
+        public void setURL(String uRL) {
+            URL = uRL;
+        }
+    };
 }
