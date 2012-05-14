@@ -37,6 +37,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import util.SSLUtilities;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
@@ -65,6 +66,8 @@ public class Service {
     public Service(String url, String deviceId) {
         this.url = url;
         this.deviceId = deviceId;
+        SSLUtilities.trustAllHostnames();
+        SSLUtilities.trustAllHttpsCertificates();
     }
     
     
@@ -172,7 +175,6 @@ public class Service {
         httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         
         HttpClient client = new DefaultHttpClient();
-        
         return getContent(client.execute(httpPost));
     }
     

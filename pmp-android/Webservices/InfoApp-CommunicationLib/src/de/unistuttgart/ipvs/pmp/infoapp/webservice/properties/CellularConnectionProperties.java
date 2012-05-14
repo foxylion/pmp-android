@@ -38,6 +38,7 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterEx
 public class CellularConnectionProperties extends Properties {
     
     private String provider;
+    private boolean roaming;
     private byte signal;
     
     
@@ -48,12 +49,15 @@ public class CellularConnectionProperties extends Properties {
      *            Helper class used for communication with the webservice
      * @param provider
      *            Name of the network provider
+     * @param roaming
+     *            The roaming status
      * @param signal
      *            Signal strength in percent
      */
-    public CellularConnectionProperties(Service service, String provider, byte signal) {
+    public CellularConnectionProperties(Service service, String provider, boolean roaming, byte signal) {
         super(service);
         this.provider = provider;
+        this.roaming = roaming;
         this.signal = signal;
     }
     
@@ -65,6 +69,16 @@ public class CellularConnectionProperties extends Properties {
      */
     public String getProvider() {
         return this.provider;
+    }
+    
+    
+    /**
+     * Gets the roaming status
+     * 
+     * @return True, if roaming is active
+     */
+    public boolean isRoaming() {
+        return this.roaming;
     }
     
     
@@ -83,6 +97,7 @@ public class CellularConnectionProperties extends Properties {
         try {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("provider", this.provider));
+            params.add(new BasicNameValuePair("roaming", Boolean.toString(this.roaming)));
             params.add(new BasicNameValuePair("signal", Byte.toString(this.signal)));
             super.service.requestPostService("update_connection_cellular.php", params);
         } catch (JSONException e) {

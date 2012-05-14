@@ -30,7 +30,6 @@ import org.json.JSONObject;
  */
 public class CellularConnectionEvent extends Event {
     
-    private boolean roaming;
     private boolean airplane;
     
     
@@ -39,14 +38,11 @@ public class CellularConnectionEvent extends Event {
      * 
      * @param timestamp
      *            Point in time when this event occurred
-     * @param roaming
-     *            Indicates if the device was in roaming mode when this event occurred
      * @param airplane
      *            Indicates if the device was in airplane mode when this event occurred
      */
-    public CellularConnectionEvent(long timestamp, boolean roaming, boolean airplane) {
+    public CellularConnectionEvent(long timestamp, boolean airplane) {
         super(timestamp);
-        this.roaming = roaming;
         this.airplane = airplane;
     }
     
@@ -58,25 +54,12 @@ public class CellularConnectionEvent extends Event {
      *            The event's ID
      * @param timestamp
      *            Point in time when this event occurred
-     * @param roaming
-     *            Indicates if the device was in roaming mode when this event occurred
      * @param airplane
      *            Indicates if the device was in airplane mode when this event occurred
      */
-    public CellularConnectionEvent(int id, long timestamp, boolean roaming, boolean airplane) {
+    public CellularConnectionEvent(int id, long timestamp, boolean airplane) {
         super(id, timestamp);
-        this.roaming = roaming;
         this.airplane = airplane;
-    }
-    
-    
-    /**
-     * Gets the roaming status
-     * 
-     * @return True, if roaming is active
-     */
-    public boolean isRoaming() {
-        return this.roaming;
     }
     
     
@@ -93,8 +76,7 @@ public class CellularConnectionEvent extends Event {
     @Override
     public JSONObject toJSONObject() throws JSONException {
         JSONObject json = super.toJSONObject();
-        json.put("roaming", this.roaming);
-        json.put("airplane", this.airplane);
+        json.put("airplane", Boolean.toString(this.airplane));
         return json;
     }
     
