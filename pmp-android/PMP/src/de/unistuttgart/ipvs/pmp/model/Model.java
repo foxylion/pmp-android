@@ -586,8 +586,9 @@ public class Model implements IModel, Observer {
             this.cache.getPrivacySettings().put(newRG, new HashMap<String, PrivacySetting>());
             
             // create the mock/cloak PS
-            new PrivacySettingPersistenceProvider(null).createElementData(newRG,
+            PrivacySetting modePS = new PrivacySettingPersistenceProvider(null).createElementData(newRG,
                     PersistenceConstants.MODE_PRIVACY_SETTING, false);
+            this.cache.getPrivacySettings().get(newRG).put(PersistenceConstants.MODE_PRIVACY_SETTING, modePS);
             
             // apply new PS to DB, then model
             for (IRGISPrivacySetting ps : rgis.getPrivacySettings()) {

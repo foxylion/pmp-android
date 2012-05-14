@@ -44,6 +44,10 @@ public class ResourceGroupPersistenceProvider extends ElementPersistenceProvider
         }
         
         this.element.privacySettings = getCache().getPrivacySettings().get(this.element);
+        if (!this.element.privacySettings.containsKey(PersistenceConstants.MODE_PRIVACY_SETTING)) {
+            throw new ModelIntegrityError(String.format("The mode privacy setting of %s was not found during loading!",
+                    this.element.getIdentifier()));
+        }
     }
     
     
