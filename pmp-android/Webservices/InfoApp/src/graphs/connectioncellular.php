@@ -30,18 +30,15 @@ if ($deviceIdValid) {
     // cellular connection status
     $dateColumn = new GColumn("datetime", "d", "Date");
     $airplaneColumn = new GColumn("number", "a", "Airplane");
-    $roamingColumn = new GColumn("number", "r", "Roaming");
 
     $connectionData = new GDataTable();
     $connectionData->addColumn($dateColumn);
     $connectionData->addColumn($airplaneColumn);
-    $connectionData->addColumn($roamingColumn);
 
     foreach ($events as $event) {
         $levelRow = new GRow();
         $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
         $levelRow->addCell(new GCell((int) $event->isAirplane()));
-        $levelRow->addCell(new GCell((int) $event->isRoaming()));
         $connectionData->addRow($levelRow);
     }
 
