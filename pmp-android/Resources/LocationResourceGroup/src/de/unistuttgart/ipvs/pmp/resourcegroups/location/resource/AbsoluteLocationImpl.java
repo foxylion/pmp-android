@@ -339,7 +339,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     
     
     private void fetchAddress() {
-        Geocoder gc = new Geocoder(this.locationRG.getContext());
+        Geocoder gc = new Geocoder(this.locationRG.getContext(this.appIdentifier));
         
         try {
             List<Address> addresses = gc.getFromLocation(this.absoluteLocationR.getLatitude(),
