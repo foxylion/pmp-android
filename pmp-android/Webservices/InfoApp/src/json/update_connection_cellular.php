@@ -28,6 +28,13 @@ try {
     $prop = $device->getConnectionProperties();
 
     $prop->setProvider($_POST["provider"]);
+
+    if ($_POST["roaming"] == "true") {
+        $prop->setRoaming(true);
+    } else  {
+        $prop->setRoaming(false);
+    }
+    
     $prop->setSignalStrength((int) $_POST["signal"]);
 
     $prop->writeBack();

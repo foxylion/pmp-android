@@ -38,11 +38,14 @@ class ConnectionPropertiesStat extends PropertiesStat {
     private $providerDist;
     /** @var float[] */
     private $signalAvg;
+    /** @var float */
+    private $roamingPerc;
 
-    public function __construct($bluetooh, $wifi, $provider, $signal) {
+    public function __construct($bluetooh, $wifi, $provider, $roaming, $signal) {
         $this->bluetoothAvg = $bluetooh;
         $this->wifiAvg = $wifi;
         $this->providerDist = $provider;
+        $this->roamingPerc = $roaming;
         $this->signalAvg = $signal;
     }
 
@@ -72,6 +75,14 @@ class ConnectionPropertiesStat extends PropertiesStat {
     }
 
     /**
+     * Gets the percentage of active roaming connection
+     * @return float Percentage (between 0 and 100)
+     */
+    public function getRoamingPerc() {
+        return $this->roamingPerc;
+    }
+
+    /**
      * Gets information about the signal strength
      * @return int[] The provider's name is stored in the array's key and
      *                  the average value in the value
@@ -84,7 +95,7 @@ class ConnectionPropertiesStat extends PropertiesStat {
 /**
  * Stores information about the device's connection and allows to update or insert a new device information set
  * @author Patrick Strobel
- * @version 4.1.0
+ * @version 4.2.0
  */
 class ConnectionProperties extends Properties {
 
@@ -96,6 +107,9 @@ class ConnectionProperties extends Properties {
 
     /** @var String */
     private $provider = "unknown";
+
+    /** @var boolean */
+    private $roaming = false;
 
     /** @var short */
     private $signal = 0;
@@ -112,6 +126,7 @@ class ConnectionProperties extends Properties {
             $instance->wifi = $row["wifi"];
             $instance->bluetooth = $row["bluetooth"];
             $instance->provider = $row["provider"];
+            $instance->roaming = $row["roaming"];
             $instance->signal = $row["signal"];
         }
 
@@ -133,6 +148,7 @@ class ConnectionProperties extends Properties {
                         `wifi`      = " . $this->wifi . ",
                         `bluetooth` = " . $this->bluetooth . ",
                         `provider`  = \"" . $this->provider . "\",
+                        `roaming`   = " . (int) $this->roaming . ",
                         `signal`    = " . $this->signal . "
                     WHERE `device` = x'" . $this->deviceId . "'");
         } else {
@@ -142,12 +158,14 @@ class ConnectionProperties extends Properties {
                             `wifi`,
                             `bluetooth`,
                             `provider`,
+                            `roaming`,
                             `signal`
                         ) VALUES (
                             x'" . $this->deviceId . "',
                             " . $this->wifi . ",
                             " . $this->bluetooth . ",
                             \"" . $this->provider . "\",
+                            " . (int) $this->roaming . ",
                             " . $this->signal . "
                         )");
         }
@@ -202,6 +220,13 @@ class ConnectionProperties extends Properties {
     }
 
     /**
+     * Gets the roaming status
+     * @return boolean  True, if roaming is active
+     */
+    public function getRoaming() {
+        return $this->roaming;
+    }
+    /**
      * Sets the provider's name
      * @param String $name  Number of the provider
      * @throws InvalidArgumentException Thrown, if the argument is no string or has an invalid length
@@ -214,6 +239,18 @@ class ConnectionProperties extends Properties {
         }
 
         $this->provider = $name;
+    }
+
+    /**
+     * Sets the roaming status
+     * @param boolen $roaming   True, if roaming is active
+     * @throws InvalidArgumentException Thrown, if the argument is no boolean
+     */
+    public function setRoaming($roaming) {
+        if (!is_bool($roaming)) {
+            throw new InvalidArgumentException("\"roaming\" is no boolean");
+        }
+        $this->roaming = $roaming;
     }
 
     /**
@@ -240,11 +277,22 @@ class ConnectionProperties extends Properties {
         $db = Database::getInstance();
 
         // Connections
-        $row = $db->fetch($db->query("SELECT AVG(`bluetooth`) AS 'bluetoothAvg', AVG(`wifi`) AS 'wifiAvg'
+        $row = $db->fetch($db->query("SELECT
+                                        COUNT(`device`) AS 'count',
+                                        AVG(`bluetooth`) AS 'bluetoothAvg',
+                                        AVG(`wifi`) AS 'wifiAvg'
                                       FROM `" . DB_PREFIX . "_connection_prop`"));
 
+        $entries = $row["count"];
         $bluetooth = $row["bluetoothAvg"];
         $wifi = $row["wifiAvg"];
+
+        // Roaming
+        $row = $db->fetch($db->query("SELECT COUNT(`roaming`) AS 'roamingCount'
+                                      FROM `" . DB_PREFIX . "_connection_prop`
+                                      WHERE `roaming` = 1
+                                      GROUP BY `roaming`"));
+        $roaming = $row["roamingCount"] / $entries * 100;
 
         // Provider and signal
         $result = $db->query("SELECT COUNT(`device`) AS 'count', `provider`, AVG(`signal`) AS 'signalAvg'
@@ -260,7 +308,7 @@ class ConnectionProperties extends Properties {
             $signalAvg[$provider] = $row["signalAvg"];
         }
 
-        return new ConnectionPropertiesStat($bluetooth, $wifi, $providers, $signalAvg);
+        return new ConnectionPropertiesStat($bluetooth, $wifi, $providers, $roaming, $signalAvg);
 
     }
 

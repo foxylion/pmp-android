@@ -99,7 +99,6 @@ CREATE TABLE IF NOT EXISTS `dev_connection_cellular` (
   `device` binary(16) NOT NULL,
   `event_id` int(8) NOT NULL,
   `timestamp` bigint(19) NOT NULL,
-  `roaming` tinyint(1) NOT NULL,
   `airplane` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `EVENT` (`device`,`event_id`)
@@ -116,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `dev_connection_prop` (
   `wifi` smallint(5) NOT NULL,
   `bluetooth` smallint(5) NOT NULL,
   `provider` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `airplane` tinyint(1) NOT NULL,
   `signal` tinyint(3) NOT NULL,
   PRIMARY KEY (`device`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
