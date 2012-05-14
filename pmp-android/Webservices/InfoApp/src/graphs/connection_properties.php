@@ -85,7 +85,10 @@ $tmplt["jsDrawFunctions"] = "
 $tmplt["content"] = "
             <h1>Connection Statistics</h1>
             <div id=\"provider\" style=\"width:800; height:400\"></div>
-            <div id=\"signal\" style=\"width:700; height:300\"></div>";
+            <div id=\"signal\" style=\"width:700; height:300\"></div>
+            <p><b>Active roaming:</b> " . sprintf("%3.2f %%", $stat->getRoamingPerc()) . "</p>
+            <p><b>Average bluetooth connections:</b> " . sprintf("%3.2f", $stat->getBluetoothAvg()) . "</p>
+            <p><b>Average Wi-Fi connections:</b> " . sprintf("%3.2f", $stat->getWifiAvg()) . "</p>";
 
 include ("template.php");
 ?>

@@ -29,11 +29,10 @@ if (!defined("INCLUDE")) {
  * at a given timestamp
  *
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  */
 class CellularConnectionEvent extends Event {
 
-    private $roaming;
     private $airplane;
 
     /**
@@ -44,18 +43,14 @@ class CellularConnectionEvent extends Event {
      * @param boolean $airplane Indicates if the device was in airplane mode when this event occurred
      * @throws InvalidArgumentException
      */
-    public function __construct($id, $timestamp, $roaming, $airplane) {
+    public function __construct($id, $timestamp, $airplane) {
 
         parent::__construct($id, $timestamp);
 
-        if (!is_bool($roaming)) {
-            throw new InvalidArgumentException("\"roaming\" is no boolean");
-        }
         if (!is_bool($airplane)) {
             throw new InvalidArgumentException("\"airplane\" is no boolean");
         }
 
-        $this->roaming = $roaming;
         $this->airplane = $airplane;
     }
 
@@ -65,14 +60,6 @@ class CellularConnectionEvent extends Event {
      */
     public function isAirplane() {
         return $this->airplane;
-    }
-
-    /**
-     * Get the roaming status
-     * @return boolean  True, if roaming is active
-     */
-    public function isRoaming() {
-        return $this->roaming;
     }
 
 }

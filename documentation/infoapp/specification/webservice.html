@@ -13,10 +13,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">10. Mai 2012</div>
+    <div id="page-head-date">14. Mai 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">InfoApp Spezifikation - Webservices</div>
-    <div id="page-version">Version 4.7</div>
+    <div id="page-version">Version 4.8</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,12 @@
     <div id="content">
     
       <h1 id="versions">Versionshistorie</h1>
+      
+      <h3>Version 4.8</h3>
+      <ul>
+        <li>Roaming-Status wird nun nicht mehr als Event übertragen (in "upload_connection_events_cellular.php"),
+          sondern in den Eigenschaften festgelegt (in "update_connection_cellular.php")</li>
+      </ul>
       
       <h3>Version 4.7</h3>
       <ul>
@@ -316,6 +322,7 @@
           <td>
             <ul>
               <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+              <li><code>last_timestamp</code> - Integer: Timestamp des zuletzt hinzugefügten Eintrags</li>
             </ul>
           </td>
         </tr>
@@ -414,7 +421,6 @@
   "events" : [
     {
       "timestamp": Integer,
-      "roaming": Boolean,       // Roaming aktive/nicht aktiv
       "airplane": Boolean       // Airplane-Mode an/aus
     },
     ...
@@ -491,6 +497,7 @@
           <td>
             <ul>
               <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+              <li><code>last_timestamp</code> - Integer: Timestamp des zuletzt hinzugefügten Eintrags</li>
             </ul>
           </td>
         </tr>
@@ -527,6 +534,7 @@
             <ul>
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
               <li><code>provider</code> - String: Mobilfunkanbieter des Benutzer</li>
+              <li><code>roaming</code> - Boolean: Roaming aktive oder nicht</li>
               <li><code>signal</code> - Integer (0 &le; x &le; 100): Signalstärke</li>
             </ul>
           </td>
@@ -675,6 +683,7 @@
           <td>
             <ul>
               <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+              <li><code>last_timestamp</code> - Integer: Timestamp des zuletzt hinzugefügten Eintrags</li>
             </ul>
           </td>
         </tr>
@@ -848,6 +857,7 @@
           <td>
             <ul>
               <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+              <li><code>last_timestamp</code> - Integer: Timestamp des zuletzt hinzugefügten Eintrags</li>
             </ul>
           </td>
         </tr>
@@ -970,6 +980,7 @@
           <td>
             <ul>
               <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+              <li><code>last_timestamp</code> - Integer: Timestamp des zuletzt hinzugefügten Eintrags</li>
             </ul>
           </td>
         </tr>
@@ -1097,6 +1108,7 @@
           <td>
             <ul>
               <li><code>last_id</code> - Integer: ID des zuletzt hinzugefügten Eintrags</li>
+              <li><code>last_timestamp</code> - Integer: Timestamp des zuletzt hinzugefügten Eintrags</li>
             </ul>
           </td>
         </tr>

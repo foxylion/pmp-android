@@ -153,9 +153,9 @@ $tmplt["content"] = "
             <div id=\"intmemoryratio\" style=\"width:800; height:400\"></div>
             <div id=\"extmemoryratio\" style=\"width:800; height:400\"></div>
             <div id=\"sensors\" style=\"width:700; height:300\"></div>
-            <p><b>Average CPU frequency:</b> " . $stat->getCpuAvg() . " MHz</p>
-            <p><b>Average camera resolution:</b> " . $stat->getCameraAvg() . " MP</p>
-            <p><b>Average runtime:</b> " . $stat->getRuntimeAvg() . " Min</p>";
+            <p><b>Average CPU frequency:</b> " . sprintf("%3.2f MHz", $stat->getCpuAvg()) . "</p>
+            <p><b>Average camera resolution:</b> " . sprintf("%3.1f MP", $stat->getCameraAvg()) . "</p>
+            <p><b>Average runtime:</b> " . sprintf("%6.3f Min", $stat->getRuntimeAvg()) . "</p>";
 
 include ("template.php");
 ?>
