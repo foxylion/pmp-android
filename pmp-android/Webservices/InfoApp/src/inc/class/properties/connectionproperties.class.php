@@ -290,6 +290,7 @@ class ConnectionProperties extends Properties {
         // Roaming
         $row = $db->fetch($db->query("SELECT COUNT(`roaming`) AS 'roamingCount'
                                       FROM `" . DB_PREFIX . "_connection_prop`
+                                      WHERE `roaming` = 1
                                       GROUP BY `roaming`"));
         $roaming = $row["roamingCount"] / $entries * 100;
 
