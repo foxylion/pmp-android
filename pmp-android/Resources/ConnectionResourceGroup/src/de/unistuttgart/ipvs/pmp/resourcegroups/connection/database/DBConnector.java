@@ -425,8 +425,7 @@ public class DBConnector implements IDBConnector {
                 if (eventString.equals(EventEnum.ON)) {
                     event = true;
                 }
-                // TODO
-                //                result.add(new CellularConnectionEvent(timeStamp, false, airplane));
+                result.add(new CellularConnectionEvent(timeStamp, event));
             } while (cursor.moveToNext());
         }
         cursor.close();
