@@ -22,47 +22,46 @@ public class ContactResource extends Resource {
     }
     
     
-    public void call(int tel) {
-        //		String url = "tel:" + String.valueOf(tel);
-        String url = "tel:5556";
-        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
-        callIntent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        this.contactRG.getContext().startActivity(callIntent);
+    @Override
+    public IBinder getMockedAndroidInterface(String appIdentifier) {
+        return new ContactMockImpl(this.contactRG, this, appIdentifier);
     }
     
     
-    public void sms(int tel, String message) {
+    @Override
+    public IBinder getCloakedAndroidInterface(String appIdentifier) {
+        return new ContactCloakImpl(this.contactRG, this, appIdentifier);
+    }
+    
+    
+    public void call(String appIdentifier, int tel) {
+        String url = "tel:5556";
+        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+        
+        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.contactRG.getContext(appIdentifier).startActivity(callIntent);
+    }
+    
+    
+    public void sms(String appIdentifier, int tel, String message) {
         //		Uri uri = Uri.parse("smsto:" + tel);
         Uri uri = Uri.parse("smsto:5556");
         Intent smsIntent = new Intent(Intent.ACTION_SENDTO, uri);
-        smsIntent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+        smsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         smsIntent.putExtra("sms_body", message);
-        this.contactRG.getContext().startActivity(smsIntent);
+        this.contactRG.getContext(appIdentifier).startActivity(smsIntent);
     }
     
     
-    public void email(String recipient, String message) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri
-                .fromParts("mailto", "to@email.com", null));
+    public void email(String appIdentifier, String recipient, String message) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "to@email.com", null));
         // emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new
         // String[]{mailId});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                "subject");
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "body");
+        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        this.contactRG.getContext().startActivity(emailIntent);
-    }
-
-
-    @Override
-    public IBinder getMockedAndroidInterface(String appIdentifier) {
-        return new ContactMockImpl();
-    }
-
-
-    @Override
-    public IBinder getCloakedAndroidInterface(String appIdentifier) {
-        return new ContactCloakImpl();
+        this.contactRG.getContext(appIdentifier).startActivity(emailIntent);
     }
     
 }

@@ -38,6 +38,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadProvider;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
@@ -227,8 +228,14 @@ public class ViewModel {
                         this.mapView, 1, my_point);
                 // if drawing route is enabled for user, draw route
                 if (isRouteDrawn(vObject.getProfile().getUsername())) {
-                    // TODO: POS durch getUserPos ersetzen
-                    double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                    
+                    PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model.getInstance()
+                            .getOwnProfile().getID());
+                    PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(), vObject.getProfile()
+                            .getID());
+                    
+                    double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                            .getLon();
                     String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
                     InputStream is = getConnection(url);
                     mRoad = RoadProvider.getRoute(is);

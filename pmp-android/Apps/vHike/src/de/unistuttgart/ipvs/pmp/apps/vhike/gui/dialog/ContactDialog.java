@@ -89,13 +89,13 @@ public class ContactDialog extends Dialog {
             public void onClick(View v) {
                 try {
                     if (ContactDialog.this.iContact == null) {
-                        Log.i(this, "iContact null");
+                        Log.i(this, "iContact is null");
                     } else {
-                        ContactDialog.this.iContact.call(5556);
+                        iContact.call(5556);
                     }
                     
                 } catch (RemoteException e) {
-                    Log.i(this, "Failed to open dialer");
+                    Log.i(this, "Failed to call tel");
                 }
                 cancel();
             }
@@ -144,31 +144,21 @@ public class ContactDialog extends Dialog {
                         
                         @Override
                         public void run() {
-                            // double fromLat = 49.85, fromLon = 24.016667, toLat =
-                            // 50.45, toLon = 30.523333;
-                            
                             PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
                                     .getInstance().getOwnProfile().getID());
                             PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
                                     foundUser.getID());
-                            // TODO: POS durch getUserpos ersetzen
-                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
-                            //                            double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
-                            //                                    .getLon();
+                            //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                            double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                                    .getLon();
                             
                             String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
-                            // String url = RoadProvider.getUrl1(gP1, gP2);
                             InputStream is = ViewModel.getInstance().getConnection(url);
                             mRoad = RoadProvider.getRoute(is);
                             mHandler.sendEmptyMessage(0);
                         }
                     }.start();
                     
-                    //                    RouteOverlay routeOverlay = new RouteOverlay(ContactDialog.this.context, ContactDialog.this.myGPS,
-                    //                            ContactDialog.this.toGPS);
-                    //                    ViewModel.getInstance().getDriverOverlayList(ContactDialog.this.mapView).add(routeOverlay);
-                    //                    ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, true);
-                    //                    ViewModel.getInstance().getRouteHM.put(ContactDialog.this.userName, routeOverlay);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
                     cancel();
                 }
