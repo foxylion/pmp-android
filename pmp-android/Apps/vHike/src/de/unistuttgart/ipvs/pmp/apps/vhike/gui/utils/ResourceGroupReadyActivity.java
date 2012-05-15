@@ -156,7 +156,7 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
     }
     
     
-    protected IContact getContact(ResourceGroupReadyActivity activity) {
+    protected IContact getContactRG(ResourceGroupReadyActivity activity) {
         if (rgContact == null) {
             rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
         }

@@ -371,9 +371,12 @@ public class Controller {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-                array = object.get("position").getAsJsonArray();
-                float lat = array.get(0).getAsFloat();
-                float lon = array.get(1).getAsFloat();
+                //                array = object.get("position").getAsJsonArray();
+                JsonObject pos = object.get("position").getAsJsonObject();
+                //                float lat = array.get(0).getAsFloat();
+                //                float lon = array.get(1).getAsFloat();
+                float lat = pos.get("latitude").getAsFloat();
+                float lon = pos.get("longitude").getAsFloat();
                 posObj = new PositionObject(lat, lon);
             }
             
@@ -506,14 +509,14 @@ public class Controller {
     
     private Profile getOwnProfile(String sid) {
         String ret = "";
-        
+        Log.i(this, "SID OWN PROFILEs" + sid, null);
         try {
             ret = this.ws.getOwnProfile(sid);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+        Log.i(this, "RET OBJECT:" + ret, null);
         JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;

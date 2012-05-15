@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.DriverViewActivity;
 
 /**
  * 
@@ -49,12 +48,11 @@ public class PhoneCallListener extends PhoneStateListener {
                 Log.i(this, "restart app");
                 
                 // restart app
-                Intent i = this.activity.getBaseContext().getPackageManager()
-                        .getLaunchIntentForPackage(this.activity.getBaseContext().getPackageName());
-                Intent intent = new Intent(this.activity, DriverViewActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // activity.startActivity(i);
-                this.activity.startActivity(intent);
+                //                Intent i = this.activity.getBaseContext().getPackageManager()
+                //                        .getLaunchIntentForPackage(this.activity.getBaseContext().getPackageName());
+                Intent in = new Intent(activity.getBaseContext(), activity.getClass());
+                
+                activity.startActivity(in);
                 
                 this.isPhoneCalling = false;
             }
