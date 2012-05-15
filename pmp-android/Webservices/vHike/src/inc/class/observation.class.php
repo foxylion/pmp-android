@@ -26,10 +26,26 @@ class Observation{
      * @param int $user_id Id of an user
      *              
      */  
-	public static function disableObservation($user_id)
+		public static function disableObservation($user_id)
     {
         $db = Database::getInstance();
         $query = $db->query("DELETE FROM dev_observation WHERE user_id=$user_id");
+    }
+    
+    
+    /**
+    * Checks whether observationmode is on
+    * @param int $user_id Id of an user
+    */
+    public static function isObserved($user_id){
+        $db = Database::getInstance();
+        $query = $db->query("SELECT user_id FROM dev_observation WHERE user_id=$user_id");
+        
+        if ($query) {
+					return true;
+				} else {
+					return false;
+				}
     }
 }
 ?>
