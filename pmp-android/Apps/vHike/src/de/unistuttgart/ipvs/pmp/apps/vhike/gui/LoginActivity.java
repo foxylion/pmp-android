@@ -199,6 +199,17 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 }
             }
         });
+        
+        Button btnBluetooth = (Button) findViewById(R.id.button_bluetooth);
+        btnBluetooth.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (username.equals("")) {
+                    Toast.makeText(LoginActivity.this, "Username empty", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
     
     

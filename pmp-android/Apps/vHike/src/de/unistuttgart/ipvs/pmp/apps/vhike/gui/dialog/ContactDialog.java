@@ -106,11 +106,8 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                try {
-                    ContactDialog.this.iContact.sms(5554, "vHike Testmessage");
-                } catch (RemoteException e) {
-                    Log.i(this, "Failed to open sms app");
-                }
+                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, 5556, "").show();
+                cancel();
             }
         });
         
@@ -119,6 +116,8 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
+                vhikeDialogs.getInstance().getSMSEmailDialog(context, false, 0, "nguyen.andres@gmail.com").show();
+                cancel();
             }
         });
         

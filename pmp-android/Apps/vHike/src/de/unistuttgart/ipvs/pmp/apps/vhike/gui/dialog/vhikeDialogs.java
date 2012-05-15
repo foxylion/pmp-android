@@ -244,4 +244,9 @@ public class vhikeDialogs extends Activity {
         return confirm;
     }
     
+    
+    public SMS_Email_Dialog getSMSEmailDialog(Context context, boolean isSMS, int tel, String email) {
+        return new SMS_Email_Dialog(context, isSMS, tel, email);
+    }
+    
 }
