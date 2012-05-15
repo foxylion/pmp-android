@@ -371,9 +371,12 @@ public class Controller {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             if (suc) {
-                array = object.get("position").getAsJsonArray();
-                float lat = array.get(0).getAsFloat();
-                float lon = array.get(1).getAsFloat();
+                //                array = object.get("position").getAsJsonArray();
+                JsonObject pos = object.get("position").getAsJsonObject();
+                //                float lat = array.get(0).getAsFloat();
+                //                float lon = array.get(1).getAsFloat();
+                float lat = pos.get("latitude").getAsFloat();
+                float lon = pos.get("longitude").getAsFloat();
                 posObj = new PositionObject(lat, lon);
             }
             
