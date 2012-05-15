@@ -1,22 +1,32 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.RouteOverlay;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.Road;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadOverlay;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadProvider;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PhoneCallListener;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
 /**
@@ -37,9 +47,14 @@ public class ContactDialog extends Dialog {
     private String userName;
     private GeoPoint toGPS;
     private GeoPoint myGPS;
+    private Profile foundUser;
+    private Controller ctrl;
+    
+    private Road mRoad;
     
     
-    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, GeoPoint myGPS) {
+    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, GeoPoint myGPS,
+            Profile foundUser, Controller ctrl) {
         super(context);
         setTitle(userName);
         setContentView(R.layout.dialog_contact);
@@ -48,6 +63,8 @@ public class ContactDialog extends Dialog {
         this.userName = userName;
         this.iContact = iContact;
         this.myGPS = myGPS;
+        this.foundUser = foundUser;
+        this.ctrl = ctrl;
         
         setButtons();
     }
@@ -123,16 +140,56 @@ public class ContactDialog extends Dialog {
                     cancel();
                 } else {
                     
-                    RouteOverlay routeOverlay = new RouteOverlay(ContactDialog.this.context, ContactDialog.this.myGPS,
-                            ContactDialog.this.toGPS);
-                    ViewModel.getInstance().getDriverOverlayList(ContactDialog.this.mapView).add(routeOverlay);
-                    ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, true);
-                    ViewModel.getInstance().getRouteHM.put(ContactDialog.this.userName, routeOverlay);
+                    new Thread() {
+                        
+                        @Override
+                        public void run() {
+                            // double fromLat = 49.85, fromLon = 24.016667, toLat =
+                            // 50.45, toLon = 30.523333;
+                            
+                            PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
+                                    .getInstance().getOwnProfile().getID());
+                            PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
+                                    foundUser.getID());
+                            // TODO: POS durch getUserpos ersetzen
+                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                            //                            double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                            //                                    .getLon();
+                            
+                            String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
+                            // String url = RoadProvider.getUrl1(gP1, gP2);
+                            InputStream is = ViewModel.getInstance().getConnection(url);
+                            mRoad = RoadProvider.getRoute(is);
+                            mHandler.sendEmptyMessage(0);
+                        }
+                    }.start();
+                    
+                    //                    RouteOverlay routeOverlay = new RouteOverlay(ContactDialog.this.context, ContactDialog.this.myGPS,
+                    //                            ContactDialog.this.toGPS);
+                    //                    ViewModel.getInstance().getDriverOverlayList(ContactDialog.this.mapView).add(routeOverlay);
+                    //                    ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, true);
+                    //                    ViewModel.getInstance().getRouteHM.put(ContactDialog.this.userName, routeOverlay);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
                     cancel();
                 }
             }
         });
     }
+    
+    Handler mHandler = new Handler() {
+        
+        public void handleMessage(android.os.Message msg) {
+            Toast.makeText(context, mRoad.mName + " " + mRoad.mDescription, Toast.LENGTH_LONG).show();
+            
+            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView);
+            ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, true);
+            ViewModel.getInstance().getRouteHM.put(ContactDialog.this.userName, roadOverlay);
+            mapView.invalidate();
+            //            routeOverlays.clear();
+            //            routeOverlays.add(routeOverlay);
+            //            mapView.invalidate();
+        };
+    };
     
 }

@@ -1,5 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +15,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
@@ -26,6 +32,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.NotificationAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.ContactDialog;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.Road;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadOverlay;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadProvider;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -55,6 +64,8 @@ public class ViewModel {
     private boolean queryIsCanceled = false;
     private IvHikeWebservice ws;
     private IContact iContact;
+    
+    private Road mRoad;
     
     
     public void setvHikeWSRGandCreateController(IvHikeWebservice ws) {
@@ -216,10 +227,12 @@ public class ViewModel {
                         this.mapView, 1, my_point);
                 // if drawing route is enabled for user, draw route
                 if (isRouteDrawn(vObject.getProfile().getUsername())) {
-                    RouteOverlay routeOverlay = new RouteOverlay(this.context, my_point, gpsPassenger);
-                    this.mapDriverOverlays.add(routeOverlay);
-                    this.getRoutes.put(vObject.getProfile().getUsername(), true);
-                    this.getRouteHM.put(vObject.getProfile().getUsername(), routeOverlay);
+                    // TODO: POS durch getUserPos ersetzen
+                    double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                    String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
+                    InputStream is = getConnection(url);
+                    mRoad = RoadProvider.getRoute(is);
+                    mHandler.sendEmptyMessage(0);
                 }
             }
             ViewModel.getInstance().getHitchPassengers().add(vObject.getProfile());
@@ -351,11 +364,17 @@ public class ViewModel {
         return instance;
     }
     
-    public HashMap<String, RouteOverlay> getRouteHM = new HashMap<String, RouteOverlay>();
-    public HashMap<String, Boolean> getRoutes = new HashMap<String, Boolean>();
+    public HashMap<String, RoadOverlay> getRouteHM;
+    public HashMap<String, Boolean> getRoutes;
     
     
-    public RouteOverlay getRouteOverlay(String userRoute) {
+    public void initRouteList() {
+        getRouteHM = new HashMap<String, RoadOverlay>();
+        getRoutes = new HashMap<String, Boolean>();
+    }
+    
+    
+    public RoadOverlay getRouteOverlay(String userRoute) {
         return this.getRouteHM.get(userRoute);
     }
     
@@ -375,7 +394,7 @@ public class ViewModel {
     }
     
     
-    public void removeRoute(RouteOverlay routeOverlay) {
+    public void removeRoute(RoadOverlay routeOverlay) {
         this.mapDriverOverlays.remove(routeOverlay);
     }
     
@@ -383,6 +402,38 @@ public class ViewModel {
     public void clearRoutes() {
         this.getRoutes = null;
         this.getRouteHM = null;
+    }
+    
+    String foundUser;
+    
+    
+    public void setFoundUsername(String userName) {
+        foundUser = userName;
+    }
+    
+    Handler mHandler = new Handler() {
+        
+        public void handleMessage(android.os.Message msg) {
+            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView);
+            ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            ViewModel.getInstance().getRoutes.put(foundUser, true);
+            ViewModel.getInstance().getRouteHM.put(foundUser, roadOverlay);
+            mapView.invalidate();
+        };
+    };
+    
+    
+    public InputStream getConnection(String url) {
+        InputStream is = null;
+        try {
+            URLConnection conn = new URL(url).openConnection();
+            is = conn.getInputStream();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return is;
     }
     
     
@@ -730,7 +781,7 @@ public class ViewModel {
             
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.ws,
                     this.iContact, passenger.getUsername(), gps, new ContactDialog(context, mapView,
-                            passenger.getUsername(), this.iContact, mypoint), 0);
+                            passenger.getUsername(), this.iContact, mypoint, passenger, ctrl), 0);
             OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
                     passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);

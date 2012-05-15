@@ -506,14 +506,14 @@ public class Controller {
     
     private Profile getOwnProfile(String sid) {
         String ret = "";
-        
+        Log.i(this, "SID OWN PROFILEs" + sid, null);
         try {
             ret = this.ws.getOwnProfile(sid);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
+        Log.i(this, "RET OBJECT:" + ret, null);
         JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
