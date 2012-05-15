@@ -26,6 +26,8 @@ if (!defined("INCLUDE")) {
 
 require ("./../inc/classloader.inc.php");
 
+
+
 // Connect to database
 Database::getInstance()->connect();
 
@@ -102,6 +104,7 @@ $timeMs = Chart::timestampToMillis($calendar->getTimestamp());
 
 // Prepare global template vars
 // ----------------------------
+$tmplt["hideNavigation"] = (isset($_COOKIE["navigation"]) && $_COOKIE["navigation"] == "hide");
 $tmplt["dateGetParams"] = "year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=" . $calendar->getDay();
 $tmplt["scaleGetParam"] = "scale=" . $chart->getScale();
 $tmplt["deviceGetParam"] = "device=" . $deviceId;
