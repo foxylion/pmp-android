@@ -55,9 +55,38 @@
 
         </script>
         <?php } ?>
+        <script type="text/javascript">
+
+            var marginLeft = null;
+
+            function setCookie(name, value) {
+                now = new Date();
+                // Cookie expires in one week
+                expires = new Date(now + 1000 * 60 * 60 * 24 * 7);
+                document.cookie = name + "=" +escape(value) + "; expires=" +expires.toGMTString()+";";
+            }
+
+
+            function showHideNavigation() {
+                if (document.getElementById("leftarea").style.display == "none") {
+                    // Show
+                    document.getElementById("leftarea").style.display = "";
+                    document.getElementById("contentarea").style.marginLeft = "15em";
+                    document.getElementById("showHideNavigation").text = "Hide navigation";
+                    setCookie("navigation", "show");
+                } else {
+                    // Hide
+                    document.getElementById("leftarea").style.display = "none";
+                    document.getElementById("contentarea").style.marginLeft = "0em";
+                    document.getElementById("showHideNavigation").text = "Show navigation";
+                    setCookie("navigation", "hide");
+                }
+            }
+        </script>
     </head>
     <body>
-        <div id="leftarea">
+        <div id="toparea"><a href="javascript:showHideNavigation();" id="showHideNavigation"><?php if($tmplt["hideNavigation"]) echo "Show"; else echo "Hide"; ?> navigation</a></div>
+        <div id="leftarea"<?php if($tmplt["hideNavigation"]) echo " style=\"display:none\""; ?>>
             <h1>Device Charts:</h1>
             <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
             <ul class="navigation">
@@ -106,7 +135,7 @@
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["annotationsGetParams"] ?>&annotations=hide">hide</a>
                 </li>
         </div>
-        <div id="contentarea">
+        <div id="contentarea"<?php if($tmplt["hideNavigation"]) echo " style=\"margin-left:0em;\""; ?>>
             <?php echo $tmplt["content"] ?>
         </div>
     </body>

@@ -80,6 +80,20 @@ foreach ($stat->getSensorDist() as $sensor => $count) {
     $sensorData->addRow($row);
 }
 
+// Format runtime (years, hours etc. if possible)
+$totalRuntimeMin = $stat->getRuntimeAvg();
+$totalRuntimeHours = $totalRuntimeMin / 60;
+$totalRuntimeDays = $totalRuntimeHours / 24;
+
+// Calculate
+$runtimeMin = $totalRuntimeMin % 60;
+$runtimeHours = $totalRuntimeHours % 24;
+$runtimeDays = $totalRuntimeDays;
+
+// Build output
+$runtimeString = sprintf("%d Days, %d Hours, %05.2f Min", $runtimeDays, $runtimeHours, $runtimeMin);
+
+
 $tmplt["pageTitle"] = "Hardware";
 $tmplt["jsFunctDrawChart"] = "drawDisplay();
         drawIntMemoryRatio();
@@ -155,7 +169,7 @@ $tmplt["content"] = "
             <div id=\"sensors\" style=\"width:700; height:300\"></div>
             <p><b>Average CPU frequency:</b> " . sprintf("%3.2f MHz", $stat->getCpuAvg()) . "</p>
             <p><b>Average camera resolution:</b> " . sprintf("%3.1f MP", $stat->getCameraAvg()) . "</p>
-            <p><b>Average runtime:</b> " . sprintf("%6.3f Min", $stat->getRuntimeAvg()) . "</p>";
+            <p><b>Average runtime:</b> " . $runtimeString . "</p>";
 
 include ("template.php");
 ?>
