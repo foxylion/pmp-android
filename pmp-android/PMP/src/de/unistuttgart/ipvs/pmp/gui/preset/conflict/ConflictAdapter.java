@@ -12,6 +12,11 @@ import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.conflicts.ConflictPair;
 
+/**
+ * Adapter which holds all conflicts between the Presets.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ConflictAdapter extends BaseAdapter {
     
     private Context context;
@@ -50,7 +55,7 @@ public class ConflictAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.listitem_preset_conflict, null);
         
-        /* Set name and description of the requested Preset */
+        /* Set the names of the conflicting presets */
         TextView preset1 = (TextView) entryView.findViewById(R.id.TextView_Preset1);
         TextView preset2 = (TextView) entryView.findViewById(R.id.TextView_Preset2);
         preset1.setText(conflict.getPreset1().getName());

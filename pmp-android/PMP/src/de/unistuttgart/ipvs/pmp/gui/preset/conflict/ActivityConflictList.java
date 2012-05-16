@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -15,6 +17,11 @@ import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.model.conflicts.ConflictModel;
 import de.unistuttgart.ipvs.pmp.model.conflicts.ConflictPair;
 
+/**
+ * The {@link Activity} displays all conflicts between different Presets.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ActivityConflictList extends Activity {
     
     /**
@@ -22,8 +29,14 @@ public class ActivityConflictList extends Activity {
      */
     private List<ConflictPair> conflictList;
     
+    /**
+     * Conflict adapter which holds the list of conflicts
+     */
     private ConflictAdapter conflictAdapter;
     
+    /**
+     * GUI-component for displaying the conflict list.
+     */
     private ListView conflictListView;
     
     /**
@@ -48,8 +61,23 @@ public class ActivityConflictList extends Activity {
     }
     
     
+    /**
+     * Updates the list of conflicts (opens a dialog for processing).
+     */
     private void updateConflicts() {
-        new ScanningProgressDialog(this).start();
+        new ScanningProgressDialog(this, new ScanningProgressDialog.ICallback() {
+            
+            @Override
+            public void finished() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        refresh();
+                    }
+                });
+            }
+        }).start();
     }
     
     
@@ -61,6 +89,9 @@ public class ActivityConflictList extends Activity {
     }
     
     
+    /**
+     * Refreshes the list of conflicts.
+     */
     public void refresh() {
         this.conflictAdapter.notifyDataSetChanged();
         
@@ -73,6 +104,9 @@ public class ActivityConflictList extends Activity {
     }
     
     
+    /**
+     * Initializes the Activitys GUI-components.
+     */
     private void init() {
         this.conflictList = ConflictModel.getInstance().getConflicts();
         this.conflictAdapter = new ConflictAdapter(this, this.conflictList);
@@ -94,6 +128,12 @@ public class ActivityConflictList extends Activity {
     }
     
     
+    /**
+     * Opens the {@link Activity} to display a conflict.
+     * 
+     * @param conflictPair
+     *            Conflict which should be displayed.
+     */
     private void openConflict(ConflictPair conflictPair) {
         Toast.makeText(
                 this,

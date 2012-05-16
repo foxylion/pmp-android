@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.gui.preset.conflict;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Window;
@@ -10,15 +11,40 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.model.conflicts.ConflictModel;
 import de.unistuttgart.ipvs.pmp.model.conflicts.IProcessingCallback;
 
+/**
+ * The {@link ScanningProgressDialog} informs the user about the conflict scanning progress.
+ * It can be started by using the {@link ScanningProgressDialog#start()} method. Dialog will automatically dismissed on
+ * completion.
+ * 
+ * @author Jakob Jarosch
+ */
 public class ScanningProgressDialog extends Dialog {
     
-    private ActivityConflictList activity;
+    private ICallback callback;
     
-    
-    public ScanningProgressDialog(ActivityConflictList activity) {
-        super(activity);
+    /**
+     * The callback is invoked when calculation is finished.
+     * 
+     * @author Jakob Jarosch
+     */
+    public interface ICallback {
         
-        this.activity = activity;
+        public void finished();
+    }
+    
+    
+    /**
+     * Creates a new instance of the {@link ScanningProgressDialog}.
+     * 
+     * @param context
+     *            Context used for dialog creation.
+     * @param callback
+     *            {@link ICallback} which is invoked on completion.
+     */
+    public ScanningProgressDialog(Context context, ICallback callback) {
+        super(context);
+        
+        this.callback = callback;
         
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_conflicts_scanning);
@@ -27,6 +53,9 @@ public class ScanningProgressDialog extends Dialog {
     }
     
     
+    /**
+     * Starts the calculation process.
+     */
     public void start() {
         show();
         
@@ -47,7 +76,7 @@ public class ScanningProgressDialog extends Dialog {
             
             @Override
             public void finished() {
-                updateActivity();
+                callback.finished();
                 dismiss();
             }
             
@@ -55,6 +84,12 @@ public class ScanningProgressDialog extends Dialog {
     }
     
     
+    /**
+     * Updates the dialog message.
+     * 
+     * @param message
+     *            Message which should be displayed.
+     */
     private void setMessage(final String message) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             
@@ -66,6 +101,14 @@ public class ScanningProgressDialog extends Dialog {
     }
     
     
+    /**
+     * Updates the progress.
+     * 
+     * @param completed
+     *            Count of finished steps.
+     * @param fullCount
+     *            Count of all steps.
+     */
     private void setProgress(final int completed, final int fullCount) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             
@@ -74,17 +117,6 @@ public class ScanningProgressDialog extends Dialog {
                 ProgressBar progress = (ProgressBar) findViewById(R.id.ProgressBar);
                 progress.setProgress(completed);
                 progress.setMax(fullCount);
-            }
-        });
-    }
-    
-    
-    private void updateActivity() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            
-            @Override
-            public void run() {
-                activity.refresh();
             }
         });
     }
