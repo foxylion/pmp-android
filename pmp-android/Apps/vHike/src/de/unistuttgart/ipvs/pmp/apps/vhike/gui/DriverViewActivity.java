@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import java.util.Timer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
@@ -207,6 +208,21 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.driverview_menu, menu);
         return true;
+    }
+    
+    
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        switch (reqCode) {
+            case (0):
+                if (resultCode == RESULT_OK) {
+                    Log.i(this, "Email SENT");
+                    Intent myIntent = new Intent(DriverViewActivity.this, DriverViewActivity.this.getClass());
+                    myIntent.putExtra("tab_id", 2);
+                    startActivity(myIntent);
+                }
+        }
     }
     
     
