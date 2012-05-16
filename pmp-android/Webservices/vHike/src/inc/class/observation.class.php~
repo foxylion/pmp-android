@@ -21,16 +21,31 @@ class Observation{
     }
     
    /**
-     * Makes the observationmode accessable.
+     * Makes the observationmode not accessable.
      * 
-     * @param int $user_id Id of an user, to be observed
-     * @return Random Observation_nr
+     * @param int $user_id Id of an user
      *              
      */  
-	public static function disableObservation($user_id)
+		public static function disableObservation($user_id)
     {
         $db = Database::getInstance();
         $query = $db->query("DELETE FROM dev_observation WHERE user_id=$user_id");
+    }
+    
+    
+    /**
+    * Checks whether observationmode is on
+    * @param int $user_id Id of an user
+    */
+    public static function isObsevred($user_id){
+        $db = Database::getInstance();
+        $query = $db->query("SELECT user_id FROM dev_observation WHERE user_id=$user_id");
+        
+        if ($query) {
+					return true;
+				} else {
+					return false;
+				}
     }
 }
 ?>

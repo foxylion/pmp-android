@@ -19,6 +19,12 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.ContactResourceGroup;
 
+/**
+ * Allows communcation through phone dialer, sms or email
+ * 
+ * @author andres
+ * 
+ */
 public class ContactResource extends Resource {
     
     ContactResourceGroup contactRG;
@@ -57,12 +63,6 @@ public class ContactResource extends Resource {
     
     
     public void sms(String appIdentifier, String tel, String message) throws RemoteException {
-        //		Uri uri = Uri.parse("smsto:" + tel);
-        //        Uri uri = Uri.parse("smsto:5556");
-        //        Intent smsIntent = new Intent(Intent.ACTION_SENDTO, uri);
-        //        smsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //        smsIntent.putExtra("sms_body", message);
-        //        this.contactRG.getContext(appIdentifier).startActivity(smsIntent);
         Looper.prepare();
         
         TelephonyManager telMgr = (TelephonyManager) contactRG.getContext(appIdentifier).getSystemService(
@@ -93,6 +93,17 @@ public class ContactResource extends Resource {
     }
     
     
+    public void email(String appIdentifier, String recipient, String subject, String message) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", recipient, null));
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
+        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.contactRG.getContext(appIdentifier).startActivity(emailIntent);
+//        ((Activity) contactRG.getContext(appIdentifier)).startActivityForResult(
+//                Intent.createChooser(emailIntent, "Email:"), 0);
+    }
+    
+    
     private void displayAlert(String appIdentifier) {
         new AlertDialog.Builder(contactRG.getContext(appIdentifier)).setMessage("Sim card not available")
                 .setCancelable(false)
@@ -103,10 +114,7 @@ public class ContactResource extends Resource {
                         Log.d("I am inside ok", "ok");
                         dialog.cancel();
                     }
-                })
-                
-                .show();
-        
+                }).show();
     }
     
     
@@ -166,18 +174,6 @@ public class ContactResource extends Resource {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
         
-    }
-    
-    
-    public void email(String appIdentifier, String recipient, String message) {
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "to@email.com", null));
-        // emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new
-        // String[]{mailId});
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "body");
-        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        emailIntent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        this.contactRG.getContext(appIdentifier).startActivity(emailIntent);
     }
     
 }

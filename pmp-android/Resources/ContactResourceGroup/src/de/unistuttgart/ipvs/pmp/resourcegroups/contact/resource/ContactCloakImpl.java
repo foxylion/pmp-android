@@ -24,7 +24,7 @@ public class ContactCloakImpl extends IContact.Stub {
     }
 
     @Override
-    public void email(String recipient, String message) throws RemoteException {
+    public void email(String recipient, String subject, String message) throws RemoteException {
         // TODO Auto-generated method stub
         
     }

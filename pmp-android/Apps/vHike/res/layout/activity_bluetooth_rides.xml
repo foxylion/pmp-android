@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_blur"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txtv_bt_destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_blue"
+        android:text="Destination: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Spinner
+        android:id="@+id/sp_bt_destination"
+        android:layout_width="fill_parent"
+        android:prompt="@string/ride_promptDestination" 
+        android:layout_height="wrap_content" />
+	<TextView
+        android:id="@+id/txtv_bt_seats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seats: "
+        android:textColor="@color/dark_blue"
+        android:entries="@array/array_numSeats"
+        android:prompt="@string/ride_promptSeats"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Spinner
+        android:id="@+id/sp_bt_seats"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txtv_bt_duration"
+        android:layout_width="wrap_content"
+        android:textColor="@color/dark_blue"
+        android:layout_height="wrap_content"
+        android:text="Duration in min: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/et_bt_duration"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+     <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="20dp" >
+
+                <Button
+                    android:id="@+id/btn_bt_Drive"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/icon_ride"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_drive" />
+
+                <Button
+                    android:id="@+id/btn_bt_Search"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@drawable/passenger_logo"
+                    android:paddingTop="25sp"
+                    android:text="@string/main_searchingpassenger" />
+            </LinearLayout>
+</LinearLayout>
