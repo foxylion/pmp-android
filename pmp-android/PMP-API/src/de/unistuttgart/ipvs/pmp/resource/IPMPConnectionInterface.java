@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.resource;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.test.mock.MockContext;
 
 /**
@@ -42,5 +44,17 @@ public interface IPMPConnectionInterface {
      * @return an Android {@link Context}, if the operation was allowed, a {@link MockContext} otherwise
      */
     public Context getContext(String rgPackage, String appPackage);
+    
+    
+    /**
+     * @see Context#registerReceiver(BroadcastReceiver, IntentFilter)
+     */
+    public void registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
+    
+    
+    /**
+     * @see Context#unregisterReceiver(BroadcastReceiver)
+     */
+    public void unregisterReceiver(BroadcastReceiver receiver);
     
 }

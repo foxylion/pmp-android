@@ -2,7 +2,9 @@ package de.unistuttgart.ipvs.pmp.model.plugin;
 
 import java.util.logging.Level;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.Model;
@@ -107,6 +109,20 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
                 return new MockContext2();
             }
         }
+    }
+    
+    
+    @Override
+    public void registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        // TODO do we need to connect this to the service?
+        PMPApplication.getContext().registerReceiver(receiver, filter);
+    }
+    
+    
+    @Override
+    public void unregisterReceiver(BroadcastReceiver receiver) {
+        // TODO do we need to connect this to the service?
+        PMPApplication.getContext().unregisterReceiver(receiver);
     }
     
 }
