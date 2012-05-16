@@ -578,7 +578,6 @@ public class vHikeWebserviceResource extends Resource {
             e.printStackTrace();
         } catch (NullPointerException e) {
         }
-        
         return ret;
     }
     
