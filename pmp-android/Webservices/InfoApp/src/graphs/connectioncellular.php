@@ -37,12 +37,15 @@ if ($deviceIdValid) {
 
     foreach ($events as $event) {
         $levelRow = new GRow();
-        $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        $levelRow->addCell(new GCell($event->getTimestamp()));
         $levelRow->addCell(new GCell((int) $event->isAirplane()));
         $connectionData->addRow($levelRow);
     }
 
     $tmplt["pageTitle"] = "Cellular Connection";
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
     $tmplt["jsFunctDrawChart"] = "drawConnection();";
 
     $tmplt["jsDrawFunctions"] = "function drawConnection() {
@@ -58,10 +61,29 @@ if ($deviceIdValid) {
         var chart = new google.visualization.AreaChart(document.getElementById('connection'));
         chart.draw(data, options);
     }";
+    }
 
     $tmplt["content"] = "
-            <h1>Cellular Connection Events</h1>
+            <h1>Cellular Connection Events</h1>";
+
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["content"] .= "
             <div id=\"connection\" style=\"width:800; height:150\"></div>";
+    } else {
+        // Draw static/PNG-charts
+        // ----------------------
+        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+        $connectionChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $connectionChart->setTitle("Cellular connection status");
+        $connectionChart->setProperty("cht", "lxy");
+        $connectionChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($connectionData);
+        $bridge->pushData($connectionChart, GChartPhpBridge::Y_COORDS, $scale);
+        $tmplt["content"] .= "
+            <p><img src=\"" . $connectionChart->getUrl() . "\" /></p>";
+    }
 }
 include ("template.php");
 ?>

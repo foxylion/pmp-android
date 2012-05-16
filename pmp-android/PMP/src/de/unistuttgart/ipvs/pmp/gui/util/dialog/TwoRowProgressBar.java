@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.gui.util.view;
+package de.unistuttgart.ipvs.pmp.gui.util.dialog;
 
 import android.app.Dialog;
 import android.content.Context;

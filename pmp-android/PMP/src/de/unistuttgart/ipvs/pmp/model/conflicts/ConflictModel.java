@@ -126,6 +126,10 @@ public class ConflictModel implements IConflictModel {
             
             for (IPreset preset : updatedPresets) {
                 for (IPreset comparedPreset : presets) {
+                    if (comparedPreset.equals(preset)) {
+                        continue;
+                    }
+                    
                     currentCount++;
                     this.callback.progressUpdate(currentCount, totalCount);
                     

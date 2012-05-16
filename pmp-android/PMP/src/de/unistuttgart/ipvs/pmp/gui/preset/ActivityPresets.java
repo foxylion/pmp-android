@@ -46,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.gui.preset.conflict.ActivityConflictList;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.gui.util.GUIConstants;
 import de.unistuttgart.ipvs.pmp.gui.util.GUITools;
@@ -246,6 +247,11 @@ public class ActivityPresets extends Activity {
                 AlertDialog alert = builder.create();
                 alert.show();
                 
+                break;
+            
+            case R.id.presets_menu_show_conflicts:
+                Intent intent = new Intent(this, ActivityConflictList.class);
+                startActivity(intent);
                 break;
         }
         return super.onMenuItemSelected(featureId, item);

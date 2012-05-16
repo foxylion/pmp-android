@@ -11,21 +11,21 @@ if (!defined("INCLUDE")) {
 // Set JSON-Header
 header("Content-type: application/json");
 
-// Load config-file
-require ("./../inc/config.inc.php");
+// Load config file
+require ('./../inc/config.inc.php');
 
 // Load class-files
-require ("./../inc/class/database.class.php");
-require ("./../inc/class/general.class.php");
-require ("./../inc/class/json.class.php");
-require ("./../inc/class/offer.class.php");
-//require ("./../inc/class/position.class.php");
-require ("./../inc/class/query.class.php");
-require ("./../inc/class/rating.class.php");
-require ("./../inc/class/ride.class.php");
-require ("./../inc/class/session.class.php");
-require ("./../inc/class/trip.class.php");
-require ("./../inc/class/user.class.php");
+require ('./../inc/class/database.class.php');
+require ('./../inc/class/general.class.php');
+require ('./../inc/class/json.class.php');
+require ('./../inc/class/offer.class.php');
+require ('./../inc/class/query.class.php');
+require ('./../inc/class/rating.class.php');
+require ('./../inc/class/ride.class.php');
+require ('./../inc/class/session.class.php');
+require ('./../inc/class/trip.class.php');
+require ('./../inc/class/user.class.php');
+require ('./../inc/class/observation.class.php');
 
 // Connect to database
 try {

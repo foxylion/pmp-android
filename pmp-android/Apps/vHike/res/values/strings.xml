@@ -105,7 +105,13 @@
     <string name="close_map">Return to planning menu</string>
     <string name="login_bluetooth">Bluetooth</string>
     
+    <string name="ride_departure">Departure</string>
     <string name="bluetooth_sendmsg">Send</string>
     <string name="bluetooth_ride">Ride</string>
     
+    <string name="ride_promptDeparture">Choose your departure</string>
+    <string name="passengers">passengers</string>
+    <string name="invites">invites</string>
+    <string name="messages">messages</string>
+
 </resources>

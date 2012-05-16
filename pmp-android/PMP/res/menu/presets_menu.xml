@@ -21,5 +21,9 @@
         android:id="@+id/presets_menu_clear_trash_bin"
         android:icon="@drawable/menu_delete_bin"
         android:title="@string/clear_trash_bin"/>
+    <item
+        android:id="@+id/presets_menu_show_conflicts"
+        android:icon="@drawable/menu_info"
+        android:title="@string/conflicts_show"/>
 
 </menu>

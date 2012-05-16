@@ -68,6 +68,10 @@ class GColumn {
             return $this->label;
         }
 
+        public function getProperty() {
+            return $this->property;
+        }
+
         public function toJsonString() {
             $string = "{\"type\": \"" . $this->type . "\"";
             if ($this->id != null) {
@@ -112,22 +116,27 @@ class GCell {
         $this->property = $property;
     }
 
-    public function getJsonString($valueInBrackets = true) {
-        if ($valueInBrackets) {
-            $b = "\"";
-        } else {
-            $b = "";
-        }
+    public function getValue() {
+        return $this->value;
+    }
+
+    public function getJsonString($type) {
         $string = "{\"v\": ";
-        $string .= $b . $this->value . $b;
+        if ($type == "datetime") {
+            $string .= "new Date(" . $this->value . ")";
+        } elseif ($type == "string") {
+            $string .= "\"" . $this->value . "\"";
+        } else {
+            $string .= $this->value;
+        }
 
 
         if ($this->formatted != null) {
-            $string .= ", " . $b . $this->formatted . $b;
+            $string .= ", \"" . $this->formatted . "\"";
         }
 
         if ($this->poperty != null) {
-            $string .= ", " . $b . $this->poperty . $b;
+            $string .= ", \"" . $this->poperty . "\"";
         }
 
 
@@ -151,6 +160,10 @@ class GRow {
         $this->cells[] = $cell;
     }
 
+    public function getCells() {
+        return $this->cells;
+    }
+
     /**
      *
      * @param GColumn[] $cols
@@ -167,13 +180,7 @@ class GRow {
                 $string .= ", ";
             }
 
-
-            if ($cols[$i]->getType() == "string") {
-                $brackets = true;
-            } else {
-                $brackets = false;
-            }
-            $string .= $cell->getJsonString($brackets);
+            $string .= $cell->getJsonString($cols[$i]->getType());
         }
 
         $string .= "]}";
