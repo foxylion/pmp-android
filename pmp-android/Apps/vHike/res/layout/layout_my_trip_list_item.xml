@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" android:padding="5dip">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+  
+        <TextView
+            android:id="@+id/myTrip_destination"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/myTrip_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/myTrip_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="myTrip_Time" android:paddingLeft="3dip"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="right" android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/Button02"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:background="@layout/bg_round_gray"
+            android:text="99" android:layout_marginLeft="5dp" android:gravity="center_vertical|center_horizontal"/>
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="@string/passengers" />
+
+        <TextView
+            android:id="@+id/Button01"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:background="@layout/bg_round_gray"
+            android:text="10" android:layout_marginLeft="5dp" android:gravity="center_vertical|center_horizontal"/>
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="@string/invites" />
+
+        <TextView
+            android:id="@+id/button1"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:background="@layout/bg_round_gray"
+            android:text="10" android:layout_marginLeft="5dp" android:gravity="center_vertical|center_horizontal"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="@string/messages" />
+
+    </LinearLayout>
+
+</LinearLayout>

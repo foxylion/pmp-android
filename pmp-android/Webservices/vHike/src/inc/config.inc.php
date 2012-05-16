@@ -13,8 +13,9 @@ define("BASE_URL", "vhike.no-ip.org");
 define("ADMIN_EMAIL", "admin@vhike.no-ip.org");
 
 define("DB_HOST",   "localhost");
-define("DB_USER",   "pmp_vhike");
-define("DB_PASSW",  "nC64DQvY79XXPmZz");
+define("DB_USER",   "");
+define("DB_PASSW",  "");
 define("DB_NAME",   "pmp_vhike");
 define("DB_PREFIX", "dev");
-?>
+
+// EOF

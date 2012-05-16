@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
@@ -245,8 +246,9 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public SMS_Email_Dialog getSMSEmailDialog(Context context, boolean isSMS, int tel, String email) {
-        return new SMS_Email_Dialog(context, isSMS, tel, email);
+    public SMS_Email_Dialog getSMSEmailDialog(Context context, boolean isSMS, String tel, String email,
+            IContact contactRG) {
+        return new SMS_Email_Dialog(context, isSMS, tel, email, contactRG);
     }
     
 }

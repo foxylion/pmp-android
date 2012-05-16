@@ -80,7 +80,6 @@ public class PassengerOverlay extends ItemizedOverlay {
             Controller ctrl = new Controller(this.ivhs);
             ctrl.getProfile(Model.getInstance().getSid(), id);
             
-            this.contactDialog.setToGPS(this.mGps);
             this.contactDialog.show();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
