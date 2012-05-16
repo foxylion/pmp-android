@@ -1,16 +1,10 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.gui;
 
-import java.util.Timer;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ProgressBar;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 
 /**
@@ -21,17 +15,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
  * 
  */
 public class BluetoothActivity extends ResourceGroupReadyActivity {
-    
-    private String username = "";
-    private String pw = "";
-    
-    private EditText etUsername;
-    private EditText etPW;
-    private CheckBox cbAutologin;
-    private ProgressBar pbLogin;
-    
-    private Controller ctrl;
-    private Timer loginTimer;
     
     Handler handler;
     protected boolean isCanceled;
