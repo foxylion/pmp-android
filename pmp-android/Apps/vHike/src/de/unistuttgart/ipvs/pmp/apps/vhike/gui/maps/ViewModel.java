@@ -788,7 +788,7 @@ public class ViewModel {
             
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.ws,
                     this.iContact, passenger.getUsername(), gps, new ContactDialog(context, mapView,
-                            passenger.getUsername(), this.iContact, mypoint, passenger, ctrl), 0);
+                            passenger.getUsername(), this.iContact, passenger, ctrl), 0);
             OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
                     passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);

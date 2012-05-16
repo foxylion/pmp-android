@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
@@ -45,16 +44,14 @@ public class ContactDialog extends Dialog {
     private Button route;
     private IContact iContact;
     private String userName;
-    private GeoPoint toGPS;
-    private GeoPoint myGPS;
     private Profile foundUser;
     private Controller ctrl;
     
     private Road mRoad;
     
     
-    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, GeoPoint myGPS,
-            Profile foundUser, Controller ctrl) {
+    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, Profile foundUser,
+            Controller ctrl) {
         super(context);
         setTitle(userName);
         setContentView(R.layout.dialog_contact);
@@ -62,16 +59,10 @@ public class ContactDialog extends Dialog {
         this.mapView = mapView;
         this.userName = userName;
         this.iContact = iContact;
-        this.myGPS = myGPS;
         this.foundUser = foundUser;
         this.ctrl = ctrl;
         
         setButtons();
-    }
-    
-    
-    public void setToGPS(GeoPoint toGPS) {
-        this.toGPS = toGPS;
     }
     
     
@@ -106,7 +97,7 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, 5556, "").show();
+                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, "5556", "", iContact).show();
                 cancel();
             }
         });
@@ -116,7 +107,8 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, false, 0, "nguyen.andres@gmail.com").show();
+                vhikeDialogs.getInstance().getSMSEmailDialog(context, false, "", "nguyen.andres@gmail.com", iContact)
+                        .show();
                 cancel();
             }
         });

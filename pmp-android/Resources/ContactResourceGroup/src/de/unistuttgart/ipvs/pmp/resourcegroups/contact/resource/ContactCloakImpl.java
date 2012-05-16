@@ -18,7 +18,7 @@ public class ContactCloakImpl extends IContact.Stub {
     }
 
     @Override
-    public void sms(int tel, String message) throws RemoteException {
+    public void sms(String tel, String message) throws RemoteException {
         // TODO Auto-generated method stub
         
     }

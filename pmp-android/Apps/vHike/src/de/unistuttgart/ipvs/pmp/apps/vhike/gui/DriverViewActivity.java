@@ -78,6 +78,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         vhikeDialogs.getInstance().clearAnnouncPD();
         
         setMapView();
+        ViewModel.getInstance().getDriverOverlayList(mapView).clear();
         
         if (getvHikeRG(this) != null && getLocationRG(this) != null && getContactRG(this) != null) {
             this.ctrl = new Controller(rgvHike);

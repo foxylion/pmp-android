@@ -30,7 +30,7 @@ public class ContactImpl extends IContact.Stub {
     
     
     @Override
-    public void sms(int tel, String message) throws RemoteException {
+    public void sms(String tel, String message) throws RemoteException {
         this.psv.validate(ContactResourceGroup.PS_SEND_SMS, "true");
         this.contactR.sms(this.appIdentifier, tel, message);
     }
