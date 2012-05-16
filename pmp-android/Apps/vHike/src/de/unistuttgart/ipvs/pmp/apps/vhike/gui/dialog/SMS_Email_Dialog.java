@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
@@ -26,6 +27,8 @@ public class SMS_Email_Dialog extends Dialog {
     private EditText et_subject;
     private EditText et_body;
     
+    private boolean isSMS;
+    
     private IContact contactRG;
     
     
@@ -34,6 +37,7 @@ public class SMS_Email_Dialog extends Dialog {
         setContentView(R.layout.dialog_sms_email);
         this.contactRG = contactRG;
         
+        this.isSMS = isSMS;
         et_recipient = (EditText) findViewById(R.id.et_recipient);
         et_subject = (EditText) findViewById(R.id.et_subject);
         et_body = (EditText) findViewById(R.id.et_sms_body);
@@ -67,19 +71,37 @@ public class SMS_Email_Dialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                try {
-                    if (et_recipient.getText().toString().length() > 0 && et_body.getText().toString().length() > 0) {
-                        contactRG.sms(et_recipient.getText().toString(), et_body.getText().toString());
+                if (isSMS) {
+                    try {
+                        if (et_recipient.getText().toString().length() > 0 && et_body.getText().toString().length() > 0) {
+                            contactRG.sms(et_recipient.getText().toString(), et_body.getText().toString());
+                        } else {
+                            Toast.makeText(getContext(), "Please enter both phone number and message.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        
+                    } catch (RemoteException e) {
+                        Toast.makeText(getContext(), "Unable to send SMS", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if (et_recipient.getText().toString().length() > 0 && et_body.getText().toString().length() > 0
+                            && et_subject.getText().toString().length() > 0) {
+                        try {
+                            contactRG.email(et_recipient.getText().toString(), et_subject.getText().toString(), et_body
+                                    .getText().toString());
+                            Log.i(this, "Sending email...");
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                     } else {
-                        Toast.makeText(getContext(), "Please enter both phone number and message.", Toast.LENGTH_SHORT)
+                        Toast.makeText(getContext(), "Please enter recipient, subject and message.", Toast.LENGTH_SHORT)
                                 .show();
                     }
-                    
-                } catch (RemoteException e) {
-                    Toast.makeText(getContext(), "Unable to send SMS", Toast.LENGTH_SHORT).show();
                 }
+                
                 cancel();
             }
         });
     }
+    
 }

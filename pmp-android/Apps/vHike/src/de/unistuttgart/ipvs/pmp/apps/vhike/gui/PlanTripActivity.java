@@ -85,7 +85,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         super.onResume();
         
         // TODO Check date!
-        Log.i(this, "OnResume");
+        Log.i(this, "OnResume Plantrip");
     }
     
     

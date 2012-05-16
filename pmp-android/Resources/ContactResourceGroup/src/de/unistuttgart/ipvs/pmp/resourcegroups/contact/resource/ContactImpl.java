@@ -37,9 +37,9 @@ public class ContactImpl extends IContact.Stub {
     
     
     @Override
-    public void email(String recipient, String message) throws RemoteException {
+    public void email(String recipient, String subject, String message) throws RemoteException {
         this.psv.validate(ContactResourceGroup.PS_SEND_EMAIL, "true");
-        this.contactR.email(this.appIdentifier, recipient, message);
+        this.contactR.email(this.appIdentifier, recipient, subject, message);
     }
     
 }

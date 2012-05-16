@@ -15,8 +15,8 @@ class Observation{
     {
         $db = Database::getInstance();
         $zahl = mt_rand();
-        $query = $db->query("INSERT INTO dev_observation VALUES(user_id=$user_id, obs_nr=$zahl)");
-
+        $query = $db->query("INSERT INTO dev_observation (user_id, obs_nr) VALUES($user_id, '$zahl')");
+				echo " hallo";
         return $zahl;
     }
     
