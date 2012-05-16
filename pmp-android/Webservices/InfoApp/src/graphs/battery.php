@@ -76,12 +76,14 @@ if ($deviceIdValid) {
     foreach ($events as $event) {
         // Level and status
         $levelRow = new GRow();
-        $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        //$levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        $levelRow->addCell(new GCell($event->getTimestamp()));
         $levelRow->addCell(new GCell($event->getLevel()));
 
         // Temperature
         $tempRow = new GRow();
-        $tempRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        //$tempRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
+        $tempRow->addCell(new GCell($event->getTimestamp()));
         $tempRow->addCell(new GCell($event->getTemperature()));
 
 
@@ -206,9 +208,9 @@ if ($deviceIdValid) {
     $adapterRatioData->addRow($adapterRatioRowU);
 
     // Battery present chart data
-    $presentRationData = new GDataTable();
-    $presentRationData->addColumn($statusColumn);
-    $presentRationData->addColumn($countColumn);
+    $presentRatioData = new GDataTable();
+    $presentRatioData->addColumn($statusColumn);
+    $presentRatioData->addColumn($countColumn);
 
     $presentRationRowP = new GRow();
     $presentRationRowP->addCell(new GCell("Present"));
@@ -216,24 +218,27 @@ if ($deviceIdValid) {
     $presentRationRowN = new GRow();
     $presentRationRowN->addCell(new GCell("Not present"));
     $presentRationRowN->addCell(new GCell($batteryNotPresents));
-    $presentRationData->addRow($presentRationRowP);
-    $presentRationData->addRow($presentRationRowN);
+    $presentRatioData->addRow($presentRationRowP);
+    $presentRatioData->addRow($presentRationRowN);
 
 
     $tmplt["pageTitle"] = "Battery";
-    $tmplt["jsFunctDrawChart"] = "drawLevel();
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["jsFunctDrawChart"] = "drawLevel();
                 drawTemperature();
                 drawChargingRatio();
                 drawAdapterRatio();
                 drawPresentRatio();";
 
-    $tmplt["jsDrawFunctions"] = "function drawLevel() {
+        $tmplt["jsDrawFunctions"] = "function drawLevel() {
         var data = new google.visualization.DataTable(" . $levelData->getJsonObject() . ");
 
         var options = {
             title: 'Battery level',
-            'width':800,
-            'height':150
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . $chart->getAxisChartHeight() . "
         };
 
 
@@ -246,8 +251,8 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Battery temperature',
-            'width':800,
-            'height':150
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . $chart->getAxisChartHeight() . "
         };
 
 
@@ -260,8 +265,8 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Charging/Discharging ratio',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -274,8 +279,8 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Adapter ratio',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -284,26 +289,69 @@ if ($deviceIdValid) {
     }
 
     function drawPresentRatio() {
-        var data = new google.visualization.DataTable(" . $presentRationData->getJsonObject() . ");
+        var data = new google.visualization.DataTable(" . $presentRatioData->getJsonObject() . ");
 
         var options = {
             title: 'Present ratio',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
         var chart = new google.visualization.PieChart(document.getElementById('presentRatio'));
         chart.draw(data, options);
     }";
+    }
 
     $tmplt["content"] = "
-            <h1>Battery Events</h1>
-            <div id=\"level\" style=\"width:800; height:150\"></div>
-            <div id=\"temperature\" style=\"width:800; height:150\"></div>
-            <div id=\"chargingRatio\" style=\"width:800; height:400\"></div>
-            <div id=\"adapterRatio\" style=\"width:800; height:400\"></div>
-            <div id=\"presentRatio\" style=\"width:800; height:400\"></div>";
+            <h1>Battery Events</h1>";
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["content"] .= "
+            <div id=\"level\"></div>
+            <div id=\"temperature\"></div>
+            <div id=\"chargingRatio\"></div>
+            <div id=\"adapterRatio\"></div>
+            <div id=\"presentRatio\"></div>";
+    } else {
+        // Draw static/PNG-charts
+        // ----------------------
+        $levelChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $levelChart->setTitle("Battery level");
+        $levelChart->setProperty("cht", "lxy");
+        $levelChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($levelData);
+        $bridge->pushData($levelChart, GChartPhpBridge::Y_COORDS);
+
+        $tempChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $tempChart->setTitle("Battery temperature");
+        $tempChart->setProperty("cht", "lxy");
+        $tempChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($tempData);
+        $bridge->pushData($tempChart, GChartPhpBridge::Y_COORDS);
+
+        $chargingRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $chargingRatioChart->setTitle("Charging/Discharging ratio");
+        $bridge = new GChartPhpBridge($chargingRatioData);
+        $bridge->pushData($chargingRatioChart, GChartPhpBridge::LEGEND);
+
+        $adapterRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $adapterRatioChart->setTitle("Charging/Discharging ratio");
+        $bridge = new GChartPhpBridge($adapterRatioData);
+        $bridge->pushData($adapterRatioChart, GChartPhpBridge::LEGEND);
+
+        $presentRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $presentRatioChart->setTitle("Charging/Discharging ratio");
+        $bridge = new GChartPhpBridge($presentRatioData);
+        $bridge->pushData($presentRatioChart, GChartPhpBridge::LEGEND);
+        $tmplt["content"] .= "
+            <p><img src=\"" . $levelChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $tempChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $chargingRatioChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $adapterRatioChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $presentRatioChart->getUrl() . "\" /></p>";
+    }
 }
 include ("template.php");
 ?>

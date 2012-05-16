@@ -88,7 +88,7 @@
         <div id="toparea"><a href="javascript:showHideNavigation();" id="showHideNavigation"><?php if($tmplt["hideNavigation"]) echo "Show"; else echo "Hide"; ?> navigation</a></div>
         <div id="leftarea"<?php if($tmplt["hideNavigation"]) echo " style=\"display:none\""; ?>>
             <h1>Device Charts:</h1>
-            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceAndViewGetParam"] ?>
             <ul class="navigation">
                 <li><a href="./battery.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
@@ -109,7 +109,7 @@
             <?php echo $calendar->getHtml() ?>
 
             <h1>Scale:</h1>
-            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceAndViewGetParam"] ?>
             <ul class="inline">
                 <li <?php if($tmplt["scaleDay"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=day">Day</a>
@@ -126,7 +126,7 @@
             </ul>
 
             <h1>Annotations:</h1>
-            <?php $tmplt["annotationsGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
+            <?php $tmplt["annotationsGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceAndViewGetParam"] ?>
             <ul class="inline">
                 <li <?php if($tmplt["showAnnotations"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["annotationsGetParams"] ?>">show</a>

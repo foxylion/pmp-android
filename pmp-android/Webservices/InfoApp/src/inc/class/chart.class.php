@@ -41,7 +41,7 @@ class Chart {
     private $showAnnotations = true;
 
     public function setScale($scale) {
-        if ($scale == Chart::DAY || $scale == Chart::WEEK ||$scale == Chart::MONTH || $scale == Chart::YEAR) {
+        if ($scale == Chart::DAY || $scale == Chart::WEEK || $scale == Chart::MONTH || $scale == Chart::YEAR) {
             $this->scale = $scale;
         } else {
             $this->scale = Chart::DAY;
@@ -50,6 +50,35 @@ class Chart {
 
     public function getScale() {
         return $this->scale;
+    }
+
+    public function getScaleYAxis($daysInMonth) {
+        switch ($this->scale) {
+            case self::DAY:
+                return 24;
+            case self::WEEK:
+                return 7;
+            case self::MONTH:
+                return $daysInMonth;
+            case self::YEAR:
+                return 365;
+        }
+    }
+
+    public function getAxisChartHeight() {
+        return 150;
+    }
+
+    public function getAxisChartWidth() {
+        return 800;
+    }
+
+    public function getPieChartHeight() {
+        return 400;
+    }
+
+    public function getPieChartWidth() {
+        return 600;
     }
 
     public function getEventsByScale(EventManager $manager, $startTs, $daysInMonth) {
