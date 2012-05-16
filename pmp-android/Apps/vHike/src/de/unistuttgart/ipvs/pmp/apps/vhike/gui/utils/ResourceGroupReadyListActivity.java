@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.os.IInterface;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.aidl.IBluetooth;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
@@ -21,6 +22,7 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
     protected static IvHikeWebservice rgvHike;
     protected static INotification rgNotification;
     protected static IContact rgContact;
+    protected static IBluetooth rgBluetooth;
     
     
     /**
@@ -48,6 +50,9 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
                 break;
             case Constants.RG_CONTACT:
                 rgContact = (IContact) resourceGroup;
+                break;
+            case Constants.RG_BLUETOOTH:
+                rgBluetooth = (IBluetooth) resourceGroup;
                 break;
         }
     }
@@ -91,6 +96,12 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
                     rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, resourceGroupId);
                 }
                 return rgContact;
+            case Constants.RG_BLUETOOTH:
+                if (rgBluetooth == null) {
+                    rgBluetooth = (IBluetooth) vHikeService.getInstance().requestResourceGroup(activity,
+                            resourceGroupId);
+                }
+                return rgBluetooth;
         }
         return null;
     }
@@ -161,6 +172,15 @@ public class ResourceGroupReadyListActivity extends ListActivity implements IRes
             rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
         }
         return rgContact;
+    }
+    
+    
+    protected IBluetooth getBluetoothRG(ResourceGroupReadyListActivity activity) {
+        if (rgBluetooth == null) {
+            rgBluetooth = (IBluetooth) vHikeService.getInstance()
+                    .requestResourceGroup(activity, Constants.RG_BLUETOOTH);
+        }
+        return rgBluetooth;
     }
     
     
