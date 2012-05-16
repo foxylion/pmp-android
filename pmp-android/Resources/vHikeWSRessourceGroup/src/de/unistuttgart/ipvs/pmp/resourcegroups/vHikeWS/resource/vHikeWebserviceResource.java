@@ -567,8 +567,8 @@ public class vHikeWebserviceResource extends Resource {
     public String enableObservation(String sessionID, String user_id) {
         
         listToParse.clear();
-        listToParse.add(new ParamObject("sid", sessionID, false));
-        listToParse.add(new ParamObject("user_id", user_id, false));
+        listToParse.add(new ParamObject("sid", sessionID, true));
+        listToParse.add(new ParamObject("user_id", user_id, true));
         String ret = "";
         try {
             ret = JSonRequestProvider.doRequest(listToParse, "deactivate_observation.php").toString();

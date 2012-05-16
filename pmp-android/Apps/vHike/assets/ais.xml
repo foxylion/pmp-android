@@ -14,6 +14,13 @@
 				<requiredPrivacySetting identifier="usevHikeWS">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
+		<serviceFeature identifier="useBluetooth">
+			<name lang="en">Bluetooth</name>
+			<description lang="en">Enable bluetooth</description>
+			<requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth" minRevision="0">
+				<requiredPrivacySetting identifier="useBluetooth">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
 		<serviceFeature identifier="useAbsoluteLocation">
 			<name lang="en">Exact Location</name>
 			<description lang="en">Provides information about your position for several features of vHike like searching for a ride or a hiker, sharing your location for other members in your trip, making finding each other much easier.</description>
