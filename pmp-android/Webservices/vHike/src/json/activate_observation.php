@@ -10,16 +10,16 @@ echo "activate observation ";
 Json::printErrorIfNotLoggedIn();
 
 try {
-	echo "wooooow";
 	$user = Session::getInstance()->getLoggedInUser();
-	echo "getLoggedInUser";
-  $zahl =	Observation::enableObservation($user);
-  echo "after enableObservation";
-  $output[] = array('successful' => true,
-  									'obs_nr' => $zahl);
-  echo Json::arrayToJson($output);
-  
-}catch (DatabaseException $de) {
+	$hash = Observation::enableObservation($user->getId());
+	$output[] = array('successful' => true,
+					  'obs_nr'     => $hash);
+	echo Json::arrayToJson($output);
+} catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
+} catch (Exception $e) {
+	Json::printError($e, $e -> getMessage(), true);
 }
 Database::getInstance()->disconnect();
+
+// EOF
