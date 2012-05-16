@@ -317,19 +317,21 @@ if ($deviceIdValid) {
     } else {
         // Draw static/PNG-charts
         // ----------------------
+        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+
         $levelChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $levelChart->setTitle("Battery level");
         $levelChart->setProperty("cht", "lxy");
         $levelChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($levelData);
-        $bridge->pushData($levelChart, GChartPhpBridge::Y_COORDS);
+        $bridge->pushData($levelChart, GChartPhpBridge::Y_COORDS, $scale);
 
         $tempChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $tempChart->setTitle("Battery temperature");
         $tempChart->setProperty("cht", "lxy");
         $tempChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($tempData);
-        $bridge->pushData($tempChart, GChartPhpBridge::Y_COORDS);
+        $bridge->pushData($tempChart, GChartPhpBridge::Y_COORDS, $scale);
 
         $chargingRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
         $chargingRatioChart->setTitle("Charging/Discharging ratio");
@@ -346,8 +348,8 @@ if ($deviceIdValid) {
         $bridge = new GChartPhpBridge($presentRatioData);
         $bridge->pushData($presentRatioChart, GChartPhpBridge::LEGEND);
         $tmplt["content"] .= "
-            <p><img src=\"" . $levelChart->getUrl() . "\" /></p>
-            <p><img src=\"" . $tempChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $levelChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>
+            <p><img src=\"" . $tempChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>
             <p><img src=\"" . $chargingRatioChart->getUrl() . "\" /></p>
             <p><img src=\"" . $adapterRatioChart->getUrl() . "\" /></p>
             <p><img src=\"" . $presentRatioChart->getUrl() . "\" /></p>";

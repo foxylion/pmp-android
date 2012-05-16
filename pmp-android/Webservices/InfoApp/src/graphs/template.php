@@ -88,7 +88,7 @@
         <div id="toparea"><a href="javascript:showHideNavigation();" id="showHideNavigation"><?php if($tmplt["hideNavigation"]) echo "Show"; else echo "Hide"; ?> navigation</a></div>
         <div id="leftarea"<?php if($tmplt["hideNavigation"]) echo " style=\"display:none\""; ?>>
             <h1>Device Charts:</h1>
-            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceAndViewGetParam"] ?>
+            <?php $tmplt["navGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" . $tmplt["viewGetParam"] ?>
             <ul class="navigation">
                 <li><a href="./battery.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
@@ -109,7 +109,7 @@
             <?php echo $calendar->getHtml() ?>
 
             <h1>Scale:</h1>
-            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceAndViewGetParam"] ?>
+            <?php $tmplt["scaleGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" . $tmplt["viewGetParam"] ?>
             <ul class="inline">
                 <li <?php if($tmplt["scaleDay"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["scaleGetParams"] ?>&scale=day">Day</a>
@@ -126,7 +126,7 @@
             </ul>
 
             <h1>Annotations:</h1>
-            <?php $tmplt["annotationsGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceAndViewGetParam"] ?>
+            <?php $tmplt["annotationsGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["scaleGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" . $tmplt["viewGetParam"] ?>
             <ul class="inline">
                 <li <?php if($tmplt["showAnnotations"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["annotationsGetParams"] ?>">show</a>
@@ -134,6 +134,19 @@
                 <li <?php if(!$tmplt["showAnnotations"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["annotationsGetParams"] ?>&annotations=hide">hide</a>
                 </li>
+            </ul>
+
+            <h1>Chart Type</h1>
+            <?php $tmplt["typeGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" . $tmplt["viewGetParam"] ?>
+            <ul class="inline">
+                <li <?php if($tmplt["svgView"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["typeGetParams"] ?>&view=svg">dynamic</a>
+                </li>
+                <li <?php if(!$tmplt["svgView"]) echo "class=\"selected\""; ?>>
+                    <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["typeGetParams"] ?>&view=static">static</a>
+                </li>
+            </ul>
+
         </div>
         <div id="contentarea"<?php if($tmplt["hideNavigation"]) echo " style=\"margin-left:0em;\""; ?>>
             <?php echo $tmplt["content"] ?>

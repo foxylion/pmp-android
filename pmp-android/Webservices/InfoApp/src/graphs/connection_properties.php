@@ -51,8 +51,10 @@ foreach ($stat->getSignalAvg() as $provider => $avg) {
 $tmplt["pageTitle"] = "Connection";
 $tmplt["jsFunctDrawChart"] = "drawProvider();
         drawSignal();";
-
-$tmplt["jsDrawFunctions"] = "
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["jsDrawFunctions"] = "
     function drawProvider() {
         var data = new google.visualization.DataTable(" . $providerData->getJsonObject() . ");
 
@@ -81,11 +83,37 @@ $tmplt["jsDrawFunctions"] = "
         var chart = new google.visualization.ColumnChart(document.getElementById('signal'));
         chart.draw(data, options);
     }";
-
+}
 $tmplt["content"] = "
-            <h1>Connection Statistics</h1>
+            <h1>Connection Statistics</h1>";
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["content"] .= "}
             <div id=\"provider\" style=\"width:800; height:400\"></div>
-            <div id=\"signal\" style=\"width:700; height:300\"></div>
+            <div id=\"signal\" style=\"width:700; height:300\"></div>";
+} else {
+    // Draw static/PNG-charts
+    // ----------------------
+
+    $providerChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $providerChart->setTitle("Provider distribution");
+    $bridge = new GChartPhpBridge($providerData);
+    $bridge->pushData($providerChart, GChartPhpBridge::LEGEND);
+
+    $signalChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
+    $signalChart->setTitle("Provider");
+    $signalChart->setVisibleAxes(array('x', 'y'));
+    $signalChart->setBarWidth(50, 4, 50);
+    $bridge = new GChartPhpBridge($signalData);
+    $bridge->pushData($signalChart, GChartPhpBridge::AXIS_LABEL);
+
+    $tmplt["content"] .= "
+            <p><img src=\"" . $providerChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $signalChart->getUrl() . "\" /></p>";
+}
+
+$tmplt["content"] .= "
             <p><b>Active roaming:</b> " . sprintf("%3.2f %%", $stat->getRoamingPerc()) . "</p>
             <p><b>Average bluetooth connections:</b> " . sprintf("%3.2f", $stat->getBluetoothAvg()) . "</p>
             <p><b>Average Wi-Fi connections:</b> " . sprintf("%3.2f", $stat->getWifiAvg()) . "</p>";
