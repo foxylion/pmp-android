@@ -20,6 +20,8 @@ public class BluetoothModel {
     List<MessageArray> messages;
     ProgressDialog pd;
     
+    Device toConnectDevice;
+    
     
     private BluetoothModel() {
         pairedDevices = new ArrayList<DeviceArray>();
@@ -32,6 +34,7 @@ public class BluetoothModel {
     String destination = "";
     int duration = 0;
     int role = 0;
+    private boolean connected = false;
     
     
     public void setRole(int role) {
@@ -91,5 +94,25 @@ public class BluetoothModel {
     
     public void dismissPD() {
         pd.dismiss();
+    }
+    
+    
+    public void setToConnectDevice(Device device) {
+        toConnectDevice = device;
+    }
+    
+    
+    public Device getToConnectDevice() {
+        return toConnectDevice;
+    }
+    
+    
+    public void setConnected(boolean state) {
+        connected = state;
+    }
+    
+    
+    public boolean isConnected() {
+        return connected;
     }
 }

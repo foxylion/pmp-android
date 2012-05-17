@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.tools.BluetoothModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.aidl.IBluetooth;
 
@@ -31,7 +32,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        reset();
         handler = new Handler();
         setContentView(R.layout.activity_bluetooth);
         
@@ -45,6 +46,16 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
             }
         });
         bt = getBluetoothRG(this);
+    }
+    
+    
+    private void reset() {
+        BluetoothModel.getInstance().setConnected(false);
+        BluetoothModel.getInstance().setDestination(null);
+        BluetoothModel.getInstance().setDuration(0);
+        BluetoothModel.getInstance().setRole(0);
+        BluetoothModel.getInstance().setToConnectDevice(null);
+        
     }
     
     
@@ -73,6 +84,25 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        
+        if (BluetoothModel.getInstance().getToConnectDevice() != null) {
+            try {
+                String name = BluetoothModel.getInstance().getToConnectDevice().getName();
+                String address = BluetoothModel.getInstance().getToConnectDevice().getAddress();
+                Log.i(this, "Name: " + name + " Address: " + address);
+                if (bt == null) {
+                    Log.i(this, "BT null");
+                }
+                bt.connect(address);
+                //                BluetoothModel.getInstance().setToConnectDevice(null);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        if (BluetoothModel.getInstance().isConnected()) {
+            
+        }
         
     }
     

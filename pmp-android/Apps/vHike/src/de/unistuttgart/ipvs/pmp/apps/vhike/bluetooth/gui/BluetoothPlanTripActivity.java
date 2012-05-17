@@ -20,6 +20,8 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.tools.BluetoothModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.tools.BluetoothTools;
+import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.tools.Device;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.aidl.IBluetooth;
 import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.objects.DeviceArray;
@@ -96,6 +98,8 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 BluetoothModel.getInstance().setSeats(seat);
                 BluetoothModel.getInstance().setRole(BluetoothModel.ROLE_DRIVER);
                 createCancelProgressDialog("Offer ride", "Offering a ride to nearby passengers!", "Stop offering");
+                ConnectedChecker checker = new ConnectedChecker();
+                checker.start();
                 
                 try {
                     bt.makeDiscoverable(dur);
@@ -145,6 +149,25 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
             }
         });
         cancelDialog.show();
+    }
+    
+    
+    private AlertDialog createAlertDialog(final CharSequence[] items, final List<Device> devices) {
+        //final CharSequence[] items = { "Red", "Blue" };
+        
+        AlertDialog.Builder builder = new AlertDialog.Builder(BluetoothPlanTripActivity.this);
+        builder.setTitle("Pick a driver");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            
+            public void onClick(DialogInterface dialog, int item) {
+                Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                BluetoothModel.getInstance().setToConnectDevice(devices.get(item));
+                BluetoothPlanTripActivity.this.finish();
+            }
+        });
+        
+        AlertDialog alert = builder.create();
+        return alert;
     }
     
     
@@ -204,31 +227,19 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                         bt.getFoundDevices();
                         DeviceArrayParcelable foundDevices = bt.getFoundDevices();
                         DeviceArray foundDevicesArray = foundDevices.getDevices();
-                        List<String> founddevices = foundDevicesArray.getDevices();
+                        final List<String> founddevices = foundDevicesArray.getDevices();
+                        final List<Device> devices = BluetoothTools.DeviceArrayListToDeviceList(founddevices);
                         
                         cancelDialog.dismiss();
-                        final CharSequence[] items = new CharSequence[founddevices.size() / 2];
-                        for (int i = 0; i < founddevices.size(); i++) {
-                            items[i] = founddevices.get(0);
-                            founddevices.remove(0);
-                        }
-                        Looper.prepare();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(BluetoothPlanTripActivity.this);
-                        builder.setTitle("Pick a driver");
-                        builder.setItems(items, new DialogInterface.OnClickListener() {
-                            
-                            public void onClick(DialogInterface dialog, int item) {
-                                Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        
-                        AlertDialog alert = builder.create();
-                        alert.show();
                         
                         refresh.post(new Runnable() {
                             
                             public void run() {
-                                
+                                CharSequence[] items = new CharSequence[devices.size()];
+                                for (int i = 0; i < devices.size(); i++) {
+                                    items[i] = devices.get(i).getName();
+                                }
+                                createAlertDialog(items, devices).show();
                             }
                         });
                         running = false;
@@ -245,6 +256,29 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
             }
             
         }
+    }
+    
+    public class ConnectedChecker extends Thread {
         
+        @Override
+        public void run() {
+            try {
+                while (!bt.isConnected()) {
+                    sleep(3000);
+                }
+                BluetoothModel.getInstance().setConnected(bt.isConnected());
+                
+                cancelDialog.dismiss();
+                
+                BluetoothPlanTripActivity.this.finish();
+                
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 }
