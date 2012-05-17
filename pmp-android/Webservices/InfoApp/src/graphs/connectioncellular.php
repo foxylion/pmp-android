@@ -75,14 +75,16 @@ if ($deviceIdValid) {
         // Draw static/PNG-charts
         // ----------------------
         $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+
         $connectionChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $connectionChart->setTitle("Cellular connection status");
         $connectionChart->setProperty("cht", "lxy");
         $connectionChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($connectionData);
         $bridge->pushData($connectionChart, GChartPhpBridge::Y_COORDS, $scale);
+        
         $tmplt["content"] .= "
-            <p><img src=\"" . $connectionChart->getUrl() . "\" /></p>";
+            <p><img src=\"" . $connectionChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>";
     }
 }
 include ("template.php");

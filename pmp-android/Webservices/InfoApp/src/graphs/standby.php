@@ -81,7 +81,7 @@ if ($deviceIdValid) {
     // Fill chart with data form $rawData
     foreach ($rawData as $timestamp => $raw) {
         $row = new GRow();
-        $row->addCell(new GCell("new Date(" . $timestamp . ")"));
+        $row->addCell(new GCell($timestamp));
         // Values
         if (isset($raw[0])) {
             $row->addCell(new GCell((int) $raw[0]->isAwake()));
@@ -174,18 +174,21 @@ if ($deviceIdValid) {
 
 
     $tmplt["pageTitle"] = "Standby";
-    $tmplt["jsFunctDrawChart"] = "drawAreaChart();
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["jsFunctDrawChart"] = "drawAreaChart();
             drawAwakeRatio();
             drawScreenRatio();
             drawAwakeScreenRatio();";
 
-    $tmplt["jsDrawFunctions"] = "function drawAreaChart() {
+        $tmplt["jsDrawFunctions"] = "function drawAreaChart() {
         var data = new google.visualization.DataTable(" . $areaChartData->getJsonObject() . ");
 
         var options = {
             title: 'Standby status',
-            'width':800,
-            'height':150
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . $chart->getAxisChartHeight() . "
         };
 
 
@@ -198,8 +201,8 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Device active ratio',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -212,8 +215,8 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Screen on/off ratio',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -226,21 +229,61 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Awake/Screen ratio',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
         var chart = new google.visualization.PieChart(document.getElementById('awakeScreenRatio'));
         chart.draw(data, options);
     }";
+    }
 
     $tmplt["content"] = "
-            <h1>Standby Events</h1>
+            <h1>Standby Events</h1>";
+
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["content"] .= "
             <div id=\"areaChart\" style=\"width:800; height:150\"></div>
             <div id=\"awakeRatio\" style=\"width:800; height:400\"></div>
             <div id=\"screenRatio\" style=\"width:800; height:400\"></div>
             <div id=\"awakeScreenRatio\" style=\"width:800; height:400\"></div>";
+    } else {
+        // Draw static/PNG-charts
+        // ----------------------
+        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+
+        $areaChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $areaChart->setTitle("Standby status");
+        $areaChart->setProperty("cht", "lxy");
+        $areaChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($areaChartData);
+        $bridge->pushData($areaChart, GChartPhpBridge::Y_COORDS, $scale);
+
+        $awakeRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $awakeRatioChart->setTitle("Device active ratio");
+        $bridge = new GChartPhpBridge($awakeRatio);
+        $bridge->pushData($awakeRatioChart, GChartPhpBridge::LEGEND);
+
+        $screenRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $screenRatioChart->setTitle("Device active ratio");
+        $bridge = new GChartPhpBridge($screenRatio);
+        $bridge->pushData($screenRatioChart, GChartPhpBridge::LEGEND);
+
+        $awakeScreenRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $awakeScreenRatioChart->setTitle("Awake/Screen ratio");
+        $bridge = new GChartPhpBridge($awakeScreenRatio);
+        $bridge->pushData($awakeScreenRatioChart, GChartPhpBridge::LEGEND);
+
+
+        $tmplt["content"] .= "
+            <p><img src=\"" . $areaChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>
+            <p><img src=\"" . $awakeRatioChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $screenRatioChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $awakeScreenRatioChart->getUrl() . "\" /></p>";
+    }
 }
 include ("template.php");
 ?>

@@ -26,40 +26,44 @@ require("./../inc/graphs_framework.inc.php");
 $stat = BatteryProperties::getStatistic();
 
 // Technology distribution
-$providerData = new GDataTable();
-$providerData->addColumn(new GColumn("string", "t", "Technology"));
-$providerData->addColumn(new GColumn("number", "c", "Count"));
+$technologyData = new GDataTable();
+$technologyData->addColumn(new GColumn("string", "t", "Technology"));
+$technologyData->addColumn(new GColumn("number", "c", "Count"));
 
 foreach ($stat->getTechnologyDist() as $tech => $count) {
     $row = new GRow();
     $row->addCell(new GCell($tech));
     $row->addCell(new GCell($count));
-    $providerData->addRow($row);
+    $technologyData->addRow($row);
 }
 
 // Average health
-$signalData = new GDataTable();
-$signalData->addColumn(new GColumn("string", "t", "Technology"));
-$signalData->addColumn(new GColumn("number", "a", "Average"));
+$healthData = new GDataTable();
+$healthData->addColumn(new GColumn("string", "t", "Technology"));
+$healthData->addColumn(new GColumn("number", "a", "Average"));
 foreach ($stat->getHealthAvg() as $tech => $avg) {
     $row = new GRow();
     $row->addCell(new GCell($tech));
     $row->addCell(new GCell($avg));
-    $signalData->addRow($row);
+    $healthData->addRow($row);
 }
 
 $tmplt["pageTitle"] = "Battery";
-$tmplt["jsFunctDrawChart"] = "drawTechnology();
+
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["jsFunctDrawChart"] = "drawTechnology();
         drawHealth();";
 
-$tmplt["jsDrawFunctions"] = "
+    $tmplt["jsDrawFunctions"] = "
     function drawTechnology() {
-        var data = new google.visualization.DataTable(" . $providerData->getJsonObject() . ");
+        var data = new google.visualization.DataTable(" . $technologyData->getJsonObject() . ");
 
         var options = {
             title: 'Technology distribution',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -68,12 +72,12 @@ $tmplt["jsDrawFunctions"] = "
     }
 
     function drawHealth() {
-        var data = new google.visualization.DataTable(" . $signalData->getJsonObject() . ");
+        var data = new google.visualization.DataTable(" . $healthData->getJsonObject() . ");
 
         var options = {
             title: 'Health',
-            'width':700,
-            'height':300,
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . ($chart->getAxisChartHeight() + 100) . ",
             hAxis: {title: 'Technology'}
         };
 
@@ -81,11 +85,36 @@ $tmplt["jsDrawFunctions"] = "
         var chart = new google.visualization.ColumnChart(document.getElementById('health'));
         chart.draw(data, options);
     }";
-
+}
 $tmplt["content"] = "
-            <h1>Battery Statistics</h1>
+            <h1>Battery Statistics</h1>";
+
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["content"] .= "
             <div id=\"technology\" style=\"width:800; height:400\"></div>
             <div id=\"health\" style=\"width:700; height:300\"></div>";
+} else {
+    // Draw static/PNG-charts
+    // ----------------------
+
+    $technologyChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $technologyChart->setTitle("Technology distribution");
+    $bridge = new GChartPhpBridge($technologyData);
+    $bridge->pushData($technologyChart, GChartPhpBridge::LEGEND);
+
+    $healthChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
+    $healthChart->setTitle("Health");
+    $healthChart->setVisibleAxes(array('x', 'y'));
+    $healthChart->setBarWidth(60, 4, 60);
+    $bridge = new GChartPhpBridge($healthData);
+    $bridge->pushData($healthChart, GChartPhpBridge::AXIS_LABEL);
+
+    $tmplt["content"] .= "
+            <p><img src=\"" . $technologyChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $healthChart->getUrl() . "\" /></p>";
+}
 
 include ("template.php");
 ?>

@@ -100,20 +100,24 @@ class gChart
     }
     protected function encodeData($data, $separator, $encodigData = '')
     {
+        $secondSeparator = "|";
+
         if ($encodigData == 's')
         {
             $data = $this->simpleEncodeData($data);
             $separator = '';
+            $secondSeparator = ",";
         } else if ($encodigData == 'e')
         {
             $data = $this->extendedEncodeData($data);
             $separator = '';
+            $secondSeparator = ",";
         } else if ($encodigData == 't')
         {
             $data = $this->textEncodeData($data);
         }
-        $retStr = $this->separateData($data, $separator, "|");
-        $retStr = trim($retStr, "|");
+        $retStr = $this->separateData($data, $separator, $secondSeparator);
+        $retStr = trim($retStr, $secondSeparator);
         return $retStr;
     }
     protected function separateData($data, $separator, $datasetSeparator)
@@ -303,6 +307,7 @@ class gChart
             foreach ($data as $array)
                 if (is_array($array))
                 {
+                    $encodedData2 = array();
                     foreach ($array as $elem)
                     {
                         $s='';

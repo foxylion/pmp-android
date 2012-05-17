@@ -121,9 +121,13 @@ $timeMs = Chart::timestampToMillis($calendar->getTimestamp());
 $tmplt["hideNavigation"] = (isset($_COOKIE["navigation"]) && $_COOKIE["navigation"] == "hide");
 $tmplt["dateGetParams"] = "year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=" . $calendar->getDay();
 $tmplt["scaleGetParam"] = "scale=" . $chart->getScale();
-$tmplt["deviceAndViewGetParam"] = "device=" . $deviceId;
-if (!$svgCharts) {
-    $tmplt["deviceAndViewGetParam"] .= "&view=static";
+$tmplt["deviceGetParam"] = "device=" . $deviceId;
+if ($svgCharts) {
+    $tmplt["viewGetParam"] = "view=dynamic";
+    $tmplt["svgView"] = true;
+} else {
+    $tmplt["viewGetParam"] = "view=static";
+    $tmplt["svgView"] = false;
 }
 if ($chart->showAnnotations()) {
     $tmplt["annotationGetParam"] = "annotations=show";
