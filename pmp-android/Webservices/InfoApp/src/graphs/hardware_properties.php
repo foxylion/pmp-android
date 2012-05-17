@@ -95,21 +95,24 @@ $runtimeString = sprintf("%d Days, %d Hours, %05.2f Min", $runtimeDays, $runtime
 
 
 $tmplt["pageTitle"] = "Hardware";
-$tmplt["jsFunctDrawChart"] = "drawDisplay();
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["jsFunctDrawChart"] = "drawDisplay();
         drawIntMemoryRatio();
         drawExtMemoryRatio();
         drawSensors();";
 
 
-$tmplt["jsDrawFunctions"] = "
+    $tmplt["jsDrawFunctions"] = "
     function drawDisplay() {
         var data = new google.visualization.DataTable(" . $displayData->getJsonObject() . ");
 
 
         var options = {
             title: 'Display distribution',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -121,9 +124,9 @@ $tmplt["jsDrawFunctions"] = "
         var data = new google.visualization.DataTable(" . $intMemoryData->getJsonObject() . ");
 
         var options = {
-            title: 'Average internal memory usage (Avr memory size: " . $stat->getInternalMemoryAvg() . " MB)',
-            'width':800,
-            'height':400
+            title: '" . sprintf("Average internal memory usage (Avr memory size:  %3.2f MB)", $stat->getInternalMemoryAvg()) . "',
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -135,9 +138,9 @@ $tmplt["jsDrawFunctions"] = "
         var data = new google.visualization.DataTable(" . $extMemoryData->getJsonObject() . ");
 
         var options = {
-            title: 'Average external memory usage (Avr memory size: " . $stat->getExternalMemoryAvg() . " MB)',
-            'width':800,
-            'height':400
+            title: '" . sprintf("Average external memory usage (Avr memory size:  %3.2f MB)", $stat->getExternalMemoryAvg()) . "',
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -150,8 +153,8 @@ $tmplt["jsDrawFunctions"] = "
 
         var options = {
             title: 'Sensor distribution',
-            'width':700,
-            'height':300,
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . ($chart->getAxisChartHeight() + 100) . ",
             hAxis: {title: 'Sensors'}
         };
 
@@ -160,13 +163,51 @@ $tmplt["jsDrawFunctions"] = "
         chart.draw(data, options);
     }
 ";
+}
 
 $tmplt["content"] = "
-            <h1>Hardware Statistics</h1>
+            <h1>Hardware Statistics</h1>";
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["content"] .= "
             <div id=\"display\" style=\"width:800; height:400\"></div>
             <div id=\"intmemoryratio\" style=\"width:800; height:400\"></div>
             <div id=\"extmemoryratio\" style=\"width:800; height:400\"></div>
-            <div id=\"sensors\" style=\"width:700; height:300\"></div>
+            <div id=\"sensors\" style=\"width:700; height:300\"></div>";
+} else {
+    // Draw static/PNG-charts
+    // ----------------------
+
+    $displayChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $displayChart->setTitle("Display distribution");
+    $bridge = new GChartPhpBridge($displayData);
+    $bridge->pushData($displayChart, GChartPhpBridge::LEGEND);
+
+    $intMemoryChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $intMemoryChart->setTitle(sprintf("Average internal memory usage (Avr memory size:  %3.2f MB)", $stat->getInternalMemoryAvg()));
+    $bridge = new GChartPhpBridge($intMemoryData);
+    $bridge->pushData($intMemoryChart, GChartPhpBridge::LEGEND);
+
+    $extMemoryChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $extMemoryChart->setTitle(sprintf("Average external memory usage (Avr memory size:  %3.2f MB)", $stat->getExternalMemoryAvg()));
+    $bridge = new GChartPhpBridge($extMemoryData);
+    $bridge->pushData($extMemoryChart, GChartPhpBridge::LEGEND);
+
+    $sensorChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
+    $sensorChart->setTitle("Sensor distribution");
+    $sensorChart->setVisibleAxes(array('x', 'y'));
+    $sensorChart->setBarWidth(60, 4, 60);
+    $bridge = new GChartPhpBridge($sensorData);
+    $bridge->pushData($sensorChart, GChartPhpBridge::AXIS_LABEL);
+
+    $tmplt["content"] .= "
+            <p><img src=\"" . $displayChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $intMemoryChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $extMemoryChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $sensorChart->getUrl() . "\" /></p>";
+}
+$tmplt["content"] .= "
             <p><b>Average CPU frequency:</b> " . sprintf("%3.2f MHz", $stat->getCpuAvg()) . "</p>
             <p><b>Average camera resolution:</b> " . sprintf("%3.1f MP", $stat->getCameraAvg()) . "</p>
             <p><b>Average runtime:</b> " . $runtimeString . "</p>";

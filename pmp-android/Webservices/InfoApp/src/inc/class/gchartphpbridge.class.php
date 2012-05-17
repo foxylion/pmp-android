@@ -85,17 +85,26 @@ class GChartPhpBridge {
                 $gChart->setLegend($data2D[0]);
                 break;
             case self::AXIS_LABEL:
+
                 $gChart->addAxisLabel(0, $data2D[0]);
                 for ($i = 1; $i < count($data2D); $i++) {
                     $gChart->addDataSet($data2D[$i]);
                 }
+                $max = (int) gchart\utility::getMaxOfArray($data2D);
+                $max += $max/10;
+
                 $gChart->setLegend(array_slice($legend, 1));
+                $gChart->setDataRange(0, $max);
+                $gChart->addAxisRange(1, 0, $max);
+
+                $len = pow(10, strlen((int)$max));
+                $gChart->setGridLines(0, (10 / $max) * $len);
+
                 break;
             case self::Y_COORDS:
                 // Data range has to be scalled to a 0 to 100 range
                 // since x- and y-axis have a different range which will
                 // not be handled correctly by the gChart API
-
                 // Normalize x-axis (first column) so that all x-values will go from 0 to 100
                 $xMin = $data2D[0][0];
                 $xMax = $data2D[0][count($data2D[0]) - 1];
@@ -147,7 +156,7 @@ class GChartPhpBridge {
                 if ($scale != 0) {
                     $gChart->addAxisRange(0, 0, $scale);
                 }
-                $gChart->addAxisRange(1, $yMin,$yMax);
+                $gChart->addAxisRange(1, $yMin, $yMax);
                 $gChart->setLegend(array_slice($legend, 1));
                 break;
         }

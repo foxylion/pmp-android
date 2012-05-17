@@ -62,8 +62,8 @@ if ($svgCharts) {
 
         var options = {
             title: 'Technology distribution',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -76,8 +76,8 @@ if ($svgCharts) {
 
         var options = {
             title: 'Health',
-            'width':700,
-            'height':300,
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . ($chart->getAxisChartHeight() + 100) . ",
             hAxis: {title: 'Technology'}
         };
 

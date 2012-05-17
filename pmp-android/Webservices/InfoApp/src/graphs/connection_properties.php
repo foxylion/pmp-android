@@ -60,8 +60,8 @@ if ($svgCharts) {
 
         var options = {
             title: 'Provider distribution',
-            'width':800,
-            'height':400
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
@@ -74,8 +74,8 @@ if ($svgCharts) {
 
         var options = {
             title: 'Signal',
-            'width':700,
-            'height':300,
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . ($chart->getAxisChartHeight() + 100) . ",
             hAxis: {title: 'Provider'}
         };
 
@@ -89,7 +89,7 @@ $tmplt["content"] = "
 if ($svgCharts) {
     // Draw SVG-Charts
     // ---------------
-    $tmplt["content"] .= "}
+    $tmplt["content"] .= "
             <div id=\"provider\" style=\"width:800; height:400\"></div>
             <div id=\"signal\" style=\"width:700; height:300\"></div>";
 } else {
@@ -102,7 +102,7 @@ if ($svgCharts) {
     $bridge->pushData($providerChart, GChartPhpBridge::LEGEND);
 
     $signalChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
-    $signalChart->setTitle("Provider");
+    $signalChart->setTitle("Signal");
     $signalChart->setVisibleAxes(array('x', 'y'));
     $signalChart->setBarWidth(50, 4, 50);
     $bridge = new GChartPhpBridge($signalData);
