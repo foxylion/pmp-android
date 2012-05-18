@@ -36,6 +36,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     private RatingBar rb;
     private Handler handler;
     private Controller ctrl;
+    private Button anonymous_btn;
     static final String[] RECENT_RIDES = new String[] { "01.01.2011, Stuttgart", "02.01.2011, Berlin",
             "03.01.2011, Vaihingen", "..." };
     
@@ -46,6 +47,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         
         setContentView(R.layout.activity_profile);
         this.handler = new Handler();
+        anonymous_btn = (Button) findViewById(R.id.btn_anonymous);
         if (getvHikeRG(this) != null) {
             setUpProfile();
         }
@@ -86,24 +88,35 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             if (whoIsIt == 0) {
                 this.profile = Model.getInstance().getOwnProfile();
                 ctrl = new Controller(rgvHike);
+                boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), Model.getInstance()
+                        .getOwnProfile().getID());
+                if (anonymous) {
+                    Log.i(this, "Anonymous: " + anonymous);
+                    anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
+                }
             } else {
                 this.ctrl = new Controller(rgvHike);
                 this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), profileID);
             }
             
-            final Button anonymous = (Button) findViewById(R.id.btn_anonymous);
-            anonymous.setOnClickListener(new View.OnClickListener() {
+            anonymous_btn.setOnClickListener(new View.OnClickListener() {
                 
                 @Override
                 public void onClick(View v) {
                     // if (anonymous = active)
-                    anonymous.setBackgroundResource(R.drawable.btn_anonymous);
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("lastname_public", "false");
-                    map.put("firstname_public", "false");
-                    map.put("email_public", "true");
-                    map.put("tel_public", "false");
-                    ctrl.setProfileVisibility(Model.getInstance().getSid(), map);
+                    boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), Model.getInstance()
+                            .getOwnProfile().getID());
+                    if (anonymous) {
+                        anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
+                    } else {
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("lastname_public", "false");
+                        map.put("firstname_public", "false");
+                        map.put("email_public", "true");
+                        map.put("tel_public", "false");
+                        ctrl.setProfileVisibility(Model.getInstance().getSid(), map);
+                    }
+                    
                 }
             });
             

@@ -439,6 +439,25 @@ class user {
         }
 	}
 
+    /**
+    * Checks whether users profile is set to anonymous or not
+    * @return true if profile is anonymous, false otherwise
+     */
+    static function isProfileAnonymous($user_id) {
+        $db = Database::getInstance();
+        $query = $db->query("SELECT email_public FROM " . DB_PREFIX . "_user WHERE id= $user_id");
+                   
+        if ($query) {
+            while ($row = $db->fetch($query)) {
+                if ($row["email_public"] == 0) {
+                   return true;
+                } else {
+                   return false;
+                }
+            }
+        }
+    }               
+                   
 	/**
 	 * Checks if the given verification key matches the give user id and
 	 * activates the account if they match.

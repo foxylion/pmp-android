@@ -381,6 +381,27 @@ public class Controller {
     }
     
     
+    public boolean isProfileAnonymous(String sid, int uid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.isProfileAnonymous(sid, uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        boolean isAnonymous = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                isAnonymous = object.get("anonymous").getAsBoolean();
+            }
+        }
+        return isAnonymous;
+    }
+    
+    
     public PositionObject getUserPosition(final String sid, final int user_id) {
         String ret = "";
         try {

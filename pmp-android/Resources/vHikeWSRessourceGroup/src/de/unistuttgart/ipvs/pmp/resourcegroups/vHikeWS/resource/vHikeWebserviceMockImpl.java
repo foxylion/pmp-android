@@ -212,4 +212,11 @@ public class vHikeWebserviceMockImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String isProfileAnonymous(String sid, int uid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

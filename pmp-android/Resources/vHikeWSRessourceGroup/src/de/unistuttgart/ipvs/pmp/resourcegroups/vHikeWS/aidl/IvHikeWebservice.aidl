@@ -62,6 +62,8 @@ interface IvHikeWebservice{
 	
 	String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public, boolean email_public, boolean tel_public);
 	
+	String isProfileAnonymous(String sid, int uid);
+	
 	String tripUpdatePos(String sid, int trip_id, float current_lat,
 							float current_lon);
 	

@@ -165,6 +165,22 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
+    public String isProfileAnonymous(String sid, int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        listToParse.add(new ParamObject("user_id", String.valueOf(uid), true));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "is_profile_anonymous.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
     public String turnOffProfileVisibility(String sid) {
         String ret = "";
         try {
