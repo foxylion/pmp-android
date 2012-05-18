@@ -1274,4 +1274,20 @@ public class Controller {
         }
         return suc;
     }
+    
+    
+    public boolean isObservationEnabled(int uid) {
+        String ret = "";
+        try {
+            ret = this.ws.isObservationEnabled(uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        if (object != null) {
+            suc = object.get("status").getAsBoolean();
+        }
+        return suc;
+    }
 }
