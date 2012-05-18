@@ -330,7 +330,7 @@ public class DBConnector implements IDBConnector {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
         
-        // Get the cities only
+        // Get everything
         String columns[] = new String[4];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
@@ -374,7 +374,7 @@ public class DBConnector implements IDBConnector {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
         
-        // Get the cities only
+        // Get everything
         String columns[] = new String[3];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
@@ -409,7 +409,7 @@ public class DBConnector implements IDBConnector {
         open();
         List<CellularConnectionEvent> result = new ArrayList<CellularConnectionEvent>();
         
-        // Get the cities only
+        // Get everything
         String columns[] = new String[3];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
