@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
 /**
@@ -19,6 +22,9 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
  * 
  */
 public class SMS_Email_Dialog extends Dialog {
+    
+    private Controller ctrl;
+    private Profile profile;
     
     private Button cancel_btn;
     private Button send_btn;
@@ -32,10 +38,13 @@ public class SMS_Email_Dialog extends Dialog {
     private IContact contactRG;
     
     
-    public SMS_Email_Dialog(Context context, boolean isSMS, String tel, String email, IContact contactRG) {
+    public SMS_Email_Dialog(Context context, boolean isSMS, String tel, String email, IContact contactRG,
+            Controller ctrl, Profile profile) {
         super(context);
         setContentView(R.layout.dialog_sms_email);
         this.contactRG = contactRG;
+        this.ctrl = ctrl;
+        this.profile = profile;
         
         this.isSMS = isSMS;
         et_recipient = (EditText) findViewById(R.id.et_recipient);
@@ -74,7 +83,14 @@ public class SMS_Email_Dialog extends Dialog {
                 if (isSMS) {
                     try {
                         if (et_recipient.getText().toString().length() > 0 && et_body.getText().toString().length() > 0) {
-                            contactRG.sms(et_recipient.getText().toString(), et_body.getText().toString());
+                            if (ctrl.isProfileAnonymous(Model.getInstance().getSid(), profile.getID())) {
+                                Toast.makeText(
+                                        getContext(),
+                                        "The user has hidden his contact information. Contacting "
+                                                + profile.getUsername() + " is not possible", Toast.LENGTH_LONG).show();
+                            } else {
+                                contactRG.sms(et_recipient.getText().toString(), et_body.getText().toString());
+                            }
                         } else {
                             Toast.makeText(getContext(), "Please enter both phone number and message.",
                                     Toast.LENGTH_SHORT).show();

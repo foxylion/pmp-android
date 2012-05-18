@@ -23,7 +23,7 @@ public class ContactImpl extends IContact.Stub {
     
     
     @Override
-    public void call(int tel) throws RemoteException {
+    public void call(String tel) throws RemoteException {
         this.psv.validate(ContactResourceGroup.PS_OPEN_DIALER, "true");
         this.contactR.call(this.appIdentifier, tel);
     }
