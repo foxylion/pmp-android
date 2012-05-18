@@ -11,8 +11,8 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 		$user = Session::getInstance()->getLoggedInUser();
-		$ret = Observation::isObserved($_POST['user_id']);
-		$output = array("successful" => true, "picked" => $ret);
+		$ret = Observation::isObserved($user->getID());
+	   $output = array("successful" => true, "status" => $ret);
 		echo Json::arrayToJson($output);
 
 } catch (InvalidArgumentException $iae) {

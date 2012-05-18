@@ -13,6 +13,7 @@ public class vHikeWSResourceGroup extends ResourceGroup {
     public static final String R_vHIKE_WEBSERVICE = "vHikeWebserviceResource";
     
     public static final String PS_USE_vHIKE_WEBSERVICE = "usevHikeWS";
+    public static final String PS_ANONYMOUS = "anonymous";
     
     
     public vHikeWSResourceGroup(IPMPConnectionInterface pmpci) {
@@ -21,6 +22,7 @@ public class vHikeWSResourceGroup extends ResourceGroup {
         registerResource(R_vHIKE_WEBSERVICE, new vHikeWebserviceResource(this));
         Log.i(this, "registerResource");
         registerPrivacySetting(PS_USE_vHIKE_WEBSERVICE, new BooleanPrivacySetting());
+        registerPrivacySetting(PS_ANONYMOUS, new BooleanPrivacySetting());
     }
     
 }

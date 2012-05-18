@@ -145,6 +145,72 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
+    public String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public,
+            boolean email_public, boolean tel_public) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        listToParse.add(new ParamObject("email_public", String.valueOf(email_public), true));
+        listToParse.add(new ParamObject("firstname_public", String.valueOf(firstname_public), true));
+        listToParse.add(new ParamObject("lastname_public", String.valueOf(lastname_public), true));
+        listToParse.add(new ParamObject("tel_public", String.valueOf(tel_public), true));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "profile_edit_visibility.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String isProfileAnonymous(String sid, int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        listToParse.add(new ParamObject("user_id", String.valueOf(uid), true));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "is_profile_anonymous.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String enableAnonymity(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "enable_anonymity.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String disableAnonymity(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "disable_anonymity.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
     public String tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) throws RemoteException {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
@@ -577,6 +643,21 @@ public class vHikeWebserviceResource extends Resource {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
+        }
+        return ret;
+    }
+    
+    
+    public String isObservationEnabled(int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("uid", String.valueOf(uid), false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "isObserved.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return ret;
     }

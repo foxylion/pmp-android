@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spezifikation der graphischen Darstellung - InfoApp</title>
+  <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" src="../../_layout/script.js"></script>
+  <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">
+  <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+  <div id="wrapper">
+    <div id="page-head-date">18. Mai 2012</div>
+    <div id="page-head-title">Privacy Management Platform</div>
+    <div id="page-title">InfoApp Spezifikation - Graphische Darstellung</div>
+    <div id="page-version">Version 4.0</div>
+    
+    <nav>
+      <div class="title">Inhaltsverzeichnis</div>
+      <ul>
+      </ul>
+    </nav>
+    
+    <!-- here comes the content of the specification -->
+    <div id="content">
+    
+      <h1 id="versions">Versionshistorie</h1>
+
+      <h3>Version 4.0 (18.05.2012)</h3>
+      <ul>
+        <li>Dokument angelegt und bestehende Skripte spezifiziert</li>
+      </ul>
+    
+      <h1 id="introduction">Einleitung</h1>
+      <p>
+        Dieses Dokument bietet einen Überblick über die auf dem Webserver der
+        InfoApp abgelegten Anwendungen (PHP-Skripte). Diese erstellen aus den
+        mit den Webservices übertragenen Daten Diagramme, um die gespeicherten
+        Daten zu visualisieren. Neben einer kurzen Beschreibung der verschiedenen
+        Skripte werden die von den Skripten unterstützten Parameter erläutert.
+        Es richtet sich daher hauptsächlich an die Entwickler der
+        InfoApp, die die zur Verfügung gestellten PHP-Skripte aus der App
+        heraus aufrufen möchten.
+      </p>
+      <p>
+        Um den Entwicklern stets einen Überblick über die verfügbaren Diagramme
+        bieten zu können, wird dieses Dokument stetig an den aktuellen Stand 
+        der Implementierung angepasst.
+      </p>
+      
+     
+      <h1 id="scripts">Anwendungen/PHP-Skripte</h1>
+      <p>
+        Momentan stehen die nachfolgend aufgelisteten Skripte zur Verfügung, die
+        unterhalb der URL "http://infoapp.no-ip.org/graphs" zu finden sind.
+      </p>
+      <p>
+        Die verfügbaren Skripte lassen sich in zwei Kategorien gruppieren:
+        Skripte, die gerätespezifische Diagramme generieren und Skripte die
+        allgemeine, statistische Diagramme generieren. Die bei den gerätespezifischen
+        Skripten erzeugten Diagramme (z. B. Batterie-Ladezustandsverlauf) gelten jeweils
+        nur für ein bestimmtes Gerät. Um diese Diagramme betrachten zu können,
+        muss dem Skript über einen Parameter (siehe <span class="reference" title="#parameters"></span>)
+        die Geräte-ID mit übergeben werden. Bei den allgemeinen Skripten werden
+        die Diagramme hingegen aus Informationen generiert, die über alle vorhandenen
+        (Geräte-)Informationen erzeugt werden, so dass hierfür die ID nicht angegeben
+        werden muss.
+      </p>
+      
+      <h2 id="scripts_device">Gerätespezifische Diagramme</h2>
+      <table>
+        <tr>
+          <th>PHP-Skript</th>
+          <th>Datenquelle</th>
+          <th>Diagramme (u. A.)</th>
+        </tr> 
+        <tr>
+         <td>battery.php</td>
+         <td>upload_battery_events.php</td>
+         <td>Ladezustands- und Temperaturverlauf sowie Stromquellen-Anteile</td>
+        </tr>
+        <tr>
+          <td>connectioncellular.php</td>
+          <td>upload_connection_events_cellular.php</td>
+          <td>Verlauf Flugzeugmodus an/aus</td>
+        </tr>
+        <tr>
+          <td>connection.php</td>
+          <td>upload_connection_events.php</td>
+          <td>Verlauf Bluetooth- und Wi-Fi-Verbindungen bzw. Schnittstellenstatus
+            sowie Anteil der Städte an den Verbindungen</td>
+         </tr>
+         <tr>
+           <td>standby.php</td>
+           <td>upload_awake_events.php und upload_screen_events.php</td>
+           <td>Verlauf Gerät aktive/inaktiv und Bildschirm an/aus sowie Verhältnisse
+             zwischen aktiv/inaktiv bzw. Bildschirm an/aus</td>
+         </tr>
+      </table>
+
+      <h2 id="scripts_general">Allgemeine Diagramme</h2>
+      <table>
+        <tr>
+          <th>PHP-Skript</th>
+          <th>Datenquelle</th>
+          <th>Diagramme (u. A.)</th>
+        </tr>
+        <tr>
+         <td>battery_properties.php</td>
+         <td>update_battery.php</td>
+         <td>Verteilung der Batterie-Technologien und der durchschnittlichen
+           Gesundheit je Technologie</td>
+        </tr>
+        <tr>
+          <td>connection_properties.php</td>
+          <td>update_connection.php und update_connection_cellular.php</td>
+          <td>Verteilung der Anbieter und durchschnittliche Signalstärke je Anbieter</td>
+        </tr>
+        <tr>
+          <td>hardware_properties.php</td>
+          <td>update_device.php</td>
+          <td>Verteilung der Display-Auflösungen, Verbrauch des internen bzw.
+            externen Speichers und Verteilung der verschiedenen Sensoren</td>
+         </tr>
+         <tr>
+           <td>software_properties.php</td>
+           <td>update_device.php</td>
+           <td>software_properties.php	device_properties.php	Verteilung der
+             Gerätehersteller, Modelle, API-Level und Kernel-Version</td>
+         </tr>
+      </table>
+
+      <h1 id="compatibility">Kompatibilität</h1>
+      <p>
+        Zur Darstellung der Diagramme in interaktiver Form werden standardmäßig
+        SVG-Grafiken in Verbindung mit Java-Script verwendet. Da Android jedoch
+        erst ab Version 3.0 SVG-Grafiken unterstützt, können diese Diagramme unter
+        älteren Android-Versionen nicht angezeigt werden. Über den Parameter "view
+        (siehe <span class="reference" title="#parameters"></span>) kann jedoch auf
+        statische PNG-Grafiken umgeschaltet werden, die auf allen Android-Versionen
+        betrachtbar sind. Es empfiehlt sich daher, vor dem Aufruf der Diagramme aus
+        der App heraus eine Fallunterscheidung zu integrierten, durch die für alle
+        Android-Versionen kleiner als 3.0 dieser Parameter an die URL angehängt wird.
+      </p>
+      
+      <h1 id="parameters">Parameter</h1>
+      <p>
+        Alle oben erwähnten PHP-Skripte akzeptieren eine Reihe von HTTP-GET-Parametern
+        in der Form <code>name=wert</code>. Diese werden mit einem <code>?</code>
+        an den Skript-Namen angehängt und mit <code>&</code> voneinander abgegrenzt.
+        Z. B.:
+<pre>
+battery.php?year=2012&month=5&day=18&scale=day&annotations=show&device=f2305a2fbef51bd82008c7cf3788250f
+</pre>
+
+        Folgende Parameter werden momentan unterstützt. Alle Parameter sind optional.
+        In der Spalte "Standard" wird angegeben, welcher Wert verwendet wird, wenn
+        der entsprechende Parameter nicht angegeben wurde.
+      </p>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Mögliche Werte</th>
+          <th>Funktion</th>
+          <th>Standard</th>
+        </tr>
+        <tr>
+          <td>year</td>
+          <td>0-*</td>
+          <td>Jahr, zu dem die Diagramme angezeigt werden</td>
+          <td>Aktuelles Jahr. Wenn nicht angegeben, werden die Parameter
+            <code>month</code> und <code>day</code> ignoriert!</td>
+        </tr>
+        <tr>
+          <td>month</td>
+          <td>1-12</td>
+          <td>Monat, zu dem die Diagramme angezeigt werden</td>
+          <td>Aktueller Monat. Wenn nicht angegeben, wird der Parameter
+            <code>day</code> ignoriert!</td>
+        </tr>
+        <tr>
+          <td>day</td>
+          <td>0-366</td>
+          <td>Tag, zu dem die Diagramme angezeigt werden</td>
+          <td>Aktueller Tag</td>
+        </tr>
+        <tr>
+          <td>scale</td>
+          <td><code>day</code>, <code>weak</code>, <code>month</code>,
+            <code>year</code></td>
+          <td>Skalierung der Diagramme ("Reichweite" der verwendeten Events)</td>
+          <td><code>day</code></td>
+        </tr>
+        <tr>
+          <td>annotations</td>
+          <td><code>show</code>, <code>hide</code></td>
+          <td>Anzeigen oder ausblenden der Hinweise innerhalb der Diagramme (nur wenn
+            <code>view=svg</code>)</td>
+          <td><code>show</code></td>
+        </tr>
+        <tr>
+          <td>device</td>
+          <td>MD5-Hash</td>
+          <td>Geräte ID</td>
+          <td>Wenn nicht angeben oder ungültig, wird dem Benutzer bei
+            gerätespezifischen Diagrammen ein Eingabefeld angezeigt, in das eine
+            gültige ID eingeben werden kann</td>
+        </tr>
+        <tr>
+          <td>view</td>
+          <td><code>static</code>, <code>svg</code></td>
+          <td>Legt die Art der Diagramme fest. Bei <code>svg</code> werden per
+            Java-Script SVG Diagramme generiert. Diese können erst ab Android 3.0
+            angezeigt werden. Bei <code>static</code> werden zur Darstellung der
+            Diagramme PNG-Grafiken verwendet (somit auf allen Android-Versionen lauffähig)</td>
+          <td><code>svg</code>
+        </tr>
+      </table>
+      
+    </div>
+    <!-- // end of specification's content -->
+  </div>
+</body>
+</html>

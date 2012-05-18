@@ -356,6 +356,78 @@ public class Controller {
     }
     
     
+    /**
+     * Sets visibility of lastname, firstname, email and/or phone number
+     * 
+     * @param sid
+     * @param list
+     * @return
+     */
+    public int setProfileVisibility(String sid, Map<String, String> list) {
+        String ret = "";
+        
+        try {
+            Log.i(this, "Public Lastname: " + Boolean.parseBoolean(list.get("lastname_public")));
+            Log.i(this, "Public Firstname: " + Boolean.parseBoolean(list.get("firstname_public")));
+            ret = this.ws.setProfileVisibility(sid, Boolean.parseBoolean(list.get("lastname_public")),
+                    Boolean.parseBoolean(list.get("firstname_public")), Boolean.parseBoolean(list.get("email_public")),
+                    Boolean.parseBoolean(list.get("tel_public")));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+        
+    }
+    
+    
+    public int enableAnonymity(String sid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.enableAnonymity(sid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+    
+    
+    public int disableAnonymity(String sid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.disableAnonymity(sid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+    
+    
+    public boolean isProfileAnonymous(String sid, int uid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.isProfileAnonymous(sid, uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        boolean isAnonymous = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                isAnonymous = object.get("anonymous").getAsBoolean();
+            }
+        }
+        return isAnonymous;
+    }
+    
+    
     public PositionObject getUserPosition(final String sid, final int user_id) {
         String ret = "";
         try {
@@ -1199,6 +1271,22 @@ public class Controller {
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             
+        }
+        return suc;
+    }
+    
+    
+    public boolean isObservationEnabled(int uid) {
+        String ret = "";
+        try {
+            ret = this.ws.isObservationEnabled(uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        if (object != null) {
+            suc = object.get("status").getAsBoolean();
         }
         return suc;
     }

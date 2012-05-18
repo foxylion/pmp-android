@@ -227,4 +227,40 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.disableObservation(sessionID, user_id);
     }
     
+    
+    @Override
+    public String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public,
+            boolean email_public, boolean tel_public) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.setProfileVisibility(sid, lastname_public, firstname_public, email_public, tel_public);
+    }
+    
+    
+    @Override
+    public String isProfileAnonymous(String sid, int uid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.isProfileAnonymous(sid, uid);
+    }
+    
+    
+    @Override
+    public String enableAnonymity(String sid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.enableAnonymity(sid);
+    }
+    
+    
+    @Override
+    public String disableAnonymity(String sid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.disableAnonymity(sid);
+    }
+    
+    
+    @Override
+    public String isObservationEnabled(int uid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.isObservationEnabled(uid);
+    }
+    
 }

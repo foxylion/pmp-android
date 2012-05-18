@@ -13,7 +13,7 @@ try {
 	$user = Session::getInstance()->getLoggedInUser();
 	Observation::disableObservation($user->getId());
 	
-	$output[] = array('successful' => true);
+	$output = array("successful" => true, "status" => "deactivated");
 	
   echo Json::arrayToJson($output);
   
