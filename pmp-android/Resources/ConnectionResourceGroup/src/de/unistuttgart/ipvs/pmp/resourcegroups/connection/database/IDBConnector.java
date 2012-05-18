@@ -37,12 +37,12 @@ public interface IDBConnector {
      * 
      * @param timestamp
      *            timestamp of the event in milliseconds since 1970
-     * @param EventEnum
+     * @param Events
      *            event, ON or OFF
      * @param city
      *            city where the event happened
      */
-    public void storeWifiEvent(long timestamp, EventEnum event, String city, EventEnum state);
+    public void storeWifiEvent(long timestamp, Events event, String city, Events state);
     
     
     /**
@@ -52,12 +52,12 @@ public interface IDBConnector {
      *            id of the entry
      * @param timestamp
      *            timestamp of the event in milliseconds since 1970
-     * @param EventEnum
+     * @param Events
      *            event, ON or OFF
      * @param city
      *            city where the event happened
      */
-    public void storeWifiEvent(int id, long timestamp, EventEnum event, String city);
+    public void storeWifiEvent(int id, long timestamp, Events event, String city);
     
     
     /**
@@ -65,12 +65,12 @@ public interface IDBConnector {
      * 
      * @param timestamp
      *            timestamp of the event in milliseconds since 1970
-     * @param EventEnum
+     * @param Events
      *            event, ON or OFF
      * @param city
      *            city where the event happened
      */
-    public void storeBTEvent(long timestamp, EventEnum event, String city);
+    public void storeBTEvent(long timestamp, Events event, String city);
     
     
     /**
@@ -80,12 +80,12 @@ public interface IDBConnector {
      *            id of the entry
      * @param timestamp
      *            timestamp of the event in milliseconds since 1970
-     * @param EventEnum
+     * @param Events
      *            event, ON or OFF
      * @param city
      *            city where the event happened
      */
-    public void storeBTEvent(int id, long timestamp, EventEnum event, String city);
+    public void storeBTEvent(int id, long timestamp, Events event, String city);
     
     
     /**
@@ -93,10 +93,10 @@ public interface IDBConnector {
      * 
      * @param timestamp
      *            timestamp of the event in milliseconds since 1970
-     * @param EventEnum
+     * @param Events
      *            event, ON or OFF
      */
-    public void storeCellPhoneEvent(long timestamp, EventEnum event);
+    public void storeCellPhoneEvent(long timestamp, Events event);
     
     
     /**
@@ -106,10 +106,10 @@ public interface IDBConnector {
      *            id of the entry
      * @param timestamp
      *            timestamp of the event in milliseconds since 1970
-     * @param EventEnum
+     * @param Events
      *            event, ON or OFF
      */
-    public void storeCellPhoneEvent(int id, long timestamp, EventEnum event);
+    public void storeCellPhoneEvent(int id, long timestamp, Events event);
     
     
     /**

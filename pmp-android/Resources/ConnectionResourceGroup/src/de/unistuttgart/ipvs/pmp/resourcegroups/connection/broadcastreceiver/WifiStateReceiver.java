@@ -24,32 +24,47 @@ import java.util.Date;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
+import android.net.wifi.WifiManager;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
 
 /**
- * {@link BroadcastReceiver} to get the airplane mode events
+ * Stores events when the state of the wifi is changed
  * 
  * @author Thorsten Berberich
+ * 
  */
-public class CellPhoneReceiver extends BroadcastReceiver {
+public class WifiStateReceiver extends BroadcastReceiver {
     
     /* (non-Javadoc)
      * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        // Timestampe of the event
         long time = new Date().getTime();
         
-        int airplaneMode = Settings.System.getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON, 0);
+        // Get the wifi state or unknown if an error happens        
+        int extraWifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
         
-        if (airplaneMode == 0) {
-            // Airplane mode is off
-            DBConnector.getInstance(context).storeCellPhoneEvent(time, Events.OFF);
-        } else {
-            // Airplane mode is on
-            DBConnector.getInstance(context).storeCellPhoneEvent(time, Events.ON);
+        // Store the events according to the state
+        switch (extraWifiState) {
+            case WifiManager.WIFI_STATE_DISABLED:
+                
+                // Store the connection as off because the wifi is off
+                DBConnector.getInstance(context).storeWifiEvent(time, Events.OFF, null, Events.OFF);
+                break;
+            case WifiManager.WIFI_STATE_DISABLING:
+                break;
+            case WifiManager.WIFI_STATE_ENABLED:
+                
+                // Store also as off, because the other receiver will be called too and store that the wifi is on
+                DBConnector.getInstance(context).storeWifiEvent(time, Events.OFF, null, Events.ON);
+                break;
+            case WifiManager.WIFI_STATE_ENABLING:
+                break;
+            case WifiManager.WIFI_STATE_UNKNOWN:
+                break;
         }
     }
 }

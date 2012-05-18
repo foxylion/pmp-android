@@ -25,7 +25,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
  * @author Thorsten Berberich
  * 
  */
-public enum EventEnum {
+public enum Events {
     ON,
     OFF;
 }

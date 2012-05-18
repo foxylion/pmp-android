@@ -29,64 +29,56 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
 
 /**
  * {@link BroadcastReceiver} for Wifi connection changed events
  * 
  * @author Thorsten Berberich
  */
-public class WifiReceiver extends BroadcastReceiver {
+public class WifiConnectionReceiver extends BroadcastReceiver {
     
     /* (non-Javadoc)
      * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        EventEnum state = EventEnum.OFF;
-        
-        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        
-        if (connManager != null) {
-            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (mWifi == null) {
-                state = EventEnum.OFF;
-            } else {
-                if (mWifi.isConnected()) {
-                    state = EventEnum.ON;
-                }
-            }
-        }
-        
+        // Timestamp of the event
         long time = new Date().getTime();
         
-        // Get the ConnectivityManager
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Get the connectivity manager
+        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        
         NetworkInfo networkInfo = null;
         
         // Get the network information for the wifi if the ConnectivityManager is not null
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (connManager != null) {
+            networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         }
         
         // Check if the wifi is connected or not
         if (networkInfo != null) {
             if (networkInfo.isConnected()) {
                 //Connected
-                storeEvent(context, time, EventEnum.ON);
+                storeEvent(context, time, Events.ON);
             } else {
-                // Not Connected
-                DBConnector.getInstance(context).storeWifiEvent(time, EventEnum.OFF, null, state);
+                //Not Connected
+                Events state = Events.OFF;
+                
+                // Get the state of the network
+                if (networkInfo.isConnected()) {
+                    state = Events.ON;
+                }
+                DBConnector.getInstance(context).storeWifiEvent(time, Events.OFF, null, state);
             }
         }
     }
     
     
     /**
-     * Store a event an try to get the location
+     * Stores an event an tries to get the location
      */
-    private void storeEvent(Context context, long time, EventEnum event) {
+    private void storeEvent(Context context, long time, Events event) {
         LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;

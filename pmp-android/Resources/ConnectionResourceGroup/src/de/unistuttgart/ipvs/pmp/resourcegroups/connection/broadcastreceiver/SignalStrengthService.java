@@ -30,9 +30,8 @@ public class SignalStrengthService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreferences settings = this.getSharedPreferences(ConnectionConstants.PREF_FILE,
-                Context.MODE_WORLD_READABLE);
-        editor = settings.edit();
+        SharedPreferences settings = getSharedPreferences(ConnectionConstants.PREF_FILE, Context.MODE_WORLD_READABLE);
+        this.editor = settings.edit();
         TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         telMgr.listen(new CallStateListener(), PhoneStateListener.LISTEN_CALL_STATE);
     }
@@ -57,8 +56,9 @@ public class SignalStrengthService extends Service {
         @Override
         public void onSignalStrengthsChanged(SignalStrength signalStrength) {
             super.onSignalStrengthsChanged(signalStrength);
-            editor.putInt(ConnectionConstants.PREF_SIGNAL_KEY, signalStrength.getGsmSignalStrength());
-            editor.commit();
+            SignalStrengthService.this.editor.putInt(ConnectionConstants.PREF_SIGNAL_KEY,
+                    signalStrength.getGsmSignalStrength());
+            SignalStrengthService.this.editor.commit();
         }
     }
     
