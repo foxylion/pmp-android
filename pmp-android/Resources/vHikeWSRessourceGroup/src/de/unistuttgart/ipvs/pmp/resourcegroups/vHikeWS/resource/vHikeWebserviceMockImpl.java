@@ -219,4 +219,18 @@ public class vHikeWebserviceMockImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String enableAnonymity(String sid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String disableAnonymity(String sid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

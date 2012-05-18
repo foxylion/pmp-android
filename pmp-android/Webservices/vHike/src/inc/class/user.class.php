@@ -425,7 +425,7 @@ class user {
 		$db = Database::getInstance();
 
 		// Write new data into database
-		$db->query("UPDATE `" . DB_PREFIX . "_user` SET `email_public` = \"" . $emailPublic . "\",`firstname_public`  = \"" . $firstnamePublic . "\",`lastname_public`  = \"" . $lastnamePublic . "\",`tel_public`  = \"" . $telPublic . "\"WHERE `id` = " . $this->id);
+		$db->query("UPDATE `" . DB_PREFIX . "_user` SET `email_public` = \"" . $emailPublic . "\",`firstname_public`  = \"" . $firstnamePublic . "\",`lastname_public`  = \"" . $lastnamePublic . "\",`tel_public`  = \"" . $telPublic . "\" WHERE `id` = " . $this->id);
 
 		$this->emailPublic = $emailPublic;
 		$this->firstnamePublic = $firstnamePublic;
@@ -439,6 +439,58 @@ class user {
         }
 	}
 
+	/**
+	* Sets a profile to anonymous.
+	*
+	* @param boolean $emailPublic
+	* @param boolean $firstnamePublic
+	* @param boolean $lastnamePublic
+	* @param boolean $telPublic
+	*/
+	public function enableAnonymity() {
+					  
+		$lastnamePublic = (bool)$lastnamePublic;           
+		$firstnamePublic = (bool)$firstnamePublic;
+		$emailPublic = (bool)$emailPublic;
+		$telPublic = (bool)$telPublic;
+					  
+		$db = Database::getInstance();
+					  
+		// Write new data into database
+		$db->query("UPDATE `" . DB_PREFIX . "_user` SET `email_public` = 0, `firstname_public` = 0, `lastname_public` = 0, `tel_public` = 0 WHERE `id` = " . $this->id);
+					  
+		$this->emailPublic = $emailPublic;
+		$this->firstnamePublic = $firstnamePublic;
+		$this->lastnamePublic = $lastnamePublic;
+		$this->telPublic = $telPublic;				  
+	}               
+     
+	/**
+	* Disables a profiles anonymity.
+	*
+	* @param boolean $emailPublic
+	* @param boolean $firstnamePublic
+	* @param boolean $lastnamePublic
+	* @param boolean $telPublic
+	*/
+	public function disableAnonymity() {
+					  
+		$lastnamePublic = (bool)$lastnamePublic;           
+		$firstnamePublic = (bool)$firstnamePublic;
+		$emailPublic = (bool)$emailPublic;
+		$telPublic = (bool)$telPublic;
+					  
+		$db = Database::getInstance();
+					  
+		// Write new data into database
+		$db->query("UPDATE `" . DB_PREFIX . "_user` SET `email_public` = 1, `firstname_public` = 1, `lastname_public` = 1, `tel_public` = 1 WHERE `id` = " . $this->id);
+					  
+		$this->emailPublic = $emailPublic;
+		$this->firstnamePublic = $firstnamePublic;
+		$this->lastnamePublic = $lastnamePublic;
+		$this->telPublic = $telPublic;				  
+	}   				  
+					  
     /**
     * Checks whether users profile is set to anonymous or not
     * @return true if profile is anonymous, false otherwise

@@ -381,6 +381,32 @@ public class Controller {
     }
     
     
+    public int enableAnonymity(String sid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.enableAnonymity(sid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+    
+    
+    public int disableAnonymity(String sid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.disableAnonymity(sid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+    
+    
     public boolean isProfileAnonymous(String sid, int uid) {
         String ret = "";
         

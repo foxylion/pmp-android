@@ -181,10 +181,27 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
-    public String turnOffProfileVisibility(String sid) {
+    public String enableAnonymity(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
         String ret = "";
         try {
-            ret = JSonRequestProvider.doRequest(null, "profile_edit_visibility.php").toString();
+            ret = JSonRequestProvider.doRequest(listToParse, "enable_anonymity.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String disableAnonymity(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "disable_anonymity.php").toString();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

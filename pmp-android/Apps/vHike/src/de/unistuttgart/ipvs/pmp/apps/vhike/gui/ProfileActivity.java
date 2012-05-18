@@ -1,8 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
@@ -107,14 +104,11 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                     boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), Model.getInstance()
                             .getOwnProfile().getID());
                     if (anonymous) {
-                        anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
+                        ctrl.disableAnonymity(Model.getInstance().getSid());
+                        anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous_disabled);
                     } else {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("lastname_public", "false");
-                        map.put("firstname_public", "false");
-                        map.put("email_public", "true");
-                        map.put("tel_public", "false");
-                        ctrl.setProfileVisibility(Model.getInstance().getSid(), map);
+                        ctrl.enableAnonymity(Model.getInstance().getSid());
+                        anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
                     }
                     
                 }

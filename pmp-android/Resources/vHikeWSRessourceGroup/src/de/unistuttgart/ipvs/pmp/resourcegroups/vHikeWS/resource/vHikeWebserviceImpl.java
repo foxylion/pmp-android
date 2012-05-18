@@ -242,4 +242,18 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.isProfileAnonymous(sid, uid);
     }
     
+    
+    @Override
+    public String enableAnonymity(String sid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.enableAnonymity(sid);
+    }
+    
+    
+    @Override
+    public String disableAnonymity(String sid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.disableAnonymity(sid);
+    }
+    
 }
