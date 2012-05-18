@@ -21,5 +21,10 @@
 			<changeDescription lang="de">Durch aktivieren der Checkbox wird den zugewiesenen
 				Apps die Nutzung des vHike Webservices erlaubt.</changeDescription>
 		</privacySetting>
+		<privacySetting identifier="anonymous" validValueDescription="'true', 'false'">
+			<name lang="en">Profile Privacy</name>
+			<description lang="en">Hide last/first name, email and phone number from others.</description>
+			<changeDescription lang="en">By ticking off the checkbox last/first name, email and phone number won't be exposed to other users.</changeDescription>
+		</privacySetting>
 	</privacySettings>
 </resourceGroupInformationSet>

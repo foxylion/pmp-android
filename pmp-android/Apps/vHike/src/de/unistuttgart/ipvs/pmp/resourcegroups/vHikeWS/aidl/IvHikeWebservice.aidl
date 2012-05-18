@@ -122,5 +122,6 @@ interface IvHikeWebservice{
 	String getOpenTrip(String sessionID);
 	String enableObservation(String sessionID, String user_id);
 	String disableObservation(String sessionID, String user_id); 
+	String isObservationEnabled(int uid);
 	
 }

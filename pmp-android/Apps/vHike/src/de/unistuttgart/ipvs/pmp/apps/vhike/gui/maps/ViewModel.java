@@ -75,6 +75,11 @@ public class ViewModel {
     }
     
     
+    public IvHikeWebservice getvHikeRG() {
+        return this.ws;
+    }
+    
+    
     public void setContactRG(IContact iContact) {
         this.iContact = iContact;
     }

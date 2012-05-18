@@ -1,18 +1,27 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.gui;
 
-import android.app.Activity;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.tools.BluetoothModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.tools.Device;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
-import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.aidl.IBluetooth;
+import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.objects.MessageArray;
+import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.objects.MessageArrayParcelable;
 
 /**
  * LoginActivity: the startup activity for vHike and starts the registration on PMP to load
@@ -26,15 +35,30 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     Handler handler;
     protected boolean isCanceled;
     Button rides;
-    IBluetooth bt;
+    Timer timer;
+    
+    EditText et = null;
+    Button send = null;
+    ListView conversationView = null;
+    ArrayAdapter<String> conversationArrayAdapter = null;
+    
+    MessageThread messageThread = null;
+    public String TAG = "BluetoothActivity";
     
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        reset();
         handler = new Handler();
         setContentView(R.layout.activity_bluetooth);
+        timer = new Timer();
+        et = (EditText) findViewById(R.id.edit_text_out);
+        send = (Button) findViewById(R.id.button_send);
+        
+        // Initialize the array adapter for the conversation thread
+        conversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
+        conversationView = (ListView) findViewById(R.id.in);
+        conversationView.setAdapter(conversationArrayAdapter);
         
         rides = (Button) findViewById(R.id.bluetooth_ride);
         rides.setOnClickListener(new View.OnClickListener() {
@@ -42,20 +66,22 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(BluetoothActivity.this, BluetoothPlanTripActivity.class);
-                startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
+                startActivity(intent);
             }
         });
-        bt = getBluetoothRG(this);
-    }
-    
-    
-    private void reset() {
-        BluetoothModel.getInstance().setConnected(false);
-        BluetoothModel.getInstance().setDestination(null);
-        BluetoothModel.getInstance().setDuration(0);
-        BluetoothModel.getInstance().setRole(0);
-        BluetoothModel.getInstance().setToConnectDevice(null);
         
+        send.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View arg0) {
+                try {
+                    rgBluetooth.sendMessage(et.getText().toString());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        getBluetoothRG(this);
     }
     
     
@@ -68,7 +94,6 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void run() {
-                    init();
                 }
                 
             });
@@ -76,34 +101,26 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     }
     
     
-    private void init() {
-        bt = getBluetoothRG(this);
-    }
-    
-    
     @Override
     protected void onResume() {
         super.onResume();
-        
-        if (BluetoothModel.getInstance().getToConnectDevice() != null) {
+        if (rgBluetooth != null) {
             try {
-                String name = BluetoothModel.getInstance().getToConnectDevice().getName();
-                String address = BluetoothModel.getInstance().getToConnectDevice().getAddress();
-                Log.i(this, "Name: " + name + " Address: " + address);
-                if (bt == null) {
-                    Log.i(this, "BT null");
+                
+                if (BluetoothModel.getInstance().getToConnectDevice() != null) {
+                    Device device = BluetoothModel.getInstance().getToConnectDevice();
+                    rgBluetooth.connect(device.getAddress());
+                    Log.i(TAG, "Connecting to " + device.getAddress());
                 }
-                bt.connect(address);
-                //                BluetoothModel.getInstance().setToConnectDevice(null);
+                
+                timer.schedule(new ConnectionChecker(), 3000);
+                timer.schedule(new MessageThread(), 2000);
             } catch (RemoteException e) {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        }
-        
-        if (BluetoothModel.getInstance().isConnected()) {
             
         }
-        
     }
     
     
@@ -112,14 +129,68 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         super.onBackPressed();
         
         try {
-            if (bt.isBluetoothAvailable()) {
-                if (bt.isEnabled()) {
-                    bt.enableBluetooth(false);
+            if (rgBluetooth.isBluetoothAvailable()) {
+                if (rgBluetooth.isEnabled()) {
+                    rgBluetooth.enableBluetooth(false);
                 }
             }
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    public class MessageThread extends TimerTask {
+        
+        @Override
+        public void run() {
+            
+            if (rgBluetooth != null) {
+                try {
+                    MessageArrayParcelable messagesParcelable = rgBluetooth.getReceivedMessages();
+                    
+                    MessageArray messageArray = messagesParcelable.getDevices();
+                    final List<String> founddevices = messageArray.getMessages();
+                    Log.i(TAG, "Getting messages: " + founddevices.size());
+                    
+                    Handler refresh = new Handler(Looper.getMainLooper());
+                    refresh.post(new Runnable() {
+                        
+                        public void run() {
+                            for (String string : founddevices) {
+                                conversationArrayAdapter.add(string);
+                                Log.i(TAG, "Adding messages: " + string);
+                            }
+                        }
+                    });
+                    timer.schedule(new MessageThread(), 2000);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                timer.schedule(new MessageThread(), 2000);
+            }
+        }
+        
+    }
+    
+    public class ConnectionChecker extends TimerTask {
+        
+        @Override
+        public void run() {
+            try {
+                if (!rgBluetooth.isConnected()) {
+                    timer.schedule(new ConnectionChecker(), 2000);
+                    Log.i(TAG, "Not Connected!");
+                } else {
+                    Log.i(TAG, "Connected!");
+                }
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+        }
+        
     }
 }

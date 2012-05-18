@@ -647,4 +647,19 @@ public class vHikeWebserviceResource extends Resource {
         return ret;
     }
     
+    
+    public String isObservationEnabled(int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("uid", String.valueOf(uid), false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "isObserved.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
 }

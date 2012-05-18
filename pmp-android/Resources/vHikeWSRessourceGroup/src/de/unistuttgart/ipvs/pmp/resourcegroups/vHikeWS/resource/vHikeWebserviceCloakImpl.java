@@ -233,4 +233,11 @@ public class vHikeWebserviceCloakImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String isObservationEnabled(int uid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

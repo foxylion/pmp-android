@@ -256,4 +256,11 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.disableAnonymity(sid);
     }
     
+    
+    @Override
+    public String isObservationEnabled(int uid) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.isObservationEnabled(uid);
+    }
+    
 }

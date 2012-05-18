@@ -1,5 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
@@ -14,7 +16,9 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -34,6 +38,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     private Handler handler;
     private Controller ctrl;
     private Button anonymous_btn;
+    private Button observation;
     static final String[] RECENT_RIDES = new String[] { "01.01.2011, Stuttgart", "02.01.2011, Berlin",
             "03.01.2011, Vaihingen", "..." };
     
@@ -45,9 +50,23 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         setContentView(R.layout.activity_profile);
         this.handler = new Handler();
         anonymous_btn = (Button) findViewById(R.id.btn_anonymous);
+        observation = (Button) findViewById(R.id.btn_observation);
         if (getvHikeRG(this) != null) {
             setUpProfile();
         }
+    }
+    
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
+        Log.i(this, "");
     }
     
     
@@ -60,6 +79,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void run() {
+                    ctrl = new Controller(rgvHike);
                     setUpProfile();
                 }
             });
@@ -91,6 +111,14 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                     Log.i(this, "Anonymous: " + anonymous);
                     anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
                 }
+                
+                boolean observationEnabled = ctrl.isObservationEnabled(Model.getInstance().getOwnProfile().getID());
+                Log.i(this, "ObservationEnabled: " + observationEnabled);
+                if (observationEnabled) {
+                    observation.setBackgroundResource(R.drawable.btn_observation);
+                } else {
+                    observation.setBackgroundResource(R.drawable.btn_observation_disabled);
+                }
             } else {
                 this.ctrl = new Controller(rgvHike);
                 this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), profileID);
@@ -100,7 +128,6 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void onClick(View v) {
-                    // if (anonymous = active)
                     boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), Model.getInstance()
                             .getOwnProfile().getID());
                     if (anonymous) {
@@ -114,15 +141,32 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 }
             });
             
-            final Button observation = (Button) findViewById(R.id.btn_observation);
             observation.setOnClickListener(new View.OnClickListener() {
                 
                 @Override
                 public void onClick(View v) {
-                    // if observation = active
+                    boolean observationEnabled = ctrl.isObservationEnabled(Model.getInstance().getOwnProfile().getID());
+                    Log.i(this, "ObservationEnabled: " + observationEnabled);
+                    if (observationEnabled) {
+                        ctrl.disableObservation(Model.getInstance().getSid(), Model.getInstance().getOwnProfile()
+                                .getID());
+                        observation.setBackgroundResource(R.drawable.btn_observation_disabled);
+                    } else {
+                        observation.setBackgroundResource(R.drawable.btn_observation);
+                        int obsNr = ctrl.enableObservation(Model.getInstance().getSid(), Model.getInstance()
+                                .getOwnProfile().getID());
+                        final AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
+                        alertDialog.setTitle("Enabled Observation");
+                        alertDialog.setMessage("Observation No.: " + obsNr);
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.cancel();
+                            }
+                        });
+                        alertDialog.show();
+                    }
                     
-                    observation.setBackgroundResource(R.drawable.btn_observation);
-                    ctrl.enableObservation(Model.getInstance().getSid(), Model.getInstance().getOwnProfile().getID());
                 }
             });
             

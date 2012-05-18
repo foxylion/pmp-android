@@ -84,6 +84,12 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     public void onResume() {
         super.onResume();
         
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
+        
         // TODO Check date!
         Log.i(this, "OnResume Plantrip");
     }
@@ -145,6 +151,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             }
             
         });
+        ViewModel.getInstance().getDestinationSpinners().clear();
         ViewModel.getInstance().getDestinationSpinners().add(this.spinner);
         
         // Insert the add-Button and set the OnClickListener
