@@ -42,10 +42,14 @@
             android:icon="@drawable/logo_rd"
             android:launchMode="singleTop"
             android:label="vHike" >
-			<!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>  -->
+            </intent-filter>
+            -->
+
         </activity>
         <activity
             android:name=".gui.RegisterActivity"
