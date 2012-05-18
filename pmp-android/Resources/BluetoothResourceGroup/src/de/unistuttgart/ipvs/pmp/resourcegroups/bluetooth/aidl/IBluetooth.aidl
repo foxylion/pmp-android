@@ -11,7 +11,10 @@ interface IBluetooth {
 	
 	boolean isEnabled();
 	
+	boolean isDeviceBonded(String address);
+	
 	void makeDiscoverable(int time);
+	boolean isMakingDiscoverable();
 	
 	void discover();
 	boolean isDiscovering();
