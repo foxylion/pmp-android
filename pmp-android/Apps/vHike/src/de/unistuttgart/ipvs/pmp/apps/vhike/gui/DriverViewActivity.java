@@ -217,7 +217,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         switch (reqCode) {
             case (0):
                 if (resultCode == RESULT_OK) {
-                    Log.i(this, "Email SENT");
                     Intent myIntent = new Intent(DriverViewActivity.this, DriverViewActivity.this.getClass());
                     myIntent.putExtra("tab_id", 2);
                     startActivity(myIntent);

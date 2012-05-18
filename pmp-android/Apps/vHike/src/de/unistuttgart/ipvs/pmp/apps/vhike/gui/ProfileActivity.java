@@ -1,5 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
@@ -82,6 +85,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             
             if (whoIsIt == 0) {
                 this.profile = Model.getInstance().getOwnProfile();
+                ctrl = new Controller(rgvHike);
             } else {
                 this.ctrl = new Controller(rgvHike);
                 this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), profileID);
@@ -94,6 +98,12 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 public void onClick(View v) {
                     // if (anonymous = active)
                     anonymous.setBackgroundResource(R.drawable.btn_anonymous);
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("lastname_public", "false");
+                    map.put("firstname_public", "false");
+                    map.put("email_public", "true");
+                    map.put("tel_public", "false");
+                    ctrl.setProfileVisibility(Model.getInstance().getSid(), map);
                 }
             });
             
@@ -103,7 +113,9 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 @Override
                 public void onClick(View v) {
                     // if observation = active
+                    
                     observation.setBackgroundResource(R.drawable.btn_observation);
+                    ctrl.enableObservation(Model.getInstance().getSid(), Model.getInstance().getOwnProfile().getID());
                 }
             });
             

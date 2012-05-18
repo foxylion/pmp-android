@@ -356,6 +356,31 @@ public class Controller {
     }
     
     
+    /**
+     * Sets visibility of lastname, firstname, email and/or phone number
+     * 
+     * @param sid
+     * @param list
+     * @return
+     */
+    public int setProfileVisibility(String sid, Map<String, String> list) {
+        String ret = "";
+        
+        try {
+            Log.i(this, "Public Lastname: " + Boolean.parseBoolean(list.get("lastname_public")));
+            Log.i(this, "Public Firstname: " + Boolean.parseBoolean(list.get("firstname_public")));
+            ret = this.ws.setProfileVisibility(sid, Boolean.parseBoolean(list.get("lastname_public")),
+                    Boolean.parseBoolean(list.get("firstname_public")), Boolean.parseBoolean(list.get("email_public")),
+                    Boolean.parseBoolean(list.get("tel_public")));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+        
+    }
+    
+    
     public PositionObject getUserPosition(final String sid, final int user_id) {
         String ret = "";
         try {

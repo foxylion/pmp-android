@@ -204,4 +204,12 @@ public class vHikeWebserviceCloakImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public,
+            boolean email_public, boolean tel_public) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

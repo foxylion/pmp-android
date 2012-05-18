@@ -60,6 +60,10 @@ interface IvHikeWebservice{
 	
 	String getProfile(String session_id, int id);
 	
+	String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public, boolean email_public, boolean tel_public);
+	
+	String turnOffProfileVisibility(String sid);
+	
 	String tripUpdatePos(String sid, int trip_id, float current_lat,
 							float current_lon);
 	

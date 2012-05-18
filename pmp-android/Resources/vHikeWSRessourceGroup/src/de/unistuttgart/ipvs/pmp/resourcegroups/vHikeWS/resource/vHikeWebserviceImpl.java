@@ -227,4 +227,12 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.disableObservation(sessionID, user_id);
     }
     
+    
+    @Override
+    public String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public,
+            boolean email_public, boolean tel_public) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.setProfileVisibility(sid, lastname_public, firstname_public, email_public, tel_public);
+    }
+    
 }
