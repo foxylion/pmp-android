@@ -497,7 +497,7 @@ class user {
      */
     static function isProfileAnonymous($user_id) {
         $db = Database::getInstance();
-        $query = $db->query("SELECT email_public FROM " . DB_PREFIX . "_user WHERE id= $user_id");
+        $query = $db->query("SELECT email_public FROM dev_user WHERE id= $user_id");
                    
         if ($query) {
             while ($row = $db->fetch($query)) {
