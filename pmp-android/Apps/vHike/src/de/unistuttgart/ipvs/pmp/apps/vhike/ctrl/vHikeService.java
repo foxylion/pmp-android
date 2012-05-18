@@ -32,7 +32,7 @@ public class vHikeService extends Service {
     
     private static vHikeService instance;
     private static final String TAG = "vHikeService";
-    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "hideContactInfo",
+    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "anonymousProfile",
             "contactPremium", "notification", "vhikeWebService" };
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");

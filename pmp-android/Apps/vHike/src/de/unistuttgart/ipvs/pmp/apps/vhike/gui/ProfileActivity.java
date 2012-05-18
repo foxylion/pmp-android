@@ -14,7 +14,9 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -52,6 +54,19 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     
     
     @Override
+    public void onResume() {
+        super.onResume();
+        
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
+        Log.i(this, "");
+    }
+    
+    
+    @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         Log.i(this, "RG ready: " + resourceGroup);
@@ -60,6 +75,7 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void run() {
+                    ctrl = new Controller(rgvHike);
                     setUpProfile();
                 }
             });

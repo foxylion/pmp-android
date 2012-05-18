@@ -8,7 +8,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 public class HistoryMenuActivity extends Activity {
     
@@ -26,6 +32,21 @@ public class HistoryMenuActivity extends Activity {
         this.btn_passenger = (Button) findViewById(R.id.Button_Passenger_History);
         
         createTouchListener(getBaseContext());
+    }
+    
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        Controller ctrl = new Controller(ViewModel.getInstance().getvHikeRG());
+        
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
+        Log.i(this, "");
     }
     
     

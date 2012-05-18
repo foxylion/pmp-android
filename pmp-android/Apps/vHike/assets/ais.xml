@@ -14,6 +14,14 @@
 				<requiredPrivacySetting identifier="usevHikeWS">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
+		<serviceFeature identifier="anonymousProfile">
+			<name lang="en">Profile Privacy</name>
+			<description lang="en">Hide your contact information from curious eyes. Who wants to share his email address if we got 5 star rating, right? Of course you can always share them with serious users.</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS" minRevision="0">
+				<requiredPrivacySetting identifier="anonymous">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
 		<serviceFeature identifier="useBluetooth">
 			<name lang="en">Bluetooth</name>
 			<description lang="en">Enable bluetooth</description>
@@ -43,14 +51,6 @@
 				<requiredPrivacySetting identifier="useAccuracy">true</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="useLocationDescription">STREET</requiredPrivacySetting>
 				<requiredPrivacySetting identifier="locationPrecision">10</requiredPrivacySetting>
-			</requiredResourceGroup>
-		</serviceFeature>
-		<serviceFeature identifier="hideContactInfo">
-			<name lang="en">Profile Privacy +</name>
-			<description lang="en">Hide your contact information from curious eyes. Who want to share his email address if we got 5 star rating, right? Of course you can always share them with serious users with whom you contact.</description>
-			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vhikewebservice" minRevision="0">
-				<requiredPrivacySetting identifier="anonymous">hide</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
 		<serviceFeature identifier="contactResource">

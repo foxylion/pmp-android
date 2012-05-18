@@ -24,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
@@ -104,7 +105,11 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     public void onResume() {
         super.onResume();
         
-        // draw lats and lngs?
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
         Log.i(this, "Resumed Driver");
     }
     
