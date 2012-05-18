@@ -137,7 +137,7 @@
             </ul>
 
             <h1>Chart Type</h1>
-            <?php $tmplt["typeGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" . $tmplt["viewGetParam"] ?>
+            <?php $tmplt["typeGetParams"] = $tmplt["dateGetParams"] . "&" . $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] ?>
             <ul class="inline">
                 <li <?php if($tmplt["svgView"]) echo "class=\"selected\""; ?>>
                     <a href="./<?php echo $tmplt["filename"] ?>.php?<?php echo $tmplt["typeGetParams"] ?>&view=svg">dynamic</a>
