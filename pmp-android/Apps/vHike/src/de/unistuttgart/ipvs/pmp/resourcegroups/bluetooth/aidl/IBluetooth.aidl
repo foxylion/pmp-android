@@ -22,6 +22,8 @@ interface IBluetooth {
 	
 	void connect(String address);
 	
+	boolean isConnected();
+	
 	void sendMessage(String message);
 	
 	MessageArrayParcelable getReceivedMessages();	

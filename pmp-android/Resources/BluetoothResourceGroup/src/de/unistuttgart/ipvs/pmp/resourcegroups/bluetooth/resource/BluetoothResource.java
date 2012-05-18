@@ -3,6 +3,8 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +45,8 @@ public class BluetoothResource extends Resource {
 	private static final String NAME = "BluetoothChat";
 
 	boolean discovering = false;
-
+	boolean connected = false;
+	
 	List<BluetoothDevice> devices;
 
 	private BluetoothResourceGroup blueRG;
@@ -185,7 +188,8 @@ public class BluetoothResource extends Resource {
 	}
 
 	public void connect(String address) throws RemoteException {
-		connectThread = new ConnectThread(address);
+		BluetoothDevice device = btAdapter.getRemoteDevice(address);
+		connectThread = new ConnectThread(device);
 		connectThread.start();
 	}
 
@@ -241,13 +245,13 @@ public class BluetoothResource extends Resource {
 
 			// Listen to the server socket if we're not connected
 			try {
-				while ((socket = serverSocket.accept()) != null) {
-
+				Log.i("BLUETOOTHRESOURCE", "START ACCEPT CLIENTS");
+				socket = serverSocket.accept();
+				Log.i("BLUETOOTHRESOURCE", "ACCEPTED CLIENTS");
 					// If a connection was accepted
 					if (socket != null) {
 						connected(socket, socket.getRemoteDevice());
 					}
-				}
 			} catch (IOException e) {
 
 				e.printStackTrace();
@@ -267,26 +271,46 @@ public class BluetoothResource extends Resource {
 
 		connectedThread = new ConnectedThread(socket);
 		connectedThread.start();
+		connected = true;
 	}
 
 	private class ConnectThread extends Thread {
-		BluetoothDevice toConnectDevice = null;
 		BluetoothSocket socket = null;
-
-		public ConnectThread(String address) {
-			for (BluetoothDevice device : devices) {
-				if (device.getName().equals(address)) {
-					toConnectDevice = device;
-				}
-			}
+		BluetoothDevice device = null;
+		public ConnectThread(BluetoothDevice device) {
+			this.device = device;
+			
 			BluetoothSocket tmp = null;
 
+			
+			
 			// Get a BluetoothSocket for a connection with the
 			// given BluetoothDevice
 			try {
-				tmp = toConnectDevice
+				
+//				Method m;
+//				m = device.getClass().getMethod("createRfcommSocket", new Class[]{int.class});
+//				tmp = (BluetoothSocket)m.invoke(device, Integer.valueOf(1)); 
+				
+				tmp = device
 						.createRfcommSocketToServiceRecord(MY_UUID);
-			} catch (IOException e) {
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}/* catch (NoSuchMethodException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IllegalArgumentException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (InvocationTargetException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+		/*	}*/ catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			socket = tmp;
@@ -312,7 +336,7 @@ public class BluetoothResource extends Resource {
 				return;
 			}
 
-			connected(socket, toConnectDevice);
+			connected(socket, device);
 		}
 
 		public void cancel() {
@@ -391,5 +415,9 @@ public class BluetoothResource extends Resource {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public boolean isConnected() {
+		return connected;
 	}
 }
