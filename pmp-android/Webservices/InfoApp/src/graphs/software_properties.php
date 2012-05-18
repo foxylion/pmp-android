@@ -110,8 +110,10 @@ $tmplt["jsFunctDrawChart"] = "drawManufacturer();
         drawApi();
         drawKernel();";
 
-
-$tmplt["jsDrawFunctions"] = "
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["jsDrawFunctions"] = "
     var manufacturerChart;
     var manufacturerData;
     function drawManufacturer() {
@@ -196,15 +198,72 @@ $tmplt["jsDrawFunctions"] = "
         var chart = new google.visualization.PieChart(document.getElementById('kernel'));
         chart.draw(data, options);
     }";
+}
 
 $tmplt["content"] = "
-            <h1>Software Statistics</h1>
+            <h1>Software Statistics</h1>";
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["content"] .= "
             <p>Select a manufacturer to view the model- and UI-chart.</p>
             <div id=\"manufacturer\" style=\"width:800; height:400\"></div>
             <div id=\"model\" style=\"width:800; height:400\"></div>
             <div id=\"ui\" style=\"width:800; height:400\"></div>
             <div id=\"api\" style=\"width:800; height:400\"></div>
             <div id=\"kernel\" style=\"width:800; height:400\"></div>";
+} else {
+    // Draw static/PNG-charts
+    // ----------------------
+
+    $manufacturerChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $manufacturerChart->setTitle("Manufacturer distribution");
+    $bridge = new GChartPhpBridge($manufacturerData);
+    $bridge->pushData($manufacturerChart, GChartPhpBridge::LEGEND);
+
+    $modelChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $modelChart->setTitle("Model distribution (Manufacturer: " . $selectedManufacturer . ")");
+    $bridge = new GChartPhpBridge($modelData);
+    $bridge->pushData($modelChart, GChartPhpBridge::LEGEND);
+
+    $uiChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $uiChart->setTitle("UI distribution (Manufacturer: " . $selectedManufacturer . ")");
+    $bridge = new GChartPhpBridge($uiData);
+    $bridge->pushData($uiChart, GChartPhpBridge::LEGEND);
+
+    $apiChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $apiChart->setTitle("API distribution");
+    $bridge = new GChartPhpBridge($apiData);
+    $bridge->pushData($apiChart, GChartPhpBridge::LEGEND);
+
+    $kernelChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $kernelChart->setTitle("Kernel distribution");
+    $bridge = new GChartPhpBridge($kernelData);
+    $bridge->pushData($kernelChart, GChartPhpBridge::LEGEND);
+
+    // Build a string that contains a link to manufacturer specific charts
+    $currentUrl = $_SERVER["PHP_SELF"] . "?" . $tmplt["dateGetParams"] . "&" .
+            $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" .
+            $tmplt["viewGetParam"];
+    $manufacturerLinks = "";
+    $first = true;
+    foreach ($stat->getManufacturerDist() as $man => $value) {
+        if ($first) {
+            $first = false;
+        } else {
+            $manufacturerLinks .= ", ";
+        }
+        $manufacturerLinks .= "<a href=\"" . $currentUrl . "&manufacturer=" . $man . "\">" . $man . "</a>";
+    }
+
+    $tmplt["content"] .= "
+            <p>Select a manufacturer to view the model- and UI-chart: " . $manufacturerLinks . "</p>
+            <p><img src=\"" . $manufacturerChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $modelChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $uiChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $apiChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $kernelChart->getUrl() . "\" /></p>";
+}
 
 include ("template.php");
 ?>
