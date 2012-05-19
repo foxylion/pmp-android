@@ -3,13 +3,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ListView;
-import de.unistuttgart.ipvs.pmp.Log;
-import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MyTripAdapter;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
 /**
  * 
@@ -37,13 +31,13 @@ public class MyTripActivity extends ListActivity {
     public void onResume() {
         super.onResume();
         
-        Controller ctrl = new Controller(ViewModel.getInstance().getvHikeRG());
-        
-        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-            ctrl.enableAnonymity(Model.getInstance().getSid());
-        } else {
-            ctrl.disableAnonymity(Model.getInstance().getSid());
-        }
-        Log.i(this, "");
+        //        Controller ctrl = new Controller(ViewModel.getInstance().getvHikeRG());
+        //        
+        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+        //            ctrl.enableAnonymity(Model.getInstance().getSid());
+        //        } else {
+        //            ctrl.disableAnonymity(Model.getInstance().getSid());
+        //        }
+        //        Log.i(this, "");
     }
 }
