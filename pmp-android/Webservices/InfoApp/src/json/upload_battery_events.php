@@ -20,9 +20,15 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\Device;
+use infoapp\Json;
+use infoapp\events\BatteryEvent;
+use infoapp\exceptions\DatabaseException;
+use infoapp\exceptions\InvalidOrderException;
+
 define("INCLUDE", true);
 require("./../inc/json_framework.inc.php");
-
 try {
     $device = Device::getInstance($_POST["device"]);
 
