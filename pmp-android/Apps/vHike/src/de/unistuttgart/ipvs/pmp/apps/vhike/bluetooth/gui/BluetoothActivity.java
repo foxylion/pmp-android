@@ -94,6 +94,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                 
                 @Override
                 public void run() {
+                    
                 }
                 
             });
@@ -180,7 +181,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         public void run() {
             try {
                 if (!rgBluetooth.isConnected()) {
-                    timer.schedule(new ConnectionChecker(), 2000);
+                    timer.schedule(new ConnectionChecker(), 30000);
                     Log.i(TAG, "Not Connected!");
                 } else {
                     Log.i(TAG, "Connected!");
