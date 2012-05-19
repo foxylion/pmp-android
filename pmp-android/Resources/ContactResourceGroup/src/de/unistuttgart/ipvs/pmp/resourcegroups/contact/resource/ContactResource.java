@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.contact.resource;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +15,8 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.ContactResourceGroup;
 
@@ -54,11 +55,16 @@ public class ContactResource extends Resource {
     
     
     public void call(String appIdentifier, String tel) {
-        String url = String.valueOf(tel);
-        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
-        
-        callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        this.contactRG.getContext(appIdentifier).startActivity(callIntent);
+        try {
+            String url = String.valueOf(tel);
+            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + url));
+            
+            callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            this.contactRG.getContext(appIdentifier).startActivity(callIntent);
+        } catch (ActivityNotFoundException e) {
+            Log.i(this, "ActivityNotFoundException");
+            e.printStackTrace();
+        }
     }
     
     
@@ -99,8 +105,8 @@ public class ContactResource extends Resource {
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ((Activity) this.contactRG.getContext(appIdentifier)).startActivityForResult(emailIntent, 0);
-//        ((Activity) contactRG.getContext(appIdentifier)).startActivityForResult(
-//                Intent.createChooser(emailIntent, "Email:"), 0);
+        //        ((Activity) contactRG.getContext(appIdentifier)).startActivityForResult(
+        //                Intent.createChooser(emailIntent, "Email:"), 0);
     }
     
     
@@ -111,14 +117,14 @@ public class ContactResource extends Resource {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.d("I am inside ok", "ok");
+                        Log.i(this, "Sim card inserted");
                         dialog.cancel();
                     }
                 }).show();
     }
     
     
-    private void sendSMS(final String appIdentifier, String phoneNumber, String message) {
+    private void sendSMS(final String appIdentifier, final String phoneNumber, final String message) {
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
         
@@ -135,6 +141,7 @@ public class ContactResource extends Resource {
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
                         Toast.makeText(contactRG.getContext(appIdentifier), "SMS sent", Toast.LENGTH_SHORT).show();
+                        Log.i(this, "Sent sms to: " + phoneNumber + ", " + message);
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(contactRG.getContext(appIdentifier), "Generic failure", Toast.LENGTH_SHORT)

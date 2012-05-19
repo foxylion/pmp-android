@@ -503,6 +503,34 @@ class user {
      * @return true if profile is anonymous, false otherwise
      */
     static function isProfileAnonymous($user_id) {
+
+		$db = Database::getInstance();
+		$query = $db->query("SELECT email_public FROM dev_user WHERE id= $user_id");
+		
+             
+		if ($query) {
+			while ($row = $db->fetch($query)) {
+				if ($row["email_public"] == 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+    }               
+                   
+	/**
+	 * Checks if the given verification key matches the give user id and
+	 * activates the account if they match.
+	 *
+	 * @param int	$id	   Userid to match with the given key
+	 * @param String $key	  Key to match with the given userid
+	 *
+	 * @return boolean  True, if id and key matched and user has been activated, otherwise false
+	 */
+	public static function verifyUser($id, $key) {
+		$db = Database::getInstance();
+
         $db = Database::getInstance();
         $query = $db->query("SELECT email_public FROM dev_user WHERE id= $user_id");
 

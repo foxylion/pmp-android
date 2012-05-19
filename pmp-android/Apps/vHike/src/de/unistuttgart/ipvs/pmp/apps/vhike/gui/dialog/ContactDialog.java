@@ -91,7 +91,7 @@ public class ContactDialog extends Dialog {
                                             + foundUser.getUsername() + " is not possible", Toast.LENGTH_LONG).show();
                         } else {
                             Log.i(this, foundUser.getID() + " is " + anonymous);
-                            //                            iContact.call(foundUser.getTel());
+                            // iContact.call(foundUser.getTel());
                             iContact.call(String.valueOf(5556));
                         }
                         
