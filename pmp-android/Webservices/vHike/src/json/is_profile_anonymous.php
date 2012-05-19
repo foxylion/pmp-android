@@ -9,9 +9,15 @@
     Json::printErrorIfNotLoggedIn();
     
     try {
-		$user = Session::getInstance() -> getLoggedInUser();
-		$ret = User::isProfileAnonymous($user->getID());
-		$output = array("successful" => true, "anonymous" => $ret);
+		$user = User::loadUser($_GET["user_id"]);
+		if ($user != null) {
+			$ret = User::isProfileAnonymous($user->getID());			 
+			$output = array("successful" => true, "anonymous" => $ret);
+			if ($user->isEmailPublic()) {
+				$output["email"] = $user->getEmail();
+			}
+		}
+
 		echo Json::arrayToJson($output);
         
     } catch (InvalidArgumentException $iae) {

@@ -151,6 +151,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             }
             
         });
+        ViewModel.getInstance().getDestinationSpinners().clear();
         ViewModel.getInstance().getDestinationSpinners().add(this.spinner);
         
         // Insert the add-Button and set the OnClickListener

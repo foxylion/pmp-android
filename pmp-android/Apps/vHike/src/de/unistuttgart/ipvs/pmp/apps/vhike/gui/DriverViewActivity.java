@@ -105,6 +105,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     public void onResume() {
         super.onResume();
         
+        ctrl = new Controller(rgvHike);
+        
         // ask for enabled sf "anonymous profile"
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
             ctrl.enableAnonymity(Model.getInstance().getSid());
