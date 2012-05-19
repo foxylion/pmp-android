@@ -496,18 +496,19 @@ class user {
     * @return true if profile is anonymous, false otherwise
      */
     static function isProfileAnonymous($user_id) {
-        $db = Database::getInstance();
-        $query = $db->query("SELECT email_public FROM dev_user WHERE id= $user_id");
-                   
-        if ($query) {
-            while ($row = $db->fetch($query)) {
-                if ($row["email_public"] == 0) {
-                   return true;
-                } else {
-                   return false;
-                }
-            }
-        }
+		$db = Database::getInstance();
+		$query = $db->query("SELECT email_public FROM dev_user WHERE id= $user_id");
+		
+             
+		if ($query) {
+			while ($row = $db->fetch($query)) {
+				if ($row["email_public"] == 0) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
     }               
                    
 	/**
