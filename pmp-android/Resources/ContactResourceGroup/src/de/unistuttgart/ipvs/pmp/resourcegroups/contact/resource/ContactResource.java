@@ -56,13 +56,14 @@ public class ContactResource extends Resource {
     
     public void call(String appIdentifier, String tel) {
         try {
-            String url = String.valueOf(tel);
+            String url = String.valueOf("tel:" + tel);
             Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
             
             callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.contactRG.getContext(appIdentifier).startActivity(callIntent);
         } catch (ActivityNotFoundException e) {
             Log.i(this, "ActivityNotFoundException");
+            e.printStackTrace();
         }
     }
     
