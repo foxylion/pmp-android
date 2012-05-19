@@ -78,13 +78,27 @@ class GChartPhpBridge {
         }
 
 
+        // Counts how many different datasets have to be drawn (=> number of different colors)
+        $datasets = 0;
+
 
         switch ($firstColumnRole) {
             case self::LEGEND:
+                $datasets = count($data2D[0]);
+
                 $gChart->addDataSet($data2D[1]);
                 $gChart->setLegend($data2D[0]);
+
+                // Add the values as label if it's a pie charts
+                // (wouldn't be vissible otherwise) and set
+                // start-point to the same as in Google's chart tools
+                if ($gChart instanceof gchart\gPieChart) {
+                    $gChart->setLabels($data2D[1]);
+                    $gChart->setRotation(-90,true);
+                }
                 break;
             case self::AXIS_LABEL:
+                $datasets = count($data2D) - 1;
 
                 $gChart->addAxisLabel(0, $data2D[0]);
                 for ($i = 1; $i < count($data2D); $i++) {
@@ -102,6 +116,8 @@ class GChartPhpBridge {
 
                 break;
             case self::Y_COORDS:
+                $datasets = count($data2D) - 1;
+
                 // Data range has to be scalled to a 0 to 100 range
                 // since x- and y-axis have a different range which will
                 // not be handled correctly by the gChart API
@@ -149,7 +165,6 @@ class GChartPhpBridge {
                     $gChart->addDataSet($data2D[$i]);
                 }
 
-
                 // Set axis range and legend
                 $gChart->setEncodingType("t");
                 $gChart->setDataRange(0, 100);
@@ -160,6 +175,13 @@ class GChartPhpBridge {
                 $gChart->setLegend(array_slice($legend, 1));
                 break;
         }
+
+
+        // Use the same colors as the default colors as in Google's chart tools
+        $colors = array("3366CC", "DC3912" , "FF9900", "109618", "990099", "0099C6",
+            "DD4477", "66AA00", "B82E2E", "316395", "994499", "22AA99");
+
+        $gChart->setColors(array_slice($colors,0,$datasets));
         return $gChart;
     }
 
