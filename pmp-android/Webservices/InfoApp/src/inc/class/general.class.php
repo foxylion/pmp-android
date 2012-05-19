@@ -20,6 +20,8 @@
  * limitations under the License.
  */
 
+namespace infoapp;
+
 if (!defined("INCLUDE")) {
     exit;
 }

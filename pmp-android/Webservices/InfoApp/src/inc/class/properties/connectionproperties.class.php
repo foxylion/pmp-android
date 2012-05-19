@@ -20,6 +20,12 @@
  * limitations under the License.
  */
 
+namespace infoapp\properties;
+
+use InvalidArgumentException;
+use infoapp\Database;
+use infoapp\General;
+
 if (!defined("INCLUDE")) {
     exit;
 }

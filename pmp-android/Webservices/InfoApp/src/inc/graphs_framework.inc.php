@@ -20,11 +20,20 @@
  * limitations under the License.
  */
 
+use infoapp\Chart;
+use infoapp\Database;
+use infoapp\Device;
+use infoapp\HtmlCalendar;
+
 if (!defined("INCLUDE")) {
     exit;
 }
 
-require ("./../inc/classloader.inc.php");
+// Load config file and classloader
+require_once ("./../inc/config.inc.php");
+require_once ("./../inc/class/ClassLoader.class.php");
+
+InfoApp\ClassLoader::register();
 
 
 // Connect to database
@@ -36,7 +45,6 @@ $filename = basename($_SERVER["SCRIPT_NAME"], ".php");
 $svgCharts = !(isset($_GET["view"]) && $_GET["view"] == "static");
 if (!$svgCharts) {
     require ("./../inc/class/gchart/gChartInit.php");
-    require ("./../inc/class/gchartphpbridge.class.php");
 }
 
 

@@ -20,22 +20,18 @@
  * limitations under the License.
  */
 
-use infoapp\Database;
-use infoapp\Device;
-use infoapp\Json;
-use infoapp\exceptions\DatabaseException;
+namespace infoapp\properties;
 
-define("INCLUDE", true);
-require("./../inc/json_framework.inc.php");
-
-try {
-    $device = Device::getInstance($_GET["device"]);
-    Json::printLastEvent($device->getScreenEventManager());
-} catch (InvalidArgumentException $iae) {
-    Json::printInvalidParameterError($iae);
-} catch (DatabaseException $de) {
-    Json::printDatabaseError($de);
+if (!defined("INCLUDE")) {
+    exit;
 }
 
-Database::getInstance()->disconnect();
+/**
+ * Abstract base class for statistical informations
+ * @author Patrick Strobel
+ * @version 4.0.0
+ */
+abstract class PropertiesStat {
+
+}
 ?>

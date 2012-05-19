@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+namespace infoapp;
+
+use InvalidArgumentException;
+use infoapp\eventmanager\EventManager;
+
 if (!defined("INCLUDE")) {
     exit;
 }

@@ -20,6 +20,9 @@
  * limitations under the License.
  */
 
+namespace infoapp;
+use infoapp\eventmanager\EventManager;
+
 if (!defined("INCLUDE")) {
     exit;
 }

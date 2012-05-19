@@ -20,12 +20,14 @@
  * limitations under the License.
  */
 
+namespace infoapp\eventmanager;
+
+use InvalidArgumentException;
+use infoapp\Database;
+use infoapp\exceptions\InvalidOrderException;
+
 if (!defined("INCLUDE")) {
     exit;
-}
-
-class InvalidOrderException extends Exception {
-
 }
 
 /**
@@ -200,5 +202,7 @@ abstract class EventManager {
                         )");
         }
     }
+
 }
+
 ?>

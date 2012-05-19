@@ -20,6 +20,8 @@
  * limitations under the License.
  */
 
+namespace infoapp\googlecharttools;
+
 class GChartPhpBridge {
 
     const LEGEND = 0;
@@ -28,14 +30,14 @@ class GChartPhpBridge {
 
     private $data;
 
-    public function __construct(GDataTable $data) {
+    public function __construct(DataTable $data) {
         $this->data = $data;
     }
 
     /**
-     * Pushs the data stored in the GDataTable into a gGraph.
+     * Pushs the data stored in the DataTable into a gGraph.
      * @param gchart\gChart $gChart Graph in which the data should be pushed
-     * @param enum $firstColumnRole The data in the first column of the GDataTable
+     * @param enum $firstColumnRole The data in the first column of the DataTable
      *                  is used for different purposes, depending on the chart-type it
      *                  is used for (in Pie-Chart, for example, the first column
      *                  represents the secments' label, whereas in line-charts,
@@ -51,7 +53,7 @@ class GChartPhpBridge {
      *                  on the y-axis will run from 0 to $scale
      * @return \gchart\gChart
      */
-    public function pushData(gchart\gChart $gChart, $firstColumnRole, $scale = 0) {
+    public function pushData(\gchart\gChart $gChart, $firstColumnRole, $scale = 0) {
         if ($this->data->getRowsCount() == 0) {
             return;
         }
@@ -104,7 +106,7 @@ class GChartPhpBridge {
                 for ($i = 1; $i < count($data2D); $i++) {
                     $gChart->addDataSet($data2D[$i]);
                 }
-                $max = (int) gchart\utility::getMaxOfArray($data2D);
+                $max = (int) \gchart\utility::getMaxOfArray($data2D);
                 $max += $max/10;
 
                 $gChart->setLegend(array_slice($legend, 1));

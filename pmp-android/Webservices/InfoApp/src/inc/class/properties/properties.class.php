@@ -20,17 +20,10 @@
  * limitations under the License.
  */
 
+namespace infoapp\properties;
+
 if (!defined("INCLUDE")) {
     exit;
-}
-
-/**
- * Abstract base class for statistical informations
- * @author Patrick Strobel
- * @version 4.0.0
- */
-abstract class PropertiesStat {
-
 }
 
 /**

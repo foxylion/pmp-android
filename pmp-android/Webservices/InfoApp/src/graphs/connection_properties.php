@@ -20,31 +20,39 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+use infoapp\properties\ConnectionProperties;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
 $stat = ConnectionProperties::getStatistic();
 
 // Provider distribution
-$providerData = new GDataTable();
-$providerData->addColumn(new GColumn("string", "p", "Provider"));
-$providerData->addColumn(new GColumn("number", "c", "Count"));
+$providerData = new DataTable();
+$providerData->addColumn(new Column("string", "p", "Provider"));
+$providerData->addColumn(new Column("number", "c", "Count"));
 
 foreach ($stat->getProviderDist() as $provider => $count) {
-    $row = new GRow();
-    $row->addCell(new GCell($provider));
-    $row->addCell(new GCell($count));
+    $row = new Row();
+    $row->addCell(new Cell($provider));
+    $row->addCell(new Cell($count));
     $providerData->addRow($row);
 }
 
 // Average signal
-$signalData = new GDataTable();
-$signalData->addColumn(new GColumn("string", "p", "Provider"));
-$signalData->addColumn(new GColumn("number", "a", "Average"));
+$signalData = new DataTable();
+$signalData->addColumn(new Column("string", "p", "Provider"));
+$signalData->addColumn(new Column("number", "a", "Average"));
 foreach ($stat->getSignalAvg() as $provider => $avg) {
-    $row = new GRow();
-    $row->addCell(new GCell($provider));
-    $row->addCell(new GCell($avg));
+    $row = new Row();
+    $row->addCell(new Cell($provider));
+    $row->addCell(new Cell($avg));
     $signalData->addRow($row);
 }
 
@@ -119,8 +127,6 @@ $tmplt["content"] .= "
             <p><b>Average Wi-Fi connections:</b> " . sprintf("%3.2f", $stat->getWifiAvg()) . "</p>";
 
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

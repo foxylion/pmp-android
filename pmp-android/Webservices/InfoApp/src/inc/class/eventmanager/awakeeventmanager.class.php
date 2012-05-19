@@ -20,6 +20,12 @@
  * limitations under the License.
  */
 
+namespace infoapp\eventmanager;
+
+use InvalidArgumentException;
+use infoapp\Database;
+use infoapp\events\AwakeEvent;
+
 if (!defined("INCLUDE")) {
     exit;
 }

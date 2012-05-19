@@ -20,6 +20,18 @@
  * limitations under the License.
  */
 
+namespace infoapp;
+
+use InvalidArgumentException;
+use infoapp\eventmanager\AwakeEventManager;
+use infoapp\eventmanager\BatteryEventManager;
+use infoapp\eventmanager\CellularConnectionEventManager;
+use infoapp\eventmanager\ConnectionEventManager;
+use infoapp\eventmanager\ScreenEventManager;
+use infoapp\properties\BatteryProperties;
+use infoapp\properties\ConnectionProperties;
+use infoapp\properties\DeviceProperties;
+
 if (!defined("INCLUDE")) {
     exit;
 }
