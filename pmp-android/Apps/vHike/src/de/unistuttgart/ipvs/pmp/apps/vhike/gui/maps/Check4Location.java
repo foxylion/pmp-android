@@ -156,7 +156,7 @@ public class Check4Location extends TimerTask {
                         
                         if (ViewModel.getInstance().locationIsCanceled()) {
                             cancel();
-                            Log.i(this, "CANCELED LOCATION MOTHERF***");
+                            Log.i(this, "Canceled location");
                         }
                         
                     } catch (RemoteException e) {
