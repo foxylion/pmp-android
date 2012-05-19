@@ -40,7 +40,7 @@ class Observation {
 		$db = Database::getInstance();
 		$query = $db->query("SELECT user_id FROM dev_observation WHERE user_id=$user_id");
 
-		if ($query) {
+		if ($db->getNumRows($query) > 0) {
 			return true;
 		} else {
 			return false;

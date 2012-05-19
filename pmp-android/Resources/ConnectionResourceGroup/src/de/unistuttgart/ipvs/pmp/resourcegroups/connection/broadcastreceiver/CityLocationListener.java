@@ -15,7 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
 
 /**
  * Stores the event with the location at the database
@@ -33,7 +33,7 @@ public class CityLocationListener implements LocationListener {
     /**
      * Event
      */
-    private EventEnum event;
+    private Events event;
     
     /**
      * LocationManager
@@ -57,10 +57,9 @@ public class CityLocationListener implements LocationListener {
      * @param timestamp
      *            timestamp of the event to store
      * @param event
-     *            {@link EventEnum}
+     *            {@link Events}
      */
-    public CityLocationListener(Context context, LocationManager locManager, long timestamp, EventEnum event,
-            String device) {
+    public CityLocationListener(Context context, LocationManager locManager, long timestamp, Events event, String device) {
         this.context = context;
         this.locManager = locManager;
         this.timestamp = timestamp;
@@ -74,24 +73,26 @@ public class CityLocationListener implements LocationListener {
      */
     @Override
     public void onLocationChanged(Location location) {
-        EventEnum state = EventEnum.OFF;
+        Events state = Events.OFF;
         
+        // Get the connectivity manager
         ConnectivityManager connManager = (ConnectivityManager) this.context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         
+        // Check if the state of the wifi
         if (connManager != null) {
             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             if (mWifi == null) {
-                state = EventEnum.OFF;
+                state = Events.OFF;
             } else {
                 if (mWifi.isConnected()) {
-                    state = EventEnum.ON;
+                    state = Events.ON;
                 }
             }
         }
         
         // New geocoder to get the city
-        Geocoder gc = new Geocoder(context, Locale.getDefault());
+        Geocoder gc = new Geocoder(this.context, Locale.getDefault());
         List<Address> addresses = null;
         try {
             addresses = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -104,13 +105,13 @@ public class CityLocationListener implements LocationListener {
         if (addresses != null && addresses.size() > 0) {
             city = addresses.get(0).getLocality();
         }
-        locManager.removeUpdates(this);
+        this.locManager.removeUpdates(this);
         
-        if (device.equals(DBConstants.DEVICE_BT)) {
-            DBConnector.getInstance(context).storeBTEvent(this.timestamp, this.event, city);
+        if (this.device.equals(DBConstants.DEVICE_BT)) {
+            DBConnector.getInstance(this.context).storeBTEvent(this.timestamp, this.event, city);
         }
-        if (device.equals(DBConstants.DEVICE_WIFI)) {
-            DBConnector.getInstance(context).storeWifiEvent(this.timestamp, this.event, city, state);
+        if (this.device.equals(DBConstants.DEVICE_WIFI)) {
+            DBConnector.getInstance(this.context).storeWifiEvent(this.timestamp, this.event, city, state);
         }
     }
     

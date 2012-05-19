@@ -16,7 +16,6 @@ public class BluetoothMockImpl extends IBluetooth.Stub {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public boolean isEnabled() throws RemoteException {
 		// TODO Auto-generated method stub
@@ -73,6 +72,23 @@ public class BluetoothMockImpl extends IBluetooth.Stub {
 
 	@Override
 	public boolean isBluetoothAvailable() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isConnected() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isMakingDiscoverable() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean isDeviceBonded(String address) throws RemoteException {
 		// TODO Auto-generated method stub
 		return false;
 	}

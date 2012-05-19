@@ -12,6 +12,7 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.HistoryAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyListActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
@@ -73,6 +74,19 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
             createPassengerActivity();
         }
         
+    }
+    
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
+        Log.i(this, "");
     }
     
     

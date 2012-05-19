@@ -10,8 +10,7 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 	$user = Session::getInstance()->getLoggedInUser();
-	$user->updateVisibility($_POST["email_public"], $_POST["firstname_public"],
-							$_POST["lastname_public"], $_POST["tel_public"]);
+	$user->updateVisibility($_POST["lastname_public"],$_POST["firstname_public"],$_POST["email_public"], $_POST["tel_public"]);
 	echo Json::arrayToJson(array("successful" => true,
 								 "status"     => "updated"));
 } catch (DatabaseException $de) {

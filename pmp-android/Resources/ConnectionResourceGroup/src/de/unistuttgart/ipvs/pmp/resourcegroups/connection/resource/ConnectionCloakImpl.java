@@ -64,7 +64,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     public ConnectionCloakImpl(ResourceGroup rg, String appIdentifier) {
         this.validator = new PermissionValidator(rg, appIdentifier);
-        cities = new ArrayList<String>();
+        this.cities = new ArrayList<String>();
         addCities();
     }
     
@@ -75,7 +75,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         return new Random().nextBoolean();
     }
@@ -87,7 +87,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         return new Random().nextInt(86400001);
     }
@@ -99,7 +99,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public long getWifiConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         while (true) {
             Long random = new Random().nextLong();
             if (random < ConnectionConstants.ONE_MONTH + 1) {
@@ -115,7 +115,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public List<String> getConfigureddWifiNetworks() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
+        this.validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
         
         List<String> result = new ArrayList<String>();
         int numbers = new Random().nextInt(15);
@@ -134,7 +134,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public List<String> getConnectedWifiCities() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
         
         return getRandomCities();
     }
@@ -146,7 +146,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public boolean getBluetoothStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         return new Random().nextBoolean();
     }
@@ -158,7 +158,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public List<String> getPairedBluetoothDevices() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
         List<String> result = new ArrayList<String>();
         int numbers = new Random().nextInt(15);
@@ -177,7 +177,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public long getBTConnectionLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         return new Random().nextInt(86400001);
     }
@@ -189,7 +189,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public long getBTConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         while (true) {
             Long random = new Random().nextLong();
             if (random < ConnectionConstants.ONE_MONTH + 1) {
@@ -205,7 +205,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public List<String> getConnectedBTCities() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
+        this.validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
         
         return getRandomCities();
     }
@@ -217,7 +217,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public boolean getDataConnectionStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
         
         return new Random().nextBoolean();
     }
@@ -229,7 +229,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public String getProvider() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         Random r = new Random();
         String token = Long.toString(Math.abs(r.nextLong()), 36);
@@ -243,7 +243,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public int getCellPhoneSignalStrength() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return 0;
     }
@@ -255,7 +255,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public boolean getRoamingStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return new Random().nextBoolean();
     }
@@ -267,7 +267,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return new Random().nextInt(86400001);
     }
@@ -279,7 +279,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public long getAirplaneModeLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         while (true) {
             Long random = new Random().nextLong();
             if (random < ConnectionConstants.ONE_MONTH + 1) {
@@ -295,7 +295,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     @Override
     public String uploadData() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
+        this.validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
         String mockLink = "http://" + Long.toString(Math.abs(new Random().nextLong()), 36) + ".com";
         return mockLink;
@@ -306,22 +306,22 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      * Adds some cities to the list
      */
     private void addCities() {
-        cities.add("Stuttgart");
-        cities.add("Munich");
-        cities.add("Berlin");
-        cities.add("New York");
-        cities.add("Washington");
-        cities.add("Tallahassee");
-        cities.add("Las Vegas");
-        cities.add("Detroit");
-        cities.add("Chicago");
-        cities.add("Los Angeles");
-        cities.add("Dallas");
-        cities.add("Pittsburgh");
-        cities.add("New Orleans");
-        cities.add("Paris");
-        cities.add("Madrid");
-        cities.add("Rome");
+        this.cities.add("Stuttgart");
+        this.cities.add("Munich");
+        this.cities.add("Berlin");
+        this.cities.add("New York");
+        this.cities.add("Washington");
+        this.cities.add("Tallahassee");
+        this.cities.add("Las Vegas");
+        this.cities.add("Detroit");
+        this.cities.add("Chicago");
+        this.cities.add("Los Angeles");
+        this.cities.add("Dallas");
+        this.cities.add("Pittsburgh");
+        this.cities.add("New Orleans");
+        this.cities.add("Paris");
+        this.cities.add("Madrid");
+        this.cities.add("Rome");
     }
     
     
@@ -335,7 +335,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         int numbers = new Random().nextInt(40);
         List<String> tmp = new ArrayList<String>();
         for (int itr = 0; itr < numbers; itr++) {
-            String city = cities.get(new Random().nextInt(16));
+            String city = this.cities.get(new Random().nextInt(16));
             if (!tmp.contains(city)) {
                 tmp.add(city);
             }

@@ -28,7 +28,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
 
 /**
  * {@link BroadcastReceiver} to get the bluetooth events
@@ -50,10 +50,10 @@ public class BluetoothReceiver extends BroadcastReceiver {
         
         switch (state) {
             case BluetoothAdapter.STATE_OFF:
-                DBConnector.getInstance(context).storeBTEvent(time, EventEnum.OFF, null);
+                DBConnector.getInstance(context).storeBTEvent(time, Events.OFF, null);
                 break;
             case BluetoothAdapter.STATE_ON:
-                storeEvent(context, time, EventEnum.ON);
+                storeEvent(context, time, Events.ON);
                 break;
             case BluetoothAdapter.STATE_TURNING_OFF:
                 break;
@@ -66,7 +66,7 @@ public class BluetoothReceiver extends BroadcastReceiver {
     /**
      * Store a event an try to get the location
      */
-    private void storeEvent(Context context, long time, EventEnum event) {
+    private void storeEvent(Context context, long time, Events event) {
         LocationManager locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;

@@ -24,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Queries;
@@ -104,7 +105,14 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     public void onResume() {
         super.onResume();
         
-        // draw lats and lngs?
+        ctrl = new Controller(rgvHike);
+        
+        // ask for enabled sf "anonymous profile"
+        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+            ctrl.enableAnonymity(Model.getInstance().getSid());
+        } else {
+            ctrl.disableAnonymity(Model.getInstance().getSid());
+        }
         Log.i(this, "Resumed Driver");
     }
     
@@ -217,7 +225,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         switch (reqCode) {
             case (0):
                 if (resultCode == RESULT_OK) {
-                    Log.i(this, "Email SENT");
                     Intent myIntent = new Intent(DriverViewActivity.this, DriverViewActivity.this.getClass());
                     myIntent.putExtra("tab_id", 2);
                     startActivity(myIntent);

@@ -12,7 +12,7 @@ public class ContactCloakImpl extends IContact.Stub {
     }
     
     @Override
-    public void call(int tel) throws RemoteException {
+    public void call(String tel) throws RemoteException {
         // TODO Auto-generated method stub
         
     }

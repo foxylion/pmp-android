@@ -12,7 +12,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.IInterface;
-import android.util.Log;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
@@ -32,7 +32,7 @@ public class vHikeService extends Service {
     
     private static vHikeService instance;
     private static final String TAG = "vHikeService";
-    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "hideContactInfo",
+    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "anonymousProfile",
             "contactPremium", "notification", "vhikeWebService" };
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
@@ -231,6 +231,7 @@ public class vHikeService extends Service {
                 act.onResourceGroupReady(this.loc, resourceGroupId);
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
+                Log.i(this, "Cached " + resourceGroupId);
                 this.ws = IvHikeWebservice.Stub.asInterface(this.binder);
                 act.onResourceGroupReady(this.ws, resourceGroupId);
                 break;

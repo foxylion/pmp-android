@@ -80,9 +80,21 @@ public class ContactDialog extends Dialog {
             public void onClick(View v) {
                 try {
                     if (ContactDialog.this.iContact == null) {
-                        Log.i(this, "iContact is null");
+                        Log.i(this, "iContact is NULL");
                     } else {
-                        iContact.call(5556);
+                        boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID());
+                        Log.i(this, foundUser.getID() + " is " + anonymous);
+                        if (anonymous) {
+                            Toast.makeText(
+                                    getContext(),
+                                    "The user has hidden his contact information. Contacting "
+                                            + foundUser.getUsername() + " is not possible", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.i(this, foundUser.getID() + " is " + anonymous);
+                            // iContact.call(foundUser.getTel());
+                            iContact.call(String.valueOf(5556));
+                        }
+                        
                     }
                     
                 } catch (RemoteException e) {
@@ -97,7 +109,8 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, "5556", "", iContact).show();
+                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, "5556", "", iContact, ctrl, foundUser)
+                        .show();
                 cancel();
             }
         });
@@ -107,7 +120,8 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, false, "", "nguyen.andres@gmail.com", iContact)
+                vhikeDialogs.getInstance()
+                        .getSMSEmailDialog(context, false, "", "nguyen.andres@gmail.com", iContact, ctrl, foundUser)
                         .show();
                 cancel();
             }

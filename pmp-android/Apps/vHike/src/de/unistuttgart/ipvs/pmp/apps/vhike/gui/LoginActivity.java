@@ -19,6 +19,7 @@ import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.bluetooth.gui.BluetoothActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
@@ -206,8 +207,11 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             @Override
             public void onClick(View v) {
                 if (username.equals("")) {
-                    Toast.makeText(LoginActivity.this, "Username empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Username empty", Toast.LENGTH_SHORT).show();
                 }
+                
+                Intent intent = new Intent(LoginActivity.this, BluetoothActivity.class);
+                startActivityIfNeeded(intent, Activity.RESULT_CANCELED);
             }
         });
     }

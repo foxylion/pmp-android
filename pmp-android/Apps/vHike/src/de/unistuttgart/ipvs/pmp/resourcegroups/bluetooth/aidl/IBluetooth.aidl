@@ -11,7 +11,10 @@ interface IBluetooth {
 	
 	boolean isEnabled();
 	
+	boolean isDeviceBonded(String address);
+	
 	void makeDiscoverable(int time);
+	boolean isMakingDiscoverable();
 	
 	void discover();
 	boolean isDiscovering();
@@ -21,6 +24,8 @@ interface IBluetooth {
 	DeviceArrayParcelable getFoundDevices();
 	
 	void connect(String address);
+	
+	boolean isConnected();
 	
 	void sendMessage(String message);
 	

@@ -20,16 +20,32 @@
  * limitations under the License.
  */
 
+use infoapp\Chart;
+use infoapp\Database;
+use infoapp\Device;
+use infoapp\HtmlCalendar;
+
 if (!defined("INCLUDE")) {
     exit;
 }
 
-require ("./../inc/classloader.inc.php");
+// Load config file and classloader
+require_once ("./../inc/config.inc.php");
+require_once ("./../inc/class/ClassLoader.class.php");
 
+InfoApp\ClassLoader::register();
 
 
 // Connect to database
 Database::getInstance()->connect();
+
+$filename = basename($_SERVER["SCRIPT_NAME"], ".php");
+
+// Decide if static charts should be used
+$svgCharts = !(isset($_GET["view"]) && $_GET["view"] == "static");
+if (!$svgCharts) {
+    require ("./../inc/class/gchart/gChartInit.php");
+}
 
 
 // Get device data
@@ -87,17 +103,23 @@ if ($chart->showAnnotations()) {
     $annotationParam = "hide";
 }
 $restOfGetParam = "&day=" . $calendar->getDay() . "&scale=" . $chart->getScale() . "&annotations=" . $annotationParam . "&device=" . $deviceId;
+if (!$svgCharts) {
+    $restOfGetParam .= "&view=static";
+}
 
-$calendar->urlPrevMonth = "connection.php?year=" . $calendar->getYearOfPrevMonth() .
+$calendar->urlPrevMonth = $filename . ".php?year=" . $calendar->getYearOfPrevMonth() .
         "&month=" . $calendar->getPrevMonth() . $restOfGetParam;
-$calendar->urlNextMonth = "connection.php?year=" . $calendar->getYearOfNextMonth() .
+$calendar->urlNextMonth = $filename . ".php?year=" . $calendar->getYearOfNextMonth() .
         "&month=" . $calendar->getNextMonth() . $restOfGetParam;
-$calendar->urlPrevYear = "connection.php?year=" . $calendar->getPrevYear() .
+$calendar->urlPrevYear = $filename . ".php?year=" . $calendar->getPrevYear() .
         "&month=" . $calendar->getMonth() . $restOfGetParam;
-$calendar->urlNextYear = "connection.php?year=" . $calendar->getNextYear() .
+$calendar->urlNextYear = $filename . ".php?year=" . $calendar->getNextYear() .
         "&month=" . $calendar->getMonth() . $restOfGetParam;
-$calendar->urlSelectDay = "connection.php?year=" . $calendar->getYear() .
+$calendar->urlSelectDay = $filename . ".php?year=" . $calendar->getYear() .
         "&month=" . $calendar->getMonth() . "&day=%d&scale=" . $chart->getScale() . "&annotations=" . $annotationParam . "&device=" . $deviceId;
+if (!$svgCharts) {
+    $calendar->urlSelectDay .= "&view=static";
+}
 
 $timeMs = Chart::timestampToMillis($calendar->getTimestamp());
 
@@ -108,13 +130,20 @@ $tmplt["hideNavigation"] = (isset($_COOKIE["navigation"]) && $_COOKIE["navigatio
 $tmplt["dateGetParams"] = "year=" . $calendar->getYear() . "&month=" . $calendar->getMonth() . "&day=" . $calendar->getDay();
 $tmplt["scaleGetParam"] = "scale=" . $chart->getScale();
 $tmplt["deviceGetParam"] = "device=" . $deviceId;
+if ($svgCharts) {
+    $tmplt["viewGetParam"] = "view=dynamic";
+    $tmplt["svgView"] = true;
+} else {
+    $tmplt["viewGetParam"] = "view=static";
+    $tmplt["svgView"] = false;
+}
 if ($chart->showAnnotations()) {
     $tmplt["annotationGetParam"] = "annotations=show";
 } else {
     $tmplt["annotationGetParam"] = "annotations=hide";
 }
 
-$tmplt["filename"] = basename($_SERVER["SCRIPT_NAME"], ".php");
+$tmplt["filename"] = $filename;
 
 // Chart scale
 $tmplt["scaleDay"] = $tmplt["scaleWeek"] = $tmplt["scaleMonth"] = $tmplt["scaleYear"] = false;

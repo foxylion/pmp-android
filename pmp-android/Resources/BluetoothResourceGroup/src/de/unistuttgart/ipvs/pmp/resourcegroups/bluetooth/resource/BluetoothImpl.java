@@ -102,4 +102,22 @@ public class BluetoothImpl extends IBluetooth.Stub {
 	public boolean isBluetoothAvailable() throws RemoteException {
 		return btResource.isBluetoothAvailable();
 	}
+
+	@Override
+	public boolean isConnected() throws RemoteException {
+		// TODO Auto-generated method stub
+		return btResource.isConnected();
+	}
+
+	@Override
+	public boolean isMakingDiscoverable() throws RemoteException {
+		// TODO Auto-generated method stub
+		return btResource.isMakingDiscoverable();
+	}
+
+	@Override
+	public boolean isDeviceBonded(String address) throws RemoteException {
+		// TODO Auto-generated method stub
+		return btResource.isDeviceBonded(address);
+	}
 }

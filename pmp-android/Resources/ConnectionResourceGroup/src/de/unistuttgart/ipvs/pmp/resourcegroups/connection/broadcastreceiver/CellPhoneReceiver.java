@@ -26,7 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
 
 /**
  * {@link BroadcastReceiver} to get the airplane mode events
@@ -46,10 +46,10 @@ public class CellPhoneReceiver extends BroadcastReceiver {
         
         if (airplaneMode == 0) {
             // Airplane mode is off
-            DBConnector.getInstance(context).storeCellPhoneEvent(time, EventEnum.OFF);
+            DBConnector.getInstance(context).storeCellPhoneEvent(time, Events.OFF);
         } else {
             // Airplane mode is on
-            DBConnector.getInstance(context).storeCellPhoneEvent(time, EventEnum.ON);
+            DBConnector.getInstance(context).storeCellPhoneEvent(time, Events.ON);
         }
     }
 }
