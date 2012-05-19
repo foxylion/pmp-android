@@ -31,7 +31,7 @@ public class DatabaseResource extends Resource {
     @Override
     public IBinder getAndroidInterface(String appIdentifier) {
         Database drg = (Database) getResourceGroup();
-        return new DatabaseConnectionImpl(drg.getContext(), this, appIdentifier);
+        return new DatabaseConnectionImpl(drg.getContext(appIdentifier), this, appIdentifier);
     }
     
     

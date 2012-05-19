@@ -28,7 +28,7 @@ public class EmailResource extends Resource {
     public IBinder getAndroidInterface(String appIdentifier) {
         // we want to pass some value from the RG
         Email srg = (Email) getResourceGroup();
-        return new EmailOperationsStubImpl(appIdentifier, this, srg.getContext());
+        return new EmailOperationsStubImpl(appIdentifier, this, srg.getContext(appIdentifier));
     }
     
     
