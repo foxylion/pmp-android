@@ -56,8 +56,8 @@ public class ContactResource extends Resource {
     
     public void call(String appIdentifier, String tel) {
         try {
-            String url = String.valueOf("tel:" + tel);
-            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+            String url = String.valueOf(tel);
+            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + url));
             
             callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.contactRG.getContext(appIdentifier).startActivity(callIntent);
