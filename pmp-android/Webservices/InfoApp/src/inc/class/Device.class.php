@@ -28,9 +28,11 @@ use infoapp\eventmanager\BatteryEventManager;
 use infoapp\eventmanager\CellularConnectionEventManager;
 use infoapp\eventmanager\ConnectionEventManager;
 use infoapp\eventmanager\ScreenEventManager;
+use infoapp\eventmanager\ProfileEventManager;
 use infoapp\properties\BatteryProperties;
 use infoapp\properties\ConnectionProperties;
 use infoapp\properties\DeviceProperties;
+use infoapp\properties\ProfileProperties;
 
 if (!defined("INCLUDE")) {
     exit;
@@ -40,7 +42,7 @@ if (!defined("INCLUDE")) {
  * This class handles the access to all classes used to manage the stored information
  *
  * @author Patrick Strobel
- * @version 4.4.1
+ * @version 4.5.0
  */
 class Device {
 
@@ -54,10 +56,12 @@ class Device {
     private $cellularConnectionMgr = null;
     private $connectionMgr = null;
     private $screenMgr = null;
+    private $profileMgr = null;
 
     private $batteryProp = null;
     private $connectionProp = null;
     private $deviceProp = null;
+    private $profileProp = null;
 
     private function __construct($deviceId) {
         $this->deviceId = $deviceId;
@@ -154,6 +158,17 @@ class Device {
     }
 
     /**
+     * Gets the manager for profile events
+     * @return ProfileEventManager The manager
+     */
+    public function getProfileEventManager() {
+        if ($this->profileMgr == null) {
+            $this->profileMgr = new ProfileEventManager($this->deviceId);
+        }
+        return $this->profileMgr;
+    }
+
+    /**
      * Gets the connection property manager
      * @return BatteryProperties The manager
      */
@@ -184,6 +199,17 @@ class Device {
             $this->deviceProp = DeviceProperties::load($this->deviceId);
         }
         return $this->deviceProp;
+    }
+
+    /**
+     * Gets the profile property manager
+     * @return ProfileProperties The manager
+     */
+    public function getProfileProperties() {
+        if ($this->profileProp == null) {
+            $this->profileProp = ProfileProperties::load($this->deviceId);
+        }
+        return $this->profileProp;
     }
 
 
