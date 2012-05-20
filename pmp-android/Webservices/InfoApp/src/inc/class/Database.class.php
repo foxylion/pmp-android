@@ -22,6 +22,8 @@
 
 namespace infoapp;
 
+use infoapp\exceptions\DatabaseException;
+
 if (!defined("INCLUDE")) {
     exit;
 }
@@ -29,7 +31,7 @@ if (!defined("INCLUDE")) {
 /**
  * Encapsulates the access to the database
  * @author  Dang Huynh, Patrick Strobel
- * @version 1.0.0
+ * @version 4.0.1
  */
 class Database {
 

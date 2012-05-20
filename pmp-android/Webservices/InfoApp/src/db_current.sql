@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `dev_profile` (
   `timestamp` bigint(19) NOT NULL,
   `event` char(1) COLLATE utf8_unicode_ci NOT NULL,
   `direction` char(1) COLLATE utf8_unicode_ci NOT NULL,
-  `city` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `city` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `EVENT` (`device`,`event_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;

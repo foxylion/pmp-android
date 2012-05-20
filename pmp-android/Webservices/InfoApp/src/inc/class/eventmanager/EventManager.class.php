@@ -76,7 +76,7 @@ abstract class EventManager {
             $event = $events[$i];
 
             if (!$this->isEventTypeValid($event)) {
-                throw new InvalidArgumentException("At least one event is not a object of the proper sub-class \"Event\"");
+                throw new InvalidArgumentException("At least one event is not a object of the proper sub-class of \"Event\"");
             }
 
             if ($lastTimestamp > $event->getTimestamp()) {
