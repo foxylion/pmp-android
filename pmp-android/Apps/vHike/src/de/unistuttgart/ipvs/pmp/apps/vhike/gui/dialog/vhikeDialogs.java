@@ -124,8 +124,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public Dialog getUpdateDataDialog(IvHikeWebservice ws, Context mContext) {
-        return new UpdateData(mContext, ws);
+    public Dialog getUpdateDataDialog(IvHikeWebservice ws, Context mContext, int tripOrQuery) {
+        return new UpdateData(mContext, ws, tripOrQuery);
     }
     
     

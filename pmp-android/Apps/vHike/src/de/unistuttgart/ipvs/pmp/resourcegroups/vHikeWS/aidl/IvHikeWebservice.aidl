@@ -70,6 +70,8 @@ interface IvHikeWebservice{
 	
 	String tripUpdatePos(String sid, int trip_id, float current_lat,
 							float current_lon);
+							
+	String queryUpdateData(String sid, int query_id, int wanted_seats);
 	
 	String userUpdatePos(String sid, float lat, float lon);
 	

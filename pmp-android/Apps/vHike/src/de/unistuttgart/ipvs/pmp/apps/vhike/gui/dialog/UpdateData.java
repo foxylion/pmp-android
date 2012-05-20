@@ -32,11 +32,14 @@ public class UpdateData extends Dialog {
     private Button apply;
     private Button cancel;
     
+    private int tripOrQuery;
     
-    public UpdateData(Context context, IvHikeWebservice ws) {
+    
+    public UpdateData(Context context, IvHikeWebservice ws, int tripOrQuery) {
         super(context);
         this.ctrl = new Controller(ws);
         mContext = context;
+        this.tripOrQuery = tripOrQuery;
     }
     
     
@@ -67,31 +70,55 @@ public class UpdateData extends Dialog {
                 ViewModel.getInstance().setDestination(UpdateData.this.spinner_destination);
                 ViewModel.getInstance().setNumSeats(UpdateData.this.spinner_numSeats);
                 
-                switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
-                        .getTripId(), ViewModel.getInstance().getNumSeats())) {
-                    case (Constants.STATUS_UPDATED):
-                        Toast.makeText(v.getContext(), "Updated", Toast.LENGTH_SHORT).show();
-                        
-                        Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
-                                + ViewModel.getInstance().getNumSeats());
-                        cancel();
-                        break;
-                    case Constants.STATUS_UPTODATE:
-                        Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
-                        cancel();
-                        break;
-                    case Constants.STATUS_NO_TRIP:
-                        Toast.makeText(v.getContext(), "No trip", Toast.LENGTH_SHORT).show();
-                        cancel();
-                        break;
-                    case Constants.STATUS_HASENDED:
-                        Toast.makeText(v.getContext(), "Has ended", Toast.LENGTH_SHORT).show();
-                        cancel();
-                    case Constants.STATUS_INVALID_USER:
-                        Toast.makeText(v.getContext(), "Invalid user", Toast.LENGTH_SHORT).show();
-                        cancel();
-                        break;
+                if (tripOrQuery == 0) {
+                    switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
+                            .getTripId(), ViewModel.getInstance().getNumSeats())) {
+                        case (Constants.STATUS_UPDATED):
+                            Toast.makeText(v.getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                            
+                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
+                                    + ViewModel.getInstance().getNumSeats());
+                            cancel();
+                            break;
+                        case Constants.STATUS_UPTODATE:
+                            Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                        case Constants.STATUS_NO_TRIP:
+                            Toast.makeText(v.getContext(), "No trip", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                        case Constants.STATUS_HASENDED:
+                            Toast.makeText(v.getContext(), "Has ended", Toast.LENGTH_SHORT).show();
+                            cancel();
+                        case Constants.STATUS_INVALID_USER:
+                            Toast.makeText(v.getContext(), "Invalid user", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                    }
+                } else {
+                    ViewModel.getInstance().setNumSeats(spinner_numSeats);
+                    switch (ctrl.queryUpdateData(Model.getInstance().getSid(), Model.getInstance().getQueryId(),
+                            ViewModel.getInstance().getNumSeats())) {
+                        case (Constants.STATUS_UPDATED):
+                            Toast.makeText(mContext, "Updated", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                        case Constants.STATUS_UPTODATE:
+                            Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
+                                    + ViewModel.getInstance().getNumSeats());
+                            cancel();
+                            break;
+                        case Constants.STATUS_NO_QUERY:
+                            Toast.makeText(v.getContext(), "No query", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
+                                    + ViewModel.getInstance().getNumSeats());
+                            cancel();
+                            break;
+                    }
                 }
+                
             }
         });
         
