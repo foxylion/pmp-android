@@ -240,4 +240,11 @@ public class vHikeWebserviceMockImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String queryUpdateData(String sid, int query_id, int wanted_seats) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

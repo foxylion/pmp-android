@@ -263,4 +263,11 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.isObservationEnabled(uid);
     }
     
+    
+    @Override
+    public String queryUpdateData(String sid, int query_id, int wanted_seats) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.queryUpdateData(sid, query_id, wanted_seats);
+    }
+    
 }

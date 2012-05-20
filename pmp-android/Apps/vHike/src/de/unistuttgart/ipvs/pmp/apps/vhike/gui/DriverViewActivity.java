@@ -305,7 +305,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 break;
             
             case R.id.mi_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, this.context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, this.context, 0).show();
                 break;
         }
         return true;

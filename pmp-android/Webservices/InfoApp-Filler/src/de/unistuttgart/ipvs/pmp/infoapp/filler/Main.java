@@ -30,11 +30,12 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.EventProperty;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.CellularConnectionProperties;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.DeviceOem;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.Display;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.Memory;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ProfileProperties;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ProfileProperties.Rings;
 
 public class Main {
     
@@ -52,6 +53,7 @@ public class Main {
         Connection con = new Connection(s, from.getTimeInMillis(), to.getTimeInMillis());
         CellularConnection cellCon = new CellularConnection(s, from.getTimeInMillis(), to.getTimeInMillis());
         Screen scr = new Screen(s, from.getTimeInMillis(), to.getTimeInMillis());
+        Profile pro = new Profile(s, from.getTimeInMillis(), to.getTimeInMillis());
         
         // Fill tables
         System.out.println("Fill DB with randomly generated events");
@@ -66,6 +68,8 @@ public class Main {
         cellCon.fill();
         System.out.println("Screen events:");
         scr.fill();
+        System.out.println("Profile events:");
+        pro.fill();
     }
     
     
@@ -76,14 +80,13 @@ public class Main {
         // Create service
         Service s = new Service(Service.DEFAULT_URL, "f2305a2fbef51bd82008c7cf3788250f");
         
-        //
         //doFill(s);
         
         // Setup service url and device ID
         //Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208da");
         //Service s = new Service(Service.DEFAULT_URL, "b7c2e4787e7f950c89909795907208d3");
         
-        CellularConnectionProperties ccp = new CellularConnectionProperties(s, "test", true, (byte) 60);
+        ProfileProperties ccp = new ProfileProperties(s, Rings.BOTH, (short) 30, (byte) 60);
         try {
             ccp.commit();
         } catch (InternalDatabaseException e3) {
