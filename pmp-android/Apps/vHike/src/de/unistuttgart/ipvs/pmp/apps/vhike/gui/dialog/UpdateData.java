@@ -26,7 +26,6 @@ public class UpdateData extends Dialog {
     
     private Context mContext;
     private Controller ctrl;
-    private Spinner spinner_destination;
     private Spinner spinner_numSeats;
     
     private Button apply;
@@ -47,9 +46,8 @@ public class UpdateData extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_update_data);
-        setTitle("Change trip");
+        setTitle("Change number of seats");
         
-        this.spinner_destination = (Spinner) findViewById(R.id.update_spinner);
         this.spinner_numSeats = (Spinner) findViewById(R.id.update_spinner_numSeats);
         this.apply = (Button) findViewById(R.id.dialog_update_apply);
         this.cancel = (Button) findViewById(R.id.dialog_update_cancel);
@@ -57,7 +55,6 @@ public class UpdateData extends Dialog {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mContext, R.array.array_cities,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.spinner_destination.setAdapter(adapter);
         
         adapter = ArrayAdapter.createFromResource(this.mContext, R.array.array_numSeats,
                 android.R.layout.simple_spinner_item);
@@ -67,7 +64,6 @@ public class UpdateData extends Dialog {
             
             @Override
             public void onClick(View v) {
-                ViewModel.getInstance().setDestination(UpdateData.this.spinner_destination);
                 ViewModel.getInstance().setNumSeats(UpdateData.this.spinner_numSeats);
                 
                 if (tripOrQuery == 0) {
