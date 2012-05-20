@@ -87,8 +87,8 @@ public class ContactDialog extends Dialog {
                                             + foundUser.getUsername() + " is not possible", Toast.LENGTH_LONG).show();
                         } else {
                             Log.i(this, foundUser.getID() + " is " + anonymous);
-                            // iContact.call(foundUser.getTel());
-                            iContact.call(String.valueOf(5556));
+                            iContact.call(foundUser.getTel());
+                            //                            iContact.call(String.valueOf(5556));
                         }
                         
                     }
@@ -105,8 +105,7 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, "5556", "", iContact, ctrl, foundUser)
-                        .show();
+                vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser).show();
                 cancel();
             }
         });
@@ -116,9 +115,13 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance()
-                        .getSMSEmailDialog(context, false, "", "nguyen.andres@gmail.com", iContact, ctrl, foundUser)
-                        .show();
+                try {
+                    iContact.email("nguyen.andres@gmail.com", "vHike Trip to "
+                            + ViewModel.getInstance().getDestination(), "Hello " + foundUser.getUsername() + ",");
+                } catch (RemoteException e) {
+                    Toast.makeText(context, "Unable to send email", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
                 cancel();
             }
         });
@@ -132,38 +135,48 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 
+                // if route for user already drawn: remove
                 if (ViewModel.getInstance().isRouteDrawn(ContactDialog.this.userName)) {
                     Log.i(this, ContactDialog.this.userName + " is drawn, removing DIALOG");
                     ViewModel.getInstance().removeRoute(
                             ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName));
-                    ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, false);
+                    ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, false);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
                 } else {
                     
-                    new Thread() {
-                        
-                        @Override
-                        public void run() {
-                            PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
-                                    .getInstance().getOwnProfile().getID());
-                            PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
-                                    foundUser.getID());
-                            //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
-                            double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
-                                    .getLon();
-                            
-                            String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
-                            InputStream is = ViewModel.getInstance().getConnection(url);
-                            mRoad = RoadProvider.getRoute(is);
-                            mHandler.sendEmptyMessage(0);
-                        }
-                    }.start();
+                    ViewModel.getInstance().clearRoutes();
+                    ViewModel.getInstance().initRouteList();
                     
-                    ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
-                    cancel();
+                    try {
+                        new Thread() {
+                            
+                            @Override
+                            public void run() {
+                                PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
+                                        .getInstance().getOwnProfile().getID());
+                                PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
+                                        foundUser.getID());
+                                //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                                double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                                        .getLon();
+                                
+                                String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
+                                InputStream is = ViewModel.getInstance().getConnection(url);
+                                mRoad = RoadProvider.getRoute(is);
+                                mHandler.sendEmptyMessage(0);
+                            }
+                        }.start();
+                        
+                        ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
+                    } catch (IllegalStateException ise) {
+                        Log.i(this, ise.toString());
+                        ise.printStackTrace();
+                    }
                 }
+                cancel();
             }
+            
         });
     }
     
@@ -172,14 +185,12 @@ public class ContactDialog extends Dialog {
         public void handleMessage(android.os.Message msg) {
             Toast.makeText(context, mRoad.mName + " " + mRoad.mDescription, Toast.LENGTH_LONG).show();
             
-            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView);
+            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView, true);
             ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
-            ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, true);
-            ViewModel.getInstance().getRouteHM.put(ContactDialog.this.userName, roadOverlay);
+            ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, true);
+            ViewModel.getInstance().getAddedRoutes.put(ContactDialog.this.userName, roadOverlay);
+            Log.i(this, "Added Routes After Add " + ViewModel.getInstance().getAddedRoutes.size());
             mapView.invalidate();
-            //            routeOverlays.clear();
-            //            routeOverlays.add(routeOverlay);
-            //            mapView.invalidate();
         };
     };
     

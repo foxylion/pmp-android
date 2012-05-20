@@ -248,9 +248,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public SMS_Email_Dialog getSMSEmailDialog(Context context, boolean isSMS, String tel, String email,
-            IContact contactRG, Controller ctrl, Profile profile) {
-        return new SMS_Email_Dialog(context, isSMS, tel, email, contactRG, ctrl, profile);
+    public SMSDialog getSMSDialog(Context context, String tel, IContact contactRG, Controller ctrl, Profile profile) {
+        return new SMSDialog(context, tel, contactRG, ctrl, profile);
     }
     
 }

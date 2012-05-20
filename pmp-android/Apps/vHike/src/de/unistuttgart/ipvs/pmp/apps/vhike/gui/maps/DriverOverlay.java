@@ -17,6 +17,7 @@ import com.google.android.maps.OverlayItem;
 import com.google.android.maps.Projection;
 
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.ContactDialog;
 
 /**
  * OverlayItem for drivers which holds the driver logo and the perimeter
@@ -31,6 +32,8 @@ public class DriverOverlay extends ItemizedOverlay {
     private GeoPoint mGps;
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
     private String name;
+    private ContactDialog contactDialog;
+    private boolean itsMe;
     
     
     /**
@@ -41,11 +44,14 @@ public class DriverOverlay extends ItemizedOverlay {
      * @param context
      * @param gps
      */
-    public DriverOverlay(Drawable defaultMarker, Context context, GeoPoint gps, String name) {
+    public DriverOverlay(Drawable defaultMarker, Context context, GeoPoint gps, String name,
+            ContactDialog contactDialog, boolean itsMe) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
         this.mGps = gps;
         this.name = name;
+        this.contactDialog = contactDialog;
+        this.itsMe = itsMe;
     }
     
     
@@ -74,10 +80,16 @@ public class DriverOverlay extends ItemizedOverlay {
     @Override
     protected boolean onTap(int i) {
         OverlayItem item = this.mOverlays.get(i);
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
-        dialog.setTitle(item.getTitle());
-        dialog.setMessage(item.getSnippet());
-        dialog.show();
+        
+        // if true passenger, driver otherwise
+        if (itsMe) {
+            contactDialog.show();
+        } else {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
+            dialog.setTitle(item.getTitle());
+            dialog.setMessage(item.getSnippet());
+            dialog.show();
+        }
         return true;
     }
     
