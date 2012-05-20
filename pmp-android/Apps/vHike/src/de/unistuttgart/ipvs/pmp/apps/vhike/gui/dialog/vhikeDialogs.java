@@ -36,11 +36,6 @@ public class vhikeDialogs extends Activity {
     private ProgressDialog dAnnounce;
     private ProgressDialog dSearch;
     
-    private UpdateData dUpdateData;
-    
-    private Wait4PickUp w4pu;
-    private RateProfileConfirm rpc;
-    
     private ChangeServiceFeature csf;
     
     
@@ -130,23 +125,18 @@ public class vhikeDialogs extends Activity {
     
     
     public Dialog getUpdateDataDialog(IvHikeWebservice ws, Context mContext) {
-        this.dUpdateData = new UpdateData(mContext, ws);
-        
-        return this.dUpdateData;
+        return new UpdateData(mContext, ws);
     }
     
     
     public Wait4PickUp getW4PU(Context context) {
-        this.w4pu = new Wait4PickUp(context);
-        
-        return this.w4pu;
+        return new Wait4PickUp(context);
     }
     
     
     public RateProfileConfirm getRateProfileConfirmation(IvHikeWebservice ws, Context context, int profileID,
             int rating, int tripID) {
-        this.rpc = new RateProfileConfirm(ws, context, profileID, rating, tripID);
-        return this.rpc;
+        return new RateProfileConfirm(ws, context, profileID, rating, tripID);
     }
     
     
