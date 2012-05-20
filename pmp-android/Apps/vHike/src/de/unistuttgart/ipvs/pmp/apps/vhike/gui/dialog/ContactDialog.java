@@ -2,13 +2,10 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
 import java.io.InputStream;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.RemoteException;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,7 +21,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadProvider;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PhoneCallListener;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
@@ -69,9 +65,9 @@ public class ContactDialog extends Dialog {
     private void setButtons() {
         
         // needed to return to activity after phone call
-        PhoneCallListener phoneListener = new PhoneCallListener((Activity) this.context);
-        TelephonyManager telephonyManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
-        telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+        //        PhoneCallListener phoneListener = new PhoneCallListener((Activity) this.context);
+        //        TelephonyManager telephonyManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
+        //        telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         
         this.phone = (Button) findViewById(R.id.btn_phone);
         this.phone.setOnClickListener(new View.OnClickListener() {
