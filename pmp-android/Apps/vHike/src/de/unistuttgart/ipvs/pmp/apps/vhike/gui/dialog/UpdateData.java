@@ -26,17 +26,19 @@ public class UpdateData extends Dialog {
     
     private Context mContext;
     private Controller ctrl;
-    private Spinner spinner_destination;
     private Spinner spinner_numSeats;
     
     private Button apply;
     private Button cancel;
     
+    private int tripOrQuery;
     
-    public UpdateData(Context context, IvHikeWebservice ws) {
+    
+    public UpdateData(Context context, IvHikeWebservice ws, int tripOrQuery) {
         super(context);
         this.ctrl = new Controller(ws);
         mContext = context;
+        this.tripOrQuery = tripOrQuery;
     }
     
     
@@ -44,9 +46,8 @@ public class UpdateData extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_update_data);
-        setTitle("Change trip");
+        setTitle("Change number of seats");
         
-        this.spinner_destination = (Spinner) findViewById(R.id.update_spinner);
         this.spinner_numSeats = (Spinner) findViewById(R.id.update_spinner_numSeats);
         this.apply = (Button) findViewById(R.id.dialog_update_apply);
         this.cancel = (Button) findViewById(R.id.dialog_update_cancel);
@@ -54,7 +55,6 @@ public class UpdateData extends Dialog {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mContext, R.array.array_cities,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.spinner_destination.setAdapter(adapter);
         
         adapter = ArrayAdapter.createFromResource(this.mContext, R.array.array_numSeats,
                 android.R.layout.simple_spinner_item);
@@ -64,34 +64,57 @@ public class UpdateData extends Dialog {
             
             @Override
             public void onClick(View v) {
-                ViewModel.getInstance().setDestination(UpdateData.this.spinner_destination);
                 ViewModel.getInstance().setNumSeats(UpdateData.this.spinner_numSeats);
                 
-                switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
-                        .getTripId(), ViewModel.getInstance().getNumSeats())) {
-                    case (Constants.STATUS_UPDATED):
-                        Toast.makeText(v.getContext(), "Updated", Toast.LENGTH_SHORT).show();
-                        
-                        Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
-                                + ViewModel.getInstance().getNumSeats());
-                        cancel();
-                        break;
-                    case Constants.STATUS_UPTODATE:
-                        Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
-                        cancel();
-                        break;
-                    case Constants.STATUS_NO_TRIP:
-                        Toast.makeText(v.getContext(), "No trip", Toast.LENGTH_SHORT).show();
-                        cancel();
-                        break;
-                    case Constants.STATUS_HASENDED:
-                        Toast.makeText(v.getContext(), "Has ended", Toast.LENGTH_SHORT).show();
-                        cancel();
-                    case Constants.STATUS_INVALID_USER:
-                        Toast.makeText(v.getContext(), "Invalid user", Toast.LENGTH_SHORT).show();
-                        cancel();
-                        break;
+                if (tripOrQuery == 0) {
+                    switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
+                            .getTripId(), ViewModel.getInstance().getNumSeats())) {
+                        case (Constants.STATUS_UPDATED):
+                            Toast.makeText(v.getContext(), "Updated", Toast.LENGTH_SHORT).show();
+                            
+                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
+                                    + ViewModel.getInstance().getNumSeats());
+                            cancel();
+                            break;
+                        case Constants.STATUS_UPTODATE:
+                            Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                        case Constants.STATUS_NO_TRIP:
+                            Toast.makeText(v.getContext(), "No trip", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                        case Constants.STATUS_HASENDED:
+                            Toast.makeText(v.getContext(), "Has ended", Toast.LENGTH_SHORT).show();
+                            cancel();
+                        case Constants.STATUS_INVALID_USER:
+                            Toast.makeText(v.getContext(), "Invalid user", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                    }
+                } else {
+                    ViewModel.getInstance().setNumSeats(spinner_numSeats);
+                    switch (ctrl.queryUpdateData(Model.getInstance().getSid(), Model.getInstance().getQueryId(),
+                            ViewModel.getInstance().getNumSeats())) {
+                        case (Constants.STATUS_UPDATED):
+                            Toast.makeText(mContext, "Updated", Toast.LENGTH_SHORT).show();
+                            cancel();
+                            break;
+                        case Constants.STATUS_UPTODATE:
+                            Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
+                                    + ViewModel.getInstance().getNumSeats());
+                            cancel();
+                            break;
+                        case Constants.STATUS_NO_QUERY:
+                            Toast.makeText(v.getContext(), "No query", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
+                                    + ViewModel.getInstance().getNumSeats());
+                            cancel();
+                            break;
+                    }
                 }
+                
             }
         });
         

@@ -296,6 +296,25 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
+    public String queryUpdateData(String sid, int query_id, int wanted_seats) throws RemoteException {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        listToParse.add(new ParamObject("id", String.valueOf(query_id), true));
+        listToParse.add(new ParamObject("wanted_seats", String.valueOf(wanted_seats), true));
+        
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "query_update_data.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
     public String getTripPassengers() throws RemoteException {
         // TODO Auto-generated method stub
         return null;
