@@ -139,13 +139,14 @@ public class BluetoothResource extends Resource {
 					Log.i(TAG, "Enable BT");
 				}
 			btAdapter.enable();
-			setupBluetoothThreads();
+			
 		} else {
 			if (D) {
 				Log.i(TAG, "Disable BT");
 			}
 			btAdapter.disable();
 		}
+		setupBluetoothThreads();
 	}
 
 	private void setupBluetoothThreads() {
@@ -162,7 +163,8 @@ public class BluetoothResource extends Resource {
 			connectedThread.cancel();
 			connectedThread = null;
 		}
-
+		discovering = false;
+		
 		setState(STATE_NONE);
 	}
 
@@ -516,13 +518,6 @@ public class BluetoothResource extends Resource {
 			return false;
 	}
 
-	public boolean isMakingDiscoverable() {
-		if (mState == STATE_LISTEN)
-			return true;
-		else
-			return false;
-	}
-
 	public boolean isDeviceBonded(String address) {
 		Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
 		List<String> pairedDevicesList = new ArrayList<String>();
@@ -538,8 +533,6 @@ public class BluetoothResource extends Resource {
 
 	public void setName(String name) {
 		btAdapter.setName(name);
-//		btAdapter.disable();
-//		btAdapter.enable();
 
 		Log.i(TAG, "Name gesetzt:" + name);
 		Log.i(TAG, "Tatsächliche Name:" + btAdapter.getName());

@@ -233,26 +233,21 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                     final List<Device> devices = BluetoothTools.DeviceArrayListToDeviceList(founddevices);
                     Log.i(TAG, "nach getFoundDevices to list");
                     final List<Device> filteredDevices = BluetoothTools.filterForVHike(devices);
-                    //                    DeviceArrayParcelable paired = rgBluetooth.getPairedDevices();
-                    //                    DeviceArray pairedArray = paired.getDevices();
-                    //                    final List<String> pairedlist = pairedArray.getDevices();
-                    //                    final List<Device> paireddevices = BluetoothTools.DeviceArrayListToDeviceList(pairedlist);
-                    //                    
-                    //                                        for (Device device : paireddevices) {
-                    //                                            devices.add(device);
-                    //                                        }
+                    
+                    final List<Device> filteredDestination = BluetoothTools.filterForDestination(filteredDevices,
+                            BluetoothModel.getInstance().getDestination());
                     cancelDialog.dismiss();
                     Log.i(TAG, "nach dismiss dialog");
                     refresh.post(new Runnable() {
                         
                         public void run() {
-                            CharSequence[] items = new CharSequence[devices.size()];
-                            for (int i = 0; i < devices.size(); i++) {
-                                items[i] = devices.get(i).getName();
-                                Log.i(TAG, "Added device: " + devices.get(i).getName() + " "
-                                        + devices.get(i).getAddress());
+                            CharSequence[] items = new CharSequence[filteredDestination.size()];
+                            for (int i = 0; i < filteredDestination.size(); i++) {
+                                items[i] = filteredDestination.get(i).getName();
+                                Log.i(TAG, "Added device: " + filteredDestination.get(i).getName() + " "
+                                        + filteredDestination.get(i).getAddress());
                             }
-                            createAlertDialog(items, filteredDevices).show();
+                            createAlertDialog(items, filteredDestination).show();
                         }
                     });
                 } else {

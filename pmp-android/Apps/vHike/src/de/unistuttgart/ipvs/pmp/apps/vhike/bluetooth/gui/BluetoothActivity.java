@@ -70,17 +70,6 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
             }
         });
         
-        send.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View arg0) {
-                try {
-                    rgBluetooth.sendMessage(et.getText().toString());
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
         getBluetoothRG(this);
     }
     
@@ -105,6 +94,24 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        send.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View arg0) {
+                try {
+                    String role = "";
+                    if (BluetoothModel.getInstance().getRole() == BluetoothModel.ROLE_DRIVER)
+                        role = "Driver: ";
+                    else
+                        role = "Passenger: ";
+                    rgBluetooth.sendMessage(role + et.getText().toString());
+                    et.setText("");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
         if (rgBluetooth != null) {
             try {
                 
@@ -181,7 +188,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         public void run() {
             try {
                 if (!rgBluetooth.isConnected()) {
-                    timer.schedule(new ConnectionChecker(), 30000);
+                    timer.schedule(new ConnectionChecker(), 10000);
                     Log.i(TAG, "Not Connected!");
                 } else {
                     Log.i(TAG, "Connected!");
