@@ -66,9 +66,8 @@ public class BluetoothResource extends Resource {
 
 	int ROLE = 0;
 
-	
-	public boolean discovering = false; 
-	
+	public boolean discovering = false;
+
 	public static final int NO_ROLE = 0;
 	public static final int DRIVER_ROLE = 1;
 	public static final int PASSENGER_ROLE = 2;
@@ -162,19 +161,19 @@ public class BluetoothResource extends Resource {
 			connectedThread.cancel();
 			connectedThread = null;
 		}
-		
+
 		setState(STATE_NONE);
 	}
-	
-	public void connect(String address){
+
+	public void connect(String address) {
 		BluetoothDevice device = btAdapter.getRemoteDevice(address);
-		
+
 		connectThread = new ConnectThread(device);
 		connectThread.start();
-		
+
 		setState(STATE_CONNECTING);
 	}
-	
+
 	public boolean isEnabled() throws RemoteException {
 		if (D) {
 			Log.i(TAG, "isEnabled:" + btAdapter.isEnabled());
@@ -182,25 +181,29 @@ public class BluetoothResource extends Resource {
 		return btAdapter.isEnabled();
 	}
 
-	public void makeDiscoverable(String appIdentifier, int time)
+	public void makeDiscoverable(String appIdentifier, String name, int time)
 			throws RemoteException {
-		
+		setName(name);
 		setupBluetoothThreads();
-		
-		if (D) {
-			Log.i(TAG, "Make Discoverable");
+		// Waiting for enabled Bluetooth
+		while (!btAdapter.isEnabled()) {
 		}
-		if (btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-			Intent discoverableIntent = new Intent(
-					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-			discoverableIntent.putExtra(
-					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, time * 60);
-			discoverableIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			blueRG.getContext(appIdentifier).startActivity(discoverableIntent);
-		}
-		
-		acceptThread = new AcceptThread();
-		acceptThread.start();
+			if (D) {
+				Log.i(TAG, "Make Discoverable");
+			}
+			if (btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+				Intent discoverableIntent = new Intent(
+						BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+				discoverableIntent
+						.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
+								time * 60);
+				discoverableIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				blueRG.getContext(appIdentifier).startActivity(
+						discoverableIntent);
+			}
+
+			acceptThread = new AcceptThread();
+			acceptThread.start();
 	}
 
 	public void discover(String appIdentifier) throws RemoteException {
@@ -237,11 +240,11 @@ public class BluetoothResource extends Resource {
 					.equals(action)) {
 				Log.i("BluetoothResource", "DISCOVERY FINISHED!");
 				discovering = false;
-				
+
 			} else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
 				BluetoothDevice device = intent
 						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				
+
 				// try {
 				// if(ROLE == PASSENGER_ROLE){
 				// }else if(ROLE == DRIVER_ROLE){
@@ -280,7 +283,8 @@ public class BluetoothResource extends Resource {
 		return arrayParcelable;
 	}
 
-	public synchronized DeviceArrayParcelable getFoundDevices() throws RemoteException {
+	public synchronized DeviceArrayParcelable getFoundDevices()
+			throws RemoteException {
 
 		List<String> devicesList = new ArrayList<String>();
 
@@ -339,17 +343,17 @@ public class BluetoothResource extends Resource {
 		public void run() {
 			setName("AcceptThread");
 			BluetoothSocket socket = null;
-				try {
-					if (D) {
-						Log.i(TAG, "Accept clients");
-					}
-					socket = serverSocket.accept();
-					
-					connected(socket);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			try {
+				if (D) {
+					Log.i(TAG, "Accept clients");
 				}
+				socket = serverSocket.accept();
+
+				connected(socket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		public void cancel() {
@@ -400,7 +404,7 @@ public class BluetoothResource extends Resource {
 					Log.i(TAG, "Connect to socket");
 				}
 				socket.connect();
-				
+
 				connected(socket);
 			} catch (IOException e) {
 
@@ -418,19 +422,19 @@ public class BluetoothResource extends Resource {
 		}
 	}
 
-	
-	public void connected(BluetoothSocket socket){
+	public void connected(BluetoothSocket socket) {
 		Log.i(TAG, "connected");
 
-//		acceptThread.cancel();
-		
+		// acceptThread.cancel();
+
 		connectedThread = new ConnectedThread(socket);
 		connectedThread.start();
-		
+
 		Log.i(TAG, "set state connected");
-		
+
 		setState(STATE_CONNECTED);
 	}
+
 	private class ConnectedThread extends Thread {
 		BluetoothSocket socket = null;
 		InputStream in = null;
@@ -529,5 +533,14 @@ public class BluetoothResource extends Resource {
 		}
 
 		return bonded;
+	}
+
+	public void setName(String name) {
+		btAdapter.setName(name);
+		btAdapter.disable();
+		btAdapter.enable();
+
+		Log.i(TAG, "Name gesetzt:" + name);
+		Log.i(TAG, "Tatsächliche Name:" + btAdapter.getName());
 	}
 }

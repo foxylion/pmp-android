@@ -103,7 +103,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 
                 timer.schedule(new ConnectedChecker(), 2000);
                 try {
-                    rgBluetooth.makeDiscoverable(dur);
+                    rgBluetooth.makeDiscoverable("vHike:" + dest + "-" + seat, dur);
                     
                 } catch (RemoteException e) {
                     e.printStackTrace();

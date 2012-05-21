@@ -16,4 +16,40 @@ public class BluetoothTools {
         }
         return deviceList;
     }
+    
+    
+    public static List<Device> filterForDrivers(List<Device> devices) {
+        List<Device> drivers = new ArrayList<Device>();
+        for (Device device : devices) {
+            String kind = device.getName().substring(0, 1);
+            if (kind.equals("D")) {
+                drivers.add(device);
+            }
+        }
+        return drivers;
+    }
+    
+    
+    public static List<Device> filterForPassengers(List<Device> devices) {
+        List<Device> passengers = new ArrayList<Device>();
+        for (Device device : devices) {
+            String kind = device.getName().substring(0, 1);
+            if (kind.equals("P")) {
+                passengers.add(device);
+            }
+        }
+        return passengers;
+    }
+    
+    
+    public static List<Device> filterForVHike(List<Device> devices) {
+        List<Device> drivers = new ArrayList<Device>();
+        for (Device device : devices) {
+            String kind = device.getName().substring(0, 5);
+            if (kind.equals("vHike")) {
+                drivers.add(device);
+            }
+        }
+        return drivers;
+    }
 }

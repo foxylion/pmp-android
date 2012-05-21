@@ -7,13 +7,16 @@ interface IBluetooth {
 	
 	boolean isBluetoothAvailable();
 	
+	void setName(String name);
+	
+	
 	void enableBluetooth(boolean state);
 	
 	boolean isEnabled();
 	
 	boolean isDeviceBonded(String address);
 	
-	void makeDiscoverable(int time);
+	void makeDiscoverable(String name, int time);
 	boolean isMakingDiscoverable();
 	
 	void discover();

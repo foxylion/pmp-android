@@ -24,7 +24,7 @@ public class BluetoothCloakImpl extends IBluetooth.Stub {
 	}
 
 	@Override
-	public void makeDiscoverable(int time) throws RemoteException {
+	public void makeDiscoverable(String name, int time) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -93,6 +93,12 @@ public class BluetoothCloakImpl extends IBluetooth.Stub {
 	public boolean isDeviceBonded(String address) throws RemoteException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void setName(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 
 
