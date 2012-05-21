@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
@@ -24,6 +27,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
@@ -47,14 +51,19 @@ public class NotificationAdapter extends BaseAdapter {
     private int userID;
     private Controller ctrl;
     IvHikeWebservice ws;
+    private MapView mapView;
+    private IContact iContact;
     
     
-    public NotificationAdapter(IvHikeWebservice ws, Context context, List<Profile> hitchhikers, int whichHitcher) {
+    public NotificationAdapter(IvHikeWebservice ws, Context context, List<Profile> hitchhikers, int whichHitcher,
+            MapView mapView, IContact iContact) {
         this.context = context;
         this.hitchhikers = hitchhikers;
         this.mWhichHitcher = whichHitcher;
         this.ws = ws;
         this.ctrl = new Controller(ws);
+        this.mapView = mapView;
+        this.iContact = iContact;
     }
     
     
@@ -115,7 +124,7 @@ public class NotificationAdapter extends BaseAdapter {
                 vhikeDialogs
                         .getInstance()
                         .getProfileDialog(NotificationAdapter.this.ws, NotificationAdapter.this.context,
-                                NotificationAdapter.this.userID).show();
+                                NotificationAdapter.this.userID, mapView, iContact, hitchhiker).show();
             }
         });
         

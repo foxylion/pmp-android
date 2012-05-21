@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
@@ -145,8 +148,9 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID) {
-        return new ProfileDialog(ws, context, profileID);
+    public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView,
+            IContact iContact, Profile foundUser) {
+        return new ProfileDialog(ws, context, profileID, mapView, iContact, foundUser);
     }
     
     

@@ -122,9 +122,10 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 try {
+                    String dest = parseDestination(ViewModel.getInstance().getDestination());
                     if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                        iContact.email("nguyen.andres@gmail.com", "vHike Trip to "
-                                + ViewModel.getInstance().getDestination(), "Hello " + foundUser.getUsername() + ",");
+                        iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
+                                "Hello " + foundUser.getUsername() + ",");
                     } else {
                         PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
                     }
@@ -188,6 +189,23 @@ public class ContactDialog extends Dialog {
             }
             
         });
+    }
+    
+    
+    private String parseDestination(String destination) {
+        String[] temp;
+        if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+            String dest = destination.replaceAll(";", "-");
+            Log.i(this, "Split: " + destination + ", " + dest);
+            return dest;
+        } else {
+            
+            temp = destination.split(";");
+            Log.i(this, "1.Split: " + temp[1]);
+            temp = temp[1].split(";");
+            Log.i(this, "2.Split: " + temp[0]);
+            return temp[0];
+        }
     }
     
     Handler mHandler = new Handler() {
