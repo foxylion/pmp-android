@@ -71,10 +71,6 @@ public class PassengerOverlay extends ItemizedOverlay {
         
         //if 0 passenger, if 1 user
         if (this.itsMe == 0) {
-            //            int id = Integer.valueOf(item.getTitle());
-            //            Controller ctrl = new Controller(this.ivhs);
-            //            ctrl.getProfile(Model.getInstance().getSid(), id);
-            
             this.contactDialog.show();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
