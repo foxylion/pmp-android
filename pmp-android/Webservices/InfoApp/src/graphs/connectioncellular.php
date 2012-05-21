@@ -77,18 +77,20 @@ if ($deviceIdValid) {
         // Draw SVG-Charts
         // ---------------
         $tmplt["content"] .= "
-            <div id=\"connection\" style=\"width:800; height:150\"></div>";
+            <div id=\"connection\"></div>";
     } else {
         // Draw static/PNG-charts
         // ----------------------
-        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
 
         $connectionChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $connectionChart->setTitle("Cellular connection status");
         $connectionChart->setProperty("cht", "lxy");
         $connectionChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($connectionData);
-        $bridge->pushData($connectionChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($connectionChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
 
         $tmplt["content"] .= "
             <p><img src=\"" . $connectionChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>";

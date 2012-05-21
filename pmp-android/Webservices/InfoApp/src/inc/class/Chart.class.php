@@ -55,17 +55,39 @@ class Chart {
         return $this->scale;
     }
 
-    public function getScaleYAxis($daysInMonth) {
+    public function getScaleXAxis(HtmlCalendar $calendar) {
+        switch ($this->scale) {
+            case self::DAY:
+                return 24 * 60 * 60 * 1000;
+            case self::WEEK:
+                return 7 * 24 * 60 * 60 * 1000;
+            case self::MONTH:
+                return $calendar->getDaysInMonth() * 24 * 60 * 60 * 1000;
+            case self::YEAR:
+                return 365 * 24 * 60 * 60 * 1000;
+        }
+    }
+
+    public function getScaleXAxisLabel(HtmlCalendar $calendar) {
         switch ($this->scale) {
             case self::DAY:
                 return 24;
             case self::WEEK:
                 return 7;
             case self::MONTH:
-                return $daysInMonth;
+                return $calendar->getDaysInMonth();
             case self::YEAR:
                 return 365;
         }
+    }
+
+    public function getOffsetXAxis(HtmlCalendar $calendar) {
+        switch ($this->scale) {
+            case self::DAY:
+                $date = getdate(mktime(0, 0, 0, $calendar->getMonth(), $calendar->getDay(), $calendar->getYear()));
+                return $date[0]*1000;
+
+    }
     }
 
     public function getAxisChartHeight() {

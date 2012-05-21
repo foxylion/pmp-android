@@ -52,4 +52,15 @@ public class BluetoothTools {
         }
         return drivers;
     }
+    
+    
+    public static List<Device> filterForDestination(List<Device> devices, String destination) {
+        List<Device> destinations = new ArrayList<Device>();
+        for (Device device : devices) {
+            if (device.getName().contains(destination)) {
+                destinations.add(device);
+            }
+        }
+        return destinations;
+    }
 }

@@ -115,7 +115,7 @@ if ($svgCharts) {
     $healthChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
     $healthChart->setTitle("Health");
     $healthChart->setVisibleAxes(array('x', 'y'));
-    $healthChart->setBarWidth(60, 4, 60);
+    $healthChart->setBarWidth(50, 4, 50);
     $bridge = new GChartPhpBridge($healthData);
     $bridge->pushData($healthChart, GChartPhpBridge::AXIS_LABEL);
 

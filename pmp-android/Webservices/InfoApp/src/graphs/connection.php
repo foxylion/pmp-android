@@ -199,28 +199,30 @@ if ($deviceIdValid) {
         // Draw SVG-Charts
         // ---------------
         $tmplt["content"] .= "
-            <div id=\"connectionBluetooth\" style=\"width:800; height:150\"></div>
-            <div id=\"connectionWifi\" style=\"width:800; height:150\"></div>
-            <div id=\"countBluetooth\" style=\"width:600; height:400\"></div>
-            <div id=\"countWifi\" style=\"width:600; height:400\"></div>";
+            <div id=\"connectionBluetooth\"></div>
+            <div id=\"connectionWifi\"></div>
+            <div id=\"countBluetooth\"></div>
+            <div id=\"countWifi\"></div>";
     } else {
         // Draw static/PNG-charts
         // ----------------------
-        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
 
         $connectionBluetoothChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $connectionBluetoothChart->setTitle("Bluetooth adapter status");
         $connectionBluetoothChart->setProperty("cht", "lxy");
         $connectionBluetoothChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($bluetoothAdapterData);
-        $bridge->pushData($connectionBluetoothChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($connectionBluetoothChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
 
         $connectionWifiChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $connectionWifiChart->setTitle("Wi-Fi adapter status");
         $connectionWifiChart->setProperty("cht", "lxy");
         $connectionWifiChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($wifiAdapterData);
-        $bridge->pushData($connectionWifiChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($connectionWifiChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
 
         $bluetoothCountChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
         $bluetoothCountChart->setTitle("Number of bluetooth parings per city");
