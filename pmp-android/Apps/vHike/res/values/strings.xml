@@ -114,5 +114,8 @@
     <string name="invites">invites</string>
     <string name="messages">messages</string>
     <string name="login_remember">Remember</string>
+    <string name="tripDetails_overview">Overview</string>
+    <string name="tripDetails_all_messages">All messages</string>
+    <string name="tripDetails_stopovers">"Stopovers: "</string>
 
 </resources>

@@ -151,7 +151,8 @@ public class BluetoothResource extends Resource {
 	private void setupBluetoothThreads() {
 		if (acceptThread != null) {
 			acceptThread.cancel();
-			acceptThread.start();
+//			acceptThread.start();
+			acceptThread = null;
 		}
 		if (connectThread != null) {
 			connectThread.cancel();
@@ -537,8 +538,8 @@ public class BluetoothResource extends Resource {
 
 	public void setName(String name) {
 		btAdapter.setName(name);
-		btAdapter.disable();
-		btAdapter.enable();
+//		btAdapter.disable();
+//		btAdapter.enable();
 
 		Log.i(TAG, "Name gesetzt:" + name);
 		Log.i(TAG, "Tatsächliche Name:" + btAdapter.getName());

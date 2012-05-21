@@ -38,6 +38,9 @@ public class ServerTest {
                 ResourceGroupsResponse rgr = (ResourceGroupsResponse) result;
                 downloadPackage = rgr.getResourceGroups()[0].getIdentifier();
                 System.out.println(rgr.getResourceGroups()[0].getIdentifier());
+                System.out.println("Name:        " + rgr.getResourceGroups()[0].getName());
+                System.out.println("Revision:    " + rgr.getResourceGroups()[0].getRevision());
+                System.out.println("Description: " + rgr.getResourceGroups()[0].getDescription());
             }
             
             if (downloadPackage != null) {

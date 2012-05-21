@@ -237,6 +237,22 @@ class Ride {
 		return $this->passengers;
 	}
 
+	public static function getLiftPassengers($lift_id) {
+		$db = Database::getInstance();
+		$query = $db->query("SELECT COUNT(dev_ride.trip)  AS 'Passengers' FROM dev_ride WHERE dev_ride.trip = $lift_id");
+		
+		if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+		
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
+		}
+
+		return $arr;
+	}
+
 	/**
 	 * Mark an user as picked up
 	 * @return true if succeed, false otherwise
