@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PrePlannedTrip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 
 /**
@@ -45,9 +46,16 @@ public class Model {
      */
     private List<QueryObject> queryHolder;
     
+    private List<PrePlannedTrip> prePlannedTrips;
+    
     
     public List<QueryObject> getQueryHolder() {
         return this.queryHolder;
+    }
+    
+    
+    public List<PrePlannedTrip> getMyTrips() {
+        return this.prePlannedTrips;
     }
     
     
@@ -80,6 +88,11 @@ public class Model {
     
     public void setOfferHolder(List<OfferObject> offerHolder) {
         this.offerHolder = offerHolder;
+    }
+    
+    
+    public void setMyTrips(List<PrePlannedTrip> prePlannedTrips) {
+        this.prePlannedTrips = prePlannedTrips;
     }
     
     

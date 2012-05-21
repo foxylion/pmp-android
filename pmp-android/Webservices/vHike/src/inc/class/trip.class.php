@@ -354,22 +354,6 @@ class Trip {
 		}
 	}
 
-	public static function getMyLifts($uid) {
-		$db = Database::getInstance();
-		$query = $db->query("SELECT dev_trip.id AS 'TripID', dev_trip.destination AS 'Destination', dev_trip.creation AS 'Time' FROM dev_trip WHERE driver=$uid AND ending=0");
-		
-		if ($db->getAffectedRows() <= 0) {
-            return null;
-        }
-		
-		$arr = null;
-		while ($row = $db->fetch($query)) {
-			$arr[] = $row;
-		}
-
-		return $arr;
-	}
-
 	public static function getLiftIds($uid) {
 		$db = Database::getInstance();
 		$query = $db->query("SELECT  dev_trip.id AS 'LiftIds' FROM dev_trip WHERE dev_trip.driver = $uid AND dev_trip.ending = 0");
@@ -386,6 +370,22 @@ class Trip {
 		return $arr;
 	}
 
+	public static function getLiftsById($uid, $tid) {
+				$db = Database::getInstance();
+		$query = $db->query("SELECT (SELECT dev_trip.id FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.ending =0) AS 'TripID', (SELECT dev_trip.destination FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.ending =0) AS 'Destination',(SELECT dev_trip.creation FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.ending =0) AS 'Time', (SELECT COUNT( dev_ride.trip ) FROM dev_ride WHERE dev_ride.trip = $tid) AS 'Passengers', (SELECT COUNT(dev_offer.trip) FROM dev_offer WHERE dev_offer.trip = $tid) AS 'Invites'");
+		
+		if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+		
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
+		}
+
+		return $arr;
+	}
+	
 	/**
 	 * Returns all trips started by $user_id. If $ended is TRUE, ended trips will also be returned.
 	 *

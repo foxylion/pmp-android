@@ -24,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PrePlannedTrip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -1320,5 +1321,46 @@ public class Controller {
             suc = object.get("status").getAsBoolean();
         }
         return suc;
+    }
+    
+    
+    public List<PrePlannedTrip> getMyTrips(int uid) {
+        String ret = "";
+        try {
+            ret = this.ws.getMyTrips(uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        List<PrePlannedTrip> prePlannedTrips = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                JsonArray array;
+                try {
+                    array = object.get("my_trips").getAsJsonArray();
+                    prePlannedTrips = new ArrayList<PrePlannedTrip>();
+                    for (int i = 0; i < array.size(); i++) {
+                        JsonObject Iobject = array.get(i).getAsJsonObject();
+                        int tid = Iobject.get("tid").getAsInt();
+                        String destination = Iobject.get("destination").getAsString();
+                        int date = Iobject.get("time").getAsInt();
+                        int passengers = Iobject.get("passengers").getAsInt();
+                        int invites = Iobject.get("invites").getAsInt();
+                        
+                        PrePlannedTrip pObject = new PrePlannedTrip(tid, destination, date, passengers, invites);
+                        prePlannedTrips.add(pObject);
+                    }
+                    Model.getInstance().setMyTrips(prePlannedTrips);
+                } catch (Exception ex) {
+                    prePlannedTrips = new ArrayList<PrePlannedTrip>();
+                }
+                return prePlannedTrips;
+            }
+            
+        }
+        Model.getInstance().setMyTrips(prePlannedTrips);
+        return prePlannedTrips;
     }
 }

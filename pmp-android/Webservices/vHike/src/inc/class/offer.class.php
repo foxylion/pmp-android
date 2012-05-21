@@ -297,22 +297,6 @@ class Offer {
 		return $this->message;
 	}
 
-	public static function getInvites($lift_id, $uid) {
-		$db = Database::getInstance();
-		$query = $db->query("SELECT COUNT(dev_offer.trip) AS 'Invites', COUNT(dev_offer.message) AS 'Messages' FROM dev_offer WHERE dev_offer.trip = $lift_id AND dev_offer.recipient = $uid");
-		
-		if ($db->getAffectedRows() <= 0) {
-            return null;
-        }
-		
-		$arr = null;
-		while ($row = $db->fetch($query)) {
-			$arr[] = $row;
-		}
-
-		return $arr;
-	}
-
 	public function accept() {
 		$db = Database::getInstance();
 		try {
