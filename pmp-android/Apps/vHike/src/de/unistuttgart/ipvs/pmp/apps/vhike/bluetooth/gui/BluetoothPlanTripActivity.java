@@ -232,6 +232,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                     Log.i(TAG, "nach getDevices");
                     final List<Device> devices = BluetoothTools.DeviceArrayListToDeviceList(founddevices);
                     Log.i(TAG, "nach getFoundDevices to list");
+                    final List<Device> filteredDevices = BluetoothTools.filterForVHike(devices);
                     //                    DeviceArrayParcelable paired = rgBluetooth.getPairedDevices();
                     //                    DeviceArray pairedArray = paired.getDevices();
                     //                    final List<String> pairedlist = pairedArray.getDevices();
@@ -251,7 +252,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                                 Log.i(TAG, "Added device: " + devices.get(i).getName() + " "
                                         + devices.get(i).getAddress());
                             }
-                            createAlertDialog(items, devices).show();
+                            createAlertDialog(items, filteredDevices).show();
                         }
                     });
                 } else {
