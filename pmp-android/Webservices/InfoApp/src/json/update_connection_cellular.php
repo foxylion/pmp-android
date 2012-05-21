@@ -20,6 +20,11 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\Device;
+use infoapp\Json;
+use infoapp\exceptions\DatabaseException;
+
 define("INCLUDE", true);
 require("./../inc/json_framework.inc.php");
 
@@ -34,7 +39,7 @@ try {
     } else  {
         $prop->setRoaming(false);
     }
-    
+
     $prop->setSignalStrength((int) $_POST["signal"]);
 
     $prop->writeBack();

@@ -20,6 +20,13 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
@@ -28,17 +35,17 @@ if ($deviceIdValid) {
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
     // cellular connection status
-    $dateColumn = new GColumn("datetime", "d", "Date");
-    $airplaneColumn = new GColumn("number", "a", "Airplane");
+    $dateColumn = new Column("datetime", "d", "Date");
+    $airplaneColumn = new Column("number", "a", "Airplane");
 
-    $connectionData = new GDataTable();
+    $connectionData = new DataTable();
     $connectionData->addColumn($dateColumn);
     $connectionData->addColumn($airplaneColumn);
 
     foreach ($events as $event) {
-        $levelRow = new GRow();
-        $levelRow->addCell(new GCell($event->getTimestamp()));
-        $levelRow->addCell(new GCell((int) $event->isAirplane()));
+        $levelRow = new Row();
+        $levelRow->addCell(new Cell($event->getTimestamp()));
+        $levelRow->addCell(new Cell((int) $event->isAirplane()));
         $connectionData->addRow($levelRow);
     }
 
@@ -82,14 +89,12 @@ if ($deviceIdValid) {
         $connectionChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($connectionData);
         $bridge->pushData($connectionChart, GChartPhpBridge::Y_COORDS, $scale);
-        
+
         $tmplt["content"] .= "
             <p><img src=\"" . $connectionChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>";
     }
 }
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

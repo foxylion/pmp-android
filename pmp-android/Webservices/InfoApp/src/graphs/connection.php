@@ -20,6 +20,14 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\events\ConnectionEvent;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
@@ -28,20 +36,20 @@ if ($deviceIdValid) {
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
     // Bluetooth and wifi adapter chart
-    $dateColumn = new GColumn("datetime", "d", "Date");
-    $enabledColumn = new GColumn("number", "e", "Enabled");
-    $connectedColumn = new GColumn("number", "c", "Connected");
-    $cityIColumn = new GColumn("string", "ca", "City Annotation", null, "{\"role\": \"annotation\"}");
-    $cityNameColumn = new GColumn("string", "cn", "City Name", null, "{\"role\": \"annotationText\"}");
+    $dateColumn = new Column("datetime", "d", "Date");
+    $enabledColumn = new Column("number", "e", "Enabled");
+    $connectedColumn = new Column("number", "c", "Connected");
+    $cityIColumn = new Column("string", "ca", "City Annotation", null, "{\"role\": \"annotation\"}");
+    $cityNameColumn = new Column("string", "cn", "City Name", null, "{\"role\": \"annotationText\"}");
 
-    $bluetoothAdapterData = new GDataTable();
+    $bluetoothAdapterData = new DataTable();
     $bluetoothAdapterData->addColumn($dateColumn);
     $bluetoothAdapterData->addColumn($enabledColumn);
     $bluetoothAdapterData->addColumn($connectedColumn);
     $bluetoothAdapterData->addColumn($cityIColumn);
     $bluetoothAdapterData->addColumn($cityNameColumn);
 
-    $wifiAdapterData = new GDataTable();
+    $wifiAdapterData = new DataTable();
     $wifiAdapterData->addColumn($dateColumn);
     $wifiAdapterData->addColumn($enabledColumn);
     $wifiAdapterData->addColumn($connectedColumn);
@@ -49,14 +57,14 @@ if ($deviceIdValid) {
     $wifiAdapterData->addColumn($cityNameColumn);
 
     // City chart
-    $cityColumn = new GColumn("string", "c", "Cities");
-    $countColumn = new GColumn("number", "n", "Connections");
+    $cityColumn = new Column("string", "c", "Cities");
+    $countColumn = new Column("number", "n", "Connections");
 
-    $bluetoothCitiesData = new GDataTable();
+    $bluetoothCitiesData = new DataTable();
     $bluetoothCitiesData->addColumn($cityColumn);
     $bluetoothCitiesData->addColumn($countColumn);
 
-    $wifiCitiesData = new GDataTable();
+    $wifiCitiesData = new DataTable();
     $wifiCitiesData->addColumn($cityColumn);
     $wifiCitiesData->addColumn($countColumn);
 
@@ -80,13 +88,13 @@ if ($deviceIdValid) {
                 }
 
                 // Connection status
-                $levelRow = new GRow();
-                $levelRow->addCell(new GCell($event->getTimestamp()));
-                $levelRow->addCell(new GCell((int) $event->isEnabled()));
-                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow = new Row();
+                $levelRow->addCell(new Cell($event->getTimestamp()));
+                $levelRow->addCell(new Cell((int) $event->isEnabled()));
+                $levelRow->addCell(new Cell((int) $event->isConnected()));
                 if ($chart->showAnnotations()) {
-                    $levelRow->addCell(new GCell("i"));
-                    $levelRow->addCell(new GCell($event->getCity()));
+                    $levelRow->addCell(new Cell("i"));
+                    $levelRow->addCell(new Cell($event->getCity()));
                 }
 
                 $bluetoothAdapterData->addRow($levelRow);
@@ -105,13 +113,13 @@ if ($deviceIdValid) {
                 }
 
                 // Connection status
-                $levelRow = new GRow();
-                $levelRow->addCell(new GCell($event->getTimestamp()));
-                $levelRow->addCell(new GCell((int) $event->isEnabled()));
-                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow = new Row();
+                $levelRow->addCell(new Cell($event->getTimestamp()));
+                $levelRow->addCell(new Cell((int) $event->isEnabled()));
+                $levelRow->addCell(new Cell((int) $event->isConnected()));
                 if ($chart->showAnnotations()) {
-                    $levelRow->addCell(new GCell("i"));
-                    $levelRow->addCell(new GCell($event->getCity()));
+                    $levelRow->addCell(new Cell("i"));
+                    $levelRow->addCell(new Cell($event->getCity()));
                 }
 
                 $wifiAdapterData->addRow($levelRow);
@@ -232,8 +240,6 @@ if ($deviceIdValid) {
     }
 }
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

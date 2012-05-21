@@ -10,7 +10,7 @@
   
         <TextView
             android:id="@+id/myTrip_destination"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1"/>
@@ -20,25 +20,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />
-
-        <TextView
-            android:id="@+id/myTrip_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="myTrip_Time" android:paddingLeft="3dip"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_gravity="right" android:paddingTop="5dp">
-
+        android:layout_height="wrap_content" android:layout_gravity="right" android:paddingTop="5dip" android:paddingBottom="5dip" android:paddingRight="5dip">
+
         <TextView
-            android:id="@+id/Button02"
+            android:id="@+id/myTrip_passengers"
             android:layout_width="30dip"
             android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
             android:background="@layout/bg_round_gray"
-            android:text="99" android:layout_marginLeft="5dp" android:gravity="center_vertical|center_horizontal"/>
+            android:gravity="center_vertical|center_horizontal"
+            android:text="99" />
 
         <TextView
             android:id="@+id/TextView02"
@@ -46,13 +42,15 @@
             android:layout_height="wrap_content"
             android:paddingLeft="2dp"
             android:text="@string/passengers" />
-
+
         <TextView
-            android:id="@+id/Button01"
+            android:id="@+id/myTrip_requests"
             android:layout_width="30dip"
             android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
             android:background="@layout/bg_round_gray"
-            android:text="10" android:layout_marginLeft="5dp" android:gravity="center_vertical|center_horizontal"/>
+            android:gravity="center_vertical|center_horizontal"
+            android:text="10" />
 
         <TextView
             android:id="@+id/TextView01"
@@ -60,13 +58,15 @@
             android:layout_height="wrap_content"
             android:paddingLeft="2dp"
             android:text="@string/invites" />
-
+
         <TextView
-            android:id="@+id/button1"
+            android:id="@+id/myTrip_messages"
             android:layout_width="30dip"
             android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
             android:background="@layout/bg_round_gray"
-            android:text="10" android:layout_marginLeft="5dp" android:gravity="center_vertical|center_horizontal"/>
+            android:gravity="center_vertical|center_horizontal"
+            android:text="10" />
 
         <TextView
             android:id="@+id/textView1"

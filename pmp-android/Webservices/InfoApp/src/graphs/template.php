@@ -94,6 +94,7 @@
                 <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
                 <li><a href="./connection.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
                 <li><a href="./standby.php?<?php echo $tmplt["navGetParams"] ?>">Standby</a></li>
+                <li><a href="./profile.php?<?php echo $tmplt["navGetParams"] ?>">Profile</a></li>
             </ul>
 
 

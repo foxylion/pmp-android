@@ -20,6 +20,14 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\events\BatteryEvent;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
@@ -28,14 +36,14 @@ if ($deviceIdValid) {
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
     // Battery level chart
-    $dateColumn = new GColumn("datetime", "d", "Date");
-    $levelColumn = new GColumn("number", "l", "Level");
-    $statusColumn = new GColumn("string", "sa", "Status", null, "{\"role\": \"annotation\"}");
-    $statusTextColumn = new GColumn("string", "st", "Status Tooltip", null, "{\"role\": \"annotationText\"}");
-    $adapterColumn = new GColumn("string", "aa", "Adapter", null, "{\"role\": \"annotation\"}");
-    $adapterTextColumn = new GColumn("string", "at", "Adapter Tooltip", null, "{\"role\": \"annotationText\"}");
+    $dateColumn = new Column("datetime", "d", "Date");
+    $levelColumn = new Column("number", "l", "Level");
+    $statusColumn = new Column("string", "sa", "Status", null, "{\"role\": \"annotation\"}");
+    $statusTextColumn = new Column("string", "st", "Status Tooltip", null, "{\"role\": \"annotationText\"}");
+    $adapterColumn = new Column("string", "aa", "Adapter", null, "{\"role\": \"annotation\"}");
+    $adapterTextColumn = new Column("string", "at", "Adapter Tooltip", null, "{\"role\": \"annotationText\"}");
 
-    $levelData = new GDataTable();
+    $levelData = new DataTable();
     $levelData->addColumn($dateColumn);
     $levelData->addColumn($levelColumn);
     $levelData->addColumn($statusColumn);
@@ -44,9 +52,9 @@ if ($deviceIdValid) {
     $levelData->addColumn($adapterTextColumn);
 
     // Temperatur chart
-    $tempColumn = new GColumn("number", "t", "Temperature");
+    $tempColumn = new Column("number", "t", "Temperature");
 
-    $tempData = new GDataTable();
+    $tempData = new DataTable();
     $tempData->addColumn($dateColumn);
     $tempData->addColumn($tempColumn);
     $tempData->addColumn($statusColumn);
@@ -75,16 +83,16 @@ if ($deviceIdValid) {
     // Build line/area chart data and fill counters
     foreach ($events as $event) {
         // Level and status
-        $levelRow = new GRow();
-        //$levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
-        $levelRow->addCell(new GCell($event->getTimestamp()));
-        $levelRow->addCell(new GCell($event->getLevel()));
+        $levelRow = new Row();
+        //$levelRow->addCell(new Cell("new Date(" . $event->getTimestamp() . ")"));
+        $levelRow->addCell(new Cell($event->getTimestamp()));
+        $levelRow->addCell(new Cell($event->getLevel()));
 
         // Temperature
-        $tempRow = new GRow();
-        //$tempRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
-        $tempRow->addCell(new GCell($event->getTimestamp()));
-        $tempRow->addCell(new GCell($event->getTemperature()));
+        $tempRow = new Row();
+        //$tempRow->addCell(new Cell("new Date(" . $event->getTimestamp() . ")"));
+        $tempRow->addCell(new Cell($event->getTimestamp()));
+        $tempRow->addCell(new Cell($event->getTemperature()));
 
 
         // Status
@@ -129,20 +137,20 @@ if ($deviceIdValid) {
 
         if ($lastStatus != $event->getStatus()) {
             if ($chart->showAnnotations()) {
-                $levelRow->addCell(new GCell($event->getStatus()));
-                $levelRow->addCell(new GCell($statusText));
-                $tempRow->addCell(new GCell($event->getStatus()));
-                $tempRow->addCell(new GCell($statusText));
+                $levelRow->addCell(new Cell($event->getStatus()));
+                $levelRow->addCell(new Cell($statusText));
+                $tempRow->addCell(new Cell($event->getStatus()));
+                $tempRow->addCell(new Cell($statusText));
             }
             $lastStatus = $event->getStatus();
         }
 
         if ($lastAdapter != $event->getPlugged()) {
             if ($chart->showAnnotations()) {
-                $levelRow->addCell(new GCell(($event->getPlugged())));
-                $levelRow->addCell(new GCell($adapterText));
-                $tempRow->addCell(new GCell(($event->getPlugged())));
-                $tempRow->addCell(new GCell($adapterText));
+                $levelRow->addCell(new Cell(($event->getPlugged())));
+                $levelRow->addCell(new Cell($adapterText));
+                $tempRow->addCell(new Cell(($event->getPlugged())));
+                $tempRow->addCell(new Cell($adapterText));
             }
             $lastAdapter = $event->getPlugged();
         }
@@ -160,28 +168,28 @@ if ($deviceIdValid) {
 
 
     // Chart/discharge ratio
-    $statusColumn = new GColumn("string", "c", "Status");
-    $countColumn = new GColumn("number", "n", "Count");
+    $statusColumn = new Column("string", "c", "Status");
+    $countColumn = new Column("number", "n", "Count");
 
-    $chargingRatioData = new GDataTable();
+    $chargingRatioData = new DataTable();
     $chargingRatioData->addColumn($statusColumn);
     $chargingRatioData->addColumn($countColumn);
 
-    $chargingRatioRowC = new GRow();
-    $chargingRatioRowC->addCell(new GCell("Charging"));
-    $chargingRatioRowC->addCell(new GCell($chargings));
-    $chargingRatioRowD = new GRow();
-    $chargingRatioRowD->addCell(new GCell("Discharging"));
-    $chargingRatioRowD->addCell(new GCell($dischargings));
-    $chargingRatioRowF = new GRow();
-    $chargingRatioRowF->addCell(new GCell("Full"));
-    $chargingRatioRowF->addCell(new GCell($fulls));
-    $chargingRatioRowN = new GRow();
-    $chargingRatioRowN->addCell(new GCell("Not charging"));
-    $chargingRatioRowN->addCell(new GCell($notChargings));
-    $chargingRatioRowU = new GRow();
-    $chargingRatioRowU->addCell(new GCell("Unknown"));
-    $chargingRatioRowU->addCell(new GCell($unknowns));
+    $chargingRatioRowC = new Row();
+    $chargingRatioRowC->addCell(new Cell("Charging"));
+    $chargingRatioRowC->addCell(new Cell($chargings));
+    $chargingRatioRowD = new Row();
+    $chargingRatioRowD->addCell(new Cell("Discharging"));
+    $chargingRatioRowD->addCell(new Cell($dischargings));
+    $chargingRatioRowF = new Row();
+    $chargingRatioRowF->addCell(new Cell("Full"));
+    $chargingRatioRowF->addCell(new Cell($fulls));
+    $chargingRatioRowN = new Row();
+    $chargingRatioRowN->addCell(new Cell("Not charging"));
+    $chargingRatioRowN->addCell(new Cell($notChargings));
+    $chargingRatioRowU = new Row();
+    $chargingRatioRowU->addCell(new Cell("Unknown"));
+    $chargingRatioRowU->addCell(new Cell($unknowns));
     $chargingRatioData->addRow($chargingRatioRowC);
     $chargingRatioData->addRow($chargingRatioRowD);
     $chargingRatioData->addRow($chargingRatioRowF);
@@ -190,34 +198,34 @@ if ($deviceIdValid) {
 
 
     // Adapter ratio
-    $adapterRatioData = new GDataTable();
+    $adapterRatioData = new DataTable();
     $adapterRatioData->addColumn($statusColumn);
     $adapterRatioData->addColumn($countColumn);
 
-    $adapterRatioRowA = new GRow();
-    $adapterRatioRowA->addCell(new GCell("AC-Adapter"));
-    $adapterRatioRowA->addCell(new GCell($acPluggeds));
-    $adapterRatioRowN = new GRow();
-    $adapterRatioRowN->addCell(new GCell("Not plugged"));
-    $adapterRatioRowN->addCell(new GCell($notPluggeds));
-    $adapterRatioRowU = new GRow();
-    $adapterRatioRowU->addCell(new GCell("USB-Adapter"));
-    $adapterRatioRowU->addCell(new GCell($usbPluggeds));
+    $adapterRatioRowA = new Row();
+    $adapterRatioRowA->addCell(new Cell("AC-Adapter"));
+    $adapterRatioRowA->addCell(new Cell($acPluggeds));
+    $adapterRatioRowN = new Row();
+    $adapterRatioRowN->addCell(new Cell("Not plugged"));
+    $adapterRatioRowN->addCell(new Cell($notPluggeds));
+    $adapterRatioRowU = new Row();
+    $adapterRatioRowU->addCell(new Cell("USB-Adapter"));
+    $adapterRatioRowU->addCell(new Cell($usbPluggeds));
     $adapterRatioData->addRow($adapterRatioRowA);
     $adapterRatioData->addRow($adapterRatioRowN);
     $adapterRatioData->addRow($adapterRatioRowU);
 
     // Battery present chart data
-    $presentRatioData = new GDataTable();
+    $presentRatioData = new DataTable();
     $presentRatioData->addColumn($statusColumn);
     $presentRatioData->addColumn($countColumn);
 
-    $presentRationRowP = new GRow();
-    $presentRationRowP->addCell(new GCell("Present"));
-    $presentRationRowP->addCell(new GCell($batteryPresents));
-    $presentRationRowN = new GRow();
-    $presentRationRowN->addCell(new GCell("Not present"));
-    $presentRationRowN->addCell(new GCell($batteryNotPresents));
+    $presentRationRowP = new Row();
+    $presentRationRowP->addCell(new Cell("Present"));
+    $presentRationRowP->addCell(new Cell($batteryPresents));
+    $presentRationRowN = new Row();
+    $presentRationRowN->addCell(new Cell("Not present"));
+    $presentRationRowN->addCell(new Cell($batteryNotPresents));
     $presentRatioData->addRow($presentRationRowP);
     $presentRatioData->addRow($presentRationRowN);
 
@@ -356,8 +364,6 @@ if ($deviceIdValid) {
     }
 }
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

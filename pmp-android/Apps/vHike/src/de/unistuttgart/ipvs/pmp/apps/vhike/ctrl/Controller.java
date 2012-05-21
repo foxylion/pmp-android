@@ -1140,6 +1140,37 @@ public class Controller {
     }
     
     
+    public int queryUpdateData(final String sid, final int query_id, final int wanted_seats) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.queryUpdateData(sid, query_id, wanted_seats);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        
+        String status = null;
+        if (object != null) {
+            object.get("successful").getAsBoolean();
+            status = object.get("status").getAsString();
+        }
+        
+        if (status.equals("updated")) {
+            return Constants.STATUS_UPDATED;
+        } else if (status.equals("already_uptodate")) {
+            return Constants.STATUS_UPTODATE;
+        } else if (status.equals("no_query")) {
+            return Constants.STATUS_NO_QUERY;
+        } else if (status.equals("invalid_user")) {
+            return Constants.STATUS_INVALID_USER;
+        }
+        return 0;
+    }
+    
+    
     /**
      * Updates the users position
      * 

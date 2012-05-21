@@ -40,6 +40,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     private EditText etUsername;
     private EditText etPW;
     private CheckBox cbAutologin;
+    private CheckBox cbRemember;
     private ProgressBar pbLogin;
     
     private Controller ctrl;
@@ -65,7 +66,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         
         setContentView(R.layout.activity_login);
         
-        this.cbAutologin = (CheckBox) findViewById(R.id.Checkbox_Remember);
+        this.cbAutologin = (CheckBox) findViewById(R.id.Checkbox_AutoLogin);
+        this.cbRemember = (CheckBox) findViewById(R.id.Checkbox_Remember);
         this.etUsername = (EditText) findViewById(R.id.edit_login);
         this.etPW = (EditText) findViewById(R.id.edit_password);
         this.pbLogin = (ProgressBar) findViewById(R.id.pb_login);
@@ -131,6 +133,19 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             if (settings.getBoolean("AUTOLOGIN", false)) {
                 this.etUsername.setText(this.username);
                 this.etPW.setText(this.pw);
+            }
+            if (settings.getBoolean("Remember", false)) {
+                cbRemember.setChecked(true);
+                etUsername.setEnabled(true);
+                etUsername.setText(username);
+                etPW.setEnabled(true);
+                etPW.setText(pw);
+            } else if (!settings.getBoolean("Remember", false)) {
+                cbRemember.setChecked(false);
+                etUsername.setEnabled(true);
+                etUsername.setText("");
+                etPW.setEnabled(true);
+                etPW.setText("");
             }
         }
     }
@@ -264,6 +279,16 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                         prefsEditor.putString("USERNAME", "");
                         prefsEditor.putString("PASSWORD", "");
                         prefsEditor.commit();
+                    }
+                    if (cbRemember.isChecked()) {
+                        prefsEditor.putBoolean("Remember", cbRemember.isChecked());
+                        prefsEditor.putString("USERNAME", this.etUsername.getText().toString());
+                        prefsEditor.putString("PASSWORD", this.etPW.getText().toString());
+                        prefsEditor.commit();
+                    } else {
+                        prefsEditor.putBoolean("Remember", false);
+                        prefsEditor.putString("USERNAME", "");
+                        prefsEditor.putString("PASSWORD", "");
                     }
                     LoginActivity.this.finish();
                 } else {

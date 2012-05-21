@@ -57,12 +57,13 @@ public class ContactResource extends Resource {
     public void call(String appIdentifier, String tel) {
         try {
             String url = String.valueOf(tel);
-            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+            Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + url));
             
             callIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.contactRG.getContext(appIdentifier).startActivity(callIntent);
         } catch (ActivityNotFoundException e) {
             Log.i(this, "ActivityNotFoundException");
+            e.printStackTrace();
         }
     }
     
@@ -103,9 +104,8 @@ public class ContactResource extends Resource {
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ((Activity) this.contactRG.getContext(appIdentifier)).startActivityForResult(emailIntent, 0);
-        //        ((Activity) contactRG.getContext(appIdentifier)).startActivityForResult(
-        //                Intent.createChooser(emailIntent, "Email:"), 0);
+        this.contactRG.getContext(appIdentifier).startActivity(emailIntent);
+//        ((Activity) this.contactRG.getContext(appIdentifier)).startActivityForResult(emailIntent, 0);
     }
     
     

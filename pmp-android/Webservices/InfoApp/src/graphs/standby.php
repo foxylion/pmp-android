@@ -20,6 +20,15 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\events\AwakeEvent;
+use infoapp\events\ScreenEvent;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
@@ -59,15 +68,15 @@ if ($deviceIdValid) {
 
     // Area chart
     // ----------
-    $dateColumn = new GColumn("datetime", "d", "Date");
-    $awakeColumn = new GColumn("number", "a", "Awake");
-    $awakeAnColumn = new GColumn("string", "aa", "Status", null, "{\"role\": \"annotation\"}");
-    $awakeAnTextColumn = new GColumn("string", "aat", "Status Tooltip", null, "{\"role\": \"annotationText\"}");
-    $screenColumn = new GColumn("number", "a", "Screen");
-    $screenAnColumn = new GColumn("string", "aa", "Status", null, "{\"role\": \"annotation\"}");
-    $screenAnTextColumn = new GColumn("string", "aat", "Status Tooltip", null, "{\"role\": \"annotationText\"}");
+    $dateColumn = new Column("datetime", "d", "Date");
+    $awakeColumn = new Column("number", "a", "Awake");
+    $awakeAnColumn = new Column("string", "aa", "Status", null, "{\"role\": \"annotation\"}");
+    $awakeAnTextColumn = new Column("string", "aat", "Status Tooltip", null, "{\"role\": \"annotationText\"}");
+    $screenColumn = new Column("number", "a", "Screen");
+    $screenAnColumn = new Column("string", "aa", "Status", null, "{\"role\": \"annotation\"}");
+    $screenAnTextColumn = new Column("string", "aat", "Status Tooltip", null, "{\"role\": \"annotationText\"}");
 
-    $areaChartData = new GDataTable();
+    $areaChartData = new DataTable();
     $areaChartData->addColumn($dateColumn);
     $areaChartData->addColumn($awakeColumn);
     $areaChartData->addColumn($awakeAnColumn);
@@ -80,37 +89,37 @@ if ($deviceIdValid) {
     $lastScrEvent = new ScreenEvent(1, 1, false);
     // Fill chart with data form $rawData
     foreach ($rawData as $timestamp => $raw) {
-        $row = new GRow();
-        $row->addCell(new GCell($timestamp));
+        $row = new Row();
+        $row->addCell(new Cell($timestamp));
         // Values
         if (isset($raw[0])) {
-            $row->addCell(new GCell((int) $raw[0]->isAwake()));
-            $row->addCell(new GCell(null));
-            $row->addCell(new GCell(null));
+            $row->addCell(new Cell((int) $raw[0]->isAwake()));
+            $row->addCell(new Cell(null));
+            $row->addCell(new Cell(null));
             $lastAwEvent = $raw[0];
         } else {
-            $row->addCell(new GCell((int) $lastAwEvent->isAwake()));
+            $row->addCell(new Cell((int) $lastAwEvent->isAwake()));
             if ($chart->showAnnotations()) {
-                $row->addCell(new GCell("i"));
-                $row->addCell(new GCell("Value interpolated"));
+                $row->addCell(new Cell("i"));
+                $row->addCell(new Cell("Value interpolated"));
             } else {
-                $row->addCell(new GCell(null));
-                $row->addCell(new GCell(null));
+                $row->addCell(new Cell(null));
+                $row->addCell(new Cell(null));
             }
         }
 
 
         if (isset($raw[1])) {
-            $row->addCell(new GCell((int) $raw[1]->isDisplayOn()));
+            $row->addCell(new Cell((int) $raw[1]->isDisplayOn()));
             $lastScrEvent = $raw[1];
         } else {
-            $row->addCell(new GCell((int) $lastScrEvent->isDisplayOn()));
+            $row->addCell(new Cell((int) $lastScrEvent->isDisplayOn()));
             if ($chart->showAnnotations()) {
-                $row->addCell(new GCell("i"));
-                $row->addCell(new GCell("Value interpolated"));
+                $row->addCell(new Cell("i"));
+                $row->addCell(new Cell("Value interpolated"));
             } else {
-                $row->addCell(new GCell(null));
-                $row->addCell(new GCell(null));
+                $row->addCell(new Cell(null));
+                $row->addCell(new Cell(null));
             }
         }
 
@@ -120,54 +129,54 @@ if ($deviceIdValid) {
 
     // Ratios
     // ------
-    $statusColumn = new GColumn("string", "c", "Status");
-    $countColumn = new GColumn("number", "n", "Count");
+    $statusColumn = new Column("string", "c", "Status");
+    $countColumn = new Column("number", "n", "Count");
 
     // Awake
-    $awakeRatio = new GDataTable();
+    $awakeRatio = new DataTable();
     $awakeRatio->addColumn($statusColumn);
     $awakeRatio->addColumn($countColumn);
 
-    $awakeRowT = new GRow();
-    $awakeRowT->addCell(new GCell("Awake"));
-    $awakeRowT->addCell(new GCell($awakes));
-    $awakeRowF = new GRow();
-    $awakeRowF->addCell(new GCell("Asleep"));
-    $awakeRowF->addCell(new GCell(count($awEvents) - $awakes));
+    $awakeRowT = new Row();
+    $awakeRowT->addCell(new Cell("Awake"));
+    $awakeRowT->addCell(new Cell($awakes));
+    $awakeRowF = new Row();
+    $awakeRowF->addCell(new Cell("Asleep"));
+    $awakeRowF->addCell(new Cell(count($awEvents) - $awakes));
 
     $awakeRatio->addRow($awakeRowT);
     $awakeRatio->addRow($awakeRowF);
 
     // Screen
-    $screenRatio = new GDataTable();
+    $screenRatio = new DataTable();
     $screenRatio->addColumn($statusColumn);
     $screenRatio->addColumn($countColumn);
 
-    $screenRowT = new GRow();
-    $screenRowT->addCell(new GCell("On"));
-    $screenRowT->addCell(new GCell($screens));
-    $screenRowF = new GRow();
-    $screenRowF->addCell(new GCell("Off"));
-    $screenRowF->addCell(new GCell(count($scrEvents) - $screens));
+    $screenRowT = new Row();
+    $screenRowT->addCell(new Cell("On"));
+    $screenRowT->addCell(new Cell($screens));
+    $screenRowF = new Row();
+    $screenRowF->addCell(new Cell("Off"));
+    $screenRowF->addCell(new Cell(count($scrEvents) - $screens));
 
     $screenRatio->addRow($screenRowT);
     $screenRatio->addRow($screenRowF);
 
     // Awake / Screen ratio
-    $awakeScreenRatio = new GDataTable();
+    $awakeScreenRatio = new DataTable();
     $awakeScreenRatio->addColumn($statusColumn);
     $awakeScreenRatio->addColumn($countColumn);
 
-    $awakeScreenRowA = new GRow();
-    $awakeScreenRowA->addCell(new GCell("Awake"));
-    $awakeScreenRowA->addCell(new GCell($awakes));
-    $awakeScreenRowS = new GRow();
-    $awakeScreenRowS->addCell(new GCell("Screen On"));
-    $awakeScreenRowO = new GRow();
-    $awakeScreenRowO->addCell(new GCell("Device asleep (and screen off)"));
+    $awakeScreenRowA = new Row();
+    $awakeScreenRowA->addCell(new Cell("Awake"));
+    $awakeScreenRowA->addCell(new Cell($awakes));
+    $awakeScreenRowS = new Row();
+    $awakeScreenRowS->addCell(new Cell("Screen On"));
+    $awakeScreenRowO = new Row();
+    $awakeScreenRowO->addCell(new Cell("Device asleep (and screen off)"));
     $off = count($awEvents) + count($scrEvents) - $awakes - $screens;
-    $awakeScreenRowO->addCell(new GCell($off));
-    $awakeScreenRowS->addCell(new GCell($screens));
+    $awakeScreenRowO->addCell(new Cell($off));
+    $awakeScreenRowS->addCell(new Cell($screens));
     $awakeScreenRatio->addRow($awakeScreenRowA);
     $awakeScreenRatio->addRow($awakeScreenRowS);
     $awakeScreenRatio->addRow($awakeScreenRowO);
@@ -286,8 +295,6 @@ if ($deviceIdValid) {
     }
 }
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

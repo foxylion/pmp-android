@@ -25,6 +25,8 @@
  * It also sets the HTTP header to the valid JSON-header, connects to the database-server and
  * opens the database.
  */
+use infoapp\Database;
+
 if (!defined("INCLUDE")) {
     exit;
 }
@@ -33,10 +35,11 @@ if (!defined("INCLUDE")) {
 // Fallback if .htaccess is ignored
 // Based on http://www.php.net/manual/de/security.magicquotes.disabling.php#91585
 if (get_magic_quotes_gpc()) {
-    function stripslashes_gpc(&$value)
-    {
+
+    function stripslashes_gpc(&$value) {
         $value = stripslashes($value);
     }
+
     array_walk_recursive($_GET, 'stripslashes_gpc');
     array_walk_recursive($_POST, 'stripslashes_gpc');
     array_walk_recursive($_COOKIE, 'stripslashes_gpc');
@@ -46,7 +49,11 @@ if (get_magic_quotes_gpc()) {
 // Set JSON-Header
 header("Content-type: application/json");
 
-require ("./../inc/classloader.inc.php");
+// Load config file and classloader
+require_once ("./../inc/config.inc.php");
+require_once ("./../inc/class/ClassLoader.class.php");
+
+InfoApp\ClassLoader::register();
 
 // Connect to database
 try {

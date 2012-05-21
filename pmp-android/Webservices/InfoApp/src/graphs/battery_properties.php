@@ -20,31 +20,39 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+use infoapp\properties\BatteryProperties;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
 $stat = BatteryProperties::getStatistic();
 
 // Technology distribution
-$technologyData = new GDataTable();
-$technologyData->addColumn(new GColumn("string", "t", "Technology"));
-$technologyData->addColumn(new GColumn("number", "c", "Count"));
+$technologyData = new DataTable();
+$technologyData->addColumn(new Column("string", "t", "Technology"));
+$technologyData->addColumn(new Column("number", "c", "Count"));
 
 foreach ($stat->getTechnologyDist() as $tech => $count) {
-    $row = new GRow();
-    $row->addCell(new GCell($tech));
-    $row->addCell(new GCell($count));
+    $row = new Row();
+    $row->addCell(new Cell($tech));
+    $row->addCell(new Cell($count));
     $technologyData->addRow($row);
 }
 
 // Average health
-$healthData = new GDataTable();
-$healthData->addColumn(new GColumn("string", "t", "Technology"));
-$healthData->addColumn(new GColumn("number", "a", "Average"));
+$healthData = new DataTable();
+$healthData->addColumn(new Column("string", "t", "Technology"));
+$healthData->addColumn(new Column("number", "a", "Average"));
 foreach ($stat->getHealthAvg() as $tech => $avg) {
-    $row = new GRow();
-    $row->addCell(new GCell($tech));
-    $row->addCell(new GCell($avg));
+    $row = new Row();
+    $row->addCell(new Cell($tech));
+    $row->addCell(new Cell($avg));
     $healthData->addRow($row);
 }
 
@@ -117,8 +125,6 @@ if ($svgCharts) {
 }
 
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>
