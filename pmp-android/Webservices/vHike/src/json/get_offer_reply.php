@@ -8,31 +8,27 @@ require("./../inc/json_framework.inc.php");
 // Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
 
-try {
-	$user = Session::getInstance() -> getLoggedInUser();
-	$offers = Offer::getOfferReply($_POST["tripid"], $_POST["uid"]);
-	$offersOutput = null;
-	if ($offers && count($offers) > 0) {
-		$offersOutput = array();
-		foreach ($offers as $offer) {
-			$offersOutput[] = array ('offer'		=> $offer->getId(),
-									 'trip'   		=> $offer->trip,
-									 'query'  		=> $offer->query,
-									 'status'		=> $offer->status,
-									 'sender' 		=> $offer->sender,
-									 'recipient'	=> $offer->recipient,
-									 'message' 		=> $offer->message);
-		}
+$user = Session::getInstance() -> getLoggedInUser();
 
+try {
+	
+	$res = Offer::getOfferReply($_POST["tripid"], $_POST["uid"]);
+	
+	if ($res) {
+		$output = array('successful'	=> true,
+						'status'		=> 'result',
+						'offers'		=> $res);
+		echo Json::arrayToJson($output);
 	} else {
-		$output = array("successful" => true,
-						"offers"	 => $offersOutput);
+		$output = array('successful'	=> true,
+						'status'		=> 'no_offer_found');
+		echo Json::arrayToJson($output);
 	}
-	echo Json::arrayToJson($output);
+	
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
 } catch (Exception $e) {
-	echo($e->getTraceAsString());
+	echo($e->getMessage());
 }
 Database::getInstance()->disconnect();
 
