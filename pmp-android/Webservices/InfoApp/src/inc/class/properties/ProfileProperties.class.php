@@ -190,7 +190,7 @@ class ProfileProperties extends Properties {
     }
 
     /**
-     * Gets the number of contacts the user has inserted in his/her adressbook
+     * Gets the number of contacts the user has inserted in his/her address book
      * @return short    Number of contacts
      */
     public function getContactsCount() {
@@ -198,7 +198,7 @@ class ProfileProperties extends Properties {
     }
 
     /**
-     * Sets the number of contacts the user has insterted in his/her adressbook
+     * Sets the number of contacts the user has insterted in his/her address book
      * @param short $count  Number of contacts
      * @throws InvalidArgumentException Thrown, if the argument is no integer or out of range
      */
