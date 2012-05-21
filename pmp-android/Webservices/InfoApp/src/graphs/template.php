@@ -103,6 +103,7 @@
                 <li><a href="./battery_properties.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connection_properties.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
                 <li><a href="./hardware_properties.php?<?php echo $tmplt["navGetParams"] ?>">Hardware</a></li>
+                <li><a href="./profile_properties.php?<?php echo $tmplt["navGetParams"] ?>">Profile</a></li>
                 <li><a href="./software_properties.php?<?php echo $tmplt["navGetParams"] ?>">Software</a></li>
             </ul>
 

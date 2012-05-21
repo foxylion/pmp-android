@@ -205,7 +205,7 @@ if ($svgCharts) {
     $sensorChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
     $sensorChart->setTitle("Sensor distribution");
     $sensorChart->setVisibleAxes(array('x', 'y'));
-    $sensorChart->setBarWidth(60, 4, 60);
+    $sensorChart->setBarWidth(50, 4, 50);
     $bridge = new GChartPhpBridge($sensorData);
     $bridge->pushData($sensorChart, GChartPhpBridge::AXIS_LABEL);
 
