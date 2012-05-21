@@ -103,7 +103,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 
                 timer.schedule(new ConnectedChecker(), 2000);
                 try {
-                    rgBluetooth.makeDiscoverable(dur);
+                    rgBluetooth.makeDiscoverable("vHike:" + dest + "-" + seat, dur);
                     
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -221,28 +221,39 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         
         
         public void run() {
-            running = true;
             try {
                 if (!rgBluetooth.isDiscovering()) {
-                    rgBluetooth.getFoundDevices();
+                    Log.i(TAG, "Time: adding devices");
                     DeviceArrayParcelable foundDevices = rgBluetooth.getFoundDevices();
+                    Log.i(TAG, "nach getFoundDevices");
                     DeviceArray foundDevicesArray = foundDevices.getDevices();
+                    Log.i(TAG, "nach getDevices");
                     final List<String> founddevices = foundDevicesArray.getDevices();
+                    Log.i(TAG, "nach getDevices");
                     final List<Device> devices = BluetoothTools.DeviceArrayListToDeviceList(founddevices);
-                    
+                    Log.i(TAG, "nach getFoundDevices to list");
+                    //                    DeviceArrayParcelable paired = rgBluetooth.getPairedDevices();
+                    //                    DeviceArray pairedArray = paired.getDevices();
+                    //                    final List<String> pairedlist = pairedArray.getDevices();
+                    //                    final List<Device> paireddevices = BluetoothTools.DeviceArrayListToDeviceList(pairedlist);
+                    //                    
+                    //                                        for (Device device : paireddevices) {
+                    //                                            devices.add(device);
+                    //                                        }
                     cancelDialog.dismiss();
-                    
+                    Log.i(TAG, "nach dismiss dialog");
                     refresh.post(new Runnable() {
                         
                         public void run() {
                             CharSequence[] items = new CharSequence[devices.size()];
                             for (int i = 0; i < devices.size(); i++) {
                                 items[i] = devices.get(i).getName();
+                                Log.i(TAG, "Added device: " + devices.get(i).getName() + " "
+                                        + devices.get(i).getAddress());
                             }
                             createAlertDialog(items, devices).show();
                         }
                     });
-                    running = false;
                 } else {
                     timer.schedule(new Time(rgBluetooth), 2000);
                 }
@@ -257,12 +268,14 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         public void run() {
             try {
                 if (rgBluetooth.isConnected()) {
+                    Log.i(TAG, "ConnectedChecker is Connected");
                     BluetoothModel.getInstance().setConnected(rgBluetooth.isConnected());
                     
                     cancelDialog.dismiss();
                     
                     BluetoothPlanTripActivity.this.finish();
                 } else {
+                    Log.i(TAG, "ConnectedChecker rescheduled");
                     timer.schedule(new ConnectedChecker(), 2000);
                 }
                 

@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
 import java.io.InputStream;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.Road;
@@ -42,6 +44,7 @@ public class ContactDialog extends Dialog {
     private String userName;
     private Profile foundUser;
     private Controller ctrl;
+    private Activity activity;
     
     private Road mRoad;
     
@@ -57,17 +60,13 @@ public class ContactDialog extends Dialog {
         this.iContact = iContact;
         this.foundUser = foundUser;
         this.ctrl = ctrl;
+        this.activity = (Activity) context;
         
         setButtons();
     }
     
     
     private void setButtons() {
-        
-        // needed to return to activity after phone call
-        //        PhoneCallListener phoneListener = new PhoneCallListener((Activity) this.context);
-        //        TelephonyManager telephonyManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
-        //        telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         
         this.phone = (Button) findViewById(R.id.btn_phone);
         this.phone.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +85,11 @@ public class ContactDialog extends Dialog {
                                     "The user has hidden his contact information. Contacting "
                                             + foundUser.getUsername() + " is not possible", Toast.LENGTH_LONG).show();
                         } else {
-                            Log.i(this, foundUser.getID() + " is " + anonymous);
-                            iContact.call(foundUser.getTel());
-                            //                            iContact.call(String.valueOf(5556));
+                            if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                                iContact.call(foundUser.getTel());
+                            } else {
+                                PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                            }
                         }
                         
                     }
@@ -105,7 +106,12 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser).show();
+                if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                    vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser)
+                            .show();
+                } else {
+                    PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                }
                 cancel();
             }
         });
@@ -116,8 +122,13 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 try {
-                    iContact.email("nguyen.andres@gmail.com", "vHike Trip to "
-                            + ViewModel.getInstance().getDestination(), "Hello " + foundUser.getUsername() + ",");
+                    String dest = parseDestination(ViewModel.getInstance().getDestination());
+                    if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                        iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
+                                "Hello " + foundUser.getUsername() + ",");
+                    } else {
+                        PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                    }
                 } catch (RemoteException e) {
                     Toast.makeText(context, "Unable to send email", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
@@ -178,6 +189,23 @@ public class ContactDialog extends Dialog {
             }
             
         });
+    }
+    
+    
+    private String parseDestination(String destination) {
+        String[] temp;
+        if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+            String dest = destination.replaceAll(";", "-");
+            Log.i(this, "Split: " + destination + ", " + dest);
+            return dest;
+        } else {
+            
+            temp = destination.split(";");
+            Log.i(this, "1.Split: " + temp[1]);
+            temp = temp[1].split(";");
+            Log.i(this, "2.Split: " + temp[0]);
+            return temp[0];
+        }
     }
     
     Handler mHandler = new Handler() {
