@@ -80,22 +80,12 @@ class Offer {
             return null;
         }
 		
-		$offers = array();
-		
-		while (($row = $db->fetch($query)) != null) {
-			$offer = new Offer();
-			$offer->trip = Trip::loadTripBySqlResult($row, $uid, "uid");
-			$offer->id = $row["id"];
-		    $offer->tripid = $row["trip"];
-			$offer->query = $row["query"];
-			$offer->status = $row["status"];
-			$offer->sender = $row["sender"];
-			$offer->recipient = $row["recipient"];
-			$offer->message = $row["message"];
-			$offers[] = $offer;
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
 		}
 
-		return $offers;
+		return $arr;
 	}
 	
 	/**
@@ -305,6 +295,22 @@ class Offer {
 	 */
 	public function getMessage() {
 		return $this->message;
+	}
+
+	public static function getInvites($lift_id, $uid) {
+		$db = Database::getInstance();
+		$query = $db->query("SELECT COUNT(dev_offer.trip) AS 'Invites', COUNT(dev_offer.message) AS 'Messages' FROM dev_offer WHERE dev_offer.trip = $lift_id AND dev_offer.recipient = $uid");
+		
+		if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+		
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
+		}
+
+		return $arr;
 	}
 
 	public function accept() {

@@ -125,7 +125,8 @@ public class MainActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void onClick(View v) {
-                vHikeService.requestServiceFeature(MainActivity.this, 0);
+                Intent intent = new Intent(MainActivity.this, MyTripActivity.class);
+                MainActivity.this.startActivity(intent);
             }
             
         });

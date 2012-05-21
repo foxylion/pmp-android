@@ -255,21 +255,23 @@ if ($deviceIdValid) {
         // Draw SVG-Charts
         // ---------------
         $tmplt["content"] .= "
-            <div id=\"areaChart\" style=\"width:800; height:150\"></div>
-            <div id=\"awakeRatio\" style=\"width:800; height:400\"></div>
-            <div id=\"screenRatio\" style=\"width:800; height:400\"></div>
-            <div id=\"awakeScreenRatio\" style=\"width:800; height:400\"></div>";
+            <div id=\"areaChart\"></div>
+            <div id=\"awakeRatio\"></div>
+            <div id=\"screenRatio\"></div>
+            <div id=\"awakeScreenRatio\"></div>";
     } else {
         // Draw static/PNG-charts
         // ----------------------
-        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
 
         $areaChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $areaChart->setTitle("Standby status");
         $areaChart->setProperty("cht", "lxy");
         $areaChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($areaChartData);
-        $bridge->pushData($areaChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($areaChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
 
         $awakeRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
         $awakeRatioChart->setTitle("Device active ratio");

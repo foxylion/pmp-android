@@ -215,5 +215,21 @@
 		</tr>
 	</table>
 </form>
+
+<h2>Get my lifts</h2>
+<form action="../load_my_lifts.php" method="post" target="r">
+	<table>
+		<tr>
+			<td>My Id:</td>
+			<td><input name="uid" type="text" value="0"/></td>
+		</tr>
+		<tr>
+			<td>Buttons</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
+</form>
+
 </body>
 </html>

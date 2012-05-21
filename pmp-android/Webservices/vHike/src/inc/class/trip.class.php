@@ -354,6 +354,38 @@ class Trip {
 		}
 	}
 
+	public static function getMyLifts($uid) {
+		$db = Database::getInstance();
+		$query = $db->query("SELECT dev_trip.id AS 'TripID', dev_trip.destination AS 'Destination', dev_trip.creation AS 'Time' FROM dev_trip WHERE driver=$uid AND ending=0");
+		
+		if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+		
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
+		}
+
+		return $arr;
+	}
+
+	public static function getLiftIds($uid) {
+		$db = Database::getInstance();
+		$query = $db->query("SELECT  dev_trip.id AS 'LiftIds' FROM dev_trip WHERE dev_trip.driver = $uid AND dev_trip.ending = 0");
+		
+		if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+		
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row["LiftIds"];
+		}
+
+		return $arr;
+	}
+
 	/**
 	 * Returns all trips started by $user_id. If $ended is TRUE, ended trips will also be returned.
 	 *
