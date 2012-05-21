@@ -4,7 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="7" />
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="11" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -28,9 +30,9 @@
             android:name="de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <!--
@@ -50,8 +52,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
+            </intent-filter>            -->
         </activity>
         <activity
             android:name=".gui.RegisterActivity"
@@ -129,12 +130,11 @@
             android:name=".gui.TripDetailActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
 
-            <!-- 
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-			-->
+            </intent-filter>            -->
         </activity>
 
         <!--
@@ -147,9 +147,7 @@
 		Exported services (services which either set exported=true or contain an
 		intent-filter and do not specify exported=false) should define a permission
 		that an entity must have in order to launch the service or bind to it. Without
-		this, any application can use this service.
-
-
+		this, any application can use this service.
         -->
         <service
             android:name="de.unistuttgart.ipvs.pmp.service.app.AppService"
