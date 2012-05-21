@@ -74,23 +74,28 @@ class Offer {
 
 	public static function getOfferReply($tripId, $uid) {
 		$db = Database::getInstance();
-		$row = $db->fetch($db->query("SELECT * FROM dev_offer WHERE trip=$tripId AND recipient=$uid"));
+		$query = $db->query("SELECT * FROM dev_offer WHERE trip=$tripId AND recipient=$uid");
 		
 		if ($db->getAffectedRows() <= 0) {
             return null;
         }
 		
-		$offer = new Offer();
+		$offers = array();
 		
-		$offer->id = $row["id"];
-		$offer->trip = $row["trip"];
-		$offer->query = $row["query"];
-		$offer->status = $row["status"];
-		$offer->sender = $row["sender"];
-		$offer->recipient = $row["recipient"];
-		$offer->message = $row["message"];
-		
-		return $offer;
+		while (($row = $db->fetch($query)) != null) {
+			$offer = new Offer();
+			$offer->trip = Trip::loadTripBySqlResult($row, $uid, "uid");
+			$offer->id = $row["id"];
+		    $offer->tripid = $row["trip"];
+			$offer->query = $row["query"];
+			$offer->status = $row["status"];
+			$offer->sender = $row["sender"];
+			$offer->recipient = $row["recipient"];
+			$offer->message = $row["message"];
+			$offers[] = $offer;
+		}
+
+		return $offers;
 	}
 	
 	/**

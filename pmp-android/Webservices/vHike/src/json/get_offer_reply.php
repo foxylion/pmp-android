@@ -10,27 +10,29 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 	$user = Session::getInstance() -> getLoggedInUser();
-	$offer = Offer::getOfferReply($_GET["tripid"], $_GET["uid"]);
-	
-	if ($offer != null) {
-		$output = array("successful" => true,
-						"status"	 => "successful",
-						"id"		 => $offer->id,
-						"trip"		 => $offer->trip,
-						"query" 	 => $offer->query,
-						"status" 	 => $offer->status,
-						"sender" 	 => $offer->sender,
-						"recipient"  => $offer->recipient,
-						"message" 	 => $offer->message);
+	$offers = Offer::getOfferReply($_POST["tripid"], $_POST["uid"]);
+	$offersOutput = null;
+	if ($offers && count($offers) > 0) {
+		$offersOutput = array();
+		foreach ($offers as $offer) {
+			$offersOutput[] = array ('offer'		=> $offer->getId(),
+									 'trip'   		=> $offer->trip,
+									 'query'  		=> $offer->query,
+									 'status'		=> $offer->status,
+									 'sender' 		=> $offer->sender,
+									 'recipient'	=> $offer->recipient,
+									 'message' 		=> $offer->message);
+		}
 
 	} else {
 		$output = array("successful" => true,
-						"status"	 => "no_offer_found");
+						"offers"	 => $offersOutput);
 	}
-
 	echo Json::arrayToJson($output);
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
+} catch (Exception $e) {
+	echo($e->getTraceAsString());
 }
 Database::getInstance()->disconnect();
 
