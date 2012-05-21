@@ -36,44 +36,42 @@ if ($deviceIdValid) {
     $eventManager = $device->getProfileEventManager();
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
-    // Bluetooth and wifi adapter chart
+    // Event charts
     $dateColumn = new Column("datetime", "d", "Date");
-    $callInColumn = new Column("number", "c", "Call Incoming");
-    $callOutColumn = new Column("number", "c", "Call Outgoing");
-    $smsInColumn = new Column("number", "s", "SMS Incoming");
-    $smsOutColumn = new Column("number", "s", "SMS Outgoing");
+    $incomingColumn = new Column("number", "i", "Incoming");
+    $outgoingColumn = new Column("number", "o", "Outgoing");
     $cityColumn = new Column("string", "c", "City", null, "{\"role\": \"tooltip\"}");
 
     $callData = new DataTable();
     $callData->addColumn($dateColumn);
-    $callData->addColumn($callInColumn);
+    $callData->addColumn($incomingColumn);
     $callData->addColumn($cityColumn);
-    $callData->addColumn($callOutColumn);
+    $callData->addColumn($outgoingColumn);
     $callData->addColumn($cityColumn);
 
     $smsData = new DataTable();
     $smsData->addColumn($dateColumn);
-    $smsData->addColumn($smsInColumn);
+    $smsData->addColumn($incomingColumn);
     $smsData->addColumn($cityColumn);
-    $smsData->addColumn($smsOutColumn);
+    $smsData->addColumn($outgoingColumn);
     $smsData->addColumn($cityColumn);
 
 
     // City chart
     $cityColumn = new Column("string", "c", "Cities");
-    $countColumn = new Column("number", "n", "Connections");
+    $countColumn = new Column("number", "e", "Events");
 
-    $bluetoothCitiesData = new DataTable();
-    $bluetoothCitiesData->addColumn($cityColumn);
-    $bluetoothCitiesData->addColumn($countColumn);
+    $callCitiesData = new DataTable();
+    $callCitiesData->addColumn($cityColumn);
+    $callCitiesData->addColumn($countColumn);
 
-    $wifiCitiesData = new DataTable();
-    $wifiCitiesData->addColumn($cityColumn);
-    $wifiCitiesData->addColumn($countColumn);
+    $smsCitiesData = new DataTable();
+    $smsCitiesData->addColumn($cityColumn);
+    $smsCitiesData->addColumn($countColumn);
 
     // Get data used to display the charts
-    $citiesBluetooth = array();
-    $citiesWifi = array();
+    $citiesCall = array();
+    $citiesSms = array();
 
     foreach ($events as $event) {
 
@@ -95,25 +93,38 @@ if ($deviceIdValid) {
 
         $city = $event->getCity();
         if ($event->getEvent() == ProfileEvent::CALL) {
+            // City
+            if (array_key_exists($city, $citiesCall)) {
+                $citiesCall[$city]++;
+            } else {
+                $citiesCall[$city] = 1;
+            }
+
+            // Event
             if ($event->getDirection() == ProfileEvent::INCOMING) {
                 $callRow->addCell(new Cell(1));
                 $callRow->addCell(new Cell($cityTooltip));
+                $callRow->addCell(new Cell("null"));
+                $callRow->addCell(new Cell("null"));
             } else {
                 $callRow->addCell(new Cell("null"));
                 $callRow->addCell(new Cell("null"));
-                $callRow->addCell(new Cell(1));
+               $callRow->addCell(new Cell(1));
                 $callRow->addCell(new Cell($cityTooltip));
             }
-        } else {
-            $callRow->addCell(new Cell("null"));
-            $callRow->addCell(new Cell("null"));
-            $callRow->addCell(new Cell("null"));
-            $callRow->addCell(new Cell("null"));
+            $callData->addRow($callRow);
         }
 
-        $callData->addRow($callRow);
 
         if ($event->getEvent() == ProfileEvent::SMS) {
+            // City
+            if (array_key_exists($city, $citiesSms)) {
+                $citiesSms[$city]++;
+            } else {
+                $citiesSms[$city] = 1;
+            }
+
+            // Event
             if ($event->getDirection() == ProfileEvent::INCOMING) {
                 $smsRow->addCell(new Cell(1));
                 $smsRow->addCell(new Cell($cityTooltip));
@@ -125,25 +136,21 @@ if ($deviceIdValid) {
                 $smsRow->addCell(new Cell(1));
                 $smsRow->addCell(new Cell($cityTooltip));
             }
-        } else {
-            $smsRow->addCell(new Cell("null"));
-            $smsRow->addCell(new Cell("null"));
-            $smsRow->addCell(new Cell("null"));
-            $smsRow->addCell(new Cell("null"));
+            $smsData->addRow($smsRow);
         }
-
-        $smsData->addRow($smsRow);
     }
 
-    $bluetoothCitiesData->addRowsAssocArray($citiesBluetooth);
-    $wifiCitiesData->addRowsAssocArray($citiesWifi);
+    $callCitiesData->addRowsAssocArray($citiesCall);
+    $smsCitiesData->addRowsAssocArray($citiesSms);
 
-    $tmplt["pageTitle"] = "Connection";
+    $tmplt["pageTitle"] = "Profile";
     if ($svgCharts) {
         // Draw SVG-Charts
         // ---------------
         $tmplt["jsFunctDrawChart"] = "drawCallChart();
-                drawSmsChart();";
+                drawSmsChart();
+                drawCallCitiesChart();
+                drawSmsCitiesChart();";
 
         $tmplt["jsDrawFunctions"] = "function drawCallChart() {
         var data = new google.visualization.DataTable(" . $callData->getJsonObject() . ");
@@ -171,51 +178,77 @@ if ($deviceIdValid) {
 
         var chart = new google.visualization.ScatterChart(document.getElementById('sms'));
         chart.draw(data, options);
+    }
+
+    function drawCallCitiesChart() {
+        var data = new google.visualization.DataTable(" . $callCitiesData->getJsonObject() . ");
+
+        var options = {'title':'Number of calls per city',
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('callcities'));
+        chart.draw(data, options);
+    }
+
+    function drawSmsCitiesChart() {
+        var data = new google.visualization.DataTable(" . $smsCitiesData->getJsonObject() . ");
+
+        var options = {'title':'Number of SMS messages per city',
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('smscities'));
+        chart.draw(data, options);
     }";
     }
 
     $tmplt["content"] = "
-            <h1>Connection Events</h1>";
+            <h1>Profile Events</h1>";
     if ($svgCharts) {
         // Draw SVG-Charts
         // ---------------
         $tmplt["content"] .= "
-            <div id=\"call\" style=\"width:800; height:150\"></div>
-            <div id=\"sms\" style=\"width:800; height:150\"></div>";
+            <div id=\"call\"></div>
+            <div id=\"sms\"></div>
+            <div id=\"callcities\"></div>
+            <div id=\"smscities\"></div>";
     } else {
         // Draw static/PNG-charts
         // ----------------------
-        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
 
-        $connectionBluetoothChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
-        $connectionBluetoothChart->setTitle("Bluetooth adapter status");
-        $connectionBluetoothChart->setProperty("cht", "lxy");
-        $connectionBluetoothChart->setVisibleAxes(array('x', 'y'));
+        $callChart = new gchart\gScatterChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $callChart->setTitle("Call events");
+        $callChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($callData);
-        $bridge->pushData($connectionBluetoothChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($callChart, GChartPhpBridge::IN_TURN, $scale, $scaleLabel, $offset);
 
-        $connectionWifiChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
-        $connectionWifiChart->setTitle("Wi-Fi adapter status");
-        $connectionWifiChart->setProperty("cht", "lxy");
-        $connectionWifiChart->setVisibleAxes(array('x', 'y'));
-        $bridge = new GChartPhpBridge($wifiAdapterData);
-        $bridge->pushData($connectionWifiChart, GChartPhpBridge::Y_COORDS, $scale);
+        $smsChart = new gchart\gScatterChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $smsChart->setTitle("SMS events");
+        $smsChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($smsData);
+        $bridge->pushData($smsChart, GChartPhpBridge::IN_TURN, $scale);
 
-        $bluetoothCountChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
-        $bluetoothCountChart->setTitle("Number of bluetooth parings per city");
-        $bridge = new GChartPhpBridge($bluetoothCitiesData);
-        $bridge->pushData($bluetoothCountChart, GChartPhpBridge::LEGEND);
+        $callCitiesChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $callCitiesChart->setTitle("Number of calls per city");
+        $bridge = new GChartPhpBridge($callCitiesData);
+        $bridge->pushData($callCitiesChart, GChartPhpBridge::LEGEND);
 
-        $wifiCountChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
-        $wifiCountChart->setTitle("Number of Wi-Fi connections per city");
-        $bridge = new GChartPhpBridge($wifiCitiesData);
-        $bridge->pushData($wifiCountChart, GChartPhpBridge::LEGEND);
+        $smsCitiesChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $smsCitiesChart->setTitle("Number of SMS messages per city");
+        $bridge = new GChartPhpBridge($smsCitiesData);
+        $bridge->pushData($smsCitiesChart, GChartPhpBridge::LEGEND);
 
         $tmplt["content"] .= "
-            <p><img src=\"" . $connectionBluetoothChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>
-            <p><img src=\"" . $connectionWifiChart->getUrl() . "\" /></p>
-            <p><img src=\"" . $bluetoothCountChart->getUrl() . "\" /></p>
-            <p><img src=\"" . $wifiCountChart->getUrl() . "\" /></p>";
+            <p><img src=\"" . $callChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>
+            <p><img src=\"" . $smsChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $callCitiesChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $smsCitiesChart->getUrl() . "\" /></p>";
     }
 }
 include ("template.php");

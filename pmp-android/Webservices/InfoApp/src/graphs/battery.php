@@ -325,21 +325,23 @@ if ($deviceIdValid) {
     } else {
         // Draw static/PNG-charts
         // ----------------------
-        $scale = $chart->getScaleYAxis($calendar->getDaysInMonth());
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
 
         $levelChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $levelChart->setTitle("Battery level");
         $levelChart->setProperty("cht", "lxy");
         $levelChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($levelData);
-        $bridge->pushData($levelChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($levelChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
 
         $tempChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
         $tempChart->setTitle("Battery temperature");
         $tempChart->setProperty("cht", "lxy");
         $tempChart->setVisibleAxes(array('x', 'y'));
         $bridge = new GChartPhpBridge($tempData);
-        $bridge->pushData($tempChart, GChartPhpBridge::Y_COORDS, $scale);
+        $bridge->pushData($tempChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
 
         $chargingRatioChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
         $chargingRatioChart->setTitle("Charging/Discharging ratio");
