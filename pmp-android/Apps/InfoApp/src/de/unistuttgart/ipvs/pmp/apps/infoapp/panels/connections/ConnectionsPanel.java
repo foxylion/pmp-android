@@ -93,7 +93,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         this.context = context;
         this.activity = activity;
         handler = new Handler();
-        upload();
+        
         // load the layout from the xml file
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.view = (LinearLayout) inflater.inflate(R.layout.connection_panel, null);
@@ -423,11 +423,17 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     }
     
     
+    /**
+     * Update the view
+     */
     public void update() {
         updateLists();
     }
     
     
+    /**
+     * Upload the data to the evaluation server
+     */
     public String upload() {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
             UploadRequestResourceHandler handler = new UploadRequestResourceHandler();
