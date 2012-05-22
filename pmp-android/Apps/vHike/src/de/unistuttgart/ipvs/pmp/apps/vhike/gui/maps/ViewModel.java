@@ -162,6 +162,11 @@ public class ViewModel {
     }
     
     
+    public void setNewFound() {
+        this.newFound = false;
+    }
+    
+    
     public void setMyPosition(float my_lat, float my_lon, int whichHitcher) {
         this.my_lat = my_lat;
         this.my_lon = my_lon;
@@ -748,9 +753,9 @@ public class ViewModel {
         
         // instantiate the notification
         if (which1 == 0) {
-            icon = R.drawable.icon_ride;
+            icon = R.drawable.map_driver;
         } else {
-            icon = R.drawable.passenger_logo;
+            icon = R.drawable.map_passenger;
         }
         contentTitle = "vHike found a hitchhiker";
         contentText = "A Hitchhiker was found";
@@ -797,7 +802,7 @@ public class ViewModel {
         Drawable drawable;
         if (which1 == 0) {
             Profile me = Model.getInstance().getOwnProfile();
-            drawable = context.getResources().getDrawable(R.drawable.icon_ride);
+            drawable = context.getResources().getDrawable(R.drawable.map_driver);
             DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps, me.getUsername(),
                     new ContactDialog(context, mapView, me.getUsername(), iContact, passenger, ctrl), false);
             OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
@@ -808,7 +813,7 @@ public class ViewModel {
             Log.i(this, "OVERLAY D: DRIVER ADDED");
             mapView.invalidate();
         } else {
-            drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
+            drawable = context.getResources().getDrawable(R.drawable.map_passenger);
             
             if (this.iContact == null) {
                 Log.i(this, "Contact null");
@@ -844,7 +849,7 @@ public class ViewModel {
             if (context == null) {
                 Log.i(this, "Context null");
             }
-            drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
+            drawable = context.getResources().getDrawable(R.drawable.map_passenger);
             Profile me = Model.getInstance().getOwnProfile();
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.iContact,
                     me.getUsername(), gps, null, 1);
@@ -856,7 +861,7 @@ public class ViewModel {
             Log.i(this, "OVERLAY P: PASSENGER ADDED");
             mapView.invalidate();
         } else {
-            drawable = context.getResources().getDrawable(R.drawable.icon_ride);
+            drawable = context.getResources().getDrawable(R.drawable.map_driver);
             DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps, profile.getUsername(),
                     new ContactDialog(context, mapView, profile.getUsername(), iContact, profile, ctrl), true);
             OverlayItem opPassengerItem = new OverlayItem(gps, "Hop in man", "User: " + profile.getUsername()

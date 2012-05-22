@@ -2,12 +2,15 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.Timer;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -165,7 +168,7 @@ public class ViewObject {
                     }
                     
                     
-                    public void listenerForPassenger(View v) {
+                    public void listenerForPassenger(final View v) {
                         if (ViewObject.this.oObject == null) {
                             Log.i(this, "oObject is Null");
                         }
@@ -174,7 +177,22 @@ public class ViewObject {
                         //                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
                             case Constants.STATUS_HANDLED:
                                 ViewObject.this.status = Constants.V_OBJ_SATUS_ACCEPTED;
-                                vhikeDialogs.getInstance().getW4PU(v.getContext()).show();
+                                final AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
+                                alertDialog.setTitle("Exit");
+                                alertDialog.setMessage("Please wait. The driver is on his way to pick you up...");
+                                alertDialog.setIcon(R.drawable.waiting4driver);
+                                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                    
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ViewModel.getInstance().cancelLocation();
+                                        ViewModel.getInstance().cancelQuery();
+                                        ViewModel.getInstance().clearDestinations();
+                                        alertDialog.cancel();
+                                        ((Activity) v.getContext()).finish();
+                                    }
+                                });
+                                alertDialog.show();
+                                //                                vhikeDialogs.getInstance().getW4PU(v.getContext()).show();
                                 Log.i(this, "OFFER HANDLED");
                                 break;
                             case Constants.STATUS_INVALID_OFFER:

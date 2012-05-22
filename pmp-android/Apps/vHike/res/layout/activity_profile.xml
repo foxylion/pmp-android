@@ -33,31 +33,30 @@
                 android:textSize="35dp"
                 android:textStyle="bold" >
             </TextView>
-            
+
             <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal" >
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/btn_anonymous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-3dip"
-            android:layout_marginRight="-3dip"
-            android:background="@drawable/btn_anonymous_disabled" />
+                <Button
+                    android:id="@+id/btn_anonymous"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-3dip"
+                    android:layout_marginRight="-3dip"
+                    android:background="@drawable/btn_anonymous_disabled" />
 
-        <Button
-            android:id="@+id/btn_observation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-3dip"
-            android:layout_marginRight="-3dip"
-            android:background="@drawable/btn_observation_disabled" />
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btn_observation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-3dip"
+                    android:layout_marginRight="-3dip"
+                    android:background="@drawable/btn_observation_disabled" />
+            </LinearLayout>
         </LinearLayout>
-        
     </LinearLayout>
 
     <include layout="@layout/view_divider_coloured" >
@@ -95,6 +94,9 @@
                         android:id="@+id/et_firstname"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:editable="false"
+                        android:focusable="false"
                         android:text="firstname" >
                     </EditText>
                 </LinearLayout>
@@ -123,6 +125,9 @@
                         android:id="@+id/et_lastname"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:editable="false"
+                        android:focusable="false"
                         android:text="lastname" >
                     </EditText>
                 </LinearLayout>
@@ -161,6 +166,9 @@
                             android:id="@+id/et_email"
                             android:layout_width="148dp"
                             android:layout_height="wrap_content"
+                            android:cursorVisible="false"
+                            android:editable="false"
+                            android:focusable="false"
                             android:text="email@hitch.com" >
                         </EditText>
                     </HorizontalScrollView>
@@ -190,6 +198,9 @@
                         android:id="@+id/et_mobile"
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
+                        android:cursorVisible="false"
+                        android:editable="false"
+                        android:focusable="false"
                         android:text="0123456789" >
                     </EditText>
                 </LinearLayout>

@@ -74,6 +74,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         ViewModel.getInstance().initPassengersList();
         ViewModel.getInstance().initRouteList();
         ViewModel.getInstance().resetTimers();
+        ViewModel.getInstance().setNewFound();
         
         vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearAnnouncPD();

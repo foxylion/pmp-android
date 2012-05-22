@@ -67,7 +67,6 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
             dist = Double.valueOf(temp[0]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            Log.i(this, "NumberFormat Exception");
             dist = 15;
         }
         return dist;
