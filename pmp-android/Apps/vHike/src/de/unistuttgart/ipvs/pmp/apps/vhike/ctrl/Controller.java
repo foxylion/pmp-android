@@ -1342,23 +1342,28 @@ public class Controller {
                     array = object.get("my_trips").getAsJsonArray();
                     prePlannedTrips = new ArrayList<PrePlannedTrip>();
                     for (int i = 0; i < array.size(); i++) {
-                        JsonObject Iobject = array.get(i).getAsJsonObject();
-                        int tid = Iobject.get("tid").getAsInt();
-                        String destination = Iobject.get("destination").getAsString();
-                        int date = Iobject.get("time").getAsInt();
-                        int passengers = Iobject.get("passengers").getAsInt();
-                        int invites = Iobject.get("invites").getAsInt();
-                        
-                        PrePlannedTrip pObject = new PrePlannedTrip(tid, destination, date, passengers, invites);
-                        prePlannedTrips.add(pObject);
+                        JsonArray jArray = array.get(i).getAsJsonArray();
+                        for (int j = 0; j < jArray.size(); j++) {
+                            JsonObject Iobject = jArray.get(j).getAsJsonObject();
+                            int tid = Iobject.get("TripID").getAsInt();
+                            String destination = Iobject.get("Destination").getAsString();
+                            String date = Iobject.get("Time").getAsString();
+                            int passengers = Iobject.get("Passengers").getAsInt();
+                            int invites = Iobject.get("Invites").getAsInt();
+                            PrePlannedTrip pObject = new PrePlannedTrip(tid, destination, date, passengers, invites);
+                            prePlannedTrips.add(pObject);
+                        }
                     }
                     Model.getInstance().setMyTrips(prePlannedTrips);
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     prePlannedTrips = new ArrayList<PrePlannedTrip>();
                 }
                 return prePlannedTrips;
             }
             
+        } else {
+            Log.i(this, "Parsing Object null");
         }
         Model.getInstance().setMyTrips(prePlannedTrips);
         return prePlannedTrips;

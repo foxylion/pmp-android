@@ -372,7 +372,7 @@ class Trip {
 
 	public static function getLiftsById($uid, $tid) {
 				$db = Database::getInstance();
-		$query = $db->query("SELECT (SELECT dev_trip.id FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.ending =0) AS 'TripID', (SELECT dev_trip.destination FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.ending =0) AS 'Destination',(SELECT dev_trip.creation FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.ending =0) AS 'Time', (SELECT COUNT( dev_ride.trip ) FROM dev_ride WHERE dev_ride.trip = $tid) AS 'Passengers', (SELECT COUNT(dev_offer.trip) FROM dev_offer WHERE dev_offer.trip = $tid) AS 'Invites'");
+		$query = $db->query("SELECT (SELECT dev_trip.id FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.started =0) AS 'TripID', (SELECT dev_trip.destination FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.started =0) AS 'Destination',(SELECT dev_trip.creation FROM dev_trip WHERE dev_trip.id=$tid AND dev_trip.started =0) AS 'Time', (SELECT COUNT( dev_ride.trip ) FROM dev_ride WHERE dev_ride.trip = $tid) AS 'Passengers', (SELECT COUNT(dev_offer.trip) FROM dev_offer WHERE dev_offer.trip = $tid) AS 'Invites'");
 		
 		if ($db->getAffectedRows() <= 0) {
             return null;

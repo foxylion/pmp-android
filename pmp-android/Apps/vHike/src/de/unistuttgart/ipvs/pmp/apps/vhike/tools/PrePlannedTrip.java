@@ -4,14 +4,15 @@ public class PrePlannedTrip {
     
     int tid;
     String destination;
-    int time;
+    String date;
     int passengers;
     int invites;
     
     
-    public PrePlannedTrip(int tid, String destination, int time, int passengers, int invites) {
+    public PrePlannedTrip(int tid, String destination, String date, int passengers, int invites) {
         this.tid = tid;
         this.destination = destination;
+        this.date = date;
         this.passengers = passengers;
         this.invites = invites;
     }
@@ -27,9 +28,9 @@ public class PrePlannedTrip {
     }
     
     
-    public int getDate() {
+    public String getDate() {
         // TODO: Time parsen zu Date
-        return this.time;
+        return this.date;
     }
     
     
