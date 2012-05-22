@@ -109,7 +109,7 @@ public class Service {
             // Set trust manager
             sslContext.init(null, new TrustManager[] { new FakeTrustManager() }, new SecureRandom());
             SSLSocketFactory sslSocket = new SSLSocketFactory(sslContext, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-            ClientConnectionManager conMan = httpClient.getConnectionManager();
+            ClientConnectionManager conMan = this.httpClient.getConnectionManager();
             
             // Register scheme
             Scheme httpsScheme = new Scheme("https", 443, sslSocket);
