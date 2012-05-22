@@ -42,7 +42,8 @@ public class BluetoothResource extends Resource {
 	AcceptThread acceptThread = null;
 	ConnectThread connectThread = null;
 	ConnectedThread connectedThread = null;
-
+	ConnectedThread r;
+	boolean stopReading = false;
 	List<String> messages = null;
 	private static final UUID MY_UUID = UUID
 			.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
@@ -103,14 +104,14 @@ public class BluetoothResource extends Resource {
 			Log.i(TAG, "send Message" + message);
 		}
 		// Create temporary object
-		ConnectedThread r;
 		// Synchronize a copy of the ConnectedThread
 		r = connectedThread;
 		// Perform the write unsynchronized
 
 		byte[] send = message.getBytes();
-
-		r.write(send);
+		if (r != null) {
+			r.write(send);
+		}
 	}
 
 	private void setState(int state) {
@@ -139,12 +140,14 @@ public class BluetoothResource extends Resource {
 					Log.i(TAG, "Enable BT");
 				}
 			btAdapter.enable();
-			
+			stopReading = false;
+
 		} else {
 			if (D) {
 				Log.i(TAG, "Disable BT");
 			}
 			btAdapter.disable();
+			stopReading = true;
 		}
 		setupBluetoothThreads();
 	}
@@ -152,7 +155,7 @@ public class BluetoothResource extends Resource {
 	private void setupBluetoothThreads() {
 		if (acceptThread != null) {
 			acceptThread.cancel();
-//			acceptThread.start();
+			// acceptThread.start();
 			acceptThread = null;
 		}
 		if (connectThread != null) {
@@ -163,8 +166,15 @@ public class BluetoothResource extends Resource {
 			connectedThread.cancel();
 			connectedThread = null;
 		}
-		discovering = false;
+		if(r!= null){
+			r.cancel();
+			r=null;
+		}
 		
+		messages.clear();
+		
+		discovering = false;
+
 		setState(STATE_NONE);
 	}
 
@@ -186,27 +196,66 @@ public class BluetoothResource extends Resource {
 
 	public void makeDiscoverable(String appIdentifier, String name, int time)
 			throws RemoteException {
+		if (D) {
+			Log.i(TAG, "Before setName()");
+		}
 		setName(name);
+		
 		setupBluetoothThreads();
+
+		if (D) {
+			Log.i(TAG, "After setupBluetoothThreads()");
+		}
 		// Waiting for enabled Bluetooth
 		while (!btAdapter.isEnabled()) {
 		}
-			if (D) {
-				Log.i(TAG, "Make Discoverable");
-			}
-			if (btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
-				Intent discoverableIntent = new Intent(
-						BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-				discoverableIntent
-						.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
-								time * 60);
-				discoverableIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				blueRG.getContext(appIdentifier).startActivity(
-						discoverableIntent);
-			}
 
-			acceptThread = new AcceptThread();
-			acceptThread.start();
+		if (D) {
+			Log.i(TAG, "Make Discoverable");
+		}
+		if (btAdapter != null) {
+			Log.i(TAG, "BTADAPTER NOT NULL");
+		} else {
+			Log.i(TAG, "BTADAPTER NULL");
+		}
+		btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+		if (D) {
+			Log.i(TAG, "Before btAdapter.getScanMode()");
+		}
+
+		int zahl = btAdapter.getScanMode();
+		if (D) {
+			Log.i(TAG, "After btAdapter.getScanMode()");
+		}
+		if (btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+			if (D) {
+				Log.i(TAG, "Before INTENT");
+			}
+			Intent discoverableIntent = new Intent(
+					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+			if (D) {
+				Log.i(TAG, "Before PUTEXTRA()");
+			}
+			discoverableIntent.putExtra(
+					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, time * 60);
+			if (D) {
+				Log.i(TAG, "Before adding Flags");
+			}
+			discoverableIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			if (D) {
+				Log.i(TAG, "Starting activity");
+			}
+			blueRG.getContext(appIdentifier).startActivity(discoverableIntent);
+		}
+		if (D) {
+			Log.i(TAG, "Before AcceptThread");
+		}
+		acceptThread = new AcceptThread();
+		acceptThread.start();
+		if (D) {
+			Log.i(TAG, "AcceptThread started!");
+		}
 	}
 
 	public void discover(String appIdentifier) throws RemoteException {
@@ -312,6 +361,7 @@ public class BluetoothResource extends Resource {
 		MessageArrayParcelable arrayParcelable = new MessageArrayParcelable(
 				array);
 		messages.clear();
+		
 		return arrayParcelable;
 	}
 
@@ -466,14 +516,19 @@ public class BluetoothResource extends Resource {
 			int bytes;
 
 			// Keep listening to the InputStream while connected
-			while (true) {
+			while (!stopReading) {
 				try {
 					// Read from the InputStream
 					bytes = in.read(buffer);
 
 					String msg = new String(buffer, 0, bytes);
 					synchronized (messages) {
+						try{
 						messages.add(msg);
+						}catch (Exception e) {
+							Log.i(TAG, "OUTOFMEMORY");
+							in.close();
+						}
 					}
 
 					Log.i(TAG + " ConnectedThread", "read: Adding message: "
@@ -532,6 +587,11 @@ public class BluetoothResource extends Resource {
 	}
 
 	public void setName(String name) {
+		if(D){
+			if(btAdapter != null){
+				Log.i(TAG, "setName btAdapter not null");
+			}
+		}
 		btAdapter.setName(name);
 
 		Log.i(TAG, "Name gesetzt:" + name);
