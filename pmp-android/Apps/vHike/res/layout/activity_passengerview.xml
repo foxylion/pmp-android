@@ -7,12 +7,12 @@
 
     <!-- Andre: android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA" -->
     <!-- Anton: android:apiKey="0lPCmTq3uq2dkA3tyXMe-W8G4xvPvEubq7XX9jQ" -->
-
+	<!-- Alex: android:apiKey="04AhZI3pRNAhYcjxrQFVW4c2z084MgppmbcVUDQ" -->
     <com.google.android.maps.MapView
         android:id="@+id/passengerMapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="0PjtgG2gTXaJOpQIv9e2nFDcrnFWEvWKVHb0pLA"
+        android:apiKey="04AhZI3pRNAhYcjxrQFVW4c2z084MgppmbcVUDQ"
         android:clickable="true" />
 
     <Button
