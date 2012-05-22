@@ -3,12 +3,12 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MyTripAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
 
@@ -19,11 +19,14 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
  */
 public class MyTripActivity extends ListActivity {
     
+    private ArrayList<CompactTrip> t;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        ArrayList<CompactTrip> t = new ArrayList<CompactTrip>(10);
+        t = new ArrayList<CompactTrip>(10);
         t.add(new CompactTrip(1, "Berlin", 1000000000, 2, 3, 1));
         t.add(new CompactTrip(2, "Stuttgart", 1000000000, 0, 3, 1));
         t.add(new CompactTrip(3, "München", 1000000000, 2, 0, 1));
@@ -41,7 +44,10 @@ public class MyTripActivity extends ListActivity {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), "Click ListItem Number " + position, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MyTripActivity.this, TripDetailActivity.class);
+                intent.putExtra("tripId", t.get(position).id);
+                MyTripActivity.this.startActivity(intent);
+                //Toast.makeText(getApplicationContext(), "Click ListItem Number " + position, Toast.LENGTH_LONG).show();
             }
         });
         
