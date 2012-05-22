@@ -36,7 +36,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     protected boolean isCanceled;
     Button rides;
     Timer timer;
-    
+    boolean stopTimerTasks = false;
     EditText et = null;
     Button send = null;
     ListView conversationView = null;
@@ -50,6 +50,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler();
+        stopTimerTasks = false;
         setContentView(R.layout.activity_bluetooth);
         timer = new Timer();
         et = (EditText) findViewById(R.id.edit_text_out);
@@ -104,7 +105,8 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                         role = "Driver: ";
                     else
                         role = "Passenger: ";
-                    rgBluetooth.sendMessage(role + et.getText().toString());
+                    if (rgBluetooth != null)
+                        rgBluetooth.sendMessage(role + et.getText().toString());
                     et.setText("");
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -122,7 +124,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                 }
                 
                 timer.schedule(new ConnectionChecker(), 3000);
-                timer.schedule(new MessageThread(), 2000);
+                
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -139,7 +141,11 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         try {
             if (rgBluetooth.isBluetoothAvailable()) {
                 if (rgBluetooth.isEnabled()) {
+                    rgBluetooth.sendMessage("Connection Lost!");
+                    
                     rgBluetooth.enableBluetooth(false);
+                    stopTimerTasks = true;
+                    
                 }
             }
         } catch (RemoteException e) {
@@ -153,30 +159,43 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         @Override
         public void run() {
             
-            if (rgBluetooth != null) {
-                try {
-                    MessageArrayParcelable messagesParcelable = rgBluetooth.getReceivedMessages();
-                    
-                    MessageArray messageArray = messagesParcelable.getDevices();
-                    final List<String> founddevices = messageArray.getMessages();
-                    Log.i(TAG, "Getting messages: " + founddevices.size());
-                    
-                    Handler refresh = new Handler(Looper.getMainLooper());
-                    refresh.post(new Runnable() {
-                        
-                        public void run() {
-                            for (String string : founddevices) {
-                                conversationArrayAdapter.add(string);
-                                Log.i(TAG, "Adding messages: " + string);
-                            }
+            try {
+                if (rgBluetooth != null && rgBluetooth.isConnected()) {
+                    try {
+                        MessageArrayParcelable messagesParcelable = rgBluetooth.getReceivedMessages();
+                        if (messagesParcelable != null) {
+                            MessageArray messageArray = messagesParcelable.getDevices();
+                            
+                            final List<String> founddevices = messageArray.getMessages();
+                            Log.i(TAG, "Getting messages: " + founddevices.size());
+                            
+                            Handler refresh = new Handler(Looper.getMainLooper());
+                            refresh.post(new Runnable() {
+                                
+                                public void run() {
+                                    for (String string : founddevices) {
+                                        if (!string.equals("")) {
+                                            conversationArrayAdapter.add(string);
+                                            Log.i(TAG, "Adding messages: " + string);
+                                        }
+                                        
+                                    }
+                                }
+                            });
                         }
-                    });
-                    timer.schedule(new MessageThread(), 2000);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
+                        if (!stopTimerTasks)
+                            timer.schedule(new MessageThread(), 2000);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    //                    if (!stopTimerTasks)
+                    //                        timer.schedule(new MessageThread(), 2000);
                 }
-            } else {
-                timer.schedule(new MessageThread(), 2000);
+                
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
         
@@ -187,11 +206,14 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         @Override
         public void run() {
             try {
-                if (!rgBluetooth.isConnected()) {
-                    timer.schedule(new ConnectionChecker(), 10000);
-                    Log.i(TAG, "Not Connected!");
-                } else {
+                if (rgBluetooth.isConnected()) {
+                    if (!stopTimerTasks)
+                        timer.schedule(new MessageThread(), 2000);
                     Log.i(TAG, "Connected!");
+                } else {
+                    if (!stopTimerTasks)
+                        timer.schedule(new ConnectionChecker(), 10000);
+                    Log.i(TAG, "Not Connected!");
                 }
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block
