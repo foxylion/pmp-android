@@ -1,1 +1,233 @@
-<!DOCTYPE html><html><head>  <title>Handbuch - vHike - Virtual Hitchhiking</title>  <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>  <script type="text/javascript" src="../../_layout/script.js"></script>  <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>    <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css">  <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css">  <link type="text/css" rel="stylesheet" media="print"  href="../../_layout/print.css">    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>  <div id="wrapper">    <div id="page-head-date">22. Mai 2012</div>    <div id="page-head-title">vHike - Virtual Hitchhiking</div>    <div id="page-title">Handbuch</div>    <div id="page-version">Version 1.0</div>        <nav>      <div class="title">Inhaltsverzeichnis</div>      <ul>      </ul>    </nav>        <!-- here comes the content of the specification -->    <div id="content">            <h1 id="einleitung">Einleitung</h1>            <h2 id="zweck">Zweck</h2>      <p>        Dieses Dokument stellt das Handbuch der "vHike" dar. Es soll        Benutzern bei der Verwendung der vHike unterstützen. Auf eine gute Verständlichkeit wird        Wert gelegt.              </p>            <h2 id="leserkreis">Leserkreis</h2>      <p>        Das Handbuch richtet sich an folgende Lesergruppen:        <ul>          <li>den App-Benutzern</li>          <li>den Entwicklern von Ressourcengruppen (für die vHike)</li>          <li>den Entwicklern von Applikationen inkl. deren Service Features</li>          <li>dem Kunden</li>          <li>den Betreuern des Studienprojekts</li>        </ul>       </p>            <h2 id="konventionen">Konventionen</h2>      <p>        In diesem Dokument werden mehrere Konventionen verwendet, um knapp,         übersichtlich, lesbar und treffend zu sein:        <ul>          <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische             Maskulinum verwendet. Da die Deutsche Sprache hier keine zufrieden stellende             Alternative kennt, sind damit selbstverständlich auch alle weiblichen             Leserinnen angesprochen.</li>          <li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist             allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe             aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch             grammatikalisch an die Deutsche Sprache angepasst.</li>          <li>Ein Verweis in diesem Dokument auf andere Kapitel wird so             dargestellt: <span class="reference" title="#konventionen"></span></li>        </ul>      </p>            <h1 id="basics">Grundbegriffe</h1>      <p>        Dieser Abschnitt erläutert einige Grundbegriffe die im Kontext der vHike        verwendet werden.      </p>            <h2 id="basisc_res">Fahrer & Mitfahrer</h2>      <p>        Benutzer die Fahrten anbieten werden als Fahrer bezeichnet. Mitfahrer dagegen, nehmen			an Fahrten teil, wobei hier auch potentielle Mitfahrer als Mitfahrer angesehen werden.      </p>		<h2 id="basisc_res">Ressource</h2>      <p>        Jede Ressource definiert mehrere so genannte Privacy Settings. Diesen        können verschiedene Werte zugewiesen werden (etwa erlauben oder nicht).        Abhängig vom gesetzten Wert ist ein Zugriff auf eine Funktion der Ressource        möglich (ist etwa des Privacy Setting "Datei lesen" gesetzt, das        Setting "Datei schreiben" jedoch nicht, so erlaubt die Ressource        "Dateisystem" nur das Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).      </p>             <h2 id="basics_sl">Service Features</h2>      <p>        Jede PMP-Applikation, wie zum Beispiel vHike, legt fest, welche Funktionen bestimmter Ressourcen         sie benötigt und welche Dienste sie hierfür dem Benutzer anbietet. Diese         Vereinbarung wird als Service Feature bezeichnet. Eine Applikation besitzt        in der Regel mehrere Service Features. Die Ressourcengrouppen und Service Features von vHike werden in Kapitel ??? behandelt.      </p>      <p>        Im Detail legt jedes Service Feature fest, welche Ressourcen, und welche        Funktionen dieser Ressource, benötigt werden. Im Gegenzug bietet die         Applikation dem Anwender für den Zugriff auf diese Ressource bzw. dieser        Funktion bestimmte Funktionalitäten an.      </p>      <p>        Es können bei Bedarf mehrere Service Features gleichzeitig aktiviert werden,        wodurch der Funktionsumfang der Applikation erweitert werden kann.      </p>            <h1 id="req">Systemanforderungen</h1>      <p>        Um vHike installieren und ausführen zu können, muss auf dem Zielgerät mindestens        Android in der Version 2.1.1 installiert sein. Auch notwending ist die Verwendung von PMP - Privacy Management Platform. 		  Weitere Anforderungen sind ein Zielgerät mit Internet-Zugang, Bluetooth und GPS.        In der Beschreibung der jeweiligen Ressourcen finden Sie in der Regel         Informationen über deren Systemanforderungen.      </p>            <h1 id="user">Funktionen</h1>      <p>        Dieser Abschnitt richtet sich an die Benutzer der vHike.      </p>            <h2 id="inst">Installation</h2>      <p>        vHike wird wie eine gewöhnliche Android-Applikation installiert.        Hierzu wird entweder die apk-Datei der vHike-Anwendung auf das Gerät übertragen,        oder vHike wird aus dem Android Market ausgewählt. Folgen Sie anschließend         bitte den Anweisungen des Android-Betriebssystems.      </p>            <h2 id="lang">Sprache</h2>      <p>        Die Beschriftung der Elemente der Benutzeroberfläche erfolgt         durchgängig in Englisch. Andere Sprachen werden momentan nicht unterützt.      </p>       <p>        Da, wie bereits erwähnt, die Standard-Beschriftung auf Englisch erfolgt,        wird auch in den Bildschirmfotos und bei der Benennung der Schaltflächen         in den folgenden Abschnitten die englische Variante verwendet.      </p>            <h2 id="mainmenu">Login-Menü</h2>      <a href="images/pmp_main.png" class="fancybox">	      <img src="images/pmp_main.png" alt="Hauptmenü" style="width:215px;" class="right">	    </a>      <p>        Ausgangspunkt der Verwendung von vHike bildet das Login-Menü, dass sich beim         Starten der Anwendung öffnet. vHike bietet zwei Varianten an, wie die App benutzt werden können.		  vHike unterscheid zwischen der Internet-Funktion und der Bluetooth-Funktion.        <ul>          <li>Zum Benutzen der Internet-Funktion, ist eine Internetverbindung und GPS notwendig. Dazu ist eine Registierung bzw.				 ein Login notwending. Es sind also Benutzername und Passwort eingezugeben, um sich erfolgreich einloggen zu können.(siehe <span class="reference" title="#apps"></span>).</li>          <li>Zum Benutzen der Bluetooth-Funktion muss Bluetooth verfügbar sein. Eine Internetverbindung ist dazu nicht notwendig. (siehe <span class="reference" title="#res"></span>).</li>             <li>Wird die Internet-Funktion benutzt kann, über setzen der "Auto-Login"-Checkbox, Benutzername und Passwort gespeichert werden und beim Wiederverwenden			 automatisch eingeloggt werden.</li>                          <li>Über die "Remember"-Checkbox werden benutzername und Passwort gemerkt, aber nicht automatisch eingeloggt.(siehe <span class="reference" title="#modes"></span>).</li>			<li>Über das Login-Menü kann man sich bei vHike registrieren. Dazu wird ein neues Fenster geöffnet.(siehe <span class="reference" title="#modes"></span>).</li>        </ul>      </p>      <div class="clear"></div>                                   <h2 id="mainmenu">Haupt-Menü</h2>      <a href="images/pmp_settings.png" class="fancybox">	      <img src="images/pmp_settings.png" alt="Einstellungen" style="width:215px;" class="right">	    </a>      <p>      </p>            <h2 id="registermenu" style="clear:none;">Registierung</h2>      <p>      </p>	      <h2 id="ride_activity" style="clear:none;">Fahrt planen/teilnehmen</h2>      <p>      </p>                   <h2 id="profile_activity">Profile</h2>      <p>      </p>            <h2 id="history_activity">History</h2>      <p>      </p>            <h2 id="apps_show">My Trips</h2>      <a href="images/pmp_apps_actionmenu.png" class="fancybox">	      <img src="images/pmp_apps_actionmenu.png" alt="Aktionenmenü" style="width:215px;" class="right">	    </a>      <p>      </p>                  <h2 id="my_messages_activity">My messages</h2>      <a href="images/pmp_apps_details.png" class="fancybox">	      <img src="images/pmp_apps_details.png" alt="Details" style="width:215px;" class="right">	    </a>      <p>      </p>            <h2 id="logout">Logout</h2>      <p>      </p>                        <h3 id="res_show">Ressourcen anzeigen und deinstallieren</h3>  	  <a href="images/pmp_res_details.png" class="fancybox">        <img src="images/pmp_res_details.png" alt="Details zu einer Ressourcengruppe" style="width:215px;" class="right">      </a>	    <p>      </p>        <p>      <div class="clear"></div>                                   <h1 id="versions">Versionshistorie</h1>             <h3>Version 0.1 (20.09.2011)</h3>      <ul>        <li>Initiales Gerüst von PMP Handbuch</li>      </ul>    </div>    <!-- // end of specification's content -->  </div></body></html>
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Handbuch - vHike - Virtual Hitchhiking</title>
+      <script type="text/javascript" src="../../_layout/jquery-1.6.2.min.js"></script>
+      <script type="text/javascript" src="../../_layout/script.js"></script>
+      <script type="text/javascript" src="../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+      <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/fancybox/jquery.fancybox-1.3.4.css" />
+      <link type="text/css" rel="stylesheet" media="screen" href="../../_layout/style.css" />
+      <link type="text/css" rel="stylesheet" media="print" href="../../_layout/print.css" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+   </head>
+   <body>
+      <div id="wrapper">
+         <div id="page-head-date">22. Mai 2012</div>
+         <div id="page-head-title">vHike - Virtual Hitchhiking</div>
+         <div id="page-title">Handbuch</div>
+         <div id="page-version">Version 1.0</div>
+         <nav>
+            <div class="title">Inhaltsverzeichnis</div>
+            <ul>
+            </ul>
+         </nav>
+         <!-- here comes the content of the specification -->
+         <div id="content">
+            <h1 id="einleitung">Einleitung</h1>
+            <h2 id="zweck">Zweck</h2>
+            <p>
+               Dieses Dokument stellt das Handbuch der "vHike" dar. Es soll
+               Benutzern bei der Verwendung der vHike unterstützen. Auf eine gute Verständlichkeit wird
+               Wert gelegt.        
+            </p>
+            <h2 id="leserkreis">Leserkreis</h2>
+            <p>
+               Das Handbuch richtet sich an folgende Lesergruppen:
+            <ul>
+               <li>den App-Benutzern</li>
+               <li>den Entwicklern von Ressourcengruppen (für die vHike)</li>
+               <li>den Entwicklern von Applikationen inkl. deren Service Features</li>
+               <li>dem Kunden</li>
+               <li>den Betreuern des Studienprojekts</li>
+            </ul>
+            </p>
+            <h2 id="konventionen">Konventionen</h2>
+            <p>
+               In diesem Dokument werden mehrere Konventionen verwendet, um knapp, 
+               übersichtlich, lesbar und treffend zu sein:
+            <ul>
+               <li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische 
+                  Maskulinum verwendet. Da die Deutsche Sprache hier keine zufrieden stellende 
+                  Alternative kennt, sind damit selbstverständlich auch alle weiblichen 
+                  Leserinnen angesprochen.
+               </li>
+               <li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist 
+                  allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe 
+                  aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch 
+                  grammatikalisch an die Deutsche Sprache angepasst.
+               </li>
+               <li>Ein Verweis in diesem Dokument auf andere Kapitel wird so 
+                  dargestellt: <span class="reference" title="#konventionen"></span>
+               </li>
+            </ul>
+            </p>
+            <h1 id="basics">Grundbegriffe</h1>
+            <p>
+               Dieser Abschnitt erläutert einige Grundbegriffe die im Kontext der vHike
+               verwendet werden.
+            </p>
+            <h2 id="basisc_dri_pas">Fahrer & Mitfahrer</h2>
+            <p>
+               Benutzer die Fahrten anbieten werden als Fahrer bezeichnet. Mitfahrer dagegen, nehmen
+               an Fahrten teil, wobei hier auch potentielle Mitfahrer als Mitfahrer angesehen werden.
+            </p>
+            <h2 id="basisc_res">Ressourcengruppe</h2>
+            <p>
+               Jede Ressource definiert mehrere so genannte Privacy Settings. Diesen
+               können verschiedene Werte zugewiesen werden (etwa erlauben oder nicht).
+               Abhängig vom gesetzten Wert ist ein Zugriff auf eine Funktion der Ressource
+               möglich (ist etwa des Privacy Setting "Datei lesen" gesetzt, das
+               Setting "Datei schreiben" jedoch nicht, so erlaubt die Ressource
+               "Dateisystem" nur das Auslesen einer Datei, nicht jedoch das Schreiben in eine Datei).
+            </p>
+            <h2 id="basics_sf">Service Features</h2>
+            <p>
+               Jede PMP-Applikation, wie zum Beispiel vHike, legt fest, welche Funktionen bestimmter Ressourcen 
+               sie benötigt und welche Dienste sie hierfür dem Benutzer anbietet. Diese 
+               Vereinbarung wird als Service Feature bezeichnet. Eine Applikation besitzt
+               in der Regel mehrere Service Features. Die Ressourcengrouppen und Service Features von vHike werden in Kapitel ??? behandelt.
+            </p>
+            <p>
+               Im Detail legt jedes Service Feature fest, welche Ressourcen, und welche
+               Funktionen dieser Ressource, benötigt werden. Im Gegenzug bietet die 
+               Applikation dem Anwender für den Zugriff auf diese Ressource bzw. dieser
+               Funktion bestimmte Funktionalitäten an.
+            </p>
+            <p>
+               Es können bei Bedarf mehrere Service Features gleichzeitig aktiviert werden,
+               wodurch der Funktionsumfang der Applikation erweitert werden kann.
+            </p>
+            <h1 id="req">Systemanforderungen</h1>
+            <p>
+               Um vHike installieren und ausführen zu können, muss auf dem Zielgerät mindestens
+               Android in der Version 2.1.1 installiert sein. Auch notwending ist die Verwendung von PMP - Privacy Management Platform. 
+               Weitere Anforderungen sind ein Zielgerät mit Internet-Zugang, Bluetooth und GPS.
+               In der Beschreibung der jeweiligen Ressourcen finden Sie in der Regel 
+               Informationen über deren Systemanforderungen.
+            </p>
+            <h1 id="general">Allgemeines</h1>
+            <p>
+               Dieser Abschnitt richtet sich an die Benutzer der vHike.
+            </p>
+            <h2 id="inst">Installation</h2>
+            <p>
+               vHike wird wie eine gewöhnliche Android-Applikation installiert.
+               Hierzu wird entweder die apk-Datei der vHike-Anwendung auf das Gerät übertragen,
+               oder vHike wird aus dem Android Market ausgewählt. Folgen Sie anschließend 
+               bitte den Anweisungen des Android-Betriebssystems.
+            </p>
+            <h2 id="lang">Sprache</h2>
+            <p>
+               Die Beschriftung der Elemente der Benutzeroberfläche erfolgt 
+               durchgängig in Englisch. Andere Sprachen werden momentan nicht unterstützt.
+            </p>
+            <p>
+               Da, wie bereits erwähnt, die Standard-Beschriftung auf Englisch erfolgt,
+               wird auch in den Bildschirmfotos und bei der Benennung der Schaltflächen 
+               in den folgenden Abschnitten die englische Variante verwendet.
+            </p>
+            <h1 id="funct">Funktionen</h1>
+            <h2 id="loginmenu">vHike - Standard/Bluetooth</h2>
+            <a href="images/vhike_login.png" class="fancybox">
+            <img src="images/LoginActivity.png" alt="Login" style="width:215px;" class="right" />
+            </a>
+            <p>
+               Ausgangspunkt der Verwendung von vHike bildet das Login-Menü, dass sich beim 
+               Starten der Anwendung öffnet. vHike bietet zwei Varianten der Verwendung an. Die Standard-Funktion (siehe <span class="reference" title="#vhike_standard"></span>) 			   und die Bluetooth-Variante (siehe <span class="reference" title="#funct_bluetooth"></span>). Über das Login-Menü kann zwischen diesen beiden Varianten ausgewählt 			   werden.
+            </p>
+            <h3 id="login">Einloggen</h3>
+            <p>Für die Standard-Funktion ist eine Registrierung (siehe <span class="reference" title="#registermenu"></span>) erforderlich. Nach erfolgreicher Registrierung kann man sich über den Benutzernamen und Passwort einloggen. Beim Anhaken des "Auto-Login" Kästchens, wird beim Neustarten von vHike Benutzername und Passwort gemerkt und automatisch eingeloggt. Ein Anhaken des "Remember"-Kästchens werden Benutzername und Passwort gemerkt, jedoch nicht automatisch eingeloggt.</p>
+<p>Bei fehlerhaftem Benutzernamen oder Passwort wird ein Toast zur Benachrichtigung geworfen.</p>
+            <div class="clear"></div>
+            <h2 id="registermenu" style="clear:none;">Registrieren</h2>
+            <a href="images/vhike_register.png" class="fancybox">
+            <img src="images/RegisterActivity.png" alt="Register" style="width:215px;" class="right" />
+            </a>
+            <p>
+			Um sich erfolgreich registrieren sind folgende Felder auszufüllen. Felder mit einem * versehen sind zur Registrierung nötige Daten, der Rest optional:
+            </p>
+			<ul>
+				<li>Benutzername* </li>
+				<li>Beschreibung </li>
+				<li>Vorname </li>
+				<li>Nachname </li>
+				<li>Email-Adresse* </li>
+				<li>Handynummer </li>
+				<li>Passwort* </li>
+			</ul>
+            <div class="clear"></div>
+            <h2 id="mainmenu">Hauptmenü</h2>
+            <a href="images/vhike_main.png" class="fancybox">
+            <img src="images/MainMenu.png" alt="Hauptmenu" style="width:215px;" class="right" />
+            </a>
+            <p>
+            </p>
+            <div class="clear"></div>
+            <h2 id="ride_activity" style="clear:none;">Fahrt planen/teilnehmen</h2>
+            <a href="images/vhike_plantrip.png" class="fancybox">
+            <img src="images/PlanTripMenu.png" alt="PlanTrip" style="width:215px;" class="right" />
+            </a>
+            <p>
+            </p>
+            <div class="clear"></div>
+            <h2 id="profile_activity">Profile</h2>
+            <a href="images/vhike_profile.png" class="fancybox">
+            <img src="images/ProfileActivity.png" alt="Profile" style="width:215px;" class="right" />
+            </a>
+            <p>
+            </p>
+            <div class="clear"></div>
+            <h2 id="history_activity">History</h2>
+            <a href="images/vhike_history.png" class="fancybox">
+            <img src="images/HistoryActivity.png" alt="History" style="width:215px;" class="right" />
+            </a>
+            <p>
+            </p>
+            <div class="clear"></div>
+            <h2 id="apps_show">My Trips</h2>
+            <a href="images/vhike_mytrips.png" class="fancybox">
+            <img src="images/MyTrips.png" alt="MyTrips" style="width:215px;" class="right" />
+            </a>
+            <p>
+            </p>
+            <div class="clear"></div>
+            <h2 id="my_messages_activity">My messages</h2>
+            <p>
+            </p>
+            <h2 id="logout">Logout</h2>
+            <p>
+            </p>
+            <h2 id="funct_bluetooth" style="clear:none;">Bluetooth</h2>
+            <a href="images/vhike_bluetooth.png" class="fancybox">
+            <img src="images/BluetoothActivity.png" alt="Bluetooth" style="width:215px;" class="right" />
+            </a>
+            <p>
+            </p>
+            <div class="clear"></div>
+            <h1 id="resourcegroups">Ressourcengruppen</h1>
+            <h2 id="vhikeWS">vHikeWS -RG</h2>
+            <p>
+            </p>
+            <h3 id="vhikeWS_SF">Service Features</h3>
+            <h2 id="locationRG">Location -RG</h2>
+            <p>
+            </p>
+            <h3 id="location_SF">Service Features</h3>
+            <h2 id="bluetoothRG">Bluetooth -RG</h2>
+            <p>
+            </p>
+            <h3 id="bluetooth_SF">Service Features</h3>
+            <h2 id="contactRG">Kommunikation/Contact -RG</h2>
+            <p>
+            </p>
+            <h3 id="contact_SF">Service Features</h3>
+            <h1 id="versions">Versionshistorie</h1>
+            <h3>Version 0.1 (20.09.2011)</h3>
+            <ul>
+               <li>Initiales Gerüst von PMP Handbuch</li>
+            </ul>
+         </div>
+         <!-- // end of specification's content -->
+      </div>
+   </body>
+</html>
