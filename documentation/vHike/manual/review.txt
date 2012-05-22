@@ -1,0 +1,11 @@
+Ergebnisse der Durchsicht
+=========================
+
+Anwenderkapitel:
+ - Siehe Systemtest-Ergebnisse
+
+Entwicklerkapitel (Eindruck v. Alexander & Anton):
+ - Aussehen kompetent und ausführlich
+ - Hilft bei der Entwicklung, jedoch...
+ - setzt Kenntnisse der PMP voraus
+=> Kapitel erweitern, damit sie auch mit wenig Kenntnissen der PMP verständlich sind
