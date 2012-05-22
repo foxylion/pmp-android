@@ -11,15 +11,15 @@
 	try {
 		$user = Session::getInstance() -> getLoggedInUser();
 		$lift_ids = Trip::getLiftIds($_POST["uid"]);
-		$arrayobj = new ArrayObject(array());
+		$liftOutput = array();
 		
 		foreach ($lift_ids as $lift_id) {
 			$res = Trip::getLiftsById($_POST["uid"], $lift_id);
-			$arrayobj->append(array($res));
+			$liftOutput[] = $res;
 		}
 
 		$output = array("successful"	=> true, 
-						"my_trips" 		=> $arrayobj);
+						"my_trips" 		=> $liftOutput);
 		echo Json::arrayToJson($output);
 		
 	} catch (DatabaseException1 $de) {
