@@ -435,4 +435,16 @@ public class DBConnector implements IDBConnector {
         close();
         return result;
     }
+    
+    
+    /**
+     * Clears all lists
+     */
+    public synchronized void clearLists() {
+        open();
+        db.delete(DBConstants.TABLE_BT, null, null);
+        db.delete(DBConstants.TABLE_CELL, null, null);
+        db.delete(DBConstants.TABLE_WIFI, null, null);
+        close();
+    }
 }
