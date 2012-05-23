@@ -31,6 +31,7 @@ if (!defined("INCLUDE")) {
  *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
  */
 class HtmlCalendar {
 

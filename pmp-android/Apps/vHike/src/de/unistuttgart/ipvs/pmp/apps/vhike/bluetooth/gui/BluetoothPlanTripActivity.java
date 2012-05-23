@@ -137,7 +137,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 createCancelProgressDialog("Searching", "Searching for offered rides nearby!", "Stop searching");
                 
                 try {
-                    rgBluetooth.discover();
+                    rgBluetooth.discover("vHike:" + dest + "-" + seat, dur);
                     
                     timer.schedule(new Time(rgBluetooth), 2000);
                     

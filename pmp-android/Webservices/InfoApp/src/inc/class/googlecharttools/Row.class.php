@@ -31,6 +31,9 @@ if (!defined("INCLUDE")) {
  * Each row contains one or more cells that stores the actual data of this row
  *
  * @author Patrick Strobel
+ * @version 4.1.0
+ * @package infoapp
+ * @subpackage googlecharttools
  */
 class Row {
 

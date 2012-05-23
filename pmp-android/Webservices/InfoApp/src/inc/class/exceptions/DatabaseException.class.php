@@ -26,6 +26,15 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * DatabaseExceptions are thrown whenever an operation that requires access
+ * to the database (like queries) failed.
+ *
+ * @author Patrick Strobel
+ * @version 4.0.0.
+ * @package infoapp
+ * @subpackage exceptions
+ */
 class DatabaseException extends \Exception {
 
 }

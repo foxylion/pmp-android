@@ -31,8 +31,10 @@ if (!defined("INCLUDE")) {
 
 /**
  * Provides general functionality used for JSON output
+ *
  * @author  Patrick Strobel
  * @version 4.3.0
+ * @package infoapp
  */
 class Json {
 

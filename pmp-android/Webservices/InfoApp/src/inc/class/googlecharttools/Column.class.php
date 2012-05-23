@@ -31,6 +31,9 @@ if (!defined("INCLUDE")) {
  * For each column of the data table, a Column has to be defined
  *
  * @author Patrick Strobel
+ * @version 4.1.0
+ * @package infoapp
+ * @subpackage googlecharttools
  */
 class Column {
 

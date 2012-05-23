@@ -32,8 +32,11 @@ if (!defined("INCLUDE")) {
 
 /**
  * Stores statistical information about the devices' hard- and software
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 class DevicePropertiesStat extends PropertiesStat {
 
@@ -212,6 +215,8 @@ class DevicePropertiesStat extends PropertiesStat {
  * Stores information about a device and allows to update or insert a new device information set
  * @author Patrick Strobel
  * @version 4.1.0
+ * @package infoapp
+ * @subpackage properties
  */
 class DeviceProperties extends Properties {
 
