@@ -2,8 +2,6 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource;
 
 import android.content.Context;
 import android.os.RemoteException;
-import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
-import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder.Views;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
@@ -41,6 +39,8 @@ public class EnergyImpl extends IEnergy.Stub {
     public String getCurrentLevel() throws RemoteException {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_LEVEL, "true");
+        
+        System.out.println("FUCK FUCK FUCK " + getResultSetCV().getLevel());
         
         return getResultSetCV().getLevel();
     }
@@ -238,9 +238,10 @@ public class EnergyImpl extends IEnergy.Stub {
         
         UploadHandler uh = new UploadHandler(this.context);
         if (uh.upload()) {
-            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, uh.getDeviceID(this.context));
-            urlB.setView(Views.STATIC);
-            return urlB.getBatteryGraphUrl();
+            //            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, uh.getDeviceID(this.context));
+            //            urlB.setView(Views.STATIC);
+            //            return urlB.getBatteryGraphUrl();
+            return null;
         } else {
             return null;
         }

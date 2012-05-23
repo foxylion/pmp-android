@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -39,6 +40,7 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.InfoAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.common.UploadRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
 
@@ -436,49 +438,16 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      */
     public String upload() {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
-            UploadRequestResourceHandler handler = new UploadRequestResourceHandler();
+            Semaphore sem = new Semaphore(0);
+            UploadRequestResourceHandler handler = new UploadRequestResourceHandler(sem);
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
-            return handler.getURL();
-        }
-        return "";
-    }
-    
-    /**
-     * The upload request resource handler
-     * 
-     * @author Marcus Vetter
-     * 
-     */
-    class UploadRequestResourceHandler extends PMPRequestResourceHandler {
-        
-        private String URL = "";
-        
-        
-        @Override
-        public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
-            IConnection connectionRG = IConnection.Stub.asInterface(binder);
             try {
-                this.setURL(connectionRG.uploadData());
-            } catch (RemoteException e) {
-                e.printStackTrace();
+                sem.acquire();
+                return handler.getURL();
+            } catch (InterruptedException e) {
+                return null;
             }
         }
-        
-        
-        /**
-         * @return the uRL
-         */
-        public String getURL() {
-            return URL;
-        }
-        
-        
-        /**
-         * @param uRL
-         *            the uRL to set
-         */
-        public void setURL(String uRL) {
-            URL = uRL;
-        }
-    };
+        return null;
+    }
 }
