@@ -123,6 +123,8 @@ public class Model {
     public void loadAppointments(ArrayList<Appointment> appList) {
         
         this.dayAppointments.clear();
+        this.adapters.clear();
+        
         for (Appointment app : appList) {
             addAppointment(app);
         }

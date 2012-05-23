@@ -6,7 +6,7 @@
     <string name="main_profile">Profile</string>
     <string name="main_history">History</string>
     <string name="main_drive">Drive</string>
-    <string name="main_ride">Ride</string>
+    <string name="main_ride">Hitchhike/Plan Trip</string>
     <string name="main_searchingpassenger">Search</string>
     <string name="ride_destination">Destination</string>
     <string name="ride_promptDestination">Choose destination</string>
