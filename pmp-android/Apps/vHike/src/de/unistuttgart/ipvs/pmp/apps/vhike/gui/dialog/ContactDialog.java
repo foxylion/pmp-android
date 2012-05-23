@@ -148,14 +148,14 @@ public class ContactDialog extends Dialog {
                 
                 // if route for user already drawn: remove
                 if (ViewModel.getInstance().isRouteDrawn(ContactDialog.this.userName)) {
-                    Log.i(this, ContactDialog.this.userName + " is drawn, removing DIALOG");
+                    ViewModel.getInstance().setBtnInfoVisibility(false);
                     ViewModel.getInstance().removeRoute(
                             ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName));
                     ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, false);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
                 } else {
-                    
+                    ViewModel.getInstance().setBtnInfoVisibility(true);
                     ViewModel.getInstance().clearRoutes();
                     ViewModel.getInstance().initRouteList();
                     

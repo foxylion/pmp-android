@@ -49,12 +49,24 @@
         android:layout_marginRight="3dip"
         android:layout_marginTop="3dp"
         android:layout_alignParentRight="true"
-        android:text="  From: \n  To: \n  Distance: \n  Time: \n"
+        android:text="\n   From: \n   To: \n   Distance: \n   Time: \n"
         android:focusable="false"
         android:editable="false"
         android:textSize="15dp"
         android:textColor="@color/white"
+        android:visibility="gone"
         android:background="@drawable/road_info" />
+    
+    <Button
+        android:id="@+id/btn_route_info"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dip"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:background="@drawable/road_info_small" />
 
     <SlidingDrawer
         android:id="@+id/notiSlider"

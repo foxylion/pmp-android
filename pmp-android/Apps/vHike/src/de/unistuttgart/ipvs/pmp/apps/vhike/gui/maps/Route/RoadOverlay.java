@@ -12,6 +12,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 
 /**
  * Overlay for a route from a driver to passenger
@@ -38,8 +39,17 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
                     .get(0).getLongitudeE6()) / 2);
             GeoPoint moveTo = new GeoPoint(moveToLat, moveToLong);
             
-            Double distance = parseDistance(mRoad.mDescription);
-            int zoom = zoomLevel(distance);
+            Log.i(this, "RoadDesc" + mRoad.mDescription);
+            Log.i(this, "RoadName" + mRoad.mName);
+            String distance = parseDistance(mRoad.mDescription);
+            ViewModel.getInstance().setEtInfoText("Fr", "To", distance, "Time");
+            int zoom = 0;
+            try {
+                zoom = zoomLevel(Double.valueOf(distance));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                zoom = 15;
+            }
             
             MapController mapController = mv.getController();
             mapController.animateTo(moveTo);
@@ -56,19 +66,15 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
      * @param roadDescription
      * @return distance
      */
-    private double parseDistance(String roadDescription) {
+    private String parseDistance(String roadDescription) {
         String[] temp;
-        double dist = 0;
-        temp = roadDescription.split("\\(");
-        temp = temp[0].split("\\:");
-        temp = temp[1].split("m");
+        String dist = "";
+        temp = roadDescription.split("k");
         Log.i(this, "temp: " + temp[0]);
-        try {
-            dist = Double.valueOf(temp[0]);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            dist = 15;
-        }
+        
+        dist = temp[0];
+        
+        // convert to km
         return dist;
     }
     
