@@ -31,12 +31,16 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Gives access to profile events<br />
+ * Gives access to profile events
+ *
  * <b>Warning:</b> This class should not be to instantiated directly as there is
- * no type or value check in the constructor. Use {@see Device} to get an instance
+ * no type or value check in the constructor. Use {@link Device} to get an instance
  * instead.
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage eventmanager
  */
 class ProfileEventManager extends EventManager {
 

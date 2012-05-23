@@ -32,6 +32,7 @@ if (!defined("INCLUDE")) {
  * Encapsulates the access to the database
  * @author  Dang Huynh, Patrick Strobel
  * @version 4.0.1
+ * @package infoapp
  */
 class Database {
 

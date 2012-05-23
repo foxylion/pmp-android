@@ -26,6 +26,18 @@ if (!defined("INCLUDE")) {
     exit;
 }
 
+/**
+ * InvalidOrderException are thrown by classes in the package {@link eventmanager}
+ * whenever the event-order is violated.
+ *
+ * This happens for example, if the events are not orderd by their timestamp in
+ * ascending order.
+ *
+ * @author Patrick Strobel
+ * @version 4.0.0.
+ * @package infoapp
+ * @subpackage exceptions
+ */
 class InvalidOrderException extends \Exception {
 
 }

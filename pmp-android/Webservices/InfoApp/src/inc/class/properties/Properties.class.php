@@ -27,12 +27,16 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Abstract base class for all properties that might be updated or set by webservices.<br />
+ * Abstract base class for all properties that might be updated or set by webservices.
+ *
  * <b>Warning:</b> Sub classes should not be to instantiated directly as there is
  * no type or value check in the constructor. Use {@see Device} to get an instance
  * instead.
+ *
  * @author Patrick Strobel
  * @version 4.1.0
+ * @package infoapp
+ * @subpackage properties
  */
 abstract class Properties {
 
