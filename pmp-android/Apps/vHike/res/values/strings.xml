@@ -116,6 +116,11 @@
     <string name="login_remember">Remember</string>
     <string name="tripDetails_overview">Overview</string>
     <string name="tripDetails_all_messages">All messages</string>
-    <string name="tripDetails_stopovers">"Stopovers: "</string>
+    <string name="tripDetails_stopovers">&quot;Stopovers &quot;</string>
+    <string name="tripDetails_my_trip">My trip</string>
+    <string name="tripDetails_passengers">"Passengers "</string>
+    <string name="tripDetails_new_messages">New requests and messages</string>
+    <string name="tripDetails_cancel_trip">Cancel trip</string>
+    <string name="tripDetails_edit_trip">Edit trip</string>
 
 </resources>

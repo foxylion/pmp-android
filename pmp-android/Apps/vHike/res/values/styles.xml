@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ActionBarItem" parent="@android:style/TextAppearance.Medium">
+        <item name="android:padding">5dip</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="ActionBarItemActive" parent="@android:style/TextAppearance.Medium">
+        <item name="android:padding">5dip</item>
+        <item name="android:textColor">@color/cyan</item>
+    </style>
+
+    <style name="ClickableSpan" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:linksClickable">true</item>
+        <item name="android:textColorLink">@color/cyan</item>
+    </style>
+
+    <style name="CaptionSpan" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/emirates_red</item>
+    </style>
+
+</resources>

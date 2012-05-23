@@ -12,14 +12,12 @@
             android:id="@+id/myTrip_destination"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1"/>
-
+
         <TextView
             android:id="@+id/myTrip_date"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -34,7 +32,7 @@
             android:layout_marginLeft="5dp"
             android:background="@layout/bg_round_gray"
             android:gravity="center_vertical|center_horizontal"
-            android:text="99" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/TextView02"
@@ -50,7 +48,7 @@
             android:layout_marginLeft="5dp"
             android:background="@layout/bg_round_gray"
             android:gravity="center_vertical|center_horizontal"
-            android:text="10" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/TextView01"
@@ -66,7 +64,7 @@
             android:layout_marginLeft="5dp"
             android:background="@layout/bg_round_gray"
             android:gravity="center_vertical|center_horizontal"
-            android:text="10" />
+            android:text="0" />
 
         <TextView
             android:id="@+id/textView1"
