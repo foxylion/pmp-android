@@ -151,6 +151,7 @@ public class ExternalFileAccess extends IFileAccess.Stub {
             return true;
         } catch (IOException e) {
             Log.d(this, "Cannot write data to " + path);
+            e.printStackTrace();
             return false;
         } catch (IllegalArgumentException e) {
             Log.d(this, SWITCHING_EXCEPTION, e);
