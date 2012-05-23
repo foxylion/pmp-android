@@ -32,8 +32,11 @@ if (!defined("INCLUDE")) {
 
 /**
  * Stores statistical information about the users' profile
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 class ProfilePropertiesStat extends PropertiesStat {
 
@@ -81,8 +84,11 @@ class ProfilePropertiesStat extends PropertiesStat {
 
 /**
  * Stores information about the user's profile and allows to update or insert a new profile information set
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 class ProfileProperties extends Properties {
 

@@ -28,8 +28,11 @@ if (!defined("INCLUDE")) {
 
 /**
  * Abstract base class for statistical informations
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 abstract class PropertiesStat {
 

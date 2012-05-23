@@ -32,6 +32,7 @@ if (!defined("INCLUDE")) {
  *
  * @author Patrick Strobel
  * @version 4.2.0
+ * @package infoapp
  */
 class Chart {
 

@@ -22,6 +22,17 @@
 
 namespace infoapp\googlecharttools;
 
+/**
+  This bridges can be used as a converter between a {@link DataTable} and
+ * a {@link gChart} object.
+ *
+ * It reads the data from the data table and writes it automatically into the
+ * gChart chrat
+ *
+ * @version 4.1.0
+ * @package infoapp
+ * @subpackage googlecharttools
+ */
 class GChartPhpBridge {
     /**
      * Typically for pie charts
