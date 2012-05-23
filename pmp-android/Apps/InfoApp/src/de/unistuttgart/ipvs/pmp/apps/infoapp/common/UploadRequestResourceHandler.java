@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.IEnergy;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
 
 /**
  * The upload request resource handler

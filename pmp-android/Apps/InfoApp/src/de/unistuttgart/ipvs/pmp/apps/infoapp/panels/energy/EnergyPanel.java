@@ -104,7 +104,7 @@ public class EnergyPanel implements IPanel {
     
     
     public String upload() {
-        if (PMP.get().isServiceFeatureEnabled(Constants.ENERGY_SF_UPLOAD_DATA)) {
+        if (PMP.get(this.application).isServiceFeatureEnabled(Constants.ENERGY_SF_UPLOAD_DATA)) {
             final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                     Constants.ENERGY_RG_RESOURCE);
             
@@ -161,6 +161,7 @@ class RequestResourceHandler extends PMPRequestResourceHandler {
                                 Constants.ENERGY_SF_CURRENT_VALUES)) {
                             EnergyCurrentValues cv = new EnergyCurrentValues();
                             try {
+                                System.out.println("+++++++++++++++++++++++++++++ " + energyRG);
                                 cv.setLevel(energyRG.getCurrentLevel());
                                 cv.setHealth(energyRG.getCurrentHealth());
                                 cv.setStatus(energyRG.getCurrentStatus());
