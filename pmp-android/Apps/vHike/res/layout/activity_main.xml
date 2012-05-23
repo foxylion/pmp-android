@@ -33,7 +33,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/main_ride"
+                android:drawableTop="@drawable/main_ride_fancy"
                 android:paddingTop="25sp"
                 android:text="@string/main_ride" />
 
@@ -43,7 +43,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_profile"
+                android:drawableTop="@drawable/icon_profile_fancy"
                 android:paddingTop="25sp"
                 android:text="@string/main_profile" />
         </TableRow>
@@ -59,7 +59,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/icon_history"
+                android:drawableTop="@drawable/icon_history_fancy"
                 android:paddingTop="25sp"
                 android:text="@string/main_history" />
 
@@ -69,7 +69,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:drawablePadding="10dp"
-                android:drawableTop="@drawable/my_trips"
+                android:drawableTop="@drawable/my_trips_fancy"
                 android:paddingTop="25sp"
                 android:text="@string/main_trips" />
         </TableRow>

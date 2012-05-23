@@ -155,7 +155,6 @@ public class ContactDialog extends Dialog {
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
                 } else {
-                    ViewModel.getInstance().setBtnInfoVisibility(true);
                     ViewModel.getInstance().clearRoutes();
                     ViewModel.getInstance().initRouteList();
                     
@@ -180,6 +179,7 @@ public class ContactDialog extends Dialog {
                         }.start();
                         
                         ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
+                        ViewModel.getInstance().setBtnInfoVisibility(true);
                     } catch (IllegalStateException ise) {
                         Log.i(this, ise.toString());
                         ise.printStackTrace();

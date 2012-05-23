@@ -42,7 +42,10 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
             Log.i(this, "RoadDesc" + mRoad.mDescription);
             Log.i(this, "RoadName" + mRoad.mName);
             String distance = parseDistance(mRoad.mDescription);
-            ViewModel.getInstance().setEtInfoText("Fr", "To", distance, "Time");
+            String time = parseTime(mRoad.mDescription);
+            String from = parseFrom(mRoad.mName);
+            String to = parseTo(mRoad.mName);
+            ViewModel.getInstance().setEtInfoText(from, to, distance, time);
             int zoom = 0;
             try {
                 zoom = zoomLevel(Double.valueOf(distance));
@@ -53,9 +56,9 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
             
             MapController mapController = mv.getController();
             mapController.animateTo(moveTo);
-            if (firstDraw) {
-                mapController.setZoom(zoom);
-            }
+            
+            mapController.setZoom(zoom);
+            
         }
     }
     
@@ -71,11 +74,37 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
         String dist = "";
         temp = roadDescription.split("k");
         Log.i(this, "temp: " + temp[0]);
+        temp = temp[0].split("\\:");
         
-        dist = temp[0];
+        dist = temp[1];
         
         // convert to km
         return dist;
+    }
+    
+    
+    private String parseTime(String roadDescription) {
+        String[] temp;
+        temp = roadDescription.split("\\(");
+        temp = temp[1].split("\\)");
+        Log.i(this, "Time: " + temp[0]);
+        return temp[0];
+    }
+    
+    
+    private String parseFrom(String roadName) {
+        String[] temp;
+        temp = roadName.split(" to ");
+        Log.i(this, "From: " + temp[0]);
+        return temp[0];
+    }
+    
+    
+    private String parseTo(String roadName) {
+        String[] temp;
+        temp = roadName.split(" to ");
+        Log.i(this, "To: " + temp[1]);
+        return temp[1];
     }
     
     
