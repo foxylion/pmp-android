@@ -63,6 +63,8 @@ public class CalendarAppActivity extends ListActivity {
     
     private Handler handler;
     
+    private long lastOnResume = 0;
+    
     
     /**
      * Called when the activity is first created. Creates the list and shows the dates.
@@ -99,6 +101,15 @@ public class CalendarAppActivity extends ListActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        
+        /* Android made us doing such a piece of shit */
+        if (lastOnResume + 1000 > System.currentTimeMillis()) {
+            Log.v(this, "Preventing android from doing a second call on onResume()");
+            return;
+        } else {
+            lastOnResume = System.currentTimeMillis();
+        }
+        
         PMP.get().register(new PMPRegistrationHandler() {
             
             private String toast = null;
