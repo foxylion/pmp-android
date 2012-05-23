@@ -29,14 +29,14 @@ public class MyTripActivity extends ListActivity {
         t = new ArrayList<CompactTrip>(10);
         t.add(new CompactTrip(1, "Berlin", 1000000000, 2, 3, 1));
         t.add(new CompactTrip(2, "Stuttgart", 1000000000, 0, 3, 1));
-        t.add(new CompactTrip(3, "München", 1000000000, 2, 0, 1));
-        t.add(new CompactTrip(4, "Köln", 1000000000, 2, 3, 0));
-        t.add(new CompactTrip(5, "Düsseldorf", 1000000000, 2, 3, 1));
+        t.add(new CompactTrip(3, "Muenchen", 1000000000, 2, 0, 1));
+        t.add(new CompactTrip(4, "Koeln", 1000000000, 2, 3, 0));
+        t.add(new CompactTrip(5, "Duesseldorf", 1000000000, 2, 3, 1));
         t.add(new CompactTrip(6, "Hamburg", 1000000000, 0, 0, 0));
-        t.add(new CompactTrip(7, "Text", 1000000000, 2, 3, 1));
-        t.add(new CompactTrip(8, "test", 1000000000, 2, 3, 1));
-        t.add(new CompactTrip(9, "Hallihallo", 1000000000, 2, 3, 1));
-        t.add(new CompactTrip(10, "alohodsnheif", 1000000000, 2, 3, 1));
+        t.add(new CompactTrip(7, "Dortmund", 1000000000, 2, 3, 1));
+        t.add(new CompactTrip(8, "Bremen", 1000000000, 2, 3, 1));
+        t.add(new CompactTrip(9, "Hanover", 1000000000, 2, 3, 1));
+        t.add(new CompactTrip(10, "Leipzig", 1000000000, 2, 3, 1));
         
         ListView listView = getListView();
         listView.setAdapter(new MyTripAdapter(this, t));
