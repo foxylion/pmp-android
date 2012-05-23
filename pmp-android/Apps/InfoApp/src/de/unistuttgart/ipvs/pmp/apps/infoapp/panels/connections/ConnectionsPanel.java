@@ -40,7 +40,7 @@ import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.InfoAppActivity;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.common.UploadRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.common.ConnectionUploadResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
 
@@ -439,7 +439,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     public String upload() {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
             Semaphore sem = new Semaphore(0);
-            UploadRequestResourceHandler handler = new UploadRequestResourceHandler(sem);
+            ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(sem);
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
             try {
                 sem.acquire();

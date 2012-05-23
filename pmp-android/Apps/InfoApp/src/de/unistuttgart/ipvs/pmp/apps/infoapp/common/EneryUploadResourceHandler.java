@@ -8,23 +8,19 @@ import java.util.concurrent.Semaphore;
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
 
 /**
- * The upload request resource handler
- * 
- * @author Marcus Vetter
+ * @author Thorsten
  * 
  */
-public class UploadRequestResourceHandler extends PMPRequestResourceHandler {
+public class EneryUploadResourceHandler extends AbstractRequestRessourceHandler {
     
-    private String URL = null;
-    private Semaphore s;
-    
-    
-    public UploadRequestResourceHandler(Semaphore s) {
-        this.s = s;
+    /**
+     * @param sem
+     */
+    public EneryUploadResourceHandler(Semaphore sem) {
+        super(sem);
     }
     
     
@@ -36,23 +32,7 @@ public class UploadRequestResourceHandler extends PMPRequestResourceHandler {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        s.release();
+        sem.release();
     }
     
-    
-    /**
-     * @return the uRL
-     */
-    public String getURL() {
-        return URL;
-    }
-    
-    
-    /**
-     * @param uRL
-     *            the uRL to set
-     */
-    public void setURL(String uRL) {
-        URL = uRL;
-    }
 }

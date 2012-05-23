@@ -36,7 +36,7 @@ import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.common.UploadRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.common.EneryUploadResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyCurrentValues;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyLastBootValues;
@@ -109,7 +109,7 @@ public class EnergyPanel implements IPanel {
                     Constants.ENERGY_RG_RESOURCE);
             
             Semaphore s = new Semaphore(0);
-            UploadRequestResourceHandler urrh = new UploadRequestResourceHandler(s);
+            EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(s);
             PMP.get(this.application).getResource(id, urrh);
             try {
                 s.acquire();
