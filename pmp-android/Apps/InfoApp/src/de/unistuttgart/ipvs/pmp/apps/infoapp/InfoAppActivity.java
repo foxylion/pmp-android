@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.infoapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -75,13 +76,17 @@ public class InfoAppActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int displayed = mPager.getCurrentItem();
         IPanel panel = mAdapter.getPanel(displayed);
-        
+        ProgressDialog dialog;
         switch (item.getItemId()) {
             case R.id.menu_refresh:
+                dialog = ProgressDialog.show(this, "", getText(R.string.dialog_refresh), true);
                 panel.update();
+                dialog.dismiss();
                 break;
             case R.id.menu_upload:
+                dialog = ProgressDialog.show(this, "", getText(R.string.dialog_upload), true);
                 panel.upload();
+                dialog.dismiss();
                 break;
         }
         return true;

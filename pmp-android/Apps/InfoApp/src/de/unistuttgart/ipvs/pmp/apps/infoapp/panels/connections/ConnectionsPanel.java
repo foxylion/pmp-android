@@ -438,7 +438,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      */
     public String upload() {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
-            Semaphore sem = new Semaphore(0);
+            Semaphore sem = new Semaphore(1);
             ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(sem);
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
             try {

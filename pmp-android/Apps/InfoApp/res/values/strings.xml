@@ -34,6 +34,8 @@
     <string name="energy_panel_total_values">Values in total</string>
     <string name="menu_upload">Upload</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="dialog_upload">Uploading. Please wait...</string>
+    <string name="dialog_refresh">Refreshing. Please wait...</string>
 
     <plurals name="days">
         <item quantity="one"> day</item>
