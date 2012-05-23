@@ -43,6 +43,7 @@ if (!defined("INCLUDE")) {
  *
  * @author Patrick Strobel
  * @version 4.5.0
+ * @package infoapp
  */
 class Device {
 

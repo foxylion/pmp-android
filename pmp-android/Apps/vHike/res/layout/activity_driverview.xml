@@ -10,6 +10,7 @@
     <!-- Jakob: android:apiKey="0yPWnYj0YYreTD15DSaSOX2Zz0Qb_I8fPkJcg8Q" -->
     <!-- Marcus: android:apiKey="0bLJPx431Q-Qf35f7oUJorwDiq1exchXk3OVXWg" -->
     <!-- android:apiKey="0PjtgG2gTXaJOpQIv9e2nFDcrnFWEvWKVHb0pLA" -->
+    <!-- Alex: android:apiKey="04AhZI3pRNAhYcjxrQFVW4c2z084MgppmbcVUDQ" -->
 
     <com.google.android.maps.MapView
         android:id="@+id/driverMapView"
@@ -38,8 +39,22 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </HorizontalScrollView>
+    </HorizontalScrollView>
     -->
+
+    <EditText
+        android:id="@+id/et_route_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dip"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentRight="true"
+        android:text="  From: \n  To: \n  Distance: \n  Time: \n"
+        android:focusable="false"
+        android:editable="false"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:background="@drawable/road_info" />
 
     <SlidingDrawer
         android:id="@+id/notiSlider"

@@ -80,22 +80,12 @@ class Offer {
             return null;
         }
 		
-		$offers = array();
-		
-		while (($row = $db->fetch($query)) != null) {
-			$offer = new Offer();
-			$offer->trip = Trip::loadTripBySqlResult($row, $uid, "uid");
-			$offer->id = $row["id"];
-		    $offer->tripid = $row["trip"];
-			$offer->query = $row["query"];
-			$offer->status = $row["status"];
-			$offer->sender = $row["sender"];
-			$offer->recipient = $row["recipient"];
-			$offer->message = $row["message"];
-			$offers[] = $offer;
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
 		}
 
-		return $offers;
+		return $arr;
 	}
 	
 	/**

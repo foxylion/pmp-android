@@ -63,14 +63,5 @@
 				<requiredPrivacySetting identifier="sendEmail">true</requiredPrivacySetting>
 			</requiredResourceGroup>
 		</serviceFeature>
-		<serviceFeature identifier="notification">
-			<name lang="en">Notification +</name>
-			<description lang="en">Notify you about new messages on vHike, even when you're using other apps.</description>
-			<requiredResourceGroup
-				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.notification" minRevision="0">
-				<requiredPrivacySetting identifier="allowNotification">allow
-				</requiredPrivacySetting>
-			</requiredResourceGroup>
-		</serviceFeature>
 	</serviceFeatures>
 </appInformationSet>

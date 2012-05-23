@@ -31,78 +31,64 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Stores statistical information about the user's profile
+ * Stores statistical information about the users' profile
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 class ProfilePropertiesStat extends PropertiesStat {
-    // TODO!!!
-    /** @var float */
-    private $bluetoothAvg;
-    /** @var float */
-    private $wifiAvg;
-    /** @var String[] */
-    private $providerDist;
-    /** @var float[] */
-    private $signalAvg;
-    /** @var float */
-    private $roamingPerc;
 
-    public function __construct($bluetooh, $wifi, $provider, $roaming, $signal) {
-        $this->bluetoothAvg = $bluetooh;
-        $this->wifiAvg = $wifi;
-        $this->providerDist = $provider;
-        $this->roamingPerc = $roaming;
-        $this->signalAvg = $signal;
+    /** @var char[] */
+    private $ringDist;
+
+    /** @var float */
+    private $contactsAvg;
+
+    /** @var float */
+    private $appsAvg;
+
+    public function __construct($rings, $contacts, $apps) {
+        $this->ringDist = $rings;
+        $this->contactsAvg = $contacts;
+        $this->appsAvg = $apps;
     }
 
     /**
-     * Gets the average of bluetooth connection
+     * Gets the average of contacts the user have in their address book
      * @return float Average
      */
-    public function getBluetoothAvg() {
-        return $this->bluetoothAvg;
+    public function getContactsAvg() {
+        return $this->contactsAvg;
     }
 
     /**
-     * Gets the average of wifi connection
+     * Gets the average of apps the user have in their address book
      * @return float Average
      */
-    public function getWifiAvg() {
-        return $this->wifiAvg;
+    public function getAppsAvg() {
+        return $this->appsAvg;
     }
 
     /**
-     * Gets information about the provider distribution
-     * @return int[] The providers's name is stored in the array's key and
+     * Gets information about the ring type distribution
+     * @return char[] The ring type is stored in the array's key and
      *                  the counted value in the value
      */
-    public function getProviderDist() {
-        return $this->providerDist;
+    public function getRingDist() {
+        return $this->ringDist;
     }
 
-    /**
-     * Gets the percentage of active roaming connection
-     * @return float Percentage (between 0 and 100)
-     */
-    public function getRoamingPerc() {
-        return $this->roamingPerc;
-    }
-
-    /**
-     * Gets information about the signal strength
-     * @return int[] The provider's name is stored in the array's key and
-     *                  the average value in the value
-     */
-    public function getSignalAvg() {
-        return $this->signalAvg;
-    }
 }
 
 /**
  * Stores information about the user's profile and allows to update or insert a new profile information set
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 class ProfileProperties extends Properties {
 
@@ -216,6 +202,7 @@ class ProfileProperties extends Properties {
     public function getRingType() {
         return $this->ring;
     }
+
     /**
      * Sets the ring notifiaction type
      * @param char $ring  Ring-type (one of the constants)
@@ -230,44 +217,31 @@ class ProfileProperties extends Properties {
         $this->ring = $ring;
     }
 
-    // TODO
     public static function getStatistic() {
         $db = Database::getInstance();
 
         // Connections
         $row = $db->fetch($db->query("SELECT
                                         COUNT(`device`) AS 'count',
-                                        AVG(`bluetooth`) AS 'bluetoothAvg',
-                                        AVG(`wifi`) AS 'wifiAvg'
-                                      FROM `" . DB_PREFIX . "_connection_prop`"));
+                                        AVG(`contacts`) AS 'contactsAvg',
+                                        AVG(`apps`) AS 'appsAvg'
+                                      FROM `" . DB_PREFIX . "_profile_prop`"));
 
-        $entries = $row["count"];
-        $bluetooth = $row["bluetoothAvg"];
-        $wifi = $row["wifiAvg"];
+        $contacts = $row["contactsAvg"];
+        $apps = $row["appsAvg"];
 
-        // Roaming
-        $row = $db->fetch($db->query("SELECT COUNT(`roaming`) AS 'roamingCount'
-                                      FROM `" . DB_PREFIX . "_connection_prop`
-                                      WHERE `roaming` = 1
-                                      GROUP BY `roaming`"));
-        $roaming = $row["roamingCount"] / $entries * 100;
+        // Ring type
+        $result = $db->query("SELECT COUNT(`ring`) AS 'count', `ring`
+                              FROM `" . DB_PREFIX . "_profile_prop`
+                              GROUP BY `ring`");
 
-        // Provider and signal
-        $result = $db->query("SELECT COUNT(`device`) AS 'count', `provider`, AVG(`signal`) AS 'signalAvg'
-                              FROM `" . DB_PREFIX . "_connection_prop`
-                              GROUP BY `provider`");
-
-        $providers = array();
-        $signalAvg = array();
+        $rings = array();
 
         while (($row = $db->fetch($result)) != null) {
-            $provider = $row["provider"];
-            $providers[$provider] = $row["count"];
-            $signalAvg[$provider] = $row["signalAvg"];
+            $rings[$row["ring"]] = $row["count"];
         }
 
-        return new ConnectionPropertiesStat($bluetooth, $wifi, $providers, $roaming, $signalAvg);
-
+        return new ProfilePropertiesStat($rings, $contacts, $apps);
     }
 
 }

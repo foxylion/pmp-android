@@ -93,8 +93,8 @@
                 <li><a href="./battery.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connectioncellular.php?<?php echo $tmplt["navGetParams"] ?>">Cellular Connection</a></li>
                 <li><a href="./connection.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
-                <li><a href="./standby.php?<?php echo $tmplt["navGetParams"] ?>">Standby</a></li>
                 <li><a href="./profile.php?<?php echo $tmplt["navGetParams"] ?>">Profile</a></li>
+                <li><a href="./standby.php?<?php echo $tmplt["navGetParams"] ?>">Standby</a></li>
             </ul>
 
 
@@ -103,6 +103,7 @@
                 <li><a href="./battery_properties.php?<?php echo $tmplt["navGetParams"] ?>">Battery</a></li>
                 <li><a href="./connection_properties.php?<?php echo $tmplt["navGetParams"] ?>">Connection</a></li>
                 <li><a href="./hardware_properties.php?<?php echo $tmplt["navGetParams"] ?>">Hardware</a></li>
+                <li><a href="./profile_properties.php?<?php echo $tmplt["navGetParams"] ?>">Profile</a></li>
                 <li><a href="./software_properties.php?<?php echo $tmplt["navGetParams"] ?>">Software</a></li>
             </ul>
 

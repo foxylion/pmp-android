@@ -50,6 +50,8 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
     Timer timer;
     Context context;
     ProgressDialog cancelDialog;
+    boolean stopConnectedChecker = false;
+    EnabledTimer enabledTimer = null;
     
     
     @Override
@@ -63,14 +65,15 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         if (rgBluetooth != null) {
             startBluetooth();
         }
+        stopConnectedChecker = false;
     }
     
     
     public void registerListener() {
         drive = (Button) findViewById(R.id.btn_bt_Drive);
-        
+        drive.setEnabled(false);
         search = (Button) findViewById(R.id.btn_bt_Search);
-        
+        search.setEnabled(false);
         destination = (Spinner) findViewById(R.id.sp_bt_destination);
         seats = (Spinner) findViewById(R.id.sp_bt_seats);
         
@@ -95,14 +98,22 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 String dest = destination.getSelectedItem().toString();
                 int dur = Integer.valueOf(duration.getText().toString());
                 
+                Log.i(TAG, "SEAT not NULL: " + seat);
+                Log.i(TAG, "DEST not NULL: " + dest);
+                Log.i(TAG, "DUR not NULL: " + dur);
+                
                 BluetoothModel.getInstance().setDestination(dest);
                 BluetoothModel.getInstance().setDuration(dur);
                 BluetoothModel.getInstance().setSeats(seat);
                 BluetoothModel.getInstance().setRole(BluetoothModel.ROLE_DRIVER);
                 createCancelProgressDialog("Offer ride", "Offering a ride to nearby passengers!", "Stop offering");
                 
+                stopConnectedChecker = false;
                 timer.schedule(new ConnectedChecker(), 2000);
                 try {
+                    if (rgBluetooth == null) {
+                        Log.i(TAG, "rgBluetooth is null");
+                    }
                     rgBluetooth.makeDiscoverable("vHike:" + dest + "-" + seat, dur);
                     
                 } catch (RemoteException e) {
@@ -126,7 +137,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 createCancelProgressDialog("Searching", "Searching for offered rides nearby!", "Stop searching");
                 
                 try {
-                    rgBluetooth.discover();
+                    rgBluetooth.discover("vHike:" + dest + "-" + seat, dur);
                     
                     timer.schedule(new Time(rgBluetooth), 2000);
                     
@@ -146,6 +157,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
             
             public void onClick(DialogInterface dialog, int which) {
                 // Use either finish() or return() to either close the activity or just the dialog
+                stopConnectedChecker = true;
                 return;
             }
         });
@@ -191,8 +203,10 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
     public void startBluetooth() {
         try {
             if (rgBluetooth.isBluetoothAvailable()) {
+                
                 Toast.makeText(this, "Starting bluetooth!", Toast.LENGTH_LONG).show();
                 rgBluetooth.enableBluetooth(true);
+                timer.schedule(new EnabledTimer(), 5000);
                 
             }
         } catch (RemoteException e) {
@@ -232,26 +246,22 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                     Log.i(TAG, "nach getDevices");
                     final List<Device> devices = BluetoothTools.DeviceArrayListToDeviceList(founddevices);
                     Log.i(TAG, "nach getFoundDevices to list");
-                    //                    DeviceArrayParcelable paired = rgBluetooth.getPairedDevices();
-                    //                    DeviceArray pairedArray = paired.getDevices();
-                    //                    final List<String> pairedlist = pairedArray.getDevices();
-                    //                    final List<Device> paireddevices = BluetoothTools.DeviceArrayListToDeviceList(pairedlist);
-                    //                    
-                    //                                        for (Device device : paireddevices) {
-                    //                                            devices.add(device);
-                    //                                        }
+                    final List<Device> filteredDevices = BluetoothTools.filterForVHike(devices);
+                    
+                    final List<Device> filteredDestination = BluetoothTools.filterForDestination(filteredDevices,
+                            BluetoothModel.getInstance().getDestination());
                     cancelDialog.dismiss();
                     Log.i(TAG, "nach dismiss dialog");
                     refresh.post(new Runnable() {
                         
                         public void run() {
-                            CharSequence[] items = new CharSequence[devices.size()];
-                            for (int i = 0; i < devices.size(); i++) {
-                                items[i] = devices.get(i).getName();
-                                Log.i(TAG, "Added device: " + devices.get(i).getName() + " "
-                                        + devices.get(i).getAddress());
+                            CharSequence[] items = new CharSequence[filteredDestination.size()];
+                            for (int i = 0; i < filteredDestination.size(); i++) {
+                                items[i] = filteredDestination.get(i).getName();
+                                Log.i(TAG, "Added device: " + filteredDestination.get(i).getName() + " "
+                                        + filteredDestination.get(i).getAddress());
                             }
-                            createAlertDialog(items, devices).show();
+                            createAlertDialog(items, filteredDestination).show();
                         }
                     });
                 } else {
@@ -276,7 +286,8 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                     BluetoothPlanTripActivity.this.finish();
                 } else {
                     Log.i(TAG, "ConnectedChecker rescheduled");
-                    timer.schedule(new ConnectedChecker(), 2000);
+                    if (!stopConnectedChecker)
+                        timer.schedule(new ConnectedChecker(), 2000);
                 }
                 
             } catch (RemoteException e) {
@@ -284,5 +295,38 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public class EnabledTimer extends TimerTask {
+        
+        Handler refresh;
+        
+        
+        public EnabledTimer() {
+            refresh = new Handler(Looper.getMainLooper());
+        }
+        
+        
+        @Override
+        public void run() {
+            try {
+                if (rgBluetooth.isEnabled()) {
+                    refresh.post(new Runnable() {
+                        
+                        public void run() {
+                            search.setEnabled(true);
+                            drive.setEnabled(true);
+                        }
+                    });
+                    
+                } else {
+                    timer.schedule(new EnabledTimer(), 2000);
+                }
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
     }
 }

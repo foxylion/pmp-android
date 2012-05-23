@@ -6,11 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+
+import de.unistuttgart.ipvs.pmp.Log;
 
 /**
  * Overlay for a route from a driver to passenger
@@ -57,11 +58,18 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
      */
     private double parseDistance(String roadDescription) {
         String[] temp;
+        double dist = 0;
         temp = roadDescription.split("\\(");
         temp = temp[0].split("\\:");
         temp = temp[1].split("m");
-        
-        return Double.valueOf(temp[0]);
+        Log.i(this, "temp: " + temp[0]);
+        try {
+            dist = Double.valueOf(temp[0]);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            dist = 15;
+        }
+        return dist;
     }
     
     

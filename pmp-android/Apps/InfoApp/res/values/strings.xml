@@ -32,6 +32,8 @@
     <string name="energy_panel_current_values">Current values</string>
     <string name="energy_panel_last_boot_values">Values since last boot</string>
     <string name="energy_panel_total_values">Values in total</string>
+    <string name="menu_upload">Upload</string>
+    <string name="menu_refresh">Refresh</string>
 
     <plurals name="days">
         <item quantity="one"> day</item>

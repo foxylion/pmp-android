@@ -36,6 +36,8 @@ if (!defined("INCLUDE")) {
  *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage events
  */
 
 class AwakeEvent extends Event {

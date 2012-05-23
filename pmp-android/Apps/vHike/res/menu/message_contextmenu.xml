@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/accept_offer" android:title="Accept"></item>
+    <item android:id="@+id/decline_offer" android:title="Decline"></item>
+    
+
+</menu>

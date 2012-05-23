@@ -8,32 +8,32 @@
         android:id="@+id/btn_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-3dip"
-        android:layout_marginRight="-3dip"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="2dip"
         android:background="@drawable/btn_phone" />
 
     <Button
         android:id="@+id/btn_sms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-3dip"
-        android:layout_marginRight="-3dip"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="2dip"
         android:background="@drawable/btn_sms" />
 
     <Button
         android:id="@+id/btn_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-3dip"
-        android:layout_marginRight="-3dip"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="3dip"
         android:background="@drawable/btn_email" />
 
     <Button
         android:id="@+id/btn_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-3dip"
-        android:layout_marginRight="-3dip"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="2dip"
         android:background="@drawable/btn_route_disabled" />
 
 </LinearLayout>

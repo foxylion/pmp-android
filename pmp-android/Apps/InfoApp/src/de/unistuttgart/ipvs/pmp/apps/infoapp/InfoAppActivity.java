@@ -22,12 +22,22 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
 import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 
+/**
+ * Main activity of the InfoApp
+ * 
+ * @author Marcus Vetter, Thorsten Berberich
+ * 
+ */
 public class InfoAppActivity extends Activity {
     
     ViewPagerAdapter mAdapter;
@@ -50,5 +60,30 @@ public class InfoAppActivity extends Activity {
         this.mIndicator.setViewPager(this.mPager);
         
         PMP.get(getApplication()).register(this);
+    }
+    
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int displayed = mPager.getCurrentItem();
+        IPanel panel = mAdapter.getPanel(displayed);
+        
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                panel.update();
+                break;
+            case R.id.menu_upload:
+                panel.upload();
+                break;
+        }
+        return true;
     }
 }

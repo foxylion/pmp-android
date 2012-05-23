@@ -38,7 +38,7 @@ public class BluetoothModel {
     
     
     public void setRole(int role) {
-        role = role;
+        this.role = role;
     }
     
     

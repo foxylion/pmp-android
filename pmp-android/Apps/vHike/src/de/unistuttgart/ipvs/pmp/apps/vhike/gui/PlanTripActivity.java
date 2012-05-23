@@ -57,6 +57,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     private Spinner spinner;
     private Spinner spinnerSeats;
     private Button addButton;
+    private Button btnDrive;
     
     private Calendar plannedDate;
     
@@ -118,7 +119,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     
     private void registerListener() {
         
-        // Now
+        btnDrive = (Button) findViewById(R.id.Button_Drive);
         
         // Pick a date
         this.pickDate = (RadioButton) findViewById(R.id.radio_later);
@@ -127,6 +128,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             @Override
             public void onClick(View v) {
                 getDialog(PlanTripActivity.this.DIALOG_DATE_TIME_PICKER).show();
+                btnDrive.setText("Create trip");
             }
         });
         
@@ -163,9 +165,17 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         adapter = ArrayAdapter.createFromResource(this, R.array.array_numSeats, android.R.layout.simple_spinner_item);
         this.spinnerSeats.setAdapter(adapter);
         
-        // Button Drive and Search
-        Button btnDrive = (Button) findViewById(R.id.Button_Drive);
         this.now = (RadioButton) findViewById(R.id.radio_now);
+        if (now.isChecked()) {
+            btnDrive.setText("Drive");
+        }
+        now.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View arg0) {
+                btnDrive.setText("Drive");
+            }
+        });
         
         btnDrive.setOnClickListener(new OnClickListener() {
             
@@ -190,13 +200,14 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                                 
                             case Constants.FALSE:
                                 PlanTripActivity.this.announceTrip();
-                                
                             default:
                                 Log.d(this, getString(R.string.error_unknown) + ": getOpenTrip");
                         }
                         //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
                     } else {
                         PlanTripActivity.this.announceTrip();
+                        Intent intent = new Intent(PlanTripActivity.this, MyTripActivity.class);
+                        startActivity(intent);
                     }
                 } else {
                     Log.v(this, "disable");

@@ -62,8 +62,8 @@ public class BluetoothImpl extends IBluetooth.Stub {
 	}
 
 	@Override
-	public void discover() throws RemoteException {
-		btResource.discover(appIdentifier);
+	public void discover(String name, int time) throws RemoteException {
+		btResource.discover(appIdentifier,name,time);
 	}
 
 
@@ -106,12 +106,6 @@ public class BluetoothImpl extends IBluetooth.Stub {
 	public boolean isConnected() throws RemoteException {
 		// TODO Auto-generated method stub
 		return btResource.isConnected();
-	}
-
-	@Override
-	public boolean isMakingDiscoverable() throws RemoteException {
-		// TODO Auto-generated method stub
-		return btResource.isMakingDiscoverable();
 	}
 
 	@Override

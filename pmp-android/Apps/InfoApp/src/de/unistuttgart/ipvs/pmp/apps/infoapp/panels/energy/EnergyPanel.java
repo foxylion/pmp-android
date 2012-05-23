@@ -19,6 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy;
 
+import java.util.concurrent.Semaphore;
+
 import android.content.Context;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -84,7 +86,7 @@ public class EnergyPanel implements IPanel {
         this.adapter.setLbvEnabled(false);
         this.adapter.setTvEnabled(false);
         
-        // PMP.get().getResource(id, new RequestResourceHandler(this.adapter));
+        PMP.get().getResource(id, new RequestResourceHandler(this.adapter));
     }
     
     
@@ -93,14 +95,17 @@ public class EnergyPanel implements IPanel {
             final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                     Constants.ENERGY_RG_RESOURCE);
             
-            UploadRequestResourceHandler urrh = new UploadRequestResourceHandler();
-            
-            // PMP.get().getResource(id, urrh);
-            
-            return urrh.getURL();
+            Semaphore s = new Semaphore(0);
+            UploadRequestResourceHandler urrh = new UploadRequestResourceHandler(s);
+            PMP.get().getResource(id, urrh);
+            try {
+                s.acquire();
+                return urrh.getURL();
+            } catch (InterruptedException e) {
+                return null;
+            }
         }
-        
-        return "";
+        return null;
     }
 }
 
@@ -112,7 +117,13 @@ public class EnergyPanel implements IPanel {
  */
 class UploadRequestResourceHandler extends PMPRequestResourceHandler {
     
-    private String URL = "";
+    private String URL = null;
+    private Semaphore s;
+    
+    
+    public UploadRequestResourceHandler(Semaphore s) {
+        this.s = s;
+    }
     
     
     @Override
@@ -123,6 +134,7 @@ class UploadRequestResourceHandler extends PMPRequestResourceHandler {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        s.release();
     }
     
     

@@ -28,8 +28,10 @@ if (!defined("INCLUDE")) {
 
 /**
  * Encapsulates generic functions used by many parts of the application
+ *
  * @author  Dang Huynh, Patrick Strobel
  * @version 4.4.0
+ * @package infoapp
  */
 class General {
     /**

@@ -30,6 +30,9 @@ if (!defined("INCLUDE")) {
  * A DataTable represents the data that should be visualized in a chart
  *
  * @author Patrick Strobel
+ * @version 4.1.0
+ * @package infoapp
+ * @subpackage googlecharttools
  */
 class DataTable {
 

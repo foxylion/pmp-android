@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,6 +20,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PrePlannedTrip;
 
 /**
  * The main menu after user logged in and the main activity to start other activities
@@ -125,7 +127,18 @@ public class MainActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void onClick(View v) {
-                vHikeService.requestServiceFeature(MainActivity.this, 0);
+                List<PrePlannedTrip> lppp = ctrl.getMyTrips(Model.getInstance().getOwnProfile().getID());
+                Log.i(this, "Lppp: " + lppp.size());
+                for (PrePlannedTrip ppt : lppp) {
+                    Log.i(this, "TripID: " + ppt.getTid());
+                    Log.i(this, "Destination: " + ppt.getDestination());
+                    Log.i(this, "Time: " + ppt.getDate());
+                    Log.i(this, "Passengers: " + ppt.getPassengers());
+                    Log.i(this, "Invites: " + ppt.getInvites());
+                }
+                Intent intent = new Intent(MainActivity.this, MyTripActivity.class);
+                MainActivity.this.startActivity(intent);
+                
             }
             
         });

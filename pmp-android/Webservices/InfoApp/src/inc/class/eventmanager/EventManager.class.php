@@ -31,23 +31,29 @@ if (!defined("INCLUDE")) {
 }
 
 /**
- * Abstract base class for all event managers that might be used by the webservices.<br />
+ * Abstract base class for all event managers that might be used by the webservices.
+ *
  * <b>Warning:</b> Sub classes should not be to instantiated directly as there is
- * no type or value check in the constructor. Use {@see Device} to get an instance
+ * no type or value check in the constructor. Use {@link Device} to get an instance
  * instead.
+ *
  * @author Patrick Strobel
  * @version 4.1.0
+ * @package infoapp
+ * @subpackage eventmanager
  */
 abstract class EventManager {
 
     /**
      * MD5-Hash used to identify the device
+     *
      * @var String
      */
     protected $deviceId;
 
     /**
      * Creates a new EventManager.
+     *
      * @param String $deviceId The device's MD5-Hash this EventManager will be bound to
      */
     public function __construct($deviceId) {
@@ -56,10 +62,14 @@ abstract class EventManager {
 
     /**
      * Adds events to the event-table.
+     *
      * Before events are added, their order will be checked. That is, the events are
-     * ordered ascending by their timestamp.<br />
-     * <b>Note:</b> The event's ID is calculated automatically. Therefore, ID
-     * that might have been set using the constructor or the <code>setId()</code> method
+     * ordered ascending by their timestamp.
+     *
+     * <b>Note:</b> The event's ID is calculated automatically. Therefore, IDs
+     * that might have been set using the constructor or the {@link Event.setId()} method
+     * will be overwritten
+     *
      * @param Event[] $events Events to check
      * @throws InvalidOrderException Thrown, if the timestamp order is violated
      */
@@ -97,7 +107,8 @@ abstract class EventManager {
 
     /**
      * Gets all available events for a one-day-period
-     * @param long $startTimestamp Start timestamp
+     *
+     * @param long $startTs Start timestamp
      * @return Events[] The loaded events
      */
     public function getEventsOneDay($startTs) {
@@ -106,7 +117,8 @@ abstract class EventManager {
 
     /**
      * Gets all available events for a multiple-day-period
-     * @param long $startTimestamp Start timestamp
+     *
+     * @param long $startTs Start timestamp
      * @param int $days   Number of days
      * @return Events[] The loaded events
      */
@@ -116,6 +128,7 @@ abstract class EventManager {
 
     /**
      * Gets all available events stored in the DB for the given interval
+     *
      * @param long  $fromTs Start timestamp in MS
      * @param long  $toTs   End timestamp in MS
      * @return Events[] The loaded events
@@ -167,6 +180,7 @@ abstract class EventManager {
      * Writes the data back into the corresponding db-table.
      * This function can rely on a correct event order as this will be checked
      * before this method is beeing called
+     *
      * @param Event[] $events Events that should add to the table
      */
     protected abstract function writeBack($events);
@@ -180,6 +194,7 @@ abstract class EventManager {
     /**
      * Updates the entry in the "last_event_ids" table or creates a new entry
      * if there is no one for the given device ID
+     *
      * @param String $field Field whose value shall be updated
      * @param int $value The field's new value
      */

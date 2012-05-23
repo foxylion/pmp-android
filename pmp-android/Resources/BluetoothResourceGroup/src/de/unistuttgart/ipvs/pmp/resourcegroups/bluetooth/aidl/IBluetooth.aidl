@@ -17,9 +17,8 @@ interface IBluetooth {
 	boolean isDeviceBonded(String address);
 	
 	void makeDiscoverable(String name, int time);
-	boolean isMakingDiscoverable();
 	
-	void discover();
+	void discover(String name, int time);
 	boolean isDiscovering();
 	
 	DeviceArrayParcelable getPairedDevices();

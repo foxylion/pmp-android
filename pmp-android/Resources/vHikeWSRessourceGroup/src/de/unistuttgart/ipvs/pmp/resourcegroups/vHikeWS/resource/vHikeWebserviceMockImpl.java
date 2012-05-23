@@ -247,4 +247,11 @@ public class vHikeWebserviceMockImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String getMyTrips(int uid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

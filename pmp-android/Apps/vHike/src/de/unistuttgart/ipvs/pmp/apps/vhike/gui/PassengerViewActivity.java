@@ -27,7 +27,6 @@ import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Location;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Check4Offers;
@@ -72,6 +71,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         ViewModel.getInstance().initDriversList();
         ViewModel.getInstance().initRouteList();
         ViewModel.getInstance().resetTimers();
+        ViewModel.getInstance().setNewFound();
         
         vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearSearchPD();
@@ -93,14 +93,14 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     public void onResume() {
         super.onResume();
         
-        ctrl = new Controller(rgvHike);
-        
-        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-            ctrl.enableAnonymity(Model.getInstance().getSid());
-        } else {
-            ctrl.disableAnonymity(Model.getInstance().getSid());
-        }
-        Log.i(this, "");
+        //        ctrl = new Controller(rgvHike);
+        //        
+        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+        //            ctrl.enableAnonymity(Model.getInstance().getSid());
+        //        } else {
+        //            ctrl.disableAnonymity(Model.getInstance().getSid());
+        //        }
+        //        Log.i(this, "");
     }
     
     
