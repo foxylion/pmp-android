@@ -321,4 +321,16 @@ public interface IPreset extends IModelElement {
      *         atomic transaction context, implementing {@link IAtomicTransaction}.
      */
     public PresetTransaction getTransaction();
+    
+    
+    /**
+     * @param preset
+     *            the preset which shall be checked for conflicts
+     * @param ps
+     *            the privacy setting which shall be checked for conflicts
+     * @return true, if and only if the value of ps from the preset <code>preset</code> could
+     *         possibly override this preset's value for ps.
+     */
+    public boolean isPrivacySettingConflicting(IPreset preset, IPrivacySetting ps);
+    
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
 import de.unistuttgart.ipvs.pmp.model.PersistenceConstants;
 import de.unistuttgart.ipvs.pmp.model.assertion.Assert;
@@ -440,6 +441,41 @@ public class Preset extends ModelElement implements IPreset {
             this.transaction = new PresetTransaction(this);
         }
         return this.transaction;
+    }
+    
+    
+    @Override
+    public boolean isPrivacySettingConflicting(IPreset preset, IPrivacySetting ps) {
+        Assert.nonNull(preset, ModelMisuseError.class, Assert.ILLEGAL_NULL, "preset", preset);
+        Assert.nonNull(preset, ModelMisuseError.class, Assert.ILLEGAL_NULL, "ps", ps);
+        
+        boolean hasSameAppsAssigned = false;
+        for (IApp app : getAssignedApps()) {
+            if (preset.isAppAssigned(app)) {
+                hasSameAppsAssigned = true;
+                break;
+            }
+        }
+        
+        if (!hasSameAppsAssigned) {
+            return false;
+        }
+        
+        String grantedHere = getGrantedPrivacySettingValue(ps);
+        String grantedByPreset = preset.getGrantedPrivacySettingValue(ps);
+        
+        // early exit cause null permit comparisons don't work that well
+        // early exit cause == is no conflict
+        if ((grantedByPreset == null) || (grantedHere == null) || (grantedByPreset.equals(grantedHere))) {
+            return false;
+        }
+        
+        try {
+            return ps.permits(grantedHere, grantedByPreset);
+        } catch (PrivacySettingValueException e) {
+            Log.e(this, "Invalid value while checking for PS/PS conflicts: ", e);
+            return false;
+        }
     }
     
     
