@@ -51,7 +51,7 @@
     <ViewSwitcher
         android:id="@+id/trip_detail_view_switcher"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:layout_weight="2">
+        android:layout_height="0dip" android:layout_weight="2">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -107,14 +107,32 @@
 
             </ListView>
         </LinearLayout>
-
-        <ListView
-            android:id="@+id/trip_detail_all_messages"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/light_gray" >
 
-        </ListView>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:textColor="@color/dark_gray"
+                android:ems="10"
+                android:singleLine="true">
+                <requestFocus />
+            </AutoCompleteTextView>
+            <ListView
+                android:id="@+id/trip_detail_all_messages"
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:background="@color/light_gray" >
+            </ListView>
+
+        </LinearLayout>
+
     </ViewSwitcher>
 
     <LinearLayout
@@ -138,7 +156,7 @@
             android:text="@string/tripDetails_edit_trip" android:layout_marginLeft="8dip"/>
         
         <TextView
-            android:id="@+id/TextView03"
+            android:id="@+id/TextView04"
             style="@style/ActionBarItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

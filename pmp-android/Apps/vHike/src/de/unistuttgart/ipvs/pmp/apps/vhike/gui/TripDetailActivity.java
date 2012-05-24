@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
@@ -120,6 +121,11 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         listAllMessages.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, tripInfo.messages));
+        
+        AutoCompleteTextView a = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+        a.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_dropdown_item_1line,
+                tripInfo.messages) {
+        });
     }
     
     
