@@ -34,6 +34,8 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
+import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
+import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder.Views;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
@@ -403,6 +405,13 @@ public class ConnectionImpl extends IConnection.Stub {
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
             new ConnectionProperties(service, configNetworks.shortValue(), pairedDevices.shortValue()).commit();
+            
+            DBConnector.getInstance(this.context).clearLists();
+            
+            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, deviceId);
+            urlB.setView(Views.STATIC);
+            return urlB.getConnectionGraphUrl();
+            
         } catch (InternalDatabaseException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {
@@ -413,7 +422,7 @@ public class ConnectionImpl extends IConnection.Stub {
             e.printStackTrace();
         }
         
-        return "URL";
+        return null;
     }
     
     

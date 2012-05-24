@@ -112,7 +112,10 @@ public class SeparatedListAdapter extends BaseAdapter {
                  * -> subtract the number of entries that are in the wanted section and subtract 1 for the 
                  *    header of this section
                  */
-                return skipped - 1 - this.sections.get(keyBefore).getCount();
+                try {
+                    return skipped - 1 - this.sections.get(keyBefore).getCount();
+                } catch (NullPointerException e) {
+                }
             }
         }
         

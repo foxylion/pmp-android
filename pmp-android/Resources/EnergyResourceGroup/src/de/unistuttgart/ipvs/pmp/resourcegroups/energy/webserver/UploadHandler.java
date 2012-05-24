@@ -30,19 +30,23 @@ public class UploadHandler {
     
     
     public UploadHandler(Context context) {
-        // Get the device id
-        TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tManager.getDeviceId();
         
         // Create service
-        this.service = new Service(Service.DEFAULT_URL, deviceId);
+        this.service = new Service(Service.DEFAULT_URL, getDeviceID(context));
         
         // Get the db connection
         this.dbc = DBConnector.getInstance(context);
     }
     
     
-    public String upload() {
+    public String getDeviceID(Context context) {
+        // Get the device id
+        TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        return tManager.getDeviceId();
+    }
+    
+    
+    public boolean upload() {
         List<BatteryEvent> eventList = new ArrayList<BatteryEvent>();
         
         ResultSetUpload rsu = dbc.getUploadValues();
@@ -98,8 +102,7 @@ public class UploadHandler {
             
             // TODO: Clear database
             
-            // TODO: URL
-            return "URL";
+            return true;
         } catch (InternalDatabaseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -113,6 +116,6 @@ public class UploadHandler {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return null;
+        return false;
     }
 }

@@ -35,8 +35,6 @@
                Das Handbuch richtet sich an folgende Lesergruppen:
             <ul>
                <li>den App-Benutzern</li>
-               <li>den Entwicklern von Ressourcengruppen (für die vHike)</li>
-               <li>den Entwicklern von Applikationen inkl. deren Service Features</li>
                <li>dem Kunden</li>
                <li>den Betreuern des Studienprojekts</li>
             </ul>
@@ -85,7 +83,7 @@
                Jede PMP-Applikation, wie zum Beispiel vHike, legt fest, welche Funktionen bestimmter Ressourcen 
                sie benötigt und welche Dienste sie hierfür dem Benutzer anbietet. Diese 
                Vereinbarung wird als Service Feature bezeichnet. Eine Applikation besitzt
-               in der Regel mehrere Service Features. Die Ressourcengrouppen und Service Features von vHike werden in Kapitel ??? behandelt.
+               in der Regel mehrere Service Features. Die Ressourcengrouppen und Service Features von vHike werden in Kapitel <span class="reference" title="#resourcegroups"></span> behandelt.
             </p>
             <p>
                Im Detail legt jedes Service Feature fest, welche Ressourcen, und welche
@@ -128,99 +126,269 @@
             </p>
             <h1 id="funct">Funktionen</h1>
             <h2 id="loginmenu">vHike - Standard/Bluetooth</h2>
-            <a href="images/vhike_login.png" class="fancybox">
+            <a href="images/LoginActivity.png" class="fancybox">
             <img src="images/LoginActivity.png" alt="Login" style="width:215px;" class="right" />
             </a>
             <p>
                Ausgangspunkt der Verwendung von vHike bildet das Login-Menü, dass sich beim 
                Starten der Anwendung öffnet. vHike bietet zwei Varianten der Verwendung an. Die Standard-Funktion (siehe <span class="reference" title="#vhike_standard"></span>) 			   und die Bluetooth-Variante (siehe <span class="reference" title="#funct_bluetooth"></span>). Über das Login-Menü kann zwischen diesen beiden Varianten ausgewählt 			   werden.
             </p>
-            <h3 id="login">Einloggen</h3>
-            <p>Für die Standard-Funktion ist eine Registrierung (siehe <span class="reference" title="#registermenu"></span>) erforderlich. Nach erfolgreicher Registrierung kann man sich über den Benutzernamen und Passwort einloggen. Beim Anhaken des "Auto-Login" Kästchens, wird beim Neustarten von vHike Benutzername und Passwort gemerkt und automatisch eingeloggt. Ein Anhaken des "Remember"-Kästchens werden Benutzername und Passwort gemerkt, jedoch nicht automatisch eingeloggt.</p>
-<p>Bei fehlerhaftem Benutzernamen oder Passwort wird ein Toast zur Benachrichtigung geworfen.</p>
-            <div class="clear"></div>
-            <h2 id="registermenu" style="clear:none;">Registrieren</h2>
-            <a href="images/vhike_register.png" class="fancybox">
+            <h2 id="vhike_standard">vHike - Standard</h2>
+            <h3 id="registermenu" style="clear:none;">Registrieren</h3>
+            <a href="images/RegisterActivity.png" class="fancybox">
             <img src="images/RegisterActivity.png" alt="Register" style="width:215px;" class="right" />
             </a>
             <p>
-			Um sich erfolgreich registrieren sind folgende Felder auszufüllen. Felder mit einem * versehen sind zur Registrierung nötige Daten, der Rest optional:
+               Um sich erfolgreich registrieren sind folgende Felder auszufüllen:
             </p>
-			<ul>
-				<li>Benutzername* </li>
-				<li>Beschreibung </li>
-				<li>Vorname </li>
-				<li>Nachname </li>
-				<li>Email-Adresse* </li>
-				<li>Handynummer </li>
-				<li>Passwort* </li>
-			</ul>
+            <ul>
+               <li>Benutzername </li>
+               <li>Vorname </li>
+               <li>Nachname </li>
+               <li>Email-Adresse </li>
+               <li>Handynummer </li>
+               <li>Passwort </li>
+            </ul>
             <div class="clear"></div>
-            <h2 id="mainmenu">Hauptmenü</h2>
-            <a href="images/vhike_main.png" class="fancybox">
+            <h3 id="login">Einloggen</h3>
+            <p>Für die Standard-Funktion ist eine Registrierung (siehe <span class="reference" title="#registermenu"></span>) erforderlich. Nach erfolgreicher Registrierung kann man sich über den Benutzernamen und Passwort einloggen. Beim Anhaken des "Auto-Login" Kästchens, wird beim Neustarten von vHike Benutzername und Passwort gemerkt und automatisch eingeloggt. Wird dagegen das "Remember"-Kästchen angehakt werden Benutzername und Passwort gemerkt, jedoch nicht automatisch eingeloggt.</p>
+            <p>Bei fehlerhaftem Benutzernamen oder Passwort wird der Benutzer entsprechend benachrichtigt.</p>
+            <div class="clear"></div>
+            <h3 id="mainmenu">Hauptmenü</h3>
+            <a href="images/MainMenu.png" class="fancybox">
             <img src="images/MainMenu.png" alt="Hauptmenu" style="width:215px;" class="right" />
             </a>
             <p>
+               Über das Hauptmenü der Standard-Variante kann durch alle Features von vHike navigiert werden. Man kann Hitchhiken bzw. ein Mitfahrgelegenheit anlegen (siehe <span class="reference" title="#hitchhike_plantrip"></span>), sein eigenes Profile ansehen (siehe <span class="reference" title="#profile_activity"></span>), seine vergangenen Fahrten ansehen (siehe <span class="reference" title="#history_activity"></span>) und anstehende bzw. vorausgeplante Fahrten ansehen (siehe <span class="reference" title="#mytrips_activity"></span>).
+            </p>
+            <p>
+               Auch das Ausloggen erfolgt aus dem Hauptmenü heraus.
             </p>
             <div class="clear"></div>
-            <h2 id="ride_activity" style="clear:none;">Fahrt planen/teilnehmen</h2>
-            <a href="images/vhike_plantrip.png" class="fancybox">
+            <h3 id="hitchhike_plantrip" style="clear:none;">Hitchhike / Mitfahrgelegenheit</h3>
+            <a href="images/PlanTripActivity.png" class="fancybox">
             <img src="images/PlanTripActivity.png" alt="PlanTrip" style="width:215px;" class="right" />
             </a>
             <p>
+               In diesem Menü wird zwischen Hitchhiken und Mitfahrgelegenheit unterschieden. Beim Hitchhiken wird sofort eine Fahrt gestartet und während der Fahrt nach potentiellen Mitfahrern gesucht (mehr <span class="reference" title="#funct_hitchhike"></span>). Dazu wählt man beim "Date" die Möglichkeit "Now" aus, drückt auf "Drive" und wird auf eine Karte weitergeleitet. Plant man jedoch in naher Zukunft eine Fahrt, kann man dies über "Choose date" tätigen. Es muss nun Datum und Uhrzeit festgelegt werden, dazu muss ein Startpunkt ("Departure") festgelegt werden, drückt auf "Create trip" und wird auf <span class="reference" title="#mytrips_activity"></span> weitergeleitet. Für beide Varianten müssen zudem noch Ziel ("Destination") und Anzahl der Sitze ("No. of seats") ausgewählt werden.
+            </p>
+            <p>
+               Will man sofort nach Fahrten suchen muss Ziel und Anzahl der benötigten Sitze ausgewählt werden und drückt auf "Search" und wird auf eine Karte weitergeleitet (siehe <span class="reference" title="#funct_search"></span>).
             </p>
             <div class="clear"></div>
-            <h2 id="profile_activity">Profile</h2>
-            <a href="images/vhike_profile.png" class="fancybox">
+            <h3 id="profile_activity">Eigenes Profil anzeigen</h3>
+            <a href="images/ProfileActivity.png" class="fancybox">
             <img src="images/ProfileActivity.png" alt="Profile" style="width:215px;" class="right" />
             </a>
             <p>
+               Im Profil werden sämtliche Informationen von einem Benutzer angezeigt. Darunter sind:
+            <ul>
+               <li>Benutzername</li>
+               <li>Vorname</li>
+               <li>Nachname</li>
+               <li>Emailadresse</li>
+               <li>Telefonnummer</li>
+               <li>Durchschnittliche Bewertung</li>
+            </ul>
+            Zudem unterscheidet vHike zwischen eigenem Profil und einer beliebig anderen Person(siehe <span class="reference" title="#user_profile"></span>. Wird das eigene Profil angezeigt besteht die Möglichkeit über den Button unter dem Benutzernamen Vorname, Nachname, Emailadresse und Telefonnummer vor anderen Benutzern zu verstecken (siehe <span class="reference" title="#sf_anonymity"></span>).
+            </p>
+            <p>
+               Weiterhin kann man hier über den Button neben "Anonymes Profil" den Observationsmodus einschalten (dazu mehr <span class="reference" title="#observationmodus"></span>).
             </p>
             <div class="clear"></div>
-            <h2 id="history_activity">History</h2>
-            <a href="images/vhike_history.png" class="fancybox">
+            <h3 id="history_activity">History</h3>
+            <a href="images/HistoryActivity.png" class="fancybox">
             <img src="images/HistoryActivity.png" alt="History" style="width:215px;" class="right" />
             </a>
             <p>
             </p>
             <div class="clear"></div>
-            <h2 id="apps_show">My Trips</h2>
-            <a href="images/vhike_mytrips.png" class="fancybox">
-            <img src="images/MyTrips.png" alt="MyTrips" style="width:215px;" class="right" />
+            <h3 id="mytrips_activity">My Trips</h3>
+            <a href="images/MyTripsActivitys.png" class="fancybox">
+            <img src="images/MyTripsActivity.png" alt="MyTrips" style="width:215px;" class="right" />
             </a>
             <p>
             </p>
             <div class="clear"></div>
-            <h2 id="my_messages_activity">My messages</h2>
-            <p>
-            </p>
-            <h2 id="logout">Logout</h2>
-            <p>
-            </p>
-             <div class="clear"></div>
-            <h2 id="funct_bluetooth" style="clear:none;">Bluetooth</h2>
-            <a href="images/vhike_bluetooth.png" class="fancybox">
-            <img src="images/BluetoothActivity.png" alt="Bluetooth" style="width:215px;" class="right" />
+            <a href="images/TripDetailActivity.png" class="fancybox">
+            <img src="images/TripDetailActivity.png" alt="TripDetail" style="width:215px;" class="right" />
             </a>
             <p>
-								Um die Bluetooth-Variante der Applikation "vHike" benutzen zu können, brauchen Sie ein Gerät mit integriertem Bluetooth. Bluetooth-Variante ist weniger komplizierter gehalten, als die Standart-Variante der Applikation "vHike", da diese Funktionen, wie die Google-Kartenansicht nicht unterstüzt und hier nur auf das schnelle Suchen/Anbieten der Fahrten Wert gelegt wird. Die Reichweite von Bluetooth ist vom Gerät abhängig. 
-								Die Schaltfläche "Ride" bringt Sie in eine weitere Ansicht von der Bluetooth-Variante <span class="reference" title="#funct_bluetooth2"></span>
             </p>
             <div class="clear"></div>
-            <h2 id="funct_bluetooth2" style="clear:none;">Bluetooth Fahrt anbieten/suchen</h2>
-            <a href="images/vhike_bluetooth2.png" class="fancybox">
-            <img src="images/BluetoothActivity.png" alt="Bluetooth" style="width:215px;" class="right" />
+            <h3 id="my_messages_activity">My messages</h3>
+            <p>
+            </p>
+            <h3 id="funct_hitchhike">Hitchhiken</h3>
+            <p>
+               Ein Fahrer wird durch ein grünes Icon, ein Mitfahrer über ein orangenes Icon gekennzeichnet. Links oben befinden sich Buttons, um aus der rein bzw. raus zu zoomen. Unten befindet sich eine Liste, die sich rauf und runter ziehen lässt. Wird ein passendern Mitfahrer mit gleichem Ziel, zu vielen benötigten Sitzen und innerhalb eines Radius von 5 km gefunden, öffnet sich diese Liste automatisch. Folgende Funktionen sind über folgende Buttons nun möglich:
+            </p>
+            <table align="left" style="width:470px">
+               <tr>
+                  <td WIDTH="10%" align="center">Icon</td>
+                  <td WIDTH="90%">Beschreibung</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/bg_dismiss.png" class="fancybox">
+                     <img src="images/bg_dismiss.png" alt="bg_dismiss" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Der gefundene Mitfahrer wird aus der Liste, als auch von der Karte entfernt und kann erst nach Verlassen der Kartenansicht wieder gefunden werden.</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/bg_findhitch.png" class="fancybox">
+                     <img src="images/bg_findhitch.png" alt="bg_findhitch" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Der gefundene Mitfahrer kann eingeladen werden. Drücken um einzuladen.</td>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/bg_waiting.png" class="fancybox">
+                  <img src="images/bg_waiting.png" alt="bg_waiting" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Eine Einladung wurde gesendet und es wird auf eine Antwort gewartet.</td>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/bg_check.png" class="fancybox">
+                  <img src="images/bg_check.png" alt="bg_check" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Die Einladung wurde vom Mitfahrer akzeptiert und er kann nun abgeholt werden.</td>
+               </tr>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/bg_disabled.png" class="fancybox">
+                  <img src="images/bg_disabled.png" alt="bg_disabled" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Mitfahrer wurde abgeholt.</td>
+               </tr>
+            </table>
+            <a href="images/searchQuery.png" class="fancybox">
+            <img src="images/searchQuery.png" alt="searchQuery" style="width:215px;" class="right" />
+            </a>
+            <div class="clear"></div>
+            <a href="images/PassengerProfile.png" class="fancybox">
+            <img src="images/PassengerProfile.png" alt="PassengerProfile" style="width:215px;" class="right" />
+            </a>
+            <p>Sobald ein Mitfahrer gefunden wurde, wird in der Statusleiste eine vHike-Meldung geworfen und benachrichtigt den Benutzer mit einem Ton. Wird auf den Namen des gefundenen Mitfahrer gedrückt öffnet sich sein Profil. Je nach dem ob ein Mitfahrer seinen Vornamen, Nachnamen, Emailadresse und Telefonnummer versteckt hat (siehe <span class="reference" title="#funct_anonymity"></span>), werden entweder diese Daten angezeigt oder nur mit "xxx" versehen. Die Bewertung des Benutzers werden immer angezeigt.</p>
+            <p>Aus diesem Profil lässt sich, falls er nicht "Anonym" (siehe <span class="reference" title="#funct_anonymity"></span>) unterwegs ist, mit dem Benutzer kommunizieren. Mehr dazu im Kapitel <span class="reference" title="#funct_communication"></span>.</p>
+            <div class="clear"></div>
+            <h3 id="funct_search">Fahrt suchen</h3>
+            <p>
+               Gleiche Ansicht. Verkehrte Rollen.
+            </p>
+            <h3 id="funct_communication">Kommunikations-Dialog</h3>
+            <a href="images/DriverViewActivityContextDialogPassenger.png" class="fancybox">
+            <img src="images/DriverViewActivityContextDialogPassenger.png" alt="DriverViewActivityContextDialogPassenger" style="width:215px;" class="right" />
+            </a>
+            <p>Wird auf einen gefundenen Benutzer gedrückt öffnet sich das "Kommunikations-Dialog". Über dieses Dialog lässt sich mit anderen Benutzern kommunizieren. Die Kommunikation findet entweder über einen Anruf, SMS oder Email ermöglicht. Dazu ist die "Contact/Kommunikation-Ressourcengruppe" notwendig. </p>
+            <table align="left" style="width:470px">
+               <tr>
+                  <td WIDTH="10%" align="center">Icon</td>
+                  <td WIDTH="90%">Beschreibung</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/btn_phone.png" class="fancybox">
+                     <img src="images/btn_phone.png" alt="btn_phone" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Benutzer anrufen. Nach beendetenm Anruf wird auf die Android-Anrufhistorie weitergeleitet. Mit einem Zurück-Button-Druck wird wieder auf die Kartenansicht verwiesen.</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/btn_sms.png" class="fancybox">
+                     <img src="images/btn_sms.png" alt="btn_sms" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">SMS an Benutzer senden. Öffnet Dialog, in dem Telefonnummer und Text eingegeben werden muss.</td>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/btn_email.png" class="fancybox">
+                  <img src="images/btn_email.png" alt="btn_email" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Email versenden. Leitet an die Standard-Email-Anwendung oder eine Drittanbieter-Email-Anwendung.</td>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/btn_route_disabled.png" class="fancybox">
+                  <img src="images/btn_route_disabled.png" alt="btn_route_disabled" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Route einzeichnen. Route wurde noch nicht eingezeichnet.</td>
+               </tr>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/btn_route.png" class="fancybox">
+                  <img src="images/btn_route.png" alt="btn_route" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Route wurde eingezeichnet.</td>
+               </tr>
+            </table>
+            <div class="clear"></div>
+            <a href="images/DrawRoute.png" class="fancybox">
+            <img src="images/DrawRoute.png" alt="drawroute" style="width:215px;" class="right" />
+            </a>
+            <p>Voraussetzung für eine erfolgreiche Kommunikation neben der Installation der "Contact/Kommunikations-RG" ist die Sichtbarkeit der Kontaktdaten eines Benutzers (siehe <span class="reference" title="#funct_anonymity"></span>).</p>
+            <p>Unabhängig von der "Contact/Kommunikations-RG" oder die Sichtbarkeit des Profils eines Benutzers, kann eine Route eingezeichnet werden (Rechter Button). Das Einzeichnen mehrerer Routen wird hier nicht unterstützt. Sobald eine Route eingezeichnet wurde, erscheint oben rechts ein Info-Icon und der Button färbt sich lila. Wird auf dieses gedrückt werden Informationen zur Route angezeigt. Darunter sind der Startpunkt (Mein Standort), Ziel (Standort des Benutzers), Distanz (in km) und die geschätzte Zeit bis zum gefundenen Mitfahrer. Zum Entfernen der aktuellen Route kann auf einen anderen Benutzer oder auf den "Route einzeichnen"-Button im Kommunikations-Dialog gedrückt werden.</p>
+            <div class="clear"></div>
+            <h3 id="funct_communication">Observationsmodus / Anonymes Profil</h3>
+            <a href="images/ObservationModus.png" class="fancybox">
+            <img src="images/ObservationModus.png" alt="ObservationModus" style="width:215px;" class="right" />
+            </a>
+            <table align="left" style="width:470px">
+               <tr>
+                  <td WIDTH="10%" align="center">Icon</td>
+                  <td WIDTH="90%">Beschreibung</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/btn_anonymous_disabled.png" class="fancybox">
+                     <img src="images/btn_anonymous_disabled.png" alt="btn_anonymous_disabled" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Profil kann von anderen eingesehen werden.</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/btn_anonymous.png" class="fancybox">
+                     <img src="images/btn_anonymous.png" alt="btn_anonymous" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Vorname, Nachname, Emailadresse und Telefonnummer können von anderen Benutzern nicht eingesehen werden. Zudem greift die "Contact/Kommunikations-RG" in diesem Fall nicht.</td>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/btn_observation_disabled.png" class="fancybox">
+                  <img src="images/btn_observation_disabled.png" alt="btn_observation_disabled" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">An im momentan teilgenommene Fahrten können nicht über die vHike-Website eingesehen werden.</td>
+               </tr>
+               <td WIDTH="10%" align="center"><a href="images/btn_observation.png" class="fancybox">
+                  <img src="images/btn_observation.png" alt="btn_observation" class="right" />
+                  </a>
+               </td>
+               <td WIDTH="90%">Über die vHike-Website kann in die aktuell teilgenommene Fahrt eingesehen werden. Dazu die angezeigte Observationsnummer eingeben (siehe Bild links).</td>
+               </tr>
+            </table>
+            <div class="clear"></div>
+            <h2 id="funct_bluetooth" style="clear:none;">vHike - Bluetooth</h2>
+            <p>
+               Um die Bluetooth-Variante der Applikation "vHike" benutzen zu können, brauchen Sie ein Gerät mit integriertem Bluetooth. Bluetooth-Variante ist weniger komplizierter gehalten, als die Standart-Variante der Applikation "vHike", da diese Funktionen, wie die Google-Kartenansicht nicht unterstützt und hier nur auf das schnelle Suchen/Anbieten der Fahrten Wert gelegt wird. Die Reichweite von Bluetooth ist vom Gerät abhängig. 
+               Die Schaltfläche "Ride" bringt Sie in eine weitere Ansicht von der Bluetooth-Variante <span class="reference" title="#funct_bluetooth2"></span>
+            </p>
+            <div class="clear"></div>
+            <h3 id="funct_bluetooth2" style="clear:none;">Bluetooth Fahrt anbieten/suchen</h3>
+            <a href="images/Bluetooth_PlanTrip.png" class="fancybox">
+            <img src="images/Bluetooth_PlanTrip.png" alt="Bluetooth" style="width:215px;" class="right" />
             </a>
             <p>
-								Diese Ansicht erinert an die Standart-Variante. Hier kann das Ziel, Anzahl der Sitze und wie lange das Suchen "Search" bzw. das Anbieten "Drive" der Fahrt dauert.
-						Sobald eine Fahrt gefunden wurde, wird diese in einem Dialog angezeigt und man kann sich sofort mit dem Fahrer verbinden. Solange wartet der Fahrer auf eingehende Anfragen. Nach erfolgreichem Paaren der Geräte wird ein Chat geöffnet <span class="reference" title="#funct_bluetooth"></span>. Sobald eine Vebrindung getrennt wird bekommet der Benutzer im Chat Verlauf eine Nachricht mit "Connection Lost!"
+               Diese Ansicht erinert an die Standart-Variante. Hier kann das Ziel, Anzahl der Sitze und wie lange das Suchen "Search" bzw. das Anbieten "Drive" der Fahrt dauert.
+               Sobald eine Fahrt gefunden wurde, wird diese in einem Dialog angezeigt und man kann sich sofort mit dem Fahrer verbinden. Solange wartet der Fahrer auf eingehende Anfragen. Nach erfolgreichem Paaren der Geräte wird ein Chat geöffnet <span class="reference" title="#funct_bluetooth"></span>. Sobald eine Verbindung getrennt wird bekommet der Benutzer im Chat Verlauf eine Nachricht mit "Connection Lost!"
             </p>
             <div class="clear"></div>
             <h1 id="resourcegroups">Ressourcengruppen</h1>
+            <a href="images/pmp_vhike_sf.png" class="fancybox">
+            <img src="images/pmp_vhike_sf.png" alt="vHikeSFs" style="width:215px;" class="right" />
+            </a>
+            <div class="clear"></div>
             <h2 id="vhikeWS">vHikeWS -RG</h2>
             <p>
             </p>
             <h3 id="vhikeWS_SF">Service Features</h3>
+            <h4 id="sf_anonymity">Anonymes Profile</h4>
             <h2 id="locationRG">Location -RG</h2>
             <p>
             </p>
@@ -234,7 +402,7 @@
             </p>
             <h3 id="contact_SF">Service Features</h3>
             <h1 id="versions">Versionshistorie</h1>
-            <h3>Version 0.1 (20.09.2011)</h3>
+            <h3>Version 0.1 (22.05.2012)</h3>
             <ul>
                <li>Initiales Gerüst von PMP Handbuch</li>
             </ul>

@@ -12,7 +12,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -60,6 +63,9 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     private Check4Location c4l;
     private Check4Queries c4q;
     
+    private Button road_info;
+    private EditText et_road_info;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +87,27 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         
         setMapView();
         ViewModel.getInstance().getDriverOverlayList(mapView).clear();
+        
+        road_info = (Button) findViewById(R.id.btn_route_info);
+        et_road_info = (EditText) findViewById(R.id.et_route_info);
+        ViewModel.getInstance().setRoadInfoBtn(road_info);
+        ViewModel.getInstance().setRoadInfoEt(et_road_info);
+        road_info.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                road_info.setVisibility(View.GONE);
+                et_road_info.setVisibility(View.VISIBLE);
+            }
+        });
+        et_road_info.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                road_info.setVisibility(View.VISIBLE);
+                et_road_info.setVisibility(View.GONE);
+            }
+        });
         
         if (getvHikeRG(this) != null && getLocationRG(this) != null && getContactRG(this) != null) {
             this.ctrl = new Controller(rgvHike);
@@ -244,6 +271,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearHitchPassengers();
                 ViewModel.getInstance().clearDriverNotificationAdapter();
                 ViewModel.getInstance().clearRoutes();
+                ViewModel.getInstance().resetRoadInfo();
                 stopContinousLookup();
                 
                 Log.i(this, "Trip ENDED");
@@ -282,6 +310,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().clearHitchPassengers();
                         ViewModel.getInstance().clearDriverNotificationAdapter();
                         ViewModel.getInstance().clearRoutes();
+                        ViewModel.getInstance().resetRoadInfo();
                         stopContinousLookup();
                         
                         Log.i(this, "Trip ENDED");

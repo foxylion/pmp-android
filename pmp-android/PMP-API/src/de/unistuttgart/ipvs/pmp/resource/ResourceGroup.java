@@ -24,7 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 
 /**
@@ -176,5 +178,21 @@ public abstract class ResourceGroup {
      */
     public String getRgPackage() {
         return this.rgPackage;
+    }
+    
+    
+    /**
+     * @see Context#registerReceiver(BroadcastReceiver, IntentFilter)
+     */
+    public void registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+        this.pmpci.registerReceiver(receiver, filter);
+    }
+    
+    
+    /**
+     * @see Context#unregisterReceiver(BroadcastReceiver)
+     */
+    public void unregisterReceiver(BroadcastReceiver receiver) {
+        this.pmpci.unregisterReceiver(receiver);
     }
 }
