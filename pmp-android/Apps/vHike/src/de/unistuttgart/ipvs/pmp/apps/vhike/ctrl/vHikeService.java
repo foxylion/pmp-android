@@ -10,12 +10,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.IInterface;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.IResourceGroupReady;
 import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.aidl.IBluetooth;
@@ -265,6 +267,20 @@ public class vHikeService extends Service {
                 }
             });
         }
+    }
+    
+    
+    public void updateServiceFeatures() {
+        PMP.get(app).updateServiceFeatures(new PMPServiceFeatureUpdateHandler() {
+            
+            @Override
+            public void onUpdate(Bundle serviceFeatures) {
+                // TODO Auto-generated method stub
+                super.onUpdate(serviceFeatures);
+                Log.v(TAG, "updateServiceFeatures");
+            }
+        });
+        
     }
     
     

@@ -46,7 +46,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.BluetoothReceiveriver"
+            android:name="de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.BluetoothReceiver"
             android:enabled="true" >
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />

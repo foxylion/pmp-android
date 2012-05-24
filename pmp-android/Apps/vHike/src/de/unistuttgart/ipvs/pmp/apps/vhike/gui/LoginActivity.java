@@ -72,6 +72,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
         this.etPW = (EditText) findViewById(R.id.edit_password);
         this.pbLogin = (ProgressBar) findViewById(R.id.pb_login);
         
+        vHikeService.getInstance().updateServiceFeatures();
+        
         registerListeners();
     }
     

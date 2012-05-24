@@ -34,6 +34,8 @@ if (!defined("INCLUDE")) {
  *
  * @author Patrick Strobel
  * @version 4.1.0
+ * @package infoapp
+ * @subpackage events
  */
 abstract class Event {
 

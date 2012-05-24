@@ -62,8 +62,8 @@ public class BluetoothImpl extends IBluetooth.Stub {
 	}
 
 	@Override
-	public void discover() throws RemoteException {
-		btResource.discover(appIdentifier);
+	public void discover(String name, int time) throws RemoteException {
+		btResource.discover(appIdentifier,name,time);
 	}
 
 

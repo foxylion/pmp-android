@@ -54,7 +54,7 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
         }
         this.panels.add(new ExamplePanel(context));
         this.panels.add(new ConnectionsPanel(context, activity));
-        this.panels.add(new EnergyPanel(context));
+        this.panels.add(new EnergyPanel(context, activity));
         this.panels.add(new ProfilePanel(context));
         this.panels.add(new HardwarePanel(context));
         //this.panels.add(new RSSPanel(context));

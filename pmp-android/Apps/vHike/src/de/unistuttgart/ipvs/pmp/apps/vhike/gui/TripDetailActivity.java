@@ -134,15 +134,14 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         if (tripInfo == null) {
             // TODO Get data
             ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
-            passengers.add(new CompactUser(1, "Dang"));
-            passengers.add(new CompactUser(2, "Alex"));
-            passengers.add(new CompactUser(3, "Andre"));
+            passengers.add(new CompactUser(1, "Passenger1"));
+            passengers.add(new CompactUser(2, "Passenger2"));
+            passengers.add(new CompactUser(3, "Passenger3"));
             ArrayList<CompactMessage> msg = new ArrayList<CompactMessage>(3);
             msg.add(new CompactMessage(0, passengers.get(0), passengers.get(1), true, "Hello"));
             msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello"));
             msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello"));
-            tripInfo = new TripOverview(10, "Berlin",
-                    ";Frankfurt;Blah        ; OK;Hello;Heladssdos dsods; Münschen; Aloe vera;", passengers,
+            tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;", passengers,
                     GregorianCalendar.getInstance().getTime(), msg);
         }
         

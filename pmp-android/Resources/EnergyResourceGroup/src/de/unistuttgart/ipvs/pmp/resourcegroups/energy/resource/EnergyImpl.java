@@ -235,9 +235,15 @@ public class EnergyImpl extends IEnergy.Stub {
         this.psv.validate(EnergyConstants.PS_UPLOAD_DATA, "true");
         
         UploadHandler uh = new UploadHandler(this.context);
-        uh.upload();
+        if (uh.upload()) {
+            //            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, uh.getDeviceID(this.context));
+            //            urlB.setView(Views.STATIC);
+            //            return urlB.getBatteryGraphUrl();
+            return null;
+        } else {
+            return null;
+        }
         
-        return null;
     }
     
     

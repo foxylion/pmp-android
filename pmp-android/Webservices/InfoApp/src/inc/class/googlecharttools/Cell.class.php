@@ -31,6 +31,9 @@ if (!defined("INCLUDE")) {
  * Various cells are grouped together in a Row
  *
  * @author Patrick Strobel
+ * @version 4.1.0
+ * @package infoapp
+ * @subpackage googlecharttools
  */
 class Cell {
 

@@ -32,8 +32,11 @@ if (!defined("INCLUDE")) {
 
 /**
  * Stores statistical information about the devices' batteries
+ *
  * @author Patrick Strobel
  * @version 4.0.0
+ * @package infoapp
+ * @subpackage properties
  */
 class BatteryPropertiesStat extends PropertiesStat {
 
@@ -71,7 +74,10 @@ class BatteryPropertiesStat extends PropertiesStat {
 /**
  * Stores information about the device's battery and allows to update or insert a new device information set
  * @author Patrick Strobel
+ *
  * @version 4.1.0
+ * @package infoapp
+ * @subpackage properties
  */
 class BatteryProperties extends Properties {
 

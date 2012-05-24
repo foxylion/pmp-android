@@ -36,6 +36,8 @@ if (!defined("INCLUDE")) {
  *
  * @author Patrick Strobel
  * @version 4.0.2
+ * @package infoapp
+ * @subpackage events
  */
 class ConnectionEvent extends Event {
 

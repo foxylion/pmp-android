@@ -17,6 +17,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.RemoteException;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -387,6 +390,48 @@ public class ViewModel {
     
     private NotificationAdapter driverAdapter;
     private NotificationAdapter passengerAdapter;
+    
+    private Button btn_road_info;
+    private EditText et_road_info;
+    
+    
+    public void setRoadInfoBtn(Button btnInfo) {
+        this.btn_road_info = btnInfo;
+    }
+    
+    
+    public void setRoadInfoEt(EditText etInfo) {
+        this.et_road_info = etInfo;
+    }
+    
+    
+    public void setBtnInfoVisibility(boolean visible) {
+        if (visible) {
+            this.btn_road_info.setVisibility(View.VISIBLE);
+        } else {
+            this.btn_road_info.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    public void setEtInfoVisibility(boolean visible) {
+        if (visible) {
+            this.et_road_info.setVisibility(View.VISIBLE);
+        } else {
+            this.et_road_info.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    public void setEtInfoText(String from, String to, String distance, String time) {
+        this.et_road_info.setText("\n    From: " + from + " \n    To: " + to + " \n    Distance: " + distance
+                + " \n    Time: " + time + "\n\n   ");
+    }
+    
+    
+    public void resetRoadInfo() {
+        this.et_road_info.setText("\n   From: \n   To: \n   Distance: \n   Time: \n");
+    }
     
     
     public static ViewModel getInstance() {

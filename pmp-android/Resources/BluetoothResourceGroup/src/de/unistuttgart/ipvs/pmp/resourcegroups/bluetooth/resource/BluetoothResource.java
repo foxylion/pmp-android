@@ -258,13 +258,15 @@ public class BluetoothResource extends Resource {
 		}
 	}
 
-	public void discover(String appIdentifier) throws RemoteException {
+	public void discover(String appIdentifier, String name, int time) throws RemoteException {
 		if (D) {
 			Log.i(TAG, "Discovering");
 		}
 		if (btAdapter.isDiscovering()) {
 			btAdapter.cancelDiscovery();
 		}
+		setName(name);
+		
 		setBroadcast(appIdentifier);
 		btAdapter.startDiscovery();
 		devices.clear();
