@@ -40,8 +40,6 @@ public class EnergyImpl extends IEnergy.Stub {
         // Check permission
         this.psv.validate(EnergyConstants.PS_BATTERY_LEVEL, "true");
         
-        System.out.println("FUCK FUCK FUCK " + getResultSetCV().getLevel());
-        
         return getResultSetCV().getLevel();
     }
     

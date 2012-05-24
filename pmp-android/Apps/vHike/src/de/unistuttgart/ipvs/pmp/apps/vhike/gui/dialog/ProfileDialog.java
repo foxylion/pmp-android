@@ -201,6 +201,7 @@ public class ProfileDialog extends Dialog {
                         }.start();
                         
                         btn_route.setBackgroundResource(R.drawable.btn_route);
+                        ViewModel.getInstance().setBtnInfoVisibility(true);
                     } catch (IllegalStateException ise) {
                         Log.i(this, ise.toString());
                         ise.printStackTrace();
