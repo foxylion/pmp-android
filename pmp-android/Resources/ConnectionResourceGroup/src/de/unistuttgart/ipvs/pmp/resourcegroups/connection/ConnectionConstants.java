@@ -62,8 +62,7 @@ public class ConnectionConstants {
     public static final long ONE_MONTH = 2592000000L;
     
     /**
-     * Preferences file
+     * Intent Filter
      */
-    public static final String PREF_FILE = "deunistuttgartipvspmpresourcegroupsconnectionprefs";
-    public static final String PREF_SIGNAL_KEY = "signalstrength";
+    public static final String CELLULAR_INTENT = "android.intent.action.SERVICE_STATE";
 }
