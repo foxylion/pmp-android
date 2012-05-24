@@ -18,8 +18,9 @@ public class EnergyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         /*
-         * Handle the intents
+         * Handle the intents 
          */
+        System.out.println("Receive called!!!!!!!!!!!!!!");
         if (action.equals(EnergyConstants.ACTION_SCREEN_ON)) {
             ScreenHandler.handle(true, context);
         } else if (action.equals(EnergyConstants.ACTION_SCREEN_OFF)) {

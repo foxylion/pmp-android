@@ -1,11 +1,9 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy;
 
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.broadcastreceiver.EnergyBroadcastReceiver;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -25,14 +23,6 @@ public class EnergyService extends Service {
     @Override
     public void onCreate() {
         Log.i(EnergyConstants.LOG_TAG, "Energy service started.");
-        
-        // Instantiate the broadcast receiver
-        this.br = new EnergyBroadcastReceiver();
-        
-        // Add broadcast receiver
-        getApplicationContext().registerReceiver(this.br, new IntentFilter(EnergyConstants.ACTION_BATTERY_CHANGED));
-        getApplicationContext().registerReceiver(this.br, new IntentFilter(EnergyConstants.ACTION_SCREEN_ON));
-        getApplicationContext().registerReceiver(this.br, new IntentFilter(EnergyConstants.ACTION_SCREEN_OFF));
         
         super.onCreate();
     }
