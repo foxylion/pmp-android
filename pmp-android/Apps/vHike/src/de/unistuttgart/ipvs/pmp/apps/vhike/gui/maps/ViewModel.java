@@ -17,6 +17,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.RemoteException;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -72,6 +75,11 @@ public class ViewModel {
     public void setvHikeWSRGandCreateController(IvHikeWebservice ws) {
         this.ws = ws;
         this.ctrl = new Controller(ws);
+    }
+    
+    
+    public IvHikeWebservice getvHikeRG() {
+        return this.ws;
     }
     
     
@@ -154,6 +162,11 @@ public class ViewModel {
             ViewModel.getInstance().getPassengerAdapter(this.context, this.mapView).notifyDataSetChanged();
         }
         this.mapView.invalidate();
+    }
+    
+    
+    public void setNewFound() {
+        this.newFound = false;
     }
     
     
@@ -294,6 +307,21 @@ public class ViewModel {
             GeoPoint gpsDriver = new GeoPoint(lat, lng);
             add2PassengerOverlay(this.context, gpsDriver, vObject.getProfile(), this.mapView, 1, vObject.getProfile()
                     .getID());
+            // if route drawing is enabled
+            if (isRouteDrawn(vObject.getProfile().getUsername())) {
+                
+                PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model.getInstance()
+                        .getOwnProfile().getID());
+                PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(), vObject.getProfile()
+                        .getID());
+                
+                double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                        .getLon();
+                String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
+                InputStream is = getConnection(url);
+                mRoad = RoadProvider.getRoute(is);
+                mHandler.sendEmptyMessage(0);
+            }
             getHitchDrivers().add(vObject.getProfile());
             
             // notify user on hitchhiker found
@@ -363,6 +391,48 @@ public class ViewModel {
     private NotificationAdapter driverAdapter;
     private NotificationAdapter passengerAdapter;
     
+    private Button btn_road_info;
+    private EditText et_road_info;
+    
+    
+    public void setRoadInfoBtn(Button btnInfo) {
+        this.btn_road_info = btnInfo;
+    }
+    
+    
+    public void setRoadInfoEt(EditText etInfo) {
+        this.et_road_info = etInfo;
+    }
+    
+    
+    public void setBtnInfoVisibility(boolean visible) {
+        if (visible) {
+            this.btn_road_info.setVisibility(View.VISIBLE);
+        } else {
+            this.btn_road_info.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    public void setEtInfoVisibility(boolean visible) {
+        if (visible) {
+            this.et_road_info.setVisibility(View.VISIBLE);
+        } else {
+            this.et_road_info.setVisibility(View.GONE);
+        }
+    }
+    
+    
+    public void setEtInfoText(String from, String to, String distance, String time) {
+        this.et_road_info.setText("\n    From: " + from + " \n    To: " + to + " \n    Distance: " + distance
+                + " \n    Time: " + time + "\n\n   ");
+    }
+    
+    
+    public void resetRoadInfo() {
+        this.et_road_info.setText("\n   From: \n   To: \n   Distance: \n   Time: \n");
+    }
+    
     
     public static ViewModel getInstance() {
         if (instance == null) {
@@ -371,31 +441,36 @@ public class ViewModel {
         return instance;
     }
     
-    public HashMap<String, RoadOverlay> getRouteHM;
-    public HashMap<String, Boolean> getRoutes;
+    // Map containing all roads
+    public HashMap<String, RoadOverlay> getAddedRoutes;
+    // Map determining if route is drawn
+    public HashMap<String, Boolean> getDrawnRoutes;
     
     
     public void initRouteList() {
-        getRouteHM = new HashMap<String, RoadOverlay>();
-        getRoutes = new HashMap<String, Boolean>();
+        getAddedRoutes = new HashMap<String, RoadOverlay>();
+        getDrawnRoutes = new HashMap<String, Boolean>();
     }
     
     
     public RoadOverlay getRouteOverlay(String userRoute) {
-        return this.getRouteHM.get(userRoute);
+        return this.getAddedRoutes.get(userRoute);
     }
     
     
     public boolean isRouteDrawn(String name) {
-        
-        if (this.getRoutes.get(name) == null) {
-            Log.i(this, name + "'s route not drawn VIEW");
-            return false;
-        } else if (this.getRoutes.get(name)) {
-            Log.i(this, name + "'s route is drawn VIEW");
-            return true;
-        } else {
-            Log.i(this, name + "'s route not drawn VIEW");
+        try {
+            if (this.getDrawnRoutes.get(name) == null) {
+                Log.i(this, name + "'s route not drawn VIEW");
+                return false;
+            } else if (this.getDrawnRoutes.get(name)) {
+                Log.i(this, name + "'s route is drawn VIEW");
+                return true;
+            } else {
+                Log.i(this, name + "'s route not drawn VIEW");
+                return false;
+            }
+        } catch (NullPointerException ne) {
             return false;
         }
     }
@@ -407,8 +482,10 @@ public class ViewModel {
     
     
     public void clearRoutes() {
-        this.getRoutes = null;
-        this.getRouteHM = null;
+        getDrawnRoutes.clear();
+        getAddedRoutes.clear();
+        this.getDrawnRoutes = null;
+        this.getAddedRoutes = null;
     }
     
     String foundUser;
@@ -421,10 +498,10 @@ public class ViewModel {
     Handler mHandler = new Handler() {
         
         public void handleMessage(android.os.Message msg) {
-            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView);
+            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView, false);
             ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
-            ViewModel.getInstance().getRoutes.put(foundUser, true);
-            ViewModel.getInstance().getRouteHM.put(foundUser, roadOverlay);
+            ViewModel.getInstance().getDrawnRoutes.put(foundUser, true);
+            ViewModel.getInstance().getAddedRoutes.put(foundUser, roadOverlay);
             mapView.invalidate();
         };
     };
@@ -663,7 +740,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (this.driverAdapter == null) {
-            this.driverAdapter = new NotificationAdapter(this.ws, context, getHitchPassengers(), 0);
+            this.driverAdapter = new NotificationAdapter(this.ws, context, getHitchPassengers(), 0, mapView, iContact);
         }
         return this.driverAdapter;
     }
@@ -687,7 +764,7 @@ public class ViewModel {
         this.context = context;
         this.mapView = mapView;
         if (this.passengerAdapter == null) {
-            this.passengerAdapter = new NotificationAdapter(this.ws, context, getHitchDrivers(), 1);
+            this.passengerAdapter = new NotificationAdapter(this.ws, context, getHitchDrivers(), 1, mapView, iContact);
         }
         return this.passengerAdapter;
     }
@@ -721,9 +798,9 @@ public class ViewModel {
         
         // instantiate the notification
         if (which1 == 0) {
-            icon = R.drawable.icon_ride;
+            icon = R.drawable.map_driver;
         } else {
-            icon = R.drawable.passenger_logo;
+            icon = R.drawable.map_passenger;
         }
         contentTitle = "vHike found a hitchhiker";
         contentText = "A Hitchhiker was found";
@@ -770,8 +847,9 @@ public class ViewModel {
         Drawable drawable;
         if (which1 == 0) {
             Profile me = Model.getInstance().getOwnProfile();
-            drawable = context.getResources().getDrawable(R.drawable.icon_ride);
-            DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps, me.getUsername());
+            drawable = context.getResources().getDrawable(R.drawable.map_driver);
+            DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps, me.getUsername(),
+                    new ContactDialog(context, mapView, me.getUsername(), iContact, passenger, ctrl), false);
             OverlayItem opDriverItem = new OverlayItem(gps, "Hop in man", "User: " + passenger.getUsername()
                     + ", Rating: " + passenger.getRating_avg());
             driverOverlay.addOverlay(opDriverItem);
@@ -780,15 +858,15 @@ public class ViewModel {
             Log.i(this, "OVERLAY D: DRIVER ADDED");
             mapView.invalidate();
         } else {
-            drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
+            drawable = context.getResources().getDrawable(R.drawable.map_passenger);
             
             if (this.iContact == null) {
                 Log.i(this, "Contact null");
             }
             
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.ws,
-                    this.iContact, passenger.getUsername(), gps, new ContactDialog(context, mapView,
-                            passenger.getUsername(), this.iContact, mypoint, passenger, ctrl), 0);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.iContact,
+                    passenger.getUsername(), gps, new ContactDialog(context, mapView, passenger.getUsername(),
+                            this.iContact, passenger, ctrl), 0);
             OverlayItem opPassengerItem = new OverlayItem(gps, String.valueOf(passenger.getID()),
                     passenger.getUsername());
             passengerOverlay.addOverlay(opPassengerItem);
@@ -816,10 +894,10 @@ public class ViewModel {
             if (context == null) {
                 Log.i(this, "Context null");
             }
-            drawable = context.getResources().getDrawable(R.drawable.passenger_logo);
+            drawable = context.getResources().getDrawable(R.drawable.map_passenger);
             Profile me = Model.getInstance().getOwnProfile();
-            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.ws,
-                    this.iContact, me.getUsername(), gps, null, 1);
+            PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.iContact,
+                    me.getUsername(), gps, null, 1);
             OverlayItem opDriverItem = new OverlayItem(gps, "I need a ride", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             passengerOverlay.addOverlay(opDriverItem);
@@ -828,8 +906,9 @@ public class ViewModel {
             Log.i(this, "OVERLAY P: PASSENGER ADDED");
             mapView.invalidate();
         } else {
-            drawable = context.getResources().getDrawable(R.drawable.icon_ride);
-            DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps, profile.getUsername());
+            drawable = context.getResources().getDrawable(R.drawable.map_driver);
+            DriverOverlay driverOverlay = new DriverOverlay(drawable, context, gps, profile.getUsername(),
+                    new ContactDialog(context, mapView, profile.getUsername(), iContact, profile, ctrl), true);
             OverlayItem opPassengerItem = new OverlayItem(gps, "Hop in man", "User: " + profile.getUsername()
                     + ", Rating: " + profile.getRating_avg());
             driverOverlay.addOverlay(opPassengerItem);

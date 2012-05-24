@@ -145,6 +145,73 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
+    public String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public,
+            boolean email_public, boolean tel_public) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        listToParse.add(new ParamObject("email_public", String.valueOf(email_public), true));
+        listToParse.add(new ParamObject("firstname_public", String.valueOf(firstname_public), true));
+        listToParse.add(new ParamObject("lastname_public", String.valueOf(lastname_public), true));
+        listToParse.add(new ParamObject("tel_public", String.valueOf(tel_public), true));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "profile_edit_visibility.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String isProfileAnonymous(String sid, int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("user_id", String.valueOf(uid), false));
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "is_profile_anonymous.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String enableAnonymity(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "enable_anonymity.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String disableAnonymity(String sid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "disable_anonymity.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
     public String tripUpdatePos(String sid, int trip_id, float current_lat, float current_lon) throws RemoteException {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sid, false));
@@ -223,6 +290,25 @@ public class vHikeWebserviceResource extends Resource {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String queryUpdateData(String sid, int query_id, int wanted_seats) throws RemoteException {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        
+        listToParse.add(new ParamObject("id", String.valueOf(query_id), true));
+        listToParse.add(new ParamObject("wanted_seats", String.valueOf(wanted_seats), true));
+        
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "query_update_data.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return ret;
@@ -549,10 +635,10 @@ public class vHikeWebserviceResource extends Resource {
     public String disableObservation(String sessionID, String user_id) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sessionID, false));
-        listToParse.add(new ParamObject("user_id", user_id, false));
+        listToParse.add(new ParamObject("user_id", user_id, true));
         String ret = "";
         try {
-            ret = JSonRequestProvider.doRequest(listToParse, "activate_observation.php").toString();
+            ret = JSonRequestProvider.doRequest(listToParse, "deactivate_observation.php").toString();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -568,17 +654,46 @@ public class vHikeWebserviceResource extends Resource {
         
         listToParse.clear();
         listToParse.add(new ParamObject("sid", sessionID, false));
-        listToParse.add(new ParamObject("user_id", user_id, false));
+        listToParse.add(new ParamObject("user_id", user_id, true));
         String ret = "";
         try {
-            ret = JSonRequestProvider.doRequest(listToParse, "deactivate_observation.php").toString();
+            ret = JSonRequestProvider.doRequest(listToParse, "activate_observation.php").toString();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
         }
-        
+        return ret;
+    }
+    
+    
+    public String isObservationEnabled(int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("uid", String.valueOf(uid), false));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "isObserved.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String getMyTrips(int uid) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("uid", String.valueOf(uid), true));
+        String ret = "";
+        try {
+            ret = JSonRequestProvider.doRequest(listToParse, "load_my_lifts.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return ret;
     }
     

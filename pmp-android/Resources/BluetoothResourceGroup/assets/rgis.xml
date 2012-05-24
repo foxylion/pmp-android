@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resourceGroupInformationSet>
+	<resourceGroupInformation
+		identifier="de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth" icon="res/drawable-hdpi/ic_launcher.png"
+		className="BluetoothResourceGroup">
+		<name lang="en">Bluetooth</name>
+		<name lang="de">Bluetooth</name>
+		<description lang="en">Enables bluetooth.</description>
+		<description lang="de">Bluetooth.</description>
+	</resourceGroupInformation>
+	<privacySettings>
+		<privacySetting identifier="useBluetooth"
+			validValueDescription="'true', 'false'">
+			<name lang="en">Bluetooth</name>
+			<name lang="de">Bluetooth</name>
+			<description lang="en">Enables bluetooth.</description>
+			<description lang="de">Aktiviert Bluetooth.</description>
+			<changeDescription lang="en">By ticking off the checkbox, applications are allowed to use bluetooth.</changeDescription>
+			<changeDescription lang="de">Durch aktivieren der Checkbox wird den zugewiesenen Apps die Nutzung des Bluetooths erlaubt.</changeDescription>
+		</privacySetting>
+	</privacySettings>
+</resourceGroupInformationSet>

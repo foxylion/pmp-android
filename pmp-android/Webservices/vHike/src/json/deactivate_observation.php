@@ -11,15 +11,15 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 	$user = Session::getInstance()->getLoggedInUser();
-	Observation::disableObservation($user);
+	Observation::disableObservation($user->getId());
 	
-	$output[] = array('successful' => true);
+	$output = array("successful" => true, "status" => "deactivated");
 	
   echo Json::arrayToJson($output);
   
 }catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
+} catch (Exception $e) {
+	Json::printError('Error', $e -> getMessage(), true);
 }
 Database::getInstance()->disconnect();
-
-?>

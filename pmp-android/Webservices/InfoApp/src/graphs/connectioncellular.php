@@ -20,6 +20,13 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
@@ -28,21 +35,24 @@ if ($deviceIdValid) {
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
     // cellular connection status
-    $dateColumn = new GColumn("datetime", "d", "Date");
-    $airplaneColumn = new GColumn("number", "a", "Airplane");
+    $dateColumn = new Column("datetime", "d", "Date");
+    $airplaneColumn = new Column("number", "a", "Airplane");
 
-    $connectionData = new GDataTable();
+    $connectionData = new DataTable();
     $connectionData->addColumn($dateColumn);
     $connectionData->addColumn($airplaneColumn);
 
     foreach ($events as $event) {
-        $levelRow = new GRow();
-        $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
-        $levelRow->addCell(new GCell((int) $event->isAirplane()));
+        $levelRow = new Row();
+        $levelRow->addCell(new Cell($event->getTimestamp()));
+        $levelRow->addCell(new Cell((int) $event->isAirplane()));
         $connectionData->addRow($levelRow);
     }
 
     $tmplt["pageTitle"] = "Cellular Connection";
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
     $tmplt["jsFunctDrawChart"] = "drawConnection();";
 
     $tmplt["jsDrawFunctions"] = "function drawConnection() {
@@ -58,14 +68,35 @@ if ($deviceIdValid) {
         var chart = new google.visualization.AreaChart(document.getElementById('connection'));
         chart.draw(data, options);
     }";
+    }
 
     $tmplt["content"] = "
-            <h1>Cellular Connection Events</h1>
-            <div id=\"connection\" style=\"width:800; height:150\"></div>";
+            <h1>Cellular Connection Events</h1>";
+
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["content"] .= "
+            <div id=\"connection\"></div>";
+    } else {
+        // Draw static/PNG-charts
+        // ----------------------
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
+
+        $connectionChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $connectionChart->setTitle("Cellular connection status");
+        $connectionChart->setProperty("cht", "lxy");
+        $connectionChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($connectionData);
+        $bridge->pushData($connectionChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
+
+        $tmplt["content"] .= "
+            <p><img src=\"" . $connectionChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>";
+    }
 }
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

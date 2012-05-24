@@ -20,32 +20,40 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+use infoapp\properties\DeviceProperties;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
 $stat = DeviceProperties::getStatistic();
-$countColumn = new GColumn("number", "c", "Count");
+$countColumn = new Column("number", "c", "Count");
 
 // Manufacturer distribution
-$manufacturerData = new GDataTable();
-$manufacturerData->addColumn(new GColumn("string", "m", "Manufacturer"));
+$manufacturerData = new DataTable();
+$manufacturerData->addColumn(new Column("string", "m", "Manufacturer"));
 $manufacturerData->addColumn($countColumn);
 
 foreach ($stat->getManufacturerDist() as $man => $count) {
-    $row = new GRow();
-    $row->addCell(new GCell($man));
-    $row->addCell(new GCell($count));
+    $row = new Row();
+    $row->addCell(new Cell($man));
+    $row->addCell(new Cell($count));
     $manufacturerData->addRow($row);
 }
 
 // Model and UI distribution
 $selectedManufacturer = "Not selected";
-$modelData = new GDataTable();
-$modelData->addColumn(new GColumn("string", "m", "Model"));
+$modelData = new DataTable();
+$modelData->addColumn(new Column("string", "m", "Model"));
 $modelData->addColumn($countColumn);
 
-$uiData = new GDataTable();
-$uiData->addColumn(new GColumn("string", "u", "UI"));
+$uiData = new DataTable();
+$uiData->addColumn(new Column("string", "u", "UI"));
 $uiData->addColumn($countColumn);
 
 if (isset($_GET["manufacturer"])) {
@@ -57,9 +65,9 @@ if (isset($_GET["manufacturer"])) {
         $rawData = $modelDist[$_GET["manufacturer"]];
 
         foreach ($rawData as $model => $count) {
-            $row = new GRow();
-            $row->addCell(new GCell($model));
-            $row->addCell(new GCell($count));
+            $row = new Row();
+            $row->addCell(new Cell($model));
+            $row->addCell(new Cell($count));
             $modelData->addRow($row);
         }
     }
@@ -68,35 +76,35 @@ if (isset($_GET["manufacturer"])) {
         $rawData = $uiDist[$_GET["manufacturer"]];
 
         foreach ($rawData as $ui => $count) {
-            $row = new GRow();
-            $row->addCell(new GCell($ui));
-            $row->addCell(new GCell($count));
+            $row = new Row();
+            $row->addCell(new Cell($ui));
+            $row->addCell(new Cell($count));
             $uiData->addRow($row);
         }
     }
 }
 
 // API distribution
-$apiData = new GDataTable();
-$apiData->addColumn(new GColumn("string", "a", "API"));
+$apiData = new DataTable();
+$apiData->addColumn(new Column("string", "a", "API"));
 $apiData->addColumn($countColumn);
 
 foreach ($stat->getApiDist() as $api => $count) {
-    $row = new GRow();
-    $row->addCell(new GCell($api));
-    $row->addCell(new GCell($count));
+    $row = new Row();
+    $row->addCell(new Cell($api));
+    $row->addCell(new Cell($count));
     $apiData->addRow($row);
 }
 
 // Kernel distribution
-$kernelData = new GDataTable();
-$kernelData->addColumn(new GColumn("string", "k", "Kernel"));
+$kernelData = new DataTable();
+$kernelData->addColumn(new Column("string", "k", "Kernel"));
 $kernelData->addColumn($countColumn);
 
 foreach ($stat->getKernelDist() as $kernel => $count) {
-    $row = new GRow();
-    $row->addCell(new GCell($kernel));
-    $row->addCell(new GCell($count));
+    $row = new Row();
+    $row->addCell(new Cell($kernel));
+    $row->addCell(new Cell($count));
     $kernelData->addRow($row);
 }
 
@@ -110,8 +118,10 @@ $tmplt["jsFunctDrawChart"] = "drawManufacturer();
         drawApi();
         drawKernel();";
 
-
-$tmplt["jsDrawFunctions"] = "
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["jsDrawFunctions"] = "
     var manufacturerChart;
     var manufacturerData;
     function drawManufacturer() {
@@ -196,19 +206,74 @@ $tmplt["jsDrawFunctions"] = "
         var chart = new google.visualization.PieChart(document.getElementById('kernel'));
         chart.draw(data, options);
     }";
+}
 
 $tmplt["content"] = "
-            <h1>Software Statistics</h1>
+            <h1>Software Statistics</h1>";
+if ($svgCharts) {
+    // Draw SVG-Charts
+    // ---------------
+    $tmplt["content"] .= "
             <p>Select a manufacturer to view the model- and UI-chart.</p>
             <div id=\"manufacturer\" style=\"width:800; height:400\"></div>
             <div id=\"model\" style=\"width:800; height:400\"></div>
             <div id=\"ui\" style=\"width:800; height:400\"></div>
             <div id=\"api\" style=\"width:800; height:400\"></div>
             <div id=\"kernel\" style=\"width:800; height:400\"></div>";
+} else {
+    // Draw static/PNG-charts
+    // ----------------------
+
+    $manufacturerChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $manufacturerChart->setTitle("Manufacturer distribution");
+    $bridge = new GChartPhpBridge($manufacturerData);
+    $bridge->pushData($manufacturerChart, GChartPhpBridge::LEGEND);
+
+    $modelChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $modelChart->setTitle("Model distribution (Manufacturer: " . $selectedManufacturer . ")");
+    $bridge = new GChartPhpBridge($modelData);
+    $bridge->pushData($modelChart, GChartPhpBridge::LEGEND);
+
+    $uiChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $uiChart->setTitle("UI distribution (Manufacturer: " . $selectedManufacturer . ")");
+    $bridge = new GChartPhpBridge($uiData);
+    $bridge->pushData($uiChart, GChartPhpBridge::LEGEND);
+
+    $apiChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $apiChart->setTitle("API distribution");
+    $bridge = new GChartPhpBridge($apiData);
+    $bridge->pushData($apiChart, GChartPhpBridge::LEGEND);
+
+    $kernelChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $kernelChart->setTitle("Kernel distribution");
+    $bridge = new GChartPhpBridge($kernelData);
+    $bridge->pushData($kernelChart, GChartPhpBridge::LEGEND);
+
+    // Build a string that contains a link to manufacturer specific charts
+    $currentUrl = $_SERVER["PHP_SELF"] . "?" . $tmplt["dateGetParams"] . "&" .
+            $tmplt["annotationGetParam"] . "&" . $tmplt["deviceGetParam"] . "&" .
+            $tmplt["viewGetParam"];
+    $manufacturerLinks = "";
+    $first = true;
+    foreach ($stat->getManufacturerDist() as $man => $value) {
+        if ($first) {
+            $first = false;
+        } else {
+            $manufacturerLinks .= ", ";
+        }
+        $manufacturerLinks .= "<a href=\"" . $currentUrl . "&manufacturer=" . $man . "\">" . $man . "</a>";
+    }
+
+    $tmplt["content"] .= "
+            <p>Select a manufacturer to view the model- and UI-chart: " . $manufacturerLinks . "</p>
+            <p><img src=\"" . $manufacturerChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $modelChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $uiChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $apiChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $kernelChart->getUrl() . "\" /></p>";
+}
 
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

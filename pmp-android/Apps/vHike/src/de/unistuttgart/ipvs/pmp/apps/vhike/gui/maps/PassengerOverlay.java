@@ -17,11 +17,8 @@ import com.google.android.maps.OverlayItem;
 import com.google.android.maps.Projection;
 
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
-import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.ContactDialog;
-import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
-import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
  * Overlay for passengers, handling the drawable icon, tap actions
@@ -34,7 +31,6 @@ public class PassengerOverlay extends ItemizedOverlay {
     
     private Context mContext;
     private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
-    private IvHikeWebservice ivhs;
     private String name;
     private GeoPoint mGps;
     
@@ -48,11 +44,10 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param defaultMarker
      * @param context
      */
-    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IvHikeWebservice ivhs,
-            IContact iContact, String name, GeoPoint gps, ContactDialog contactDialog, int itsMe) {
+    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IContact iContact, String name,
+            GeoPoint gps, ContactDialog contactDialog, int itsMe) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;
-        this.ivhs = ivhs;
         this.name = name;
         this.mGps = gps;
         
@@ -76,11 +71,6 @@ public class PassengerOverlay extends ItemizedOverlay {
         
         //if 0 passenger, if 1 user
         if (this.itsMe == 0) {
-            int id = Integer.valueOf(item.getTitle());
-            Controller ctrl = new Controller(this.ivhs);
-            ctrl.getProfile(Model.getInstance().getSid(), id);
-            
-            this.contactDialog.setToGPS(this.mGps);
             this.contactDialog.show();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
@@ -88,7 +78,6 @@ public class PassengerOverlay extends ItemizedOverlay {
             dialog.setMessage(item.getSnippet());
             dialog.show();
         }
-        //        vhikeDialogs.getInstance().getContactDialog(mContext, mapView, item.getSnippet(), iContact).show();
         return true;
     }
     

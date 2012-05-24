@@ -64,7 +64,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         return false;
     }
@@ -76,7 +76,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         return 0;
     }
@@ -88,7 +88,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public long getWifiConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         return 0;
     }
@@ -100,7 +100,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public List<String> getConfigureddWifiNetworks() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
+        this.validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
         
         return new ArrayList<String>();
     }
@@ -112,7 +112,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public List<String> getConnectedWifiCities() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
         
         return new ArrayList<String>();
     }
@@ -124,7 +124,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public boolean getBluetoothStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         return false;
     }
@@ -136,7 +136,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public List<String> getPairedBluetoothDevices() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
         return new ArrayList<String>();
     }
@@ -148,7 +148,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public long getBTConnectionLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         return 0;
     }
@@ -160,7 +160,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public long getBTConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         return 0;
     }
@@ -172,7 +172,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public List<String> getConnectedBTCities() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
+        this.validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
         
         return new ArrayList<String>();
     }
@@ -184,7 +184,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public boolean getDataConnectionStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
         
         return false;
     }
@@ -196,7 +196,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public String getProvider() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return "Cloak Provider";
     }
@@ -208,7 +208,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public int getCellPhoneSignalStrength() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return 0;
     }
@@ -220,7 +220,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public boolean getRoamingStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return false;
     }
@@ -232,7 +232,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return 0;
     }
@@ -244,7 +244,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public long getAirplaneModeLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         return 0;
     }
@@ -256,7 +256,7 @@ public class ConnectionMockImpl extends IConnection.Stub {
     @Override
     public String uploadData() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
+        this.validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
         return "Error";
     }

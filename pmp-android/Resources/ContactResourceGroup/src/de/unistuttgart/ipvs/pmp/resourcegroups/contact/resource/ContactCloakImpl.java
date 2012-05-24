@@ -12,19 +12,19 @@ public class ContactCloakImpl extends IContact.Stub {
     }
     
     @Override
-    public void call(int tel) throws RemoteException {
+    public void call(String tel) throws RemoteException {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void sms(int tel, String message) throws RemoteException {
+    public void sms(String tel, String message) throws RemoteException {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void email(String recipient, String message) throws RemoteException {
+    public void email(String recipient, String subject, String message) throws RemoteException {
         // TODO Auto-generated method stub
         
     }

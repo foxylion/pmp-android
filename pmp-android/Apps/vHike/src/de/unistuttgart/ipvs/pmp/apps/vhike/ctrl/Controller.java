@@ -24,6 +24,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
+import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PrePlannedTrip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -353,6 +354,78 @@ public class Controller {
             return profile;
         }
         return null;
+    }
+    
+    
+    /**
+     * Sets visibility of lastname, firstname, email and/or phone number
+     * 
+     * @param sid
+     * @param list
+     * @return
+     */
+    public int setProfileVisibility(String sid, Map<String, String> list) {
+        String ret = "";
+        
+        try {
+            Log.i(this, "Public Lastname: " + Boolean.parseBoolean(list.get("lastname_public")));
+            Log.i(this, "Public Firstname: " + Boolean.parseBoolean(list.get("firstname_public")));
+            ret = this.ws.setProfileVisibility(sid, Boolean.parseBoolean(list.get("lastname_public")),
+                    Boolean.parseBoolean(list.get("firstname_public")), Boolean.parseBoolean(list.get("email_public")),
+                    Boolean.parseBoolean(list.get("tel_public")));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+        
+    }
+    
+    
+    public int enableAnonymity(String sid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.enableAnonymity(sid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+    
+    
+    public int disableAnonymity(String sid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.disableAnonymity(sid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        return 0;
+    }
+    
+    
+    public boolean isProfileAnonymous(String sid, int uid) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.isProfileAnonymous(sid, uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        boolean isAnonymous = false;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                isAnonymous = object.get("anonymous").getAsBoolean();
+            }
+        }
+        return isAnonymous;
     }
     
     
@@ -1068,6 +1141,37 @@ public class Controller {
     }
     
     
+    public int queryUpdateData(final String sid, final int query_id, final int wanted_seats) {
+        String ret = "";
+        
+        try {
+            ret = this.ws.queryUpdateData(sid, query_id, wanted_seats);
+        } catch (RemoteException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        
+        String status = null;
+        if (object != null) {
+            object.get("successful").getAsBoolean();
+            status = object.get("status").getAsString();
+        }
+        
+        if (status.equals("updated")) {
+            return Constants.STATUS_UPDATED;
+        } else if (status.equals("already_uptodate")) {
+            return Constants.STATUS_UPTODATE;
+        } else if (status.equals("no_query")) {
+            return Constants.STATUS_NO_QUERY;
+        } else if (status.equals("invalid_user")) {
+            return Constants.STATUS_INVALID_USER;
+        }
+        return 0;
+    }
+    
+    
     /**
      * Updates the users position
      * 
@@ -1201,5 +1305,67 @@ public class Controller {
             
         }
         return suc;
+    }
+    
+    
+    public boolean isObservationEnabled(int uid) {
+        String ret = "";
+        try {
+            ret = this.ws.isObservationEnabled(uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        if (object != null) {
+            suc = object.get("status").getAsBoolean();
+        }
+        return suc;
+    }
+    
+    
+    public List<PrePlannedTrip> getMyTrips(int uid) {
+        String ret = "";
+        try {
+            ret = this.ws.getMyTrips(uid);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+        boolean suc = false;
+        List<PrePlannedTrip> prePlannedTrips = null;
+        if (object != null) {
+            suc = object.get("successful").getAsBoolean();
+            if (suc) {
+                JsonArray array;
+                try {
+                    array = object.get("my_trips").getAsJsonArray();
+                    prePlannedTrips = new ArrayList<PrePlannedTrip>();
+                    for (int i = 0; i < array.size(); i++) {
+                        JsonArray jArray = array.get(i).getAsJsonArray();
+                        for (int j = 0; j < jArray.size(); j++) {
+                            JsonObject Iobject = jArray.get(j).getAsJsonObject();
+                            int tid = Iobject.get("TripID").getAsInt();
+                            String destination = Iobject.get("Destination").getAsString();
+                            String date = Iobject.get("Time").getAsString();
+                            int passengers = Iobject.get("Passengers").getAsInt();
+                            int invites = Iobject.get("Invites").getAsInt();
+                            PrePlannedTrip pObject = new PrePlannedTrip(tid, destination, date, passengers, invites);
+                            prePlannedTrips.add(pObject);
+                        }
+                    }
+                    Model.getInstance().setMyTrips(prePlannedTrips);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    prePlannedTrips = new ArrayList<PrePlannedTrip>();
+                }
+                return prePlannedTrips;
+            }
+            
+        } else {
+            Log.i(this, "Parsing Object null");
+        }
+        Model.getInstance().setMyTrips(prePlannedTrips);
+        return prePlannedTrips;
     }
 }

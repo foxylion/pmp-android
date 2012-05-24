@@ -69,18 +69,38 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         this.locationHandler = new Handler();
         this.locationTimer = new Timer();
         ViewModel.getInstance().initDriversList();
+        ViewModel.getInstance().initRouteList();
+        ViewModel.getInstance().resetTimers();
+        ViewModel.getInstance().setNewFound();
         
         vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
         vhikeDialogs.getInstance().clearSearchPD();
         
-        if (getvHikeRG(this) != null && getLocationRG(this) != null) {
+        setMapView();
+        ViewModel.getInstance().getPassengerOverlayList(mapView).clear();
+        
+        if (getvHikeRG(this) != null && getLocationRG(this) != null && getContactRG(this) != null) {
             this.ctrl = new Controller(rgvHike);
             ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
-            
-            setMapView();
+            ViewModel.getInstance().setContactRG(rgContact);
             showHitchhikers();
             startQuery();
         }
+    }
+    
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        //        ctrl = new Controller(rgvHike);
+        //        
+        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
+        //            ctrl.enableAnonymity(Model.getInstance().getSid());
+        //        } else {
+        //            ctrl.disableAnonymity(Model.getInstance().getSid());
+        //        }
+        //        Log.i(this, "");
     }
     
     
@@ -101,8 +121,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 public void run() {
                     PassengerViewActivity.this.ctrl = new Controller(rgvHike);
                     ViewModel.getInstance().setvHikeWSRGandCreateController(rgvHike);
-                    
-                    setMapView();
+                    ViewModel.getInstance().setContactRG(rgContact);
                     showHitchhikers();
                     startQuery();
                 }
@@ -369,7 +388,7 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 }
                 break;
             case R.id.mi_passenger_updateData:
-                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, this.context).show();
+                vhikeDialogs.getInstance().getUpdateDataDialog(rgvHike, this.context, 1).show();
                 break;
         }
         return true;

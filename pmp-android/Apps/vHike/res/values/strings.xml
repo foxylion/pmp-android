@@ -6,7 +6,7 @@
     <string name="main_profile">Profile</string>
     <string name="main_history">History</string>
     <string name="main_drive">Drive</string>
-    <string name="main_ride">Ride</string>
+    <string name="main_ride">Hitchhike/Plan Trip</string>
     <string name="main_searchingpassenger">Search</string>
     <string name="ride_destination">Destination</string>
     <string name="ride_promptDestination">Choose destination</string>
@@ -52,7 +52,7 @@
     <string name="settings_unanimous_description">Hide profile information to others</string>
     <string name="perimeter_default">10</string>
     <string name="default_rating">0.0</string>
-    <string name="autologin">Login automatically</string>
+    <string name="autologin">Auto-Login</string>
     <string name="login_username">Username</string>
     <string name="login_pw">Password </string>
     <string name="login_login">Login</string>
@@ -104,5 +104,23 @@
     <string name="open_pmp">Open PMP</string>
     <string name="close_map">Return to planning menu</string>
     <string name="login_bluetooth">Bluetooth</string>
+    
+    <string name="ride_departure">Departure</string>
+    <string name="bluetooth_sendmsg">Send</string>
+    <string name="bluetooth_ride">Ride</string>
+    
+    <string name="ride_promptDeparture">Choose your departure</string>
+    <string name="passengers">passengers</string>
+    <string name="invites">invites</string>
+    <string name="messages">messages</string>
+    <string name="login_remember">Remember</string>
+    <string name="tripDetails_overview">Overview</string>
+    <string name="tripDetails_all_messages">All messages</string>
+    <string name="tripDetails_stopovers">&quot;Stopovers &quot;</string>
+    <string name="tripDetails_my_trip">My trip</string>
+    <string name="tripDetails_passengers">"Passengers "</string>
+    <string name="tripDetails_new_messages">New requests and messages</string>
+    <string name="tripDetails_cancel_trip">Cancel trip</string>
+    <string name="tripDetails_edit_trip">Edit trip</string>
 
 </resources>

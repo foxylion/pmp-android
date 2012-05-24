@@ -204,4 +204,54 @@ public class vHikeWebserviceCloakImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public,
+            boolean email_public, boolean tel_public) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String isProfileAnonymous(String sid, int uid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String enableAnonymity(String sid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String disableAnonymity(String sid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String isObservationEnabled(int uid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String queryUpdateData(String sid, int query_id, int wanted_seats) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String getMyTrips(int uid) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

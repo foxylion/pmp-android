@@ -10,14 +10,17 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.IInterface;
-import android.util.Log;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.api.handler.PMPServiceFeatureUpdateHandler;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.IResourceGroupReady;
+import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.aidl.IBluetooth;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.location.aidl.IAbsoluteLocation;
 import de.unistuttgart.ipvs.pmp.resourcegroups.notification.aidl.INotification;
@@ -31,7 +34,7 @@ public class vHikeService extends Service {
     
     private static vHikeService instance;
     private static final String TAG = "vHikeService";
-    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "hideContactInfo",
+    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "anonymousProfile",
             "contactPremium", "notification", "vhikeWebService" };
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
@@ -41,8 +44,10 @@ public class vHikeService extends Service {
             "de.unistuttgart.ipvs.pmp.resourcegroups.notification", "NotificationResource");
     private static final PMPResourceIdentifier RGContactID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.contact", "contactResource");
+    private static final PMPResourceIdentifier RGBluetoothID = PMPResourceIdentifier.make(
+            "de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth", "bluetoothResource");
     private static final PMPResourceIdentifier[] resourceGroupIDs = { RGLocationID, RGVHikeID, RGNotificationID,
-            RGContactID };
+            RGContactID, RGBluetoothID };
     
     
     /**
@@ -157,6 +162,7 @@ public class vHikeService extends Service {
     private IvHikeWebservice ws;
     private INotification noti;
     private IContact con;
+    private IBluetooth bt;
     
     
     public IInterface requestResourceGroup(Activity activity, int resourceGroupId) {
@@ -189,6 +195,13 @@ public class vHikeService extends Service {
                     return this.con;
                 }
                 break;
+            case Constants.RG_BLUETOOTH:
+                if (this.bt == null) {
+                    reloadResourceGroup(activity, resourceGroupId);
+                } else {
+                    return this.bt;
+                }
+                break;
         }
         return null;
     }
@@ -200,6 +213,7 @@ public class vHikeService extends Service {
             case Constants.RG_NOTIFICATION:
             case Constants.RG_VHIKE_WEBSERVICE:
             case Constants.RG_CONTACT:
+            case Constants.RG_BLUETOOTH:
                 reloadResourceGroup(activity, resourceGroupId);
                 break;
         }
@@ -219,6 +233,7 @@ public class vHikeService extends Service {
                 act.onResourceGroupReady(this.loc, resourceGroupId);
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
+                Log.i(this, "Cached " + resourceGroupId);
                 this.ws = IvHikeWebservice.Stub.asInterface(this.binder);
                 act.onResourceGroupReady(this.ws, resourceGroupId);
                 break;
@@ -229,6 +244,10 @@ public class vHikeService extends Service {
             case Constants.RG_CONTACT:
                 this.con = IContact.Stub.asInterface(this.binder);
                 act.onResourceGroupReady(this.con, resourceGroupId);
+                break;
+            case Constants.RG_BLUETOOTH:
+                this.bt = IBluetooth.Stub.asInterface(this.binder);
+                act.onResourceGroupReady(this.bt, resourceGroupId);
                 break;
         }
     }
@@ -248,6 +267,20 @@ public class vHikeService extends Service {
                 }
             });
         }
+    }
+    
+    
+    public void updateServiceFeatures() {
+        PMP.get(app).updateServiceFeatures(new PMPServiceFeatureUpdateHandler() {
+            
+            @Override
+            public void onUpdate(Bundle serviceFeatures) {
+                // TODO Auto-generated method stub
+                super.onUpdate(serviceFeatures);
+                Log.v(TAG, "updateServiceFeatures");
+            }
+        });
+        
     }
     
     

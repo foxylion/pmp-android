@@ -72,6 +72,22 @@ class Offer {
 		return $offer;
 	}
 
+	public static function getOfferReply($tripId, $uid) {
+		$db = Database::getInstance();
+		$query = $db->query("SELECT * FROM dev_offer WHERE trip=$tripId AND recipient=$uid");
+		
+		if ($db->getAffectedRows() <= 0) {
+            return null;
+        }
+		
+		$arr = null;
+		while ($row = $db->fetch($query)) {
+			$arr[] = $row;
+		}
+
+		return $arr;
+	}
+	
 	/**
 	 * Load's all messages that have been send to a given user's queries.
 	 * E.g. if a user has opened 3 queries, this will return all offers
@@ -210,6 +226,8 @@ class Offer {
 
 		return $count["count"] > 0;
 	}
+
+
 
 	/**
 	 * Returns the offer id

@@ -34,6 +34,8 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
+import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
+import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder.Views;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
@@ -89,7 +91,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public boolean getWifiConnectionStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         boolean result = false;
         
@@ -114,7 +116,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public long getWifiConnectionLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
                 ConnectionConstants.ONE_DAY, 0);
@@ -128,7 +130,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public long getWifiConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
                 ConnectionConstants.ONE_MONTH, 0);
@@ -142,12 +144,12 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public List<String> getConfigureddWifiNetworks() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
+        this.validator.validate(ConnectionConstants.PS_CONFIGURED_NETWORKS, "true");
         
         List<String> result = new ArrayList<String>();
         
         // Get the wifi manager
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifi = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
         
         if (wifi != null) {
             List<WifiConfiguration> configs = wifi.getConfiguredNetworks();
@@ -167,7 +169,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public List<String> getConnectedWifiCities() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
+        this.validator.validate(ConnectionConstants.PS_WIFI_CONNECTED_CITIES, "true");
         
         List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_WIFI);
         return result;
@@ -180,7 +182,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public boolean getBluetoothStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         Boolean result = false;
         
@@ -198,7 +200,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public List<String> getPairedBluetoothDevices() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
         List<String> result = new ArrayList<String>();
         
@@ -221,7 +223,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public long getBTConnectionLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
                 ConnectionConstants.ONE_DAY, 0);
@@ -235,7 +237,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public long getBTConnectionLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
                 ConnectionConstants.ONE_MONTH, 0);
@@ -249,7 +251,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public List<String> getConnectedBTCities() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
+        this.validator.validate(ConnectionConstants.PS_BT_CONNECTED_CITIES, "true");
         
         List<String> result = DBConnector.getInstance(this.context).getConnectedCities(DBConstants.TABLE_BT);
         return result;
@@ -262,10 +264,10 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public boolean getDataConnectionStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
         
         // Get the telephony manager
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         if (manager != null) {
             //Get the data state
             int state = manager.getDataState();
@@ -288,10 +290,10 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public String getProvider() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         // Get the telephony manager
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         if (manager != null) {
             return manager.getNetworkOperatorName();
         }
@@ -307,7 +309,7 @@ public class ConnectionImpl extends IConnection.Stub {
         int signal = getSignalStrengthASU();
         
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         if (signal == 99) {
             return 99;
@@ -323,7 +325,7 @@ public class ConnectionImpl extends IConnection.Stub {
      * @return gsm signal strength in asu, 99 if not known
      */
     private int getSignalStrengthASU() {
-        SharedPreferences settings = context.getSharedPreferences(ConnectionConstants.PREF_FILE,
+        SharedPreferences settings = this.context.getSharedPreferences(ConnectionConstants.PREF_FILE,
                 Context.MODE_WORLD_READABLE);
         return settings.getInt(ConnectionConstants.PREF_SIGNAL_KEY, 99);
     }
@@ -335,12 +337,12 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public boolean getRoamingStatus() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         boolean result = false;
         
         // Get the telephony manager
-        TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager manager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         if (manager != null) {
             result = manager.isNetworkRoaming();
         }
@@ -354,7 +356,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public long getAirplaneModeLastTwentyFourHours() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
                 ConnectionConstants.ONE_DAY, 0);
@@ -368,7 +370,7 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public long getAirplaneModeLastMonth() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
+        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
                 ConnectionConstants.ONE_MONTH, 0);
@@ -382,19 +384,20 @@ public class ConnectionImpl extends IConnection.Stub {
     @Override
     public String uploadData() throws RemoteException {
         // Check the privacy setting
-        validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
+        this.validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
         // Get the device id
-        TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         String deviceId = tManager.getDeviceId();
         
         // Create service
         Service service = new Service(Service.DEFAULT_URL, deviceId);
         try {
             // Upload everything
-            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getWifiEvents());
-            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getBluetoothEvents());
-            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(context).getCellEvents());
+            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getWifiEvents());
+            new ConnectionEventManager(service)
+                    .commitEvents(DBConnector.getInstance(this.context).getBluetoothEvents());
+            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getCellEvents());
             
             new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getSignalStrengthPercentage())
                     .commit();
@@ -402,6 +405,13 @@ public class ConnectionImpl extends IConnection.Stub {
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
             new ConnectionProperties(service, configNetworks.shortValue(), pairedDevices.shortValue()).commit();
+            
+            DBConnector.getInstance(this.context).clearLists();
+            
+            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, deviceId);
+            urlB.setView(Views.STATIC);
+            return urlB.getConnectionGraphUrl();
+            
         } catch (InternalDatabaseException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {
@@ -412,7 +422,7 @@ public class ConnectionImpl extends IConnection.Stub {
             e.printStackTrace();
         }
         
-        return "URL";
+        return null;
     }
     
     

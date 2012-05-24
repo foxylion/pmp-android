@@ -20,6 +20,14 @@
  * limitations under the License.
  */
 
+use infoapp\Database;
+use infoapp\events\ConnectionEvent;
+use infoapp\googlecharttools\Cell;
+use infoapp\googlecharttools\Column;
+use infoapp\googlecharttools\DataTable;
+use infoapp\googlecharttools\GChartPhpBridge;
+use infoapp\googlecharttools\Row;
+
 define("INCLUDE", true);
 require("./../inc/graphs_framework.inc.php");
 
@@ -28,20 +36,20 @@ if ($deviceIdValid) {
     $events = $chart->getEventsByScale($eventManager, $timeMs, $calendar->getDaysInMonth());
 
     // Bluetooth and wifi adapter chart
-    $dateColumn = new GColumn("datetime", "d", "Date");
-    $enabledColumn = new GColumn("number", "e", "Enabled");
-    $connectedColumn = new GColumn("number", "c", "Connected");
-    $cityIColumn = new GColumn("string", "ca", "City Annotation", null, "{\"role\": \"annotation\"}");
-    $cityNameColumn = new GColumn("string", "cn", "City Name", null, "{\"role\": \"annotationText\"}");
+    $dateColumn = new Column("datetime", "d", "Date");
+    $enabledColumn = new Column("number", "e", "Enabled");
+    $connectedColumn = new Column("number", "c", "Connected");
+    $cityIColumn = new Column("string", "ca", "City Annotation", null, "{\"role\": \"annotation\"}");
+    $cityNameColumn = new Column("string", "cn", "City Name", null, "{\"role\": \"annotationText\"}");
 
-    $bluetoothAdapterData = new GDataTable();
+    $bluetoothAdapterData = new DataTable();
     $bluetoothAdapterData->addColumn($dateColumn);
     $bluetoothAdapterData->addColumn($enabledColumn);
     $bluetoothAdapterData->addColumn($connectedColumn);
     $bluetoothAdapterData->addColumn($cityIColumn);
     $bluetoothAdapterData->addColumn($cityNameColumn);
 
-    $wifiAdapterData = new GDataTable();
+    $wifiAdapterData = new DataTable();
     $wifiAdapterData->addColumn($dateColumn);
     $wifiAdapterData->addColumn($enabledColumn);
     $wifiAdapterData->addColumn($connectedColumn);
@@ -49,14 +57,14 @@ if ($deviceIdValid) {
     $wifiAdapterData->addColumn($cityNameColumn);
 
     // City chart
-    $cityColumn = new GColumn("string", "c", "Cities");
-    $countColumn = new GColumn("number", "n", "Connections");
+    $cityColumn = new Column("string", "c", "Cities");
+    $countColumn = new Column("number", "n", "Connections");
 
-    $bluetoothCitiesData = new GDataTable();
+    $bluetoothCitiesData = new DataTable();
     $bluetoothCitiesData->addColumn($cityColumn);
     $bluetoothCitiesData->addColumn($countColumn);
 
-    $wifiCitiesData = new GDataTable();
+    $wifiCitiesData = new DataTable();
     $wifiCitiesData->addColumn($cityColumn);
     $wifiCitiesData->addColumn($countColumn);
 
@@ -80,13 +88,13 @@ if ($deviceIdValid) {
                 }
 
                 // Connection status
-                $levelRow = new GRow();
-                $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
-                $levelRow->addCell(new GCell((int) $event->isEnabled()));
-                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow = new Row();
+                $levelRow->addCell(new Cell($event->getTimestamp()));
+                $levelRow->addCell(new Cell((int) $event->isEnabled()));
+                $levelRow->addCell(new Cell((int) $event->isConnected()));
                 if ($chart->showAnnotations()) {
-                    $levelRow->addCell(new GCell("i"));
-                    $levelRow->addCell(new GCell($event->getCity()));
+                    $levelRow->addCell(new Cell("i"));
+                    $levelRow->addCell(new Cell($event->getCity()));
                 }
 
                 $bluetoothAdapterData->addRow($levelRow);
@@ -105,13 +113,13 @@ if ($deviceIdValid) {
                 }
 
                 // Connection status
-                $levelRow = new GRow();
-                $levelRow->addCell(new GCell("new Date(" . $event->getTimestamp() . ")"));
-                $levelRow->addCell(new GCell((int) $event->isEnabled()));
-                $levelRow->addCell(new GCell((int) $event->isConnected()));
+                $levelRow = new Row();
+                $levelRow->addCell(new Cell($event->getTimestamp()));
+                $levelRow->addCell(new Cell((int) $event->isEnabled()));
+                $levelRow->addCell(new Cell((int) $event->isConnected()));
                 if ($chart->showAnnotations()) {
-                    $levelRow->addCell(new GCell("i"));
-                    $levelRow->addCell(new GCell($event->getCity()));
+                    $levelRow->addCell(new Cell("i"));
+                    $levelRow->addCell(new Cell($event->getCity()));
                 }
 
                 $wifiAdapterData->addRow($levelRow);
@@ -123,18 +131,21 @@ if ($deviceIdValid) {
     $wifiCitiesData->addRowsAssocArray($citiesWifi);
 
     $tmplt["pageTitle"] = "Connection";
-    $tmplt["jsFunctDrawChart"] = "drawBluetoothConnection();
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["jsFunctDrawChart"] = "drawBluetoothConnection();
                 drawWifiConnection();
                 drawBluetoothChart();
                 drawWifiChart();";
 
-    $tmplt["jsDrawFunctions"] = "function drawBluetoothConnection() {
+        $tmplt["jsDrawFunctions"] = "function drawBluetoothConnection() {
         var data = new google.visualization.DataTable(" . $bluetoothAdapterData->getJsonObject() . ");
 
         var options = {
             title: 'Bluetooth adapter status',
-            'width':800,
-            'height':150
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . $chart->getAxisChartHeight() . "
         };
 
 
@@ -147,8 +158,8 @@ if ($deviceIdValid) {
 
         var options = {
             title: 'Wi-Fi adapter status',
-            'width':800,
-            'height':150
+            'width':" . $chart->getAxisChartWidth() . ",
+            'height':" . $chart->getAxisChartHeight() . "
         };
 
 
@@ -161,8 +172,9 @@ if ($deviceIdValid) {
         var data = new google.visualization.DataTable(" . $bluetoothCitiesData->getJsonObject() . ");
 
         var options = {'title':'Number of bluetooth parings per city',
-            'width':600,
-            'height':400};
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
+        };
 
         var chart = new google.visualization.PieChart(document.getElementById('countBluetooth'));
         chart.draw(data, options);
@@ -172,23 +184,64 @@ if ($deviceIdValid) {
         var data = new google.visualization.DataTable(" . $wifiCitiesData->getJsonObject() . ");
 
         var options = {'title':'Number of Wi-Fi connections per city',
-            'width':600,
-            'height':400};
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
+         };
 
         var chart = new google.visualization.PieChart(document.getElementById('countWifi'));
         chart.draw(data, options)
     }";
+    }
 
     $tmplt["content"] = "
-            <h1>Connection Events</h1>
-            <div id=\"connectionBluetooth\" style=\"width:800; height:150\"></div>
-            <div id=\"connectionWifi\" style=\"width:800; height:150\"></div>
-            <div id=\"countBluetooth\" style=\"width:600; height:400\"></div>
-            <div id=\"countWifi\" style=\"width:600; height:400\"></div>";
+            <h1>Connection Events</h1>";
+    if ($svgCharts) {
+        // Draw SVG-Charts
+        // ---------------
+        $tmplt["content"] .= "
+            <div id=\"connectionBluetooth\"></div>
+            <div id=\"connectionWifi\"></div>
+            <div id=\"countBluetooth\"></div>
+            <div id=\"countWifi\"></div>";
+    } else {
+        // Draw static/PNG-charts
+        // ----------------------
+        $scale = $chart->getScaleXAxis($calendar);
+        $scaleLabel = $chart->getScaleXAxisLabel($calendar);
+        $offset = $chart->getOffsetXAxis($calendar);
+
+        $connectionBluetoothChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $connectionBluetoothChart->setTitle("Bluetooth adapter status");
+        $connectionBluetoothChart->setProperty("cht", "lxy");
+        $connectionBluetoothChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($bluetoothAdapterData);
+        $bridge->pushData($connectionBluetoothChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
+
+        $connectionWifiChart = new gchart\gLineChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight());
+        $connectionWifiChart->setTitle("Wi-Fi adapter status");
+        $connectionWifiChart->setProperty("cht", "lxy");
+        $connectionWifiChart->setVisibleAxes(array('x', 'y'));
+        $bridge = new GChartPhpBridge($wifiAdapterData);
+        $bridge->pushData($connectionWifiChart, GChartPhpBridge::Y_COORDS, $scale, $scaleLabel, $offset);
+
+        $bluetoothCountChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $bluetoothCountChart->setTitle("Number of bluetooth parings per city");
+        $bridge = new GChartPhpBridge($bluetoothCitiesData);
+        $bridge->pushData($bluetoothCountChart, GChartPhpBridge::LEGEND);
+
+        $wifiCountChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+        $wifiCountChart->setTitle("Number of Wi-Fi connections per city");
+        $bridge = new GChartPhpBridge($wifiCitiesData);
+        $bridge->pushData($wifiCountChart, GChartPhpBridge::LEGEND);
+
+        $tmplt["content"] .= "
+            <p><img src=\"" . $connectionBluetoothChart->getUrl() . "\" alt=\"Cannot display chart as there is to much data. Please reduce the scale or use the interactive charts.\" /></p>
+            <p><img src=\"" . $connectionWifiChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $bluetoothCountChart->getUrl() . "\" /></p>
+            <p><img src=\"" . $wifiCountChart->getUrl() . "\" /></p>";
+    }
 }
 include ("template.php");
-?>
-<?php
 
 Database::getInstance()->disconnect();
 ?>

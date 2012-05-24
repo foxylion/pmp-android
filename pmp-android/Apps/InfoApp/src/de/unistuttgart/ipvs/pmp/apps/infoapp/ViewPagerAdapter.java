@@ -30,12 +30,14 @@ import android.view.View;
 import com.viewpagerindicator.TitleProvider;
 
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections.ConnectionsPanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.EnergyPanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.example.ExamplePanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.hardware.HardwarePanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.profile.ProfilePanel;
 
+/**
+ * Adapter for all panels
+ * 
+ * @author Marcus Vetter, Thorsten Berberich
+ * 
+ */
 public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
     
     private final List<IPanel> panels = new ArrayList<IPanel>();
@@ -46,11 +48,11 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
         if (!this.panels.isEmpty()) {
             this.panels.clear();
         }
-        this.panels.add(new ExamplePanel(context));
-        this.panels.add(new ConnectionsPanel(context, activity));
-        this.panels.add(new EnergyPanel(context));
-        this.panels.add(new ProfilePanel(context));
-        this.panels.add(new HardwarePanel(context));
+        //        this.panels.add(new ExamplePanel(context));
+        //        this.panels.add(new ConnectionsPanel(context, activity));
+        this.panels.add(new EnergyPanel(context, activity));
+        //        this.panels.add(new ProfilePanel(context));
+        //        this.panels.add(new HardwarePanel(context));
         //this.panels.add(new RSSPanel(context));
     }
     
@@ -85,6 +87,18 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view.equals(object);
+    }
+    
+    
+    /**
+     * Get a panel to the given position
+     * 
+     * @param position
+     *            position of the panel
+     * @return the {@link IPanel} at the position
+     */
+    public IPanel getPanel(int position) {
+        return panels.get(position);
     }
     
 }

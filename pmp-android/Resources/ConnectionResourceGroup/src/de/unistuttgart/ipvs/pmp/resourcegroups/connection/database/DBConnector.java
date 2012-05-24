@@ -119,7 +119,7 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeWifiEvent(long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public synchronized void storeWifiEvent(long timestamp, EventEnum event, String city, EventEnum state) {
+    public synchronized void storeWifiEvent(long timestamp, Events event, String city, Events state) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
@@ -135,7 +135,8 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeWifiEvent(int, long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public synchronized void storeWifiEvent(int id, long timestamp, EventEnum event, String city) {
+    @Deprecated
+    public synchronized void storeWifiEvent(int id, long timestamp, Events event, String city) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_ID, id);
@@ -151,7 +152,7 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeBTEvent(long, java.lang.String, java.lang.String)
      */
     @Override
-    public synchronized void storeBTEvent(long timestamp, EventEnum event, String city) {
+    public synchronized void storeBTEvent(long timestamp, Events event, String city) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
@@ -166,7 +167,8 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeBTEvent(int, long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum, java.lang.String)
      */
     @Override
-    public synchronized void storeBTEvent(int id, long timestamp, EventEnum event, String city) {
+    @Deprecated
+    public synchronized void storeBTEvent(int id, long timestamp, Events event, String city) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_ID, id);
@@ -182,7 +184,7 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeCellPhoneEvent(long, de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.EventEnum)
      */
     @Override
-    public synchronized void storeCellPhoneEvent(long timestamp, EventEnum event) {
+    public synchronized void storeCellPhoneEvent(long timestamp, Events event) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_TIMESTAMP, timestamp);
@@ -196,7 +198,8 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#storeCellPhoneEvent(int, long, java.lang.String)
      */
     @Override
-    public synchronized void storeCellPhoneEvent(int id, long timestamp, EventEnum event) {
+    @Deprecated
+    public synchronized void storeCellPhoneEvent(int id, long timestamp, Events event) {
         open();
         ContentValues values = new ContentValues();
         values.put(DBConstants.COLUMN_ID, id);
@@ -238,17 +241,17 @@ public class DBConnector implements IDBConnector {
                     long timeStamp = cursor.getLong(0);
                     String event = cursor.getString(1);
                     // Last time stamp was an off event, set this time stamp
-                    if (event.equals(EventEnum.ON.toString()) && lastTimeStamp == 0) {
+                    if (event.equals(Events.ON.toString()) && lastTimeStamp == 0) {
                         lastTimeStamp = timeStamp;
                     }
                     
                     // Last time stamp was also an on event, not good, take this event
-                    if (event.equals(EventEnum.ON.toString()) && lastTimeStamp != 0) {
+                    if (event.equals(Events.ON.toString()) && lastTimeStamp != 0) {
                         lastTimeStamp = timeStamp;
                     }
                     
                     //Last time stamp was an on event, calc the result
-                    if (event.equals(EventEnum.OFF.toString()) && lastTimeStamp != 0) {
+                    if (event.equals(Events.OFF.toString()) && lastTimeStamp != 0) {
                         result += timeStamp - lastTimeStamp;
                         lastTimeStamp = 0;
                     }
@@ -330,7 +333,7 @@ public class DBConnector implements IDBConnector {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
         
-        // Get the cities only
+        // Get everything
         String columns[] = new String[4];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
@@ -345,7 +348,7 @@ public class DBConnector implements IDBConnector {
                 long timeStamp = cursor.getLong(0);
                 String eventString = cursor.getString(1);
                 boolean event = false;
-                if (eventString.equals(EventEnum.ON)) {
+                if (eventString.equals(Events.ON)) {
                     event = true;
                 }
                 String city = null;
@@ -354,7 +357,7 @@ public class DBConnector implements IDBConnector {
                 }
                 String stateString = cursor.getString(3);
                 boolean state = false;
-                if (stateString.equals(EventEnum.ON)) {
+                if (stateString.equals(Events.ON)) {
                     state = true;
                 }
                 result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, state, city));
@@ -374,7 +377,7 @@ public class DBConnector implements IDBConnector {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
         
-        // Get the cities only
+        // Get everything
         String columns[] = new String[3];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
@@ -388,7 +391,7 @@ public class DBConnector implements IDBConnector {
                 long timeStamp = cursor.getLong(0);
                 String eventString = cursor.getString(1);
                 boolean event = false;
-                if (eventString.equals(EventEnum.ON)) {
+                if (eventString.equals(Events.ON)) {
                     event = true;
                 }
                 String city = cursor.getString(2);
@@ -409,7 +412,7 @@ public class DBConnector implements IDBConnector {
         open();
         List<CellularConnectionEvent> result = new ArrayList<CellularConnectionEvent>();
         
-        // Get the cities only
+        // Get everything
         String columns[] = new String[3];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
@@ -422,7 +425,7 @@ public class DBConnector implements IDBConnector {
                 long timeStamp = cursor.getLong(0);
                 String eventString = cursor.getString(1);
                 boolean event = false;
-                if (eventString.equals(EventEnum.ON)) {
+                if (eventString.equals(Events.ON)) {
                     event = true;
                 }
                 result.add(new CellularConnectionEvent(timeStamp, event));
@@ -431,5 +434,17 @@ public class DBConnector implements IDBConnector {
         cursor.close();
         close();
         return result;
+    }
+    
+    
+    /**
+     * Clears all lists
+     */
+    public synchronized void clearLists() {
+        open();
+        db.delete(DBConstants.TABLE_BT, null, null);
+        db.delete(DBConstants.TABLE_CELL, null, null);
+        db.delete(DBConstants.TABLE_WIFI, null, null);
+        close();
     }
 }

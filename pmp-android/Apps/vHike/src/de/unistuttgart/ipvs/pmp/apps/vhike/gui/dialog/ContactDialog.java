@@ -7,17 +7,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.RemoteException;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
+import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.Road;
@@ -25,7 +23,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadOverlay;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.Route.RoadProvider;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PhoneCallListener;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 
@@ -45,16 +42,15 @@ public class ContactDialog extends Dialog {
     private Button route;
     private IContact iContact;
     private String userName;
-    private GeoPoint toGPS;
-    private GeoPoint myGPS;
     private Profile foundUser;
     private Controller ctrl;
+    private Activity activity;
     
     private Road mRoad;
     
     
-    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, GeoPoint myGPS,
-            Profile foundUser, Controller ctrl) {
+    public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, Profile foundUser,
+            Controller ctrl) {
         super(context);
         setTitle(userName);
         setContentView(R.layout.dialog_contact);
@@ -62,25 +58,15 @@ public class ContactDialog extends Dialog {
         this.mapView = mapView;
         this.userName = userName;
         this.iContact = iContact;
-        this.myGPS = myGPS;
         this.foundUser = foundUser;
         this.ctrl = ctrl;
+        this.activity = (Activity) context;
         
         setButtons();
     }
     
     
-    public void setToGPS(GeoPoint toGPS) {
-        this.toGPS = toGPS;
-    }
-    
-    
     private void setButtons() {
-        
-        // needed to return to activity after phone call
-        PhoneCallListener phoneListener = new PhoneCallListener((Activity) this.context);
-        TelephonyManager telephonyManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
-        telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         
         this.phone = (Button) findViewById(R.id.btn_phone);
         this.phone.setOnClickListener(new View.OnClickListener() {
@@ -89,9 +75,23 @@ public class ContactDialog extends Dialog {
             public void onClick(View v) {
                 try {
                     if (ContactDialog.this.iContact == null) {
-                        Log.i(this, "iContact is null");
+                        Log.i(this, "iContact is NULL");
                     } else {
-                        iContact.call(5556);
+                        boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID());
+                        Log.i(this, foundUser.getID() + " is " + anonymous);
+                        if (anonymous) {
+                            Toast.makeText(
+                                    getContext(),
+                                    "The user has hidden his contact information. Contacting "
+                                            + foundUser.getUsername() + " is not possible", Toast.LENGTH_LONG).show();
+                        } else {
+                            if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                                iContact.call(foundUser.getTel());
+                            } else {
+                                PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                            }
+                        }
+                        
                     }
                     
                 } catch (RemoteException e) {
@@ -106,7 +106,12 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, true, 5556, "").show();
+                if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                    vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser)
+                            .show();
+                } else {
+                    PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                }
                 cancel();
             }
         });
@@ -116,7 +121,18 @@ public class ContactDialog extends Dialog {
             
             @Override
             public void onClick(View v) {
-                vhikeDialogs.getInstance().getSMSEmailDialog(context, false, 0, "nguyen.andres@gmail.com").show();
+                try {
+                    String dest = parseDestination(ViewModel.getInstance().getDestination());
+                    if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                        iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
+                                "Hello " + foundUser.getUsername() + ",");
+                    } else {
+                        PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                    }
+                } catch (RemoteException e) {
+                    Toast.makeText(context, "Unable to send email", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
                 cancel();
             }
         });
@@ -130,39 +146,66 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 
+                // if route for user already drawn: remove
                 if (ViewModel.getInstance().isRouteDrawn(ContactDialog.this.userName)) {
-                    Log.i(this, ContactDialog.this.userName + " is drawn, removing DIALOG");
+                    ViewModel.getInstance().setBtnInfoVisibility(false);
                     ViewModel.getInstance().removeRoute(
                             ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName));
-                    ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, false);
+                    ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, false);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
                 } else {
+                    ViewModel.getInstance().clearRoutes();
+                    ViewModel.getInstance().initRouteList();
                     
-                    new Thread() {
-                        
-                        @Override
-                        public void run() {
-                            PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
-                                    .getInstance().getOwnProfile().getID());
-                            PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
-                                    foundUser.getID());
-                            //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
-                            double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
-                                    .getLon();
+                    try {
+                        new Thread() {
                             
-                            String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
-                            InputStream is = ViewModel.getInstance().getConnection(url);
-                            mRoad = RoadProvider.getRoute(is);
-                            mHandler.sendEmptyMessage(0);
-                        }
-                    }.start();
-                    
-                    ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
-                    cancel();
+                            @Override
+                            public void run() {
+                                PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
+                                        .getInstance().getOwnProfile().getID());
+                                PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
+                                        foundUser.getID());
+                                //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                                double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                                        .getLon();
+                                
+                                String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
+                                InputStream is = ViewModel.getInstance().getConnection(url);
+                                mRoad = RoadProvider.getRoute(is);
+                                mHandler.sendEmptyMessage(0);
+                            }
+                        }.start();
+                        
+                        ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route);
+                        ViewModel.getInstance().setBtnInfoVisibility(true);
+                    } catch (IllegalStateException ise) {
+                        Log.i(this, ise.toString());
+                        ise.printStackTrace();
+                    }
                 }
+                cancel();
             }
+            
         });
+    }
+    
+    
+    private String parseDestination(String destination) {
+        String[] temp;
+        if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+            String dest = destination.replaceAll(";", "-");
+            Log.i(this, "Split: " + destination + ", " + dest);
+            return dest;
+        } else {
+            
+            temp = destination.split(";");
+            Log.i(this, "1.Split: " + temp[1]);
+            temp = temp[1].split(";");
+            Log.i(this, "2.Split: " + temp[0]);
+            return temp[0];
+        }
     }
     
     Handler mHandler = new Handler() {
@@ -170,14 +213,12 @@ public class ContactDialog extends Dialog {
         public void handleMessage(android.os.Message msg) {
             Toast.makeText(context, mRoad.mName + " " + mRoad.mDescription, Toast.LENGTH_LONG).show();
             
-            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView);
+            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView, true);
             ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
-            ViewModel.getInstance().getRoutes.put(ContactDialog.this.userName, true);
-            ViewModel.getInstance().getRouteHM.put(ContactDialog.this.userName, roadOverlay);
+            ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, true);
+            ViewModel.getInstance().getAddedRoutes.put(ContactDialog.this.userName, roadOverlay);
+            Log.i(this, "Added Routes After Add " + ViewModel.getInstance().getAddedRoutes.size());
             mapView.invalidate();
-            //            routeOverlays.clear();
-            //            routeOverlays.add(routeOverlay);
-            //            mapView.invalidate();
         };
     };
     

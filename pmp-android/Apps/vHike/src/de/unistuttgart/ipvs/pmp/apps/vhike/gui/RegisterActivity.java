@@ -36,7 +36,6 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
     EditText et_firstname;
     EditText et_lastname;
     EditText et_mobile;
-    EditText et_desc;
     
     boolean cEmail = false;
     boolean cPw = false;
@@ -78,7 +77,6 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
         this.et_firstname = (EditText) findViewById(R.id.et_firstname);
         this.et_lastname = (EditText) findViewById(R.id.et_lastname);
         this.et_mobile = (EditText) findViewById(R.id.et_mobile);
-        this.et_desc = (EditText) findViewById(R.id.et_description);
         
         validator();
         if (getvHikeRG(this) != null) {
@@ -217,7 +215,6 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
                 RegisterActivity.this.et_firstname = (EditText) findViewById(R.id.et_firstname);
                 RegisterActivity.this.et_lastname = (EditText) findViewById(R.id.et_lastname);
                 RegisterActivity.this.et_mobile = (EditText) findViewById(R.id.et_mobile);
-                RegisterActivity.this.et_desc = (EditText) findViewById(R.id.et_description);
                 
                 map.put("username", et_username.getText().toString());
                 map.put("password", RegisterActivity.this.et_password.getText().toString());
@@ -225,7 +222,7 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
                 map.put("firstname", RegisterActivity.this.et_firstname.getText().toString());
                 map.put("lastname", RegisterActivity.this.et_lastname.getText().toString());
                 map.put("tel", RegisterActivity.this.et_mobile.getText().toString());
-                map.put("description", RegisterActivity.this.et_desc.getText().toString());
+                map.put("description", "");
                 
                 if (validRegistrationForm(RegisterActivity.this.cMobile, RegisterActivity.this.cEmail,
                         RegisterActivity.this.cPw)) {

@@ -4,9 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="7" />
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="11" />
 
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,11 +16,13 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.SEND_EMAIL" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
+        android:name=".Application"
         android:icon="@drawable/logo_rd"
-        android:label="@string/app_name"
-        android:name=".Application" >
+        android:label="@string/app_name" >
         <uses-library android:name="com.google.android.maps" />
 
         <!-- Activities can be declared here -->
@@ -30,87 +34,128 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter><!--  -->
+            </intent-filter>
+            <!--
+            -->
 
             <meta-data
                 android:name="mainActivity"
-                android:value="de.unistuttgart.ipvs.pmp.apps.vhike.gui.LoginActivity" /> <!--  -->
+                android:value="de.unistuttgart.ipvs.pmp.apps.vhike.gui.LoginActivity" />
         </activity>
         <activity
             android:name=".gui.LoginActivity"
             android:icon="@drawable/logo_rd"
-            android:launchMode="singleTop"
-            android:label="vHike" >
-			<!--<intent-filter>
+            android:screenOrientation="portrait"
+            android:label="vHike"
+            android:launchMode="singleTop" >
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>  -->
+            </intent-filter>            -->
         </activity>
         <activity
             android:name=".gui.RegisterActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.MainActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.RideActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.SettingsActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".tools.Prefs"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.DriverViewActivity"
-            android:noHistory="true"
-            android:stateNotNeeded="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.PassengerViewActivity"
-            android:noHistory="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.ProfileActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.HistoryActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".gui.HistoryMenuActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.HistoryRideActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.PlanTripActivity"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:launchMode="singleTop" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".bluetooth.gui.BluetoothActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".bluetooth.gui.BluetoothPlanTripActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.MyTripActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".gui.TripDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>            -->
         </activity>
 
-    
-        <!-- The service of the app where PMP connects to
+        <!--
+        The service of the app where PMP connects to
         
         Priority: 5 / 10
 		Severity: Warning
@@ -119,8 +164,8 @@
 		Exported services (services which either set exported=true or contain an
 		intent-filter and do not specify exported=false) should define a permission
 		that an entity must have in order to launch the service or bind to it. Without
-		this, any application can use this service.
-         -->
+		this, any application can use this service.
+        -->
         <service
             android:name="de.unistuttgart.ipvs.pmp.service.app.AppService"
             android:exported="true" >
@@ -128,7 +173,6 @@
                 <action android:name="de.unistuttgart.ipvs.pmp.apps.vhike" />
             </intent-filter>
         </service>
-
         <service android:name="de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService" />
     </application>
 

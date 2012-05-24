@@ -15,8 +15,14 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.maps.MapView;
+
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.SpinnerDialog;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
+import de.unistuttgart.ipvs.pmp.resourcegroups.contact.aidl.IContact;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 
 /**
@@ -32,11 +38,6 @@ public class vhikeDialogs extends Activity {
     private ProgressDialog dLogin;
     private ProgressDialog dAnnounce;
     private ProgressDialog dSearch;
-    
-    private UpdateData dUpdateData;
-    
-    private Wait4PickUp w4pu;
-    private RateProfileConfirm rpc;
     
     private ChangeServiceFeature csf;
     
@@ -126,24 +127,19 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public Dialog getUpdateDataDialog(IvHikeWebservice ws, Context mContext) {
-        this.dUpdateData = new UpdateData(mContext, ws);
-        
-        return this.dUpdateData;
+    public Dialog getUpdateDataDialog(IvHikeWebservice ws, Context mContext, int tripOrQuery) {
+        return new UpdateData(mContext, ws, tripOrQuery);
     }
     
     
     public Wait4PickUp getW4PU(Context context) {
-        this.w4pu = new Wait4PickUp(context);
-        
-        return this.w4pu;
+        return new Wait4PickUp(context);
     }
     
     
     public RateProfileConfirm getRateProfileConfirmation(IvHikeWebservice ws, Context context, int profileID,
             int rating, int tripID) {
-        this.rpc = new RateProfileConfirm(ws, context, profileID, rating, tripID);
-        return this.rpc;
+        return new RateProfileConfirm(ws, context, profileID, rating, tripID);
     }
     
     
@@ -152,8 +148,9 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID) {
-        return new ProfileDialog(ws, context, profileID);
+    public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView,
+            IContact iContact, Profile foundUser) {
+        return new ProfileDialog(ws, context, profileID, mapView, iContact, foundUser);
     }
     
     
@@ -245,8 +242,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public SMS_Email_Dialog getSMSEmailDialog(Context context, boolean isSMS, int tel, String email) {
-        return new SMS_Email_Dialog(context, isSMS, tel, email);
+    public SMSDialog getSMSDialog(Context context, String tel, IContact contactRG, Controller ctrl, Profile profile) {
+        return new SMSDialog(context, tel, contactRG, ctrl, profile);
     }
     
 }

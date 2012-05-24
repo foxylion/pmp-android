@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appInformationSet>
+	<appInformation>
+		<name lang="en">BluetoothTestApp</name>
+		<name lang="de">BluetoothTestapp</name>
+		<description lang="en">App for testing the bluetooth RG.</description>
+		<description lang="de">App um die Bluetoothressource zu testen.</description>
+	</appInformation>
+	<serviceFeatures>
+		<serviceFeature identifier="useBluetooth">
+			<name lang="en">Bluetooth</name>
+			<name lang="de">Bluetooth</name>
+			<description lang="en">Enables the bluetooth.</description>
+			<description lang="de">Schaltet bluetooth an.</description>
+			<requiredResourceGroup
+				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth" minRevision="1">
+				<requiredPrivacySetting identifier="useBluetooth">true</requiredPrivacySetting>
+			</requiredResourceGroup>
+		</serviceFeature>
+	</serviceFeatures>
+</appInformationSet>

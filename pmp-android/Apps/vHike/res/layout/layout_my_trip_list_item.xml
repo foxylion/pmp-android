@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" android:padding="5dip">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+  
+        <TextView
+            android:id="@+id/myTrip_destination"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium" android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/myTrip_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="right" android:paddingTop="5dip" android:paddingBottom="5dip" android:paddingRight="5dip">
+
+        <TextView
+            android:id="@+id/myTrip_passengers"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
+            android:background="@layout/bg_round_gray"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="@string/passengers" />
+
+        <TextView
+            android:id="@+id/myTrip_requests"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
+            android:background="@layout/bg_round_gray"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="@string/invites" />
+
+        <TextView
+            android:id="@+id/myTrip_messages"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
+            android:background="@layout/bg_round_gray"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="@string/messages" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,7 +7,7 @@
 
     <application
         android:name="InfoAppApplication"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/info_icon"
         android:label="@string/app_name" >
         <activity
             android:name=".InfoAppActivity"
