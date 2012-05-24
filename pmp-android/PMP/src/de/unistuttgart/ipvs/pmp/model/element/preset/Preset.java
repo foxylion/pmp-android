@@ -403,7 +403,7 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset) {
+    public List<IContextAnnotation> getCACAConflicts(IPreset preset) {
         Set<IContextAnnotation> result = new HashSet<IContextAnnotation>();
         
         for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
@@ -419,7 +419,7 @@ public class Preset extends ModelElement implements IPreset {
     
     
     @Override
-    public List<IPrivacySetting> getConflictingPrivacySettings(IPreset preset) {
+    public List<IPrivacySetting> getCAPSConflicts(IPreset preset) {
         Set<IPrivacySetting> result = new HashSet<IPrivacySetting>();
         
         for (List<ContextAnnotation> psCA : this.contextAnnotations.values()) {
@@ -427,6 +427,20 @@ public class Preset extends ModelElement implements IPreset {
                 if (ca.isPrivacySettingConflicting(preset)) {
                     result.add(ca.getPrivacySetting());
                 }
+            }
+        }
+        
+        return new ArrayList<IPrivacySetting>(result);
+    }
+    
+    
+    @Override
+    public List<IPrivacySetting> getPSPSConflicts(IPreset preset) {
+        Set<IPrivacySetting> result = new HashSet<IPrivacySetting>();
+        
+        for (IPrivacySetting ps : this.privacySettingValues.keySet()) {
+            if (isPrivacySettingConflicting(preset, ps)) {
+                result.add(ps);
             }
         }
         
