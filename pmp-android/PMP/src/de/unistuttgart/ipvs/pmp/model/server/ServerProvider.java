@@ -9,7 +9,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Date;
-import java.util.Locale;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.PMPApplication;
@@ -195,7 +194,9 @@ public class ServerProvider implements IServerProvider {
                 break;
             
             case REQUEST_SEARCH_RESULTS:
-                request = new RequestResourceGroups(Locale.getDefault().toString(), requestString);
+                request = new RequestResourceGroups(
+                        PMPApplication.getContext().getResources().getConfiguration().locale.getDisplayLanguage(),
+                        requestString);
                 if ((cachedResponse != null) && (cachedResponse instanceof ResourceGroupsResponse)) {
                     ResourceGroupsResponse rgr = (ResourceGroupsResponse) cachedResponse;
                     request.setCacheHash(rgr.getHash());

@@ -303,7 +303,7 @@ public interface IPreset extends IModelElement {
      * @return a list of {@link IContextAnnotation}s from the preset <code>preset</code> where each entry of the list
      *         could possibly override this preset's context annotations' values.
      */
-    public List<IContextAnnotation> getConflictingContextAnnotations(IPreset preset);
+    public List<IContextAnnotation> getCACAConflicts(IPreset preset);
     
     
     /**
@@ -312,7 +312,18 @@ public interface IPreset extends IModelElement {
      * @return a list of {@link IPrivacySetting} from the preset <code>preset</code> where each entry of the list
      *         could possibly override this preset's context annotations' values.
      */
-    public List<IPrivacySetting> getConflictingPrivacySettings(IPreset preset);
+    public List<IPrivacySetting> getCAPSConflicts(IPreset preset);
+    
+    
+    /**
+     * @param preset
+     *            the preset which shall be checked for conflicts
+     * @param ps
+     *            the privacy setting which shall be checked for conflicts
+     * @return a list of {@link IPrivacySetting} from the preset <code>preset</code> where each entry of the list
+     *         could possibly override this preset's privacy settings' values.
+     */
+    public List<IPrivacySetting> getPSPSConflicts(IPreset preset);
     
     
     /**
@@ -321,4 +332,16 @@ public interface IPreset extends IModelElement {
      *         atomic transaction context, implementing {@link IAtomicTransaction}.
      */
     public PresetTransaction getTransaction();
+    
+    
+    /**
+     * @param preset
+     *            the preset which shall be checked for conflicts
+     * @param ps
+     *            the privacy setting which shall be checked for conflicts
+     * @return true, if and only if the value of ps from the preset <code>preset</code> could
+     *         possibly override this preset's value for ps.
+     */
+    public boolean isPrivacySettingConflicting(IPreset preset, IPrivacySetting ps);
+    
 }
