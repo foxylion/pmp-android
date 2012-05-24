@@ -49,7 +49,6 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
     public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
         IConnection connectionRG = IConnection.Stub.asInterface(binder);
         try {
-            System.out.println(connectionRG.uploadData());
             this.setURL(connectionRG.uploadData());
         } catch (RemoteException e) {
             e.printStackTrace();
