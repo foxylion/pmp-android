@@ -190,10 +190,10 @@
                <li>Telefonnummer</li>
                <li>Durchschnittliche Bewertung</li>
             </ul>
-            Zudem unterscheidet vHike zwischen eigenem Profil und einer beliebig anderen Person(siehe <span class="reference" title="#user_profile"></span>. Wird das eigene Profil angezeigt besteht die Möglichkeit über den Button unter dem Benutzernamen Vorname, Nachname, Emailadresse und Telefonnummer vor anderen Benutzern zu verstecken (siehe <span class="reference" title="#sf_anonymity"></span>).
+            Zudem unterscheidet vHike zwischen eigenem Profil und einer beliebig anderen Person(siehe <span class="reference" title="#funct_hitchhike"></span>). Wird das eigene Profil angezeigt besteht die Möglichkeit über den Button unter dem Benutzernamen Vorname, Nachname, Emailadresse und Telefonnummer vor anderen Benutzern zu verstecken (siehe <span class="reference" title="#sf_anonymity"></span>).
             </p>
             <p>
-               Weiterhin kann man hier über den Button neben "Anonymes Profil" den Observationsmodus einschalten (dazu mehr <span class="reference" title="#observationmodus"></span>).
+               Weiterhin kann man hier über den Button neben "Anonymes Profil" den Observationsmodus einschalten (dazu mehr <span class="reference" title="#funct_observation"></span>).
             </p>
             <div class="clear"></div>
             <h3 id="history_activity">History</h3>
@@ -274,8 +274,40 @@
             <div class="clear"></div>
             <h3 id="funct_search">Fahrt suchen</h3>
             <p>
-               Gleiche Ansicht. Verkehrte Rollen.
+               Die Oberfläche und Funktionen vom Mitfahrer bzw. eine "Fahrt suchen" unterscheidet sich nur ein wenig von der Benutzung eines Fahrers. Wurde innerhalb eines Radius von 5 km eine Einladung eines Fahrers empfangen, wird dieser mit einer Liste und über die Status benachrichtigt. Jedeglich die Funktionalität der Buttons ändert sich:
             </p>
+            <a href="images/wait4pickup.png" class="fancybox">
+            <img src="images/wait4pickup.png" alt="wait4pickup" style="width:215px;" class="right" />
+            </a>
+            <table align="left" style="width:470px">
+               <tr>
+                  <td WIDTH="10%" align="center">Icon</td>
+                  <td WIDTH="90%">Beschreibung</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/bg_dismiss.png" class="fancybox">
+                     <img src="images/bg_dismiss.png" alt="bg_dismiss" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Einladung ablehnen. Eine Einladung dieses Fahrers kann erst nach Beenden von "Fahrt suchen" wieder erhalten werden.</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/bg_findhitch.png" class="fancybox">
+                     <img src="images/bg_findhitch.png" alt="bg_findhitch" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Es wurde eine Einladung empfangen.</td>
+               </tr>
+               <tr>
+                  <td WIDTH="10%" align="center"><a href="images/bg_check.png" class="fancybox">
+                     <img src="images/bg_check.png" alt="bg_check" class="right" />
+                     </a>
+                  </td>
+                  <td WIDTH="90%">Einladung wurde angenommen.</td>
+               </tr>
+            </table>
+            <div class="clear"></div>
+            <p> Wurde die Einladung erfolgreich angenommen, erscheint ein Dialog. Wird dieses Dialog bestätigt ist die Suche damit beendet.</p>
             <h3 id="funct_communication">Kommunikations-Dialog</h3>
             <a href="images/DriverViewActivityContextDialogPassenger.png" class="fancybox">
             <img src="images/DriverViewActivityContextDialogPassenger.png" alt="DriverViewActivityContextDialogPassenger" style="width:215px;" class="right" />
@@ -324,10 +356,10 @@
             <a href="images/DrawRoute.png" class="fancybox">
             <img src="images/DrawRoute.png" alt="drawroute" style="width:215px;" class="right" />
             </a>
-            <p>Voraussetzung für eine erfolgreiche Kommunikation neben der Installation der "Contact/Kommunikations-RG" ist die Sichtbarkeit der Kontaktdaten eines Benutzers (siehe <span class="reference" title="#funct_anonymity"></span>).</p>
+            <p>Voraussetzung für eine erfolgreiche Kommunikation neben der Installation der "Contact/Kommunikations-RG" ist die Sichtbarkeit der Kontaktdaten eines Benutzers (siehe <span class="reference" title="#funct_observation"></span>).</p>
             <p>Unabhängig von der "Contact/Kommunikations-RG" oder die Sichtbarkeit des Profils eines Benutzers, kann eine Route eingezeichnet werden (Rechter Button). Das Einzeichnen mehrerer Routen wird hier nicht unterstützt. Sobald eine Route eingezeichnet wurde, erscheint oben rechts ein Info-Icon und der Button färbt sich lila. Wird auf dieses gedrückt werden Informationen zur Route angezeigt. Darunter sind der Startpunkt (Mein Standort), Ziel (Standort des Benutzers), Distanz (in km) und die geschätzte Zeit bis zum gefundenen Mitfahrer. Zum Entfernen der aktuellen Route kann auf einen anderen Benutzer oder auf den "Route einzeichnen"-Button im Kommunikations-Dialog gedrückt werden.</p>
             <div class="clear"></div>
-            <h3 id="funct_communication">Observationsmodus / Anonymes Profil</h3>
+            <h3 id="funct_observation">Observationsmodus / Anonymes Profil</h3>
             <a href="images/ObservationModus.png" class="fancybox">
             <img src="images/ObservationModus.png" alt="ObservationModus" style="width:215px;" class="right" />
             </a>
@@ -383,28 +415,50 @@
             <a href="images/pmp_vhike_sf.png" class="fancybox">
             <img src="images/pmp_vhike_sf.png" alt="vHikeSFs" style="width:215px;" class="right" />
             </a>
-            <div class="clear"></div>
+            vHike verwendet vier Ressourcengruppen, deren Funktion und Service Features in den folgenden Kapiteln näher erläutert werden.
             <h2 id="vhikeWS">vHikeWS -RG</h2>
+            <img src="images/vhike_ws.png" alt="vhike_ws" class="right" />
+            </a>
             <p>
+            Hinter der vHikeWS -Ressourcengruppe steckt die ganze Kommunikation zwischen Fahrer und Mitfahrer. Diese Ressourcengruppe wird benötigt, um den vHike-Standard Modus zu benutzen. Diese Ressourcengruppe ist nicht für vHike -Bluetooth notwendig.
             </p>
             <h3 id="vhikeWS_SF">Service Features</h3>
-            <h4 id="sf_anonymity">Anonymes Profile</h4>
+            <h4 id="vhikeWS">vHike Web Service</h4>
+            <p>Enthält alle Funktionen die für den Standard-Modus notwendig sind.</p>
+            <h4 id="sf_anonymity">Profile Privacy</h4>
+            <p>Aktivieren, um Profil vor anderen Benutzern zu verbergen.</p>
             <h2 id="locationRG">Location -RG</h2>
+            <img src="images/location_icon.png" alt="location_icon" class="right" />
+            </a>
             <p>
+            Die Location -Ressourcengruppe kümmert sich um die Standort-Bestimmung im vHike -Standard-Modus. Diese Resource beinhaltet zwei Service Features.
             </p>
             <h3 id="location_SF">Service Features</h3>
+            <h4 id="absoluteLocation">Absolute Location</h4>
+            <p>Mithilfe dieser Ressource kann der Standpunkt ermittelt werden.</p>
+            <h4 id="exactLocation">Exact Location</h4>
+            <p>Aktivieren dieses Service Features erlaubt exakte Daten eines Standpunktes, wie Land, Stadt und Straße.</p>
             <h2 id="bluetoothRG">Bluetooth -RG</h2>
             <p>
             </p>
             <h3 id="bluetooth_SF">Service Features</h3>
             <h2 id="contactRG">Kommunikation/Contact -RG</h2>
+            <img src="images/contact_icon.png" alt="contact_icon" class="right" />
+            </a>
             <p>
+            Um mit anderen Benutzern kommunizieren zu können, wird diese Ressource benötigt. Die Kommunikation erfolgt über Telefon, SMS oder Email. Diese Ressourcengruppe ist nicht zwingend notwendig. 
             </p>
             <h3 id="contact_SF">Service Features</h3>
+            Dieses Service Feature kann entweder an oder ausgeschaltet werden.
             <h1 id="versions">Versionshistorie</h1>
             <h3>Version 0.1 (22.05.2012)</h3>
             <ul>
                <li>Initiales Gerüst von PMP Handbuch</li>
+            </ul>
+            <h3>Version 0.2 (26.05.2012)</h3>
+            <ul>
+               <li>Um sämtliche Kapitel erweitert.</li>
+               <li>Screenshots hinzugefügt.</li>
             </ul>
          </div>
          <!-- // end of specification's content -->
