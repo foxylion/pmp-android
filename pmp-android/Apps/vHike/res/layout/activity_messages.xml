@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/txtNewOffer"
-                android:layout_width="wrap_content"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="5dip"
@@ -107,8 +107,8 @@
             android:id="@+id/txtMessage"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:inputType="textMultiLine" />
+            <!-- android:layout_weight="1"  -->
 
         <TextView
             android:id="@+id/btnSend"
