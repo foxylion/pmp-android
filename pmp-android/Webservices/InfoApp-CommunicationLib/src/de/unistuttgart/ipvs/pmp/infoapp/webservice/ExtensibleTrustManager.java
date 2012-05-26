@@ -1,3 +1,22 @@
+/*
+ * Copyright 2012 pmp-android development team
+ * Project: InfoApp-CommunicationLib
+ * Project-Site: http://code.google.com/p/pmp-android/
+ * 
+ * ---------------------------------------------------------------------
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package de.unistuttgart.ipvs.pmp.infoapp.webservice;
 
 import java.security.KeyStore;
@@ -14,7 +33,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * This trust manager uses the default trust managers provided by the runtime environmen.
+ * This trust manager uses the default trust managers provided by the runtime environment.
  * However, it allows the user to add their own certificates.
  * Based on http://stackoverflow.com/questions/2642777/trusting-all-certificates-using-httpclient-over-https
  * 
@@ -30,7 +49,7 @@ public class ExtensibleTrustManager implements X509TrustManager {
         // Get the default X509 trust manager and add it to the managers-list
         TrustManagerFactory defaultTMF = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         defaultTMF.init((KeyStore) null);
-        this.addX509TrustManagers(defaultTMF);
+        addX509TrustManagers(defaultTMF);
         
         // Stop, if no default trust manager was found as we require this one
         if (this.x509TrustManagers.isEmpty()) {
@@ -50,7 +69,7 @@ public class ExtensibleTrustManager implements X509TrustManager {
     public void addKeyStore(KeyStore store) throws NoSuchAlgorithmException, KeyStoreException {
         TrustManagerFactory additionalTMF = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         additionalTMF.init(store);
-        this.addX509TrustManagers(additionalTMF);
+        addX509TrustManagers(additionalTMF);
     }
     
     
@@ -60,7 +79,7 @@ public class ExtensibleTrustManager implements X509TrustManager {
                 this.x509TrustManagers.add((X509TrustManager) tm);
             }
         }
-        System.out.println("Added " + this.x509TrustManagers.size() + " X509 trust managers");
+        System.out.println("Added X509 trust managers. We have " + this.x509TrustManagers.size() + " managers now");
     }
     
     
@@ -84,7 +103,7 @@ public class ExtensibleTrustManager implements X509TrustManager {
             }
         }
         
-        // If we end here, no trust manager accepted the certficate
+        // If we end here, no trust manager accepted the certificate
         throw new CertificateException();
         
     }
