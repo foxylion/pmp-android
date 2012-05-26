@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog;
 
-public interface IConfirmDialogFinishedCallBack {
+public interface OnConfirmationDialogFinished {
     
     /**
      * Dialog call back function for when the positive button was clicked
