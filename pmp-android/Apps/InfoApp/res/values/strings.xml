@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">InfoApp</string>
-    <string name="sf_insufficient">The service features are insufficient. Tap here to enable service features...</string>
+    <string name="sf_insufficient">The service features are insufficient. Tap here to enable service features&#8230;</string>
     <string name="connection_panel_wifi">Wifi</string>
     <string name="connection_panel_bluetooth">Bluetooth</string>
     <string name="connection_panel_data_connection">Data connection</string>
@@ -11,10 +11,10 @@
     <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
     <string name="connection_panel_connected_thirty_days">Connected (last 30 days): </string>
     <string name="connection_panel_wifi_configured_networks">Configured networks: </string>
-    <string name="connection_panel_connected_cities">Cities where you were connected...</string>
+    <string name="connection_panel_connected_cities">Cities where you were connected</string>
     <string name="connection_panel_connected_cities_error">An error happened while connection to the resource group</string>
     <string name="connection_panel_connected_cities_not_found">No cities found</string>
-    <string name="connection_panel_connected_cities_dialog">Cities where you were connected</string>
+    <string name="connection_panel_connected_cities_dialog">Cities where you were connected&#8230;</string>
     <string name="connection_panel_active_twentyfour">Active (last 24 hours): </string>
     <string name="connection_panel_active_thirty_days">Active (last 30 days): </string>
     <string name="connection_panel_active_twentyfour_flight_mode">Flight mode active (last 24 hours): </string>
@@ -32,10 +32,29 @@
     <string name="energy_panel_current_values">Current values</string>
     <string name="energy_panel_last_boot_values">Values since last boot</string>
     <string name="energy_panel_total_values">Values in total</string>
+    <string name="energy_panel_cv_level">Level: </string>
+    <string name="energy_panel_cv_health">Health: </string>
+    <string name="energy_panel_cv_status">Status: </string>
+    <string name="energy_panel_cv_plugged">Plugged: </string>
+    <string name="energy_panel_cv_status_time">Status time: </string>
+    <string name="energy_panel_cv_temperature">Temperature: </string>
+    <string name="energy_panel_lbv_date">Date of last boot: </string>
+    <string name="energy_panel_tv_date">Date of first measurement: </string>
+    <string name="energy_panel_lbv_tv_uptime">Uptime: </string>
+    <string name="energy_panel_lbv_tv_uptime_battery">Uptime with battery: </string>
+    <string name="energy_panel_lbv_tv_duration_charging">Duration of charging: </string>
+    <string name="energy_panel_lbv_tv_ratio">Ratio (charging:battery): </string>
+    <string name="energy_panel_lbv_tv_count_charging_processes">Count of charging processes: </string>
+    <string name="energy_panel_lbv_tv_temperature_peak">Temperature peak: </string>
+    <string name="energy_panel_lbv_tv_temperature_average">Temperature average: </string>
+    <string name="energy_panel_lbv_tv_screen_on">Time of Screen on: </string>
+    <string name="energy_panel_lbv_tv_"></string>
+    <string name="energy_panel_lbv_tv_"></string>
+    <string name="energy_panel_lbv_tv_"></string>
     <string name="menu_upload">Upload</string>
     <string name="menu_refresh">Refresh</string>
-    <string name="dialog_upload">Uploading. Please wait...</string>
-    <string name="dialog_refresh">Refreshing. Please wait...</string>
+    <string name="dialog_upload">Uploading. Please wait&#8230;</string>
+    <string name="dialog_refresh">Refreshing. Please wait&#8230;</string>
 
     <plurals name="days">
         <item quantity="one"> day</item>

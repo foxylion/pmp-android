@@ -18,7 +18,7 @@
                 android:id="@+id/energyLBVDateLabel"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Date of last boot: "
+                android:text="@string/energy_panel_lbv_date"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Uptime: "
+                android:text="@string/energy_panel_lbv_tv_uptime"
                 android:textStyle="bold" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Uptime with battery: "
+                android:text="@string/energy_panel_lbv_tv_uptime_battery"
                 android:textStyle="bold" />
 
             <TextView
@@ -78,7 +78,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Duration of charging: "
+                android:text="@string/energy_panel_lbv_tv_duration_charging"
                 android:textStyle="bold" />
 
             <TextView
@@ -98,7 +98,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Ratio (charging:battery): "
+                android:text="@string/energy_panel_lbv_tv_ratio"
                 android:textStyle="bold" />
 
             <TextView
@@ -119,7 +119,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Count of charging processes: "
+                android:text="@string/energy_panel_lbv_tv_count_charging_processes"
                 android:textStyle="bold" />
 
             <TextView
@@ -139,7 +139,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Temperature peak: "
+                android:text="@string/energy_panel_lbv_tv_temperature_peak"
                 android:textStyle="bold" />
 
             <TextView
@@ -159,7 +159,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Temperature average: "
+                android:text="@string/energy_panel_lbv_tv_temperature_average"
                 android:textStyle="bold" />
 
             <TextView
@@ -179,7 +179,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Time of Screen on: "
+                android:text="@string/energy_panel_lbv_tv_screen_on"
                 android:textStyle="bold" />
 
             <TextView
@@ -195,7 +195,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="No data available, because the required Service Feature (PMP) is not set"
+        android:text="@string/sf_insufficient"
         android:textStyle="bold" />
 
 </LinearLayout>
