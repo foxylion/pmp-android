@@ -133,5 +133,6 @@
     <string name="message_accept_confirm">"Do you really want to accept this %s?"</string>
     <string name="request">request</string>
     <string name="invitation">invitation</string>
+    <string name="tripDetails_new_trip">New trip</string>
 
 </resources>

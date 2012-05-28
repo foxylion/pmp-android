@@ -141,7 +141,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 msg = (new Formatter()).format((String) getText(R.string.message_decline_confirm), offerType)
                         .toString();
                 vhikeDialogs.getConfirmationDialog(this, title, msg, getText(android.R.string.ok),
-                        getText(android.R.string.cancel), idConfirmAccept).show();
+                        getText(android.R.string.cancel), idConfirmDecline).show();
                 break;
         }
         
@@ -156,6 +156,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 offerNotification.setVisibility(View.GONE);
                 break;
             case idConfirmDecline:
+                offerNotification.setVisibility(View.GONE);
                 break;
         }
     }

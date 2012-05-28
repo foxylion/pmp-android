@@ -250,7 +250,7 @@ public class vhikeDialogs extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
-                callback.confirmDialogPositive(callBackFunctionID);
+                callback.confirmDialogNegative(callBackFunctionID);
             }
         });
         
