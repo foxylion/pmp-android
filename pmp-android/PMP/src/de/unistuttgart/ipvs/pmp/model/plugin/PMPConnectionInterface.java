@@ -82,7 +82,7 @@ public class PMPConnectionInterface implements IPMPConnectionInterface {
     @Override
     @Deprecated
     public Context getContext(String rgPackage) {
-        return getContext(rgPackage, "");
+        return PMPApplication.getContext();
     }
     
     
