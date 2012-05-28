@@ -16,7 +16,7 @@
 
             <TextView
                 android:id="@+id/energyTVDateLabel"
-                android:layout_width="fill_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Date of first measurement: "
@@ -26,7 +26,7 @@
                 android:id="@+id/energyTVDate"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="bottom" />
         </TableRow>
 
         <TableRow
@@ -116,7 +116,7 @@
 
             <TextView
                 android:id="@+id/energyTVCountOfChargingLabel"
-                android:layout_width="fill_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Count of charging processes: "
@@ -126,7 +126,7 @@
                 android:id="@+id/energyTVCountOfCharging"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="bottom" />
         </TableRow>
 
         <TableRow

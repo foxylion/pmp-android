@@ -16,10 +16,9 @@
 
             <TextView
                 android:id="@+id/energyLBVDateLabel"
-                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Date of first measurement: "
+                android:text="Date of last boot: "
                 android:textStyle="bold" />
 
             <TextView
@@ -112,11 +111,12 @@
         <TableRow
             android:id="@+id/energyLBVtableRow6"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+             >
 
             <TextView
                 android:id="@+id/energyLBVCountOfChargingLabel"
-                android:layout_width="fill_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Count of charging processes: "
@@ -126,7 +126,7 @@
                 android:id="@+id/energyLBVCountOfCharging"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="bottom" />
         </TableRow>
 
         <TableRow

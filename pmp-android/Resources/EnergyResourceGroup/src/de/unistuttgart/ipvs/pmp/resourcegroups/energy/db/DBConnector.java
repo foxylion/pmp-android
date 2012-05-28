@@ -192,8 +192,26 @@ public class DBConnector implements IDBConnector {
                 }
                 
             }
+            // pretty print 
             long currentTime = System.currentTimeMillis();
-            rs.setStatusTime((currentTime - pluggedTime) + "ms");
+            long statusTimeInSec = (currentTime - pluggedTime) / 1000;
+            long days = statusTimeInSec / 60 / 60 / 24;
+            long daysInSec = days * 60 * 60 * 24;
+            long hours = ((statusTimeInSec - daysInSec) / 60 / 60);
+            long hoursInSec = hours * 60 * 60;
+            long mins = ((statusTimeInSec - daysInSec - hoursInSec) / 60);
+            long minsInSec = mins * 60;
+            long secs = statusTimeInSec - daysInSec - hoursInSec - minsInSec;
+            
+            StringBuilder sb = new StringBuilder();
+            if (days > 0)
+                sb.append(String.valueOf(days) + "d ");
+            if (hours > 0)
+                sb.append(String.valueOf(hours) + "h ");
+            if (mins > 0)
+                sb.append(String.valueOf(mins) + "m ");
+            sb.append(String.valueOf(secs) + "s");
+            rs.setStatusTime(sb.toString());
         }
         cursor.close();
         close();
@@ -261,9 +279,6 @@ public class DBConnector implements IDBConnector {
     private AbstractResultSet createResultSet(List<BatteryEvent> beList, List<ScreenEvent> seList,
             List<DeviceBootEvent> dbeList, AbstractResultSet rs, long date) {
         
-        if (beList.size() == 0 || seList.size() == 0 || dbeList.size() == 0)
-            return rs;
-        
         /*
          *  Set the date
          */
@@ -272,104 +287,110 @@ public class DBConnector implements IDBConnector {
         /*
          * Set the uptime 
          */
-        long uptime = 0;
-        long lastUptimeTimeStamp = dbeList.get(0).getTimestamp();
-        boolean deviceOn = dbeList.get(0).isChangedTo();
-        for (int itr = 1; itr < dbeList.size(); itr++) {
-            DeviceBootEvent dbe = dbeList.get(itr);
-            if (deviceOn && !dbe.isChangedTo()) {
-                uptime += dbe.getTimestamp() - lastUptimeTimeStamp;
-                deviceOn = false;
-            } else if (!deviceOn && dbe.isChangedTo()) {
-                deviceOn = true;
+        System.out.println(beList.size());
+        System.out.println(dbeList.size());
+        if (beList.size() > 0 && dbeList.size() > 0) {
+            long uptime = 0;
+            long lastUptimeTimeStamp = dbeList.get(0).getTimestamp();
+            boolean deviceOn = dbeList.get(0).isChangedTo();
+            for (int itr = 1; itr < dbeList.size(); itr++) {
+                DeviceBootEvent dbe = dbeList.get(itr);
+                if (deviceOn && !dbe.isChangedTo()) {
+                    uptime += dbe.getTimestamp() - lastUptimeTimeStamp;
+                    deviceOn = false;
+                } else if (!deviceOn && dbe.isChangedTo()) {
+                    deviceOn = true;
+                }
+                lastUptimeTimeStamp = dbe.getTimestamp();
             }
-            lastUptimeTimeStamp = dbe.getTimestamp();
-        }
-        rs.setUptime(String.valueOf(uptime));
-        
-        /*
-         * Set the duration of charging
-         */
-        long durationOfCharging = 0;
-        long lastDurationTimeStamp = dbeList.get(0).getTimestamp();
-        boolean isChargingD = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
-        for (BatteryEvent be : beList) {
-            if (isChargingD && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isChargingD = false;
-            } else if (!isChargingD && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isChargingD = true;
-                durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
+            rs.setUptime(String.valueOf(uptime));
+            
+            /*
+             * Set the duration of charging
+             */
+            long durationOfCharging = 0;
+            long lastDurationTimeStamp = dbeList.get(0).getTimestamp();
+            boolean isChargingD = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
+            for (BatteryEvent be : beList) {
+                if (isChargingD && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isChargingD = false;
+                } else if (!isChargingD && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isChargingD = true;
+                    durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
+                }
             }
-        }
-        rs.setDurationOfCharging(String.valueOf(durationOfCharging));
-        
-        /*
-         * Set the uptime with battery
-         */
-        long uptimeBattery = uptime - durationOfCharging;
-        rs.setUptimeBattery(String.valueOf(uptimeBattery));
-        
-        /*
-         * Set the ratio (charging:battery)
-         */
-        float ratio = durationOfCharging / uptimeBattery;
-        rs.setRatio(String.valueOf(ratio));
-        
-        /*
-         * Set the count of charging
-         */
-        boolean isCharging = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
-        int chargeCount = 0;
-        if (isCharging) {
-            chargeCount++;
-        }
-        for (BatteryEvent be : beList) {
-            if (isCharging && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isCharging = false;
-            } else if (!isCharging && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isCharging = true;
+            rs.setDurationOfCharging(String.valueOf(durationOfCharging));
+            
+            /*
+             * Set the uptime with battery
+             */
+            long uptimeBattery = uptime - durationOfCharging;
+            rs.setUptimeBattery(String.valueOf(uptimeBattery));
+            
+            /*
+             * Set the ratio (charging:battery)
+             */
+            //            float ratio = durationOfCharging / uptimeBattery;
+            //            rs.setRatio(String.valueOf(ratio));
+            
+            /*
+             * Set the count of charging
+             */
+            boolean isCharging = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
+            int chargeCount = 0;
+            if (isCharging) {
                 chargeCount++;
             }
-        }
-        rs.setCountOfCharging(String.valueOf(chargeCount) + " times");
-        
-        /*
-         * Set temperature peak and average
-         */
-        float temperaturePeak = 0;
-        float temperatureSum = 0;
-        for (BatteryEvent be : beList) {
-            // Calculate the temperature average
-            temperatureSum += be.getTemperature();
-            
-            // Calculate the temperature peak
-            if (be.getTemperature() > temperaturePeak) {
-                temperaturePeak = be.getTemperature();
+            for (BatteryEvent be : beList) {
+                if (isCharging && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isCharging = false;
+                } else if (!isCharging && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isCharging = true;
+                    chargeCount++;
+                }
             }
+            rs.setCountOfCharging(String.valueOf(chargeCount) + " times");
+            
+            /*
+             * Set temperature peak and average
+             */
+            float temperaturePeak = 0;
+            float temperatureSum = 0;
+            for (BatteryEvent be : beList) {
+                // Calculate the temperature average
+                temperatureSum += be.getTemperature();
+                
+                // Calculate the temperature peak
+                if (be.getTemperature() > temperaturePeak) {
+                    temperaturePeak = be.getTemperature();
+                }
+            }
+            // Set the temperature average
+            rs.setTemperatureAverage(String.valueOf(temperatureSum / beList.size()) + "°C");
+            
+            // Set the temperature peak
+            rs.setTemperaturePeak(String.valueOf(temperaturePeak) + "°C");
         }
-        // Set the temperature average
-        rs.setTemperatureAverage(String.valueOf(temperatureSum / beList.size()) + "°C");
-        
-        // Set the temperature peak
-        rs.setTemperaturePeak(String.valueOf(temperaturePeak) + "°C");
         
         /*
          * Set the screen on time
          */
-        long time = 0;
-        long lastTimeStamp = seList.get(0).getTimestamp();
-        boolean screenOn = seList.get(0).isChangedTo();
-        for (int itr = 1; itr < seList.size(); itr++) {
-            ScreenEvent se = seList.get(itr);
-            if (screenOn && !se.isChangedTo()) {
-                time += se.getTimestamp() - lastTimeStamp;
-                screenOn = false;
-            } else if (!screenOn && se.isChangedTo()) {
-                screenOn = true;
+        if (seList.size() > 0) {
+            long time = 0;
+            long lastTimeStamp = seList.get(0).getTimestamp();
+            boolean screenOn = seList.get(0).isChangedTo();
+            for (int itr = 1; itr < seList.size(); itr++) {
+                ScreenEvent se = seList.get(itr);
+                if (screenOn && !se.isChangedTo()) {
+                    time += se.getTimestamp() - lastTimeStamp;
+                    screenOn = false;
+                } else if (!screenOn && se.isChangedTo()) {
+                    screenOn = true;
+                }
+                lastTimeStamp = se.getTimestamp();
             }
-            lastTimeStamp = se.getTimestamp();
+            rs.setScreenOn(String.valueOf(time));
         }
-        rs.setScreenOn(String.valueOf(time));
         
         return rs;
     }

@@ -41,9 +41,9 @@ import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
  */
 public class InfoAppActivity extends Activity {
     
-    ViewPagerAdapter mAdapter;
-    ViewPager mPager;
-    PageIndicator mIndicator;
+    private ViewPagerAdapter mAdapter;
+    private ViewPager mPager;
+    private PageIndicator mIndicator;
     
     
     /** Called when the activity is first created. */
@@ -61,6 +61,13 @@ public class InfoAppActivity extends Activity {
         this.mIndicator.setViewPager(this.mPager);
         
         PMP.get(getApplication()).register(this);
+    }
+    
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.mAdapter.updateAllPanels();
     }
     
     
