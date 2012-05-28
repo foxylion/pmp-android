@@ -119,7 +119,7 @@
     <string name="tripDetails_stopovers">&quot;Stopovers &quot;</string>
     <string name="tripDetails_my_trip">My trip</string>
     <string name="tripDetails_passengers">"Passengers "</string>
-    <string name="tripDetails_new_messages">New requests and messages</string>
+    <string name="tripDetails_new_messages">New messages</string>
     <string name="tripDetails_cancel_trip">Cancel trip</string>
     <string name="tripDetails_edit_trip">Edit trip</string>
     <string name="message_title">Message</string>
@@ -134,5 +134,7 @@
     <string name="request">request</string>
     <string name="invitation">invitation</string>
     <string name="tripDetails_new_trip">New trip</string>
+    <string name="my_trips">My trips</string>
+    <string name="tripDetails_search">Search for %s</string>
 
 </resources>

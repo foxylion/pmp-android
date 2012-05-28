@@ -26,7 +26,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     private EditText txtMessage;
     private Runnable checkMessages;
     private final int refreshInterval = 5000;
-    private final int idConfirmAccept = 246;
+    private final int idConfirmAccept = 246; // Random number
     private final int idConfirmDecline = 142;
     private CharSequence offerType;
     private boolean isOffer = true;
@@ -156,6 +156,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 offerNotification.setVisibility(View.GONE);
                 break;
             case idConfirmDecline:
+                isOffer = false;
                 offerNotification.setVisibility(View.GONE);
                 break;
         }

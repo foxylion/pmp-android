@@ -2,13 +2,14 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.util.ArrayList;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MyTripAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
 
@@ -17,7 +18,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
  * @author Dang Huynh
  * 
  */
-public class MyTripActivity extends ListActivity {
+public class MyTripsActivity extends Activity {
     
     private ArrayList<CompactTrip> t;
     
@@ -25,6 +26,7 @@ public class MyTripActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_trips);
         
         t = new ArrayList<CompactTrip>(10);
         t.add(new CompactTrip(1, "Berlin", 1000000000, 2, 3, 1));
@@ -38,37 +40,23 @@ public class MyTripActivity extends ListActivity {
         t.add(new CompactTrip(9, "Hanover", 1000000000, 2, 3, 1));
         t.add(new CompactTrip(10, "Leipzig", 1000000000, 2, 3, 1));
         
-        ListView listView = getListView();
+        ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new MyTripAdapter(this, t));
         listView.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyTripActivity.this, TripDetailActivity.class);
+                Intent intent = new Intent(MyTripsActivity.this, TripDetailActivity.class);
                 intent.putExtra("tripId", t.get(position).id);
-                MyTripActivity.this.startActivity(intent);
+                MyTripsActivity.this.startActivity(intent);
                 //Toast.makeText(getApplicationContext(), "Click ListItem Number " + position, Toast.LENGTH_LONG).show();
             }
         });
-        
-        //        View header = getLayoutInflater().inflate(R.layout.header, null);
-        //        View footer = getLayoutInflater().inflate(R.layout.footer, null);
-        //        listView.addHeaderView(header);
-        //        listView.addFooterView(footer);
     }
     
     
     @Override
     public void onResume() {
         super.onResume();
-        
-        //        Controller ctrl = new Controller(ViewModel.getInstance().getvHikeRG());
-        //        
-        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-        //            ctrl.enableAnonymity(Model.getInstance().getSid());
-        //        } else {
-        //            ctrl.disableAnonymity(Model.getInstance().getSid());
-        //        }
-        //        Log.i(this, "");
     }
 }

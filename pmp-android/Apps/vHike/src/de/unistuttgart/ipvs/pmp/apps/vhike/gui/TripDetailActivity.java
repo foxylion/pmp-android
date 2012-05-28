@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.GregorianCalendar;
 
 import android.app.Activity;
@@ -22,11 +23,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.ViewSwitcher;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MessageAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactMessage;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactUser;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripOverview;
@@ -44,6 +47,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     private SpannableString txtOverview;
     private SpannableString txtAllMessages;
     private View bottomMenu;
+    private Button btnSearch;
     
     
     @Override
@@ -63,8 +67,11 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         txtAllMessages = new SpannableString(btnAllMessages.getText());
         btnAllMessages.setText(txtAllMessages, BufferType.SPANNABLE);
         
+        btnSearch = (Button) findViewById(R.id.btnSearch);
+        
         btnAllMessages.setOnClickListener(this);
         btnOverview.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
         
         bottomMenu = findViewById(R.id.trip_detail_bottom_menu);
     }
@@ -116,6 +123,8 @@ public class TripDetailActivity extends Activity implements OnClickListener {
                     bottomMenu.setVisibility(View.GONE);
                 }
                 break;
+            case R.id.btnSearch:
+                break;
         }
     }
     
@@ -125,8 +134,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
             listAllMessages = (ListView) findViewById(R.id.trip_detail_all_messages);
         }
         
-        listAllMessages.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_list_item_1,
-                android.R.id.text1, tripInfo.messages));
+        listAllMessages.setAdapter(new MessageAdapter(this, tripInfo.messages));
         
         AutoCompleteTextView a = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
         a.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_dropdown_item_1line,
@@ -140,15 +148,15 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         if (tripInfo == null) {
             // TODO Get actual data
             ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
-            passengers.add(new CompactUser(1, "Passenger1"));
-            passengers.add(new CompactUser(2, "Passenger2"));
-            passengers.add(new CompactUser(3, "Passenger3"));
+            passengers.add(new CompactUser(1, "Passenger1", 0));
+            passengers.add(new CompactUser(2, "Passenger2", 5));
+            passengers.add(new CompactUser(3, "Passenger3", 3));
             ArrayList<CompactMessage> msg = new ArrayList<CompactMessage>(3);
             msg.add(new CompactMessage(0, passengers.get(0), passengers.get(1), true, "Hello"));
-            msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello"));
-            msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello"));
+            msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello 2"));
+            msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello 32"));
             tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;", passengers,
-                    GregorianCalendar.getInstance().getTime(), msg);
+                    GregorianCalendar.getInstance().getTime(), 3, msg);
         }
         
         // Set destination
@@ -170,6 +178,16 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         txt = (TextView) findViewById(R.id.trip_detail_stop_over);
         txt.setText(builder, BufferType.SPANNABLE);
+        
+        // Set free seats
+        txt = (TextView) findViewById(R.id.trip_detail_free_seats);
+        txt.setText(tripInfo.numberOfAvailableSeat);
+        
+        // TODO hiker or driver?
+        String text = (new Formatter()).format(getText(R.string.tripDetails_search).toString(), "hitchhikers")
+                .toString();
+        btnSearch.setText(text);
+        btnSearch.setEnabled(tripInfo.numberOfAvailableSeat > 0 ? true : false);
         
         // Set passenger list
         String passengerLabel = (String) getText(R.string.tripDetails_passengers);
@@ -195,8 +213,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         // Set requests and new messages
         listNewMessages = (ListView) findViewById(R.id.trip_detail_list_new_messages);
-        listNewMessages.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_list_item_1,
-                android.R.id.text1, tripInfo.messages));
+        listNewMessages.setAdapter(new MessageAdapter(this, tripInfo.messages));
         listNewMessages.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
@@ -246,7 +263,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         @Override
         public void onClick(View widget) {
             widget.getParent().clearChildFocus(widget);
-            Intent intent = new Intent(TripDetailActivity.this, MyTripActivity.class);
+            Intent intent = new Intent(TripDetailActivity.this, MyTripsActivity.class);
             intent.putExtra("passengerId", id);
             intent.putExtra("tripId", TripDetailActivity.this.tripId);
             TripDetailActivity.this.startActivity(intent);
