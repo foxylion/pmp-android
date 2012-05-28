@@ -212,10 +212,16 @@ public class DBConnector implements IDBConnector {
         open();
         Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS, null,
                 null, null, null, null);
-        if (cursor.moveToLast()) {
-            lastBootDate = cursor.getLong(1);
-        } else {
-            lastBootDate = 0;
+        boolean booted = false;
+        lastBootDate = 0;
+        while (!cursor.isBeforeFirst()) {
+            if (cursor.getInt(2) == 1) {
+                booted = true;
+            } else if ((cursor.getInt(2) == 0) && (booted)) {
+                lastBootDate = cursor.getLong(1);
+                break;
+            }
+            cursor.moveToPrevious();
         }
         close();
         
@@ -270,12 +276,10 @@ public class DBConnector implements IDBConnector {
          */
         rs.setDate(String.valueOf(date));
         
-        /*
-         * Set the uptime 
-         */
-        System.out.println(beList.size());
-        System.out.println(dbeList.size());
         if (beList.size() > 0 && dbeList.size() > 0) {
+            /*
+             * Set the uptime 
+             */
             long uptime = 0;
             long lastUptimeTimeStamp = dbeList.get(0).getTimestamp();
             boolean deviceOn = dbeList.get(0).isChangedTo();
@@ -289,6 +293,11 @@ public class DBConnector implements IDBConnector {
                 }
                 lastUptimeTimeStamp = dbe.getTimestamp();
             }
+            // Add the current runtime, if the device is on
+            if (deviceOn) {
+                uptime += (System.currentTimeMillis() - lastUptimeTimeStamp);
+            }
+            
             // Pretty format
             try {
                 rs.setUptime(Util.convertMillisecondsToString(uptime));
@@ -309,6 +318,10 @@ public class DBConnector implements IDBConnector {
                     isChargingD = true;
                     durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
                 }
+            }
+            // Add the current charging time, if the device is charging currently
+            if (isChargingD) {
+                durationOfCharging += (System.currentTimeMillis() - lastDurationTimeStamp);
             }
             // Pretty format
             try {
@@ -394,6 +407,10 @@ public class DBConnector implements IDBConnector {
                 }
                 lastTimeStamp = se.getTimestamp();
             }
+            // Add the current screen on time, if the scrren is on currently
+            if (screenOn) {
+                time += (System.currentTimeMillis() - lastTimeStamp);
+            }
             // Pretty format
             try {
                 rs.setScreenOn(Util.convertMillisecondsToString(time));
@@ -426,6 +443,9 @@ public class DBConnector implements IDBConnector {
         
         cursor.close();
         close();
+        
+        System.out.println("Since: " + since);
+        System.out.println("Battery-Events: " + beList.size());
         return beList;
     }
     
