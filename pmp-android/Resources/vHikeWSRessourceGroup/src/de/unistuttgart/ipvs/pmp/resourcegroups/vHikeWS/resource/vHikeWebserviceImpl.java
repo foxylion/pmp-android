@@ -277,4 +277,12 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
         return this.vHikeRes.getMyTrips(uid);
     }
     
+    
+    @Override
+    public String editProfile(String sid, String lastname, String firstname, String tel, String description)
+            throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.editProfile(sid, lastname, firstname, tel, description);
+    }
+    
 }

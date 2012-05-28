@@ -8,6 +8,7 @@ import org.apache.http.client.ClientProtocolException;
 
 import android.os.IBinder;
 import android.os.RemoteException;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.vHikeWSResourceGroup;
 
@@ -139,6 +140,27 @@ public class vHikeWebserviceResource extends Resource {
             e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return ret;
+    }
+    
+    
+    public String editProfile(String sid, String lastname, String firstname, String tel, String description) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, false));
+        listToParse.add(new ParamObject("lastname", lastname, true));
+        listToParse.add(new ParamObject("firstname", firstname, true));
+        listToParse.add(new ParamObject("tel", tel, true));
+        listToParse.add(new ParamObject("description", "", true));
+        
+        String ret = "";
+        try {
+            Log.i(this, "Im editing the profile");
+            ret = JSonRequestProvider.doRequest(listToParse, "profile_edit.php").toString();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return ret;
