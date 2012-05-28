@@ -13,7 +13,7 @@
    stroke="rgb(0,0,0)"
    text-rendering="auto"
    stroke-linecap="square"
-   width="834"
+   width="844"
    stroke-miterlimit="10"
    stroke-opacity="0"
    shape-rendering="auto"
@@ -21,7 +21,7 @@
    stroke-dasharray="none"
    font-weight="normal"
    stroke-width="1"
-   height="444"
+   height="474"
    font-family="'Dialog'"
    font-style="normal"
    stroke-linejoin="miter"
@@ -33,10 +33,10 @@
    inkscape:version="0.47 r22583"
    sodipodi:docname="Ressourcen.svg"
    inkscape:export-filename="D:\pmp-android\documentation\pmp\manual\images\structure_resourcegroup.png"
-   inkscape:export-xdpi="100"
-   inkscape:export-ydpi="100">
+   inkscape:export-xdpi="99"
+   inkscape:export-ydpi="99">
   <metadata
-     id="metadata424">
+     id="metadata438">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -58,11 +58,11 @@
      inkscape:pageshadow="2"
      inkscape:window-width="1680"
      inkscape:window-height="994"
-     id="namedview422"
+     id="namedview436"
      showgrid="false"
-     inkscape:zoom="1.0630631"
-     inkscape:cx="19.225363"
-     inkscape:cy="222"
+     inkscape:zoom="1.4082464"
+     inkscape:cx="361.41998"
+     inkscape:cy="499.51309"
      inkscape:window-x="-4"
      inkscape:window-y="-4"
      inkscape:window-maximized="1"
@@ -72,27 +72,13 @@
      id="genericDefs">
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 222 : 1"
+       inkscape:vp_x="0 : 237 : 1"
        inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="834 : 222 : 1"
-       inkscape:persp3d-origin="417 : 148 : 1"
-       id="perspective426" />
+       inkscape:vp_z="844 : 237 : 1"
+       inkscape:persp3d-origin="422 : 158 : 1"
+       id="perspective440" />
     <inkscape:perspective
-       id="perspective3262"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3284"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3284-4"
+       id="perspective3267"
        inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
        inkscape:vp_z="1 : 0.5 : 1"
        inkscape:vp_y="0 : 1000 : 0"
@@ -107,28 +93,28 @@
          clipPathUnits="userSpaceOnUse"
          id="clipPath1">
         <path
-           d="M-7 -7 L481 -7 L481 451 L-7 451 L-7 -7 Z"
+           d="M-7 -7 L491 -7 L491 481 L-7 481 L-7 -7 Z"
            id="path9" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath2">
         <path
-           d="M0 0 L470 0 L470 15 L0 15 L0 0 Z"
+           d="M0 0 L480 0 L480 15 L0 15 L0 0 Z"
            id="path12" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath3">
         <path
-           d="M-7 -7 L461 -7 L461 101 L-7 101 L-7 -7 Z"
+           d="M-7 -7 L461 -7 L461 124 L-7 124 L-7 -7 Z"
            id="path15" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath4">
         <path
-           d="M0 0 L0 86 L450 86 L450 0 Z"
+           d="M0 0 L0 109 L450 109 L450 0 Z"
            id="path18" />
       </clipPath>
       <clipPath
@@ -142,1207 +128,1249 @@
          clipPathUnits="userSpaceOnUse"
          id="clipPath6">
         <path
-           d="M-7 -7 L461 -7 L461 184 L-7 184 L-7 -7 Z"
+           d="M-7 -7 L471 -7 L471 211 L-7 211 L-7 -7 Z"
            id="path24" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath7">
         <path
-           d="M0 0 L0 169 L450 169 L450 0 Z"
+           d="M0 0 L0 196 L460 196 L460 0 Z"
            id="path27" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath8">
         <path
-           d="M-7 -7 L211 -7 L211 331 L-7 331 L-7 -7 Z"
+           d="M0 0 L460 0 L460 15 L0 15 L0 0 Z"
            id="path30" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath9">
         <path
-           d="M0 0 L200 0 L200 15 L0 15 L0 0 Z"
+           d="M-7 -7 L461 -7 L461 101 L-7 101 L-7 -7 Z"
            id="path33" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath10">
         <path
-           d="M-7 -7 L401 -7 L401 51 L-7 51 L-7 -7 Z"
+           d="M-7 -7 L211 -7 L211 331 L-7 331 L-7 -7 Z"
            id="path36" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath11">
         <path
-           d="M0 0 L0 36 L390 36 L390 0 Z"
+           d="M0 0 L200 0 L200 15 L0 15 L0 0 Z"
            id="path39" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath12">
         <path
-           d="M0 0 L390 0 L390 15 L0 15 L0 0 Z"
+           d="M-7 -7 L401 -7 L401 51 L-7 51 L-7 -7 Z"
            id="path42" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath13">
         <path
-           d="M-7 -7 L121 -7 L121 51 L-7 51 L-7 -7 Z"
+           d="M0 0 L0 36 L390 36 L390 0 Z"
            id="path45" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath14">
         <path
-           d="M0 0 L0 36 L110 36 L110 0 Z"
+           d="M0 0 L390 0 L390 15 L0 15 L0 0 Z"
            id="path48" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath15">
         <path
-           d="M0 0 L110 0 L110 15 L0 15 L0 0 Z"
+           d="M-7 -7 L121 -7 L121 51 L-7 51 L-7 -7 Z"
            id="path51" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath16">
         <path
-           d="M-7 -7 L171 -7 L171 51 L-7 51 L-7 -7 Z"
+           d="M0 0 L0 36 L110 36 L110 0 Z"
            id="path54" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath17">
         <path
-           d="M0 0 L0 36 L160 36 L160 0 Z"
+           d="M0 0 L110 0 L110 15 L0 15 L0 0 Z"
            id="path57" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath18">
         <path
-           d="M0 0 L160 0 L160 15 L0 15 L0 0 Z"
+           d="M-7 -7 L171 -7 L171 51 L-7 51 L-7 -7 Z"
            id="path60" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath19">
         <path
-           d="M-7 -7 L151 -7 L151 51 L-7 51 L-7 -7 Z"
+           d="M0 0 L0 36 L160 36 L160 0 Z"
            id="path63" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath20">
         <path
-           d="M0 0 L0 40 L125 40 L125 0 Z"
+           d="M0 0 L160 0 L160 15 L0 15 L0 0 Z"
            id="path66" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath21">
         <path
-           d="M-7 -7 L141 -7 L141 51 L-7 51 L-7 -7 Z"
+           d="M-7 -7 L151 -7 L151 51 L-7 51 L-7 -7 Z"
            id="path69" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath22">
         <path
-           d="M0 0 L0 40 L115 40 L115 0 Z"
+           d="M0 0 L0 40 L125 40 L125 0 Z"
            id="path72" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath23">
         <path
-           d="M0 0 L303 0 L303 104 L0 104 L0 0 Z"
+           d="M-7 -7 L141 -7 L141 51 L-7 51 L-7 -7 Z"
            id="path75" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath24">
         <path
-           d="M0 0 L353 0 L353 104 L0 104 L0 0 Z"
+           d="M0 0 L0 40 L115 40 L115 0 Z"
            id="path78" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath25">
         <path
-           d="M0 0 L104 0 L104 283 L0 283 L0 0 Z"
+           d="M0 0 L302 0 L302 104 L0 104 L0 0 Z"
            id="path81" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath26">
         <path
-           d="M0 0 L363 0 L363 223 L0 223 L0 0 Z"
+           d="M0 0 L352 0 L352 104 L0 104 L0 0 Z"
            id="path84" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath27">
         <path
-           d="M0 0 L104 0 L104 133 L0 133 L0 0 Z"
+           d="M0 0 L104 0 L104 283 L0 283 L0 0 Z"
            id="path87" />
       </clipPath>
       <clipPath
          clipPathUnits="userSpaceOnUse"
          id="clipPath28">
         <path
-           d="M0 0 L123 0 L123 104 L0 104 L0 0 Z"
+           d="M0 0 L363 0 L363 203 L0 203 L0 0 Z"
            id="path90" />
+      </clipPath>
+      <clipPath
+         clipPathUnits="userSpaceOnUse"
+         id="clipPath29">
+        <path
+           d="M0 0 L104 0 L104 133 L0 133 L0 0 Z"
+           id="path93" />
+      </clipPath>
+      <clipPath
+         clipPathUnits="userSpaceOnUse"
+         id="clipPath30">
+        <path
+           d="M0 0 L123 0 L123 104 L0 104 L0 0 Z"
+           id="path96" />
       </clipPath>
     </defs>
     <g
-       fill="white"
        text-rendering="geometricPrecision"
-       fill-opacity="1"
+       id="g98"
        stroke-opacity="1"
        stroke="white"
-       id="g92">
+       fill-opacity="1"
+       fill="white">
       <rect
          x="0"
-         width="834"
-         height="444"
+         width="844"
+         height="474"
          y="0"
-         stroke="none"
-         id="rect94" />
+         id="rect100"
+         stroke="none" />
     </g>
     <g
        font-size="11"
        transform="translate(360,0)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       id="g102"
        font-family="sans-serif"
-       stroke="rgb(122,207,245)"
        stroke-opacity="1"
-       id="g96">
+       stroke="rgb(122,207,245)"
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
-         width="93"
+         width="95"
          height="20"
          y="0"
          clip-path="url(#clipPath1)"
-         stroke="none"
-         id="rect98" />
+         id="rect104"
+         stroke="none" />
       <rect
          x="0"
-         width="469"
-         height="419"
+         width="479"
+         height="449"
          y="20"
          clip-path="url(#clipPath1)"
-         stroke="none"
-         id="rect100" />
+         id="rect106"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(360,0)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g102">
+       id="g108"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <path
-         fill="none"
-         d="M0 20 L469 20 L469 439 L0 439 L0 0 L93 0 L93 20"
+         d="M0 20 L479 20 L479 469 L0 469 L0 0 L95 0 L95 20"
          clip-path="url(#clipPath1)"
-         id="path104" />
+         id="path110"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(360,20)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       id="g112"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g106">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
-         x="153"
+         x="158"
          xml:space="preserve"
          y="12"
          clip-path="url(#clipPath2)"
-         stroke="none"
-         id="text108">de.unistuttgart.ipvs.pmp.resource</text>
+         id="text114"
+         stroke="none">de.unistuttgart.ipvs.pmp.resource</text>
     </g>
     <g
        font-size="11"
        transform="translate(370,40)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       font-weight="bold"
+       id="g116"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       font-weight="bold"
-       stroke-opacity="1"
-       id="g110">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
          width="450"
-         height="90"
+         height="113"
          y="0"
          clip-path="url(#clipPath3)"
-         stroke="none"
-         id="rect112" />
+         id="rect118"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(370,40)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        font-weight="bold"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g114">
+       id="g120"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <rect
-         fill="none"
          x="0"
          width="450"
-         height="90"
+         height="113"
          y="0"
          clip-path="url(#clipPath3)"
-         id="rect116" />
+         id="rect122"
+         fill="none" />
       <line
          y2="15"
-         fill="none"
          x1="0"
          clip-path="url(#clipPath3)"
          x2="450"
          y1="15"
-         id="line118" />
+         id="line124"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(370,55)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       id="g126"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g120">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="2"
          xml:space="preserve"
          y="14"
          clip-path="url(#clipPath4)"
-         stroke="none"
-         id="text122">#assignResourceGroup(resourceGroup : ResourceGroup) : void</text>
+         id="text128"
+         stroke="none">#assignResourceGroup(resourceGroup : ResourceGroup) : void</text>
       <text
          x="2"
          xml:space="preserve"
          y="29"
          clip-path="url(#clipPath4)"
-         stroke="none"
-         id="text124">+getAndroidInterface(appIdentifier : String) : IBinder</text>
+         id="text130"
+         stroke="none">+getAndroidInterface(appPackage : String) : IBinder</text>
       <text
          x="2"
          xml:space="preserve"
          y="44"
          clip-path="url(#clipPath4)"
-         stroke="none"
-         id="text126">+getPrivacySetting(privacySettingdentifier : String) : AbstractPrivacySetting&lt;?&gt;</text>
+         id="text132"
+         stroke="none">+getCloakedAndroidInterface(appPackage : String) : IBinder</text>
       <text
          x="2"
          xml:space="preserve"
          y="59"
          clip-path="url(#clipPath4)"
-         stroke="none"
-         id="text128">#getResourceGroup() : ResourceGroup</text>
+         id="text134"
+         stroke="none">+getMockedAndroidInterface(appPackage : String) : IBinder</text>
+      <text
+         x="2"
+         xml:space="preserve"
+         y="74"
+         clip-path="url(#clipPath4)"
+         id="text136"
+         stroke="none">+getPrivacySetting(privacySettingdentifier : String) : AbstractPrivacySetting&lt;?&gt;</text>
+      <text
+         x="2"
+         xml:space="preserve"
+         y="89"
+         clip-path="url(#clipPath4)"
+         id="text138"
+         stroke="none">#getResourceGroup() : ResourceGroup</text>
     </g>
     <g
        font-size="11"
        transform="translate(370,40)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
        font-style="italic"
-       stroke="black"
        font-weight="bold"
+       id="g140"
+       font-family="sans-serif"
        stroke-opacity="1"
-       id="g130">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="199"
          xml:space="preserve"
          y="12"
          clip-path="url(#clipPath5)"
-         stroke="none"
-         id="text132">Resource</text>
+         id="text142"
+         stroke="none">Resource</text>
     </g>
     <g
        font-size="11"
-       transform="translate(370,250)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
+       transform="translate(370,260)"
        text-rendering="geometricPrecision"
+       font-weight="bold"
+       id="g144"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       font-weight="bold"
-       stroke-opacity="1"
-       id="g134">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
-         width="450"
-         height="173"
+         width="460"
+         height="200"
          y="0"
          clip-path="url(#clipPath6)"
-         stroke="none"
-         id="rect136" />
+         id="rect146"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
-       transform="translate(370,250)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(370,260)"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        font-weight="bold"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g138">
+       id="g148"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <rect
-         fill="none"
          x="0"
-         width="450"
-         height="173"
+         width="460"
+         height="200"
          y="0"
          clip-path="url(#clipPath6)"
-         id="rect140" />
+         id="rect150"
+         fill="none" />
       <line
          y2="15"
-         fill="none"
          x1="0"
          clip-path="url(#clipPath6)"
-         x2="450"
+         x2="460"
          y1="15"
-         id="line142" />
+         id="line152"
+         fill="none" />
     </g>
     <g
        font-size="11"
-       transform="translate(370,265)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(370,275)"
        text-rendering="geometricPrecision"
+       id="g154"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g144">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="2"
          xml:space="preserve"
          y="14"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text146">+ResourceGroup(rgPackage : String, pmpci : IPMPConnectionInterface)</text>
+         id="text156"
+         stroke="none">+ResourceGroup(rgPackage : String, pmpci : IPMPConnectionInterface)</text>
       <text
          x="2"
          xml:space="preserve"
          y="29"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text148">+getResource(identifier : String) : Resource</text>
+         id="text158"
+         stroke="none">+getContext(appPackage : String) : Context</text>
       <text
          x="2"
          xml:space="preserve"
          y="44"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text150">+getContext() : Context</text>
+         id="text160"
+         stroke="none">+getPMPPrivacySettingValue(privacySettingPackage : String, appPackage : String) : String</text>
       <text
          x="2"
          xml:space="preserve"
          y="59"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text152">+getPrivacySetting(identifier : String) : AbstractPrivacySetting&lt;?&gt;</text>
+         id="text162"
+         stroke="none">+getPrivacySetting(psIdentifier : String) : AbstractPrivacySetting&lt;?&gt;</text>
       <text
          x="2"
          xml:space="preserve"
          y="74"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text154">+getPrivacySettings() : List&lt;String&gt;</text>
+         id="text164"
+         stroke="none">+getPrivacySettings() : List&lt;String&gt;</text>
       <text
          x="2"
          xml:space="preserve"
          y="89"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text156">+getPMPPrivacySettingValue(privacySettingIdentifier : String, appIdentifier : String) : String</text>
+         id="text166"
+         stroke="none">+getResource(resIdentifier : String) : Resource</text>
       <text
          x="2"
          xml:space="preserve"
          y="104"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text158">+getResources() : List&lt;String&gt;</text>
+         id="text168"
+         stroke="none">+getResources() : List&lt;String&gt;</text>
       <text
          x="2"
          xml:space="preserve"
          y="119"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text160">+getRgPackage(privacyLevelIdentifier : String) : String</text>
+         id="text170"
+         stroke="none">+getRgPackage() : String</text>
       <text
          x="2"
          xml:space="preserve"
          y="134"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text162">+registerPrivacySetting(identifier : String, privacyLevel : AbstractPrivacySetting&lt;?&gt;) : void</text>
+         id="text172"
+         stroke="none">+registerPrivacySetting(psIdentifier : String, privacyLevel : AbstractPrivacySetting&lt;?&gt;) : void</text>
       <text
          x="2"
          xml:space="preserve"
          y="149"
          clip-path="url(#clipPath7)"
-         stroke="none"
-         id="text164">+registerResource(identifier : String, resource : Resource) : void</text>
+         id="text174"
+         stroke="none">+registerReceiver(receiver : BroadcastReceiver, filter : IntentFilter)</text>
+      <text
+         x="2"
+         xml:space="preserve"
+         y="164"
+         clip-path="url(#clipPath7)"
+         id="text176"
+         stroke="none">+registerResource(resIdentifier : String, resource : Resource) : void</text>
+      <text
+         x="2"
+         xml:space="preserve"
+         y="179"
+         clip-path="url(#clipPath7)"
+         id="text178"
+         stroke="none">+unregisterReceiver(receiver : BroadcastReceiver)</text>
     </g>
     <g
        font-size="11"
-       transform="translate(370,250)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(370,260)"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
        font-style="italic"
-       stroke="black"
        font-weight="bold"
+       id="g180"
+       font-family="sans-serif"
        stroke-opacity="1"
-       id="g166">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
-         x="182"
+         x="187"
          xml:space="preserve"
          y="12"
-         clip-path="url(#clipPath5)"
-         stroke="none"
-         id="text168">ResourceGroup</text>
+         clip-path="url(#clipPath8)"
+         id="text182"
+         stroke="none">ResourceGroup</text>
     </g>
     <g
        font-size="11"
-       transform="translate(370,140)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
+       transform="translate(370,160)"
        text-rendering="geometricPrecision"
+       id="g184"
        font-family="sans-serif"
-       stroke="rgb(122,207,245)"
        stroke-opacity="1"
-       id="g170">
+       stroke="rgb(122,207,245)"
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
          width="89"
          height="20"
          y="0"
-         clip-path="url(#clipPath3)"
-         stroke="none"
-         id="rect172" />
+         clip-path="url(#clipPath9)"
+         id="rect186"
+         stroke="none" />
       <rect
          x="0"
          width="449"
          height="69"
          y="20"
-         clip-path="url(#clipPath3)"
-         stroke="none"
-         id="rect174" />
-    </g>
-    <g
-       font-size="11"
-       stroke-linecap="butt"
-       transform="translate(370,140)"
-       fill-opacity="1"
-       fill="black"
-       text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
-       stroke-opacity="1"
-       stroke-miterlimit="0"
-       id="g176">
-      <path
-         fill="none"
-         d="M0 20 L449 20 L449 89 L0 89 L0 0 L89 0 L89 20"
-         clip-path="url(#clipPath3)"
-         id="path178" />
+         clip-path="url(#clipPath9)"
+         id="rect188"
+         stroke="none" />
     </g>
     <g
        font-size="11"
        transform="translate(370,160)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       stroke-miterlimit="0"
+       id="g190"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g180">
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
+      <path
+         d="M0 20 L449 20 L449 89 L0 89 L0 0 L89 0 L89 20"
+         clip-path="url(#clipPath9)"
+         id="path192"
+         fill="none" />
+    </g>
+    <g
+       font-size="11"
+       transform="translate(370,180)"
+       text-rendering="geometricPrecision"
+       id="g194"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="108"
          xml:space="preserve"
          y="12"
          clip-path="url(#clipPath5)"
-         stroke="none"
-         id="text182">de.unistuttgart.ipvs.pmp.resource.privacysetting</text>
+         id="text196"
+         stroke="none">de.unistuttgart.ipvs.pmp.resource.privacysetting</text>
     </g>
     <g
        font-size="11"
        transform="translate(0,50)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       id="g198"
        font-family="sans-serif"
-       stroke="rgb(122,207,245)"
        stroke-opacity="1"
-       id="g184">
+       stroke="rgb(122,207,245)"
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
          width="39"
          height="20"
          y="0"
-         clip-path="url(#clipPath8)"
-         stroke="none"
-         id="rect186" />
+         clip-path="url(#clipPath10)"
+         id="rect200"
+         stroke="none" />
       <rect
          x="0"
          width="199"
          height="299"
          y="20"
-         clip-path="url(#clipPath8)"
-         stroke="none"
-         id="rect188" />
+         clip-path="url(#clipPath10)"
+         id="rect202"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(0,50)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g190">
+       id="g204"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <path
-         fill="none"
          d="M0 20 L199 20 L199 319 L0 319 L0 0 L39 0 L39 20"
-         clip-path="url(#clipPath8)"
-         id="path192" />
+         clip-path="url(#clipPath10)"
+         id="path206"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(0,70)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       id="g208"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g194">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="59"
          xml:space="preserve"
          y="12"
-         clip-path="url(#clipPath9)"
-         stroke="none"
-         id="text196">mein.basis.paket</text>
+         clip-path="url(#clipPath11)"
+         id="text210"
+         stroke="none">mein.basis.paket</text>
     </g>
     <g
        font-size="11"
-       transform="translate(400,180)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
+       transform="translate(400,200)"
        text-rendering="geometricPrecision"
+       font-weight="bold"
+       id="g212"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       font-weight="bold"
-       stroke-opacity="1"
-       id="g198">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
          width="390"
          height="40"
          y="0"
-         clip-path="url(#clipPath10)"
-         stroke="none"
-         id="rect200" />
+         clip-path="url(#clipPath12)"
+         id="rect214"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
-       transform="translate(400,180)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(400,200)"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        font-weight="bold"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g202">
+       id="g216"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <rect
-         fill="none"
          x="0"
          width="390"
          height="40"
          y="0"
-         clip-path="url(#clipPath10)"
-         id="rect204" />
+         clip-path="url(#clipPath12)"
+         id="rect218"
+         fill="none" />
       <line
          y2="15"
-         fill="none"
          x1="0"
-         clip-path="url(#clipPath10)"
+         clip-path="url(#clipPath12)"
          x2="390"
          y1="15"
-         id="line206" />
+         id="line220"
+         fill="none" />
     </g>
     <g
        font-size="11"
-       transform="translate(400,180)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(400,200)"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
        font-style="italic"
-       stroke="black"
        font-weight="bold"
+       id="g222"
+       font-family="sans-serif"
        stroke-opacity="1"
-       id="g208">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="124"
          xml:space="preserve"
          y="12"
-         clip-path="url(#clipPath12)"
-         stroke="none"
-         id="text210">AbstractPrivacySetting&lt;T&gt;</text>
+         clip-path="url(#clipPath14)"
+         id="text224"
+         stroke="none">AbstractPrivacySetting&lt;T&gt;</text>
     </g>
     <g
        font-size="11"
        transform="translate(10,100)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       font-weight="bold"
+       id="g226"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       font-weight="bold"
-       stroke-opacity="1"
-       id="g212">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
          width="110"
          height="40"
          y="0"
-         clip-path="url(#clipPath13)"
-         stroke="none"
-         id="rect214" />
+         clip-path="url(#clipPath15)"
+         id="rect228"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(10,100)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        font-weight="bold"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g216">
+       id="g230"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <rect
-         fill="none"
          x="0"
          width="110"
          height="40"
          y="0"
-         clip-path="url(#clipPath13)"
-         id="rect218" />
+         clip-path="url(#clipPath15)"
+         id="rect232"
+         fill="none" />
       <line
          y2="15"
-         fill="none"
          x1="0"
-         clip-path="url(#clipPath13)"
+         clip-path="url(#clipPath15)"
          x2="110"
          y1="15"
-         id="line220" />
+         id="line234"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(10,100)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke="black"
        font-weight="bold"
+       id="g236"
+       font-family="sans-serif"
        stroke-opacity="1"
-       id="g222">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="10"
          xml:space="preserve"
          y="12"
-         clip-path="url(#clipPath15)"
-         stroke="none"
-         id="text224">MeineRessource</text>
+         clip-path="url(#clipPath17)"
+         id="text238"
+         stroke="none">MeineRessource</text>
     </g>
     <g
        font-size="11"
        transform="translate(10,320)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       font-weight="bold"
+       id="g240"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       font-weight="bold"
-       stroke-opacity="1"
-       id="g226">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <rect
          x="0"
          width="160"
          height="40"
          y="0"
-         clip-path="url(#clipPath16)"
-         stroke="none"
-         id="rect228" />
+         clip-path="url(#clipPath18)"
+         id="rect242"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(10,320)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        font-weight="bold"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g230">
+       id="g244"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <rect
-         fill="none"
          x="0"
          width="160"
          height="40"
          y="0"
-         clip-path="url(#clipPath16)"
-         id="rect232" />
+         clip-path="url(#clipPath18)"
+         id="rect246"
+         fill="none" />
       <line
          y2="15"
-         fill="none"
          x1="0"
-         clip-path="url(#clipPath16)"
+         clip-path="url(#clipPath18)"
          x2="160"
          y1="15"
-         id="line234" />
+         id="line248"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(10,320)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke="black"
        font-weight="bold"
+       id="g250"
+       font-family="sans-serif"
        stroke-opacity="1"
-       id="g236">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <text
          x="12"
          xml:space="preserve"
          y="12"
-         clip-path="url(#clipPath18)"
-         stroke="none"
-         id="text238">MeineRessourcenGruppe</text>
+         clip-path="url(#clipPath20)"
+         id="text252"
+         stroke="none">MeineRessourcenGruppe</text>
     </g>
     <g
        font-size="11"
        transform="translate(210,270)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       id="g254"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       stroke-opacity="1"
-       id="g240">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <polygon
          points=" 0 0 124 0 139 15 124 15 124 0 139 15 139 39 0 39"
-         clip-path="url(#clipPath19)"
-         stroke="none"
-         id="polygon242" />
+         clip-path="url(#clipPath21)"
+         id="polygon256"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(210,270)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g244">
+       id="g258"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <polygon
-         fill="none"
          points=" 0 0 124 0 139 15 124 15 124 0 139 15 139 39 0 39"
-         clip-path="url(#clipPath19)"
-         id="polygon246" />
+         clip-path="url(#clipPath21)"
+         id="polygon260"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(210,270)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       id="g262"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g248">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <path
          d="M3.9219 14.9704 L3.9219 6.3767 L7.1719 6.3767 Q8.0156 6.3767 8.4688 6.4548 Q9.1094 6.5642 9.5391 6.8611 Q9.9688 7.1579 10.2266 7.6892 Q10.4844 8.2204 10.4844 8.8611 Q10.4844 9.9548 9.7891 10.7126 Q9.0938 11.4704 7.2656 11.4704 L5.0625 11.4704 L5.0625 14.9704 L3.9219 14.9704 ZM5.0625 10.4704 L7.2812 10.4704 Q8.3906 10.4704 8.8516 10.0564 Q9.3125 9.6423 9.3125 8.8923 Q9.3125 8.3611 9.0391 7.9782 Q8.7656 7.5954 8.3281 7.4704 Q8.0312 7.3923 7.2656 7.3923 L5.0625 7.3923 L5.0625 10.4704 ZM11.7812 14.9704 L11.7812 8.7517 L12.7344 8.7517 L12.7344 9.6892 Q13.0938 9.0329 13.3984 8.822 Q13.7031 8.6111 14.0781 8.6111 Q14.6094 8.6111 15.1562 8.9392 L14.7969 9.9236 Q14.4062 9.6892 14.0312 9.6892 Q13.6719 9.6892 13.3984 9.9001 Q13.125 10.1111 13.0156 10.4861 Q12.8281 11.0486 12.8281 11.7048 L12.8281 14.9704 L11.7812 14.9704 ZM15.7969 7.5954 L15.7969 6.3767 L16.8594 6.3767 L16.8594 7.5954 L15.7969 7.5954 ZM15.7969 14.9704 L15.7969 8.7517 L16.8594 8.7517 L16.8594 14.9704 L15.7969 14.9704 ZM20.5156 14.9704 L18.1562 8.7517 L19.2656 8.7517 L20.6094 12.4704 Q20.8125 13.0798 21 13.7204 Q21.1406 13.2361 21.3906 12.5486 L22.7812 8.7517 L23.8594 8.7517 L21.5 14.9704 L20.5156 14.9704 ZM27.8594 14.2048 Q27.2656 14.7048 26.7266 14.9079 Q26.1875 15.1111 25.5625 15.1111 Q24.5312 15.1111 23.9844 14.6111 Q23.4375 14.1111 23.4375 13.3298 Q23.4375 12.8767 23.6406 12.4939 Q23.8438 12.1111 24.1875 11.8845 Q24.5312 11.6579 24.9531 11.5486 Q25.25 11.4548 25.8906 11.3767 Q27.1562 11.2361 27.7656 11.0173 Q27.7656 10.7986 27.7656 10.7517 Q27.7656 10.0954 27.4688 9.8298 Q27.0625 9.4861 26.2656 9.4861 Q25.5312 9.4861 25.1719 9.7439 Q24.8125 10.0017 24.6406 10.6579 L23.6094 10.5173 Q23.75 9.8611 24.0781 9.4548 Q24.4062 9.0486 25.0156 8.8298 Q25.625 8.6111 26.4219 8.6111 Q27.2188 8.6111 27.7188 8.7986 Q28.2188 8.9861 28.4531 9.2673 Q28.6875 9.5486 28.7812 9.9861 Q28.8281 10.2517 28.8281 10.9548 L28.8281 12.3611 Q28.8281 13.8298 28.8984 14.2204 Q28.9688 14.6111 29.1719 14.9704 L28.0625 14.9704 Q27.9062 14.6423 27.8594 14.2048 ZM27.7656 11.8454 Q27.1875 12.0798 26.0469 12.2517 Q25.3906 12.3454 25.125 12.4626 Q24.8594 12.5798 24.7109 12.7986 Q24.5625 13.0173 24.5625 13.2986 Q24.5625 13.7204 24.8828 14.0017 Q25.2031 14.2829 25.8125 14.2829 Q26.4219 14.2829 26.8984 14.0173 Q27.375 13.7517 27.5938 13.2829 Q27.7656 12.9236 27.7656 12.2361 L27.7656 11.8454 ZM34.8594 12.6892 L35.8906 12.8298 Q35.7188 13.8923 35.0156 14.5017 Q34.3125 15.1111 33.2969 15.1111 Q32.0156 15.1111 31.2422 14.2751 Q30.4688 13.4392 30.4688 11.8767 Q30.4688 10.8767 30.8047 10.1189 Q31.1406 9.3611 31.8203 8.9861 Q32.5 8.6111 33.3125 8.6111 Q34.3125 8.6111 34.9609 9.1189 Q35.6094 9.6267 35.7969 10.5798 L34.7656 10.7361 Q34.625 10.1111 34.25 9.7907 Q33.875 9.4704 33.3438 9.4704 Q32.5469 9.4704 32.0469 10.0407 Q31.5469 10.6111 31.5469 11.8454 Q31.5469 13.1111 32.0312 13.6736 Q32.5156 14.2361 33.2812 14.2361 Q33.9062 14.2361 34.3203 13.8611 Q34.7344 13.4861 34.8594 12.6892 ZM36.75 17.3611 L36.625 16.3767 Q36.9688 16.4704 37.2344 16.4704 Q37.5781 16.4704 37.7891 16.3532 Q38 16.2361 38.1406 16.0329 Q38.2344 15.8611 38.4688 15.2361 Q38.4844 15.1579 38.5625 14.9861 L36.1875 8.7517 L37.3281 8.7517 L38.625 12.3454 Q38.875 13.0329 39.0781 13.7986 Q39.2656 13.0642 39.5156 12.3767 L40.8438 8.7517 L41.8906 8.7517 L39.5312 15.0798 Q39.1406 16.0954 38.9375 16.4861 Q38.6562 17.0173 38.2891 17.2595 Q37.9219 17.5017 37.4219 17.5017 Q37.125 17.5017 36.75 17.3611 ZM44.5469 12.2048 L45.6094 12.1111 Q45.6875 12.7673 45.9688 13.1736 Q46.25 13.5798 46.8359 13.8376 Q47.4219 14.0954 48.1562 14.0954 Q48.7969 14.0954 49.2969 13.9001 Q49.7969 13.7048 50.0391 13.3689 Q50.2812 13.0329 50.2812 12.6423 Q50.2812 12.2361 50.0469 11.9314 Q49.8125 11.6267 49.2812 11.4236 Q48.9219 11.2829 47.7422 11.0017 Q46.5625 10.7204 46.0938 10.4704 Q45.4688 10.1423 45.1719 9.6657 Q44.875 9.1892 44.875 8.5954 Q44.875 7.9548 45.2422 7.3845 Q45.6094 6.8142 46.3203 6.5251 Q47.0312 6.2361 47.8906 6.2361 Q48.8438 6.2361 49.5781 6.5407 Q50.3125 6.8454 50.7031 7.447 Q51.0938 8.0486 51.125 8.7986 L50.0312 8.8767 Q49.9375 8.0642 49.4297 7.6501 Q48.9219 7.2361 47.9375 7.2361 Q46.9062 7.2361 46.4375 7.6111 Q45.9688 7.9861 45.9688 8.5173 Q45.9688 8.9861 46.2969 9.2829 Q46.625 9.5798 48.0078 9.8923 Q49.3906 10.2048 49.9062 10.4392 Q50.6562 10.7986 51.0156 11.322 Q51.375 11.8454 51.375 12.5486 Q51.375 13.2361 50.9844 13.8376 Q50.5938 14.4392 49.8594 14.7751 Q49.125 15.1111 48.2031 15.1111 Q47.0312 15.1111 46.2422 14.7751 Q45.4531 14.4392 45.0078 13.7517 Q44.5625 13.0642 44.5469 12.2048 ZM57.0469 12.9704 L58.1406 13.0954 Q57.8906 14.0486 57.1875 14.5798 Q56.4844 15.1111 55.4062 15.1111 Q54.0469 15.1111 53.2422 14.2673 Q52.4375 13.4236 52.4375 11.9079 Q52.4375 10.3454 53.25 9.4782 Q54.0625 8.6111 55.3438 8.6111 Q56.5938 8.6111 57.3828 9.4548 Q58.1719 10.2986 58.1719 11.8454 Q58.1719 11.9392 58.1719 12.1267 L53.5312 12.1267 Q53.5938 13.1579 54.1094 13.697 Q54.625 14.2361 55.4062 14.2361 Q55.9844 14.2361 56.3984 13.9314 Q56.8125 13.6267 57.0469 12.9704 ZM53.5938 11.2673 L57.0625 11.2673 Q57 10.4704 56.6719 10.0798 Q56.1562 9.4704 55.3594 9.4704 Q54.625 9.4704 54.1328 9.9548 Q53.6406 10.4392 53.5938 11.2673 ZM62.0938 14.0329 L62.25 14.9548 Q61.7969 15.0486 61.4531 15.0486 Q60.875 15.0486 60.5625 14.8689 Q60.25 14.6892 60.1172 14.3923 Q59.9844 14.0954 59.9844 13.1423 L59.9844 9.5642 L59.2188 9.5642 L59.2188 8.7517 L59.9844 8.7517 L59.9844 7.2048 L61.0312 6.5798 L61.0312 8.7517 L62.0938 8.7517 L62.0938 9.5642 L61.0312 9.5642 L61.0312 13.2048 Q61.0312 13.6579 61.0859 13.7829 Q61.1406 13.9079 61.2656 13.9861 Q61.3906 14.0642 61.625 14.0642 Q61.8125 14.0642 62.0938 14.0329 ZM65.0938 14.0329 L65.25 14.9548 Q64.7969 15.0486 64.4531 15.0486 Q63.875 15.0486 63.5625 14.8689 Q63.25 14.6892 63.1172 14.3923 Q62.9844 14.0954 62.9844 13.1423 L62.9844 9.5642 L62.2188 9.5642 L62.2188 8.7517 L62.9844 8.7517 L62.9844 7.2048 L64.0312 6.5798 L64.0312 8.7517 L65.0938 8.7517 L65.0938 9.5642 L64.0312 9.5642 L64.0312 13.2048 Q64.0312 13.6579 64.0859 13.7829 Q64.1406 13.9079 64.2656 13.9861 Q64.3906 14.0642 64.625 14.0642 Q64.8125 14.0642 65.0938 14.0329 ZM65.7969 7.5954 L65.7969 6.3767 L66.8594 6.3767 L66.8594 7.5954 L65.7969 7.5954 ZM65.7969 14.9704 L65.7969 8.7517 L66.8594 8.7517 L66.8594 14.9704 L65.7969 14.9704 ZM68.7969 14.9704 L68.7969 8.7517 L69.7344 8.7517 L69.7344 9.6267 Q70.4219 8.6111 71.7188 8.6111 Q72.2812 8.6111 72.7578 8.8142 Q73.2344 9.0173 73.4688 9.3454 Q73.7031 9.6736 73.7969 10.1111 Q73.8438 10.4079 73.8438 11.1423 L73.8438 14.9704 L72.7969 14.9704 L72.7969 11.1892 Q72.7969 10.5329 72.6719 10.2204 Q72.5469 9.9079 72.2344 9.7126 Q71.9219 9.5173 71.5 9.5173 Q70.8281 9.5173 70.3359 9.947 Q69.8438 10.3767 69.8438 11.5642 L69.8438 14.9704 L68.7969 14.9704 ZM75.5938 15.4861 L76.625 15.6423 Q76.6875 16.1111 76.9844 16.3298 Q77.375 16.6267 78.0469 16.6267 Q78.7812 16.6267 79.1797 16.3298 Q79.5781 16.0329 79.7188 15.5173 Q79.8125 15.1892 79.7969 14.1579 Q79.1094 14.9704 78.0781 14.9704 Q76.7969 14.9704 76.0938 14.0407 Q75.3906 13.1111 75.3906 11.8298 Q75.3906 10.9392 75.7109 10.1814 Q76.0312 9.4236 76.6406 9.0173 Q77.25 8.6111 78.0781 8.6111 Q79.1875 8.6111 79.9062 9.5017 L79.9062 8.7517 L80.875 8.7517 L80.875 14.1267 Q80.875 15.5798 80.5781 16.1892 Q80.2812 16.7986 79.6406 17.1501 Q79 17.5017 78.0625 17.5017 Q76.9531 17.5017 76.2656 17.0017 Q75.5781 16.5017 75.5938 15.4861 ZM76.4688 11.7517 Q76.4688 12.9704 76.9531 13.5329 Q77.4375 14.0954 78.1719 14.0954 Q78.9062 14.0954 79.3984 13.5329 Q79.8906 12.9704 79.8906 11.7829 Q79.8906 10.6423 79.3828 10.0642 Q78.875 9.4861 78.1562 9.4861 Q77.4531 9.4861 76.9609 10.0564 Q76.4688 10.6267 76.4688 11.7517 ZM82.375 13.1111 L83.4062 12.9548 Q83.5 13.5798 83.8984 13.9079 Q84.2969 14.2361 85.0312 14.2361 Q85.75 14.2361 86.1016 13.947 Q86.4531 13.6579 86.4531 13.2517 Q86.4531 12.8923 86.1406 12.6892 Q85.9219 12.5486 85.0625 12.3298 Q83.9062 12.0329 83.4609 11.822 Q83.0156 11.6111 82.7812 11.2361 Q82.5469 10.8611 82.5469 10.3923 Q82.5469 9.9861 82.7344 9.6267 Q82.9219 9.2673 83.25 9.0329 Q83.5 8.8611 83.9219 8.7361 Q84.3438 8.6111 84.8438 8.6111 Q85.5625 8.6111 86.1172 8.822 Q86.6719 9.0329 86.9375 9.3923 Q87.2031 9.7517 87.2969 10.3454 L86.2656 10.4861 Q86.2031 10.0173 85.8672 9.7439 Q85.5312 9.4704 84.9062 9.4704 Q84.1875 9.4704 83.875 9.7126 Q83.5625 9.9548 83.5625 10.2829 Q83.5625 10.4861 83.6875 10.6423 Q83.8281 10.8142 84.0938 10.9236 Q84.25 10.9861 85.0312 11.1892 Q86.1562 11.5017 86.5938 11.6892 Q87.0312 11.8767 87.2812 12.2361 Q87.5312 12.5954 87.5312 13.1423 Q87.5312 13.6736 87.2266 14.1345 Q86.9219 14.5954 86.3438 14.8532 Q85.7656 15.1111 85.0312 15.1111 Q83.8125 15.1111 83.1797 14.6032 Q82.5469 14.0954 82.375 13.1111 ZM96.8281 14.9704 L96.8281 14.1892 Q96.2344 15.1111 95.0938 15.1111 Q94.3438 15.1111 93.7188 14.697 Q93.0938 14.2829 92.75 13.5486 Q92.4062 12.8142 92.4062 11.8611 Q92.4062 10.9392 92.7188 10.1736 Q93.0312 9.4079 93.6562 9.0095 Q94.2812 8.6111 95.0469 8.6111 Q95.6094 8.6111 96.0469 8.8454 Q96.4844 9.0798 96.7656 9.4548 L96.7656 6.3767 L97.8125 6.3767 L97.8125 14.9704 L96.8281 14.9704 ZM93.5 11.8611 Q93.5 13.0642 94 13.6501 Q94.5 14.2361 95.1875 14.2361 Q95.875 14.2361 96.3594 13.6736 Q96.8438 13.1111 96.8438 11.9548 Q96.8438 10.6736 96.3516 10.0798 Q95.8594 9.4861 95.1406 9.4861 Q94.4375 9.4861 93.9688 10.0564 Q93.5 10.6267 93.5 11.8611 ZM104.0469 12.9704 L105.1406 13.0954 Q104.8906 14.0486 104.1875 14.5798 Q103.4844 15.1111 102.4062 15.1111 Q101.0469 15.1111 100.2422 14.2673 Q99.4375 13.4236 99.4375 11.9079 Q99.4375 10.3454 100.25 9.4782 Q101.0625 8.6111 102.3438 8.6111 Q103.5938 8.6111 104.3828 9.4548 Q105.1719 10.2986 105.1719 11.8454 Q105.1719 11.9392 105.1719 12.1267 L100.5312 12.1267 Q100.5938 13.1579 101.1094 13.697 Q101.625 14.2361 102.4062 14.2361 Q102.9844 14.2361 103.3984 13.9314 Q103.8125 13.6267 104.0469 12.9704 ZM100.5938 11.2673 L104.0625 11.2673 Q104 10.4704 103.6719 10.0798 Q103.1562 9.4704 102.3594 9.4704 Q101.625 9.4704 101.1328 9.9548 Q100.6406 10.4392 100.5938 11.2673 ZM106.7812 14.9704 L106.7812 8.7517 L107.7344 8.7517 L107.7344 9.6892 Q108.0938 9.0329 108.3984 8.822 Q108.7031 8.6111 109.0781 8.6111 Q109.6094 8.6111 110.1562 8.9392 L109.7969 9.9236 Q109.4062 9.6892 109.0312 9.6892 Q108.6719 9.6892 108.3984 9.9001 Q108.125 10.1111 108.0156 10.4861 Q107.8281 11.0486 107.8281 11.7048 L107.8281 14.9704 L106.7812 14.9704 Z"
-         clip-path="url(#clipPath20)"
-         stroke="none"
-         id="path250" />
+         clip-path="url(#clipPath22)"
+         id="path264"
+         stroke="none" />
       <path
          d="M7.9531 26.5954 L7.9531 25.5954 L11.5781 25.5798 L11.5781 28.7673 Q10.75 29.4392 9.8594 29.7751 Q8.9688 30.1111 8.0312 30.1111 Q6.7656 30.1111 5.7266 29.572 Q4.6875 29.0329 4.1641 28.0095 Q3.6406 26.9861 3.6406 25.7204 Q3.6406 24.4548 4.1641 23.3689 Q4.6875 22.2829 5.6719 21.7595 Q6.6562 21.2361 7.9375 21.2361 Q8.875 21.2361 9.625 21.5329 Q10.375 21.8298 10.8047 22.3689 Q11.2344 22.9079 11.4531 23.7829 L10.4375 24.0642 Q10.2344 23.4079 9.9453 23.0329 Q9.6562 22.6579 9.125 22.4314 Q8.5938 22.2048 7.9531 22.2048 Q7.1719 22.2048 6.6016 22.4392 Q6.0312 22.6736 5.6797 23.0642 Q5.3281 23.4548 5.1406 23.9236 Q4.8125 24.7204 4.8125 25.6423 Q4.8125 26.7986 5.2109 27.572 Q5.6094 28.3454 6.3594 28.7204 Q7.1094 29.0954 7.9688 29.0954 Q8.7031 29.0954 9.4062 28.8064 Q10.1094 28.5173 10.4688 28.2048 L10.4688 26.5954 L7.9531 26.5954 ZM12.7812 29.9704 L12.7812 23.7517 L13.7344 23.7517 L13.7344 24.6892 Q14.0938 24.0329 14.3984 23.822 Q14.7031 23.6111 15.0781 23.6111 Q15.6094 23.6111 16.1562 23.9392 L15.7969 24.9236 Q15.4062 24.6892 15.0312 24.6892 Q14.6719 24.6892 14.3984 24.9001 Q14.125 25.1111 14.0156 25.4861 Q13.8281 26.0486 13.8281 26.7048 L13.8281 29.9704 L12.7812 29.9704 ZM20.875 29.9704 L20.875 29.0486 Q20.1406 30.1111 18.8906 30.1111 Q18.3438 30.1111 17.8672 29.9001 Q17.3906 29.6892 17.1562 29.3689 Q16.9219 29.0486 16.8281 28.5798 Q16.7656 28.2829 16.7656 27.5954 L16.7656 23.7517 L17.8281 23.7517 L17.8281 27.2048 Q17.8281 28.0173 17.8906 28.3142 Q17.9844 28.7204 18.3047 28.9626 Q18.625 29.2048 19.1094 29.2048 Q19.5781 29.2048 19.9922 28.9626 Q20.4062 28.7204 20.5859 28.2986 Q20.7656 27.8767 20.7656 27.0798 L20.7656 23.7517 L21.8125 23.7517 L21.8125 29.9704 L20.875 29.9704 ZM23.7969 32.3611 L23.7969 23.7517 L24.75 23.7517 L24.75 24.5486 Q25.0938 24.0798 25.5234 23.8454 Q25.9531 23.6111 26.5625 23.6111 Q27.3594 23.6111 27.9688 24.0173 Q28.5781 24.4236 28.8828 25.1736 Q29.1875 25.9236 29.1875 26.8142 Q29.1875 27.7673 28.8516 28.5329 Q28.5156 29.2986 27.8594 29.7048 Q27.2031 30.1111 26.4844 30.1111 Q25.9531 30.1111 25.5312 29.8845 Q25.1094 29.6579 24.8438 29.3298 L24.8438 32.3611 L23.7969 32.3611 ZM24.75 26.8923 Q24.75 28.0954 25.2344 28.6657 Q25.7188 29.2361 26.4062 29.2361 Q27.1094 29.2361 27.6094 28.6423 Q28.1094 28.0486 28.1094 26.7986 Q28.1094 25.6111 27.625 25.0251 Q27.1406 24.4392 26.4531 24.4392 Q25.7812 24.4392 25.2656 25.0642 Q24.75 25.6892 24.75 26.8923 ZM30.7969 32.3611 L30.7969 23.7517 L31.75 23.7517 L31.75 24.5486 Q32.0938 24.0798 32.5234 23.8454 Q32.9531 23.6111 33.5625 23.6111 Q34.3594 23.6111 34.9688 24.0173 Q35.5781 24.4236 35.8828 25.1736 Q36.1875 25.9236 36.1875 26.8142 Q36.1875 27.7673 35.8516 28.5329 Q35.5156 29.2986 34.8594 29.7048 Q34.2031 30.1111 33.4844 30.1111 Q32.9531 30.1111 32.5312 29.8845 Q32.1094 29.6579 31.8438 29.3298 L31.8438 32.3611 L30.7969 32.3611 ZM31.75 26.8923 Q31.75 28.0954 32.2344 28.6657 Q32.7188 29.2361 33.4062 29.2361 Q34.1094 29.2361 34.6094 28.6423 Q35.1094 28.0486 35.1094 26.7986 Q35.1094 25.6111 34.625 25.0251 Q34.1406 24.4392 33.4531 24.4392 Q32.7812 24.4392 32.2656 25.0642 Q31.75 25.6892 31.75 26.8923 ZM42.0469 27.9704 L43.1406 28.0954 Q42.8906 29.0486 42.1875 29.5798 Q41.4844 30.1111 40.4062 30.1111 Q39.0469 30.1111 38.2422 29.2673 Q37.4375 28.4236 37.4375 26.9079 Q37.4375 25.3454 38.25 24.4782 Q39.0625 23.6111 40.3438 23.6111 Q41.5938 23.6111 42.3828 24.4548 Q43.1719 25.2986 43.1719 26.8454 Q43.1719 26.9392 43.1719 27.1267 L38.5312 27.1267 Q38.5938 28.1579 39.1094 28.697 Q39.625 29.2361 40.4062 29.2361 Q40.9844 29.2361 41.3984 28.9314 Q41.8125 28.6267 42.0469 27.9704 ZM38.5938 26.2673 L42.0625 26.2673 Q42 25.4704 41.6719 25.0798 Q41.1562 24.4704 40.3594 24.4704 Q39.625 24.4704 39.1328 24.9548 Q38.6406 25.4392 38.5938 26.2673 ZM47.7969 29.9704 L47.7969 21.3767 L48.8438 21.3767 L48.8438 24.4548 Q49.5781 23.6111 50.7031 23.6111 Q51.4062 23.6111 51.9141 23.8845 Q52.4219 24.1579 52.6406 24.6345 Q52.8594 25.1111 52.8594 26.0329 L52.8594 29.9704 L51.8125 29.9704 L51.8125 26.0329 Q51.8125 25.2361 51.4688 24.8767 Q51.125 24.5173 50.5 24.5173 Q50.0312 24.5173 49.6172 24.7595 Q49.2031 25.0017 49.0234 25.4157 Q48.8438 25.8298 48.8438 26.5642 L48.8438 29.9704 L47.7969 29.9704 ZM54.7969 22.5954 L54.7969 21.3767 L55.8594 21.3767 L55.8594 22.5954 L54.7969 22.5954 ZM54.7969 29.9704 L54.7969 23.7517 L55.8594 23.7517 L55.8594 29.9704 L54.7969 29.9704 ZM57.7969 29.9704 L57.7969 23.7517 L58.7344 23.7517 L58.7344 24.6267 Q59.4219 23.6111 60.7188 23.6111 Q61.2812 23.6111 61.7578 23.8142 Q62.2344 24.0173 62.4688 24.3454 Q62.7031 24.6736 62.7969 25.1111 Q62.8438 25.4079 62.8438 26.1423 L62.8438 29.9704 L61.7969 29.9704 L61.7969 26.1892 Q61.7969 25.5329 61.6719 25.2204 Q61.5469 24.9079 61.2344 24.7126 Q60.9219 24.5173 60.5 24.5173 Q59.8281 24.5173 59.3359 24.947 Q58.8438 25.3767 58.8438 26.5642 L58.8438 29.9704 L57.7969 29.9704 ZM64.2344 29.9704 L64.2344 29.1111 L68.2031 24.5642 Q67.5156 24.5954 67 24.5954 L64.4688 24.5954 L64.4688 23.7517 L69.5625 23.7517 L69.5625 24.4392 L66.1875 28.3923 L65.5312 29.1111 Q66.25 29.0642 66.8594 29.0642 L69.75 29.0642 L69.75 29.9704 L64.2344 29.9704 ZM73.875 29.9704 L73.875 29.0486 Q73.1406 30.1111 71.8906 30.1111 Q71.3438 30.1111 70.8672 29.9001 Q70.3906 29.6892 70.1562 29.3689 Q69.9219 29.0486 69.8281 28.5798 Q69.7656 28.2829 69.7656 27.5954 L69.7656 23.7517 L70.8281 23.7517 L70.8281 27.2048 Q70.8281 28.0173 70.8906 28.3142 Q70.9844 28.7204 71.3047 28.9626 Q71.625 29.2048 72.1094 29.2048 Q72.5781 29.2048 72.9922 28.9626 Q73.4062 28.7204 73.5859 28.2986 Q73.7656 27.8767 73.7656 27.0798 L73.7656 23.7517 L74.8125 23.7517 L74.8125 29.9704 L73.875 29.9704 ZM77.0469 29.9704 L77.0469 24.5642 L76.1094 24.5642 L76.1094 23.7517 L77.0469 23.7517 L77.0469 23.0798 Q77.0469 22.4548 77.1562 22.1579 Q77.3125 21.7361 77.6953 21.4861 Q78.0781 21.2361 78.7656 21.2361 Q79.2188 21.2361 79.75 21.3454 L79.5938 22.2517 Q79.2656 22.2048 78.9688 22.2048 Q78.4844 22.2048 78.2891 22.4079 Q78.0938 22.6111 78.0938 23.1736 L78.0938 23.7517 L79.3125 23.7517 L79.3125 24.5642 L78.0938 24.5642 L78.0938 29.9704 L77.0469 29.9704 ZM83.875 29.9704 L83.875 29.0486 Q83.1406 30.1111 81.8906 30.1111 Q81.3438 30.1111 80.8672 29.9001 Q80.3906 29.6892 80.1562 29.3689 Q79.9219 29.0486 79.8281 28.5798 Q79.7656 28.2829 79.7656 27.5954 L79.7656 23.7517 L80.8281 23.7517 L80.8281 27.2048 Q80.8281 28.0173 80.8906 28.3142 Q80.9844 28.7204 81.3047 28.9626 Q81.625 29.2048 82.1094 29.2048 Q82.5781 29.2048 82.9922 28.9626 Q83.4062 28.7204 83.5859 28.2986 Q83.7656 27.8767 83.7656 27.0798 L83.7656 23.7517 L84.8125 23.7517 L84.8125 29.9704 L83.875 29.9704 ZM80.3594 21.9704 L80.3594 20.7673 L81.4531 20.7673 L81.4531 21.9704 L80.3594 21.9704 ZM82.5469 21.9704 L82.5469 20.7673 L83.6406 20.7673 L83.6406 21.9704 L82.5469 21.9704 ZM86.5938 30.4861 L87.625 30.6423 Q87.6875 31.1111 87.9844 31.3298 Q88.375 31.6267 89.0469 31.6267 Q89.7812 31.6267 90.1797 31.3298 Q90.5781 31.0329 90.7188 30.5173 Q90.8125 30.1892 90.7969 29.1579 Q90.1094 29.9704 89.0781 29.9704 Q87.7969 29.9704 87.0938 29.0407 Q86.3906 28.1111 86.3906 26.8298 Q86.3906 25.9392 86.7109 25.1814 Q87.0312 24.4236 87.6406 24.0173 Q88.25 23.6111 89.0781 23.6111 Q90.1875 23.6111 90.9062 24.5017 L90.9062 23.7517 L91.875 23.7517 L91.875 29.1267 Q91.875 30.5798 91.5781 31.1892 Q91.2812 31.7986 90.6406 32.1501 Q90 32.5017 89.0625 32.5017 Q87.9531 32.5017 87.2656 32.0017 Q86.5781 31.5017 86.5938 30.4861 ZM87.4688 26.7517 Q87.4688 27.9704 87.9531 28.5329 Q88.4375 29.0954 89.1719 29.0954 Q89.9062 29.0954 90.3984 28.5329 Q90.8906 27.9704 90.8906 26.7829 Q90.8906 25.6423 90.3828 25.0642 Q89.875 24.4861 89.1562 24.4861 Q88.4531 24.4861 87.9609 25.0564 Q87.4688 25.6267 87.4688 26.7517 ZM98.0469 27.9704 L99.1406 28.0954 Q98.8906 29.0486 98.1875 29.5798 Q97.4844 30.1111 96.4062 30.1111 Q95.0469 30.1111 94.2422 29.2673 Q93.4375 28.4236 93.4375 26.9079 Q93.4375 25.3454 94.25 24.4782 Q95.0625 23.6111 96.3438 23.6111 Q97.5938 23.6111 98.3828 24.4548 Q99.1719 25.2986 99.1719 26.8454 Q99.1719 26.9392 99.1719 27.1267 L94.5312 27.1267 Q94.5938 28.1579 95.1094 28.697 Q95.625 29.2361 96.4062 29.2361 Q96.9844 29.2361 97.3984 28.9314 Q97.8125 28.6267 98.0469 27.9704 ZM94.5938 26.2673 L98.0625 26.2673 Q98 25.4704 97.6719 25.0798 Q97.1562 24.4704 96.3594 24.4704 Q95.625 24.4704 95.1328 24.9548 Q94.6406 25.4392 94.5938 26.2673 ZM100.7969 29.9704 L100.7969 23.7517 L101.7344 23.7517 L101.7344 24.6267 Q102.4219 23.6111 103.7188 23.6111 Q104.2812 23.6111 104.7578 23.8142 Q105.2344 24.0173 105.4688 24.3454 Q105.7031 24.6736 105.7969 25.1111 Q105.8438 25.4079 105.8438 26.1423 L105.8438 29.9704 L104.7969 29.9704 L104.7969 26.1892 Q104.7969 25.5329 104.6719 25.2204 Q104.5469 24.9079 104.2344 24.7126 Q103.9219 24.5173 103.5 24.5173 Q102.8281 24.5173 102.3359 24.947 Q101.8438 25.3767 101.8438 26.5642 L101.8438 29.9704 L100.7969 29.9704 Z"
-         clip-path="url(#clipPath20)"
-         stroke="none"
-         id="path252" />
+         clip-path="url(#clipPath22)"
+         id="path266"
+         stroke="none" />
     </g>
     <g
        font-size="11"
        transform="translate(60,160)"
-       fill-opacity="1"
-       fill="rgb(122,207,245)"
        text-rendering="geometricPrecision"
+       id="g268"
        font-family="sans-serif"
+       stroke-opacity="1"
        stroke="rgb(122,207,245)"
-       stroke-opacity="1"
-       id="g254">
+       fill-opacity="1"
+       fill="rgb(122,207,245)">
       <polygon
          points=" 0 0 114 0 129 15 114 15 114 0 129 15 129 39 0 39"
-         clip-path="url(#clipPath21)"
-         stroke="none"
-         id="polygon256" />
+         clip-path="url(#clipPath23)"
+         id="polygon270"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(60,160)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
-       stroke-opacity="1"
        stroke-miterlimit="0"
-       id="g258">
+       id="g272"
+       font-family="sans-serif"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <polygon
-         fill="none"
          points=" 0 0 114 0 129 15 114 15 114 0 129 15 129 39 0 39"
-         clip-path="url(#clipPath21)"
-         id="polygon260" />
+         clip-path="url(#clipPath23)"
+         id="polygon274"
+         fill="none" />
     </g>
     <g
        font-size="11"
        transform="translate(60,160)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       id="g276"
        font-family="sans-serif"
-       stroke="black"
        stroke-opacity="1"
-       id="g262">
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <path
          d="M3.9375 14.9704 L3.9375 6.3767 L7.75 6.3767 Q8.9062 6.3767 9.5 6.6111 Q10.0938 6.8454 10.4531 7.4314 Q10.8125 8.0173 10.8125 8.7204 Q10.8125 9.6423 10.2188 10.2673 Q9.625 10.8923 8.3906 11.0642 Q8.8438 11.2829 9.0781 11.4861 Q9.5781 11.9392 10.0156 12.6267 L11.5156 14.9704 L10.0781 14.9704 L8.9531 13.1892 Q8.4531 12.4079 8.1328 12.0017 Q7.8125 11.5954 7.5547 11.4314 Q7.2969 11.2673 7.0312 11.1892 Q6.8438 11.1579 6.4062 11.1579 L5.0781 11.1579 L5.0781 14.9704 L3.9375 14.9704 ZM5.0781 10.1736 L7.5312 10.1736 Q8.2969 10.1736 8.7422 10.0095 Q9.1875 9.8454 9.4141 9.4939 Q9.6406 9.1423 9.6406 8.7204 Q9.6406 8.1111 9.1953 7.7204 Q8.75 7.3298 7.7969 7.3298 L5.0781 7.3298 L5.0781 10.1736 ZM17.0469 12.9704 L18.1406 13.0954 Q17.8906 14.0486 17.1875 14.5798 Q16.4844 15.1111 15.4062 15.1111 Q14.0469 15.1111 13.2422 14.2673 Q12.4375 13.4236 12.4375 11.9079 Q12.4375 10.3454 13.25 9.4782 Q14.0625 8.6111 15.3438 8.6111 Q16.5938 8.6111 17.3828 9.4548 Q18.1719 10.2986 18.1719 11.8454 Q18.1719 11.9392 18.1719 12.1267 L13.5312 12.1267 Q13.5938 13.1579 14.1094 13.697 Q14.625 14.2361 15.4062 14.2361 Q15.9844 14.2361 16.3984 13.9314 Q16.8125 13.6267 17.0469 12.9704 ZM13.5938 11.2673 L17.0625 11.2673 Q17 10.4704 16.6719 10.0798 Q16.1562 9.4704 15.3594 9.4704 Q14.625 9.4704 14.1328 9.9548 Q13.6406 10.4392 13.5938 11.2673 ZM19.375 13.1111 L20.4062 12.9548 Q20.5 13.5798 20.8984 13.9079 Q21.2969 14.2361 22.0312 14.2361 Q22.75 14.2361 23.1016 13.947 Q23.4531 13.6579 23.4531 13.2517 Q23.4531 12.8923 23.1406 12.6892 Q22.9219 12.5486 22.0625 12.3298 Q20.9062 12.0329 20.4609 11.822 Q20.0156 11.6111 19.7812 11.2361 Q19.5469 10.8611 19.5469 10.3923 Q19.5469 9.9861 19.7344 9.6267 Q19.9219 9.2673 20.25 9.0329 Q20.5 8.8611 20.9219 8.7361 Q21.3438 8.6111 21.8438 8.6111 Q22.5625 8.6111 23.1172 8.822 Q23.6719 9.0329 23.9375 9.3923 Q24.2031 9.7517 24.2969 10.3454 L23.2656 10.4861 Q23.2031 10.0173 22.8672 9.7439 Q22.5312 9.4704 21.9062 9.4704 Q21.1875 9.4704 20.875 9.7126 Q20.5625 9.9548 20.5625 10.2829 Q20.5625 10.4861 20.6875 10.6423 Q20.8281 10.8142 21.0938 10.9236 Q21.25 10.9861 22.0312 11.1892 Q23.1562 11.5017 23.5938 11.6892 Q24.0312 11.8767 24.2812 12.2361 Q24.5312 12.5954 24.5312 13.1423 Q24.5312 13.6736 24.2266 14.1345 Q23.9219 14.5954 23.3438 14.8532 Q22.7656 15.1111 22.0312 15.1111 Q20.8125 15.1111 20.1797 14.6032 Q19.5469 14.0954 19.375 13.1111 ZM26.375 13.1111 L27.4062 12.9548 Q27.5 13.5798 27.8984 13.9079 Q28.2969 14.2361 29.0312 14.2361 Q29.75 14.2361 30.1016 13.947 Q30.4531 13.6579 30.4531 13.2517 Q30.4531 12.8923 30.1406 12.6892 Q29.9219 12.5486 29.0625 12.3298 Q27.9062 12.0329 27.4609 11.822 Q27.0156 11.6111 26.7812 11.2361 Q26.5469 10.8611 26.5469 10.3923 Q26.5469 9.9861 26.7344 9.6267 Q26.9219 9.2673 27.25 9.0329 Q27.5 8.8611 27.9219 8.7361 Q28.3438 8.6111 28.8438 8.6111 Q29.5625 8.6111 30.1172 8.822 Q30.6719 9.0329 30.9375 9.3923 Q31.2031 9.7517 31.2969 10.3454 L30.2656 10.4861 Q30.2031 10.0173 29.8672 9.7439 Q29.5312 9.4704 28.9062 9.4704 Q28.1875 9.4704 27.875 9.7126 Q27.5625 9.9548 27.5625 10.2829 Q27.5625 10.4861 27.6875 10.6423 Q27.8281 10.8142 28.0938 10.9236 Q28.25 10.9861 29.0312 11.1892 Q30.1562 11.5017 30.5938 11.6892 Q31.0312 11.8767 31.2812 12.2361 Q31.5312 12.5954 31.5312 13.1423 Q31.5312 13.6736 31.2266 14.1345 Q30.9219 14.5954 30.3438 14.8532 Q29.7656 15.1111 29.0312 15.1111 Q27.8125 15.1111 27.1797 14.6032 Q26.5469 14.0954 26.375 13.1111 ZM33.4062 11.8611 Q33.4062 10.1267 34.3594 9.2986 Q35.1562 8.6111 36.3125 8.6111 Q37.5938 8.6111 38.4141 9.447 Q39.2344 10.2829 39.2344 11.7673 Q39.2344 12.9704 38.875 13.6579 Q38.5156 14.3454 37.8203 14.7282 Q37.125 15.1111 36.3125 15.1111 Q35.0156 15.1111 34.2109 14.2751 Q33.4062 13.4392 33.4062 11.8611 ZM34.4844 11.8611 Q34.4844 13.0486 35.0078 13.6423 Q35.5312 14.2361 36.3125 14.2361 Q37.1094 14.2361 37.625 13.6423 Q38.1406 13.0486 38.1406 11.8298 Q38.1406 10.6736 37.6172 10.0798 Q37.0938 9.4861 36.3125 9.4861 Q35.5312 9.4861 35.0078 10.072 Q34.4844 10.6579 34.4844 11.8611 ZM44.875 14.9704 L44.875 14.0486 Q44.1406 15.1111 42.8906 15.1111 Q42.3438 15.1111 41.8672 14.9001 Q41.3906 14.6892 41.1562 14.3689 Q40.9219 14.0486 40.8281 13.5798 Q40.7656 13.2829 40.7656 12.5954 L40.7656 8.7517 L41.8281 8.7517 L41.8281 12.2048 Q41.8281 13.0173 41.8906 13.3142 Q41.9844 13.7204 42.3047 13.9626 Q42.625 14.2048 43.1094 14.2048 Q43.5781 14.2048 43.9922 13.9626 Q44.4062 13.7204 44.5859 13.2986 Q44.7656 12.8767 44.7656 12.0798 L44.7656 8.7517 L45.8125 8.7517 L45.8125 14.9704 L44.875 14.9704 ZM47.7812 14.9704 L47.7812 8.7517 L48.7344 8.7517 L48.7344 9.6892 Q49.0938 9.0329 49.3984 8.822 Q49.7031 8.6111 50.0781 8.6111 Q50.6094 8.6111 51.1562 8.9392 L50.7969 9.9236 Q50.4062 9.6892 50.0312 9.6892 Q49.6719 9.6892 49.3984 9.9001 Q49.125 10.1111 49.0156 10.4861 Q48.8281 11.0486 48.8281 11.7048 L48.8281 14.9704 L47.7812 14.9704 ZM55.8594 12.6892 L56.8906 12.8298 Q56.7188 13.8923 56.0156 14.5017 Q55.3125 15.1111 54.2969 15.1111 Q53.0156 15.1111 52.2422 14.2751 Q51.4688 13.4392 51.4688 11.8767 Q51.4688 10.8767 51.8047 10.1189 Q52.1406 9.3611 52.8203 8.9861 Q53.5 8.6111 54.3125 8.6111 Q55.3125 8.6111 55.9609 9.1189 Q56.6094 9.6267 56.7969 10.5798 L55.7656 10.7361 Q55.625 10.1111 55.25 9.7907 Q54.875 9.4704 54.3438 9.4704 Q53.5469 9.4704 53.0469 10.0407 Q52.5469 10.6111 52.5469 11.8454 Q52.5469 13.1111 53.0312 13.6736 Q53.5156 14.2361 54.2812 14.2361 Q54.9062 14.2361 55.3203 13.8611 Q55.7344 13.4861 55.8594 12.6892 ZM62.0469 12.9704 L63.1406 13.0954 Q62.8906 14.0486 62.1875 14.5798 Q61.4844 15.1111 60.4062 15.1111 Q59.0469 15.1111 58.2422 14.2673 Q57.4375 13.4236 57.4375 11.9079 Q57.4375 10.3454 58.25 9.4782 Q59.0625 8.6111 60.3438 8.6111 Q61.5938 8.6111 62.3828 9.4548 Q63.1719 10.2986 63.1719 11.8454 Q63.1719 11.9392 63.1719 12.1267 L58.5312 12.1267 Q58.5938 13.1579 59.1094 13.697 Q59.625 14.2361 60.4062 14.2361 Q60.9844 14.2361 61.3984 13.9314 Q61.8125 13.6267 62.0469 12.9704 ZM58.5938 11.2673 L62.0625 11.2673 Q62 10.4704 61.6719 10.0798 Q61.1562 9.4704 60.3594 9.4704 Q59.625 9.4704 59.1328 9.9548 Q58.6406 10.4392 58.5938 11.2673 ZM64.7969 14.9704 L64.7969 8.7517 L65.7344 8.7517 L65.7344 9.6267 Q66.4219 8.6111 67.7188 8.6111 Q68.2812 8.6111 68.7578 8.8142 Q69.2344 9.0173 69.4688 9.3454 Q69.7031 9.6736 69.7969 10.1111 Q69.8438 10.4079 69.8438 11.1423 L69.8438 14.9704 L68.7969 14.9704 L68.7969 11.1892 Q68.7969 10.5329 68.6719 10.2204 Q68.5469 9.9079 68.2344 9.7126 Q67.9219 9.5173 67.5 9.5173 Q66.8281 9.5173 66.3359 9.947 Q65.8438 10.3767 65.8438 11.5642 L65.8438 14.9704 L64.7969 14.9704 ZM78.8281 14.9704 L78.8281 14.1892 Q78.2344 15.1111 77.0938 15.1111 Q76.3438 15.1111 75.7188 14.697 Q75.0938 14.2829 74.75 13.5486 Q74.4062 12.8142 74.4062 11.8611 Q74.4062 10.9392 74.7188 10.1736 Q75.0312 9.4079 75.6562 9.0095 Q76.2812 8.6111 77.0469 8.6111 Q77.6094 8.6111 78.0469 8.8454 Q78.4844 9.0798 78.7656 9.4548 L78.7656 6.3767 L79.8125 6.3767 L79.8125 14.9704 L78.8281 14.9704 ZM75.5 11.8611 Q75.5 13.0642 76 13.6501 Q76.5 14.2361 77.1875 14.2361 Q77.875 14.2361 78.3594 13.6736 Q78.8438 13.1111 78.8438 11.9548 Q78.8438 10.6736 78.3516 10.0798 Q77.8594 9.4861 77.1406 9.4861 Q76.4375 9.4861 75.9688 10.0564 Q75.5 10.6267 75.5 11.8611 ZM86.0469 12.9704 L87.1406 13.0954 Q86.8906 14.0486 86.1875 14.5798 Q85.4844 15.1111 84.4062 15.1111 Q83.0469 15.1111 82.2422 14.2673 Q81.4375 13.4236 81.4375 11.9079 Q81.4375 10.3454 82.25 9.4782 Q83.0625 8.6111 84.3438 8.6111 Q85.5938 8.6111 86.3828 9.4548 Q87.1719 10.2986 87.1719 11.8454 Q87.1719 11.9392 87.1719 12.1267 L82.5312 12.1267 Q82.5938 13.1579 83.1094 13.697 Q83.625 14.2361 84.4062 14.2361 Q84.9844 14.2361 85.3984 13.9314 Q85.8125 13.6267 86.0469 12.9704 ZM82.5938 11.2673 L86.0625 11.2673 Q86 10.4704 85.6719 10.0798 Q85.1562 9.4704 84.3594 9.4704 Q83.625 9.4704 83.1328 9.9548 Q82.6406 10.4392 82.5938 11.2673 ZM88.7812 14.9704 L88.7812 8.7517 L89.7344 8.7517 L89.7344 9.6892 Q90.0938 9.0329 90.3984 8.822 Q90.7031 8.6111 91.0781 8.6111 Q91.6094 8.6111 92.1562 8.9392 L91.7969 9.9236 Q91.4062 9.6892 91.0312 9.6892 Q90.6719 9.6892 90.3984 9.9001 Q90.125 10.1111 90.0156 10.4861 Q89.8281 11.0486 89.8281 11.7048 L89.8281 14.9704 L88.7812 14.9704 Z"
-         clip-path="url(#clipPath22)"
-         stroke="none"
-         id="path264" />
+         clip-path="url(#clipPath24)"
+         id="path278"
+         stroke="none" />
       <path
          d="M7.9531 26.5954 L7.9531 25.5954 L11.5781 25.5798 L11.5781 28.7673 Q10.75 29.4392 9.8594 29.7751 Q8.9688 30.1111 8.0312 30.1111 Q6.7656 30.1111 5.7266 29.572 Q4.6875 29.0329 4.1641 28.0095 Q3.6406 26.9861 3.6406 25.7204 Q3.6406 24.4548 4.1641 23.3689 Q4.6875 22.2829 5.6719 21.7595 Q6.6562 21.2361 7.9375 21.2361 Q8.875 21.2361 9.625 21.5329 Q10.375 21.8298 10.8047 22.3689 Q11.2344 22.9079 11.4531 23.7829 L10.4375 24.0642 Q10.2344 23.4079 9.9453 23.0329 Q9.6562 22.6579 9.125 22.4314 Q8.5938 22.2048 7.9531 22.2048 Q7.1719 22.2048 6.6016 22.4392 Q6.0312 22.6736 5.6797 23.0642 Q5.3281 23.4548 5.1406 23.9236 Q4.8125 24.7204 4.8125 25.6423 Q4.8125 26.7986 5.2109 27.572 Q5.6094 28.3454 6.3594 28.7204 Q7.1094 29.0954 7.9688 29.0954 Q8.7031 29.0954 9.4062 28.8064 Q10.1094 28.5173 10.4688 28.2048 L10.4688 26.5954 L7.9531 26.5954 ZM12.7812 29.9704 L12.7812 23.7517 L13.7344 23.7517 L13.7344 24.6892 Q14.0938 24.0329 14.3984 23.822 Q14.7031 23.6111 15.0781 23.6111 Q15.6094 23.6111 16.1562 23.9392 L15.7969 24.9236 Q15.4062 24.6892 15.0312 24.6892 Q14.6719 24.6892 14.3984 24.9001 Q14.125 25.1111 14.0156 25.4861 Q13.8281 26.0486 13.8281 26.7048 L13.8281 29.9704 L12.7812 29.9704 ZM20.875 29.9704 L20.875 29.0486 Q20.1406 30.1111 18.8906 30.1111 Q18.3438 30.1111 17.8672 29.9001 Q17.3906 29.6892 17.1562 29.3689 Q16.9219 29.0486 16.8281 28.5798 Q16.7656 28.2829 16.7656 27.5954 L16.7656 23.7517 L17.8281 23.7517 L17.8281 27.2048 Q17.8281 28.0173 17.8906 28.3142 Q17.9844 28.7204 18.3047 28.9626 Q18.625 29.2048 19.1094 29.2048 Q19.5781 29.2048 19.9922 28.9626 Q20.4062 28.7204 20.5859 28.2986 Q20.7656 27.8767 20.7656 27.0798 L20.7656 23.7517 L21.8125 23.7517 L21.8125 29.9704 L20.875 29.9704 ZM23.7969 32.3611 L23.7969 23.7517 L24.75 23.7517 L24.75 24.5486 Q25.0938 24.0798 25.5234 23.8454 Q25.9531 23.6111 26.5625 23.6111 Q27.3594 23.6111 27.9688 24.0173 Q28.5781 24.4236 28.8828 25.1736 Q29.1875 25.9236 29.1875 26.8142 Q29.1875 27.7673 28.8516 28.5329 Q28.5156 29.2986 27.8594 29.7048 Q27.2031 30.1111 26.4844 30.1111 Q25.9531 30.1111 25.5312 29.8845 Q25.1094 29.6579 24.8438 29.3298 L24.8438 32.3611 L23.7969 32.3611 ZM24.75 26.8923 Q24.75 28.0954 25.2344 28.6657 Q25.7188 29.2361 26.4062 29.2361 Q27.1094 29.2361 27.6094 28.6423 Q28.1094 28.0486 28.1094 26.7986 Q28.1094 25.6111 27.625 25.0251 Q27.1406 24.4392 26.4531 24.4392 Q25.7812 24.4392 25.2656 25.0642 Q24.75 25.6892 24.75 26.8923 ZM30.7969 32.3611 L30.7969 23.7517 L31.75 23.7517 L31.75 24.5486 Q32.0938 24.0798 32.5234 23.8454 Q32.9531 23.6111 33.5625 23.6111 Q34.3594 23.6111 34.9688 24.0173 Q35.5781 24.4236 35.8828 25.1736 Q36.1875 25.9236 36.1875 26.8142 Q36.1875 27.7673 35.8516 28.5329 Q35.5156 29.2986 34.8594 29.7048 Q34.2031 30.1111 33.4844 30.1111 Q32.9531 30.1111 32.5312 29.8845 Q32.1094 29.6579 31.8438 29.3298 L31.8438 32.3611 L30.7969 32.3611 ZM31.75 26.8923 Q31.75 28.0954 32.2344 28.6657 Q32.7188 29.2361 33.4062 29.2361 Q34.1094 29.2361 34.6094 28.6423 Q35.1094 28.0486 35.1094 26.7986 Q35.1094 25.6111 34.625 25.0251 Q34.1406 24.4392 33.4531 24.4392 Q32.7812 24.4392 32.2656 25.0642 Q31.75 25.6892 31.75 26.8923 ZM42.0469 27.9704 L43.1406 28.0954 Q42.8906 29.0486 42.1875 29.5798 Q41.4844 30.1111 40.4062 30.1111 Q39.0469 30.1111 38.2422 29.2673 Q37.4375 28.4236 37.4375 26.9079 Q37.4375 25.3454 38.25 24.4782 Q39.0625 23.6111 40.3438 23.6111 Q41.5938 23.6111 42.3828 24.4548 Q43.1719 25.2986 43.1719 26.8454 Q43.1719 26.9392 43.1719 27.1267 L38.5312 27.1267 Q38.5938 28.1579 39.1094 28.697 Q39.625 29.2361 40.4062 29.2361 Q40.9844 29.2361 41.3984 28.9314 Q41.8125 28.6267 42.0469 27.9704 ZM38.5938 26.2673 L42.0625 26.2673 Q42 25.4704 41.6719 25.0798 Q41.1562 24.4704 40.3594 24.4704 Q39.625 24.4704 39.1328 24.9548 Q38.6406 25.4392 38.5938 26.2673 ZM47.7969 29.9704 L47.7969 21.3767 L48.8438 21.3767 L48.8438 24.4548 Q49.5781 23.6111 50.7031 23.6111 Q51.4062 23.6111 51.9141 23.8845 Q52.4219 24.1579 52.6406 24.6345 Q52.8594 25.1111 52.8594 26.0329 L52.8594 29.9704 L51.8125 29.9704 L51.8125 26.0329 Q51.8125 25.2361 51.4688 24.8767 Q51.125 24.5173 50.5 24.5173 Q50.0312 24.5173 49.6172 24.7595 Q49.2031 25.0017 49.0234 25.4157 Q48.8438 25.8298 48.8438 26.5642 L48.8438 29.9704 L47.7969 29.9704 ZM54.7969 22.5954 L54.7969 21.3767 L55.8594 21.3767 L55.8594 22.5954 L54.7969 22.5954 ZM54.7969 29.9704 L54.7969 23.7517 L55.8594 23.7517 L55.8594 29.9704 L54.7969 29.9704 ZM57.7969 29.9704 L57.7969 23.7517 L58.7344 23.7517 L58.7344 24.6267 Q59.4219 23.6111 60.7188 23.6111 Q61.2812 23.6111 61.7578 23.8142 Q62.2344 24.0173 62.4688 24.3454 Q62.7031 24.6736 62.7969 25.1111 Q62.8438 25.4079 62.8438 26.1423 L62.8438 29.9704 L61.7969 29.9704 L61.7969 26.1892 Q61.7969 25.5329 61.6719 25.2204 Q61.5469 24.9079 61.2344 24.7126 Q60.9219 24.5173 60.5 24.5173 Q59.8281 24.5173 59.3359 24.947 Q58.8438 25.3767 58.8438 26.5642 L58.8438 29.9704 L57.7969 29.9704 ZM64.2344 29.9704 L64.2344 29.1111 L68.2031 24.5642 Q67.5156 24.5954 67 24.5954 L64.4688 24.5954 L64.4688 23.7517 L69.5625 23.7517 L69.5625 24.4392 L66.1875 28.3923 L65.5312 29.1111 Q66.25 29.0642 66.8594 29.0642 L69.75 29.0642 L69.75 29.9704 L64.2344 29.9704 ZM73.875 29.9704 L73.875 29.0486 Q73.1406 30.1111 71.8906 30.1111 Q71.3438 30.1111 70.8672 29.9001 Q70.3906 29.6892 70.1562 29.3689 Q69.9219 29.0486 69.8281 28.5798 Q69.7656 28.2829 69.7656 27.5954 L69.7656 23.7517 L70.8281 23.7517 L70.8281 27.2048 Q70.8281 28.0173 70.8906 28.3142 Q70.9844 28.7204 71.3047 28.9626 Q71.625 29.2048 72.1094 29.2048 Q72.5781 29.2048 72.9922 28.9626 Q73.4062 28.7204 73.5859 28.2986 Q73.7656 27.8767 73.7656 27.0798 L73.7656 23.7517 L74.8125 23.7517 L74.8125 29.9704 L73.875 29.9704 ZM77.0469 29.9704 L77.0469 24.5642 L76.1094 24.5642 L76.1094 23.7517 L77.0469 23.7517 L77.0469 23.0798 Q77.0469 22.4548 77.1562 22.1579 Q77.3125 21.7361 77.6953 21.4861 Q78.0781 21.2361 78.7656 21.2361 Q79.2188 21.2361 79.75 21.3454 L79.5938 22.2517 Q79.2656 22.2048 78.9688 22.2048 Q78.4844 22.2048 78.2891 22.4079 Q78.0938 22.6111 78.0938 23.1736 L78.0938 23.7517 L79.3125 23.7517 L79.3125 24.5642 L78.0938 24.5642 L78.0938 29.9704 L77.0469 29.9704 ZM83.875 29.9704 L83.875 29.0486 Q83.1406 30.1111 81.8906 30.1111 Q81.3438 30.1111 80.8672 29.9001 Q80.3906 29.6892 80.1562 29.3689 Q79.9219 29.0486 79.8281 28.5798 Q79.7656 28.2829 79.7656 27.5954 L79.7656 23.7517 L80.8281 23.7517 L80.8281 27.2048 Q80.8281 28.0173 80.8906 28.3142 Q80.9844 28.7204 81.3047 28.9626 Q81.625 29.2048 82.1094 29.2048 Q82.5781 29.2048 82.9922 28.9626 Q83.4062 28.7204 83.5859 28.2986 Q83.7656 27.8767 83.7656 27.0798 L83.7656 23.7517 L84.8125 23.7517 L84.8125 29.9704 L83.875 29.9704 ZM80.3594 21.9704 L80.3594 20.7673 L81.4531 20.7673 L81.4531 21.9704 L80.3594 21.9704 ZM82.5469 21.9704 L82.5469 20.7673 L83.6406 20.7673 L83.6406 21.9704 L82.5469 21.9704 ZM86.5938 30.4861 L87.625 30.6423 Q87.6875 31.1111 87.9844 31.3298 Q88.375 31.6267 89.0469 31.6267 Q89.7812 31.6267 90.1797 31.3298 Q90.5781 31.0329 90.7188 30.5173 Q90.8125 30.1892 90.7969 29.1579 Q90.1094 29.9704 89.0781 29.9704 Q87.7969 29.9704 87.0938 29.0407 Q86.3906 28.1111 86.3906 26.8298 Q86.3906 25.9392 86.7109 25.1814 Q87.0312 24.4236 87.6406 24.0173 Q88.25 23.6111 89.0781 23.6111 Q90.1875 23.6111 90.9062 24.5017 L90.9062 23.7517 L91.875 23.7517 L91.875 29.1267 Q91.875 30.5798 91.5781 31.1892 Q91.2812 31.7986 90.6406 32.1501 Q90 32.5017 89.0625 32.5017 Q87.9531 32.5017 87.2656 32.0017 Q86.5781 31.5017 86.5938 30.4861 ZM87.4688 26.7517 Q87.4688 27.9704 87.9531 28.5329 Q88.4375 29.0954 89.1719 29.0954 Q89.9062 29.0954 90.3984 28.5329 Q90.8906 27.9704 90.8906 26.7829 Q90.8906 25.6423 90.3828 25.0642 Q89.875 24.4861 89.1562 24.4861 Q88.4531 24.4861 87.9609 25.0564 Q87.4688 25.6267 87.4688 26.7517 ZM98.0469 27.9704 L99.1406 28.0954 Q98.8906 29.0486 98.1875 29.5798 Q97.4844 30.1111 96.4062 30.1111 Q95.0469 30.1111 94.2422 29.2673 Q93.4375 28.4236 93.4375 26.9079 Q93.4375 25.3454 94.25 24.4782 Q95.0625 23.6111 96.3438 23.6111 Q97.5938 23.6111 98.3828 24.4548 Q99.1719 25.2986 99.1719 26.8454 Q99.1719 26.9392 99.1719 27.1267 L94.5312 27.1267 Q94.5938 28.1579 95.1094 28.697 Q95.625 29.2361 96.4062 29.2361 Q96.9844 29.2361 97.3984 28.9314 Q97.8125 28.6267 98.0469 27.9704 ZM94.5938 26.2673 L98.0625 26.2673 Q98 25.4704 97.6719 25.0798 Q97.1562 24.4704 96.3594 24.4704 Q95.625 24.4704 95.1328 24.9548 Q94.6406 25.4392 94.5938 26.2673 ZM100.7969 29.9704 L100.7969 23.7517 L101.7344 23.7517 L101.7344 24.6267 Q102.4219 23.6111 103.7188 23.6111 Q104.2812 23.6111 104.7578 23.8142 Q105.2344 24.0173 105.4688 24.3454 Q105.7031 24.6736 105.7969 25.1111 Q105.8438 25.4079 105.8438 26.1423 L105.8438 29.9704 L104.7969 29.9704 L104.7969 26.1892 Q104.7969 25.5329 104.6719 25.2204 Q104.5469 24.9079 104.2344 24.7126 Q103.9219 24.5173 103.5 24.5173 Q102.8281 24.5173 102.3359 24.947 Q101.8438 25.3767 101.8438 26.5642 L101.8438 29.9704 L100.7969 29.9704 Z"
-         clip-path="url(#clipPath22)"
-         stroke="none"
-         id="path266" />
+         clip-path="url(#clipPath24)"
+         id="path280"
+         stroke="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
-       transform="translate(120,290)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(121,290)"
        text-rendering="geometricPrecision"
+       id="g282"
        font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        stroke-opacity="1"
-       id="g268">
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <line
          y2="50"
-         fill="none"
-         x1="249"
-         clip-path="url(#clipPath23)"
+         x1="248"
+         clip-path="url(#clipPath25)"
          x2="50"
          y1="50"
-         id="line270" />
+         id="line284"
+         fill="none" />
       <polygon
-         fill="white"
-         clip-path="url(#clipPath23)"
-         points=" 249 50 237 44 237 56"
+         clip-path="url(#clipPath25)"
+         points=" 248 50 236 44 236 56"
+         id="polygon286"
          stroke="none"
-         id="polygon272" />
+         fill="white" />
       <polygon
-         fill="none"
-         points=" 249 50 237 44 237 56"
-         clip-path="url(#clipPath23)"
-         id="polygon274" />
+         points=" 248 50 236 44 236 56"
+         clip-path="url(#clipPath25)"
+         id="polygon288"
+         fill="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
-       transform="translate(70,60)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(71,60)"
        text-rendering="geometricPrecision"
+       id="g290"
        font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        stroke-opacity="1"
-       id="g276">
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <line
          y2="50"
-         fill="none"
-         x1="299"
-         clip-path="url(#clipPath24)"
+         x1="298"
+         clip-path="url(#clipPath26)"
          x2="50"
          y1="50"
-         id="line278" />
+         id="line292"
+         fill="none" />
       <polygon
-         fill="white"
-         clip-path="url(#clipPath24)"
-         points=" 299 50 287 44 287 56"
+         clip-path="url(#clipPath26)"
+         points=" 298 50 286 44 286 56"
+         id="polygon294"
          stroke="none"
-         id="polygon280" />
+         fill="white" />
       <polygon
-         fill="none"
-         points=" 299 50 287 44 287 56"
-         clip-path="url(#clipPath24)"
-         id="polygon282" />
+         points=" 298 50 286 44 286 56"
+         clip-path="url(#clipPath26)"
+         id="polygon296"
+         fill="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
        transform="translate(-10,90)"
-       fill-opacity="1"
-       fill="black"
        text-rendering="geometricPrecision"
+       id="g298"
        font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
        stroke-opacity="1"
-       id="g284">
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <line
          y2="229"
-         fill="none"
-         x1="50"
-         clip-path="url(#clipPath25)"
-         x2="50"
-         y1="50"
-         id="line286" />
-      <line
-         y2="62"
-         fill="none"
-         x1="50"
-         clip-path="url(#clipPath25)"
-         x2="44"
-         y1="50"
-         id="line288" />
-      <line
-         y2="62"
-         fill="none"
-         x1="50"
-         clip-path="url(#clipPath25)"
-         x2="56"
-         y1="50"
-         id="line290" />
-      <line
-         y2="215"
-         fill="none"
-         x1="56"
-         clip-path="url(#clipPath25)"
-         x2="44"
-         y1="224"
-         id="line292" />
-      <line
-         y2="215"
-         fill="none"
-         x1="44"
-         clip-path="url(#clipPath25)"
-         x2="56"
-         y1="224"
-         id="line294" />
-    </g>
-    <g
-       font-size="11"
-       stroke-linecap="butt"
-       transform="translate(90,150)"
-       fill-opacity="1"
-       fill="black"
-       text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke="black"
-       stroke-opacity="1"
-       id="g296">
-      <line
-         y2="90"
-         fill="none"
-         x1="50"
-         clip-path="url(#clipPath26)"
-         x2="50"
-         y1="169"
-         id="line298" />
-      <line
-         y2="90"
-         fill="none"
-         x1="50"
-         clip-path="url(#clipPath26)"
-         x2="220"
-         y1="90"
-         id="line300" />
-      <line
-         y2="50"
-         fill="none"
-         x1="220"
-         clip-path="url(#clipPath26)"
-         x2="220"
-         y1="90"
-         id="line302" />
-      <line
-         y2="50"
-         fill="none"
-         x1="220"
-         clip-path="url(#clipPath26)"
-         x2="309"
-         y1="50"
-         id="line304" />
-      <line
-         y2="155"
-         fill="none"
-         x1="56"
-         clip-path="url(#clipPath26)"
-         x2="44"
-         y1="164"
-         id="line306" />
-      <line
-         y2="155"
-         fill="none"
-         x1="44"
-         clip-path="url(#clipPath26)"
-         x2="56"
-         y1="164"
-         id="line308" />
-      <line
-         y2="44"
-         fill="none"
-         x1="309"
-         clip-path="url(#clipPath26)"
-         x2="297"
-         y1="50"
-         id="line310" />
-      <line
-         y2="56"
-         fill="none"
-         x1="309"
-         clip-path="url(#clipPath26)"
-         x2="297"
-         y1="50"
-         id="line312" />
-    </g>
-    <g
-       font-size="11"
-       stroke-linecap="butt"
-       transform="translate(230,190)"
-       fill-opacity="1"
-       fill="black"
-       text-rendering="geometricPrecision"
-       font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke-dasharray="4"
-       stroke="black"
-       stroke-opacity="1"
-       id="g314">
-      <line
-         y2="60"
-         fill="none"
          x1="50"
          clip-path="url(#clipPath27)"
          x2="50"
          y1="50"
-         id="line316" />
+         id="line300"
+         fill="none" />
       <line
-         y2="79"
-         fill="none"
+         y2="62"
          x1="50"
          clip-path="url(#clipPath27)"
-         x2="50"
-         y1="60"
-         id="line318" />
+         x2="44"
+         y1="50"
+         id="line302"
+         fill="none" />
+      <line
+         y2="62"
+         x1="50"
+         clip-path="url(#clipPath27)"
+         x2="56"
+         y1="50"
+         id="line304"
+         fill="none" />
+      <line
+         y2="215"
+         x1="56"
+         clip-path="url(#clipPath27)"
+         x2="44"
+         y1="224"
+         id="line306"
+         fill="none" />
+      <line
+         y2="215"
+         x1="44"
+         clip-path="url(#clipPath27)"
+         x2="56"
+         y1="224"
+         id="line308"
+         fill="none" />
     </g>
     <g
        font-size="11"
-       stroke-linecap="butt"
-       transform="translate(-10,130)"
-       fill-opacity="1"
-       fill="black"
+       transform="translate(90,170)"
        text-rendering="geometricPrecision"
+       id="g310"
        font-family="sans-serif"
-       stroke-linejoin="round"
-       stroke-dasharray="4"
-       stroke="black"
        stroke-opacity="1"
-       id="g320">
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
       <line
-         y2="50"
-         fill="none"
-         x1="69"
+         y2="70"
+         x1="50"
          clip-path="url(#clipPath28)"
          x2="50"
+         y1="149"
+         id="line312"
+         fill="none" />
+      <line
+         y2="70"
+         x1="50"
+         clip-path="url(#clipPath28)"
+         x2="220"
+         y1="70"
+         id="line314"
+         fill="none" />
+      <line
+         y2="50"
+         x1="220"
+         clip-path="url(#clipPath28)"
+         x2="220"
+         y1="70"
+         id="line316"
+         fill="none" />
+      <line
+         y2="50"
+         x1="220"
+         clip-path="url(#clipPath28)"
+         x2="309"
          y1="50"
-         id="line322" />
+         id="line318"
+         fill="none" />
+      <line
+         y2="135"
+         x1="56"
+         clip-path="url(#clipPath28)"
+         x2="44"
+         y1="144"
+         id="line320"
+         fill="none" />
+      <line
+         y2="135"
+         x1="44"
+         clip-path="url(#clipPath28)"
+         x2="56"
+         y1="144"
+         id="line322"
+         fill="none" />
+      <line
+         y2="44"
+         x1="309"
+         clip-path="url(#clipPath28)"
+         x2="297"
+         y1="50"
+         id="line324"
+         fill="none" />
+      <line
+         y2="56"
+         x1="309"
+         clip-path="url(#clipPath28)"
+         x2="297"
+         y1="50"
+         id="line326"
+         fill="none" />
+    </g>
+    <g
+       font-size="11"
+       transform="translate(230,190)"
+       text-rendering="geometricPrecision"
+       id="g328"
+       font-family="sans-serif"
+       stroke-dasharray="4"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
+      <line
+         y2="60"
+         x1="50"
+         clip-path="url(#clipPath29)"
+         x2="50"
+         y1="50"
+         id="line330"
+         fill="none" />
+      <line
+         y2="79"
+         x1="50"
+         clip-path="url(#clipPath29)"
+         x2="50"
+         y1="60"
+         id="line332"
+         fill="none" />
+    </g>
+    <g
+       font-size="11"
+       transform="translate(-10,130)"
+       text-rendering="geometricPrecision"
+       id="g334"
+       font-family="sans-serif"
+       stroke-dasharray="4"
+       stroke-opacity="1"
+       stroke-linejoin="round"
+       stroke-linecap="butt"
+       stroke="black"
+       fill-opacity="1"
+       fill="black">
+      <line
+         y2="50"
+         x1="69"
+         clip-path="url(#clipPath30)"
+         x2="50"
+         y1="50"
+         id="line336"
+         fill="none" />
     </g>
     <text
-       x="5.9560547"
+       x="0.71189737"
        xml:space="preserve"
-       y="14.700916"
-       id="text420-1"
+       y="12.14583"
+       id="text434"
        style="font-size:10px;fill:#787878;fill-opacity:1;stroke:none">Visual Paradigm for UML Community Edition [not for commercial use] </text>
   </g>
 </svg>
