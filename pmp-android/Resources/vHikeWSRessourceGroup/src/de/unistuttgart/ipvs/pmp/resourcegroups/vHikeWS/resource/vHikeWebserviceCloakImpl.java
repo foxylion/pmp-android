@@ -254,4 +254,12 @@ public class vHikeWebserviceCloakImpl extends IvHikeWebservice.Stub {
         return null;
     }
     
+    
+    @Override
+    public String editProfile(String sid, String lastname, String firstname, String tel, String description)
+            throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

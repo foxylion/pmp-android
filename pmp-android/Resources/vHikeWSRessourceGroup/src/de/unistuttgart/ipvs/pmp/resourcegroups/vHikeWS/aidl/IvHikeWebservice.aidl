@@ -58,6 +58,8 @@ interface IvHikeWebservice{
 	
 	String getOwnProfile(String sid);
 	
+	String editProfile(String sid, String lastname, String firstname, String tel, String description);
+	
 	String getProfile(String session_id, int id);
 	
 	String setProfileVisibility(String sid, boolean lastname_public, boolean firstname_public, boolean email_public, boolean tel_public);

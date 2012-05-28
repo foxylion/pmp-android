@@ -357,6 +357,18 @@ public class Controller {
     }
     
     
+    public int editProfile(String sid, String lastname, String firstname, String tel) {
+        String ret = "";
+        try {
+            Log.i(this, "Last: " + lastname + ", First: " + firstname + ", Tel: " + tel);
+            ret = this.ws.editProfile(sid, lastname, firstname, tel, "");
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    
     /**
      * Sets visibility of lastname, firstname, email and/or phone number
      * 
