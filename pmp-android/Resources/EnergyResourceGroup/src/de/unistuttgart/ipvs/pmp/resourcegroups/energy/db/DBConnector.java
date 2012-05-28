@@ -63,7 +63,7 @@ public class DBConnector implements IDBConnector {
      */
     public static IDBConnector getInstance(Context context) {
         
-        instance = new DBConnector(context);
+        DBConnector.instance = new DBConnector(context);
         
         return instance;
     }
@@ -73,7 +73,6 @@ public class DBConnector implements IDBConnector {
      * Initialize the sql tables, create them if necessary
      */
     private void initialize() {
-        System.out.println(this.context.getClass().getSimpleName());
         this.dbHelper = new SQLiteHelper(this.context);
     }
     

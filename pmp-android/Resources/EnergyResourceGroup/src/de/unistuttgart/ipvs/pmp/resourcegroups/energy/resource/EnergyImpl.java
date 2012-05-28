@@ -7,9 +7,6 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.IDBConnector;
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum.PSBatteryTemperatureEnum;
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum.PSDeviceBatteryChargingUptimeEnum;
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.privacysettingenum.PSDeviceDatesEnum;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetCurrentValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetLastBootValues;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultSetTotalValues;
@@ -78,7 +75,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getCurrentTemperature() throws RemoteException {
         // Check permission
-        this.psv.validate(PSBatteryTemperatureEnum.CURRENT);
+        this.psv.validate(EnergyConstants.PS_BATTERY_TEMPERATURE, "true");
         
         return getResultSetCV().getTemperature();
     }
@@ -86,7 +83,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getLastBootDate() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceDatesEnum.LAST_BOOT);
+        this.psv.validate(EnergyConstants.PS_DEVICE_DATES, "true");
         
         return getResultSetLBV().getDate();
     }
@@ -94,7 +91,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getLastBootUptime() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceDatesEnum.LAST_BOOT);
+        this.psv.validate(EnergyConstants.PS_DEVICE_DATES, "true");
         
         return getResultSetLBV().getUptime();
     }
@@ -102,7 +99,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getLastBootUptimeBattery() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_DEVICE_BATTERY_CHARGING_UPTIME, "true");
         
         return getResultSetLBV().getUptimeBattery();
     }
@@ -110,8 +107,8 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getLastBootDurationOfCharging() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceDatesEnum.LAST_BOOT);
-        this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_DEVICE_DATES, "true");
+        this.psv.validate(EnergyConstants.PS_DEVICE_BATTERY_CHARGING_UPTIME, "true");
         
         return getResultSetLBV().getDurationOfCharging();
     }
@@ -127,7 +124,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getLastBootTemperaturePeak() throws RemoteException {
         // Check permission
-        this.psv.validate(PSBatteryTemperatureEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_BATTERY_TEMPERATURE, "true");
         
         return getResultSetLBV().getTemperaturePeak();
     }
@@ -135,7 +132,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getLastBootTemperatureAverage() throws RemoteException {
         // Check permission
-        this.psv.validate(PSBatteryTemperatureEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_BATTERY_TEMPERATURE, "true");
         
         return getResultSetLBV().getTemperatureAverage();
     }
@@ -159,7 +156,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getTotalBootDate() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceDatesEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_DEVICE_DATES, "true");
         
         return getResultSetTV().getDate();
     }
@@ -167,7 +164,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getTotalUptime() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceDatesEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_DEVICE_DATES, "true");
         
         return getResultSetTV().getUptime();
     }
@@ -175,7 +172,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getTotalUptimeBattery() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_DEVICE_BATTERY_CHARGING_UPTIME, "true");
         
         return getResultSetTV().getUptimeBattery();
     }
@@ -183,8 +180,8 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getTotalDurationOfCharging() throws RemoteException {
         // Check permission
-        this.psv.validate(PSDeviceDatesEnum.ALL);
-        this.psv.validate(PSDeviceBatteryChargingUptimeEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_DEVICE_DATES, "true");
+        this.psv.validate(EnergyConstants.PS_DEVICE_BATTERY_CHARGING_UPTIME, "true");
         
         return getResultSetTV().getDurationOfCharging();
     }
@@ -200,7 +197,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getTotalTemperaturePeak() throws RemoteException {
         // Check permission
-        this.psv.validate(PSBatteryTemperatureEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_BATTERY_TEMPERATURE, "true");
         
         return getResultSetTV().getTemperaturePeak();
     }
@@ -208,7 +205,7 @@ public class EnergyImpl extends IEnergy.Stub {
     
     public String getTotalTemperatureAverage() throws RemoteException {
         // Check permission
-        this.psv.validate(PSBatteryTemperatureEnum.ALL);
+        this.psv.validate(EnergyConstants.PS_BATTERY_TEMPERATURE, "true");
         
         return getResultSetTV().getTemperatureAverage();
     }
