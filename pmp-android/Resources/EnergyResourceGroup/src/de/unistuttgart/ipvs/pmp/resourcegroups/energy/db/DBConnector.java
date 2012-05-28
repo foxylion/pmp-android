@@ -130,39 +130,60 @@ public class DBConnector implements IDBConnector {
     
     public void storeScreenEvent(ScreenEvent se) {
         
-        // Create content values
-        ContentValues cvs = new ContentValues();
-        cvs.put(DBConstants.TABLE_SCREEN_COL_TIMESTAMP, se.getTimestamp());
-        cvs.put(DBConstants.TABLE_SCREEN_COL_CHANGED_TO, se.isChangedTo());
+        String whereScreenOnDate = DBConstants.TABLE_DEVICE_DATA_COL_KEY + " = "
+                + DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE;
+        String whereScreenOnTime = DBConstants.TABLE_DEVICE_DATA_COL_KEY + " = "
+                + DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME;
         
-        // Insert into database
         open();
-        long id = this.database.insert(DBConstants.TABLE_SCREEN, null, cvs);
-        close();
         
-        // Log
-        Log.i(EnergyConstants.LOG_TAG, "Stored screen event in database (ID: " + id + ")");
-        Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + se.getTimestamp());
-        Log.i(EnergyConstants.LOG_TAG, "Changed to: " + se.isChangedTo());
+        if (se.isChangedTo()) {
+            
+            // Create content values
+            ContentValues cvs = new ContentValues();
+            cvs.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, se.getTimestamp());
+            
+            // Insert into database
+            this.database.update(DBConstants.TABLE_DEVICE_DATA, cvs, whereScreenOnDate, null);
+            
+            // Log
+            Log.i(EnergyConstants.LOG_TAG, "Screen turn on (Timestamp: " + se.getTimestamp() + ")");
+            
+        } else {
+            
+            // Get last screen on date
+            Cursor cursorDate = database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
+                    whereScreenOnDate, null, null, null, null);
+            long lastScreenOnDate = System.currentTimeMillis();
+            if (!cursorDate.isNull(1)) {
+                lastScreenOnDate = cursorDate.getLong(1);
+            }
+            cursorDate.close();
+            
+            // Get current screen on time
+            Cursor cursorTime = database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
+                    whereScreenOnTime, null, null, null, null);
+            long currentScreenOnTime = 0;
+            if (!cursorTime.isNull(1)) {
+                currentScreenOnTime = cursorTime.getLong(1);
+            }
+            cursorTime.close();
+            
+            // Update screen on time
+            ContentValues cvs = new ContentValues();
+            cvs.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, (System.currentTimeMillis() - lastScreenOnDate)
+                    + currentScreenOnTime);
+            
+            // Insert into database
+            this.database.update(DBConstants.TABLE_DEVICE_DATA, cvs, whereScreenOnTime, null);
+        }
+        
+        close();
     }
     
     
     public void storeDeviceBootEvent(DeviceBootEvent dbe) {
         
-        // Create content values
-        ContentValues cvs = new ContentValues();
-        cvs.put(DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP, dbe.getTimestamp());
-        cvs.put(DBConstants.TABLE_DEVICE_BOOT_COL_CHANGED_TO, dbe.isChangedTo());
-        
-        // Insert into database
-        open();
-        long id = this.database.insert(DBConstants.TABLE_DEVICE_BOOT, null, cvs);
-        close();
-        
-        // Log
-        Log.i(EnergyConstants.LOG_TAG, "Stored device boot event in database (ID: " + id + ")");
-        Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + dbe.getTimestamp());
-        Log.i(EnergyConstants.LOG_TAG, "Changed to: " + dbe.isChangedTo());
     }
     
     
@@ -207,23 +228,23 @@ public class DBConnector implements IDBConnector {
     
     public ResultSetLastBootValues getLastBootValues() {
         
-        // Get the last boot date
-        long lastBootDate;
-        open();
-        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS, null,
-                null, null, null, null);
-        boolean booted = false;
-        lastBootDate = 0;
-        while (!cursor.isBeforeFirst()) {
-            if (cursor.getInt(2) == 1) {
-                booted = true;
-            } else if ((cursor.getInt(2) == 0) && (booted)) {
-                lastBootDate = cursor.getLong(1);
-                break;
-            }
-            cursor.moveToPrevious();
-        }
-        close();
+        //        // Get the last boot date
+        long lastBootDate = 0;
+        //        open();
+        //        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS, null,
+        //                null, null, null, null);
+        //        boolean booted = false;
+        //        lastBootDate = 0;
+        //        while (!cursor.isBeforeFirst()) {
+        //            if (cursor.getInt(2) == 1) {
+        //                booted = true;
+        //            } else if ((cursor.getInt(2) == 0) && (booted)) {
+        //                lastBootDate = cursor.getLong(1);
+        //                break;
+        //            }
+        //            cursor.moveToPrevious();
+        //        }
+        //        close();
         
         // Return the result set
         return (ResultSetLastBootValues) createResultSet(getAllBatteryEvents(lastBootDate),
@@ -459,17 +480,17 @@ public class DBConnector implements IDBConnector {
      */
     private List<ScreenEvent> getAllScreenEvents(long since) {
         List<ScreenEvent> seList = new ArrayList<ScreenEvent>();
-        open();
-        Cursor cursor = database.query(DBConstants.TABLE_SCREEN, DBConstants.TABLE_SCREEN_ALL_COLS,
-                DBConstants.TABLE_SCREEN_COL_TIMESTAMP + " >= " + since, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            seList.add(cursorToScreenEvent(cursor));
-            cursor.moveToNext();
-        }
-        
-        cursor.close();
-        close();
+        //        open();
+        //        Cursor cursor = database.query(DBConstants.TABLE_SCREEN, DBConstants.TABLE_SCREEN_ALL_COLS,
+        //                DBConstants.TABLE_SCREEN_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+        //        cursor.moveToFirst();
+        //        while (!cursor.isAfterLast()) {
+        //            seList.add(cursorToScreenEvent(cursor));
+        //            cursor.moveToNext();
+        //        }
+        //        
+        //        cursor.close();
+        //        close();
         return seList;
     }
     
@@ -483,17 +504,17 @@ public class DBConnector implements IDBConnector {
      */
     private List<DeviceBootEvent> getAllDeviceBootEvents(long since) {
         List<DeviceBootEvent> dbeList = new ArrayList<DeviceBootEvent>();
-        open();
-        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS,
-                DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " >= " + since, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            dbeList.add(cursorToDeviceBootEvent(cursor));
-            cursor.moveToNext();
-        }
-        
-        cursor.close();
-        close();
+        //        open();
+        //        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS,
+        //                DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+        //        cursor.moveToFirst();
+        //        while (!cursor.isAfterLast()) {
+        //            dbeList.add(cursorToDeviceBootEvent(cursor));
+        //            cursor.moveToNext();
+        //        }
+        //        
+        //        cursor.close();
+        //        close();
         return dbeList;
     }
     
