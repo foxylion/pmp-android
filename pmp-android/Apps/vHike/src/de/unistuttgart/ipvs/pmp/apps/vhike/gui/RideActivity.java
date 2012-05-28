@@ -1,7 +1,7 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
 import android.app.Activity;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IConfirmDialogFinishedCallBack;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.OnConfirmationDialogFinished;
 
 /**
  * This Activity gives user freedom to act as a Driver or Passenger, later user will get the chance
@@ -10,7 +10,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IConfirmDialogFinishedCall
  * 
  * @author Andre Nguyen, Dang Huynh
  */
-public class RideActivity extends Activity implements IConfirmDialogFinishedCallBack {
+public class RideActivity extends Activity implements OnConfirmationDialogFinished {
     
     @Override
     public void confirmDialogPositive(int callbackFunctionID) {

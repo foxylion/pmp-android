@@ -18,6 +18,7 @@ public class PSValidator {
     
     public PSValidator(ResourceGroup rg, String appIdentifier) {
         this.rg = rg;
+        this.appIdentifier = appIdentifier;
     }
     
     

@@ -209,34 +209,50 @@ public class vhikeDialogs extends Activity {
     private static AlertDialog confirm;
     
     
+    /**
+     * Returns a confirmation dialog
+     * 
+     * @param inActivity
+     * @param titleId
+     * @param messageId
+     * @param positiveTextId
+     * @param negativeTextId
+     * @param callBackFunctionID
+     * @return The confirmation dialog
+     */
     public static AlertDialog getConfirmationDialog(final Activity inActivity, int titleId, int messageId,
             int positiveTextId, int negativeTextId, final int callBackFunctionID) {
+        return getConfirmationDialog(inActivity, inActivity.getText(titleId), inActivity.getText(messageId),
+                inActivity.getText(positiveTextId), inActivity.getText(negativeTextId), callBackFunctionID);
+    }
+    
+    
+    public static AlertDialog getConfirmationDialog(final Activity inActivity, CharSequence title,
+            CharSequence message, CharSequence positiveText, CharSequence negativeText, final int callBackFunctionID) {
         final Context mContext = inActivity;
         
         if (confirm == null) {
             Builder builder = new Builder(mContext);
             confirm = builder.create();
         }
-        confirm.setTitle(titleId);
-        confirm.setMessage(mContext.getText(messageId));
-        confirm.setButton(DialogInterface.BUTTON_POSITIVE, mContext.getText(positiveTextId),
-                new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
-                        callback.confirmDialogPositive(callBackFunctionID);
-                    }
-                });
-        confirm.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getText(negativeTextId),
-                new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        IConfirmDialogFinishedCallBack callback = (IConfirmDialogFinishedCallBack) inActivity;
-                        callback.confirmDialogNegative(callBackFunctionID);
-                    }
-                });
+        confirm.setTitle(title);
+        confirm.setMessage(message);
+        confirm.setButton(DialogInterface.BUTTON_POSITIVE, positiveText, new DialogInterface.OnClickListener() {
+            
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
+                callback.confirmDialogPositive(callBackFunctionID);
+            }
+        });
+        confirm.setButton(DialogInterface.BUTTON_NEGATIVE, negativeText, new DialogInterface.OnClickListener() {
+            
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
+                callback.confirmDialogPositive(callBackFunctionID);
+            }
+        });
         
         return confirm;
     }

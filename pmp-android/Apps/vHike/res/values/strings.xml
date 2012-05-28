@@ -122,5 +122,16 @@
     <string name="tripDetails_new_messages">New requests and messages</string>
     <string name="tripDetails_cancel_trip">Cancel trip</string>
     <string name="tripDetails_edit_trip">Edit trip</string>
+    <string name="message_title">Message</string>
+    <string name="send">Send</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
+    <string name="message_decline_title">"Decline %s"</string>
+    <string name="message_accept_title">"Accept %s"</string>
+    <string name="message_new_offer">"New %s"</string>
+    <string name="message_decline_confirm">"Do you really want to decline this %s?"</string>
+    <string name="message_accept_confirm">"Do you really want to accept this %s?"</string>
+    <string name="request">request</string>
+    <string name="invitation">invitation</string>
 
 </resources>

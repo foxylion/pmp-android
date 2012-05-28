@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -20,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
@@ -36,11 +38,12 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     private ViewSwitcher switcher;
     private ListView listAllMessages;
     private ListView listNewMessages;
-    private int tripId;
+    private long tripId;
     private TripOverview tripInfo;
     private TextAppearanceSpan menuActive;
     private SpannableString txtOverview;
     private SpannableString txtAllMessages;
+    private View bottomMenu;
     
     
     @Override
@@ -62,6 +65,8 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         btnAllMessages.setOnClickListener(this);
         btnOverview.setOnClickListener(this);
+        
+        bottomMenu = findViewById(R.id.trip_detail_bottom_menu);
     }
     
     
@@ -92,6 +97,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
                     txtAllMessages.removeSpan(menuActive);
                     btnAllMessages.setText(txtAllMessages, BufferType.SPANNABLE);
                     btnOverview.setText(txtOverview, BufferType.SPANNABLE);
+                    bottomMenu.setVisibility(View.VISIBLE);
                 }
                 break;
             
@@ -107,6 +113,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
                     txtOverview.removeSpan(menuActive);
                     btnAllMessages.setText(txtAllMessages, BufferType.SPANNABLE);
                     btnOverview.setText(txtOverview, BufferType.SPANNABLE);
+                    bottomMenu.setVisibility(View.GONE);
                 }
                 break;
         }
@@ -120,13 +127,18 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         listAllMessages.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_list_item_1,
                 android.R.id.text1, tripInfo.messages));
+        
+        AutoCompleteTextView a = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+        a.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_dropdown_item_1line,
+                tripInfo.messages) {
+        });
     }
     
     
     private void prepareViews() {
         
         if (tripInfo == null) {
-            // TODO Get data
+            // TODO Get actual data
             ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
             passengers.add(new CompactUser(1, "Passenger1"));
             passengers.add(new CompactUser(2, "Passenger2"));
@@ -190,13 +202,11 @@ public class TripDetailActivity extends Activity implements OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> list, View item, int pos, long arg3) {
                 try {
-                    CompactMessage msg = (CompactMessage) list.getAdapter().getItem(pos);
-                    if (msg.isInvitation) {
-                        openContextMenu(item);
-                        System.out.println("invitation " + pos + " " + arg3);
-                    } else {
-                        System.out.println("message " + pos);
-                    }
+                    Intent intent = new Intent(TripDetailActivity.this, MessageActivity.class);
+                    intent.putExtra("tripId", TripDetailActivity.this.tripId);
+                    intent.putExtra("userId", list.getAdapter().getItemId(pos));
+                    intent.putExtra("userName", list.getAdapter().getItem(pos).toString());
+                    TripDetailActivity.this.startActivity(intent);
                 } catch (Exception e) {
                     // do nothing
                 }
@@ -235,10 +245,12 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         @Override
         public void onClick(View widget) {
-            // TODO Auto-generated method stub
-            //            Toast.makeText(TripDetailActivity.this, "passenger clicked: " + String.valueOf(id), Toast.LENGTH_SHORT);
-            System.out.println("passenger clicked: " + id);
-            widget.clearFocus();
+            widget.getParent().clearChildFocus(widget);
+            Intent intent = new Intent(TripDetailActivity.this, MyTripActivity.class);
+            intent.putExtra("passengerId", id);
+            intent.putExtra("tripId", TripDetailActivity.this.tripId);
+            TripDetailActivity.this.startActivity(intent);
+            // TODO PassengerAction!
         }
         
     }

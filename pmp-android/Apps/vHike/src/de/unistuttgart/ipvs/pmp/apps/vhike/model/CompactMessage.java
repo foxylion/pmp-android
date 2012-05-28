@@ -22,4 +22,9 @@ public class CompactMessage {
         return sender.name + (isInvitation ? " (Request)" : "");
     }
     
+    
+    public int getId() {
+        return id;
+    }
+    
 }
