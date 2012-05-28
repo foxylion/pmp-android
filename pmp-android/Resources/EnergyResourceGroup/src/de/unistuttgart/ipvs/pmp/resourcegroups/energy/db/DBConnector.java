@@ -192,26 +192,12 @@ public class DBConnector implements IDBConnector {
                 }
                 
             }
-            // pretty print 
-            long currentTime = System.currentTimeMillis();
-            long statusTimeInSec = (currentTime - pluggedTime) / 1000;
-            long days = statusTimeInSec / 60 / 60 / 24;
-            long daysInSec = days * 60 * 60 * 24;
-            long hours = ((statusTimeInSec - daysInSec) / 60 / 60);
-            long hoursInSec = hours * 60 * 60;
-            long mins = ((statusTimeInSec - daysInSec - hoursInSec) / 60);
-            long minsInSec = mins * 60;
-            long secs = statusTimeInSec - daysInSec - hoursInSec - minsInSec;
-            
-            StringBuilder sb = new StringBuilder();
-            if (days > 0)
-                sb.append(String.valueOf(days) + "d ");
-            if (hours > 0)
-                sb.append(String.valueOf(hours) + "h ");
-            if (mins > 0)
-                sb.append(String.valueOf(mins) + "m ");
-            sb.append(String.valueOf(secs) + "s");
-            rs.setStatusTime(sb.toString());
+            // pretty print
+            try {
+                rs.setStatusTime(Util.convertMillisecondsToString(System.currentTimeMillis() - pluggedTime));
+            } catch (Exception e) {
+                rs.setStatusTime(String.valueOf(System.currentTimeMillis() - pluggedTime) + " ms");
+            }
         }
         cursor.close();
         close();
@@ -303,7 +289,12 @@ public class DBConnector implements IDBConnector {
                 }
                 lastUptimeTimeStamp = dbe.getTimestamp();
             }
-            rs.setUptime(String.valueOf(uptime));
+            // Pretty format
+            try {
+                rs.setUptime(Util.convertMillisecondsToString(uptime));
+            } catch (Exception e) {
+                rs.setUptime(String.valueOf(uptime) + " ms");
+            }
             
             /*
              * Set the duration of charging
@@ -319,19 +310,33 @@ public class DBConnector implements IDBConnector {
                     durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
                 }
             }
-            rs.setDurationOfCharging(String.valueOf(durationOfCharging));
+            // Pretty format
+            try {
+                rs.setDurationOfCharging(Util.convertMillisecondsToString(durationOfCharging));
+            } catch (Exception e) {
+                rs.setDurationOfCharging(String.valueOf(durationOfCharging) + " ms");
+            }
             
             /*
              * Set the uptime with battery
              */
             long uptimeBattery = uptime - durationOfCharging;
-            rs.setUptimeBattery(String.valueOf(uptimeBattery));
+            // Pretty format
+            try {
+                rs.setUptimeBattery(Util.convertMillisecondsToString(uptimeBattery));
+            } catch (Exception e) {
+                rs.setUptimeBattery(String.valueOf(uptimeBattery) + " ms");
+            }
             
             /*
              * Set the ratio (charging:battery)
              */
-            //            float ratio = durationOfCharging / uptimeBattery;
-            //            rs.setRatio(String.valueOf(ratio));
+            try {
+                float ratio = durationOfCharging / uptimeBattery;
+                rs.setRatio(String.valueOf(ratio));
+            } catch (Exception e) {
+                rs.setRatio("-");
+            }
             
             /*
              * Set the count of charging
@@ -389,7 +394,12 @@ public class DBConnector implements IDBConnector {
                 }
                 lastTimeStamp = se.getTimestamp();
             }
-            rs.setScreenOn(String.valueOf(time));
+            // Pretty format
+            try {
+                rs.setScreenOn(Util.convertMillisecondsToString(time));
+            } catch (Exception e) {
+                rs.setScreenOn(String.valueOf(time) + " ms");
+            }
         }
         
         return rs;
