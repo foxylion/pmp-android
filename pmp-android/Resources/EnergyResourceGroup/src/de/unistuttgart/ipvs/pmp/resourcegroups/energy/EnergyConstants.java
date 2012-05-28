@@ -33,6 +33,7 @@ public class EnergyConstants {
     public static final String PS_BATTERY_CHARGING_COUNT = "battery-charging-count";
     public static final String PS_DEVICE_BATTERY_CHARGING_UPTIME = "device-battery-charging-uptime";
     public static final String PS_DEVICE_DATES = "device-dates";
+    public static final String PS_DEVICE_DATES_TOTAL = "device-dates-total";
     public static final String PS_DEVICE_SCREEN = "device-screen";
     public static final String PS_UPLOAD_DATA = "upload-data";
     
@@ -47,6 +48,7 @@ public class EnergyConstants {
     public static final String ACTION_SCREEN_ON = Intent.ACTION_SCREEN_ON;
     public static final String ACTION_SCREEN_OFF = Intent.ACTION_SCREEN_OFF;
     public static final String ACTION_BATTERY_CHANGED = Intent.ACTION_BATTERY_CHANGED;
+    public static final String ACTION_SHOW_DOWN = Intent.ACTION_SHUTDOWN;
     
     /**
      * Extras of interest

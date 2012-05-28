@@ -63,7 +63,7 @@ public class DBConnector implements IDBConnector {
      */
     public static IDBConnector getInstance(Context context) {
         
-        instance = new DBConnector(context);
+        DBConnector.instance = new DBConnector(context);
         
         return instance;
     }
@@ -73,7 +73,6 @@ public class DBConnector implements IDBConnector {
      * Initialize the sql tables, create them if necessary
      */
     private void initialize() {
-        System.out.println(this.context.getClass().getSimpleName());
         this.dbHelper = new SQLiteHelper(this.context);
     }
     
@@ -131,39 +130,60 @@ public class DBConnector implements IDBConnector {
     
     public void storeScreenEvent(ScreenEvent se) {
         
-        // Create content values
-        ContentValues cvs = new ContentValues();
-        cvs.put(DBConstants.TABLE_SCREEN_COL_TIMESTAMP, se.getTimestamp());
-        cvs.put(DBConstants.TABLE_SCREEN_COL_CHANGED_TO, se.isChangedTo());
+        String whereScreenOnDate = DBConstants.TABLE_DEVICE_DATA_COL_KEY + " = "
+                + DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE;
+        String whereScreenOnTime = DBConstants.TABLE_DEVICE_DATA_COL_KEY + " = "
+                + DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME;
         
-        // Insert into database
         open();
-        long id = this.database.insert(DBConstants.TABLE_SCREEN, null, cvs);
-        close();
         
-        // Log
-        Log.i(EnergyConstants.LOG_TAG, "Stored screen event in database (ID: " + id + ")");
-        Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + se.getTimestamp());
-        Log.i(EnergyConstants.LOG_TAG, "Changed to: " + se.isChangedTo());
+        if (se.isChangedTo()) {
+            
+            // Create content values
+            ContentValues cvs = new ContentValues();
+            cvs.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, se.getTimestamp());
+            
+            // Insert into database
+            this.database.update(DBConstants.TABLE_DEVICE_DATA, cvs, whereScreenOnDate, null);
+            
+            // Log
+            Log.i(EnergyConstants.LOG_TAG, "Screen turn on (Timestamp: " + se.getTimestamp() + ")");
+            
+        } else {
+            
+            // Get last screen on date
+            Cursor cursorDate = database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
+                    whereScreenOnDate, null, null, null, null);
+            long lastScreenOnDate = System.currentTimeMillis();
+            if (!cursorDate.isNull(1)) {
+                lastScreenOnDate = cursorDate.getLong(1);
+            }
+            cursorDate.close();
+            
+            // Get current screen on time
+            Cursor cursorTime = database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
+                    whereScreenOnTime, null, null, null, null);
+            long currentScreenOnTime = 0;
+            if (!cursorTime.isNull(1)) {
+                currentScreenOnTime = cursorTime.getLong(1);
+            }
+            cursorTime.close();
+            
+            // Update screen on time
+            ContentValues cvs = new ContentValues();
+            cvs.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, (System.currentTimeMillis() - lastScreenOnDate)
+                    + currentScreenOnTime);
+            
+            // Insert into database
+            this.database.update(DBConstants.TABLE_DEVICE_DATA, cvs, whereScreenOnTime, null);
+        }
+        
+        close();
     }
     
     
     public void storeDeviceBootEvent(DeviceBootEvent dbe) {
         
-        // Create content values
-        ContentValues cvs = new ContentValues();
-        cvs.put(DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP, dbe.getTimestamp());
-        cvs.put(DBConstants.TABLE_DEVICE_BOOT_COL_CHANGED_TO, dbe.isChangedTo());
-        
-        // Insert into database
-        open();
-        long id = this.database.insert(DBConstants.TABLE_DEVICE_BOOT, null, cvs);
-        close();
-        
-        // Log
-        Log.i(EnergyConstants.LOG_TAG, "Stored device boot event in database (ID: " + id + ")");
-        Log.i(EnergyConstants.LOG_TAG, "Timestamp: " + dbe.getTimestamp());
-        Log.i(EnergyConstants.LOG_TAG, "Changed to: " + dbe.isChangedTo());
     }
     
     
@@ -193,8 +213,12 @@ public class DBConnector implements IDBConnector {
                 }
                 
             }
-            long currentTime = System.currentTimeMillis();
-            rs.setStatusTime((currentTime - pluggedTime) + "ms");
+            // pretty print
+            try {
+                rs.setStatusTime(Util.convertMillisecondsToString(System.currentTimeMillis() - pluggedTime));
+            } catch (Exception e) {
+                rs.setStatusTime(String.valueOf(System.currentTimeMillis() - pluggedTime) + " ms");
+            }
         }
         cursor.close();
         close();
@@ -204,17 +228,23 @@ public class DBConnector implements IDBConnector {
     
     public ResultSetLastBootValues getLastBootValues() {
         
-        // Get the last boot date
-        long lastBootDate;
-        open();
-        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS, null,
-                null, null, null, null);
-        if (cursor.moveToLast()) {
-            lastBootDate = cursor.getLong(1);
-        } else {
-            lastBootDate = 0;
-        }
-        close();
+        //        // Get the last boot date
+        long lastBootDate = 0;
+        //        open();
+        //        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS, null,
+        //                null, null, null, null);
+        //        boolean booted = false;
+        //        lastBootDate = 0;
+        //        while (!cursor.isBeforeFirst()) {
+        //            if (cursor.getInt(2) == 1) {
+        //                booted = true;
+        //            } else if ((cursor.getInt(2) == 0) && (booted)) {
+        //                lastBootDate = cursor.getLong(1);
+        //                break;
+        //            }
+        //            cursor.moveToPrevious();
+        //        }
+        //        close();
         
         // Return the result set
         return (ResultSetLastBootValues) createResultSet(getAllBatteryEvents(lastBootDate),
@@ -262,115 +292,153 @@ public class DBConnector implements IDBConnector {
     private AbstractResultSet createResultSet(List<BatteryEvent> beList, List<ScreenEvent> seList,
             List<DeviceBootEvent> dbeList, AbstractResultSet rs, long date) {
         
-        if (beList.size() == 0 || seList.size() == 0 || dbeList.size() == 0)
-            return rs;
-        
         /*
          *  Set the date
          */
         rs.setDate(String.valueOf(date));
         
-        /*
-         * Set the uptime 
-         */
-        long uptime = 0;
-        long lastUptimeTimeStamp = dbeList.get(0).getTimestamp();
-        boolean deviceOn = dbeList.get(0).isChangedTo();
-        for (int itr = 1; itr < dbeList.size(); itr++) {
-            DeviceBootEvent dbe = dbeList.get(itr);
-            if (deviceOn && !dbe.isChangedTo()) {
-                uptime += dbe.getTimestamp() - lastUptimeTimeStamp;
-                deviceOn = false;
-            } else if (!deviceOn && dbe.isChangedTo()) {
-                deviceOn = true;
+        if (beList.size() > 0 && dbeList.size() > 0) {
+            /*
+             * Set the uptime 
+             */
+            long uptime = 0;
+            long lastUptimeTimeStamp = dbeList.get(0).getTimestamp();
+            boolean deviceOn = dbeList.get(0).isChangedTo();
+            for (int itr = 1; itr < dbeList.size(); itr++) {
+                DeviceBootEvent dbe = dbeList.get(itr);
+                if (deviceOn && !dbe.isChangedTo()) {
+                    uptime += dbe.getTimestamp() - lastUptimeTimeStamp;
+                    deviceOn = false;
+                } else if (!deviceOn && dbe.isChangedTo()) {
+                    deviceOn = true;
+                }
+                lastUptimeTimeStamp = dbe.getTimestamp();
             }
-            lastUptimeTimeStamp = dbe.getTimestamp();
-        }
-        rs.setUptime(String.valueOf(uptime));
-        
-        /*
-         * Set the duration of charging
-         */
-        long durationOfCharging = 0;
-        long lastDurationTimeStamp = dbeList.get(0).getTimestamp();
-        boolean isChargingD = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
-        for (BatteryEvent be : beList) {
-            if (isChargingD && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isChargingD = false;
-            } else if (!isChargingD && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isChargingD = true;
-                durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
+            // Add the current runtime, if the device is on
+            if (deviceOn) {
+                uptime += (System.currentTimeMillis() - lastUptimeTimeStamp);
             }
-        }
-        rs.setDurationOfCharging(String.valueOf(durationOfCharging));
-        
-        /*
-         * Set the uptime with battery
-         */
-        long uptimeBattery = uptime - durationOfCharging;
-        rs.setUptimeBattery(String.valueOf(uptimeBattery));
-        
-        /*
-         * Set the ratio (charging:battery)
-         */
-        float ratio = durationOfCharging / uptimeBattery;
-        rs.setRatio(String.valueOf(ratio));
-        
-        /*
-         * Set the count of charging
-         */
-        boolean isCharging = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
-        int chargeCount = 0;
-        if (isCharging) {
-            chargeCount++;
-        }
-        for (BatteryEvent be : beList) {
-            if (isCharging && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isCharging = false;
-            } else if (!isCharging && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
-                isCharging = true;
+            
+            // Pretty format
+            try {
+                rs.setUptime(Util.convertMillisecondsToString(uptime));
+            } catch (Exception e) {
+                rs.setUptime(String.valueOf(uptime) + " ms");
+            }
+            
+            /*
+             * Set the duration of charging
+             */
+            long durationOfCharging = 0;
+            long lastDurationTimeStamp = dbeList.get(0).getTimestamp();
+            boolean isChargingD = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
+            for (BatteryEvent be : beList) {
+                if (isChargingD && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isChargingD = false;
+                } else if (!isChargingD && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isChargingD = true;
+                    durationOfCharging += be.getTimestamp() - lastDurationTimeStamp;
+                }
+            }
+            // Add the current charging time, if the device is charging currently
+            if (isChargingD) {
+                durationOfCharging += (System.currentTimeMillis() - lastDurationTimeStamp);
+            }
+            // Pretty format
+            try {
+                rs.setDurationOfCharging(Util.convertMillisecondsToString(durationOfCharging));
+            } catch (Exception e) {
+                rs.setDurationOfCharging(String.valueOf(durationOfCharging) + " ms");
+            }
+            
+            /*
+             * Set the uptime with battery
+             */
+            long uptimeBattery = uptime - durationOfCharging;
+            // Pretty format
+            try {
+                rs.setUptimeBattery(Util.convertMillisecondsToString(uptimeBattery));
+            } catch (Exception e) {
+                rs.setUptimeBattery(String.valueOf(uptimeBattery) + " ms");
+            }
+            
+            /*
+             * Set the ratio (charging:battery)
+             */
+            try {
+                float ratio = durationOfCharging / uptimeBattery;
+                rs.setRatio(String.valueOf(ratio));
+            } catch (Exception e) {
+                rs.setRatio("-");
+            }
+            
+            /*
+             * Set the count of charging
+             */
+            boolean isCharging = beList.get(0).getStatus().equals(EnergyConstants.STATUS_CHARGING);
+            int chargeCount = 0;
+            if (isCharging) {
                 chargeCount++;
             }
-        }
-        rs.setCountOfCharging(String.valueOf(chargeCount) + " times");
-        
-        /*
-         * Set temperature peak and average
-         */
-        float temperaturePeak = 0;
-        float temperatureSum = 0;
-        for (BatteryEvent be : beList) {
-            // Calculate the temperature average
-            temperatureSum += be.getTemperature();
-            
-            // Calculate the temperature peak
-            if (be.getTemperature() > temperaturePeak) {
-                temperaturePeak = be.getTemperature();
+            for (BatteryEvent be : beList) {
+                if (isCharging && !be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isCharging = false;
+                } else if (!isCharging && be.getStatus().equals(EnergyConstants.STATUS_CHARGING)) {
+                    isCharging = true;
+                    chargeCount++;
+                }
             }
+            rs.setCountOfCharging(String.valueOf(chargeCount) + " times");
+            
+            /*
+             * Set temperature peak and average
+             */
+            float temperaturePeak = 0;
+            float temperatureSum = 0;
+            for (BatteryEvent be : beList) {
+                // Calculate the temperature average
+                temperatureSum += be.getTemperature();
+                
+                // Calculate the temperature peak
+                if (be.getTemperature() > temperaturePeak) {
+                    temperaturePeak = be.getTemperature();
+                }
+            }
+            // Set the temperature average
+            rs.setTemperatureAverage(String.valueOf(temperatureSum / beList.size()) + "°C");
+            
+            // Set the temperature peak
+            rs.setTemperaturePeak(String.valueOf(temperaturePeak) + "°C");
         }
-        // Set the temperature average
-        rs.setTemperatureAverage(String.valueOf(temperatureSum / beList.size()) + "°C");
-        
-        // Set the temperature peak
-        rs.setTemperaturePeak(String.valueOf(temperaturePeak) + "°C");
         
         /*
          * Set the screen on time
          */
-        long time = 0;
-        long lastTimeStamp = seList.get(0).getTimestamp();
-        boolean screenOn = seList.get(0).isChangedTo();
-        for (int itr = 1; itr < seList.size(); itr++) {
-            ScreenEvent se = seList.get(itr);
-            if (screenOn && !se.isChangedTo()) {
-                time += se.getTimestamp() - lastTimeStamp;
-                screenOn = false;
-            } else if (!screenOn && se.isChangedTo()) {
-                screenOn = true;
+        if (seList.size() > 0) {
+            long time = 0;
+            long lastTimeStamp = seList.get(0).getTimestamp();
+            boolean screenOn = seList.get(0).isChangedTo();
+            for (int itr = 1; itr < seList.size(); itr++) {
+                ScreenEvent se = seList.get(itr);
+                if (screenOn && !se.isChangedTo()) {
+                    time += se.getTimestamp() - lastTimeStamp;
+                    screenOn = false;
+                } else if (!screenOn && se.isChangedTo()) {
+                    screenOn = true;
+                }
+                lastTimeStamp = se.getTimestamp();
             }
-            lastTimeStamp = se.getTimestamp();
+            // Add the current screen on time, if the scrren is on currently
+            if (screenOn) {
+                time += (System.currentTimeMillis() - lastTimeStamp);
+            }
+            // Pretty format
+            try {
+                rs.setScreenOn(Util.convertMillisecondsToString(time));
+            } catch (Exception e) {
+                rs.setScreenOn(String.valueOf(time) + " ms");
+            }
         }
-        rs.setScreenOn(String.valueOf(time));
         
         return rs;
     }
@@ -396,6 +464,9 @@ public class DBConnector implements IDBConnector {
         
         cursor.close();
         close();
+        
+        System.out.println("Since: " + since);
+        System.out.println("Battery-Events: " + beList.size());
         return beList;
     }
     
@@ -409,17 +480,17 @@ public class DBConnector implements IDBConnector {
      */
     private List<ScreenEvent> getAllScreenEvents(long since) {
         List<ScreenEvent> seList = new ArrayList<ScreenEvent>();
-        open();
-        Cursor cursor = database.query(DBConstants.TABLE_SCREEN, DBConstants.TABLE_SCREEN_ALL_COLS,
-                DBConstants.TABLE_SCREEN_COL_TIMESTAMP + " >= " + since, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            seList.add(cursorToScreenEvent(cursor));
-            cursor.moveToNext();
-        }
-        
-        cursor.close();
-        close();
+        //        open();
+        //        Cursor cursor = database.query(DBConstants.TABLE_SCREEN, DBConstants.TABLE_SCREEN_ALL_COLS,
+        //                DBConstants.TABLE_SCREEN_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+        //        cursor.moveToFirst();
+        //        while (!cursor.isAfterLast()) {
+        //            seList.add(cursorToScreenEvent(cursor));
+        //            cursor.moveToNext();
+        //        }
+        //        
+        //        cursor.close();
+        //        close();
         return seList;
     }
     
@@ -433,17 +504,17 @@ public class DBConnector implements IDBConnector {
      */
     private List<DeviceBootEvent> getAllDeviceBootEvents(long since) {
         List<DeviceBootEvent> dbeList = new ArrayList<DeviceBootEvent>();
-        open();
-        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS,
-                DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " >= " + since, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            dbeList.add(cursorToDeviceBootEvent(cursor));
-            cursor.moveToNext();
-        }
-        
-        cursor.close();
-        close();
+        //        open();
+        //        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_BOOT, DBConstants.TABLE_DEVICE_BOOT_ALL_COLS,
+        //                DBConstants.TABLE_DEVICE_BOOT_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+        //        cursor.moveToFirst();
+        //        while (!cursor.isAfterLast()) {
+        //            dbeList.add(cursorToDeviceBootEvent(cursor));
+        //            cursor.moveToNext();
+        //        }
+        //        
+        //        cursor.close();
+        //        close();
         return dbeList;
     }
     

@@ -3,6 +3,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp;
 
+import java.text.SimpleDateFormat;
 
 /**
  * Class containing the constants of the infoapp
@@ -36,5 +37,10 @@ public class Constants {
      */
     public static final String ENERGY_RG_IDENTIFIER = "de.unistuttgart.ipvs.pmp.resourcegroups.energy";
     public static final String ENERGY_RG_RESOURCE = "energyResource";
+    
+    /**
+     * The simple date format
+     */
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
 }

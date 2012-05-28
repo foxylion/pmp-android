@@ -105,4 +105,14 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
         return panels.get(position);
     }
     
+    
+    /**
+     * Update all panels
+     */
+    public void updateAllPanels() {
+        for (IPanel panel : this.panels) {
+            panel.update();
+        }
+    }
+    
 }

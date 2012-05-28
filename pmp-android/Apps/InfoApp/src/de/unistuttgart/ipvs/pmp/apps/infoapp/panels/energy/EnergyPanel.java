@@ -70,8 +70,8 @@ public class EnergyPanel implements IPanel {
         this.view = (LinearLayout) inflater.inflate(R.layout.energy_panel, null);
         
         ExpandableListView listView = (ExpandableListView) this.view.findViewById(R.id.energyPanelExpandableListView);
-        this.adapter = new EnergyExtListViewAdapter(context, new EnergyCurrentValues(), new EnergyLastBootValues(),
-                new EnergyTotalValues());
+        this.adapter = new EnergyExtListViewAdapter(context, activity, new EnergyCurrentValues(),
+                new EnergyLastBootValues(), new EnergyTotalValues());
         listView.setAdapter(this.adapter);
         
         // Get the data
@@ -161,12 +161,11 @@ class RequestResourceHandler extends PMPRequestResourceHandler {
                                 Constants.ENERGY_SF_CURRENT_VALUES)) {
                             EnergyCurrentValues cv = new EnergyCurrentValues();
                             try {
-                                System.out.println("+++++++++++++++++++++++++++++ " + energyRG);
                                 cv.setLevel(energyRG.getCurrentLevel());
                                 cv.setHealth(energyRG.getCurrentHealth());
                                 cv.setStatus(energyRG.getCurrentStatus());
                                 cv.setPlugged(energyRG.getCurrentPlugged());
-                                cv.setStatusTime(energyRG.getCurrentStatus());
+                                cv.setStatusTime(energyRG.getCurrentStatusTime());
                                 cv.setTemperature(energyRG.getCurrentTemperature());
                                 
                                 RequestResourceHandler.this.adapter.setCv(cv);
