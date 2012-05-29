@@ -26,7 +26,7 @@ public class EnergyResourceGroup extends ResourceGroup {
         
         // Boot-Event received
         // Deprecated: Work-around, but works
-        DeviceBootHandler.handle(pmpci.getContext(this.getRgPackage()), true);
+        DeviceBootHandler.handle(pmpci.getContext(null), true);
     }
     
     

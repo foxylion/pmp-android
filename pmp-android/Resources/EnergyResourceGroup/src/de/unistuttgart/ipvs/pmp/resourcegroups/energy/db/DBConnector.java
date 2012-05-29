@@ -132,8 +132,6 @@ public class DBConnector implements IDBConnector {
      * Store a screen event to the database
      */
     public void storeScreenEvent(ScreenEvent se) {
-        open();
-        
         if (se.isChangedTo()) {
             
             // Update last screen on date
@@ -150,17 +148,27 @@ public class DBConnector implements IDBConnector {
             // Get current screen on time
             long currentScreenOnTime = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
             
+            // Get current screen on time since last boot
+            long currentScreenOnTimeLastBoot = this
+                    .getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
+            
             // New screen on time
             long newScreenOnTime = (se.getTimestamp() - lastScreenOnDate) + currentScreenOnTime;
+            
+            // New screen on time last boot
+            long newScreenOnTimeLastBoot = (se.getTimestamp() - lastScreenOnDate) + currentScreenOnTimeLastBoot;
             
             // Update screen on time
             this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME, newScreenOnTime);
             
+            // Update screen on time since last boot
+            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME,
+                    newScreenOnTimeLastBoot);
+            
             // Log
-            Log.i(EnergyConstants.LOG_TAG, "Screen turned off (New screen-on time: " + newScreenOnTime + ")");
+            Log.i(EnergyConstants.LOG_TAG, "Screen turned off (New screen-on time: " + newScreenOnTime
+                    + ", since last boot: " + newScreenOnTimeLastBoot + ")");
         }
-        
-        close();
     }
     
     
@@ -168,8 +176,6 @@ public class DBConnector implements IDBConnector {
      * Store a device boot event to the database
      */
     public void storeDeviceBootEvent(DeviceBootEvent dbe) {
-        open();
-        
         // Check, if deviceOnFlag = 0 or = 1
         long deviceOn = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG);
         boolean deviceOnFlag = false;
@@ -183,6 +189,9 @@ public class DBConnector implements IDBConnector {
             
             // Update the last boot date
             this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE, dbe.getTimestamp());
+            
+            // Reset the screen on time since last boot
+            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME, 0);
             
             // Log
             Log.i(EnergyConstants.LOG_TAG, "Device turned on (New last boot date: " + dbe.getTimestamp() + ")");
@@ -204,8 +213,6 @@ public class DBConnector implements IDBConnector {
             // Log
             Log.i(EnergyConstants.LOG_TAG, "Device turned off (New total uptime: " + newTotalUptime + ")");
         }
-        
-        close();
     }
     
     
@@ -465,8 +472,6 @@ public class DBConnector implements IDBConnector {
         cursor.close();
         close();
         
-        System.out.println("Since: " + since);
-        System.out.println("Battery-Events: " + beList.size());
         return beList;
     }
     
@@ -505,11 +510,17 @@ public class DBConnector implements IDBConnector {
      * @return value of the key-value-pair of the table "device data"
      */
     private long getDeviceDataValue(String key) {
-        String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + " = " + key;
-        Cursor cursor = database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
+        open();
+        
+        String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + "='" + key + "'";
+        Cursor cursor = this.database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
                 whereClause, null, null, null, null);
+        cursor.moveToFirst();
         long returnValue = cursor.getLong(1);
+        
         cursor.close();
+        close();
+        
         return returnValue;
     }
     
@@ -523,15 +534,19 @@ public class DBConnector implements IDBConnector {
      *            the value of the key-value-pair of the table "device data"
      */
     private void updateDeviceDataValue(String key, long value) {
+        open();
+        
         // Update screen on time
         ContentValues cvs = new ContentValues();
-        cvs.put(key, value);
+        cvs.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, value);
         
         // Where clause
-        String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + " = " + key;
+        String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + "='" + key + "'";
         
         // Insert into database
         this.database.update(DBConstants.TABLE_DEVICE_DATA, cvs, whereClause, null);
+        
+        close();
     }
     
 }
