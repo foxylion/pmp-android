@@ -26,8 +26,8 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.AddStopOverListener;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.OnConfirmationDialogFinished;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IDialogFinishedCallBack;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.OnConfirmationDialogFinished;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
@@ -84,6 +84,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     @Override
     public void onResume() {
         super.onResume();
+        
+        ctrl = new Controller(rgvHike);
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
             ctrl.enableAnonymity(Model.getInstance().getSid());

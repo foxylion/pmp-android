@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -59,6 +60,9 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     double lat;
     double lng;
     
+    private Button road_info;
+    private EditText et_road_info;
+    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,27 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         
         setMapView();
         ViewModel.getInstance().getPassengerOverlayList(mapView).clear();
+        
+        road_info = (Button) findViewById(R.id.passenger_btn_route_info);
+        et_road_info = (EditText) findViewById(R.id.passenger_et_route_info);
+        ViewModel.getInstance().setRoadInfoBtn(road_info);
+        ViewModel.getInstance().setRoadInfoEt(et_road_info);
+        road_info.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                road_info.setVisibility(View.GONE);
+                et_road_info.setVisibility(View.VISIBLE);
+            }
+        });
+        et_road_info.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                road_info.setVisibility(View.VISIBLE);
+                et_road_info.setVisibility(View.GONE);
+            }
+        });
         
         if (getvHikeRG(this) != null && getLocationRG(this) != null && getContactRG(this) != null) {
             this.ctrl = new Controller(rgvHike);
@@ -212,10 +237,10 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
                         .getNumSeats())) {
             case (Constants.QUERY_ID_ERROR):
-                Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_SHORT).show();
+                Log.i(this, "Query error");
                 break;
             default:
-                Toast.makeText(PassengerViewActivity.this, "Query started/updated", Toast.LENGTH_SHORT).show();
+                Log.i(this, "Query started");
                 break;
         }
         
