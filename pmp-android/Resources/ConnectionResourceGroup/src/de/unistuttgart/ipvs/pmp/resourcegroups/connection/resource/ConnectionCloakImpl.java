@@ -20,7 +20,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +28,6 @@ import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.ConnectedCitiesComparator;
 
 /**
  * 
@@ -332,22 +330,14 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     private List<String> getRandomCities() {
         List<String> result = new ArrayList<String>();
-        int numbers = new Random().nextInt(40);
-        List<String> tmp = new ArrayList<String>();
+        int numbers = new Random().nextInt(20);
+        
         for (int itr = 0; itr < numbers; itr++) {
             String city = this.cities.get(new Random().nextInt(16));
-            if (!tmp.contains(city)) {
-                tmp.add(city);
+            if (!result.contains(city)) {
+                result.add(city);
             }
         }
-        
-        // Get the times for every city
-        for (String city : tmp) {
-            int timesConnected = new Random().nextInt(50);
-            result.add(timesConnected + "x " + city);
-        }
-        // Sort the list
-        Collections.sort(result, new ConnectedCitiesComparator());
         
         return result;
     }

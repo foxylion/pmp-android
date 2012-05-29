@@ -29,6 +29,7 @@ import android.location.LocationManager;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.CityLocationListener;
 
 /**
  * {@link BroadcastReceiver} to get the bluetooth events

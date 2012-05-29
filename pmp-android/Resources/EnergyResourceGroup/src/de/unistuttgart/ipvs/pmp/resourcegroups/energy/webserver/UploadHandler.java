@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,15 @@ public class UploadHandler {
     public String getDeviceID(Context context) {
         // Get the device id
         TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        MessageDigest digest = null;
+        try {
+            digest = java.security.MessageDigest.getInstance("MD5");
+            return String.valueOf(digest.digest(tManager.getDeviceId().getBytes()));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return tManager.getDeviceId();
+        
     }
     
     
@@ -104,16 +114,12 @@ public class UploadHandler {
             
             return true;
         } catch (InternalDatabaseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InvalidParameterException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InvalidEventOrderException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;

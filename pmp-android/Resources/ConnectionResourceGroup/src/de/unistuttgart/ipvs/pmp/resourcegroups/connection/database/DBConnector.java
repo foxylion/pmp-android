@@ -20,8 +20,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -279,9 +277,6 @@ public class DBConnector implements IDBConnector {
         open();
         List<String> result = new ArrayList<String>();
         
-        // Stores the times where the user was connected
-        HashMap<String, Integer> times = new HashMap<String, Integer>();
-        
         // Get the cities only
         String columns[] = new String[1];
         columns[0] = DBConstants.COLUMN_CITY;
@@ -298,12 +293,8 @@ public class DBConnector implements IDBConnector {
                 try {
                     String city = cursor.getString(0);
                     if (city != null) {
-                        if (times.containsKey(city)) {
-                            // The city was seen before
-                            int oldTimes = times.get(city);
-                            times.put(city, oldTimes + 1);
-                        } else {
-                            times.put(city, 1);
+                        if (!result.contains(city)) {
+                            result.add(city);
                         }
                     }
                 } catch (NullPointerException e) {
@@ -311,13 +302,6 @@ public class DBConnector implements IDBConnector {
             } while (cursor.moveToNext());
         }
         
-        // Store the results in a list and sort it
-        for (String key : times.keySet()) {
-            int timesConnected = times.get(key);
-            String toStore = timesConnected + "x " + key;
-            result.add(toStore);
-        }
-        Collections.sort(result, new ConnectedCitiesComparator());
         cursor.close();
         close();
         
@@ -332,35 +316,44 @@ public class DBConnector implements IDBConnector {
     public synchronized List<ConnectionEvent> getWifiEvents() {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
+        List<Long> timestamps = new ArrayList<Long>();
+        
+        String orderBy = DBConstants.COLUMN_ID + " ASC";
         
         // Get everything
-        String columns[] = new String[4];
-        columns[0] = DBConstants.COLUMN_TIMESTAMP;
-        columns[1] = DBConstants.COLUMN_EVENT;
-        columns[2] = DBConstants.COLUMN_CITY;
-        columns[3] = DBConstants.COLUMN_STATE;
+        String columns[] = new String[5];
+        columns[0] = DBConstants.COLUMN_ID;
+        columns[1] = DBConstants.COLUMN_TIMESTAMP;
+        columns[2] = DBConstants.COLUMN_EVENT;
+        columns[3] = DBConstants.COLUMN_CITY;
+        columns[4] = DBConstants.COLUMN_STATE;
         
-        Cursor cursor = this.db.query(DBConstants.TABLE_WIFI, columns, null, null, null, null, null);
+        Cursor cursor = this.db.query(DBConstants.TABLE_WIFI, columns, null, null, null, null, orderBy);
         cursor.moveToFirst();
         
         if (cursor.getCount() > 0) {
             do {
-                long timeStamp = cursor.getLong(0);
-                String eventString = cursor.getString(1);
-                boolean event = false;
-                if (eventString.equals(Events.ON)) {
-                    event = true;
+                int id = cursor.getInt(0);
+                long timeStamp = cursor.getLong(1);
+                
+                if (!timestamps.contains(timeStamp)) {
+                    String eventString = cursor.getString(2);
+                    boolean event = false;
+                    if (eventString.equals(Events.ON)) {
+                        event = true;
+                    }
+                    String city = null;
+                    if (cursor.getString(3) != null) {
+                        city = cursor.getString(3);
+                    }
+                    String stateString = cursor.getString(4);
+                    boolean state = false;
+                    if (stateString.equals(Events.ON)) {
+                        state = true;
+                    }
+                    result.add(new ConnectionEvent(id, timeStamp, Mediums.WIFI, event, state, city));
+                    timestamps.add(timeStamp);
                 }
-                String city = null;
-                if (cursor.getString(2) != null) {
-                    city = cursor.getString(2);
-                }
-                String stateString = cursor.getString(3);
-                boolean state = false;
-                if (stateString.equals(Events.ON)) {
-                    state = true;
-                }
-                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, state, city));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -414,21 +407,24 @@ public class DBConnector implements IDBConnector {
         
         // Get everything
         String columns[] = new String[3];
-        columns[0] = DBConstants.COLUMN_TIMESTAMP;
-        columns[1] = DBConstants.COLUMN_EVENT;
+        columns[0] = DBConstants.COLUMN_ID;
+        columns[1] = DBConstants.COLUMN_TIMESTAMP;
+        columns[2] = DBConstants.COLUMN_EVENT;
         
         Cursor cursor = this.db.query(DBConstants.TABLE_CELL, columns, null, null, null, null, null);
         cursor.moveToFirst();
         
         if (cursor.getCount() > 0) {
             do {
-                long timeStamp = cursor.getLong(0);
-                String eventString = cursor.getString(1);
+                int id = cursor.getInt(0);
+                long timeStamp = cursor.getLong(1);
+                String eventString = cursor.getString(2);
                 boolean event = false;
                 if (eventString.equals(Events.ON)) {
                     event = true;
                 }
-                result.add(new CellularConnectionEvent(timeStamp, event));
+                
+                result.add(new CellularConnectionEvent(id, timeStamp, event));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -442,9 +438,9 @@ public class DBConnector implements IDBConnector {
      */
     public synchronized void clearLists() {
         open();
-        db.delete(DBConstants.TABLE_BT, null, null);
-        db.delete(DBConstants.TABLE_CELL, null, null);
-        db.delete(DBConstants.TABLE_WIFI, null, null);
+        this.db.delete(DBConstants.TABLE_BT, null, null);
+        this.db.delete(DBConstants.TABLE_CELL, null, null);
+        this.db.delete(DBConstants.TABLE_WIFI, null, null);
         close();
     }
 }

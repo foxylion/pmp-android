@@ -48,7 +48,6 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.activity_profile);
         this.handler = new Handler();
         anonymous_btn = (Button) findViewById(R.id.btn_anonymous);
@@ -65,6 +64,8 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     @Override
     public void onResume() {
         super.onResume();
+        
+        ctrl = new Controller(rgvHike);
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
             ctrl.enableAnonymity(Model.getInstance().getSid());
@@ -241,14 +242,16 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case (R.id.mi_save):
+            case (R.id.mi_save): {
                 // send to changes to server
                 String lastname = et_lastname.getText().toString();
                 String firstname = et_firstname.getText().toString();
                 String tel = et_tel.getText().toString();
-                ctrl.editProfile(Model.getInstance().getSid(), lastname, firstname, tel);
                 Log.i(this, "Clicked Save Changes.");
+                ctrl.editProfile(Model.getInstance().getSid(), lastname, firstname, tel);
                 break;
+            }
+            
         }
         return true;
     }

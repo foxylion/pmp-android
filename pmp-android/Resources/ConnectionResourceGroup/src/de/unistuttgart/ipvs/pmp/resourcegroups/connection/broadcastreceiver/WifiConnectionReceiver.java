@@ -30,6 +30,7 @@ import android.net.NetworkInfo;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.CityLocationListener;
 
 /**
  * {@link BroadcastReceiver} for Wifi connection changed events
@@ -103,7 +104,23 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
             locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new CityLocationListener(context,
                     locManager, time, event, DBConstants.DEVICE_WIFI));
         } else {
-            DBConnector.getInstance(context).storeBTEvent(time, event, null);
+            // Get the connectivity manager
+            ConnectivityManager connManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            Events state = Events.OFF;
+            
+            // Check if the state of the wifi
+            if (connManager != null) {
+                NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (mWifi == null) {
+                    state = Events.OFF;
+                } else {
+                    if (mWifi.isConnected()) {
+                        state = Events.ON;
+                    }
+                }
+            }
+            DBConnector.getInstance(context).storeWifiEvent(time, event, null, state);
         }
     }
 }

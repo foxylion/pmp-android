@@ -19,8 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.common;
 
-import java.util.concurrent.Semaphore;
-
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
@@ -37,11 +37,11 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
     /**
      * Constructor
      * 
-     * @param sem
-     *            {@link Semaphore}
+     * @param dialog
+     *            {@link ProgressDialog} that will be closed
      */
-    public ConnectionUploadResourceHandler(Semaphore sem) {
-        super(sem);
+    public ConnectionUploadResourceHandler(ProgressDialog dialog, Activity activity) {
+        super(dialog, activity);
     }
     
     
@@ -49,11 +49,13 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
     public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
         IConnection connectionRG = IConnection.Stub.asInterface(binder);
         try {
-            this.setURL(connectionRG.uploadData());
+            String url = connectionRG.uploadData();
+            this.setURL(url);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        sem.release();
+        dialog.dismiss();
+        openURLwithBrowser();
     }
     
 }

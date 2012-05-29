@@ -6,8 +6,8 @@
 
     <uses-sdk android:minSdkVersion="7" />
 
-    <permission android:name="android.permission.READ_PHONE_STATE" >
-    </permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:icon="@drawable/energy"

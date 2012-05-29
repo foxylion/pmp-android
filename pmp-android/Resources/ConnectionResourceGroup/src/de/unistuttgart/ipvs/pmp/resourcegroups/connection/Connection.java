@@ -20,9 +20,13 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Looper;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
@@ -30,6 +34,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.Blue
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.CellPhoneReceiver;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.WifiConnectionReceiver;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.WifiStateReceiver;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.SignalStrengthListener;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource.ConnectionResource;
 
 /**
@@ -46,8 +51,23 @@ public class Connection extends ResourceGroup {
      * @param pmpci
      *            {@link IPMPConnectionInterface}
      */
+    @SuppressWarnings("deprecation")
     public Connection(IPMPConnectionInterface pmpci) {
         super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
+        
+        // Register the signal strength listener
+        Looper.prepare();
+        
+        if (!SignalStrengthListener.getInstance().isRegistered()) {
+            Context context = pmpci.getContext("");
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            
+            // Register the listener
+            if (tm != null) {
+                tm.listen(SignalStrengthListener.getInstance(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+                SignalStrengthListener.getInstance().setRegistered(true);
+            }
+        }
         
         // Register the resource
         registerResource(ConnectionConstants.RES_CONNECTION, new ConnectionResource());

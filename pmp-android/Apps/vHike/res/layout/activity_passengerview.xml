@@ -15,6 +15,33 @@
         android:apiKey="04AhZI3pRNAhYcjxrQFVW4c2z084MgppmbcVUDQ"
         android:clickable="true" />
 
+        <EditText
+        android:id="@+id/passenger_et_route_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dip"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentRight="true"
+        android:text="\n   From: \n   To: \n   Distance: \n   Time: \n"
+        android:focusable="false"
+        android:editable="false"
+        android:textSize="15dp"
+        android:minLines="5"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:background="@drawable/road_info" />
+    
+    <Button
+        android:id="@+id/passenger_btn_route_info"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="3dip"
+        android:layout_marginTop="3dp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:background="@drawable/road_info_small" />
+    
     <Button
         android:id="@+id/Button_SimulateFoundDriver"
         android:layout_width="wrap_content"

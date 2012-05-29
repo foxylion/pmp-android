@@ -21,6 +21,12 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.common;
 
 import java.util.concurrent.Semaphore;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Looper;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 
 /**
@@ -37,9 +43,11 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
     private String URL = null;
     
     /**
-     * Semaphore where the caller is aquired
+     * Shown {@link ProgressDialog}
      */
-    protected Semaphore sem;
+    protected ProgressDialog dialog;
+    
+    protected Activity activity;
     
     
     /**
@@ -47,9 +55,12 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      * 
      * @param sem
      *            {@link Semaphore}
+     * @param dialog
+     *            {@link ProgressDialog} that will be closed
      */
-    public AbstractRequestRessourceHandler(Semaphore sem) {
-        this.sem = sem;
+    public AbstractRequestRessourceHandler(ProgressDialog dialog, Activity activity) {
+        this.dialog = dialog;
+        this.activity = activity;
     }
     
     
@@ -67,5 +78,22 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      */
     public void setURL(String url) {
         URL = url;
+    }
+    
+    
+    /**
+     * Open the url with browser
+     */
+    public void openURLwithBrowser() {
+        System.out.println("URL = " + this.URL);
+        if (this.URL == null || this.URL.equals("")) {
+            Looper.prepare();
+            Toast.makeText(activity, "Error while uploading data.", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(this.URL));
+            activity.startActivity(i);
+        }
+        
     }
 }

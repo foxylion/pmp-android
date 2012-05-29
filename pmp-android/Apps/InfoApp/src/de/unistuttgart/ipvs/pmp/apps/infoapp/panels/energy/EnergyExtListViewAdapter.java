@@ -132,6 +132,7 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
     public View getChildView(int group, int index, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater;
         View entryView = null;
+        
         switch (group) {
             case 0:
                 // Inflate the layout

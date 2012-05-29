@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.hardware;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ public class HardwarePanel implements IPanel {
     }
     
     
-    public String upload() {
+    public String upload(ProgressDialog dialog) {
         // TODO Auto-generated method stub
         return null;
     }

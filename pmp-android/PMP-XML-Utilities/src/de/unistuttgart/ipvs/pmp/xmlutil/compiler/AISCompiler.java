@@ -135,10 +135,17 @@ public class AISCompiler extends BasicISCompiler {
             
             // Add minRevision and use the simple date formatter
             String minRevision = rrg.getMinRevision();
+            
             try {
                 Date date = new Date(Long.valueOf(minRevision));
                 minRevision = XMLConstants.REVISION_DATE_FORMAT.format(date);
+                // Bugfix for Android 2.1.1: Timezone MEZ is not a valid timezone for this android version.
+                // So replace MEZ with GMT+01:00.
+                minRevision = minRevision.replace("MEZ", "GMT+01:00");
+                minRevision = minRevision.replace("MESZ", "GMT+02:00");
+                
             } catch (NumberFormatException nfe) {
+                nfe.printStackTrace();
                 // Ignore it. Something went wrong and the min revision was not an integer.
             }
             rrgNode.addAttribute(new XMLAttribute(XMLConstants.MINREVISION_ATTR, minRevision));

@@ -5,12 +5,33 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
-        android:id="@+id/Title"
-        pmp:name="@string/edit_preset"
+    <LinearLayout
+        android:id="@+id/Title_add_preset"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        pmp:icon="@drawable/icon_edit" />
+        android:orientation="vertical" >
+
+        <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+            android:id="@+id/Title_add"
+            pmp:name="@string/add_preset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            pmp:icon="@drawable/icon_edit" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Title_edit_preset"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <de.unistuttgart.ipvs.pmp.gui.view.BasicTitleView
+            android:id="@+id/Title_edit"
+            pmp:name="@string/edit_preset"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            pmp:icon="@drawable/icon_edit" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/ScrollView01"

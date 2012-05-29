@@ -5,6 +5,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PMP-API"/>
-	<classpathentry kind="lib" path="libs/infoapp_comlib_20120522.jar"/>
+	<classpathentry kind="lib" path="libs/infoapp_comlib_20120526.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
