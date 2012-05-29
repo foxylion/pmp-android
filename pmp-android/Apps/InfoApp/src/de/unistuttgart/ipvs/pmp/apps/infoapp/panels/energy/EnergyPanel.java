@@ -19,8 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy;
 
-import java.util.concurrent.Semaphore;
-
 import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
@@ -55,10 +53,13 @@ public class EnergyPanel implements IPanel {
     
     private Handler handler;
     
+    private Activity activity;
+    
     
     public EnergyPanel(Context context, Activity activity) {
         
-        // Set the application and the handler
+        // Set the application, the handler and the activity
+        this.activity = activity;
         this.application = activity.getApplication();
         this.handler = new Handler();
         
@@ -101,15 +102,11 @@ public class EnergyPanel implements IPanel {
             final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                     Constants.ENERGY_RG_RESOURCE);
             
-            Semaphore s = new Semaphore(1);
-            EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(s, dialog);
+            EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(dialog, this.activity);
             PMP.get(this.application).getResource(id, urrh);
-            try {
-                s.acquire();
-                return urrh.getURL();
-            } catch (InterruptedException e) {
-                return null;
-            }
+            
+            return urrh.getURL();
+            
         }
         return null;
     }

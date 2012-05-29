@@ -21,7 +21,6 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -439,15 +438,9 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      */
     public String upload(ProgressDialog dialog) {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
-            Semaphore sem = new Semaphore(1);
-            ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(sem, dialog);
+            ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(dialog, this.activity);
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
-            try {
-                sem.acquire();
-                return handler.getURL();
-            } catch (InterruptedException e) {
-                return null;
-            }
+            return handler.getURL();
         }
         return null;
     }
