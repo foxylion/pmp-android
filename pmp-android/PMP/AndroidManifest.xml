@@ -154,6 +154,10 @@
             android:name=".gui.preset.conflict.ActivityConflictList"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".gui.preset.conflict.ActivityConflicts"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar" />
 
         <!-- Tabs -->
         <activity android:name=".gui.app.TabDetails" />

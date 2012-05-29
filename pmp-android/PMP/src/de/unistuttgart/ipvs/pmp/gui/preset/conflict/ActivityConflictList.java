@@ -3,6 +3,7 @@ package de.unistuttgart.ipvs.pmp.gui.preset.conflict;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.gui.util.ActivityKillReceiver;
 import de.unistuttgart.ipvs.pmp.model.conflicts.ConflictModel;
@@ -135,9 +135,9 @@ public class ActivityConflictList extends Activity {
      *            Conflict which should be displayed.
      */
     private void openConflict(ConflictPair conflictPair) {
-        Toast.makeText(
-                this,
-                "Clicked on conflict: [" + conflictPair.getPreset1().getName() + ":"
-                        + conflictPair.getPreset2().getName() + "]", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, ActivityConflicts.class);
+        i.putExtra("p1", conflictPair.getPreset1().getLocalIdentifier());
+        i.putExtra("p2", conflictPair.getPreset2().getLocalIdentifier());
+        startActivity(i);
     }
 }

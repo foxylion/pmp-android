@@ -140,8 +140,6 @@ public class AISParser extends AbstractParser {
                     minRevision = minRevision.replace("MEZ", "GMT+01:00");
                     minRevision = minRevision.replace("MESZ", "GMT+02:00");
                     
-                    System.out.println("--------------- " + minRevision);
-                    
                     Date date = XMLConstants.REVISION_DATE_FORMAT.parse(minRevision);
                     minRevision = String.valueOf(date.getTime());
                 } catch (ParseException e) {

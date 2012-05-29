@@ -286,6 +286,7 @@
     <!-- Conflicts between Presets -->
     <string name="conflicts_between_presets">Conflicts between Presets</string>
     <string name="conflicts_description">Below are listed all conflicts between Presets.</string>
+    <string name="conflicts_between_description">Below are listed all conflicts between the Presets: </string>
     <string name="conflicts_no_conflicts">No conflicts where detected.</string>
     <string name="conflicts_show">Show conflicts</string>
     
