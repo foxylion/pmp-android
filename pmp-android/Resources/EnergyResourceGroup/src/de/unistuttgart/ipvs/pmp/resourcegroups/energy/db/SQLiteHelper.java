@@ -73,6 +73,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         cvs6.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
         cvs6.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
         
+        ContentValues cvs7 = new ContentValues();
+        cvs7.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
+        cvs7.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
+        
         List<ContentValues> cvsList = new ArrayList<ContentValues>();
         cvsList.add(cvs1);
         cvsList.add(cvs2);
@@ -80,6 +84,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         cvsList.add(cvs4);
         cvsList.add(cvs5);
         cvsList.add(cvs6);
+        cvsList.add(cvs7);
         
         for (ContentValues cvs : cvsList) {
             db.insert(DBConstants.TABLE_DEVICE_DATA, null, cvs);

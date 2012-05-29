@@ -94,10 +94,6 @@ public class EnergyPanel implements IPanel {
         final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                 Constants.ENERGY_RG_RESOURCE);
         
-        this.adapter.setCvEnabled(false);
-        this.adapter.setLbvEnabled(false);
-        this.adapter.setTvEnabled(false);
-        
         PMP.get(this.application).getResource(id,
                 new RequestResourceHandler(this.adapter, this.handler, this.application));
     }
