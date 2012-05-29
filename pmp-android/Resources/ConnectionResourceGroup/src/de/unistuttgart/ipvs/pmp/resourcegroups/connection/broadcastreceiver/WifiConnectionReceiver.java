@@ -30,6 +30,7 @@ import android.net.NetworkInfo;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.Events;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.CityLocationListener;
 
 /**
  * {@link BroadcastReceiver} for Wifi connection changed events

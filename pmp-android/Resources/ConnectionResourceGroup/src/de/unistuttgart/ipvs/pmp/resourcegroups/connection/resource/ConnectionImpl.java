@@ -45,9 +45,9 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ConnectionProperti
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.SignalStrengthListener;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.SignalStrengthListener;
 
 /**
  * Implements the IConnection aidl file

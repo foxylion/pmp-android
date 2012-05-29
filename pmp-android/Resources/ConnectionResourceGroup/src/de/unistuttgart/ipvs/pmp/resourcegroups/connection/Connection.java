@@ -30,6 +30,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.Blue
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.CellPhoneReceiver;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.WifiConnectionReceiver;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.WifiStateReceiver;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.SignalStrengthListener;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource.ConnectionResource;
 
 /**
@@ -46,8 +47,12 @@ public class Connection extends ResourceGroup {
      * @param pmpci
      *            {@link IPMPConnectionInterface}
      */
+    @SuppressWarnings("deprecation")
     public Connection(IPMPConnectionInterface pmpci) {
         super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
+        
+        // Register the signal strength listener
+        SignalStrengthListener.getInstance().register(pmpci.getContext(""));
         
         // Register the resource
         registerResource(ConnectionConstants.RES_CONNECTION, new ConnectionResource());
