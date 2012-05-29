@@ -237,10 +237,10 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
                         .getNumSeats())) {
             case (Constants.QUERY_ID_ERROR):
-                Toast.makeText(PassengerViewActivity.this, "Query error", Toast.LENGTH_SHORT).show();
+                Log.i(this, "Query error");
                 break;
             default:
-                Toast.makeText(PassengerViewActivity.this, "Query started/updated", Toast.LENGTH_SHORT).show();
+                Log.i(this, "Query started");
                 break;
         }
         
