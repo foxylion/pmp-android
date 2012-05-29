@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.IBinder;
@@ -436,10 +437,10 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     /**
      * Upload the data to the evaluation server
      */
-    public String upload() {
+    public String upload(ProgressDialog dialog) {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
             Semaphore sem = new Semaphore(1);
-            ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(sem);
+            ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(sem, dialog);
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
             try {
                 sem.acquire();

@@ -29,6 +29,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -126,7 +127,7 @@ public class RSSPanel implements IPanel {
     }
     
     
-    public String upload() {
+    public String upload(ProgressDialog dialog) {
         // TODO Auto-generated method stub
         return null;
     }

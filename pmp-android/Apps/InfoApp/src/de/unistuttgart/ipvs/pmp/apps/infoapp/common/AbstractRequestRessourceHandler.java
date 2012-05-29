@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.common;
 
 import java.util.concurrent.Semaphore;
 
+import android.app.ProgressDialog;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 
 /**
@@ -41,15 +42,23 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      */
     protected Semaphore sem;
     
+    /**
+     * Shown {@link ProgressDialog}
+     */
+    protected ProgressDialog dialog;
+    
     
     /**
      * Constructor
      * 
      * @param sem
      *            {@link Semaphore}
+     * @param dialog
+     *            {@link ProgressDialog} that will be closed
      */
-    public AbstractRequestRessourceHandler(Semaphore sem) {
+    public AbstractRequestRessourceHandler(Semaphore sem, ProgressDialog dialog) {
         this.sem = sem;
+        this.dialog = dialog;
     }
     
     

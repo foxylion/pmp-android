@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.example;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +65,7 @@ public class ExamplePanel implements IPanel {
     }
     
     
-    public String upload() {
+    public String upload(ProgressDialog dialog) {
         // TODO Auto-generated method stub
         return null;
     }

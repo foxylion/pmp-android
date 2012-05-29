@@ -23,6 +23,7 @@ import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -95,13 +96,13 @@ public class EnergyPanel implements IPanel {
     }
     
     
-    public String upload() {
+    public String upload(ProgressDialog dialog) {
         if (PMP.get(this.application).isServiceFeatureEnabled(Constants.ENERGY_SF_UPLOAD_DATA)) {
             final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                     Constants.ENERGY_RG_RESOURCE);
             
             Semaphore s = new Semaphore(1);
-            EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(s);
+            EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(s, dialog);
             PMP.get(this.application).getResource(id, urrh);
             try {
                 s.acquire();

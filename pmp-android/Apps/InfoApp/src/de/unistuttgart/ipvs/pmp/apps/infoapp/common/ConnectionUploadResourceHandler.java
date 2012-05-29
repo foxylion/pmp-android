@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.common;
 
 import java.util.concurrent.Semaphore;
 
+import android.app.ProgressDialog;
 import android.os.IBinder;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
@@ -38,10 +39,12 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
      * Constructor
      * 
      * @param sem
-     *            {@link Semaphore}
+     *            {@link Semaphore} *
+     * @param dialog
+     *            {@link ProgressDialog} that will be closed
      */
-    public ConnectionUploadResourceHandler(Semaphore sem) {
-        super(sem);
+    public ConnectionUploadResourceHandler(Semaphore sem, ProgressDialog dialog) {
+        super(sem, dialog);
     }
     
     
@@ -56,6 +59,7 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
             e.printStackTrace();
         }
         sem.release();
+        dialog.dismiss();
     }
     
 }

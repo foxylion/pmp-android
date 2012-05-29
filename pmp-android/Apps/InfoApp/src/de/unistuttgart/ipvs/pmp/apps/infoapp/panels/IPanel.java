@@ -19,6 +19,7 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels;
 
+import android.app.ProgressDialog;
 import android.view.View;
 
 /**
@@ -55,6 +56,6 @@ public interface IPanel {
      * 
      * @return Return the URL of the statistics website
      */
-    public String upload();
+    public String upload(ProgressDialog dialog);
     
 }
