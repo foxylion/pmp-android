@@ -20,9 +20,13 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Looper;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.library.BooleanPrivacySetting;
@@ -52,8 +56,19 @@ public class Connection extends ResourceGroup {
         super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
         
         // Register the signal strength listener
+        Looper.prepare();
+        
         if (!SignalStrengthListener.getInstance().isRegistered()) {
-            SignalStrengthListener.getInstance().register(pmpci.getContext(""));
+            Context context = pmpci.getContext("");
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            
+            // Register the listener
+            if (tm != null) {
+                tm.listen(SignalStrengthListener.getInstance(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
+                        | PhoneStateListener.LISTEN_SIGNAL_STRENGTH);
+                System.out.println("--------+ Registered");
+                SignalStrengthListener.getInstance().setRegistered(true);
+            }
         }
         
         // Register the resource

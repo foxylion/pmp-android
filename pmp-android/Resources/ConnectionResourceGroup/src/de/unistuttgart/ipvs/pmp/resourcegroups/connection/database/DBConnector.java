@@ -20,8 +20,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -279,9 +277,6 @@ public class DBConnector implements IDBConnector {
         open();
         List<String> result = new ArrayList<String>();
         
-        // Stores the times where the user was connected
-        HashMap<String, Integer> times = new HashMap<String, Integer>();
-        
         // Get the cities only
         String columns[] = new String[1];
         columns[0] = DBConstants.COLUMN_CITY;
@@ -298,12 +293,8 @@ public class DBConnector implements IDBConnector {
                 try {
                     String city = cursor.getString(0);
                     if (city != null) {
-                        if (times.containsKey(city)) {
-                            // The city was seen before
-                            int oldTimes = times.get(city);
-                            times.put(city, oldTimes + 1);
-                        } else {
-                            times.put(city, 1);
+                        if (!result.contains(city)) {
+                            result.add(city);
                         }
                     }
                 } catch (NullPointerException e) {
@@ -311,13 +302,6 @@ public class DBConnector implements IDBConnector {
             } while (cursor.moveToNext());
         }
         
-        // Store the results in a list and sort it
-        for (String key : times.keySet()) {
-            int timesConnected = times.get(key);
-            String toStore = timesConnected + "x " + key;
-            result.add(toStore);
-        }
-        Collections.sort(result, new ConnectedCitiesComparator());
         cursor.close();
         close();
         

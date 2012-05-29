@@ -31,6 +31,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
@@ -66,6 +67,11 @@ public class ConnectionImpl extends IConnection.Stub {
      * {@link PermissionValidator}
      */
     private PermissionValidator validator;
+    
+    /**
+     * Stores if {@link Looper#prepare()} was called or not
+     */
+    Boolean looped = false;
     
     
     /**
@@ -186,6 +192,14 @@ public class ConnectionImpl extends IConnection.Stub {
         
         Boolean result = false;
         
+        try {
+            if (!looped) {
+                Looper.prepare();
+                looped = true;
+            }
+        } catch (RuntimeException e) {
+        }
+        
         // Check if the BluetoothAdapter is supported
         if (BluetoothAdapter.getDefaultAdapter() != null) {
             result = BluetoothAdapter.getDefaultAdapter().isEnabled();
@@ -203,6 +217,14 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
         List<String> result = new ArrayList<String>();
+        
+        try {
+            if (!looped) {
+                Looper.prepare();
+                looped = true;
+            }
+        } catch (RuntimeException e) {
+        }
         
         // Check if the BluetoothAdapter is supported
         if (BluetoothAdapter.getDefaultAdapter() != null) {

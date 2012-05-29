@@ -19,10 +19,8 @@
  */
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener;
 
-import android.content.Context;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
-import android.telephony.TelephonyManager;
 
 /**
  * Service that stores the signal strengthF
@@ -68,9 +66,21 @@ public class SignalStrengthListener extends PhoneStateListener {
     }
     
     
+    /* (non-Javadoc)
+    * @see android.telephony.PhoneStateListener#onSignalStrengthChanged(int)
+    */
+    @Override
+    public void onSignalStrengthChanged(int asu) {
+        System.out.println("------------" + asu);
+        super.onSignalStrengthChanged(asu);
+    }
+    
+    
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrength) {
+        super.onSignalStrengthsChanged(signalStrength);
         this.signalStrength = signalStrength.getGsmSignalStrength();
+        System.out.println("------------- Strength changed: " + this.signalStrength);
     }
     
     
@@ -80,21 +90,8 @@ public class SignalStrengthListener extends PhoneStateListener {
      * @return the signalStrength signal strength (ASU)
      */
     public int getSignalStrength() {
+        System.out.println("-------------Get strength: " + signalStrength);
         return this.signalStrength;
-    }
-    
-    
-    /**
-     * Register the service
-     */
-    public void register(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        
-        // Register the listener
-        if (tm != null) {
-            tm.listen(SignalStrengthListener.getInstance(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
-            this.registered = true;
-        }
     }
     
     
@@ -105,5 +102,16 @@ public class SignalStrengthListener extends PhoneStateListener {
      */
     public Boolean isRegistered() {
         return this.registered;
+    }
+    
+    
+    /**
+     * Sets the registered status
+     * 
+     * @param registered
+     *            true if registered, false otherwise
+     */
+    public void setRegistered(Boolean registered) {
+        this.registered = registered;
     }
 }
