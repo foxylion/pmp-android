@@ -100,7 +100,7 @@ public class EnergyPanel implements IPanel {
             final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                     Constants.ENERGY_RG_RESOURCE);
             
-            Semaphore s = new Semaphore(0);
+            Semaphore s = new Semaphore(1);
             EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(s);
             PMP.get(this.application).getResource(id, urrh);
             try {
