@@ -20,6 +20,9 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.resource;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +41,8 @@ import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
 import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder.Views;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.CellularConnectionEvent;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
@@ -409,16 +414,25 @@ public class ConnectionImpl extends IConnection.Stub {
         // Get the device id
         TelephonyManager tManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         String deviceId = tManager.getDeviceId();
+        MessageDigest digest;
+        String hashedID = "";
+        
+        // Hash the id with MD5
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(deviceId.getBytes(), 0, deviceId.length());
+            hashedID = new BigInteger(1, digest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e1) {
+        }
         
         // Create service
-        Service service = new Service(Service.DEFAULT_URL, deviceId);
+        Service service = new Service(Service.DEFAULT_URL, hashedID);
         try {
-            // Upload everything
+            //                         Upload everything
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getWifiEvents());
             new ConnectionEventManager(service)
                     .commitEvents(DBConnector.getInstance(this.context).getBluetoothEvents());
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getCellEvents());
-            
             new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getSignalStrengthPercentage())
                     .commit();
             
@@ -428,7 +442,7 @@ public class ConnectionImpl extends IConnection.Stub {
             
             DBConnector.getInstance(this.context).clearLists();
             
-            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, deviceId);
+            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
             urlB.setView(Views.STATIC);
             return urlB.getConnectionGraphUrl();
             
@@ -443,6 +457,56 @@ public class ConnectionImpl extends IConnection.Stub {
         }
         
         return null;
+    }
+    
+    
+    /**
+     * Only for debugging
+     * 
+     * @param events
+     */
+    @SuppressWarnings("unused")
+    private void printCellularConnectionEvents(List<CellularConnectionEvent> events) {
+        Long lastTimeStamp = 0L;
+        for (CellularConnectionEvent event : events) {
+            System.out.println("ID: \t" + event.getId());
+            System.out.println("Time: \t" + event.getTimestamp());
+            if (lastTimeStamp - event.getTimestamp() < 0) {
+                System.out.println("Smaller: true");
+            } else {
+                System.out.println("Smaller: false");
+            }
+            lastTimeStamp = event.getTimestamp();
+            System.out.println("-----------------------------------------");
+        }
+    }
+    
+    
+    /**
+     * Only for debugging
+     * 
+     * @param events
+     */
+    @SuppressWarnings("unused")
+    private void printConectionEvents(List<ConnectionEvent> events) {
+        Long lastTimeStamp = 0L;
+        for (ConnectionEvent event : events) {
+            System.out.println("ID: \t" + event.getId());
+            System.out.println("Time: \t" + event.getTimestamp());
+            System.out.println("Medium: \t" + event.getMedium());
+            if (event.getCity() != null) {
+                System.out.println("City: \t" + event.getCity());
+            } else {
+                System.out.println("City: \t" + "null");
+            }
+            if (lastTimeStamp - event.getTimestamp() < 0) {
+                System.out.println("Smaller: true");
+            } else {
+                System.out.println("Smaller: false");
+            }
+            lastTimeStamp = event.getTimestamp();
+            System.out.println("-----------------------------------------");
+        }
     }
     
     

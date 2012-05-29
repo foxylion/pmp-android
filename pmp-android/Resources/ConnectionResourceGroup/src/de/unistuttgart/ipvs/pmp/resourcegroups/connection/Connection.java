@@ -64,9 +64,7 @@ public class Connection extends ResourceGroup {
             
             // Register the listener
             if (tm != null) {
-                tm.listen(SignalStrengthListener.getInstance(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
-                        | PhoneStateListener.LISTEN_SIGNAL_STRENGTH);
-                System.out.println("--------+ Registered");
+                tm.listen(SignalStrengthListener.getInstance(), PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
                 SignalStrengthListener.getInstance().setRegistered(true);
             }
         }
