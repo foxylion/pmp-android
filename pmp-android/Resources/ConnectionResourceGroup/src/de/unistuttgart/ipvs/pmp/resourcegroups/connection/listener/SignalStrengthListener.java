@@ -66,21 +66,10 @@ public class SignalStrengthListener extends PhoneStateListener {
     }
     
     
-    /* (non-Javadoc)
-    * @see android.telephony.PhoneStateListener#onSignalStrengthChanged(int)
-    */
-    @Override
-    public void onSignalStrengthChanged(int asu) {
-        System.out.println("------------" + asu);
-        super.onSignalStrengthChanged(asu);
-    }
-    
-    
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrength) {
         super.onSignalStrengthsChanged(signalStrength);
         this.signalStrength = signalStrength.getGsmSignalStrength();
-        System.out.println("------------- Strength changed: " + this.signalStrength);
     }
     
     
@@ -90,7 +79,6 @@ public class SignalStrengthListener extends PhoneStateListener {
      * @return the signalStrength signal strength (ASU)
      */
     public int getSignalStrength() {
-        System.out.println("-------------Get strength: " + signalStrength);
         return this.signalStrength;
     }
     
