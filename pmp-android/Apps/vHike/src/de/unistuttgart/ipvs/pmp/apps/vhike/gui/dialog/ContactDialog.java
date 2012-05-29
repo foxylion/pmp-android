@@ -47,10 +47,11 @@ public class ContactDialog extends Dialog {
     private Activity activity;
     
     private Road mRoad;
+    private int driverOrpassenger;
     
     
     public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, Profile foundUser,
-            Controller ctrl) {
+            Controller ctrl, int driverOrpassenger) {
         super(context);
         setTitle(userName);
         setContentView(R.layout.dialog_contact);
@@ -60,6 +61,7 @@ public class ContactDialog extends Dialog {
         this.iContact = iContact;
         this.foundUser = foundUser;
         this.ctrl = ctrl;
+        this.driverOrpassenger = driverOrpassenger;
         this.activity = (Activity) context;
         
         setButtons();
@@ -214,7 +216,12 @@ public class ContactDialog extends Dialog {
             Toast.makeText(context, mRoad.mName + " " + mRoad.mDescription, Toast.LENGTH_LONG).show();
             
             RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView, true);
-            ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            if (driverOrpassenger == 0) {
+                ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            } else {
+                ViewModel.getInstance().getPassengerOverlayList(mapView).add(roadOverlay);
+            }
+            
             ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, true);
             ViewModel.getInstance().getAddedRoutes.put(ContactDialog.this.userName, roadOverlay);
             Log.i(this, "Added Routes After Add " + ViewModel.getInstance().getAddedRoutes.size());
