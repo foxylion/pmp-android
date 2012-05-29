@@ -19,13 +19,21 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import de.unistuttgart.ipvs.pmp.api.PMP;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyCurrentValues;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyLastBootValues;
@@ -49,6 +57,11 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
     private Context context;
     
     /**
+     * {@link Activity}
+     */
+    private Activity activity;
+    
+    /**
      * The data objects
      */
     private EnergyCurrentValues cv;
@@ -66,14 +79,16 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
     /**
      * 
      * @param context
+     * @param activity
      * @param cv
      * @param lbv
      * @param tv
      */
-    public EnergyExtListViewAdapter(Context context, EnergyCurrentValues cv, EnergyLastBootValues lbv,
-            EnergyTotalValues tv) {
-        // Set the context
+    public EnergyExtListViewAdapter(Context context, Activity activity, EnergyCurrentValues cv,
+            EnergyLastBootValues lbv, EnergyTotalValues tv) {
+        // Set the context and activity
         this.context = context;
+        this.activity = activity;
         
         // Set the data objects
         this.cv = cv;
@@ -116,7 +131,7 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
      */
     public View getChildView(int group, int index, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater;
-        View entryView;
+        View entryView = null;
         switch (group) {
             case 0:
                 // Inflate the layout
@@ -149,6 +164,17 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     tvCVnotAvailable.setVisibility(TextView.GONE);
                     
                 } else {
+                    // Add on click listener
+                    entryView.setOnClickListener(new OnClickListener() {
+                        
+                        public void onClick(View v) {
+                            List<String> sfs = new ArrayList<String>();
+                            sfs.add("energy-current");
+                            PMP.get(EnergyExtListViewAdapter.this.activity.getApplication()).requestServiceFeatures(
+                                    EnergyExtListViewAdapter.this.activity, sfs);
+                        }
+                    });
+                    
                     // Disable the table
                     TableLayout tlCV = (TableLayout) entryView.findViewById(R.id.energyCVtableLayout);
                     tlCV.setVisibility(TableLayout.GONE);
@@ -178,7 +204,13 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     TextView tvLBVScreenOn = (TextView) entryView.findViewById(R.id.energyLBVScreenOn);
                     
                     // Set the values
-                    tvLBVDate.setText(this.lbv.getDate());
+                    // Format the date
+                    try {
+                        String date = Constants.DATE_FORMAT.format(new Date(Long.valueOf(this.lbv.getDate())));
+                        tvLBVDate.setText(date);
+                    } catch (Exception e) {
+                        tvLBVDate.setText(this.lbv.getDate());
+                    }
                     tvLBVUptime.setText(this.lbv.getUptime());
                     tvLBVUptimeBattery.setText(this.lbv.getUptimeBattery());
                     tvLBVDurationCharging.setText(this.lbv.getDurationOfCharging());
@@ -197,6 +229,17 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     tvLBVnotAvailable.setVisibility(TextView.GONE);
                     
                 } else {
+                    // Add on click listener
+                    entryView.setOnClickListener(new OnClickListener() {
+                        
+                        public void onClick(View v) {
+                            List<String> sfs = new ArrayList<String>();
+                            sfs.add("energy-since-last-boot");
+                            PMP.get(EnergyExtListViewAdapter.this.activity.getApplication()).requestServiceFeatures(
+                                    EnergyExtListViewAdapter.this.activity, sfs);
+                        }
+                    });
+                    
                     // Disable the table
                     TableLayout tlLBV = (TableLayout) entryView.findViewById(R.id.energyLBVtableLayout);
                     tlLBV.setVisibility(TableLayout.GONE);
@@ -226,7 +269,13 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     TextView tvTVScreenOn = (TextView) entryView.findViewById(R.id.energyTVScreenOn);
                     
                     // Set the values
-                    tvTVDate.setText(this.tv.getDate());
+                    // Format the date
+                    try {
+                        String date = Constants.DATE_FORMAT.format(new Date(Long.valueOf(this.tv.getDate())));
+                        tvTVDate.setText(date);
+                    } catch (Exception e) {
+                        tvTVDate.setText(this.tv.getDate());
+                    }
                     tvTVUptime.setText(this.tv.getUptime());
                     tvTVUptimeBattery.setText(this.tv.getUptimeBattery());
                     tvTVDurationCharging.setText(this.tv.getDurationOfCharging());
@@ -245,6 +294,17 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     tvTVnotAvailable.setVisibility(TextView.GONE);
                     
                 } else {
+                    // Add on click listener
+                    entryView.setOnClickListener(new OnClickListener() {
+                        
+                        public void onClick(View v) {
+                            List<String> sfs = new ArrayList<String>();
+                            sfs.add("energy-total");
+                            PMP.get(EnergyExtListViewAdapter.this.activity.getApplication()).requestServiceFeatures(
+                                    EnergyExtListViewAdapter.this.activity, sfs);
+                        }
+                    });
+                    
                     // Disable the table
                     TableLayout tlTV = (TableLayout) entryView.findViewById(R.id.energyTVtableLayout);
                     tlTV.setVisibility(TableLayout.GONE);

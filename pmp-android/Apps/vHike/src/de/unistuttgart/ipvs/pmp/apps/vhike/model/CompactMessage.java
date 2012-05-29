@@ -4,22 +4,28 @@ public class CompactMessage {
     
     public int id;
     public CompactUser sender, recipient;
-    public boolean isInvitation;
+    public boolean isOffer;
     public int status;
     public String message;
     
     
-    public CompactMessage(int messageId, CompactUser sender, CompactUser recipient, boolean isInvitation, String message) {
+    public CompactMessage(int messageId, CompactUser sender, CompactUser recipient, boolean isOffer, String message) {
         this.id = messageId;
         this.sender = sender;
         this.recipient = recipient;
-        this.isInvitation = isInvitation;
+        this.isOffer = isOffer;
         this.message = message;
+        
     }
     
     
     public String toString() {
-        return sender.name + (isInvitation ? " (Request)" : "");
+        return sender.name + (isOffer ? " (Request)" : "");
+    }
+    
+    
+    public int getId() {
+        return id;
     }
     
 }

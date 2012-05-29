@@ -424,18 +424,13 @@ public class ViewModel {
     
     
     public void setEtInfoText(String from, String to, String distance, String time) {
-        this.et_road_info.setText("\n   From: " + from + "\n   To: + " + to + "\n   Distance: " + distance
-                + "\n   Time: " + time + "\n");
+        this.et_road_info.setText("\n    From: " + from + " \n    To: " + to + " \n    Distance: " + distance
+                + " \n    Time: " + time + "\n\n   ");
     }
     
     
     public void resetRoadInfo() {
         this.et_road_info.setText("\n   From: \n   To: \n   Distance: \n   Time: \n");
-    }
-    
-    
-    public double convertMiles2Km(double miles) {
-        return miles / 0.621;
     }
     
     

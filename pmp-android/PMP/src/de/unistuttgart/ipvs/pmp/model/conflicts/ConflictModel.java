@@ -135,8 +135,9 @@ public class ConflictModel implements IConflictModel {
                     
                     /* For optimization skip all already known conflicts. */
                     if (!conflictPairs.contains(new ConflictPair(preset, comparedPreset))) {
-                        if (preset.getConflictingPrivacySettings(comparedPreset).size() > 0
-                                || preset.getConflictingContextAnnotations(comparedPreset).size() > 0) {
+                        if (preset.getPSPSConflicts(comparedPreset).size() > 0
+                                || preset.getCACAConflicts(comparedPreset).size() > 0
+                                || preset.getCAPSConflicts(comparedPreset).size() > 0) {
                             conflictPairs.add(new ConflictPair(preset, comparedPreset));
                         }
                     }

@@ -39,8 +39,10 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     private Controller ctrl;
     private Button anonymous_btn;
     private Button observation;
-    static final String[] RECENT_RIDES = new String[] { "01.01.2011, Stuttgart", "02.01.2011, Berlin",
-            "03.01.2011, Vaihingen", "..." };
+    
+    private EditText et_lastname;
+    private EditText et_firstname;
+    private EditText et_tel;
     
     
     @Override
@@ -51,6 +53,9 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         this.handler = new Handler();
         anonymous_btn = (Button) findViewById(R.id.btn_anonymous);
         observation = (Button) findViewById(R.id.btn_observation);
+        et_lastname = (EditText) findViewById(R.id.et_lastname);
+        et_firstname = (EditText) findViewById(R.id.et_firstname);
+        et_tel = (EditText) findViewById(R.id.et_mobile);
         if (getvHikeRG(this) != null) {
             setUpProfile();
         }
@@ -122,6 +127,15 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             } else {
                 this.ctrl = new Controller(rgvHike);
                 this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), profileID);
+                et_lastname.setClickable(false);
+                et_lastname.setFocusable(false);
+                et_lastname.setCursorVisible(false);
+                et_firstname.setClickable(false);
+                et_firstname.setFocusable(false);
+                et_firstname.setCursorVisible(false);
+                et_tel.setClickable(false);
+                et_tel.setFocusable(false);
+                et_tel.setCursorVisible(false);
             }
             
             anonymous_btn.setOnClickListener(new View.OnClickListener() {
@@ -173,17 +187,14 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
             TextView tv_username = (TextView) findViewById(R.id.tv_username);
             tv_username.setText(this.profile.getUsername());
             
-            EditText et_firstname = (EditText) findViewById(R.id.et_firstname);
             et_firstname.setText(this.profile.getFirstname());
             
-            EditText et_lastname = (EditText) findViewById(R.id.et_lastname);
             et_lastname.setText(this.profile.getLastname());
             
             EditText et_email = (EditText) findViewById(R.id.et_email);
             et_email.setText(this.profile.getEmail());
             
-            EditText et_mobile = (EditText) findViewById(R.id.et_mobile);
-            et_mobile.setText(this.profile.getTel());
+            et_tel.setText(this.profile.getTel());
             
             this.rb = (RatingBar) findViewById(R.id.ratingbar_profile);
             this.rb.setRating((float) this.profile.getRating_avg());
@@ -232,6 +243,11 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         switch (item.getItemId()) {
             case (R.id.mi_save):
                 // send to changes to server
+                String lastname = et_lastname.getText().toString();
+                String firstname = et_firstname.getText().toString();
+                String tel = et_tel.getText().toString();
+                ctrl.editProfile(Model.getInstance().getSid(), lastname, firstname, tel);
+                Log.i(this, "Clicked Save Changes.");
                 break;
         }
         return true;

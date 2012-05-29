@@ -26,7 +26,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.AddStopOverListener;
-import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IConfirmDialogFinishedCallBack;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.OnConfirmationDialogFinished;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IDialogFinishedCallBack;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
@@ -42,7 +42,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  * 
  */
 public class PlanTripActivity extends ResourceGroupReadyActivity implements IDialogFinishedCallBack,
-        IConfirmDialogFinishedCallBack {
+        OnConfirmationDialogFinished {
     
     // Function call back ID(s)
     private static final byte CONFIRM_END_TRIP = 0;
@@ -206,7 +206,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
                     } else {
                         PlanTripActivity.this.announceTrip();
-                        Intent intent = new Intent(PlanTripActivity.this, MyTripActivity.class);
+                        Intent intent = new Intent(PlanTripActivity.this, MyTripsActivity.class);
                         startActivity(intent);
                     }
                 } else {

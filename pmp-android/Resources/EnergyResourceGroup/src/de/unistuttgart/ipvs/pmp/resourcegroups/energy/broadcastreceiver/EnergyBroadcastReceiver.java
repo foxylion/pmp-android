@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.BatteryHandler;
+import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.DeviceBootHandler;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.ScreenHandler;
 
 /**
@@ -18,7 +19,7 @@ public class EnergyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         /*
-         * Handle the intents
+         * Handle the intents 
          */
         if (action.equals(EnergyConstants.ACTION_SCREEN_ON)) {
             ScreenHandler.handle(true, context);
@@ -26,6 +27,8 @@ public class EnergyBroadcastReceiver extends BroadcastReceiver {
             ScreenHandler.handle(false, context);
         } else if (action.equals(EnergyConstants.ACTION_BATTERY_CHANGED)) {
             BatteryHandler.handle(intent, context);
+        } else if (action.equals(EnergyConstants.ACTION_SHOW_DOWN)) {
+            DeviceBootHandler.handle(context, false);
         }
     }
 }

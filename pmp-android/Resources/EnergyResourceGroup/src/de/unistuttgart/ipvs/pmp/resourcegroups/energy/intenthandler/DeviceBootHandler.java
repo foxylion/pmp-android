@@ -17,6 +17,9 @@ public class DeviceBootHandler {
          */
         DeviceBootEvent dbe = new DeviceBootEvent(-1, System.currentTimeMillis(), changedTo);
         DBConnector.getInstance(context).storeDeviceBootEvent(dbe);
+        
+        // Fire a screen event
+        ScreenHandler.handle(changedTo, context);
     }
     
 }

@@ -6,7 +6,7 @@
 
     <TableLayout
         android:id="@+id/energyCVtableLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <TableRow
@@ -19,7 +19,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Level: "
+                android:text="@string/energy_panel_cv_level"
                 android:textStyle="bold" />
 
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Health: "
+                android:text="@string/energy_panel_cv_health"
                 android:textStyle="bold" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Status: "
+                android:text="@string/energy_panel_cv_status"
                 android:textStyle="bold" />
 
             <TextView
@@ -79,7 +79,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Plugged: "
+                android:text="@string/energy_panel_cv_plugged"
                 android:textStyle="bold" />
 
             <TextView
@@ -99,7 +99,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Status time: "
+                android:text="@string/energy_panel_cv_status_time"
                 android:textStyle="bold" />
 
             <TextView
@@ -116,10 +116,10 @@
 
             <TextView
                 android:id="@+id/energyCVTemperatureLabel"
-                android:layout_width="fill_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Temperature: "
+                android:text="@string/energy_panel_cv_temperature"
                 android:textStyle="bold" />
 
             <TextView
@@ -135,7 +135,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="No data available, because the required Service Feature (PMP) is not set"
+        android:text="@string/sf_insufficient"
         android:textStyle="bold" />
 
 </LinearLayout>

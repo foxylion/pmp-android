@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Systemtest-Plan für die 4. Iteration - vHike - Virtual Hitchiking</title>
+	<script type="text/javascript" src="../../../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../../../_layout/script.js"></script>
+	<script type="text/javascript" src="../../../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="../../../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../../../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">26. Mai 2012</div>
+		<div id="page-head-title">vHike - Virtual Hitchhiking</div>
+		<div id="page-title">Systemtest-Plan für die<br/>4. Iteration</div>
+		<div id="page-version">Version 1.0</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the system test plan -->
+		<h1 id="versionshistorie">Versionshistorie</h1>
+		
+				<h3>Version 1.0 (26.05.2012)</h3>
+					<ul>
+						<li>Initiales Gerüst</li>
+						<li>Auf Vorlage von vHike - Spezifikation</li>
+					</ul>
+
+			<h1 id="testvorgaben">Allgemeine Testvorgaben</h1>
+				<h2 id="revisions">Revisionsvorgaben</h2>
+					<table>
+						<tr><th class="left">Spezifikation unter Test</th><td>trunk: ???</td></tr>
+					</table>
+					
+				<h2 id="umgebung">Umgebung</h2>
+					<p>Für die Tests soll generell ein AVD mit API-Level 7 (Google-API) verwendet werden, soweit nicht anders angegeben.</p>
+					
+				<h2 id="testende">Test-Ende-Kriterium</h2>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 30.05.2012 definiert.</p>
+					
+				<h2 id="testende">Test-Erstellungsmethodik</h2>
+					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
+					<p>Es kann vorkommen das die Spezifikation unvollständig ist. Bei Unklarheiten einfach beim vHike-Team melden (am Besten nur bei Alex).</p>
+			<h1 id="prep">Vorbereitung / Instruktionen</h1>
+			<p>Für einige Use Cases sind kleine Vorbereitungen nötig, die hier kurz beschrieben werden sollen.</p>
+			<h2 id="need_rg">Benötigte Ressourcengruppen</h2>
+			<ul>
+				<li>Alle Use Cases: vHike -Ressourcengruppe</li>
+				<li>Fahrt starten/suchen: Location -Ressourcengruppe</li>
+				<li>Kommunikation: Contact(Kommunikation) -Ressourcengruppe</li>
+				<li>vHike - Bluetooth: Bluetooth -Ressourcengruppe</li>
+			</ul>
+			<h2 id="start_hitch">Fahrt starten / Mitfahrer suchen/einladen/abholen, Rolle "Fahrer"</h2>
+			<p>Falls alleine getestet wird, kann über folgende Daten Mitfahrer gefunden werden. Es wird aber empfohlen das zwei Leute gemeinsam das System testen, insbesondere einer als "Fahrer", der bzw. die (im Falle von Marcus) andere als "Mitfahrer".</p>
+			<ul>
+				<li>Stadt: Berlin</li>
+				<li>Anzahl d. Sitze: 1</li>
+				<li>Latitude: 37.42253700, Longitude: -122.08339000 (über DDMS)</li>
+				<li>Zu findene Mitfahrer: "Mfahrer", "demo" (bei Bedarf von mehreren Mitfahrern, melden)</li>
+			</ul>
+			<h2 id="start_search">Fahrt suchen, Rolle "Mitfahrer"</h2>
+			<p>Am besten soll hierzu eine zweite Person herangezogen werden, der die Rolle als "Fahrer" übernimmt, da dass Mitfahrer suchen/einladen über Konsole/Datenbank -Gepfusche sich als etwas kompliziert aufweist. Zur Not kann einer aus dem vHike-Team gefragt werden.</p>
+			<h2 id="prep_communication">Kommunikation(Contact-RG) und vHike - Bluetooth</h2>
+			<p>Falls mit dem Emulator getestet wird, kann man mit einem anderen Emulator telefoniert, SMS versendet werden. Dazu am Besten bei der Registrierung als Telefonnummer die Emulator-Nummer eingeben (wahrscheinlich "5554" oder "5556". Um Email zu versenden bzw. zu erhalten, muss ein Email-Account auf beiden Emulatoren eingerichtet werden.</p>
+			<p>Um den vHike -Bluetooth Modus zu testen ist neben der Bluetooth-RG ein echtes Gerät nötig, da der Emulator keine Bluetooth-Funktionalität bietet.</p>
+			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
+				<h2 id="usecases">Anwendungsfälle</h2>
+				Die Anwendungsfälle sind in einem separaten Dokument ausgelagert und werden per Identifier adressiert.<br>
+				Der Tester führt die Anwendungsfälle Schritt für Schritt durch. Sollte PMP nicht wie spezifiziert reagieren oder der Tester spezifizierte Eingaben nicht vornehmen können, gilt der Test als nicht bestanden.
+				<table>
+					<tr>
+						<th WIDTH="10%">Testfall</th>
+						<th WIDTH="15%">UseCase Name</th>
+						<th WIDTH="37%">Anweisung</th>
+						<th WIDTH="37%">Soll-Zustand</th>
+					</tr>
+					<tr>
+						<td>FT-1</td>
+						<td>Registrieren</td>
+						<td>Login-Screen - Register-Button - Alle Felder befüllen - Register-Button - Account über Email aktivieren</td>
+						<td>Toast nach Senden von Aktivierungsemail, danach kann Einloggen ausprobiert werden</td>
+					</tr>
+					<tr>
+						<td>FT-2</td>
+						<td>Einloggen</td>
+						<td>User + Passwort eingeben</td>
+						<td>Öffnet Hauptmenü</td>
+					</tr>
+					<tr>
+						<td>FT-3</td>
+						<td>Ausloggen</td>
+						<td>Im Hauptmenü auf "Logout" drücken</td>
+						<td>vHike startet Login-Screen, nicht Hauptmenü</td>
+					</tr>
+					<tr>
+						<td>FT-4</td>
+						<td>Profil ansehen</td>
+						<td>Im Hauptmenü "Profile" drücken</td>
+						<td>ProfileActivity öffnet sich</td>
+					</tr>
+					<tr>
+						<td>FT-5</td>
+						<td>Profil editieren</td>
+						<td>???</td>
+						<td>???</td>
+					</tr>
+					<tr>
+						<td>FT-6</td>
+						<td>History anzeigen</td>
+						<td>Im Hauptmenü auf "History" drücken</td>
+						<td>HistoryMenuActivity geöffnet</td>
+					</tr>
+					<tr>
+						<td>FT-7</td>
+						<td>Fahrt starten</td>
+						<td>Hitchhike-Button drücken im "Hitchhike-Menü"</td>
+						<td>Kartenansicht öffnet sich mit Fahrer-Icon</td>
+					</tr>
+					<tr>
+						<td>FT-8</td>
+						<td>Profil einer gefundenen Person öffnen</td>
+						<td>Auf Namen von Person in der Sliderliste drücken</td>
+						<td>Profile-Dialog öffnet sich</td>
+					</tr>
+					<tr>
+						<td>FT-9</td>
+						<td>Kommunikations-Dialog öffnen</td>
+						<td>Auf Icon von gefundenen Person drücken</td>
+						<td>Dialog öffnet sich</td>
+					</tr>
+					<tr>
+						<td>FT-10</td>
+						<td>Telefonieren</td>
+						<td>Auf Telefon-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person</td>
+						<td>Phone-App öffnet sich. Nach Anruf öffnet sich Call-Log, nach Zurück-Taste wieder zur Kartenansicht</td>
+					</tr>
+					<tr>
+						<td>FT-18</td>
+						<td>Einladung an eine gefunde Person senden</td>
+						<td>Ausrufezeichen-Button drücken</td>
+						<td>Ausrufezeichen-Button ändert sich zu einem Fragezeichen</td>
+					</tr>
+					<tr>
+						<td>FT-9</td>
+						<td>Profil bewerten</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-10</td>
+						<td>Route einzeichnen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-10</td>
+						<td>Statistik anzeigen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-11</td>
+						<td>Fahrt vorabplanen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-12</td>
+						<td>Vorabgeplante Fahrt starten</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-14</td>
+						<td>Mitfahrer einladen verwerfen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-15</td>
+						<td>Mitfahrer/Fahrer suchen (Bluetooth)</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-16</td>
+						<td>Fahrt suchen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-17</td>
+						<td>An vorabgeplanter Fahrt teilnehmen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-18</td>
+						<td>Einladung akzeptieren/ablehnen</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-19</td>
+						<td>Observationsmodus</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>FT-20</td>
+						<td>Anonymes Profil</td>
+						<td></td>
+						<td></td>
+					</tr>
+					
+				</table>
+		</div>
+	
+		<!-- // end of system test plan's content -->
+	</div>
+</body>
+</html>

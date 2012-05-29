@@ -53,6 +53,7 @@
         android:focusable="false"
         android:editable="false"
         android:textSize="15dp"
+        android:minLines="5"
         android:textColor="@color/white"
         android:visibility="gone"
         android:background="@drawable/road_info" />

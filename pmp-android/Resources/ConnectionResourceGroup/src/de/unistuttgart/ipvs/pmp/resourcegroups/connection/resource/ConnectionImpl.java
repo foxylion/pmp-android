@@ -27,13 +27,14 @@ import java.util.Set;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.RemoteException;
 import android.telephony.TelephonyManager;
+import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
+import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder.Views;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
@@ -44,6 +45,7 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ConnectionProperti
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
+import de.unistuttgart.ipvs.pmp.resourcegroups.connection.broadcastreceiver.SignalStrengthListener;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
 
@@ -323,9 +325,7 @@ public class ConnectionImpl extends IConnection.Stub {
      * @return gsm signal strength in asu, 99 if not known
      */
     private int getSignalStrengthASU() {
-        SharedPreferences settings = this.context.getSharedPreferences(ConnectionConstants.PREF_FILE,
-                Context.MODE_WORLD_READABLE);
-        return settings.getInt(ConnectionConstants.PREF_SIGNAL_KEY, 99);
+        return SignalStrengthListener.getInstance().getSignalStrength();
     }
     
     
@@ -403,6 +403,13 @@ public class ConnectionImpl extends IConnection.Stub {
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
             new ConnectionProperties(service, configNetworks.shortValue(), pairedDevices.shortValue()).commit();
+            
+            DBConnector.getInstance(this.context).clearLists();
+            
+            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, deviceId);
+            urlB.setView(Views.STATIC);
+            return urlB.getConnectionGraphUrl();
+            
         } catch (InternalDatabaseException e) {
             e.printStackTrace();
         } catch (InvalidParameterException e) {
@@ -413,7 +420,7 @@ public class ConnectionImpl extends IConnection.Stub {
             e.printStackTrace();
         }
         
-        return "URL";
+        return null;
     }
     
     

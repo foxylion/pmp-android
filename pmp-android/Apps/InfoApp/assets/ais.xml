@@ -12,7 +12,7 @@
          <name lang="de">Wlan-Informationen</name>
          <description lang="en">Show information about the wifi connection.</description>
          <description lang="de">Informationen über die Wlan-Verbindun anzeigen.</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="wifi-status-connection-status"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="wifi-configured-networks"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="wifi-connected-cities"><![CDATA[true]]></requiredPrivacySetting>
@@ -23,7 +23,7 @@
          <name lang="de">Bluetooth-Informationen</name>
          <description lang="en">Show information about the bluetooth connection.</description>
          <description lang="de">Informationen über die Bluetooth-Verbindung. anzeigen</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="bluetooth-connection-status"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="bluetooth-paired-devices"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="bluetooth-connected-cities"><![CDATA[true]]></requiredPrivacySetting>
@@ -34,7 +34,7 @@
          <name lang="de">Datenverbinduns-Informationen</name>
          <description lang="en">Show information about the data connection</description>
          <description lang="de">Informationen über die Datenverbindung anzeigen</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="data-connection-status"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
@@ -43,7 +43,7 @@
          <name lang="de">Mobilfunk-Informationen</name>
          <description lang="en">Show information about the cellular phone network</description>
          <description lang="de">Informationen über die Mobilfunkverbindung anzeigen</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="cell-phone-network-status"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
@@ -52,7 +52,7 @@
          <name lang="de">Verbindunsdaten auswerten</name>
          <description lang="en">Send all values of connection to a statistic server to evaluate them.</description>
          <description lang="de">Alle Verbindungsdaten an einen Statistikserver sendn und auswerten.</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.connection" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="upload-data"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
@@ -61,13 +61,13 @@
          <name lang="de">Aktuelle Energiewerte</name>
          <description lang="en">Get information about current values of the battery and energy management of the device</description>
          <description lang="de">Erhalte Information über die aktuellen Batterie- und Energiewerte des Geräts</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="battery-level"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-health"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-status"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-plugged"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-status-time"><![CDATA[true]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[CURRENT]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
       <serviceFeature identifier="energy-since-last-boot">
@@ -75,12 +75,12 @@
          <name lang="de">Energywerte seit dem letzten Systemstart</name>
          <description lang="en">Get information about the values of the battery and energy management of the device since last boot</description>
          <description lang="de">Erhalte Information über die Batterie- und Energiewerte des Geräts seit dem letzten Systemstart</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1">
-            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[ALL]]></requiredPrivacySetting>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1970-01-01 01:00:00:001 MEZ">
+            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-ratio"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-count"><![CDATA[true]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[ALL]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-dates"><![CDATA[LAST_BOOT]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[true]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-dates"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="device-screen"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
@@ -89,12 +89,12 @@
          <name lang="de">Energiewerte seit Beginn der Aufzeichnung</name>
          <description lang="en">Get information about the values of the battery and energy management of the device since start of measurement</description>
          <description lang="de">Erhalte Information über die Batterie- und Energiewerte des Geräts seit Beginn der Aufzeichnung</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1">
-            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[ALL]]></requiredPrivacySetting>
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1970-01-01 01:00:00:001 MEZ">
+            <requiredPrivacySetting identifier="battery-temperature"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-ratio"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="battery-charging-count"><![CDATA[true]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[ALL]]></requiredPrivacySetting>
-            <requiredPrivacySetting identifier="device-dates"><![CDATA[ALL]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-battery-charging-uptime"><![CDATA[true]]></requiredPrivacySetting>
+            <requiredPrivacySetting identifier="device-dates-total"><![CDATA[true]]></requiredPrivacySetting>
             <requiredPrivacySetting identifier="device-screen"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>
@@ -103,7 +103,7 @@
          <name lang="de">Auswertung der Energiewerte</name>
          <description lang="en">Send all values of energy measurement to a statistic server</description>
          <description lang="de">Übertrage alle Energiewerte an einen Statistik-Server</description>
-         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1">
+         <requiredResourceGroup identifier="de.unistuttgart.ipvs.pmp.resourcegroups.energy" minRevision="1970-01-01 01:00:00:001 MEZ">
             <requiredPrivacySetting identifier="upload-data"><![CDATA[true]]></requiredPrivacySetting>
          </requiredResourceGroup>
       </serviceFeature>

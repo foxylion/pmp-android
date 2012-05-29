@@ -136,7 +136,7 @@ public class MainActivity extends ResourceGroupReadyActivity {
                     Log.i(this, "Passengers: " + ppt.getPassengers());
                     Log.i(this, "Invites: " + ppt.getInvites());
                 }
-                Intent intent = new Intent(MainActivity.this, MyTripActivity.class);
+                Intent intent = new Intent(MainActivity.this, MyTripsActivity.class);
                 MainActivity.this.startActivity(intent);
                 
             }

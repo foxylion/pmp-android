@@ -20,11 +20,17 @@
 package de.unistuttgart.ipvs.pmp.infoapp.webservice;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,21 +110,45 @@ public class Service {
      */
     private void acceptUntrustedCerts() {
         try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
+            SSLContext sslContext = SSLContext.getInstance("TLS");
             
-            // Set trust manager
-            sslContext.init(null, new TrustManager[] { new FakeTrustManager() }, new SecureRandom());
-            SSLSocketFactory sslSocket = new SSLSocketFactory(sslContext, SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            // Load certificates used by the server
+            String certType = KeyStore.getDefaultType();
+            InputStream certStream = this.getClass()
+                    .getResourceAsStream("/DefaultServerCert." + certType.toLowerCase());
+            KeyStore keyStore = KeyStore.getInstance(certType);
+            keyStore.load(certStream, null);
+            certStream.close();
+            
+            // Create key-store manager and prepare SSL context
+            ExtensibleTrustManager manager = new ExtensibleTrustManager();
+            manager.addKeyStore(keyStore);
+            sslContext.init(null, new TrustManager[] { manager }, new SecureRandom());
+            SSLSocketFactory sslSocket = new ExtendedSSLSocketFactory(sslContext);
+            sslSocket.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            
             ClientConnectionManager conMan = this.httpClient.getConnectionManager();
             
             // Register scheme
-            Scheme httpsScheme = new Scheme("https", 443, sslSocket);
+            Scheme httpsScheme = new Scheme("https", sslSocket, 443);
             SchemeRegistry reg = conMan.getSchemeRegistry();
             reg.register(httpsScheme);
+            
+            System.out.println("Schemes/Trust managers registered");
             
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnrecoverableKeyException e) {
             e.printStackTrace();
         }
     }

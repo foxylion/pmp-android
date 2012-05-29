@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.apps.infoapp;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -40,9 +41,9 @@ import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
  */
 public class InfoAppActivity extends Activity {
     
-    ViewPagerAdapter mAdapter;
-    ViewPager mPager;
-    PageIndicator mIndicator;
+    private ViewPagerAdapter mAdapter;
+    private ViewPager mPager;
+    private PageIndicator mIndicator;
     
     
     /** Called when the activity is first created. */
@@ -64,6 +65,13 @@ public class InfoAppActivity extends Activity {
     
     
     @Override
+    protected void onResume() {
+        super.onResume();
+        this.mAdapter.updateAllPanels();
+    }
+    
+    
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
@@ -75,13 +83,17 @@ public class InfoAppActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int displayed = mPager.getCurrentItem();
         IPanel panel = mAdapter.getPanel(displayed);
-        
+        ProgressDialog dialog;
         switch (item.getItemId()) {
             case R.id.menu_refresh:
+                dialog = ProgressDialog.show(this, "", getText(R.string.dialog_refresh), true);
                 panel.update();
+                dialog.dismiss();
                 break;
             case R.id.menu_upload:
+                dialog = ProgressDialog.show(this, "", getText(R.string.dialog_upload), true);
                 panel.upload();
+                dialog.dismiss();
                 break;
         }
         return true;
