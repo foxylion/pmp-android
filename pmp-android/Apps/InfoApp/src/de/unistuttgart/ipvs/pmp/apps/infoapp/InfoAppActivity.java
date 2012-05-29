@@ -89,12 +89,13 @@ public class InfoAppActivity extends Activity {
             case R.id.menu_refresh:
                 dialog = ProgressDialog.show(this, "", getText(R.string.dialog_refresh), true);
                 panel.update();
-                dialog.dismiss();
                 break;
             case R.id.menu_upload:
                 dialog = ProgressDialog.show(this, "", getText(R.string.dialog_upload), true);
-                panel.upload();
-                dialog.dismiss();
+                String url = panel.upload();
+                if (url != null) {
+                    System.out.println("-------------URL: " + url);
+                }
                 break;
         }
         return true;
