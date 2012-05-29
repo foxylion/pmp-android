@@ -135,9 +135,17 @@ public class AISParser extends AbstractParser {
                 // If the min revision is a simple date format, convert it into an integer (seconds)
                 String minRevision = rrgElement.getAttribute(XMLConstants.MINREVISION_ATTR);
                 try {
+                    // Bugfix for Android 2.1.1: Timezone MEZ is not a valid timezone for this android version.
+                    // So replace MEZ with GMT+01:00.+
+                    minRevision = minRevision.replace("MEZ", "GMT+01:00");
+                    minRevision = minRevision.replace("MESZ", "GMT+02:00");
+                    
+                    System.out.println("--------------- " + minRevision);
+                    
                     Date date = XMLConstants.REVISION_DATE_FORMAT.parse(minRevision);
                     minRevision = String.valueOf(date.getTime());
                 } catch (ParseException e) {
+                    e.printStackTrace();
                     // The parse exception can be ignored.
                     // If the time was in another format, the validator will find it.
                 }
