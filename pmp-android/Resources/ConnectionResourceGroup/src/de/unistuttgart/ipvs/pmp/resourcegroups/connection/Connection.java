@@ -52,7 +52,9 @@ public class Connection extends ResourceGroup {
         super(ConnectionConstants.RG_PACKAGE_NAME, pmpci);
         
         // Register the signal strength listener
-        SignalStrengthListener.getInstance().register(pmpci.getContext(""));
+        if (!SignalStrengthListener.getInstance().isRegistered()) {
+            SignalStrengthListener.getInstance().register(pmpci.getContext(""));
+        }
         
         // Register the resource
         registerResource(ConnectionConstants.RES_CONNECTION, new ConnectionResource());
