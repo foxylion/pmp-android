@@ -28,6 +28,7 @@ import android.text.Editable;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.R;
@@ -113,10 +114,6 @@ public class DialogPresetEdit extends Dialog {
         super(context);
         this.callback = callback;
         this.preset = preset;
-        
-        if (preset == null) {
-            setTitle(R.string.add_preset);
-        }
     }
     
     
@@ -128,6 +125,14 @@ public class DialogPresetEdit extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setContentView(R.layout.dialog_preset_add);
+        
+        if (preset == null) {
+            ((LinearLayout) findViewById(R.id.Title_add_preset)).setVisibility(LinearLayout.VISIBLE);
+            ((LinearLayout) findViewById(R.id.Title_edit_preset)).setVisibility(LinearLayout.GONE);
+        } else {
+            ((LinearLayout) findViewById(R.id.Title_add_preset)).setVisibility(LinearLayout.GONE);
+            ((LinearLayout) findViewById(R.id.Title_edit_preset)).setVisibility(LinearLayout.VISIBLE);
+        }
         
         this.name = (TextView) findViewById(R.id.presets_dialog_name_textfield);
         this.desc = (TextView) findViewById(R.id.presets_dialog_description_textfield);
