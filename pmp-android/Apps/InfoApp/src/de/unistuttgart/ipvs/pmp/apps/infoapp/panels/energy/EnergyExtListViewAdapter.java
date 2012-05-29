@@ -132,6 +132,7 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
     public View getChildView(int group, int index, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater;
         View entryView = null;
+        
         switch (group) {
             case 0:
                 // Inflate the layout
@@ -144,16 +145,23 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     TextView tvHealth = (TextView) entryView.findViewById(R.id.energyCVHealth);
                     TextView tvStatus = (TextView) entryView.findViewById(R.id.energyCVStatus);
                     TextView tvPlugged = (TextView) entryView.findViewById(R.id.energyCVPlugged);
-                    TextView tvStatusTime = (TextView) entryView.findViewById(R.id.energyCVStatusTime);
                     TextView tvTemperature = (TextView) entryView.findViewById(R.id.energyCVTemperature);
                     
                     // Set the values
                     tvLevel.setText(this.cv.getLevel());
                     tvHealth.setText(this.cv.getHealth());
-                    tvStatus.setText(this.cv.getStatus());
+                    tvStatus.setText(this.cv.getStatus() + " (since " + this.cv.getStatusTime() + ")");
                     tvPlugged.setText(this.cv.getPlugged());
-                    tvStatusTime.setText(this.cv.getStatusTime());
                     tvTemperature.setText(this.cv.getTemperature());
+                    
+                    // Disable the plugged label, if non plugged text is set
+                    if (tvPlugged.getText().equals("")) {
+                        tvPlugged.setVisibility(TextView.GONE);
+                        entryView.findViewById(R.id.energyCVPluggedLabel).setVisibility(TextView.GONE);
+                    } else {
+                        tvPlugged.setVisibility(TextView.VISIBLE);
+                        entryView.findViewById(R.id.energyCVPluggedLabel).setVisibility(TextView.VISIBLE);
+                    }
                     
                     // Enable the table
                     TableLayout tlCV = (TableLayout) entryView.findViewById(R.id.energyCVtableLayout);

@@ -206,7 +206,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
                     } else {
                         PlanTripActivity.this.announceTrip();
-                        Intent intent = new Intent(PlanTripActivity.this, MyTripActivity.class);
+                        Intent intent = new Intent(PlanTripActivity.this, MyTripsActivity.class);
                         startActivity(intent);
                     }
                 } else {

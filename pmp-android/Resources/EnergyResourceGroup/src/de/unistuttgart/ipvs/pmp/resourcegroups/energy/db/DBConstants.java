@@ -11,7 +11,7 @@ public class DBConstants {
      * Database name and version
      */
     protected static final String DATABASE_NAME = "energy.db";
-    protected static final int DATABASE_VERSION = 5;
+    protected static final int DATABASE_VERSION = 10;
     
     /**
      * Table names
@@ -42,10 +42,10 @@ public class DBConstants {
     public static final String TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG = "device_on_flag";
     public static final String TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE = "last_boot_date";
     public static final String TABLE_DEVICE_DATA_KEY_FIRST_MEASUREMENT_DATE = "first_measurement_date";
-    public static final String TABLE_DEVICE_DATA_KEY_LAST_BOOT_UPTIME = "last_boot_uptime";
     public static final String TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME = "total_uptime";
     public static final String TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE = "last_screen_on_date";
     public static final String TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME = "screen_on_time";
+    public static final String TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME = "last_boot_screen_on_time";
     
     /**
      * Column arrays

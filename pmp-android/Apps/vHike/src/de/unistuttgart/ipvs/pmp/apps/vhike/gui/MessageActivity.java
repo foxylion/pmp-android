@@ -26,7 +26,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     private EditText txtMessage;
     private Runnable checkMessages;
     private final int refreshInterval = 5000;
-    private final int idConfirmAccept = 246;
+    private final int idConfirmAccept = 246; // Random number
     private final int idConfirmDecline = 142;
     private CharSequence offerType;
     private boolean isOffer = true;
@@ -141,7 +141,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 msg = (new Formatter()).format((String) getText(R.string.message_decline_confirm), offerType)
                         .toString();
                 vhikeDialogs.getConfirmationDialog(this, title, msg, getText(android.R.string.ok),
-                        getText(android.R.string.cancel), idConfirmAccept).show();
+                        getText(android.R.string.cancel), idConfirmDecline).show();
                 break;
         }
         
@@ -156,6 +156,8 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 offerNotification.setVisibility(View.GONE);
                 break;
             case idConfirmDecline:
+                isOffer = false;
+                offerNotification.setVisibility(View.GONE);
                 break;
         }
     }

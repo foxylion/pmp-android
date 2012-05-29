@@ -442,9 +442,9 @@ public class DBConnector implements IDBConnector {
      */
     public synchronized void clearLists() {
         open();
-        db.delete(DBConstants.TABLE_BT, null, null);
-        db.delete(DBConstants.TABLE_CELL, null, null);
-        db.delete(DBConstants.TABLE_WIFI, null, null);
+        this.db.delete(DBConstants.TABLE_BT, null, null);
+        this.db.delete(DBConstants.TABLE_CELL, null, null);
+        this.db.delete(DBConstants.TABLE_WIFI, null, null);
         close();
     }
 }

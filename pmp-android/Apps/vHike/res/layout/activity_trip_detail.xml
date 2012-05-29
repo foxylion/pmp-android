@@ -7,23 +7,25 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:background="@color/gray"
-        android:drawableBottom="@color/dark_gray">
-
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:drawableBottom="@color/dark_gray" >
+
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="5dip"
             android:text="@string/tripDetails_my_trip"
-            android:textAppearance="?android:attr/textAppearanceLarge" android:padding="5dip"/>
-        
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <TextView
             android:id="@+id/trip_detail_button_overview"
             style="@style/ActionBarItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tripDetails_overview" />
-        
+
         <TextView
             android:id="@+id/trip_detail_button_all_messages"
             style="@style/ActionBarItem"
@@ -31,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/tripDetails_all_messages" />
 
-		<!--
+        <!--
         <Button
             android:id="@+id/trip_detail_button_overview"
             android:background="@drawable/action_bar_button"
@@ -44,72 +46,115 @@
             style="?android:attr/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tripDetails_all_messages" />        -->
+            android:text="@string/tripDetails_all_messages" />
+        -->
 
     </LinearLayout>
-
+
     <ViewSwitcher
         android:id="@+id/trip_detail_view_switcher"
         android:layout_width="fill_parent"
-        android:layout_height="0dip" android:layout_weight="2">
-
+        android:layout_height="0dip"
+        android:layout_weight="2" >
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="5dip" >
 
-            <LinearLayout
+            <TableLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/trip_detail_destination"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge" android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/trip_detail_time"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right" />
+                </TableRow>
 
                 <TextView
-                    android:id="@+id/trip_detail_destination"
+                    android:id="@+id/trip_detail_stop_over"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:layout_weight="1"
+                    android:scrollHorizontally="false" />
 
                 <TextView
-                    android:id="@+id/trip_detail_time"
+                    android:id="@+id/trip_detail_passengers"
+                    style="@style/ClickableSpan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scrollHorizontally="false" />
+
+                <TableRow
+                    android:id="@+id/TableRow1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right" />
-            </LinearLayout>
+                    android:layout_weight="1" android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/trip_detail_stop_over"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scrollHorizontally="false" />
+                        <TextView
+                            style="@style/CaptionSpan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Free seats" />
+
+                        <TextView
+                            android:id="@+id/trip_detail_free_seats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dip"
+                            android:scrollHorizontally="false"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/trip_detail_passengers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                style="@style/ClickableSpan"
-                android:scrollHorizontally="false" />
-            
-            <TextView
-                style="@style/CaptionSpan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tripDetails_new_messages" />
-            			
-			<ListView
-			    android:id="@+id/trip_detail_list_new_messages"
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent"
-			    android:layout_weight="1" >
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnSearch"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="@string/tripDetails_search" />
 
+                </TableRow>
+
+                <TextView
+                    style="@style/CaptionSpan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tripDetails_new_messages" />
+            </TableLayout>
+
+            <ListView
+                android:id="@+id/trip_detail_list_new_messages"
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1" android:cacheColorHint="@color/light_gray"
+                >
             </ListView>
         </LinearLayout>
-        
-        <include layout="@layout/messages_all"/>
-		<!-- 
+
+        <include layout="@layout/inc_messages_all" />
+        <!--
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -133,11 +178,11 @@
                 android:background="@color/light_gray" >
             </ListView>
 
-        </LinearLayout>
-         -->
+        </LinearLayout>
+        -->
 
     </ViewSwitcher>
-
+
     <LinearLayout
         android:id="@+id/trip_detail_bottom_menu"
         android:layout_width="fill_parent"
@@ -145,28 +190,29 @@
         android:background="@color/gray"
         android:drawableBottom="@color/dark_gray"
         android:gravity="center_horizontal" >
-
+
         <TextView
             android:id="@+id/TextView02"
             style="@style/ActionBarItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tripDetails_cancel_trip" />
-
+
         <TextView
             android:id="@+id/TextView03"
             style="@style/ActionBarItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tripDetails_edit_trip" android:layout_marginLeft="8dip"/>
-        
+            android:layout_marginLeft="8dip"
+            android:text="@string/tripDetails_edit_trip" />
+
         <TextView
             android:id="@+id/TextView04"
             style="@style/ActionBarItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Trip" android:layout_marginLeft="8dip"/>
-        
+            android:layout_marginLeft="8dip"
+            android:text="@string/tripDetails_new_trip" />
     </LinearLayout>
 
 </LinearLayout>

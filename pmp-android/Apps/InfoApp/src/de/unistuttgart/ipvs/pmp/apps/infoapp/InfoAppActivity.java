@@ -67,6 +67,7 @@ public class InfoAppActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        PMP.get(getApplication()).updateServiceFeatures();
         this.mAdapter.updateAllPanels();
     }
     

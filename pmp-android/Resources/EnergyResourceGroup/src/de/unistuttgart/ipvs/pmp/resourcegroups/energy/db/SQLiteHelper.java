@@ -51,30 +51,30 @@ public class SQLiteHelper extends SQLiteOpenHelper {
          */
         ContentValues cvs1 = new ContentValues();
         cvs1.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG);
-        cvs1.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
+        cvs1.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 1);
         
         ContentValues cvs2 = new ContentValues();
         cvs2.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
-        cvs2.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
+        cvs2.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, System.currentTimeMillis());
         
         ContentValues cvs3 = new ContentValues();
-        cvs3.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_UPTIME);
-        cvs3.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
+        cvs3.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_FIRST_MEASUREMENT_DATE);
+        cvs3.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, System.currentTimeMillis());
         
         ContentValues cvs4 = new ContentValues();
-        cvs4.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_FIRST_MEASUREMENT_DATE);
+        cvs4.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME);
         cvs4.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
         
         ContentValues cvs5 = new ContentValues();
-        cvs5.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME);
-        cvs5.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
+        cvs5.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
+        cvs5.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, System.currentTimeMillis());
         
         ContentValues cvs6 = new ContentValues();
-        cvs6.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
+        cvs6.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
         cvs6.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
         
         ContentValues cvs7 = new ContentValues();
-        cvs7.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
+        cvs7.put(DBConstants.TABLE_DEVICE_DATA_COL_KEY, DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
         cvs7.put(DBConstants.TABLE_DEVICE_DATA_COL_VALUE, 0);
         
         List<ContentValues> cvsList = new ArrayList<ContentValues>();
