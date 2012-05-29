@@ -435,10 +435,18 @@ public class DBConnector implements IDBConnector {
          * Set the screen on time
          */
         long screenOnTimeStored = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
+        long screenOnLastBootTimeStored = this
+                .getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
         long lastScreenOnDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
         
         // Add the current screen on time
-        long screenOnTime = screenOnTimeStored + (System.currentTimeMillis() - lastScreenOnDate);
+        long screenOnTime = System.currentTimeMillis() - lastScreenOnDate;
+        
+        if (rs instanceof ResultSetLastBootValues) {
+            screenOnTime += screenOnLastBootTimeStored;
+        } else if (rs instanceof ResultSetTotalValues) {
+            screenOnTime += screenOnTimeStored;
+        }
         
         // Pretty format
         try {

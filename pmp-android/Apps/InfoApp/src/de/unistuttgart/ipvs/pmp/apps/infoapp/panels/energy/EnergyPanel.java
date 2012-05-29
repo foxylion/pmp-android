@@ -25,15 +25,12 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import de.unistuttgart.ipvs.pmp.api.PMP;
 import de.unistuttgart.ipvs.pmp.api.PMPResourceIdentifier;
-import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.Constants;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.common.EneryUploadResourceHandler;
@@ -41,7 +38,6 @@ import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyCurrentValues;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyLastBootValues;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.data.EnergyTotalValues;
-import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
 
 /**
  * 
@@ -95,7 +91,7 @@ public class EnergyPanel implements IPanel {
                 Constants.ENERGY_RG_RESOURCE);
         
         PMP.get(this.application).getResource(id,
-                new RequestResourceHandler(this.adapter, this.handler, this.application));
+                new EnergyResourceRequestHandler(this.adapter, this.handler, this.application));
     }
     
     
@@ -115,127 +111,5 @@ public class EnergyPanel implements IPanel {
             }
         }
         return null;
-    }
-}
-
-/**
- * The request resource handler
- * 
- * @author Marcus Vetter
- * 
- */
-class RequestResourceHandler extends PMPRequestResourceHandler {
-    
-    private EnergyExtListViewAdapter adapter;
-    private Handler handler;
-    private IBinder binder;
-    private Application application;
-    
-    
-    public RequestResourceHandler(EnergyExtListViewAdapter adapter, Handler handler, Application application) {
-        this.adapter = adapter;
-        this.handler = handler;
-    }
-    
-    
-    @Override
-    public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
-        this.binder = binder;
-        
-        new Thread() {
-            
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    
-                    public void run() {
-                        IEnergy energyRG = IEnergy.Stub.asInterface(RequestResourceHandler.this.binder);
-                        /*
-                         * Get the current values
-                         */
-                        if (PMP.get(RequestResourceHandler.this.application).isServiceFeatureEnabled(
-                                Constants.ENERGY_SF_CURRENT_VALUES)) {
-                            EnergyCurrentValues cv = new EnergyCurrentValues();
-                            try {
-                                cv.setLevel(energyRG.getCurrentLevel());
-                                cv.setHealth(energyRG.getCurrentHealth());
-                                cv.setStatus(energyRG.getCurrentStatus());
-                                cv.setPlugged(energyRG.getCurrentPlugged());
-                                cv.setStatusTime(energyRG.getCurrentStatusTime());
-                                cv.setTemperature(energyRG.getCurrentTemperature());
-                                
-                                RequestResourceHandler.this.adapter.setCv(cv);
-                                RequestResourceHandler.this.adapter.setCvEnabled(true);
-                            } catch (RemoteException e) {
-                                RequestResourceHandler.this.adapter.setCvEnabled(false);
-                                e.printStackTrace();
-                            }
-                            
-                        } else {
-                            RequestResourceHandler.this.adapter.setCvEnabled(false);
-                        }
-                        
-                        /*
-                         * Get the values since last boot
-                         */
-                        if (PMP.get(RequestResourceHandler.this.application).isServiceFeatureEnabled(
-                                Constants.ENERGY_SF_LAST_BOOT_VALUES)) {
-                            EnergyLastBootValues lbv = new EnergyLastBootValues();
-                            try {
-                                lbv.setDate(energyRG.getLastBootDate());
-                                lbv.setUptime(energyRG.getLastBootUptime());
-                                lbv.setUptimeBattery(energyRG.getLastBootUptimeBattery());
-                                lbv.setDurationOfCharging(energyRG.getLastBootDurationOfCharging());
-                                lbv.setCountOfCharging(energyRG.getLastBootCountOfCharging());
-                                lbv.setRatio(energyRG.getLastBootRatio());
-                                lbv.setTemperaturePeak(energyRG.getLastBootTemperaturePeak());
-                                lbv.setTemperatureAverage(energyRG.getLastBootTemperatureAverage());
-                                lbv.setScreenOn(energyRG.getLastBootScreenOn());
-                                
-                                RequestResourceHandler.this.adapter.setLbv(lbv);
-                                RequestResourceHandler.this.adapter.setLbvEnabled(true);
-                            } catch (RemoteException e) {
-                                RequestResourceHandler.this.adapter.setLbvEnabled(false);
-                                e.printStackTrace();
-                            }
-                            
-                        } else {
-                            RequestResourceHandler.this.adapter.setLbvEnabled(false);
-                        }
-                        
-                        /*
-                         * Get the total values
-                         */
-                        if (PMP.get(RequestResourceHandler.this.application).isServiceFeatureEnabled(
-                                Constants.ENERGY_SF_TOTAL_VALUES)) {
-                            EnergyTotalValues tv = new EnergyTotalValues();
-                            try {
-                                tv.setDate(energyRG.getTotalBootDate());
-                                tv.setUptime(energyRG.getTotalUptime());
-                                tv.setUptimeBattery(energyRG.getTotalUptimeBattery());
-                                tv.setDurationOfCharging(energyRG.getTotalDurationOfCharging());
-                                tv.setCountOfCharging(energyRG.getTotalCountOfCharging());
-                                tv.setRatio(energyRG.getTotalRatio());
-                                tv.setTemperaturePeak(energyRG.getTotalTemperaturePeak());
-                                tv.setTemperatureAverage(energyRG.getTotalTemperatureAverage());
-                                tv.setScreenOn(energyRG.getTotalScreenOn());
-                                
-                                RequestResourceHandler.this.adapter.setTv(tv);
-                                RequestResourceHandler.this.adapter.setTvEnabled(true);
-                            } catch (RemoteException e) {
-                                RequestResourceHandler.this.adapter.setTvEnabled(false);
-                                e.printStackTrace();
-                            }
-                            
-                        } else {
-                            RequestResourceHandler.this.adapter.setTvEnabled(false);
-                        }
-                        
-                        RequestResourceHandler.this.adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }.start();
-        
     }
 }
