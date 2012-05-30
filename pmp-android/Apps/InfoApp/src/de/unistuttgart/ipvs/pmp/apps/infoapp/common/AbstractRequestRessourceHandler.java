@@ -19,15 +19,15 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.common;
 
-import java.util.concurrent.Semaphore;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Looper;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.api.handler.PMPRequestResourceHandler;
+import de.unistuttgart.ipvs.pmp.apps.infoapp.R;
 
 /**
  * Abstract class for getting the url of a resource group
@@ -47,16 +47,14 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      */
     protected ProgressDialog dialog;
     
+    /**
+     * The {@link Activity}
+     */
     protected Activity activity;
     
     
     /**
      * Constructor
-     * 
-     * @param sem
-     *            {@link Semaphore}
-     * @param dialog
-     *            {@link ProgressDialog} that will be closed
      */
     public AbstractRequestRessourceHandler(ProgressDialog dialog, Activity activity) {
         this.dialog = dialog;
@@ -85,14 +83,17 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      * Open the url with browser
      */
     public void openURLwithBrowser() {
-        System.out.println("URL = " + this.URL);
+        Log.d(this, "The returned URL was: " + this.URL);
         if (this.URL == null || this.URL.equals("")) {
             Looper.prepare();
-            Toast.makeText(activity, "Error while uploading data.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, this.activity.getString(R.string.upload_error) + "\"" + this.URL + "\"",
+                    Toast.LENGTH_LONG).show();
+            Looper.loop();
         } else {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(this.URL));
             activity.startActivity(i);
+            Log.d(this, "Started browser");
         }
         
     }

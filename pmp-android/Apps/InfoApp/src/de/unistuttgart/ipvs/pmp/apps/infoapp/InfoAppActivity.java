@@ -92,9 +92,7 @@ public class InfoAppActivity extends Activity {
                 break;
             case R.id.menu_upload:
                 dialog = ProgressDialog.show(this, "", getText(R.string.dialog_upload), true);
-                String url = panel.upload(dialog);
-                
-                // TODO Show dialog
+                panel.upload(dialog);
                 break;
         }
         return true;

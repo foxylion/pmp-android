@@ -53,9 +53,7 @@ public interface IPanel {
     
     /**
      * This method is called, if the panel should upload the data to the statistics server
-     * 
-     * @return Return the URL of the statistics website
      */
-    public String upload(ProgressDialog dialog);
+    public void upload(ProgressDialog dialog);
     
 }

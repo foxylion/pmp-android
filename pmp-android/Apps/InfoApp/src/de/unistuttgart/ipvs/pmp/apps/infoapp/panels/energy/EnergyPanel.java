@@ -19,6 +19,9 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Application;
 import android.app.ProgressDialog;
@@ -54,6 +57,8 @@ public class EnergyPanel implements IPanel {
     private Handler handler;
     
     private Activity activity;
+    
+    private EneryUploadResourceHandler resHandler;
     
     
     public EnergyPanel(Context context, Activity activity) {
@@ -97,17 +102,17 @@ public class EnergyPanel implements IPanel {
     }
     
     
-    public String upload(ProgressDialog dialog) {
+    public void upload(ProgressDialog dialog) {
         if (PMP.get(this.application).isServiceFeatureEnabled(Constants.ENERGY_SF_UPLOAD_DATA)) {
             final PMPResourceIdentifier id = PMPResourceIdentifier.make(Constants.ENERGY_RG_IDENTIFIER,
                     Constants.ENERGY_RG_RESOURCE);
-            
-            EneryUploadResourceHandler urrh = new EneryUploadResourceHandler(dialog, this.activity);
-            PMP.get(this.application).getResource(id, urrh);
-            
-            return urrh.getURL();
-            
+            this.resHandler = new EneryUploadResourceHandler(dialog, this.activity);
+            PMP.get(EnergyPanel.this.application).getResource(id, EnergyPanel.this.resHandler);
+        } else {
+            dialog.dismiss();
+            List<String> sfs = new ArrayList<String>();
+            sfs.add("energy-upload");
+            PMP.get(this.activity.getApplication()).requestServiceFeatures(this.activity, sfs);
         }
-        return null;
     }
 }

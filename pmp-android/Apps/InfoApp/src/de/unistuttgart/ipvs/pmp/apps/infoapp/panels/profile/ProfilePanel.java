@@ -52,14 +52,10 @@ public class ProfilePanel implements IPanel {
     
     
     public void update() {
-        // TODO Auto-generated method stub
-        
     }
     
     
-    public String upload(ProgressDialog dialog) {
-        // TODO Auto-generated method stub
-        return null;
+    public void upload(ProgressDialog dialog) {
     }
     
 }

@@ -19,8 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.infoapp.common;
 
-import java.util.concurrent.Semaphore;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.IBinder;
@@ -38,12 +36,6 @@ public class EneryUploadResourceHandler extends AbstractRequestRessourceHandler 
     
     /**
      * Constructor
-     * 
-     * @param sem
-     *            {@link Semaphore}
-     * @param dialog
-     *            {@link ProgressDialog} that will be closed
-     * @param context
      */
     public EneryUploadResourceHandler(ProgressDialog dialog, Activity activity) {
         super(dialog, activity);
@@ -58,8 +50,8 @@ public class EneryUploadResourceHandler extends AbstractRequestRessourceHandler 
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        dialog.dismiss();
-        openURLwithBrowser();
+        super.dialog.dismiss();
+        super.openURLwithBrowser();
     }
     
 }

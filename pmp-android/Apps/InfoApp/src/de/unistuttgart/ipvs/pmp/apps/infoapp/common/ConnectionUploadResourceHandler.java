@@ -36,9 +36,6 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
     
     /**
      * Constructor
-     * 
-     * @param dialog
-     *            {@link ProgressDialog} that will be closed
      */
     public ConnectionUploadResourceHandler(ProgressDialog dialog, Activity activity) {
         super(dialog, activity);
@@ -54,8 +51,8 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-        dialog.dismiss();
-        openURLwithBrowser();
+        super.dialog.dismiss();
+        super.openURLwithBrowser();
     }
     
 }

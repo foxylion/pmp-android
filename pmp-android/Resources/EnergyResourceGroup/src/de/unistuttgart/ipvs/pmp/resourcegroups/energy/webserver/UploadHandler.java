@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -44,14 +45,18 @@ public class UploadHandler {
     public String getDeviceID(Context context) {
         // Get the device id
         TelephonyManager tManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        MessageDigest digest = null;
+        String deviceID = tManager.getDeviceId();
+        MessageDigest digest;
+        String deviceIDHashed = "";
+        
         try {
-            digest = java.security.MessageDigest.getInstance("MD5");
-            return String.valueOf(digest.digest(tManager.getDeviceId().getBytes()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(deviceID.getBytes(), 0, deviceID.length());
+            deviceIDHashed = new BigInteger(1, digest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e1) {
         }
-        return tManager.getDeviceId();
+        
+        return deviceIDHashed != null ? deviceIDHashed : deviceID;
         
     }
     
@@ -101,6 +106,8 @@ public class UploadHandler {
             
             // Voltage
             int voltage = be.getVoltage();
+            
+            System.out.println("Voltage = " + voltage + " (Data-Type: " + ((Object) voltage).getClass() + ")");
             
             // Add the data to the list
             eventList.add(new BatteryEvent(timestamp, level, voltage, plugged, present, status, temperature));

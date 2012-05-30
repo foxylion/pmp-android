@@ -32,9 +32,6 @@ import com.viewpagerindicator.TitleProvider;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.IPanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections.ConnectionsPanel;
 import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.energy.EnergyPanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.example.ExamplePanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.hardware.HardwarePanel;
-import de.unistuttgart.ipvs.pmp.apps.infoapp.panels.profile.ProfilePanel;
 
 /**
  * Adapter for all panels
@@ -52,11 +49,10 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
         if (!this.panels.isEmpty()) {
             this.panels.clear();
         }
-        this.panels.add(new ExamplePanel(context));
         this.panels.add(new ConnectionsPanel(context, activity));
         this.panels.add(new EnergyPanel(context, activity));
-        this.panels.add(new ProfilePanel(context));
-        this.panels.add(new HardwarePanel(context));
+        //this.panels.add(new ProfilePanel(context));
+        //this.panels.add(new HardwarePanel(context));
         //this.panels.add(new RSSPanel(context));
     }
     

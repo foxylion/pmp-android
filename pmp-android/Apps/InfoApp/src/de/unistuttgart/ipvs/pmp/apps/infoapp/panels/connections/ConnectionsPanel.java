@@ -436,12 +436,15 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     /**
      * Upload the data to the evaluation server
      */
-    public String upload(ProgressDialog dialog) {
+    public void upload(ProgressDialog dialog) {
         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
             ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(dialog, this.activity);
             PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
-            return handler.getURL();
+        } else {
+            dialog.dismiss();
+            List<String> sfs = new ArrayList<String>();
+            sfs.add("connections-statistics");
+            PMP.get(this.activity.getApplication()).requestServiceFeatures(this.activity, sfs);
         }
-        return null;
     }
 }

@@ -55,6 +55,7 @@
     <string name="menu_refresh">Refresh</string>
     <string name="dialog_upload">Uploading. Please wait&#8230;</string>
     <string name="dialog_refresh">Refreshing. Please wait&#8230;</string>
+    <string name="upload_error">An error occurred while uploading your data. The returned URL for statistics was: </string>
 
     <plurals name="days">
         <item quantity="one"> day</item>
