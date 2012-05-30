@@ -34,26 +34,48 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.objects.MessageArray;
 import de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.objects.MessageArrayParcelable;
 
 public class BluetoothResource extends Resource {
-
+	/**
+	 * If Logs should be logged
+	 */
 	private static final boolean D = true;
-
+	/**
+	 * BluetoothAdapter represents Bluetooth of the device
+	 */
 	BluetoothAdapter btAdapter = null;
-
+	/**
+	 * Threads used by Bluetooth
+	 */
 	AcceptThread acceptThread = null;
 	ConnectThread connectThread = null;
 	ConnectedThread connectedThread = null;
+	
 	ConnectedThread r;
+	
+	
 	boolean stopReading = false;
 	List<String> messages = null;
+	/**
+	 * UUID needed for Bluetooth Connections
+	 */
 	private static final UUID MY_UUID = UUID
 			.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
-
+	/**
+	 * Name for the Bleutooth Connections
+	 */
 	private static final String NAME = "BluetoothChat";
-
+	/**
+	 * Found Devices
+	 */
 	List<BluetoothDevice> devices;
-
+	
+	/**
+	 * {@link BluetoothResourceGroup}
+	 */
 	private BluetoothResourceGroup blueRG;
-
+	
+	/**
+	 * State of the {@link BluetoothResource}
+	 */
 	private int mState;
 
 	// Constants that indicate the current connection state
@@ -66,13 +88,20 @@ public class BluetoothResource extends Resource {
 													// device
 
 	int ROLE = 0;
-
+	
+	/**
+	 * True if discovering, false otherwise
+	 */
 	public boolean discovering = false;
 
 	public static final int NO_ROLE = 0;
 	public static final int DRIVER_ROLE = 1;
 	public static final int PASSENGER_ROLE = 2;
-
+	
+	/**
+	 * Constructor
+	 * @param blueRG
+	 */
 	public BluetoothResource(BluetoothResourceGroup blueRG) {
 		Looper.prepare();
 		if (D) {
@@ -85,7 +114,10 @@ public class BluetoothResource extends Resource {
 		messages = new ArrayList<String>();
 
 	}
-
+	/**
+	 * Setting the Broadcasts for Bluetooth
+	 * @param appIdentifier
+	 */
 	public void setBroadcast(String appIdentifier) {
 		if (D) {
 			Log.i(TAG, "setBroadcast for " + appIdentifier);
@@ -166,13 +198,13 @@ public class BluetoothResource extends Resource {
 			connectedThread.cancel();
 			connectedThread = null;
 		}
-		if(r!= null){
+		if (r != null) {
 			r.cancel();
-			r=null;
+			r = null;
 		}
-		
+
 		messages.clear();
-		
+
 		discovering = false;
 
 		setState(STATE_NONE);
@@ -200,7 +232,7 @@ public class BluetoothResource extends Resource {
 			Log.i(TAG, "Before setName()");
 		}
 		setName(name);
-		
+
 		setupBluetoothThreads();
 
 		if (D) {
@@ -258,7 +290,8 @@ public class BluetoothResource extends Resource {
 		}
 	}
 
-	public void discover(String appIdentifier, String name, int time) throws RemoteException {
+	public void discover(String appIdentifier, String name, int time)
+			throws RemoteException {
 		if (D) {
 			Log.i(TAG, "Discovering");
 		}
@@ -266,7 +299,7 @@ public class BluetoothResource extends Resource {
 			btAdapter.cancelDiscovery();
 		}
 		setName(name);
-		
+
 		setBroadcast(appIdentifier);
 		btAdapter.startDiscovery();
 		devices.clear();
@@ -363,7 +396,7 @@ public class BluetoothResource extends Resource {
 		MessageArrayParcelable arrayParcelable = new MessageArrayParcelable(
 				array);
 		messages.clear();
-		
+
 		return arrayParcelable;
 	}
 
@@ -525,9 +558,9 @@ public class BluetoothResource extends Resource {
 
 					String msg = new String(buffer, 0, bytes);
 					synchronized (messages) {
-						try{
-						messages.add(msg);
-						}catch (Exception e) {
+						try {
+							messages.add(msg);
+						} catch (Exception e) {
 							Log.i(TAG, "OUTOFMEMORY");
 							in.close();
 						}
@@ -589,8 +622,8 @@ public class BluetoothResource extends Resource {
 	}
 
 	public void setName(String name) {
-		if(D){
-			if(btAdapter != null){
+		if (D) {
+			if (btAdapter != null) {
 				Log.i(TAG, "setName btAdapter not null");
 			}
 		}

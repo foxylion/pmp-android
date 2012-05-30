@@ -53,7 +53,6 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //        PMP.get(getApplication());
         this.handler = new Handler();
         
         // Show the main activity if already logged in

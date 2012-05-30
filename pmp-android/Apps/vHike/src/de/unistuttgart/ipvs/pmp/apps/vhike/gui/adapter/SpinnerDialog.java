@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 
@@ -28,13 +27,11 @@ public class SpinnerDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 
-                Log.i(this, "Size be4: " + ViewModel.getInstance().getDestinationSpinners().size());
                 if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
                     
                     int sNumber = ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition();
                     ViewModel.getInstance().getDestinationSpinners().remove(sNumber);
                     ViewModel.getInstance().getClickedSpinner().setVisibility(View.GONE);
-                    Log.i(this, "Size2: " + ViewModel.getInstance().getDestinationSpinners().size());
                 } else {
                     Toast.makeText(v.getContext(), "At least one destination must be given", Toast.LENGTH_SHORT).show();
                 }

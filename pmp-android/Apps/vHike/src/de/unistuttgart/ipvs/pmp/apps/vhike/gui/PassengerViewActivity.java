@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -48,8 +47,6 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     
     private Context context;
     private MapView mapView;
-    //    private MapController mapController;
-    //    private LocationManager locationManager;
     
     private Handler handler;
     private Handler locationHandler;
@@ -62,6 +59,11 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
     
     private Button road_info;
     private EditText et_road_info;
+    
+    
+    public PassengerViewActivity() {
+        this.context = PassengerViewActivity.this;
+    }
     
     
     @Override
@@ -111,26 +113,6 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
             showHitchhikers();
             startQuery();
         }
-    }
-    
-    
-    @Override
-    public void onResume() {
-        super.onResume();
-        
-        //        ctrl = new Controller(rgvHike);
-        //        
-        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-        //            ctrl.enableAnonymity(Model.getInstance().getSid());
-        //        } else {
-        //            ctrl.disableAnonymity(Model.getInstance().getSid());
-        //        }
-        //        Log.i(this, "");
-    }
-    
-    
-    public PassengerViewActivity() {
-        this.context = PassengerViewActivity.this;
     }
     
     
@@ -299,16 +281,13 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 
                 break;
             case Constants.STATUS_NO_QUERY:
-                Toast.makeText(this.context, "No query", Toast.LENGTH_SHORT).show();
                 Log.i(this, "NO QUERY");
                 break;
             case Constants.STATUS_INVALID_USER:
-                Toast.makeText(this.context, "Invalid user", Toast.LENGTH_SHORT).show();
                 Log.i(this, "INVALID USER");
                 break;
             default:
                 // stop query
-                Toast.makeText(this.context, "Deleted", Toast.LENGTH_SHORT).show();
                 Log.i(this, "QUERY DELeTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
@@ -342,16 +321,13 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 PassengerViewActivity.this.finish();
                 break;
             case Constants.STATUS_NO_QUERY:
-                Toast.makeText(this.context, "No query", Toast.LENGTH_SHORT).show();
                 Log.i(this, "NO QUERY");
                 break;
             case Constants.STATUS_INVALID_USER:
-                Toast.makeText(this.context, "Invalid user", Toast.LENGTH_SHORT).show();
                 Log.i(this, "INVALID USER");
                 break;
             default:
                 // stop query
-                Toast.makeText(this.context, "Deleted", Toast.LENGTH_SHORT).show();
                 Log.i(this, "QUERY DELeTED");
                 ViewModel.getInstance().clearPassengerOverlayList();
                 ViewModel.getInstance().getHitchDrivers().clear();
@@ -390,16 +366,13 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                         PassengerViewActivity.this.finish();
                         break;
                     case Constants.STATUS_NO_QUERY:
-                        Toast.makeText(this.context, "No query", Toast.LENGTH_SHORT).show();
                         Log.i(this, "NO QUERY");
                         break;
                     case Constants.STATUS_INVALID_USER:
-                        Toast.makeText(this.context, "Invalid user", Toast.LENGTH_SHORT).show();
                         Log.i(this, "INVALID USER");
                         break;
                     default:
                         // stop query
-                        Toast.makeText(this.context, "Deleted", Toast.LENGTH_SHORT).show();
                         Log.i(this, "QUERY DELeTED");
                         ViewModel.getInstance().clearPassengerOverlayList();
                         ViewModel.getInstance().getHitchDrivers().clear();

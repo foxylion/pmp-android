@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.google.android.maps.MapView;
 
-import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
@@ -115,7 +114,6 @@ public class NotificationAdapter extends BaseAdapter {
                     List<QueryObject> lqo = Model.getInstance().getQueryHolder();
                     
                     NotificationAdapter.this.userID = lqo.get(position).getUserid();
-                    Log.i(this, "ProfileID: " + NotificationAdapter.this.userID + ", Position: " + position);
                 } else {
                     List<OfferObject> loo = Model.getInstance().getOfferHolder();
                     NotificationAdapter.this.userID = loo.get(position).getUser_id();
@@ -131,7 +129,6 @@ public class NotificationAdapter extends BaseAdapter {
         noti_rb.setRating((float) this.hitchhiker.getRating_avg());
         
         List<ViewObject> lqo = ViewModel.getInstance().getLVO();
-        Log.i(this, "Position: " + position);
         final ViewObject actObject = lqo.get(position);
         
         if (this.mWhichHitcher == 0) {

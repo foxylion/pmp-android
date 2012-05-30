@@ -77,7 +77,6 @@ public class ContactDialog extends Dialog {
             public void onClick(View v) {
                 try {
                     if (ContactDialog.this.iContact == null) {
-                        Log.i(this, "iContact is NULL");
                     } else {
                         boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID());
                         Log.i(this, foundUser.getID() + " is " + anonymous);
@@ -124,7 +123,7 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 try {
-                    String dest = parseDestination(ViewModel.getInstance().getDestination());
+                    String dest = ViewModel.getInstance().getDestination();
                     if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
                         iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
                                 "Hello " + foundUser.getUsername() + ",");
@@ -198,14 +197,11 @@ public class ContactDialog extends Dialog {
         String[] temp;
         if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
             String dest = destination.replaceAll(";", "-");
-            Log.i(this, "Split: " + destination + ", " + dest);
             return dest;
         } else {
             
             temp = destination.split(";");
-            Log.i(this, "1.Split: " + temp[1]);
             temp = temp[1].split(";");
-            Log.i(this, "2.Split: " + temp[0]);
             return temp[0];
         }
     }

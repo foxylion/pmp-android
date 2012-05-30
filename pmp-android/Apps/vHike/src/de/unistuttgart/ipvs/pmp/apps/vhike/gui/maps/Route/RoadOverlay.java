@@ -77,6 +77,7 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
         temp = temp[0].split("\\:");
         
         dist = temp[1];
+        dist.replace("mi", "km");
         
         // convert to km
         return dist;
