@@ -105,7 +105,7 @@ class ConnectionPropertiesStat extends PropertiesStat {
  * Stores information about the device's connection and allows to update or insert a new device information set
  *
  * @author Patrick Strobel
- * @version 4.2.0
+ * @version 4.3.0
  * @package infoapp
  * @subpackage properties
  */
@@ -123,8 +123,25 @@ class ConnectionProperties extends Properties {
     /** @var boolean */
     private $roaming = false;
 
-    /** @var short */
-    private $signal = 0;
+    const NETWORK_TYPE_UNKNOWN = 'un';
+    const NETWORK_TYPE_GPRS = 'gp';
+    Const NETWORK_TYPE_EDGE = 'ed';
+    Const NETWORK_TYPE_UMTS = 'um';
+    Const NETWORK_TYPE_HSDPA = 'hd';
+    Const NETWORK_TYPE_HSUPA = 'hu';
+    Const NETWORK_TYPE_HSPA = 'hs';
+    Const NETWORK_TYPE_CDMA = 'cd';
+    Const NETWORK_TYPE_EVDO_0 = 'e0';
+    Const NETWORK_TYPE_EVDO_A = 'ea';
+    Const NETWORK_TYPE_EVDO_B = 'eb';
+    Const NETWORK_TYPE_1xRTT = '1r';
+    Const NETWORK_TYPE_IDEN = 'id';
+    Const NETWORK_TYPE_LTE = 'lt';
+    Const NETWORK_TYPE_EHRPD = 'eh';
+    Const NETWORK_TYPE_HSPAP = 'hp';
+
+    /** @var char */
+    private $network = 0;
 
     public static function load($deviceId) {
         $instance = new ConnectionProperties($deviceId);
@@ -139,7 +156,7 @@ class ConnectionProperties extends Properties {
             $instance->bluetooth = $row["bluetooth"];
             $instance->provider = $row["provider"];
             $instance->roaming = $row["roaming"];
-            $instance->signal = $row["signal"];
+            $instance->network = $row["network"];
         }
 
         return $instance;
@@ -161,7 +178,7 @@ class ConnectionProperties extends Properties {
                         `bluetooth` = " . $this->bluetooth . ",
                         `provider`  = \"" . $this->provider . "\",
                         `roaming`   = " . (int) $this->roaming . ",
-                        `signal`    = " . $this->signal . "
+                        `network`   = \"" . $this->network . "\"
                     WHERE `device` = x'" . $this->deviceId . "'");
         } else {
             // If no entry has been updated, we have to create one
@@ -171,14 +188,14 @@ class ConnectionProperties extends Properties {
                             `bluetooth`,
                             `provider`,
                             `roaming`,
-                            `signal`
+                            `network`
                         ) VALUES (
                             x'" . $this->deviceId . "',
                             " . $this->wifi . ",
                             " . $this->bluetooth . ",
                             \"" . $this->provider . "\",
                             " . (int) $this->roaming . ",
-                            " . $this->signal . "
+                            \"" . $this->network . "\"
                         )");
         }
     }
@@ -266,23 +283,30 @@ class ConnectionProperties extends Properties {
     }
 
     /**
-     * Gets the signal's strength
-     * @return short    Signal strength in percent.
+     * Gets the network type
+     * @return char The network type
      */
-    public function getSignalStrength() {
+    public function getNetworkType() {
         return $this->signal;
     }
 
     /**
-     * Sets the signal's strength
-     * @param short $strength   Signal strength in percent
-     * @throws InvalidArgumentException Thrown, if argument is no integer or no percentage value
+     * Sets the network type
+     * @param char $network   Network type
+     * @throws InvalidArgumentException Thrown, if argument is not valid
      */
-    public function setSignalStrength($strength) {
-        if (!General::isPercentageInt($strength)) {
-            throw new InvalidArgumentException("\"signalstrength\" is no integer or its value is invalid");
+    public function setNetworkType($network) {
+        if ($network != self::NETWORK_TYPE_1xRTT && $network != self::NETWORK_TYPE_CDMA &&
+                $network != self::NETWORK_TYPE_EDGE && $network != self::NETWORK_TYPE_EHRPD &&
+                $network != self::NETWORK_TYPE_EVDO_0 && $network != self::NETWORK_TYPE_EVDO_A &&
+                $network != self::NETWORK_TYPE_EVDO_B && $network != self::NETWORK_TYPE_GPRS &&
+                $network != self::NETWORK_TYPE_HSDPA && $network != self::NETWORK_TYPE_HSPA &&
+                $network != self::NETWORK_TYPE_HSPAP && $network != self::NETWORK_TYPE_HSUPA &&
+                $network != self::NETWORK_TYPE_IDEN && $network != self::NETWORK_TYPE_LTE &&
+                $network != self::NETWORK_TYPE_UMTS && $network != self::NETWORK_TYPE_UNKNOWN) {
+            throw new InvalidArgumentException("\"network\" is no valid character");
         }
-        $this->signal = $strength;
+        $this->network = $network;
     }
 
     public static function getStatistic() {

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
@@ -55,7 +54,6 @@ public class HistoryMenuActivity extends Activity {
             
             @Override
             public void onClick(View arg0) {
-                Toast.makeText(context, "Driver", Toast.LENGTH_SHORT).show();
                 
                 Intent intent = new Intent(HistoryMenuActivity.this, HistoryActivity.class);
                 intent.putExtra("IS_DRIVER", true);
@@ -66,7 +64,6 @@ public class HistoryMenuActivity extends Activity {
             
             @Override
             public void onClick(View arg0) {
-                Toast.makeText(context, "Passenger", Toast.LENGTH_SHORT).show();
                 
                 Intent intent = new Intent(HistoryMenuActivity.this, HistoryActivity.class);
                 intent.putExtra("IS_DRIVER", false);

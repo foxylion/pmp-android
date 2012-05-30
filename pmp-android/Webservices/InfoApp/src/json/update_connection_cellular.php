@@ -40,7 +40,7 @@ try {
         $prop->setRoaming(false);
     }
 
-    $prop->setSignalStrength((int) $_POST["signal"]);
+    $prop->setNetworkType($_POST["network"]);
 
     $prop->writeBack();
 
