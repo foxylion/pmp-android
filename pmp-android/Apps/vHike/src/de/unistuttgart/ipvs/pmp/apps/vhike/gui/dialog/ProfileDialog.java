@@ -45,7 +45,6 @@ public class ProfileDialog extends Dialog {
     private MapView mapView;
     private IContact iContact;
     private Profile foundUser;
-    private int driverOrpassenger;
     private Activity activity;
     private boolean isDriver;
     
@@ -62,7 +61,6 @@ public class ProfileDialog extends Dialog {
         this.iContact = iContact;
         this.foundUser = foundUser;
         this.activity = (Activity) context;
-        this.driverOrpassenger = driverOrpassenger;
         
         if (driverOrpassenger == 0) {
             isDriver = true;
@@ -183,6 +181,8 @@ public class ProfileDialog extends Dialog {
                             ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()), isDriver);
                     ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), false);
                     btn_route.setBackgroundResource(R.drawable.btn_route_disabled);
+                    ViewModel.getInstance().setBtnInfoVisibility(false);
+                    ViewModel.getInstance().setEtInfoVisibility(false);
                     cancel();
                 } else {
                     

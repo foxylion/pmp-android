@@ -427,7 +427,7 @@ public class ViewModel {
     
     public void setEtInfoText(String from, String to, String distance, String time) {
         this.et_road_info.setText("\n    From: " + from + " \n    To: " + to + " \n    Distance: " + distance
-                + " \n    Time: " + time + "\n\n   ");
+                + " \n    Time: " + time + "  \n\n   ");
     }
     
     
@@ -464,13 +464,10 @@ public class ViewModel {
     public boolean isRouteDrawn(String name) {
         try {
             if (this.getDrawnRoutes.get(name) == null) {
-                Log.i(this, name + "'s route not drawn VIEW");
                 return false;
             } else if (this.getDrawnRoutes.get(name)) {
-                Log.i(this, name + "'s route is drawn VIEW");
                 return true;
             } else {
-                Log.i(this, name + "'s route not drawn VIEW");
                 return false;
             }
         } catch (NullPointerException ne) {
@@ -834,7 +831,6 @@ public class ViewModel {
         if (whichSlider == 0) {
             this.slider_Driver = (SlidingDrawer) ((Activity) context).findViewById(R.id.notiSlider);
             this.slider_Driver.open();
-            Log.i(this, "Slider opened");
             getDriverAdapter(context, mapView).notifyDataSetChanged();
         } else {
             this.slider_Passenger = (SlidingDrawer) ((Activity) context).findViewById(R.id.slidingDrawer);
@@ -866,14 +862,10 @@ public class ViewModel {
             driverOverlay.addOverlay(opDriverItem);
             
             ViewModel.getInstance().getDriverOverlayList(mapView).add(driverOverlay);
-            Log.i(this, "OVERLAY D: DRIVER ADDED");
+            Log.i(this, "DriverOverlay: added Driver");
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.map_passenger);
-            
-            if (this.iContact == null) {
-                Log.i(this, "Contact null");
-            }
             
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.iContact,
                     passenger.getUsername(), gps, new ContactDialog(context, mapView, passenger.getUsername(),
@@ -884,7 +876,7 @@ public class ViewModel {
             
             // add found passenger to overlay
             ViewModel.getInstance().getDriverOverlayList(mapView).add(passengerOverlay);
-            Log.i(this, "OVERLAY D: PASSENGER ADDED");
+            Log.i(this, "DriverOverlay: added Passenger");
             mapView.invalidate();
         }
     }
@@ -902,9 +894,6 @@ public class ViewModel {
             int userID) {
         Drawable drawable;
         if (which1 == 0) {
-            if (context == null) {
-                Log.i(this, "Context null");
-            }
             drawable = context.getResources().getDrawable(R.drawable.map_passenger);
             Profile me = Model.getInstance().getOwnProfile();
             PassengerOverlay passengerOverlay = new PassengerOverlay(drawable, context, mapView, this.iContact,
@@ -914,7 +903,7 @@ public class ViewModel {
             passengerOverlay.addOverlay(opDriverItem);
             
             ViewModel.getInstance().getPassengerOverlayList(mapView).add(passengerOverlay);
-            Log.i(this, "OVERLAY P: PASSENGER ADDED");
+            Log.i(this, "PassengerOverlay: added Passenger");
             mapView.invalidate();
         } else {
             drawable = context.getResources().getDrawable(R.drawable.map_driver);
@@ -926,7 +915,7 @@ public class ViewModel {
             
             // add found passenger to overlay
             ViewModel.getInstance().getPassengerOverlayList(mapView).add(driverOverlay);
-            Log.i(this, "OVERLAY P: DRIVER ADDED");
+            Log.i(this, "PassengerOverlay: added Driver");
             mapView.invalidate();
         }
     }

@@ -86,7 +86,6 @@ public class ContactDialog extends Dialog {
                     if (ContactDialog.this.iContact == null) {
                     } else {
                         boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID());
-                        Log.i(this, foundUser.getID() + " is " + anonymous);
                         if (anonymous) {
                             Toast.makeText(
                                     getContext(),
@@ -172,6 +171,8 @@ public class ContactDialog extends Dialog {
                             ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName), isDriver);
                     ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, false);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
+                    ViewModel.getInstance().setBtnInfoVisibility(false);
+                    ViewModel.getInstance().setEtInfoVisibility(false);
                     cancel();
                 } else {
                     ViewModel.getInstance().clearRoutes();
@@ -238,7 +239,6 @@ public class ContactDialog extends Dialog {
             
             ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, true);
             ViewModel.getInstance().getAddedRoutes.put(ContactDialog.this.userName, roadOverlay);
-            Log.i(this, "Added Routes After Add " + ViewModel.getInstance().getAddedRoutes.size());
             mapView.invalidate();
         };
     };

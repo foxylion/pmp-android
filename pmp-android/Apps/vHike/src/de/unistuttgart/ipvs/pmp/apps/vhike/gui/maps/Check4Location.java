@@ -112,12 +112,6 @@ public class Check4Location extends TimerTask {
             public void run() {
                 
                 if (isFixedD) {
-                    
-                    if (Check4Location.this.mapView == null) {
-                        Log.i(this, "MapView null");
-                    } else {
-                        Log.i(this, "MapView not null");
-                    }
                     MapController controller = Check4Location.this.mapView.getController();
                     try {
                         ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD,
@@ -129,19 +123,17 @@ public class Check4Location extends TimerTask {
                                 (float) Check4Location.this.loc.getLatitude(),
                                 (float) Check4Location.this.loc.getLongitude())) {
                             case Constants.STATUS_UPDATED:
-                                Log.i(this, "SEND LOCATION, STATUS UPDATED");
+                                //location send
                                 break;
                             case Constants.STATUS_UPTODATE:
-                                Toast.makeText(Check4Location.this.context, "Status up to date", Toast.LENGTH_SHORT)
-                                        .show();
+                                //Up to date
                                 break;
                             case Constants.STATUS_ERROR:
-                                //                                Toast.makeText(Check4Location.this.context, "Error Update position", Toast.LENGTH_SHORT)
-                                //                                        .show();
+                                //Error
                                 break;
                         }
-                        Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
-                                + Check4Location.this.loc.getLongitude() * 1E6);
+                        //                        Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
+                        //                                + Check4Location.this.loc.getLongitude() * 1E6);
                         
                         controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
                                 (int) (Check4Location.this.loc.getLongitude() * 1E6)));
