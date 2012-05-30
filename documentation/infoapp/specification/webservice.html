@@ -13,10 +13,10 @@
 </head>
 <body>
   <div id="wrapper">
-    <div id="page-head-date">14. Mai 2012</div>
+    <div id="page-head-date">30. Mai 2012</div>
     <div id="page-head-title">Privacy Management Platform</div>
     <div id="page-title">InfoApp Spezifikation - Webservices</div>
-    <div id="page-version">Version 4.8</div>
+    <div id="page-version">Version 4.9</div>
     
     <nav>
       <div class="title">Inhaltsverzeichnis</div>
@@ -28,6 +28,12 @@
     <div id="content">
     
       <h1 id="versions">Versionshistorie</h1>
+
+      <h3>Version 4.9</h3>
+      <ul>
+        <li>Signalstärke bei "update_connection_cellular.php" entfernt und hierfür Netzwerk-Typ
+          hinzugefügt</li>
+      </ul>
       
       <h3>Version 4.8</h3>
       <ul>
@@ -535,7 +541,15 @@
               <li><code>device</code> - DeviceID: Identifikation des Gerätes</li>
               <li><code>provider</code> - String: Mobilfunkanbieter des Benutzer</li>
               <li><code>roaming</code> - Boolean: Roaming aktive oder nicht</li>
-              <li><code>signal</code> - Integer (0 &le; x &le; 100): Signalstärke</li>
+              <li><code>network</code> - Character (2 Zeichen): Netzwerk-Typ. Mögliche Werte:
+                <ul>
+                  <li>"un" = unbekannt</li>
+                  <li>"gp" = GPRS,  "cd" = CDMA, "ed" = Edge, "um" = UMTS</li>
+                  <li>"hd" = HSDPA, "hs" = HSPA, "hp" = HSPAP, "hu" = HSUPA</li>
+                  <li>"e0" = EVDO 0, "ea" = EVDO A, "eb" = EVDO B</li>
+                  <li>"1r" = 1xRTT, "id" = IDEN, "lt" = LTE, "eh" = EHRPD</li>
+                </ul>
+              </li>
             </ul>
           </td>
         </tr>      

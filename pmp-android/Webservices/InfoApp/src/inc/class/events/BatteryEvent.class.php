@@ -35,7 +35,7 @@ if (!defined("INCLUDE")) {
  * at a given timestamp
  *
  * @author Patrick Strobel
- * @version 4.1.0
+ * @version 4.1.1
  * @package infoapp
  * @subpackage events
  */
@@ -83,7 +83,7 @@ class BatteryEvent extends Event {
         if (!General::isPercentageInt($level)) {
             throw new InvalidArgumentException("\"level\" is no integer or has no percentage value");
         }
-        if (!General::isPercentageInt($voltage) && $voltage < 3000 || $voltage > 4000) {
+        if (!General::isPercentageInt($voltage) && $voltage < 2000 || $voltage > 5000) {
             throw new InvalidArgumentException("\"voltage\" is no integer or out of range");
         }
         if (!is_string($plugged) ||

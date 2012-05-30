@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `dev_connection_prop` (
   `bluetooth` smallint(5) NOT NULL,
   `provider` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `airplane` tinyint(1) NOT NULL,
-  `signal` tinyint(3) NOT NULL,
+  `network` char(2) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`device`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
