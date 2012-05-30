@@ -34,7 +34,7 @@ if (!defined("INCLUDE")) {
  * Stores statistical information about the connections
  *
  * @author Patrick Strobel
- * @version 4.0.0
+ * @version 4.1.0
  * @package infoapp
  * @subpackage properties
  */
@@ -45,17 +45,17 @@ class ConnectionPropertiesStat extends PropertiesStat {
     private $wifiAvg;
     /** @var String[] */
     private $providerDist;
-    /** @var float[] */
-    private $signalAvg;
+    /** @var String[] */
+    private $networkDist;
     /** @var float */
     private $roamingPerc;
 
-    public function __construct($bluetooh, $wifi, $provider, $roaming, $signal) {
+    public function __construct($bluetooh, $wifi, $provider, $roaming, $network) {
         $this->bluetoothAvg = $bluetooh;
         $this->wifiAvg = $wifi;
         $this->providerDist = $provider;
         $this->roamingPerc = $roaming;
-        $this->signalAvg = $signal;
+        $this->networkDist = $network;
     }
 
     /**
@@ -92,12 +92,12 @@ class ConnectionPropertiesStat extends PropertiesStat {
     }
 
     /**
-     * Gets information about the signal strength
-     * @return int[] The provider's name is stored in the array's key and
-     *                  the average value in the value
+     * Gets information about the network type distribution
+     * @return int[] The type's name is stored in the array's key and
+     *                  the counted value in the value
      */
-    public function getSignalAvg() {
-        return $this->signalAvg;
+    public function getNetworkDist() {
+        return $this->networkDist;
     }
 }
 
@@ -140,7 +140,7 @@ class ConnectionProperties extends Properties {
     Const NETWORK_TYPE_EHRPD = 'eh';
     Const NETWORK_TYPE_HSPAP = 'hp';
 
-    /** @var char */
+    /** @var String */
     private $network = 0;
 
     public static function load($deviceId) {
@@ -284,7 +284,7 @@ class ConnectionProperties extends Properties {
 
     /**
      * Gets the network type
-     * @return char The network type
+     * @return String The network type
      */
     public function getNetworkType() {
         return $this->signal;
@@ -292,7 +292,7 @@ class ConnectionProperties extends Properties {
 
     /**
      * Sets the network type
-     * @param char $network   Network type
+     * @param String $network   Network type (one of the NETWORK_TYPE_... constants)
      * @throws InvalidArgumentException Thrown, if argument is not valid
      */
     public function setNetworkType($network) {
@@ -331,20 +331,27 @@ class ConnectionProperties extends Properties {
         $roaming = $row["roamingCount"] / $entries * 100;
 
         // Provider and signal
-        $result = $db->query("SELECT COUNT(`device`) AS 'count', `provider`, AVG(`signal`) AS 'signalAvg'
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `provider`
                               FROM `" . DB_PREFIX . "_connection_prop`
                               GROUP BY `provider`");
 
         $providers = array();
-        $signalAvg = array();
 
         while (($row = $db->fetch($result)) != null) {
-            $provider = $row["provider"];
-            $providers[$provider] = $row["count"];
-            $signalAvg[$provider] = $row["signalAvg"];
+            $providers[$row["provider"]] = $row["count"];
         }
 
-        return new ConnectionPropertiesStat($bluetooth, $wifi, $providers, $roaming, $signalAvg);
+        // Network distribution
+        $result = $db->query("SELECT COUNT(`device`) AS 'count', `network`
+                              FROM `" . DB_PREFIX . "_connection_prop`
+                              GROUP BY `provider`");
+        $networks = array();
+
+        while (($row = $db->fetch($result)) != null) {
+            $networks[$row["network"]] = $row["count"];
+        }
+
+        return new ConnectionPropertiesStat($bluetooth, $wifi, $providers, $roaming, $networks);
 
     }
 
