@@ -224,6 +224,16 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                                 cellPhoneList.add(context.getString(R.string.connection_panel_provider) + " "
                                         + connectionStub.getProvider());
                                 
+                                // Network type
+                                String type = connectionStub.getNetworkType();
+                                if (type.equals("unknown")) {
+                                    cellPhoneList.add(context.getString(R.string.connection_panel_network_type) + " "
+                                            + context.getString(R.string.connection_panel_network_type_unknown));
+                                } else {
+                                    cellPhoneList.add(context.getString(R.string.connection_panel_network_type) + " "
+                                            + type);
+                                }
+                                
                                 // Roaming status
                                 cellPhoneList.add(context.getString(R.string.connection_panel_roaming) + " "
                                         + booleanToString(connectionStub.getRoamingStatus()));

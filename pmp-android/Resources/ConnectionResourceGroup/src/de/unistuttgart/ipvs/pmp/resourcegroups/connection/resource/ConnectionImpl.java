@@ -40,6 +40,7 @@ import android.telephony.TelephonyManager;
 import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder;
 import de.unistuttgart.ipvs.pmp.infoapp.graphs.UrlBuilder.Views;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.CellularConnectionEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.CellularConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
@@ -197,9 +198,9 @@ public class ConnectionImpl extends IConnection.Stub {
         Boolean result = false;
         
         try {
-            if (!looped) {
+            if (!this.looped) {
                 Looper.prepare();
-                looped = true;
+                this.looped = true;
             }
         } catch (RuntimeException e) {
         }
@@ -223,9 +224,9 @@ public class ConnectionImpl extends IConnection.Stub {
         List<String> result = new ArrayList<String>();
         
         try {
-            if (!looped) {
+            if (!this.looped) {
                 Looper.prepare();
-                looped = true;
+                this.looped = true;
             }
         } catch (RuntimeException e) {
         }
@@ -399,11 +400,12 @@ public class ConnectionImpl extends IConnection.Stub {
         // Create service
         Service service = new Service(Service.DEFAULT_URL, hashedID);
         try {
-            //                         Upload everything
+            // Upload everything
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getWifiEvents());
             new ConnectionEventManager(service)
                     .commitEvents(DBConnector.getInstance(this.context).getBluetoothEvents());
-            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getCellEvents());
+            new CellularConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context)
+                    .getCellEvents());
             
             // TODO ändern
             new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), (Byte) null).commit();
@@ -414,9 +416,18 @@ public class ConnectionImpl extends IConnection.Stub {
             
             DBConnector.getInstance(this.context).clearLists();
             
-            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
-            urlB.setView(Views.STATIC);
-            return urlB.getConnectionGraphUrl();
+            // Get the api level to check if svg is support by the browser
+            int apiLevel = Integer.valueOf(android.os.Build.VERSION.SDK);
+            
+            if (apiLevel >= 11) {
+                UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
+                urlB.setView(Views.DYNAMIC);
+                return urlB.getConnectionGraphUrl();
+            } else {
+                UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
+                urlB.setView(Views.STATIC);
+                return urlB.getConnectionGraphUrl();
+            }
             
         } catch (InternalDatabaseException e) {
             e.printStackTrace();
@@ -432,6 +443,41 @@ public class ConnectionImpl extends IConnection.Stub {
     }
     
     
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getNetworkType()
+     */
+    @Override
+    public String getNetworkType() throws RemoteException {
+        TelephonyManager tManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
+        int type = tManager.getNetworkType();
+        switch (type) {
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                return "unknown";
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+                return "GPRS";
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+                return "EDGE";
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return "UMTS";
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+                return "HSDPA";
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+                return "HSUPA";
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+                return "HSPA";
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+                return "CDMA";
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                return "EVDO 0";
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                return "EVDO A";
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+                return "1xRTT";
+        }
+        return "unknown";
+    }
+    
+    
     /**
      * Only for debugging
      * 
@@ -443,6 +489,7 @@ public class ConnectionImpl extends IConnection.Stub {
         for (CellularConnectionEvent event : events) {
             System.out.println("ID: \t" + event.getId());
             System.out.println("Time: \t" + event.getTimestamp());
+            System.out.println("Airplane: \t" + event.isAirplane());
             if (lastTimeStamp - event.getTimestamp() < 0) {
                 System.out.println("Smaller: true");
             } else {

@@ -276,6 +276,15 @@ public class ConnectionCloakImpl extends IConnection.Stub {
     
     
     /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getNetworkType()
+     */
+    @Override
+    public String getNetworkType() throws RemoteException {
+        return getRandomNetworkType();
+    }
+    
+    
+    /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#uploadData()
      */
     @Override
@@ -328,5 +337,28 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         }
         
         return result;
+    }
+    
+    
+    /**
+     * Get a random network type
+     * 
+     * @return random network type
+     */
+    private String getRandomNetworkType() {
+        String[] networks = new String[11];
+        networks[0] = "unknown";
+        networks[1] = "GPRS";
+        networks[2] = "EDGE";
+        networks[3] = "UMTS";
+        networks[4] = "HSDPA";
+        networks[5] = "HSUPA";
+        networks[6] = "HSPA";
+        networks[7] = "CDMA";
+        networks[8] = "EVDO 0";
+        networks[9] = "EVDO A";
+        networks[10] = "1xRTT";
+        int random = new Random().nextInt(11);
+        return networks[random];
     }
 }

@@ -147,6 +147,13 @@ interface IConnection {
      */
     long getAirplaneModeLastMonth();
     
+    /**
+    * Get the type of the cell phone network
+    *
+    * @return String with the network type 
+    */
+    String getNetworkType();
+    
     
     /**
      * Upload the data to the server

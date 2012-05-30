@@ -248,4 +248,13 @@ public class ConnectionMockImpl extends IConnection.Stub {
         
         return "Error";
     }
+    
+    
+    /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getNetworkType()
+     */
+    @Override
+    public String getNetworkType() throws RemoteException {
+        return "unknown";
+    }
 }

@@ -11,7 +11,7 @@
     <string name="connection_panel_connected_twentyfour">Connected (last 24 hours): </string>
     <string name="connection_panel_connected_thirty_days">Connected (last 30 days): </string>
     <string name="connection_panel_wifi_configured_networks">Configured networks: </string>
-    <string name="connection_panel_connected_cities">Cities where you were connected</string>
+    <string name="connection_panel_connected_cities">Cities where you were connected&#8230;</string>
     <string name="connection_panel_connected_cities_error">An error happened while connection to the resource group</string>
     <string name="connection_panel_connected_cities_not_found">No cities found</string>
     <string name="connection_panel_connected_cities_dialog">Cities where you were connected&#8230;</string>
@@ -21,7 +21,8 @@
     <string name="connection_panel_active_thirty_days_flight_mode">Flight mode active (last 30 days): </string>
     <string name="connection_panel_paired_devices">Paired devices: </string>
     <string name="connection_panel_provider">Provider: </string>
-    <string name="connection_panel_signal_strength">Signal strength: </string>
+    <string name="connection_panel_network_type">Network type: </string>
+    <string name="connection_panel_network_type_unknown">unknown</string>
     <string name="connection_panel_roaming">Roaming: </string>
     <string name="connection_panel_airplane_mode_twentyfour">Airplane mode (last 24 hours): </string>
     <string name="connection_panel_airplane_mode_thirtydays">Airplane mode (last 30 days): </string>
