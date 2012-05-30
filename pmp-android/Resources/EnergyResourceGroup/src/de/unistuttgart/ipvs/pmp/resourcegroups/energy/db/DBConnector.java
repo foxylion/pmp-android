@@ -62,9 +62,9 @@ public class DBConnector implements IDBConnector {
      * @return the instance
      */
     public static IDBConnector getInstance(Context context) {
-        
-        DBConnector.instance = new DBConnector(context);
-        
+        if (instance == null) {
+            instance = new DBConnector(context);
+        }
         return instance;
     }
     
@@ -83,6 +83,7 @@ public class DBConnector implements IDBConnector {
      * @throws SQLException
      */
     public void open() throws SQLException {
+        System.out.println(this.dbHelper);
         this.database = this.dbHelper.getWritableDatabase();
     }
     
@@ -95,7 +96,7 @@ public class DBConnector implements IDBConnector {
     }
     
     
-    public void storeBatteryEvent(BatteryEvent be) {
+    public synchronized void storeBatteryEvent(BatteryEvent be) {
         
         // Create content values
         ContentValues cvs = new ContentValues();
@@ -131,7 +132,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Store a screen event to the database
      */
-    public void storeScreenEvent(ScreenEvent se) {
+    public synchronized void storeScreenEvent(ScreenEvent se) {
         if (se.isChangedTo()) {
             
             // Update last screen on date
@@ -175,7 +176,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Store a device boot event to the database
      */
-    public void storeDeviceBootEvent(DeviceBootEvent dbe) {
+    public synchronized void storeDeviceBootEvent(DeviceBootEvent dbe) {
         // Check, if deviceOnFlag = 0 or = 1
         long deviceOn = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG);
         boolean deviceOnFlag = false;
@@ -219,7 +220,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Get the result set of current values
      */
-    public ResultSetCurrentValues getCurrentValues() {
+    public synchronized ResultSetCurrentValues getCurrentValues() {
         ResultSetCurrentValues rs = new ResultSetCurrentValues();
         
         open();
@@ -254,6 +255,7 @@ public class DBConnector implements IDBConnector {
         }
         cursor.close();
         close();
+        
         return rs;
     }
     
@@ -261,7 +263,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Get the result set of the last boot values
      */
-    public ResultSetLastBootValues getLastBootValues() {
+    public synchronized ResultSetLastBootValues getLastBootValues() {
         
         // Get the last boot date
         long lastBootDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
@@ -276,7 +278,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Get the result set of the total values
      */
-    public ResultSetTotalValues getTotalValues() {
+    public synchronized ResultSetTotalValues getTotalValues() {
         
         // Get the date of first measurement
         long dateOfFirstMeasurement = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_FIRST_MEASUREMENT_DATE);
@@ -287,7 +289,7 @@ public class DBConnector implements IDBConnector {
     }
     
     
-    public ResultSetUpload getUploadValues() {
+    public synchronized ResultSetUpload getUploadValues() {
         ResultSetUpload rs = new ResultSetUpload();
         rs.setBatteryEvents(getAllBatteryEvents(0));
         return rs;
@@ -308,7 +310,7 @@ public class DBConnector implements IDBConnector {
      * @param date
      *            the date
      */
-    private AbstractResultSet createResultSet(List<BatteryEvent> beList, AbstractResultSet rs, long date) {
+    private synchronized AbstractResultSet createResultSet(List<BatteryEvent> beList, AbstractResultSet rs, long date) {
         
         /*
          *  Set the date
@@ -466,7 +468,7 @@ public class DBConnector implements IDBConnector {
      *            time in ms since 1970
      * @return list of battery events
      */
-    private List<BatteryEvent> getAllBatteryEvents(long since) {
+    private synchronized List<BatteryEvent> getAllBatteryEvents(long since) {
         List<BatteryEvent> beList = new ArrayList<BatteryEvent>();
         open();
         Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS,
@@ -490,7 +492,7 @@ public class DBConnector implements IDBConnector {
      * @param cursor
      * @return {@link BatteryEvent}-Object
      */
-    private BatteryEvent cursorToBatteryEvent(Cursor cursor) {
+    private synchronized BatteryEvent cursorToBatteryEvent(Cursor cursor) {
         BatteryEvent be = new BatteryEvent();
         be.setId(cursor.getInt(0));
         be.setTimestamp(cursor.getLong(1));
@@ -517,7 +519,7 @@ public class DBConnector implements IDBConnector {
      *            the key
      * @return value of the key-value-pair of the table "device data"
      */
-    private long getDeviceDataValue(String key) {
+    private synchronized long getDeviceDataValue(String key) {
         open();
         
         String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + "='" + key + "'";
@@ -541,7 +543,7 @@ public class DBConnector implements IDBConnector {
      * @param value
      *            the value of the key-value-pair of the table "device data"
      */
-    private void updateDeviceDataValue(String key, long value) {
+    private synchronized void updateDeviceDataValue(String key, long value) {
         open();
         
         // Update screen on time
