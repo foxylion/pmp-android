@@ -76,7 +76,7 @@ public class CellularConnectionEvent extends Event {
     @Override
     public JSONObject toJSONObject() throws JSONException {
         JSONObject json = super.toJSONObject();
-        json.put("airplane", Boolean.toString(this.airplane));
+        json.put("airplane", this.airplane);
         return json;
     }
     

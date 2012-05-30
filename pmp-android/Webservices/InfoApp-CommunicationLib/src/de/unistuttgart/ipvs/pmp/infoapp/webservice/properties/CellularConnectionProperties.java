@@ -39,7 +39,27 @@ public class CellularConnectionProperties extends Properties {
     
     private String provider;
     private boolean roaming;
-    private byte signal;
+    
+    public enum NetworkTypes {
+        UNKNOWN,
+        GPRS,
+        EDGE,
+        UMTS,
+        HSDPA,
+        HSUPA,
+        HSPA,
+        CDMA,
+        EVDO_0,
+        EVDO_A,
+        EVDO_B,
+        RTT,
+        IDEN,
+        LTE,
+        EHRPD,
+        HSPAP
+    };
+    
+    private NetworkTypes network;
     
     
     /**
@@ -51,14 +71,14 @@ public class CellularConnectionProperties extends Properties {
      *            Name of the network provider
      * @param roaming
      *            The roaming status
-     * @param signal
-     *            Signal strength in percent
+     * @param network
+     *            The network type
      */
-    public CellularConnectionProperties(Service service, String provider, boolean roaming, byte signal) {
+    public CellularConnectionProperties(Service service, String provider, boolean roaming, NetworkTypes network) {
         super(service);
         this.provider = provider;
         this.roaming = roaming;
-        this.signal = signal;
+        this.network = network;
     }
     
     
@@ -83,12 +103,12 @@ public class CellularConnectionProperties extends Properties {
     
     
     /**
-     * Gets the signal's strength
+     * Gets the network type
      * 
-     * @return Gets the signal's strength
+     * @return The network type
      */
-    public byte getSignalStrength() {
-        return this.signal;
+    public NetworkTypes getNetworkType() {
+        return this.network;
     }
     
     
@@ -98,7 +118,57 @@ public class CellularConnectionProperties extends Properties {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("provider", this.provider));
             params.add(new BasicNameValuePair("roaming", Boolean.toString(this.roaming)));
-            params.add(new BasicNameValuePair("signal", Byte.toString(this.signal)));
+            switch (this.network) {
+                case CDMA:
+                    params.add(new BasicNameValuePair("network", "cd"));
+                    break;
+                case EDGE:
+                    params.add(new BasicNameValuePair("network", "ed"));
+                    break;
+                case EHRPD:
+                    params.add(new BasicNameValuePair("network", "eh"));
+                    break;
+                case EVDO_0:
+                    params.add(new BasicNameValuePair("network", "e0"));
+                    break;
+                case EVDO_A:
+                    params.add(new BasicNameValuePair("network", "ea"));
+                    break;
+                case EVDO_B:
+                    params.add(new BasicNameValuePair("network", "eb"));
+                    break;
+                case GPRS:
+                    params.add(new BasicNameValuePair("network", "gp"));
+                    break;
+                case HSDPA:
+                    params.add(new BasicNameValuePair("network", "hd"));
+                    break;
+                case HSPA:
+                    params.add(new BasicNameValuePair("network", "hs"));
+                    break;
+                case HSPAP:
+                    params.add(new BasicNameValuePair("network", "hp"));
+                    break;
+                case HSUPA:
+                    params.add(new BasicNameValuePair("network", "hu"));
+                    break;
+                case IDEN:
+                    params.add(new BasicNameValuePair("network", "id"));
+                    break;
+                case LTE:
+                    params.add(new BasicNameValuePair("network", "lt"));
+                    break;
+                case RTT:
+                    params.add(new BasicNameValuePair("network", "1r"));
+                    break;
+                case UMTS:
+                    params.add(new BasicNameValuePair("network", "um"));
+                    break;
+                case UNKNOWN:
+                    params.add(new BasicNameValuePair("network", "un"));
+                    break;
+            
+            }
             super.service.requestPostService("update_connection_cellular.php", params);
         } catch (JSONException e) {
             throw new IOException("Server returned no valid JSON object: " + e);
