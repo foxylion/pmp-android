@@ -479,8 +479,12 @@ public class ViewModel {
     }
     
     
-    public void removeRoute(RoadOverlay routeOverlay) {
-        this.mapDriverOverlays.remove(routeOverlay);
+    public void removeRoute(RoadOverlay routeOverlay, boolean driver) {
+        if (driver) {
+            this.mapDriverOverlays.remove(routeOverlay);
+        } else {
+            this.mapPassengerOverlays.remove(routeOverlay);
+        }
     }
     
     

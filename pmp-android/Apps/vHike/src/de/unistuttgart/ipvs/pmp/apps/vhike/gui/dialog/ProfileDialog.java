@@ -170,8 +170,9 @@ public class ProfileDialog extends Dialog {
             public void onClick(View v) {
                 // if route for user already drawn: remove
                 if (ViewModel.getInstance().isRouteDrawn(foundUser.getUsername())) {
+                    // TODO
                     ViewModel.getInstance().removeRoute(
-                            ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()));
+                            ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()), true);
                     ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), false);
                     btn_route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();

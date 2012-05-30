@@ -48,6 +48,7 @@ public class ContactDialog extends Dialog {
     
     private Road mRoad;
     private int driverOrpassenger;
+    private boolean isDriver;
     
     
     public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, Profile foundUser,
@@ -63,6 +64,12 @@ public class ContactDialog extends Dialog {
         this.ctrl = ctrl;
         this.driverOrpassenger = driverOrpassenger;
         this.activity = (Activity) context;
+        
+        if (driverOrpassenger == 0) {
+            isDriver = true;
+        } else {
+            isDriver = false;
+        }
         
         setButtons();
     }
@@ -151,7 +158,7 @@ public class ContactDialog extends Dialog {
                 if (ViewModel.getInstance().isRouteDrawn(ContactDialog.this.userName)) {
                     ViewModel.getInstance().setBtnInfoVisibility(false);
                     ViewModel.getInstance().removeRoute(
-                            ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName));
+                            ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName), isDriver);
                     ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, false);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
