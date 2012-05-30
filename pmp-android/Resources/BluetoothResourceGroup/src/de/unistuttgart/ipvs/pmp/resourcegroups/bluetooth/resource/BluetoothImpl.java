@@ -48,74 +48,89 @@ public class BluetoothImpl extends IBluetooth.Stub {
 
 	@Override
 	public void enableBluetooth(boolean state) throws RemoteException {
+		
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		btResource.enableBluetooth(state);
 	}
 
 	@Override
 	public boolean isEnabled() throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.isEnabled();
 	}
 
 	@Override
 	public void makeDiscoverable(String name, int time) throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		btResource.makeDiscoverable(appIdentifier, name, time);
 	}
 
 	@Override
 	public void discover(String name, int time) throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		btResource.discover(appIdentifier,name,time);
 	}
 
 
 	@Override
 	public boolean isDiscovering() throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.isDiscovering();
 	}
 
 	@Override
 	public DeviceArrayParcelable getPairedDevices() throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.getPairedDevices();
 	}
 
 	@Override
 	public DeviceArrayParcelable getFoundDevices() throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.getFoundDevices();
 	}
 
 	@Override
 	public void connect(String address) throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		btResource.connect(address);
 	}
 
 	@Override
 	public void sendMessage(String message) throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		btResource.sendMessage(message);
 	}
 
 	@Override
 	public MessageArrayParcelable getReceivedMessages() throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.getReceivedMessages();
 	}
 
 	@Override
 	public boolean isBluetoothAvailable() throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.isBluetoothAvailable();
 	}
 
 	@Override
 	public boolean isConnected() throws RemoteException {
 		// TODO Auto-generated method stub
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.isConnected();
 	}
 
 	@Override
 	public boolean isDeviceBonded(String address) throws RemoteException {
 		// TODO Auto-generated method stub
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		return btResource.isDeviceBonded(address);
 	}
 
 	@Override
 	public void setName(String name) throws RemoteException {
+		this.psv.validate(BluetoothResourceGroup.PS_USE_BLUETOOTH, "true");
 		btResource.setName(name);
 	}
 }
