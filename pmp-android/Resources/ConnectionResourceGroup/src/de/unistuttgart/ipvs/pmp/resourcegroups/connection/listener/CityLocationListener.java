@@ -92,24 +92,6 @@ public class CityLocationListener implements LocationListener {
      */
     @Override
     public void onLocationChanged(Location location) {
-        Events state = Events.OFF;
-        
-        // Get the connectivity manager
-        ConnectivityManager connManager = (ConnectivityManager) this.context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        
-        // Check if the state of the wifi
-        if (connManager != null) {
-            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (mWifi == null) {
-                state = Events.OFF;
-            } else {
-                if (mWifi.isConnected()) {
-                    state = Events.ON;
-                }
-            }
-        }
-        
         // New geocoder to get the city
         Geocoder gc = new Geocoder(this.context, Locale.getDefault());
         List<Address> addresses = null;
@@ -130,6 +112,22 @@ public class CityLocationListener implements LocationListener {
             DBConnector.getInstance(this.context).storeBTEvent(this.timestamp, this.event, city);
         }
         if (this.device.equals(DBConstants.DEVICE_WIFI)) {
+            Events state = Events.OFF;
+            // Get the connectivity manager
+            ConnectivityManager connManager = (ConnectivityManager) this.context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            
+            // Check if the state of the wifi
+            if (connManager != null) {
+                NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (mWifi == null) {
+                    state = Events.OFF;
+                } else {
+                    if (mWifi.isConnected()) {
+                        state = Events.ON;
+                    }
+                }
+            }
             DBConnector.getInstance(this.context).storeWifiEvent(this.timestamp, this.event, city, state);
         }
     }
@@ -140,6 +138,31 @@ public class CityLocationListener implements LocationListener {
      */
     @Override
     public void onProviderDisabled(String provider) {
+        
+        this.locManager.removeUpdates(this);
+        
+        if (this.device.equals(DBConstants.DEVICE_BT)) {
+            DBConnector.getInstance(this.context).storeBTEvent(this.timestamp, this.event, null);
+        }
+        if (this.device.equals(DBConstants.DEVICE_WIFI)) {
+            Events state = Events.OFF;
+            // Get the connectivity manager
+            ConnectivityManager connManager = (ConnectivityManager) this.context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            
+            // Check if the state of the wifi
+            if (connManager != null) {
+                NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (mWifi == null) {
+                    state = Events.OFF;
+                } else {
+                    if (mWifi.isConnected()) {
+                        state = Events.ON;
+                    }
+                }
+            }
+            DBConnector.getInstance(this.context).storeWifiEvent(this.timestamp, this.event, null, state);
+        }
     }
     
     
