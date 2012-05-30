@@ -68,8 +68,11 @@
 			<h2 id="start_search">Fahrt suchen, Rolle "Mitfahrer"</h2>
 			<p>Am besten soll hierzu eine zweite Person herangezogen werden, der die Rolle als "Fahrer" übernimmt, da dass Mitfahrer suchen/einladen über Konsole/Datenbank -Gepfusche sich als etwas kompliziert aufweist. Zur Not kann einer aus dem vHike-Team gefragt werden.</p>
 			<h2 id="prep_communication">Kommunikation(Contact-RG) und vHike - Bluetooth</h2>
+			<p>Contact-SF anfangs nicht setzen, um Service Feature in der App anzufodern.</p>
 			<p>Falls mit dem Emulator getestet wird, kann man mit einem anderen Emulator telefoniert, SMS versendet werden. Dazu am Besten bei der Registrierung als Telefonnummer die Emulator-Nummer eingeben (wahrscheinlich "5554" oder "5556". Um Email zu versenden bzw. zu erhalten, muss ein Email-Account auf beiden Emulatoren eingerichtet werden.</p>
 			<p>Um den vHike -Bluetooth Modus zu testen ist neben der Bluetooth-RG ein echtes Gerät nötig, da der Emulator keine Bluetooth-Funktionalität bietet.</p>
+			<h2 id="prep_anonym">Anonymes Profil testen</h2>
+			<p>Am besten beide Tester (Fahrer und Mitfahrer)anfangs Service Feature "Profile Privacy" setzen, um Kommunikation und Profil öffnen zu testen.</p>
 			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
 				<h2 id="usecases">Anwendungsfälle</h2>
 				Die Anwendungsfälle sind in einem separaten Dokument ausgelagert und werden per Identifier adressiert.<br>
@@ -125,6 +128,12 @@
 					</tr>
 					<tr>
 						<td>FT-8</td>
+						<td>Profil einer anonymen Person öffnen</td>
+						<td>Auf Namen von Person in der Sliderliste drücken</td>
+						<td>Profile-Dialog öffnet sich. Vor-und Zuname, Telefonnummer und Email sind mit einem "xxx" versehen.</td>
+					</tr>
+					<tr>
+						<td>FT-8</td>
 						<td>Profil einer gefundenen Person öffnen</td>
 						<td>Auf Namen von Person in der Sliderliste drücken</td>
 						<td>Profile-Dialog öffnet sich</td>
@@ -142,12 +151,54 @@
 						<td>Phone-App öffnet sich. Nach Anruf öffnet sich Call-Log, nach Zurück-Taste wieder zur Kartenansicht</td>
 					</tr>
 					<tr>
+						<td>FT-10</td>
+						<td>SMS senden</td>
+						<td>1. Auf SMS-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person.<p>2. Empfängerfeld und Textkörper befüllen und auf "Send".</p></td>
+						<td>1. Dialog mit Empfängerfeld und Textkörper wird geöffnet. <p>2.Nach Erfolgreichem Senden wird Toast geworfen.</p></td>
+					</tr>
+					<tr>
+					<tr>
+						<td>FT-10</td>
+						<td>Email versenden</td>
+						<td>1. Auf Email-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person. <p>2. Empfänger, Betreff überprüfen und Textkörper befüllen und auf "Send" drücken.</p></td>
+						<td>1. Standard-Email-App oder Drittanbiteranwendung öffnet sich.<p>2. Gerät kehrt zur Kartenansicht zurück.</p></td>
+					</tr>
+					<tr>
+						<td>FT-10</td>
+						<td>Telefonieren/SMS/Email mit Anonymen Benutzer</td>
+						<td>Anrufen, SMS oder Email versenden an Benutzer der Anonym ist.</td>
+						<td>Meldung erscheint mit Begründung wieso nicht kommuniziert werden konnte.</td>
+					</tr>
 						<td>FT-18</td>
 						<td>Einladung an eine gefunde Person senden</td>
 						<td>Ausrufezeichen-Button drücken</td>
 						<td>Ausrufezeichen-Button ändert sich zu einem Fragezeichen</td>
 					</tr>
 					<tr>
+						<td>FT-8</td>
+						<td>Auf Antwort von Einladung warten</td>
+						<td>Zwei Fälle:<p>1. Mitfahrer akzeptiert Einladung</p><p>2. Mitfahrer lehnt Einladung ab.</p></td>
+						<td>1. Fragezeichen ändert sich zu einem Häckchen.<p>2. Mitfahrer wird aus Liste und Karte entfernt und kann in dieser Sitzung nicht mehr gefunden werden.</p></td>
+					</tr>
+					<tr>
+						<td>FT-8</td>
+						<td>Mitfahrer abholen</td>
+						<td>Auf Häckchen drücken.</td>
+						<td>Name wird blau und Häckchen ausgegraut.</td>
+					</tr>
+					<tr>
+					<tr>
+						<td>FT-8</td>
+						<td>Fahrt beenden</td>
+						<td>Auf Zurück-Taste oder Menü-Punkt Fahrt beenden.</td>
+						<td>Zurückkehren ins Hitchhike-Menü. Im Log kurz überprüfen, ob Location/Suche noch läuft.</td>
+					</tr>
+					<tr>
+						<td>FT-8</td>
+						<td>Fahrt suchen</td>
+						<td>1. Im Hitchhike-Menü Ziel und Anzahl der Sitze setzen und auf Search drücken.<p>2. Auf Einladung warten</p><p>3. Einladung akzeptieren/ablehnen</p></td>
+						<td>1. Kartenansicht öffnet sich.<p>2. Falls Einladung empfangen wurde erscheint Fahrer auf Karte und Liste.</p><p>3. Akzeptieren: Dialog öffnet sich und Bestätigt, dass Suche beendet ist. "Ok" drücken um zum Hitchhike-Menü zurückzukehren</p><p>Ablehnen: Fahrer wird aus Karte und Liste entfernt.</p></td>
+					</tr>
 						<td>FT-9</td>
 						<td>Profil bewerten</td>
 						<td></td>
