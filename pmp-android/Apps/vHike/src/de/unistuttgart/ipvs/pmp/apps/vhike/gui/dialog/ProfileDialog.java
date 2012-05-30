@@ -45,13 +45,14 @@ public class ProfileDialog extends Dialog {
     private MapView mapView;
     private IContact iContact;
     private Profile foundUser;
-    
+    private int driverOrpassenger;
     private Activity activity;
+    private boolean isDriver;
     
     
     @SuppressWarnings("static-access")
     public ProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView, IContact iContact,
-            Profile foundUser) {
+            Profile foundUser, int driverOrpassenger) {
         super(context);
         requestWindowFeature(getWindow().FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_profile);
@@ -61,6 +62,13 @@ public class ProfileDialog extends Dialog {
         this.iContact = iContact;
         this.foundUser = foundUser;
         this.activity = (Activity) context;
+        this.driverOrpassenger = driverOrpassenger;
+        
+        if (driverOrpassenger == 0) {
+            isDriver = true;
+        } else {
+            isDriver = false;
+        }
         
         setUpProfile();
     }
@@ -172,7 +180,7 @@ public class ProfileDialog extends Dialog {
                 if (ViewModel.getInstance().isRouteDrawn(foundUser.getUsername())) {
                     // TODO
                     ViewModel.getInstance().removeRoute(
-                            ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()), true);
+                            ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()), isDriver);
                     ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), false);
                     btn_route.setBackgroundResource(R.drawable.btn_route_disabled);
                     cancel();
@@ -233,7 +241,12 @@ public class ProfileDialog extends Dialog {
             Toast.makeText(getContext(), mRoad.mName + " " + mRoad.mDescription, Toast.LENGTH_LONG).show();
             
             RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView, true);
-            ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            if (isDriver) {
+                ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            } else {
+                ViewModel.getInstance().getPassengerOverlayList(mapView).add(roadOverlay);
+            }
+            
             ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), true);
             ViewModel.getInstance().getAddedRoutes.put(foundUser.getUsername(), roadOverlay);
             mapView.invalidate();

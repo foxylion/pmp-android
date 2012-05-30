@@ -115,8 +115,13 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                    vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser)
-                            .show();
+                    if (ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID())) {
+                        Toast.makeText(context, "The user has hidden his contact information. SMS can not be sent.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser)
+                                .show();
+                    }
                 } else {
                     PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
                 }
@@ -132,8 +137,14 @@ public class ContactDialog extends Dialog {
                 try {
                     String dest = ViewModel.getInstance().getDestination();
                     if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                        iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
-                                "Hello " + foundUser.getUsername() + ",");
+                        if (ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID())) {
+                            Toast.makeText(context,
+                                    "The user has hidden his contact information. Email can not be sent.",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
+                                    "Hello " + foundUser.getUsername() + ",");
+                        }
                     } else {
                         PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
                     }

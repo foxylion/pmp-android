@@ -109,20 +109,22 @@ public class NotificationAdapter extends BaseAdapter {
             
             @Override
             public void onClick(View v) {
-                
+                int driverorpassenger = 0;
                 if (NotificationAdapter.this.mWhichHitcher == 0) {
                     List<QueryObject> lqo = Model.getInstance().getQueryHolder();
-                    
+                    driverorpassenger = 0;
                     NotificationAdapter.this.userID = lqo.get(position).getUserid();
                 } else {
                     List<OfferObject> loo = Model.getInstance().getOfferHolder();
                     NotificationAdapter.this.userID = loo.get(position).getUser_id();
+                    driverorpassenger = 1;
                 }
                 
                 vhikeDialogs
                         .getInstance()
                         .getProfileDialog(NotificationAdapter.this.ws, NotificationAdapter.this.context,
-                                NotificationAdapter.this.userID, mapView, iContact, hitchhiker).show();
+                                NotificationAdapter.this.userID, mapView, iContact, hitchhiker, driverorpassenger)
+                        .show();
             }
         });
         
