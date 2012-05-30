@@ -165,107 +165,115 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
                             try {
                                 //State
-                                wifiList.add(context.getString(R.string.connection_panel_state) + " "
-                                        + booleanToString(connectionStub.getWifiConnectionStatus()));
+                                wifiList.add("<b>" + context.getString(R.string.connection_panel_state) + "</b> "
+                                        + booleanToStringConnection(connectionStub.getWifiConnectionStatus()));
                                 
                                 // Configured networks
-                                wifiList.add(context.getString(R.string.connection_panel_wifi_configured_networks)
-                                        + " " + connectionStub.getConfigureddWifiNetworks().size());
+                                wifiList.add("<b>"
+                                        + context.getString(R.string.connection_panel_wifi_configured_networks)
+                                        + "</b> " + connectionStub.getConfigureddWifiNetworks().size());
                                 
                                 // Connected time
-                                wifiList.add(context.getString(R.string.connection_panel_connected_twentyfour)
-                                        + " "
+                                wifiList.add("<b>"
+                                        + context.getString(R.string.connection_panel_connected_twentyfour)
+                                        + "</b> "
                                         + convertMillsecondsToString(connectionStub
                                                 .getWifiConnectionLastTwentyFourHours()));
-                                wifiList.add(context.getString(R.string.connection_panel_connected_thirty_days) + " "
+                                wifiList.add("<b>" + context.getString(R.string.connection_panel_connected_thirty_days)
+                                        + "</b> "
                                         + convertMillsecondsToString(connectionStub.getWifiConnectionLastMonth()));
                                 
                                 // Connected cities
-                                wifiList.add(context.getString(R.string.connection_panel_connected_cities));
+                                wifiList.add("<b>" + context.getString(R.string.connection_panel_connected_cities)
+                                        + "</b>");
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            wifiList.add(context.getString(R.string.sf_insufficient));
+                            wifiList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
                         }
                         
                         // Fill the bluetooth list
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
                             try {
                                 //State
-                                btList.add(context.getString(R.string.connection_panel_state) + " "
+                                btList.add("<b>" + context.getString(R.string.connection_panel_state) + "</b> "
                                         + booleanToString(connectionStub.getBluetoothStatus()));
                                 
                                 //Paired devices
-                                btList.add(context.getString(R.string.connection_panel_paired_devices) + " "
-                                        + connectionStub.getPairedBluetoothDevices().size());
+                                btList.add("<b>" + context.getString(R.string.connection_panel_paired_devices)
+                                        + "</b> " + connectionStub.getPairedBluetoothDevices().size());
                                 
                                 //Active time
-                                btList.add(context.getString(R.string.connection_panel_active_twentyfour)
-                                        + " "
+                                btList.add("<b>"
+                                        + context.getString(R.string.connection_panel_active_twentyfour)
+                                        + "</b> "
                                         + convertMillsecondsToString(connectionStub
                                                 .getBTConnectionLastTwentyFourHours()));
-                                btList.add(context.getString(R.string.connection_panel_active_thirty_days) + " "
+                                btList.add("<b>" + context.getString(R.string.connection_panel_active_thirty_days)
+                                        + "</b> "
                                         + convertMillsecondsToString(connectionStub.getBTConnectionLastMonth()));
                                 
                                 // Cities
-                                btList.add(" " + context.getString(R.string.connection_panel_connected_cities));
+                                btList.add("<b>" + context.getString(R.string.connection_panel_connected_cities)
+                                        + "</b>");
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            btList.add(context.getString(R.string.sf_insufficient));
+                            btList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
                         }
                         
                         // Fill the cell phone list
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
                             try {
                                 // Provider
-                                cellPhoneList.add(context.getString(R.string.connection_panel_provider) + " "
-                                        + connectionStub.getProvider());
+                                cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_provider)
+                                        + "</b> " + connectionStub.getProvider());
                                 
                                 // Network type
                                 String type = connectionStub.getNetworkType();
                                 if (type.equals("unknown")) {
-                                    cellPhoneList.add(context.getString(R.string.connection_panel_network_type) + " "
+                                    cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_network_type)
+                                            + "</b> "
                                             + context.getString(R.string.connection_panel_network_type_unknown));
                                 } else {
-                                    cellPhoneList.add(context.getString(R.string.connection_panel_network_type) + " "
-                                            + type);
+                                    cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_network_type)
+                                            + "</b> " + type);
                                 }
                                 
                                 // Roaming status
-                                cellPhoneList.add(context.getString(R.string.connection_panel_roaming) + " "
-                                        + booleanToString(connectionStub.getRoamingStatus()));
+                                cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_roaming)
+                                        + "</b> " + booleanToString(connectionStub.getRoamingStatus()));
                                 
                                 // Connection time
-                                cellPhoneList.add(context
-                                        .getString(R.string.connection_panel_active_twentyfour_flight_mode)
-                                        + " "
+                                cellPhoneList.add("<b>"
+                                        + context.getString(R.string.connection_panel_active_twentyfour_flight_mode)
+                                        + "</b> "
                                         + convertMillsecondsToString(connectionStub
                                                 .getAirplaneModeLastTwentyFourHours()));
-                                cellPhoneList.add(context
-                                        .getString(R.string.connection_panel_active_thirty_days_flight_mode)
-                                        + " "
+                                cellPhoneList.add("<b>"
+                                        + context.getString(R.string.connection_panel_active_thirty_days_flight_mode)
+                                        + "</b> "
                                         + convertMillsecondsToString(connectionStub.getAirplaneModeLastMonth()));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            cellPhoneList.add(context.getString(R.string.sf_insufficient));
+                            cellPhoneList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
                         }
                         
                         // Fill the data connection info
                         if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
                             try {
                                 // Status
-                                dataList.add(context.getString(R.string.connection_panel_state) + " "
+                                dataList.add("<b>" + context.getString(R.string.connection_panel_state) + "</b> "
                                         + booleanToString(connectionStub.getDataConnectionStatus()));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            dataList.add(" " + context.getString(R.string.sf_insufficient));
+                            dataList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
                         }
                         // Update the view
                         adapter.updateLists(wifiList, btList, dataList, cellPhoneList);
@@ -288,6 +296,22 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
             return context.getString(R.string.connection_panel_active);
         } else {
             return context.getString(R.string.connection_panel_not_active);
+        }
+    }
+    
+    
+    /**
+     * Converts a boolean to active or not active
+     * 
+     * @param convert
+     *            to convert
+     * @return active iff convert =true else not active
+     */
+    private String booleanToStringConnection(boolean convert) {
+        if (convert) {
+            return context.getString(R.string.connection_panel_connected);
+        } else {
+            return context.getString(R.string.connection_panel_not_connected);
         }
     }
     
