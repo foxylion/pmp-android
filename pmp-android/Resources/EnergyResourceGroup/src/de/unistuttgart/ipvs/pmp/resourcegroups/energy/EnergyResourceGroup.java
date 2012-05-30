@@ -1,5 +1,6 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy;
 
+import android.content.Context;
 import android.content.IntentFilter;
 import de.unistuttgart.ipvs.pmp.resource.IPMPConnectionInterface;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
@@ -15,6 +16,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.EnergyResource;
  */
 public class EnergyResourceGroup extends ResourceGroup {
     
+    @SuppressWarnings("deprecation")
     public EnergyResourceGroup(IPMPConnectionInterface pmpci) {
         super(EnergyConstants.RG_PACKAGE_NAME, pmpci);
         
@@ -26,7 +28,10 @@ public class EnergyResourceGroup extends ResourceGroup {
         
         // Boot-Event received
         // Deprecated: Work-around, but works
-        DeviceBootHandler.handle(pmpci.getContext(null), true);
+        
+        if (pmpci.getContext(null) instanceof Context) {
+            DeviceBootHandler.handle(pmpci.getContext(null), true);
+        }
     }
     
     

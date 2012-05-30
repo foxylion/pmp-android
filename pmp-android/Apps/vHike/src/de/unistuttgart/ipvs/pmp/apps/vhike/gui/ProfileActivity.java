@@ -125,6 +125,9 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 } else {
                     observation.setBackgroundResource(R.drawable.btn_observation_disabled);
                 }
+                anonymous_btn.setVisibility(View.VISIBLE);
+                anonymous_btn.setClickable(false);
+                observation.setVisibility(View.VISIBLE);
             } else {
                 this.ctrl = new Controller(rgvHike);
                 this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), profileID);
@@ -137,24 +140,9 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
                 et_tel.setClickable(false);
                 et_tel.setFocusable(false);
                 et_tel.setCursorVisible(false);
+                anonymous_btn.setVisibility(View.GONE);
+                observation.setVisibility(View.GONE);
             }
-            
-            anonymous_btn.setOnClickListener(new View.OnClickListener() {
-                
-                @Override
-                public void onClick(View v) {
-                    boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), Model.getInstance()
-                            .getOwnProfile().getID());
-                    if (anonymous) {
-                        ctrl.disableAnonymity(Model.getInstance().getSid());
-                        anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous_disabled);
-                    } else {
-                        ctrl.enableAnonymity(Model.getInstance().getSid());
-                        anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
-                    }
-                    
-                }
-            });
             
             observation.setOnClickListener(new View.OnClickListener() {
                 

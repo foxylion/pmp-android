@@ -55,7 +55,7 @@ public class Check4Queries extends TimerTask {
                     Check4Queries.this.lat = (float) pObject.getLat();
                     Check4Queries.this.lng = (float) pObject.getLon();
                 } catch (Exception ex) {
-                    Log.i(this, "NULLPOINTER");
+                    ex.printStackTrace();
                 }
                 // retrieve all hitchhikers searching for a ride within my perimeter
                 Check4Queries.this.lqo = Check4Queries.this.ctrl.searchQuery(Model.getInstance().getSid(),
@@ -66,7 +66,7 @@ public class Check4Queries extends TimerTask {
                 
                 if (ViewModel.getInstance().queryIsCanceled()) {
                     cancel();
-                    Log.i(this, "CANCELED QUERY MOTHERF***");
+                    Log.i(this, "Canceled Check4Queries");
                 }
             }
         });

@@ -3,8 +3,8 @@
 	<appInformation>
 		<name lang="en">vHike</name>
 		<name lang="de">vHike</name>
-		<description lang="en">Share your gas cost? Looking for a ride? vHike is the right app for you! Thanks to new technologies, hitchhiking has never been easier.</description>
-		<description lang="de">Benzin-Kosten sparen? Schneller und grüner von A nach B kommen mit vHike! Per Anhalter fahren, dank neuster Technologie.</description>
+		<description lang="en">vHike is a demonstration app for PMP - Privacy Management Platform. vHike allows virtual tramping.</description>
+		<description lang="de">vHike ist eine Demonstrations-Anwendung für PMP - Privatsphärenplatform. vHike erlaubt virtuelles Trampen</description>
 	</appInformation>
 	<serviceFeatures>
 		<serviceFeature identifier="vhikeWebService">
@@ -16,7 +16,7 @@
 		</serviceFeature>
 		<serviceFeature identifier="anonymousProfile">
 			<name lang="en">Profile Privacy</name>
-			<description lang="en">Hide your contact information from curious eyes. Who wants to share his email address if we got 5 star rating, right? Of course you can always share them with serious users.</description>
+			<description lang="en">Hide contact information. Communication features will be turned off.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS" minRevision="0">
 				<requiredPrivacySetting identifier="anonymous">true</requiredPrivacySetting>
@@ -31,7 +31,7 @@
 		</serviceFeature>
 		<serviceFeature identifier="useAbsoluteLocation">
 			<name lang="en">Exact Location</name>
-			<description lang="en">Provides information about your position for several features of vHike like searching for a ride or a hiker, sharing your location for other members in your trip, making finding each other much easier.</description>
+			<description lang="en">Enables gps location.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="0">
 				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
@@ -42,7 +42,7 @@
 		</serviceFeature>
 		<serviceFeature identifier="hideExactLocation">
 			<name lang="en">Location Privacy +</name>
-			<description lang="en">This premium feature is only for our premium users. Unless you want to, your exact location will not be available for others so your house will be safe. A random coordinate close to your true position will be used instead to make sure you don't miss a chance of being found and have fun on vHike :-)</description>
+			<description lang="en">Enables precise location, e.g. Name of city, street, etc.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.location" minRevision="0">
 				<requiredPrivacySetting identifier="useAbsoluteLocation">true</requiredPrivacySetting>
@@ -55,7 +55,7 @@
 		</serviceFeature>
 		<serviceFeature identifier="contactResource">
 			<name lang="en">Contact</name>
-			<description lang="en">Direct contact with other user via phone call, SMS and email, right here in vHike.</description>
+			<description lang="en">Allows communication through phone, SMS or email.</description>
 			<requiredResourceGroup
 				identifier="de.unistuttgart.ipvs.pmp.resourcegroups.contact" minRevision="0">
 				<requiredPrivacySetting identifier="openDialer">true</requiredPrivacySetting>

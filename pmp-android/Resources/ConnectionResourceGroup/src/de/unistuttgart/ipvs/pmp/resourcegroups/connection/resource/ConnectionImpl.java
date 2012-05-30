@@ -48,6 +48,7 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseEx
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidEventOrderException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.CellularConnectionProperties;
+import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.CellularConnectionProperties.NetworkTypes;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ConnectionProperties;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
@@ -348,6 +349,41 @@ public class ConnectionImpl extends IConnection.Stub {
     
     
     /* (non-Javadoc)
+     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getNetworkType()
+     */
+    @Override
+    public String getNetworkType() throws RemoteException {
+        TelephonyManager tManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
+        int type = tManager.getNetworkType();
+        switch (type) {
+            case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+                return "unknown";
+            case TelephonyManager.NETWORK_TYPE_GPRS:
+                return "GPRS";
+            case TelephonyManager.NETWORK_TYPE_EDGE:
+                return "EDGE";
+            case TelephonyManager.NETWORK_TYPE_UMTS:
+                return "UMTS";
+            case TelephonyManager.NETWORK_TYPE_HSDPA:
+                return "HSDPA";
+            case TelephonyManager.NETWORK_TYPE_HSUPA:
+                return "HSUPA";
+            case TelephonyManager.NETWORK_TYPE_HSPA:
+                return "HSPA";
+            case TelephonyManager.NETWORK_TYPE_CDMA:
+                return "CDMA";
+            case TelephonyManager.NETWORK_TYPE_EVDO_0:
+                return "EVDO 0";
+            case TelephonyManager.NETWORK_TYPE_EVDO_A:
+                return "EVDO A";
+            case TelephonyManager.NETWORK_TYPE_1xRTT:
+                return "1xRTT";
+        }
+        return "unknown";
+    }
+    
+    
+    /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getAirplaneModeLastTwentyFourHours()
      */
     @Override
@@ -406,9 +442,7 @@ public class ConnectionImpl extends IConnection.Stub {
                     .commitEvents(DBConnector.getInstance(this.context).getBluetoothEvents());
             new CellularConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context)
                     .getCellEvents());
-            
-            // TODO ändern
-            new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), (Byte) null).commit();
+            new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getNetworkTypeEnum()).commit();
             
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
@@ -443,38 +477,39 @@ public class ConnectionImpl extends IConnection.Stub {
     }
     
     
-    /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getNetworkType()
+    /**
+     * Get the network typ as a {@link NetworkTypes} enumeration
+     * 
+     * @return {@link NetworkTypes}
      */
-    @Override
-    public String getNetworkType() throws RemoteException {
+    public NetworkTypes getNetworkTypeEnum() {
         TelephonyManager tManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         int type = tManager.getNetworkType();
         switch (type) {
             case TelephonyManager.NETWORK_TYPE_UNKNOWN:
-                return "unknown";
+                return NetworkTypes.UNKNOWN;
             case TelephonyManager.NETWORK_TYPE_GPRS:
-                return "GPRS";
+                return NetworkTypes.GPRS;
             case TelephonyManager.NETWORK_TYPE_EDGE:
-                return "EDGE";
+                return NetworkTypes.EDGE;
             case TelephonyManager.NETWORK_TYPE_UMTS:
-                return "UMTS";
+                return NetworkTypes.UMTS;
             case TelephonyManager.NETWORK_TYPE_HSDPA:
-                return "HSDPA";
+                return NetworkTypes.HSDPA;
             case TelephonyManager.NETWORK_TYPE_HSUPA:
-                return "HSUPA";
+                return NetworkTypes.HSUPA;
             case TelephonyManager.NETWORK_TYPE_HSPA:
-                return "HSPA";
+                return NetworkTypes.HSPA;
             case TelephonyManager.NETWORK_TYPE_CDMA:
-                return "CDMA";
+                return NetworkTypes.CDMA;
             case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                return "EVDO 0";
+                return NetworkTypes.EVDO_0;
             case TelephonyManager.NETWORK_TYPE_EVDO_A:
-                return "EVDO A";
+                return NetworkTypes.EVDO_A;
             case TelephonyManager.NETWORK_TYPE_1xRTT:
-                return "1xRTT";
+                return NetworkTypes.RTT;
         }
-        return "unknown";
+        return NetworkTypes.UNKNOWN;
     }
     
     

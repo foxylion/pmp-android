@@ -149,8 +149,8 @@ public class vhikeDialogs extends Activity {
     
     
     public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView,
-            IContact iContact, Profile foundUser) {
-        return new ProfileDialog(ws, context, profileID, mapView, iContact, foundUser);
+            IContact iContact, Profile foundUser, int driverOrpassenger) {
+        return new ProfileDialog(ws, context, profileID, mapView, iContact, foundUser, driverOrpassenger);
     }
     
     

@@ -52,13 +52,10 @@
             <li>Kommunikation: Contact(Kommunikation) -Ressourcengruppe</li>
             <li>vHike - Bluetooth: Bluetooth -Ressourcengruppe</li>
          </ul>
-         
          <h2 id="start_observer">Observationsmodus</h2>
          <p>Der Observationsmodus sollte vor einer Fahrt eingeschaltet werden. So dass dieser nebenher getestet werden kann.</p>
-
          <h2 id="start_profile">Profil bewerten</h2>
          <p>Das Profil kann nur nach einer abgeschloßenen Fahrt aus der History-Ansicht bewertet werden.</p>
-         
          <h2 id="start_hitch">Fahrt starten/suchen</h2>
          <p>Es wird hier empfohlen das zwei Tester sich die Rollen von Fahrer und Mitfahrer einteilen und gemeinsam "Fahrt starten" bzw. "Fahrt suchen" testen bzw. das ganze "Ich-lad-dich-ein-Du-nimmst-an -Szenario".</p>
          <h2 id="prep_communication">Kommunikation(Contact-RG) und vHike - Bluetooth</h2>
@@ -190,6 +187,63 @@
             </tr>
             <tr>
                <td>FT-14</td>
+               <td>Kommunikations-Dialog öffnen</td>
+               <td>Auf Icon von gefundenen Person drücken</td>
+               <td>Dialog öffnet sich</td>
+            </tr>
+            <tr>
+               <td>FT-15</td>
+               <td>Telefonieren</td>
+               <td>Auf Telefon-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person</td>
+               <td>Phone-App öffnet sich. Nach Anruf öffnet sich Call-Log, nach Zurück-Taste wieder zur Kartenansicht</td>
+            </tr>
+            <tr>
+               <td>FT-16</td>
+               <td>SMS senden</td>
+               <td>
+                  1. Auf SMS-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person.
+                  <p>2. Empfängerfeld und Textkörper befüllen und auf "Send".</p>
+               </td>
+               <td>
+                  1. Dialog mit Empfängerfeld und Textkörper wird geöffnet. 
+                  <p>2.Nach Erfolgreichem Senden wird Toast geworfen.</p>
+               </td>
+            </tr>
+            <tr>
+            <tr>
+               <td>FT-17</td>
+               <td>Email versenden</td>
+               <td>
+                  1. Auf Email-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person. 
+                  <p>2. Empfänger, Betreff überprüfen und Textkörper befüllen und auf "Send" drücken.</p>
+               </td>
+               <td>
+                  1. Standard-Email-App oder Drittanbiteranwendung öffnet sich.
+                  <p>2. Gerät kehrt zur Kartenansicht zurück.</p>
+               </td>
+            </tr>
+            <tr>
+               <td>FT-18</td>
+               <td>Route einzeichnen</td>
+               <td>
+                  1. Auf Route-Icon drücken über Kommunikations-Dialog oder Profil von anderer Person.
+                  <p>2. Auf Info-Button drücken, um Routen-Informationen anzuzeigen.</p>
+                  <p>3. Auf Routen-Info-Dialog drücken um Dialog zu verstecken</p>
+               </td>
+               <td>
+                  1. Route zur Person wird angezeigt und Info-Button erscheint oben rechts.
+                  <p>2. Routen-Info-Dialog öffnet sich mit Start, Ziel, Distanz und Zeit.</p>
+                  <p>3. Info-Button wird wieder angezeigt</p>
+               </td>
+            </tr>
+            <tr>
+               <td>FT-19</td>
+               <td>Telefonieren/SMS/Email mit Anonymen Benutzer</td>
+               <td>Anrufen, SMS oder Email versenden an Benutzer der Anonym ist.</td>
+               <td>Meldung erscheint mit Begründung wieso nicht kommuniziert werden konnte.</td>
+            </tr>
+            <tr>
+               <td>FT-20</td>
                <td>Auf Antwort von Einladung warten</td>
                <td>
                   Zwei Fälle:
@@ -202,14 +256,14 @@
                </td>
             </tr>
             <tr>
-               <td>FT-15</td>
+               <td>FT-21</td>
                <td>Mitfahrer abholen</td>
                <td>Auf Häckchen drücken.</td>
                <td>Name wird blau und Häckchen ausgegraut.</td>
             </tr>
             <tr>
             <tr>
-               <td>FT-16</td>
+               <td>FT-22</td>
                <td>Fahrt beenden</td>
                <td>Auf Zurück-Taste oder Menü-Punkt Fahrt beenden.</td>
                <td>Zurückkehren ins Hitchhike-Menü. Im Log kurz überprüfen, ob Location/Suche noch läuft.</td>
@@ -224,7 +278,7 @@
                <th WIDTH="37%">Soll-Zustand</th>
             </tr>
             <tr>
-               <td>FT-17</td>
+               <td>FT-23</td>
                <td>Fahrt suchen</td>
                <td>
                   1. Im Hitchhike-Menü Ziel und Anzahl der Sitze setzen und auf Search drücken.
@@ -239,19 +293,19 @@
                </td>
             </tr>
             <tr>
-               <td>FT-18</td>
+               <td>FT-24</td>
                <td>Kommunikations-Dialog öffnen</td>
                <td>Auf Icon von gefundenen Person drücken</td>
                <td>Dialog öffnet sich</td>
             </tr>
             <tr>
-               <td>FT-19</td>
+               <td>FT-25</td>
                <td>Telefonieren</td>
                <td>Auf Telefon-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person</td>
                <td>Phone-App öffnet sich. Nach Anruf öffnet sich Call-Log, nach Zurück-Taste wieder zur Kartenansicht</td>
             </tr>
             <tr>
-               <td>FT-20</td>
+               <td>FT-26</td>
                <td>SMS senden</td>
                <td>
                   1. Auf SMS-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person.
@@ -264,7 +318,7 @@
             </tr>
             <tr>
             <tr>
-               <td>FT-21</td>
+               <td>FT-27</td>
                <td>Email versenden</td>
                <td>
                   1. Auf Email-Icon drücken über Kommunikation-Dialog oder Profil von anderer Person. 
@@ -276,7 +330,7 @@
                </td>
             </tr>
             <tr>
-               <td>FT-22</td>
+               <td>FT-28</td>
                <td>Route einzeichnen</td>
                <td>
                   1. Auf Route-Icon drücken über Kommunikations-Dialog oder Profil von anderer Person.
@@ -290,7 +344,7 @@
                </td>
             </tr>
             <tr>
-               <td>FT-23</td>
+               <td>FT-29</td>
                <td>Telefonieren/SMS/Email mit Anonymen Benutzer</td>
                <td>Anrufen, SMS oder Email versenden an Benutzer der Anonym ist.</td>
                <td>Meldung erscheint mit Begründung wieso nicht kommuniziert werden konnte.</td>
@@ -305,7 +359,7 @@
                <th WIDTH="37%">Soll-Zustand</th>
             </tr>
             <tr>
-               <td>FT-24</td>
+               <td>FT-30</td>
                <td>Mitfahrer/Fahrer suchen (Bluetooth)</td>
                <td>1. Auf "Bluetooth" klicken<br />
                   2. Auf "Ride" klicken<br />

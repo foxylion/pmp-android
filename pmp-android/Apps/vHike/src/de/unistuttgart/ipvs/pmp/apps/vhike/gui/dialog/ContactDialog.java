@@ -48,6 +48,7 @@ public class ContactDialog extends Dialog {
     
     private Road mRoad;
     private int driverOrpassenger;
+    private boolean isDriver;
     
     
     public ContactDialog(Context context, MapView mapView, String userName, IContact iContact, Profile foundUser,
@@ -64,6 +65,12 @@ public class ContactDialog extends Dialog {
         this.driverOrpassenger = driverOrpassenger;
         this.activity = (Activity) context;
         
+        if (driverOrpassenger == 0) {
+            isDriver = true;
+        } else {
+            isDriver = false;
+        }
+        
         setButtons();
     }
     
@@ -79,7 +86,6 @@ public class ContactDialog extends Dialog {
                     if (ContactDialog.this.iContact == null) {
                     } else {
                         boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID());
-                        Log.i(this, foundUser.getID() + " is " + anonymous);
                         if (anonymous) {
                             Toast.makeText(
                                     getContext(),
@@ -108,8 +114,13 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                    vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser)
-                            .show();
+                    if (ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID())) {
+                        Toast.makeText(context, "The user has hidden his contact information. SMS can not be sent.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        vhikeDialogs.getInstance().getSMSDialog(context, foundUser.getTel(), iContact, ctrl, foundUser)
+                                .show();
+                    }
                 } else {
                     PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
                 }
@@ -125,8 +136,14 @@ public class ContactDialog extends Dialog {
                 try {
                     String dest = ViewModel.getInstance().getDestination();
                     if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                        iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
-                                "Hello " + foundUser.getUsername() + ",");
+                        if (ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID())) {
+                            Toast.makeText(context,
+                                    "The user has hidden his contact information. Email can not be sent.",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
+                                    "Hello " + foundUser.getUsername() + ",");
+                        }
                     } else {
                         PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
                     }
@@ -151,9 +168,11 @@ public class ContactDialog extends Dialog {
                 if (ViewModel.getInstance().isRouteDrawn(ContactDialog.this.userName)) {
                     ViewModel.getInstance().setBtnInfoVisibility(false);
                     ViewModel.getInstance().removeRoute(
-                            ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName));
+                            ViewModel.getInstance().getRouteOverlay(ContactDialog.this.userName), isDriver);
                     ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, false);
                     ContactDialog.this.route.setBackgroundResource(R.drawable.btn_route_disabled);
+                    ViewModel.getInstance().setBtnInfoVisibility(false);
+                    ViewModel.getInstance().setEtInfoVisibility(false);
                     cancel();
                 } else {
                     ViewModel.getInstance().clearRoutes();
@@ -220,7 +239,6 @@ public class ContactDialog extends Dialog {
             
             ViewModel.getInstance().getDrawnRoutes.put(ContactDialog.this.userName, true);
             ViewModel.getInstance().getAddedRoutes.put(ContactDialog.this.userName, roadOverlay);
-            Log.i(this, "Added Routes After Add " + ViewModel.getInstance().getAddedRoutes.size());
             mapView.invalidate();
         };
     };
