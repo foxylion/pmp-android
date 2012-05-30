@@ -123,7 +123,7 @@ public class ContactDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 try {
-                    String dest = parseDestination(ViewModel.getInstance().getDestination());
+                    String dest = ViewModel.getInstance().getDestination();
                     if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
                         iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
                                 "Hello " + foundUser.getUsername() + ",");
