@@ -203,18 +203,6 @@ public class ConnectionMockImpl extends IConnection.Stub {
     
     
     /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getCellPhoneSignalStrength()
-     */
-    @Override
-    public int getCellPhoneSignalStrength() throws RemoteException {
-        // Check the privacy setting
-        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
-        
-        return 0;
-    }
-    
-    
-    /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getRoamingStatus()
      */
     @Override

@@ -124,16 +124,6 @@ interface IConnection {
      */
     String getProvider();
     
-    
-    /**
-     * Get the signal strength of the cell phone network
-     * 
-     * @return signal strength measured in dBm <b>or 99 </b> if not known or not detectable
-     *         </br>calculation formula: dBm = 2*ASU - 113
-     */
-    int getCellPhoneSignalStrength();
-    
-    
     /**
      * Get the roaming status
      * 

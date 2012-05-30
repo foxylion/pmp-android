@@ -224,16 +224,6 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                                 cellPhoneList.add(context.getString(R.string.connection_panel_provider) + " "
                                         + connectionStub.getProvider());
                                 
-                                //Signal strength
-                                int strength = connectionStub.getCellPhoneSignalStrength();
-                                if (strength == 99) {
-                                    cellPhoneList.add(context.getString(R.string.connection_panel_signal_strength)
-                                            + " " + context.getString(R.string.connection_panel_unknown));
-                                } else {
-                                    cellPhoneList.add(context.getString(R.string.connection_panel_signal_strength)
-                                            + strength + " " + " dBm");
-                                }
-                                
                                 // Roaming status
                                 cellPhoneList.add(context.getString(R.string.connection_panel_roaming) + " "
                                         + booleanToString(connectionStub.getRoamingStatus()));

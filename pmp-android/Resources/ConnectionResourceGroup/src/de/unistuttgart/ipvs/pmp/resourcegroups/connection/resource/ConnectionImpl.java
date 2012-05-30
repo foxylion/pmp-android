@@ -53,7 +53,6 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.DBConstants;
-import de.unistuttgart.ipvs.pmp.resourcegroups.connection.listener.SignalStrengthListener;
 
 /**
  * Implements the IConnection aidl file
@@ -329,34 +328,6 @@ public class ConnectionImpl extends IConnection.Stub {
     
     
     /* (non-Javadoc)
-     * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getCellPhoneSignalStrength()
-     */
-    @Override
-    public int getCellPhoneSignalStrength() throws RemoteException {
-        int signal = getSignalStrengthASU();
-        
-        // Check the privacy setting
-        this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
-        
-        if (signal == 99) {
-            return 99;
-        } else {
-            return (2 * signal) - 113;
-        }
-    }
-    
-    
-    /**
-     * Get the signal strength in asu
-     * 
-     * @return gsm signal strength in asu, 99 if not known
-     */
-    private int getSignalStrengthASU() {
-        return SignalStrengthListener.getInstance().getSignalStrength();
-    }
-    
-    
-    /* (non-Javadoc)
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.IConnection#getRoamingStatus()
      */
     @Override
@@ -433,8 +404,9 @@ public class ConnectionImpl extends IConnection.Stub {
             new ConnectionEventManager(service)
                     .commitEvents(DBConnector.getInstance(this.context).getBluetoothEvents());
             new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getCellEvents());
-            new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getSignalStrengthPercentage())
-                    .commit();
+            
+            // TODO ändern
+            new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), (Byte) null).commit();
             
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
@@ -506,23 +478,6 @@ public class ConnectionImpl extends IConnection.Stub {
             }
             lastTimeStamp = event.getTimestamp();
             System.out.println("-----------------------------------------");
-        }
-    }
-    
-    
-    /**
-     * Get the gsm signal strength in percent
-     * 
-     * @return signal strength in percent
-     */
-    private byte getSignalStrengthPercentage() {
-        int signal = getSignalStrengthASU();
-        
-        if (signal == 99) {
-            return 0;
-        } else {
-            Integer percent = signal / 31;
-            return percent.byteValue();
         }
     }
 }
