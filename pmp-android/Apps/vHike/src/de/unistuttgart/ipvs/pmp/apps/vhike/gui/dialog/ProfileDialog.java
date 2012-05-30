@@ -170,7 +170,6 @@ public class ProfileDialog extends Dialog {
             public void onClick(View v) {
                 // if route for user already drawn: remove
                 if (ViewModel.getInstance().isRouteDrawn(foundUser.getUsername())) {
-                    Log.i(this, foundUser.getUsername() + " is drawn, removing DIALOG");
                     ViewModel.getInstance().removeRoute(
                             ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()));
                     ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), false);
@@ -218,14 +217,11 @@ public class ProfileDialog extends Dialog {
         String[] temp;
         if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
             String dest = destination.replaceAll(";", "-");
-            Log.i(this, "Split: " + destination + ", " + dest);
             return dest;
         } else {
             
             temp = destination.split(";");
-            Log.i(this, "1.Split: " + temp[1]);
             temp = temp[1].split(";");
-            Log.i(this, "2.Split: " + temp[0]);
             return temp[0];
         }
     }
@@ -239,7 +235,6 @@ public class ProfileDialog extends Dialog {
             ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
             ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), true);
             ViewModel.getInstance().getAddedRoutes.put(foundUser.getUsername(), roadOverlay);
-            Log.i(this, "Added Routes After Add " + ViewModel.getInstance().getAddedRoutes.size());
             mapView.invalidate();
         };
     };
