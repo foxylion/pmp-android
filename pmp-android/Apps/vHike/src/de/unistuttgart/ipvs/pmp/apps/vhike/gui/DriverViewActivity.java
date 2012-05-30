@@ -36,10 +36,8 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
- * DriverViewActivity displays driver with his perimeter, found hitchhikers, a list of found hitchhikers, the
- * possibility to update the available seats, send offers or reject found hitchhikers and to pick up potential
- * passengers and to
- * end a trip
+ * The DriverViewActivity is responsible for the representation of the drivers actions. Also, partly handling the
+ * interaction and therby controlling the GUI
  * 
  * @author Andre Nguyen
  * 
@@ -48,8 +46,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     private Context context;
     private MapView mapView;
-    //    private LocationManager locationManager;
-    //    private LocationUpdateHandler luh;
     
     private Handler handler;
     private Handler locationHandler;
@@ -67,6 +63,11 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     private EditText et_road_info;
     
     
+    public DriverViewActivity() {
+        this.context = DriverViewActivity.this;
+    }
+    
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         this.locationHandler = new Handler();
         this.queryHandler = new Handler();
         this.handler = new Handler();
+        
+        // Reset timers, lists, dialogs, map
         ViewModel.getInstance().initPassengersList();
         ViewModel.getInstance().initRouteList();
         ViewModel.getInstance().resetTimers();
@@ -120,31 +123,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     
     
     @Override
-    public void onPause() {
-        super.onPause();
-        
-        // store lats and lngs?
-        Log.i(this, "Stoped Driver");
-    }
-    
-    
-    @Override
-    public void onResume() {
-        super.onResume();
-        
-        //        ctrl = new Controller(rgvHike);
-        //        
-        //        // ask for enabled sf "anonymous profile"
-        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-        //            ctrl.enableAnonymity(Model.getInstance().getSid());
-        //        } else {
-        //            ctrl.disableAnonymity(Model.getInstance().getSid());
-        //        }
-        //        Log.i(this, "Resumed Driver");
-    }
-    
-    
-    @Override
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         
@@ -163,11 +141,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
             });
         }
         
-    }
-    
-    
-    public DriverViewActivity() {
-        this.context = DriverViewActivity.this;
     }
     
     
@@ -215,7 +188,6 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         try {
             rgLocation.startLocationLookup(5000, 20.0F);
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -231,8 +203,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         this.c4l = new Check4Location(rgvHike, rgLocation, this.mapView, this.context, this.locationHandler, 0);
         this.locationTimer.schedule(this.c4l, 10000, 10000);
         Log.i(this, "Location started");
-        // Start Check4Queries Class to check for queries
         
+        // Start Check4Queries Class to check for queries
         this.c4q = new Check4Queries(rgvHike, this.queryHandler);
         this.queryTimer.schedule(this.c4q, 10000, 10000);
     }
@@ -274,7 +246,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().resetRoadInfo();
                 stopContinousLookup();
                 
-                Log.i(this, "Trip ENDED");
+                Log.i(this, "Trip ended.");
                 DriverViewActivity.this.finish();
                 break;
             }
@@ -313,7 +285,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                         ViewModel.getInstance().resetRoadInfo();
                         stopContinousLookup();
                         
-                        Log.i(this, "Trip ENDED");
+                        Log.i(this, "Trip ended.");
                         DriverViewActivity.this.finish();
                         break;
                     }
@@ -346,13 +318,13 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         if (this.locationTimer != null) {
             DriverViewActivity.this.locationTimer.cancel();
             ViewModel.getInstance().cancelLocation();
-            Log.i(this, "Timer Location cancel");
+            Log.i(this, "Timer Location canceled");
         }
         
         if (this.queryTimer != null) {
             DriverViewActivity.this.queryTimer.cancel();
             ViewModel.getInstance().cancelQuery();
-            Log.i(this, "Timer Query cancel");
+            Log.i(this, "Timer Query canceled");
         }
         
     }

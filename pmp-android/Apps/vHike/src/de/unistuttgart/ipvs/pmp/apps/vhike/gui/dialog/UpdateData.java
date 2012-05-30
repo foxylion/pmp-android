@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
@@ -70,25 +69,22 @@ public class UpdateData extends Dialog {
                     switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
                             .getTripId(), ViewModel.getInstance().getNumSeats())) {
                         case (Constants.STATUS_UPDATED):
-                            Toast.makeText(v.getContext(), "Updated", Toast.LENGTH_SHORT).show();
-                            
-                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
-                                    + ViewModel.getInstance().getNumSeats());
+                            Log.i(this, "Updated");
                             cancel();
                             break;
                         case Constants.STATUS_UPTODATE:
-                            Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Up to date");
                             cancel();
                             break;
                         case Constants.STATUS_NO_TRIP:
-                            Toast.makeText(v.getContext(), "No trip", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "No Trip");
                             cancel();
                             break;
                         case Constants.STATUS_HASENDED:
-                            Toast.makeText(v.getContext(), "Has ended", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Has ended");
                             cancel();
                         case Constants.STATUS_INVALID_USER:
-                            Toast.makeText(v.getContext(), "Invalid user", Toast.LENGTH_SHORT).show();
+                            Log.i(this, "Invalid User");
                             cancel();
                             break;
                     }
@@ -97,19 +93,16 @@ public class UpdateData extends Dialog {
                     switch (ctrl.queryUpdateData(Model.getInstance().getSid(), Model.getInstance().getQueryId(),
                             ViewModel.getInstance().getNumSeats())) {
                         case (Constants.STATUS_UPDATED):
-                            Toast.makeText(mContext, "Updated", Toast.LENGTH_SHORT).show();
+                            
+                            Log.i(this, "Updated");
                             cancel();
                             break;
                         case Constants.STATUS_UPTODATE:
-                            Toast.makeText(v.getContext(), "Up to date", Toast.LENGTH_SHORT).show();
-                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
-                                    + ViewModel.getInstance().getNumSeats());
+                            Log.i(this, "Up to date");
                             cancel();
                             break;
                         case Constants.STATUS_NO_QUERY:
-                            Toast.makeText(v.getContext(), "No query", Toast.LENGTH_SHORT).show();
-                            Log.i(this, "Destination:" + ViewModel.getInstance().getDestination() + ", Seats: "
-                                    + ViewModel.getInstance().getNumSeats());
+                            Log.i(this, "No Query");
                             cancel();
                             break;
                     }

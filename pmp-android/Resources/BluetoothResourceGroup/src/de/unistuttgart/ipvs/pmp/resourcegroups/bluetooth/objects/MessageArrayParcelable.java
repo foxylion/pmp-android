@@ -4,18 +4,35 @@ import java.util.List;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+/**
+ * Parcelable Object of the {@link MessageArray}
+ * @author Alexander Wassiljew
+ *
+ */
 public class MessageArrayParcelable implements Parcelable {
-
+	/**
+	 * {@link MessageArray}
+	 */
 	MessageArray messages;
+	/**
+	 * Constructor
+	 * @param messages
+	 */
 	public MessageArrayParcelable(MessageArray messages) {
         this.messages = messages;
     }
 	
+	/**
+	 * Returns the messages
+	 * @return
+	 */
 	public MessageArray getDevices(){
 		return this.messages;
 	}
-	
+	/**
+	 * Private Constructor
+	 * @param source
+	 */
 	private MessageArrayParcelable(Parcel source) {
         this.messages = (MessageArray) source.readSerializable();
     }

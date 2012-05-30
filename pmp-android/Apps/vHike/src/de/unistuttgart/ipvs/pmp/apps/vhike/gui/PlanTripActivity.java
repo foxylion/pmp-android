@@ -269,14 +269,6 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     }
     
     
-    // public Calendar getPlannedDate() {
-    // return plannedDate;
-    // }
-    //
-    // public void setPlannedDate(Calendar plannedDate) {
-    // this.plannedDate = plannedDate;
-    // }
-    
     @Override
     public void dialogFinished(int dialogId, int buttonId) {
         
