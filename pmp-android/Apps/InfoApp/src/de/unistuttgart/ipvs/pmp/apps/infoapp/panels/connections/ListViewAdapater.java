@@ -22,6 +22,7 @@ package de.unistuttgart.ipvs.pmp.apps.infoapp.panels.connections;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,16 +136,16 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         
         switch (group) {
             case 0:
-                text.setText(this.wifiList.get(index));
+                text.setText(Html.fromHtml(this.wifiList.get(index)));
                 break;
             case 1:
-                text.setText(this.btList.get(index));
+                text.setText(Html.fromHtml(this.btList.get(index)));
                 break;
             case 2:
-                text.setText(this.dataList.get(index));
+                text.setText(Html.fromHtml(this.dataList.get(index)));
                 break;
             case 3:
-                text.setText(this.cellPhoneList.get(index));
+                text.setText(Html.fromHtml(this.cellPhoneList.get(index)));
                 break;
         }
         
