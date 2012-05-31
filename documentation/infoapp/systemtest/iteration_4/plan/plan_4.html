@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Systemtest-Plan für die 4. Iteration - InfoApp</title>
+	<script type="text/javascript" src="../../../../_layout/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="../../../../_layout/script.js"></script>
+	<script type="text/javascript" src="../../../../_layout/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  
+  <link type="text/css" rel="stylesheet" media="screen" href="../../../../_layout/fancybox/jquery.fancybox-1.3.4.css">
+	<link type="text/css" rel="stylesheet" media="screen" href="../../../../_layout/style.css">
+	<link type="text/css" rel="stylesheet" media="print"  href="../../../../_layout/print.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="page-head-date">31. Mai 2012</div>
+		<div id="page-head-title">InfoApp</div>
+		<div id="page-title">Systemtest-Plan für die<br/>4. Iteration</div>
+		<div id="page-version">Version 4.0</div>
+		
+		<nav>
+			<div class="title">Inhaltsverzeichnis</div>
+			<ul>
+			</ul>
+		</nav>
+		
+		<!-- here comes the content of the system test plan -->
+		<h1 id="versionshistorie">Versionshistorie</h1>
+		
+				<h3>Version 4.0 (31.05.2012)</h3>
+					<ul>
+						<li>Übernahme &amp; Anpassung des Testplans für von PMP</li>
+					</ul>
+					
+			<h1 id="einleitung">Einleitung</h1>
+			<p></p>
+			
+				<h2 id="zweck">Zweck</h2>
+				<p>
+          Dieses Dokument stellt den Systemtestplan des Projektes "InfoApp" dar.
+          Es spezifiziert, wie der System-Test der jeweiligen Iteration durchzuführen ist.
+          Im Sinne des Regressionstests für weitere Iterationen sollte der fertige
+          Systemtestplan nicht mehr gravierend geändert werden.
+        </p>
+				<p>Dabei wird einzeln auf die Testkriterien und Soll-Werte der Tests für funktionale sowie für nicht-funktionale Anforderungen eingegangen. Anhand der Test-Durchführungsbeschreibung wird später ein konkreter Systemtest durchgeführt, dessen Ergebnis im zugehörigen Systemtestprotokoll festgehalten wird.</p>
+			
+				<h2 id="projektuebersicht-motivation">Projektüberblick & Motivation</h2>
+				<p>
+          Die InfoApp dient hauptsächlich als Informationsapplikation um möglichst
+          viele Funktionalitäten von PMP darzustellen und Features zu nutzen.
+          Dazu gehört hauptsächlich die Demonstration der Ressourcengruppen.
+        </p>
+        
+				<h2 id="leserkreis">Leserkreis</h2>
+				<p>Dieser Systemtestplan dient als zentrales Dokument für die folgenden Lesergruppen:</p>
+				<ul>
+					<li>den Entwicklern der InfoApp</li>
+					<li>den Entwicklern von PMP</li>
+					<li>dem Kunden</li>
+					<li>den Betreuern des Studienprojekts</li>
+				</ul>
+			
+				<h2 id="konventionen">Konventionen</h2>
+				<p>In diesem Dokument werden mehrere Konventionen verwendet, um knapp, übersichtlich, lesbar und treffend zu sein:</p>
+				<ul>
+					<li>Für Überbegriffe wie Benutzer oder Entwickler wird das generische Maskulinum verwendet. Da die Deutsche Sprache hier keine zufriedenstellende Alternative kennt, sind damit selbstverständlich auch alle weiblichen Leserinnen angesprochen.</li>
+					<li>In diesem Dokument wird die deutsche Sprache verwendet; dabei ist allerdings zu beachten, dass sich übernommene oder übersetzte Begriffe aus dem Englischen nicht vermeiden lassen. Diese werden dann jedoch grammatikalisch an die Deutsche Sprache angepasst.</li>
+					<li>Ein Verweis in diesem Dokument auf andere Kapitel wird so dargestellt: <span class="reference" title="#konventionen"></span></li>
+					<li>Die Versionsnummern sind nach dem Schema aufgebaut, dass zuerst die Iterationsnummer genannt wird und anschließend die Versionsnummer der Spezifikation in dieser Iteration. "3.2" bezeichnet z.B. die 2. Version der Spezifikation für die 3. Iteration.</li>
+				</ul>
+				
+			<h1 id="testvorgaben">Allgemeine Testvorgaben</h1>
+				<h2 id="revisions">Revisionsvorgaben</h2>
+					<table>
+						<tr><th class="left">Spezifikation unter Test</th><td>trunk: <i>TODO</i></td></tr>
+					</table>
+					
+				<h2 id="umgebung">Umgebung</h2>
+					<p>Für die Tests soll generell ein AVD mit API-Level 7 verwendet werden, soweit nicht anders angegeben.</p>
+					
+				<h2 id="testende">Test-Ende-Kriterium</h2>
+					<p>Als Test-Ende-Kriterium wird das Erreichen des Datums 04.06.2012 definiert.</p>
+					
+				<h2 id="testende">Test-Erstellungsmethodik</h2>
+					<p>Alle Testfälle für funktionale und nicht-funktionale Anforderungen sollen fortlaufend nummeriert werden, z.B. FT-3 oder NFT-15.</p>
+					
+					<p>Für Anforderungen in natürlicher Sprache muss einzeln überprüft werden, ob die Anforderung objektivierbar und testbar ist. Ist sie dies nicht, so ist dies ausdrücklich mit Hilfe eines &lt;div class="criticism"&gt; zu kritisieren. Andernfalls müssen ein oder mehrere Testfälle zur Überprüfung der beschriebenen Anforderung entwickelt werden. Unter Umständen bietet sich ein Test mit einem Zustandsdiagramm nach LL10, 19.5.3 an, bei dem Transitionsüberdeckung erreicht werden sollte.</p>
+					
+					<p>Unter Umständen erfordern Tests zusätzliche große Datenmengen oder Programmcode. Diese sind zusätzlich zum Testplan zu entwickeln und der Konfigurationsverwaltung zu unterstellen.</p>
+					
+					<p>Die nicht-funktionale Bedienungs-Anforderungen der Spezifikation, das heißt:
+					<ul>
+					<li>"Wo möglich, wird PMP gute Standardeingaben vorgeben"</li>
+					<li>"Wo möglich, wird PMP [...] direkte Validierung über die Auswirkungen von Änderungen zur Verfügung stellen"</li>
+					<li>"Der Benutzer wird entsprechende Warnungen erhalten, sobald er Aktionen durchführt die nicht oder nur schwer rückgängig gemacht werden können."</li>
+					<li>"Ungewollte Aktionen wird der Benutzer abbrechen können."</li>
+					<li>"Bei länger dauernden Aufgaben wird der Benutzer darüber in Kenntnis gesetzt."</li>					
+					</ul>
+					müssen im Laufe jedes Tests überprüft werden. Ein Verstoß gegen diese Anforderungen in einem Test sollte berichtet werden.</p>				
+					
+				<h2 id="testende">Grenzen des Tests</h2>
+					<p>Der Testplan kritisiert Stellen der Spezifikation, die dazu führten, dass kein ausreichender Test erstellt werden konnte.</p>
+					<p>Des Weiteren sind die Beispiel-Anwendungen und -Ressourcengruppen nirgends spezifiziert, sie können also nicht getestet werden.</p>
+			
+			<h1 id="testfunktanf">Tests der funktionalen Anforderungen</h1>	
+
+				
+				<h2 id="anforderungen-an-pmp">Anforderungen an die InfoApp</h2>
+			
+					<h3 id="oberflaeche">Oberfläche</h3>
+						<h4 id="ft-1">FT-1</h4>
+						<p>Es lässt sich hier kaum ein algorithmisches Vorgehen angeben. Der Tester sollte die <a href="http://developer.android.com/guide/practices/ui_guidelines/index.html">Android User Interface Guidelines</a> in den relevanten Teilen durchlesen und sich durch Betrachtung und funktionale Testfälle ein Bild der GUI machen. Falls er keine Abweichungen feststellen kann, gilt der Test als "OK". Gibt es Abweichungen, ist der Test "Nicht Bestanden".</p>
+					
+					<h3 id="standardeinstellungen">Standardeinstellungen</h3>
+					<h4 id="ft-2">FT-2</h4>
+					<table>
+						<tr>
+              <th>Nr.</th>
+              <th>Test-Anweisung</th>
+              <th>Soll-Zustand</th>
+            </tr>
+						<tr>
+              <td>1.</td>
+              <td>Der Tester installiert die InfoApp. PMP wurde davor bereits installiert.</td>
+              <td>Die InfoApp ist installiert und bei der PMP registriert.</td>
+            </tr>
+						<tr>
+              <td>2.</td>
+              <td>Der Tester startet die InfoApp.</td>
+              <td>Die InfoApp ist gestartet und erfordert zur weiteren Benutzung keine Konfiguration von Seiten des Testers.</td>
+            </tr>
+					</table>
+					
+			<h1 id="testnichtfunktanf">Tests der nicht-funktionalen Anforderungen</h1>
+
+		
+				<h2 id="bedienbarkeit">Bedienbarkeit</h2>
+				
+					<div class="criticism">
+					<h3 style="color: red;">Anmerkung</h3>
+					<p>Die Anforderungen an PMP im Kapitel "Bedienbarkeit" der Spezifikation können nicht quantifiziert und damit nicht getestet werden.</p>
+					</div>
+					
+				<h2 id="leistungsanforderungen">Leistungsanforderungen</h2>
+					Für diesen Test wird ein Motorola Defy Smartphones, oder eines Geräts mit ähnlicher Hardware, sowie eine Stoppuhr benötigt.
+					<h4 id="nft-1">NFT-1</h4>
+					<table>
+						<tr><th>Nr.</th><th>Test-Anweisung</th><th>Soll-Zustand</th></tr>
+						<tr>
+              <td>1.</td>
+              <td>Der Tester installiert die InfoApp auf einem Smartphone.</td>
+              <td>Die InfoApp ist auf dem Smartphone installiert.</td>
+            </tr>
+						<tr>
+              <td>2.</td>
+              <td>Der Tester startet die InfoApp, wechselt durch die verschiedenen
+                Panels und öffnet jede Unter-Bildschirmmaske der InfoApp und misst hierbei jeweils die Antwortzeit.</td>
+              <td>Die InfoApp wird Antwortzeiten von unter einer Sekunde aufweisen.
+                Sollte eine Antwort länger andauern, wird der Benutzer durch eine
+                Verarbeitungs- oder Fortschrittsanzeige in Kenntnis gesetzt.</td>
+            </tr>
+					</table>
+				
+				<h2 id="portabilitaet-kompatibilitaet">Portabilität &amp; Kompatibilität</h2>
+				<p>Dieser Test soll auf einem AVD mit der Android-Version 2.1 und installierter PMP
+          in Version 4 durchgeführt werden.</p>
+				<h3 id="nft-2">NFT-2</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr>
+            <td>1.</td>
+            <td>Der Tester führt FT-2 durch.</td>
+            <td>FT-2 war erfolgreich.</td>
+          </tr>
+				</table> 
+				
+				<h2 id="internationalisierung">Internationalisierung</h2>
+				
+				<h3 id="nft-3">NFT-3</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr>
+            <td>1.</td>
+            <td>Der Tester installiert die InfoApp.</td>
+            <td>Die InfoApp ist installiert.</td>
+          </tr>
+					<tr>
+            <td>2.</td>
+            <td>Der Tester stellt die in der AVD verwendete Sprache
+              (Einstellungen > Sprache & Tastatur) auf Französisch und aktiviert
+              die Französisch-IME.</td>
+            <td>Die AVD steht auf Französisch, die InfoApp enthält keine Französisch-Lokalisierung.</td>
+          </tr>
+					<tr>
+            <td>3.</td>
+            <td>Der Tester startet die InfoApp.</td>
+            <td>Die Buttons der InfoApp zeigen den englischen Standard-Text.</td>
+          </tr>
+					<tr>
+            <td>4.</td>
+            <td>Der Tester liest sich in die Android Dokumentation ein und findet heraus,
+              wie eine neue Sprache hinzugefügt werden kann.</td>
+            <td>Der Tester weiß, wie eine neue Sprache hinzugefügt werden kann.</td>
+          </tr>
+					<tr>
+            <td>5.</td>
+            <td>Der Tester übersetzt einige Texte auf Französisch.</td>
+            <td>Der Tester hat eine französische Sprach-Erweiterungs-Definitions-Datei.</td>
+          </tr>
+					<tr>
+            <td>6.</td>
+            <td>Der Tester fügt die eben übersetzten Texte als neue Sprache "Französisch" (Locale: "fr") hinzu.</td>
+            <td>Die InfoApp enthält die Sprache Französisch/fr für einige Texte.</td>
+          </tr>
+					<tr>
+            <td>7.</td>
+            <td>Der Tester startet die InfoApp.</td>
+            <td>Einige Texte der InfoApp sind auf Französisch.</td>
+          </tr>
+				</table>
+				
+				<h2 id="installation">Installation</h2>
+				<h3 id="nft-4">NFT-4</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr>
+            <td>1.</td>
+            <td>Der Tester überträgt die apk-Datei der InfoApp auf das Smartphone.</td>
+            <td>Die apk-Datei befindet sich auf dem Smartphone.</td>
+          </tr>
+					<tr>
+            <td>2.</td>
+            <td>Der Tester öffnet die apk-Datei auf dem Smartphone zur Installation.</td>
+            <td>Die Installation wird durchgeführt und die InfoApp anschließend im Launcher gelistet.</td>
+          </tr>
+				</table> 
+
+				<h2 id="wartbarkeit">Wartbarkeit</h2>
+				<h3 id="nft-5">NFT-5</h3>
+				<table>
+					<tr><th>Nr.</th><th>Test-Schritt</th><th>Soll-Zustand</th></tr>
+					<tr><td>1.</td><td>Der Tester sucht den Code.</td><td>Der Tester findet den Code.</td></tr>
+					<tr><td>2.</td><td>Der Tester untersucht, ob der Code modular aufgebaut ist (enthält z.B. viele einzelne Klassen).</td><td>Der Tester hält den Code für modular aufgebaut.</td></tr>
+					<tr><td>3.</td><td>Der Tester untersucht, ob der Code ausführliche Dokumentation in Form von (Javadoc-)Kommentaren aufweist.</td><td>Der Tester hält den Code für angemessen dokumentiert.</td></tr>
+				</table>
+				
+				<h2 id="gesetzliche-einschraenkungen">Gesetzliche Einschränkungen</h2>
+				<p>Kein Test notwendig.</p>
+
+			<h1 id="testui">Tests der Benutzeroberfläche</h1>
+			<h2 id="connection">Connection-Panel</h2>
+			<h3 id="uit-1">UIT-1</h3>
+      <table>
+			  <tr>
+          <th>Nr.</th>
+          <th>Test-Schritt</th>
+          <th>Soll-Zustand</th>
+        </tr>
+        <tr>
+          <td>1.</td>
+          <td>Der Tester deaktiviert alle Service Feature der InfoApp.</td>
+          <td>Alle Service Feature sind deaktiviert.</td>
+        </tr>
+        <tr>
+          <td>2.</td>
+          <td>Der Tester öffnet die InfoApp und wechselt in das Connection-Panel.</td>
+          <td>Der Tester befindet sich im Connection-Panel.</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Der Tester öffnet nach und nach die Auflistungspunkte (WiFi, Bluetooth, etc.)
+            und betrachtet den unter den Punkten angezeigten Hinweistext.</td>
+          <td>Unter allen Punkten wird die Meldung angezeigt, dass ein benötigtes
+            Service Feature nicht gesetzt ist.</td>
+        </tr>
+        <tr>
+          <td>4.</td>
+          <td>Der Tester aktiviert die benötigten Service Features.</td>
+          <td>Alle vom Connection-Panel benötigten Service Feature sind aktiv.</td>
+        </tr>
+        <tr>
+          <td>5.</td>
+          <td>Der Tester wechselt wieder zur InfoApp und dort in das Connection-Panel.</td>
+          <td>Im Connection-Panel werden unter allen Auflistungspunkten die
+            korrekten, aktuellen Daten angezeigt.</td>
+        </tr>
+      </table>
+			<h3 id="uit-2">UIT-2</h3>
+      <table>
+			  <tr>
+          <th>Nr.</th>
+          <th>Test-Schritt</th>
+          <th>Soll-Zustand</th>
+        </tr>
+        <tr>
+          <td>1.</td>
+          <td>Der Tester aktiviert alle vom Connection-Panel benötigten Service
+            Feature.</td>
+          <td>Alle vom Connection-Panel benötigten Service Feature sind aktiv.</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Der Tester führt auf dem Smartphone Aktionen aus, die von der
+            InfoApp geloggt werden können.</td>
+          <td>Die InfoApp hat einige Daten mitgeloggt.</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Der Tester drückt im Connection-Panel der InfoApp die Menü-Taste
+            und tippt auf den Menü-Eintrag "Upload".</td>
+          <td>Alle bisher protokollierten Daten wurden auf den Server übertragen.</td>
+        </tr>
+        <tr>
+          <td>4.</td>
+          <td>Der Tester tippt auf den Link zur Darstellung der Daten.</td>
+          <td>Der Android-Browser wird geöffnet und dem Benutzer werden alle
+            protokollierten Daten graphisch angezeigt.</td>
+        </tr>
+        <tr>
+          <td>5.</td>
+          <td>Der Tester vergleicht die angezeigten Daten mit seinem Nutzungsverhalten.</td>
+          <td>Die angezeigten Daten entsprechen dem Nutzungsverhalten des Testers.</td>
+        </tr>
+      </table>
+      
+      
+			<h2 id="energy">Energy-Panel</h2>
+			<h3 id="uit-3">UIT-3</h3>
+      <table>
+			  <tr>
+          <th>Nr.</th>
+          <th>Test-Schritt</th>
+          <th>Soll-Zustand</th>
+        </tr>
+        <tr>
+          <td>1.</td>
+          <td>Der Tester deaktiviert alle Service Feature der InfoApp.</td>
+          <td>Alle Service Feature sind deaktiviert.</td>
+        </tr>
+        <tr>
+          <td>2.</td>
+          <td>Der Tester öffnet die InfoApp und wechselt in das Energy-Panel.</td>
+          <td>Der Tester befindet sich im Energy-Panel.</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Der Tester öffnet nach und nach die Auflistungspunkte (Current values, Values since last boot, etc.)
+            und betrachtet den unter den Punkten angezeigten Hinweistext.</td>
+          <td>Unter allen Punkten wird die Meldung angezeigt, dass ein benötigtes
+            Service Feature nicht gesetzt ist.</td>
+        </tr>
+        <tr>
+          <td>4.</td>
+          <td>Der Tester aktiviert die benötigten Service Features.</td>
+          <td>Alle vom Energy-Panel benötigten Service Feature sind aktiv.</td>
+        </tr>
+        <tr>
+          <td>5.</td>
+          <td>Der Tester wechselt wieder zur InfoApp und dort in das Energy-Panel.</td>
+          <td>Im Energy-Panel werden unter allen Auflistungspunkten die
+            korrekten, aktuellen Daten angezeigt.</td>
+        </tr>
+      </table>
+			<h3 id="uit-4">UIT-4</h3>
+      <table>
+			  <tr>
+          <th>Nr.</th>
+          <th>Test-Schritt</th>
+          <th>Soll-Zustand</th>
+        </tr>
+        <tr>
+          <td>1.</td>
+          <td>Der Tester aktiviert alle vom Energy-Panel benötigten Service
+            Feature.</td>
+          <td>Alle vom Energy-Panel benötigten Service Feature sind aktiv.</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Der Tester führt auf dem Smartphone Aktionen aus, die von der
+            InfoApp geloggt werden können.</td>
+          <td>Die InfoApp hat einige Daten mitgeloggt.</td>
+        </tr>
+        <tr>
+          <td>3.</td>
+          <td>Der Tester drückt im Energy-Panel der InfoApp die Menü-Taste
+            und tippt auf den Menü-Eintrag "Upload".</td>
+          <td>Alle bisher protokollierten Daten wurden auf den Server übertragen.</td>
+        </tr>
+        <tr>
+          <td>4.</td>
+          <td>Der Tester tippt auf den Link zur Darstellung der Daten.</td>
+          <td>Der Android-Browser wird geöffnet und dem Benutzer werden alle
+            protokollierten Daten graphisch angezeigt.</td>
+        </tr>
+        <tr>
+          <td>5.</td>
+          <td>Der Tester vergleicht die angezeigten Daten mit seinem Nutzungsverhalten.</td>
+          <td>Die angezeigten Daten entsprechen dem Nutzungsverhalten des Testers.</td>
+        </tr>
+      </table>
+		</div>
+	
+		<!-- // end of system test plan's content -->
+	</div>
+</body>
+</html>
