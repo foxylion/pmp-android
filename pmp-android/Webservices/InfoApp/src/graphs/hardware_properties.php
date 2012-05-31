@@ -179,10 +179,10 @@ if ($svgCharts) {
     // Draw SVG-Charts
     // ---------------
     $tmplt["content"] .= "
-            <div id=\"display\" style=\"width:800; height:400\"></div>
-            <div id=\"intmemoryratio\" style=\"width:800; height:400\"></div>
-            <div id=\"extmemoryratio\" style=\"width:800; height:400\"></div>
-            <div id=\"sensors\" style=\"width:700; height:300\"></div>";
+            <div id=\"display\"></div>
+            <div id=\"intmemoryratio\"></div>
+            <div id=\"extmemoryratio\"></div>
+            <div id=\"sensors\"></div>";
 } else {
     // Draw static/PNG-charts
     // ----------------------

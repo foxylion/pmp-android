@@ -55,7 +55,7 @@ public class DBConnector implements IDBConnector {
     private SQLiteOpenHelper dbHelper;
     
     /**
-     * Opened databse
+     * Opened database
      */
     private SQLiteDatabase db;
     
@@ -367,6 +367,7 @@ public class DBConnector implements IDBConnector {
     public synchronized List<ConnectionEvent> getBluetoothEvents() {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
+        List<Long> timestamps = new ArrayList<Long>();
         
         // Get everything
         String columns[] = new String[3];
@@ -380,13 +381,16 @@ public class DBConnector implements IDBConnector {
         if (cursor.getCount() > 0) {
             do {
                 long timeStamp = cursor.getLong(0);
-                String eventString = cursor.getString(1);
-                boolean event = false;
-                if (eventString.equals(Events.ON)) {
-                    event = true;
+                if (!timestamps.contains(timeStamp)) {
+                    String eventString = cursor.getString(1);
+                    boolean event = false;
+                    if (eventString.equals(Events.ON)) {
+                        event = true;
+                    }
+                    String city = cursor.getString(2);
+                    result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, false, event, city));
+                    timestamps.add(timeStamp);
                 }
-                String city = cursor.getString(2);
-                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, false, event, city));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -402,6 +406,7 @@ public class DBConnector implements IDBConnector {
     public synchronized List<CellularConnectionEvent> getCellEvents() {
         open();
         List<CellularConnectionEvent> result = new ArrayList<CellularConnectionEvent>();
+        List<Long> timestamps = new ArrayList<Long>();
         
         // Get everything
         String columns[] = new String[2];
@@ -414,13 +419,16 @@ public class DBConnector implements IDBConnector {
         if (cursor.getCount() > 0) {
             do {
                 long timeStamp = cursor.getLong(0);
-                String eventString = cursor.getString(1);
-                boolean event = false;
-                if (eventString.equals(Events.ON)) {
-                    event = true;
+                if (!timestamps.contains(timeStamp)) {
+                    String eventString = cursor.getString(1);
+                    boolean event = false;
+                    if (eventString.equals(Events.ON)) {
+                        event = true;
+                    }
+                    
+                    result.add(new CellularConnectionEvent(timeStamp, event));
+                    timestamps.add(timeStamp);
                 }
-                
-                result.add(new CellularConnectionEvent(timeStamp, event));
             } while (cursor.moveToNext());
         }
         cursor.close();

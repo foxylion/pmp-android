@@ -215,11 +215,11 @@ if ($svgCharts) {
     // ---------------
     $tmplt["content"] .= "
             <p>Select a manufacturer to view the model- and UI-chart.</p>
-            <div id=\"manufacturer\" style=\"width:800; height:400\"></div>
-            <div id=\"model\" style=\"width:800; height:400\"></div>
-            <div id=\"ui\" style=\"width:800; height:400\"></div>
-            <div id=\"api\" style=\"width:800; height:400\"></div>
-            <div id=\"kernel\" style=\"width:800; height:400\"></div>";
+            <div id=\"manufacturer\"></div>
+            <div id=\"model\"></div>
+            <div id=\"ui\"></div>
+            <div id=\"api\"></div>
+            <div id=\"kernel\"></div>";
 } else {
     // Draw static/PNG-charts
     // ----------------------

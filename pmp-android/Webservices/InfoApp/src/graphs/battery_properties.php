@@ -101,8 +101,8 @@ if ($svgCharts) {
     // Draw SVG-Charts
     // ---------------
     $tmplt["content"] .= "
-            <div id=\"technology\" style=\"width:800; height:400\"></div>
-            <div id=\"health\" style=\"width:700; height:300\"></div>";
+            <div id=\"technology\"></div>
+            <div id=\"health\"></div>";
 } else {
     // Draw static/PNG-charts
     // ----------------------

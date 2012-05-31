@@ -45,15 +45,16 @@ foreach ($stat->getProviderDist() as $provider => $count) {
     $providerData->addRow($row);
 }
 
-// Average signal
-$signalData = new DataTable();
-$signalData->addColumn(new Column("string", "p", "Provider"));
-$signalData->addColumn(new Column("number", "a", "Average"));
-foreach ($stat->getSignalAvg() as $provider => $avg) {
+// Network distribution
+$networkData = new DataTable();
+$networkData->addColumn(new Column("string", "n", "Network-Type"));
+$networkData->addColumn(new Column("number", "c", "Count"));
+
+foreach ($stat->getNetworkDist() as $network => $count) {
     $row = new Row();
-    $row->addCell(new Cell($provider));
-    $row->addCell(new Cell($avg));
-    $signalData->addRow($row);
+    $row->addCell(new Cell($network));
+    $row->addCell(new Cell($count));
+    $networkData->addRow($row);
 }
 
 $tmplt["pageTitle"] = "Connection";
@@ -78,17 +79,16 @@ if ($svgCharts) {
     }
 
     function drawSignal() {
-        var data = new google.visualization.DataTable(" . $signalData->getJsonObject() . ");
+        var data = new google.visualization.DataTable(" . $networkData->getJsonObject() . ");
 
         var options = {
-            title: 'Signal',
-            'width':" . $chart->getAxisChartWidth() . ",
-            'height':" . ($chart->getAxisChartHeight() + 100) . ",
-            hAxis: {title: 'Provider'}
+            title: 'Network-Type distribution',
+            'width':" . $chart->getPieChartWidth() . ",
+            'height':" . $chart->getPieChartHeight() . "
         };
 
 
-        var chart = new google.visualization.ColumnChart(document.getElementById('signal'));
+        var chart = new google.visualization.PieChart(document.getElementById('network'));
         chart.draw(data, options);
     }";
 }
@@ -98,8 +98,8 @@ if ($svgCharts) {
     // Draw SVG-Charts
     // ---------------
     $tmplt["content"] .= "
-            <div id=\"provider\" style=\"width:800; height:400\"></div>
-            <div id=\"signal\" style=\"width:700; height:300\"></div>";
+            <div id=\"provider\"></div>
+            <div id=\"network\"></div>";
 } else {
     // Draw static/PNG-charts
     // ----------------------
@@ -109,16 +109,14 @@ if ($svgCharts) {
     $bridge = new GChartPhpBridge($providerData);
     $bridge->pushData($providerChart, GChartPhpBridge::LEGEND);
 
-    $signalChart = new gchart\gBarChart($chart->getAxisChartWidth(), $chart->getAxisChartHeight() + 100);
-    $signalChart->setTitle("Signal");
-    $signalChart->setVisibleAxes(array('x', 'y'));
-    $signalChart->setBarWidth(50, 4, 50);
-    $bridge = new GChartPhpBridge($signalData);
-    $bridge->pushData($signalChart, GChartPhpBridge::AXIS_LABEL);
+    $networkChart = new gchart\gPieChart($chart->getPieChartWidth() - 100, $chart->getPieChartHeight() - 100);
+    $networkChart->setTitle("Network-Type distribution");
+    $bridge = new GChartPhpBridge($networkData);
+    $bridge->pushData($networkChart, GChartPhpBridge::LEGEND);
 
     $tmplt["content"] .= "
             <p><img src=\"" . $providerChart->getUrl() . "\" /></p>
-            <p><img src=\"" . $signalChart->getUrl() . "\" /></p>";
+            <p><img src=\"" . $networkChart->getUrl() . "\" /></p>";
 }
 
 $tmplt["content"] .= "
