@@ -58,18 +58,24 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         holder.no1.setText(String.valueOf(i));
         if (i > 0) {
             holder.no1.setBackgroundResource(R.drawable.bg_round_blue);
+        } else {
+            holder.no1.setBackgroundColor(R.drawable.bg_round_gray);
         }
         
         i = trips.get(position).numberOfOffers;
         holder.no2.setText(String.valueOf(i));
         if (i > 0) {
             holder.no2.setBackgroundResource(R.drawable.bg_round_green);
+        } else {
+            holder.no2.setBackgroundColor(R.drawable.bg_round_gray);
         }
         
         i = trips.get(position).numberOfNewMessages;
         holder.no3.setText(String.valueOf(i));
         if (i > 0) {
             holder.no3.setBackgroundResource(R.drawable.bg_round_red);
+        } else {
+            holder.no3.setBackgroundColor(R.drawable.bg_round_gray);
         }
         
         return itemView;

@@ -1,14 +1,14 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 public class TripOverview {
     
     public int id;
     public String destination;
     public String stopovers;
-    public Date startTime;
+    public Calendar startTime;
     public int numberOfPassengers;
     public int numberOfOffers;
     public int numberOfNewMessages;
@@ -18,7 +18,7 @@ public class TripOverview {
     
     
     public TripOverview(int id, String destination, String stopovers, ArrayList<CompactUser> passengers,
-            Date startTime, int numberOfAvailableSeat, ArrayList<CompactMessage> newMessages) {
+            Calendar startTime, int numberOfAvailableSeat, ArrayList<CompactMessage> newMessages) {
         
         if (id < 0) {
             throw new IllegalArgumentException("Invalid Trip ID");

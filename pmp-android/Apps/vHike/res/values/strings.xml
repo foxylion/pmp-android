@@ -136,5 +136,22 @@
     <string name="tripDetails_new_trip">New trip</string>
     <string name="my_trips">My trips</string>
     <string name="tripDetails_search">Search for %s</string>
+    <string name="free_seats">Free seats</string>
+    <string name="requests">requests</string>
+    <string name="Departure">Departure</string>
+    <string name="Destination">Destination</string>
+    <string name="day">day</string>
+    <string name="Tolerance">Tolerance</string>
+    <string name="Date">Date</string>
+    <string name="Username">Username</string>
+    <string name="Min_rating">Min rating</string>
+    <string name="Filter_result">Filter result</string>
+    <string name="Search">Search</string>
+    <string name="Show_live_trips">Show live %s on map</string>
+    <string name="Available_seats">Available seats</string>
+    <string name="Over">Over</string>
+    <string name="Today">Today</string>
+    <string name="now">Now</string>
+    <string name="tomorrow">Tomorrow</string>
 
 </resources>

@@ -4,7 +4,7 @@ public class CompactUser {
     
     public int id;
     public String name;
-    public int rating;
+    public float rating;
     
     
     public CompactUser(int id, String name, int rating) {
@@ -16,5 +16,4 @@ public class CompactUser {
             throw new IllegalArgumentException("Rating must be between 0 and 5");
         this.rating = rating;
     }
-    
 }

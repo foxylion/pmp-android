@@ -1,9 +1,8 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Formatter;
-import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,10 +12,6 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.TextAppearanceSpan;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -30,6 +25,7 @@ import android.widget.TextView.BufferType;
 import android.widget.ViewSwitcher;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MessageAdapter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.FriendlyDateFormatter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactMessage;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactUser;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripOverview;
@@ -156,7 +152,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
             msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello 2"));
             msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello 32"));
             tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;", passengers,
-                    GregorianCalendar.getInstance().getTime(), 3, msg);
+                    Calendar.getInstance(), 3, msg);
         }
         
         // Set destination
@@ -165,8 +161,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         // Set time
         txt = (TextView) findViewById(R.id.trip_detail_time);
-        txt.setText(SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT).format(
-                tripInfo.startTime));
+        txt.setText((new FriendlyDateFormatter(this)).format(tripInfo.startTime));
         
         // Set stop-overs
         TextAppearanceSpan captionSpan = new TextAppearanceSpan(this, R.style.CaptionSpan);
@@ -181,7 +176,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         // Set free seats
         txt = (TextView) findViewById(R.id.trip_detail_free_seats);
-        txt.setText(tripInfo.numberOfAvailableSeat);
+        txt.setText(String.valueOf(tripInfo.numberOfAvailableSeat));
         
         // TODO hiker or driver?
         String text = (new Formatter()).format(getText(R.string.tripDetails_search).toString(), "hitchhikers")
@@ -217,12 +212,12 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         listNewMessages.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
-            public void onItemClick(AdapterView<?> list, View item, int pos, long arg3) {
+            public void onItemClick(AdapterView<?> list, View view, int position, long id) {
                 try {
                     Intent intent = new Intent(TripDetailActivity.this, MessageActivity.class);
                     intent.putExtra("tripId", TripDetailActivity.this.tripId);
-                    intent.putExtra("userId", list.getAdapter().getItemId(pos));
-                    intent.putExtra("userName", list.getAdapter().getItem(pos).toString());
+                    intent.putExtra("userId", list.getAdapter().getItemId(position));
+                    intent.putExtra("userName", list.getAdapter().getItem(position).toString());
                     TripDetailActivity.this.startActivity(intent);
                 } catch (Exception e) {
                     // do nothing
@@ -230,23 +225,6 @@ public class TripDetailActivity extends Activity implements OnClickListener {
             }
         });
         listNewMessages.setOnItemLongClickListener(null);
-        registerForContextMenu(listNewMessages);
-    }
-    
-    
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        // TODO Auto-generated method stub
-        return super.onContextItemSelected(item);
-    }
-    
-    
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        // TODO Auto-generated method stub
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.message_contextmenu, menu);
     }
     
     private class PassengerSpan extends ClickableSpan {

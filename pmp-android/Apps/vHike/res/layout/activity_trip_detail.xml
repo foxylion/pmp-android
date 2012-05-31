@@ -109,12 +109,12 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:layout_weight="1">
-
+
                         <TextView
                             style="@style/CaptionSpan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Free seats" />
+                            android:text="@string/free_seats" />
 
                         <TextView
                             android:id="@+id/trip_detail_free_seats"

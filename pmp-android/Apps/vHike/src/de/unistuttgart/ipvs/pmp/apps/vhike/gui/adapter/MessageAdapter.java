@@ -47,12 +47,7 @@ public class MessageAdapter extends ArrayAdapter<CompactMessage> {
         } else {
             holder.offer.setVisibility(View.VISIBLE);
         }
-        if (msg.sender.rating == 0) {
-            holder.rating.setVisibility(View.GONE);
-        } else {
-            holder.rating.setVisibility(View.VISIBLE);
-            holder.rating.setNumStars(msg.sender.rating);
-        }
+        holder.rating.setRating(msg.sender.rating);
         return itemView;
     }
     
