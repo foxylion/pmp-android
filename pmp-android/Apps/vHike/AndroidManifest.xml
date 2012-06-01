@@ -30,13 +30,11 @@
             android:name="de.unistuttgart.ipvs.pmp.api.gui.registration.RegistrationActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
 
             <meta-data
                 android:name="mainActivity"
@@ -45,15 +43,16 @@
         <activity
             android:name=".gui.LoginActivity"
             android:icon="@drawable/logo_rd"
-            android:screenOrientation="portrait"
             android:label="vHike"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
 
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>            -->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".gui.RegisterActivity"
@@ -105,37 +104,37 @@
         </activity>
         <activity
             android:name=".gui.HistoryActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".gui.HistoryMenuActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.HistoryRideActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.PlanTripActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".bluetooth.gui.BluetoothActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".bluetooth.gui.BluetoothPlanTripActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.MyTripsActivity"
@@ -146,11 +145,12 @@
             android:name=".gui.TripDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
+
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
             -->
         </activity>
         <activity
@@ -161,11 +161,12 @@
             android:name=".gui.TripSearchActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
 
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <!--            -->
+            </intent-filter>
+            -->
         </activity>
         <!--
         The service of the app where PMP connects to
@@ -177,7 +178,7 @@
 		Exported services (services which either set exported=true or contain an
 		intent-filter and do not specify exported=false) should define a permission
 		that an entity must have in order to launch the service or bind to it. Without
-		this, any application can use this service.
+		this, any application can use this service.
         -->
         <service
             android:name="de.unistuttgart.ipvs.pmp.service.app.AppService"

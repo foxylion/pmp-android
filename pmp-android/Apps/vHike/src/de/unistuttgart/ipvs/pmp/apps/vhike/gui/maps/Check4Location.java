@@ -2,6 +2,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.TimerTask;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.RemoteException;
@@ -31,7 +32,7 @@ public class Check4Location extends TimerTask {
     private Context context;
     private Handler handler;
     private int whichHitcher;
-    
+    private ProgressDialog pDialog;
     private int showAddress = 0;
     
     
@@ -43,6 +44,10 @@ public class Check4Location extends TimerTask {
         this.ctrl = new Controller(ws);
         this.loc = loc;
         this.whichHitcher = whichHitcher;
+        
+        pDialog = new ProgressDialog(context);
+        pDialog.setTitle("Location");
+        pDialog.setMessage("Getting Location...");
     }
     
     
@@ -113,44 +118,55 @@ public class Check4Location extends TimerTask {
                 
                 if (isFixedD) {
                     MapController controller = Check4Location.this.mapView.getController();
+                    
+                    if (latitudeD == 0.0 && longitudeD == 0.0) {
+                        pDialog.show();
+                        ViewModel.getInstance().denyStartSearch4Query();
+                    } else {
+                        pDialog.dismiss();
+                        ViewModel.getInstance().setStartSearch4Query();
+                    }
+                    
                     try {
-                        ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD,
-                                Check4Location.this.whichHitcher);
-                        /**
-                         * send server updated latitude and longitude
-                         */
-                        switch (Check4Location.this.ctrl.userUpdatePos(Model.getInstance().getSid(),
-                                (float) Check4Location.this.loc.getLatitude(),
-                                (float) Check4Location.this.loc.getLongitude())) {
-                            case Constants.STATUS_UPDATED:
-                                //location send
-                                break;
-                            case Constants.STATUS_UPTODATE:
-                                //Up to date
-                                break;
-                            case Constants.STATUS_ERROR:
-                                //Error
-                                break;
+                        if ((latitudeD != 0.0) && (longitudeD != 0.0)) {
+                            ViewModel.getInstance().setMyPosition((float) latitudeD, (float) longitudeD,
+                                    Check4Location.this.whichHitcher);
+                            
+                            /**
+                             * send server updated latitude and longitude
+                             */
+                            switch (Check4Location.this.ctrl.userUpdatePos(Model.getInstance().getSid(),
+                                    (float) Check4Location.this.loc.getLatitude(),
+                                    (float) Check4Location.this.loc.getLongitude())) {
+                                case Constants.STATUS_UPDATED:
+                                    //location send
+                                    break;
+                                case Constants.STATUS_UPTODATE:
+                                    //Up to date
+                                    break;
+                                case Constants.STATUS_ERROR:
+                                    //Error
+                                    break;
+                            }
+                            //                        Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
+                            //                                + Check4Location.this.loc.getLongitude() * 1E6);
+                            
+                            controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
+                                    (int) (Check4Location.this.loc.getLongitude() * 1E6)));
+                            controller.setZoom(14);
+                            
+                            // display address only once
+                            if (Check4Location.this.showAddress == 0) {
+                                Toast.makeText(Check4Location.this.context, countryD + ", " + cityD + ", " + addressD,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            Check4Location.this.showAddress++;
+                            
+                            if (ViewModel.getInstance().locationIsCanceled()) {
+                                cancel();
+                                Log.i(this, "Canceled location");
+                            }
                         }
-                        //                        Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
-                        //                                + Check4Location.this.loc.getLongitude() * 1E6);
-                        
-                        controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
-                                (int) (Check4Location.this.loc.getLongitude() * 1E6)));
-                        controller.setZoom(14);
-                        
-                        // display address only once
-                        if (Check4Location.this.showAddress == 0) {
-                            Toast.makeText(Check4Location.this.context, countryD + ", " + cityD + ", " + addressD,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        Check4Location.this.showAddress++;
-                        
-                        if (ViewModel.getInstance().locationIsCanceled()) {
-                            cancel();
-                            Log.i(this, "Canceled location");
-                        }
-                        
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -160,5 +176,4 @@ public class Check4Location extends TimerTask {
             }
         });
     }
-    
 }

@@ -49,25 +49,30 @@ public class Check4Queries extends TimerTask {
             @Override
             public void run() {
                 
-                try {
-                    PositionObject pObject = Check4Queries.this.ctrl.getUserPosition(Model.getInstance().getSid(),
-                            Check4Queries.this.me.getID());
-                    Check4Queries.this.lat = (float) pObject.getLat();
-                    Check4Queries.this.lng = (float) pObject.getLon();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                if (ViewModel.getInstance().allowStartSearch4Query()) {
+                    try {
+                        PositionObject pObject = Check4Queries.this.ctrl.getUserPosition(Model.getInstance().getSid(),
+                                Check4Queries.this.me.getID());
+                        Check4Queries.this.lat = (float) pObject.getLat();
+                        Check4Queries.this.lng = (float) pObject.getLon();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    // retrieve all hitchhikers searching for a ride within my perimeter
+                    Check4Queries.this.lqo = Check4Queries.this.ctrl.searchQuery(Model.getInstance().getSid(),
+                            Check4Queries.this.lat, Check4Queries.this.lng, Check4Queries.this.perimeter);
+                    
+                    // send ViewModel new list of hitchhikers
+                    ViewModel.getInstance().updateLQO(Check4Queries.this.lqo);
+                    
+                    if (ViewModel.getInstance().queryIsCanceled()) {
+                        cancel();
+                        Log.i(this, "Canceled Check4Queries");
+                    }
+                } else {
+                    Log.i(this, "Waiting for location");
                 }
-                // retrieve all hitchhikers searching for a ride within my perimeter
-                Check4Queries.this.lqo = Check4Queries.this.ctrl.searchQuery(Model.getInstance().getSid(),
-                        Check4Queries.this.lat, Check4Queries.this.lng, Check4Queries.this.perimeter);
                 
-                // send ViewModel new list of hitchhikers
-                ViewModel.getInstance().updateLQO(Check4Queries.this.lqo);
-                
-                if (ViewModel.getInstance().queryIsCanceled()) {
-                    cancel();
-                    Log.i(this, "Canceled Check4Queries");
-                }
             }
         });
     }

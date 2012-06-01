@@ -396,6 +396,23 @@ public class ViewModel {
     private Button btn_road_info;
     private EditText et_road_info;
     
+    private boolean allowStartSearch4Query = false;
+    
+    
+    public void setStartSearch4Query() {
+        allowStartSearch4Query = true;
+    }
+    
+    
+    public void denyStartSearch4Query() {
+        allowStartSearch4Query = false;
+    }
+    
+    
+    public boolean allowStartSearch4Query() {
+        return allowStartSearch4Query;
+    }
+    
     
     public void setRoadInfoBtn(Button btnInfo) {
         this.btn_road_info = btnInfo;

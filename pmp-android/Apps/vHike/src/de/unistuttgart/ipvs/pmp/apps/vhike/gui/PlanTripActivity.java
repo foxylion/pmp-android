@@ -345,7 +345,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                 if (this.now.isChecked()) {
                     // TODO Check RG Location
                     // Show progress dialog for getting position
-                    vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();
+                    //                    vhikeDialogs.getInstance().getAnnouncePD(PlanTripActivity.this).show();
                     final Intent intent = new Intent(PlanTripActivity.this, DriverViewActivity.class);
                     PlanTripActivity.this.startActivity(intent);
                 } else {

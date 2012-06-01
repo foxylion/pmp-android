@@ -86,7 +86,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         ViewModel.getInstance().setNewFound();
         
         vhikeDialogs.getInstance().getAnnouncePD(DriverViewActivity.this).dismiss();
-        vhikeDialogs.getInstance().clearAnnouncPD();
+        //        vhikeDialogs.getInstance().clearAnnouncPD();
         
         setMapView();
         ViewModel.getInstance().getDriverOverlayList(mapView).clear();
