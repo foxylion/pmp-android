@@ -79,8 +79,8 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         ViewModel.getInstance().resetTimers();
         ViewModel.getInstance().setNewFound();
         
-        vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
-        vhikeDialogs.getInstance().clearSearchPD();
+        //        vhikeDialogs.getInstance().getSearchPD(PassengerViewActivity.this).dismiss();
+        //        vhikeDialogs.getInstance().clearSearchPD();
         
         setMapView();
         ViewModel.getInstance().getPassengerOverlayList(mapView).clear();

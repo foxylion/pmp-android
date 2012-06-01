@@ -66,6 +66,7 @@ public class ViewModel {
     
     private boolean locationIsCanceled = false;
     private boolean queryIsCanceled = false;
+    private boolean acceptedIsCanceled = false;
     private IvHikeWebservice ws;
     private IContact iContact;
     
@@ -118,9 +119,20 @@ public class ViewModel {
     }
     
     
+    public void startAccepted() {
+        acceptedIsCanceled = false;
+    }
+    
+    
+    public boolean acceptedIsCanceled() {
+        return this.acceptedIsCanceled;
+    }
+    
+    
     public void resetTimers() {
         this.locationIsCanceled = false;
         this.queryIsCanceled = false;
+        this.acceptedIsCanceled = false;
     }
     
     

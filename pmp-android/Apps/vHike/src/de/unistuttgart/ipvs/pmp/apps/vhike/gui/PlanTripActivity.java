@@ -237,7 +237,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
                         ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
                         
-                        vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
+                        //                        vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
                         Intent intent = new Intent(PlanTripActivity.this, PassengerViewActivity.class);
                         PlanTripActivity.this.startActivity(intent);
                     }
