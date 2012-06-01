@@ -162,6 +162,7 @@ public class ViewObject {
                                 Timer timer = new Timer();
                                 timer.schedule(c4ao, 300, 10000);
                                 Log.i(this, "Offer sent.");
+                                ViewModel.getInstance().startAccepted();
                                 ViewModel.getInstance().updateView(0);
                                 break;
                         }

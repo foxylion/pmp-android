@@ -43,7 +43,9 @@ public class Check4AcceptedOffers extends TimerTask {
                 switch (Check4AcceptedOffers.this.ctrl.offer_accepted(Model.getInstance().getSid(),
                         Check4AcceptedOffers.this.offer_id)) {
                     case Constants.STATUS_UNREAD:
-                        Log.i(this, "UNREAD OFFER!");
+                        if (ViewModel.getInstance().acceptedIsCanceled()) {
+                            Log.i(this, "UNREAD OFFER!");
+                        }
                         break;
                     case Constants.STATUS_ACCEPTED:
                         Check4AcceptedOffers.this.object.setStatus(Constants.V_OBJ_SATUS_ACCEPTED);
