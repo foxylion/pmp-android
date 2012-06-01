@@ -45,9 +45,10 @@ public class Check4Location extends TimerTask {
         this.loc = loc;
         this.whichHitcher = whichHitcher;
         
-        pDialog = new ProgressDialog(context);
-        pDialog.setTitle("Location");
-        pDialog.setMessage("Getting Location...");
+        pDialog = ProgressDialog.show(context, "Location", "Getting location...");
+        //        pDialog = new ProgressDialog(context);
+        //        pDialog.setTitle("Location");
+        //        pDialog.setMessage("Getting Location...");
     }
     
     
@@ -120,10 +121,18 @@ public class Check4Location extends TimerTask {
                     MapController controller = Check4Location.this.mapView.getController();
                     
                     if (latitudeD == 0.0 && longitudeD == 0.0) {
-                        pDialog.show();
+                        Log.i(this, "Lat/Lon 0.0");
+                        if (!pDialog.isShowing()) {
+                            pDialog.show();
+                            Log.i(this, "Dialog Show");
+                        }
                         ViewModel.getInstance().denyStartSearch4Query();
                     } else {
-                        pDialog.dismiss();
+                        Log.i(this, "Lat/Lon not 0.0");
+                        if (pDialog.isShowing()) {
+                            pDialog.dismiss();
+                            Log.i(this, "Dialog Dismiss");
+                        }
                         ViewModel.getInstance().setStartSearch4Query();
                     }
                     
