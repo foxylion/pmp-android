@@ -53,6 +53,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        vHikeService.getInstance().register(this);
         this.handler = new Handler();
         
         // Show the main activity if already logged in
@@ -96,6 +98,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        vHikeService.getInstance().updateServiceFeatures();
         
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         this.username = settings.getString("USERNAME", "");

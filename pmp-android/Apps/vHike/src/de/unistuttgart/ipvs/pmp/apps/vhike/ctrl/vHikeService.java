@@ -271,6 +271,7 @@ public class vHikeService extends Service {
     
     
     public void updateServiceFeatures() {
+        
         PMP.get(app).updateServiceFeatures(new PMPServiceFeatureUpdateHandler() {
             
             @Override
@@ -289,4 +290,9 @@ public class vHikeService extends Service {
         return null;
     }
     
+    
+    public void register(Activity activity) {
+        Log.i(TAG, "Register vHike");
+        PMP.get(app).register(activity);
+    }
 }
