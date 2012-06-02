@@ -2,8 +2,11 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps;
 
 import java.util.TimerTask;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.widget.Toast;
@@ -29,7 +32,7 @@ public class Check4Location extends TimerTask {
     private MapView mapView;
     private IAbsoluteLocation loc;
     private Controller ctrl;
-    private Context context;
+    private Context mContext;
     private Handler handler;
     private int whichHitcher;
     private ProgressDialog pDialog;
@@ -39,16 +42,21 @@ public class Check4Location extends TimerTask {
     public Check4Location(IvHikeWebservice ws, IAbsoluteLocation loc, MapView mapView, Context context,
             Handler handler, int whichHitcher) {
         this.mapView = mapView;
-        this.context = context;
+        this.mContext = context;
         this.handler = handler;
         this.ctrl = new Controller(ws);
         this.loc = loc;
         this.whichHitcher = whichHitcher;
         
         pDialog = ProgressDialog.show(context, "Location", "Getting location...");
-        //        pDialog = new ProgressDialog(context);
-        //        pDialog.setTitle("Location");
-        //        pDialog.setMessage("Getting Location...");
+        pDialog.setOnCancelListener(new OnCancelListener() {
+            
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                ((Activity) mContext).finish();
+            }
+        });
+        pDialog.setCancelable(true);
     }
     
     
@@ -166,7 +174,7 @@ public class Check4Location extends TimerTask {
                             
                             // display address only once
                             if (Check4Location.this.showAddress == 0) {
-                                Toast.makeText(Check4Location.this.context, countryD + ", " + cityD + ", " + addressD,
+                                Toast.makeText(Check4Location.this.mContext, countryD + ", " + cityD + ", " + addressD,
                                         Toast.LENGTH_SHORT).show();
                             }
                             Check4Location.this.showAddress++;

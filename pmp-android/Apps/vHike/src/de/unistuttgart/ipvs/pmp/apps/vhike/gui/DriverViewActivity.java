@@ -235,35 +235,7 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
     @Override
     public void onBackPressed() {
         
-        switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
-            case Constants.STATUS_SUCCESS: {
-                
-                ViewModel.getInstance().clearDriverOverlayList();
-                ViewModel.getInstance().clearViewModel();
-                ViewModel.getInstance().clearHitchPassengers();
-                ViewModel.getInstance().clearDriverNotificationAdapter();
-                ViewModel.getInstance().clearRoutes();
-                ViewModel.getInstance().resetRoadInfo();
-                stopContinousLookup();
-                
-                Log.i(this, "Trip ended.");
-                DriverViewActivity.this.finish();
-                break;
-            }
-            case Constants.STATUS_ERROR: {
-                Toast.makeText(DriverViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                break;
-            }
-            case Constants.STATUS_NO_TRIP: {
-                Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
-                
-                DriverViewActivity.this.finish();
-                break;
-            }
-            case Constants.STATUS_INVALID_USER:
-                Toast.makeText(DriverViewActivity.this, "Invalid user", Toast.LENGTH_SHORT).show();
-                break;
-        }
+        DriverViewActivity.this.finish();
         
         return;
     }
@@ -327,6 +299,41 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
             Log.i(this, "Timer Query canceled");
         }
         
+    }
+    
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        switch (this.ctrl.endTrip(Model.getInstance().getSid(), Model.getInstance().getTripId())) {
+            case Constants.STATUS_SUCCESS: {
+                
+                ViewModel.getInstance().clearDriverOverlayList();
+                ViewModel.getInstance().clearViewModel();
+                ViewModel.getInstance().clearHitchPassengers();
+                ViewModel.getInstance().clearDriverNotificationAdapter();
+                ViewModel.getInstance().clearRoutes();
+                ViewModel.getInstance().resetRoadInfo();
+                stopContinousLookup();
+                
+                Log.i(this, "Trip ended.");
+                DriverViewActivity.this.finish();
+                break;
+            }
+            case Constants.STATUS_ERROR: {
+                Toast.makeText(DriverViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case Constants.STATUS_NO_TRIP: {
+                Toast.makeText(DriverViewActivity.this, "No trip", Toast.LENGTH_SHORT).show();
+                
+                DriverViewActivity.this.finish();
+                break;
+            }
+            case Constants.STATUS_INVALID_USER:
+                Toast.makeText(DriverViewActivity.this, "Invalid user", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
     
     
