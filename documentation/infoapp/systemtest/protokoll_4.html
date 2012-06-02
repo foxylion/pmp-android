@@ -64,8 +64,8 @@
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>UIT-1</td><td>Thorsten Berberich</td><td>?</td></tr>
 				<tr><td>UIT-2</td><td>Thorsten Berberich</td><td>?</td></tr>
-				<tr><td>UIT-3</td><td>Tobias Kuhn</td><td>?</td></tr>
-				<tr><td>UIT-4</td><td>Tobias Kuhn</td><td>?</td></tr>
+				<tr><td>UIT-3</td><td>Tobias Kuhn</td><td class="fail">Nicht Bestanden</td></tr>
+				<tr><td>UIT-4</td><td>Tobias Kuhn</td><td class="fail">Nicht Bestanden</td></tr>
 			</table>
 
 		<h1 id="bericht">Bericht</h1>
@@ -88,6 +88,7 @@
 				<li>Die Energy-RG wirkt unzureichend dokumentiert. Auffällig waren neben generell fehlenden (Kopf-)Kommentaren auch Zeilen wie "// TODO: Clear database" oder undokumentierte, leere Catch-Blöcke. Der Code verstößt gegen die PMP-Formatter/Cleanup-Style.
 			</ul>
 			Insgesamt führt dies zu einem insbesondere lizenzrechtlich unzureichenden Eindruck, obwohl eine breite Palette an Qualitäten vorhanden ist.</p>
+			<p>Während des Tests von UIT-3 und UIT-4 (Commit cc93d3aead0bfa0472bdb64d423affcbdf0714f4) ließ sich ein Service Feature nicht aktivieren, da ein falsches Privacy Setting für Fehler, wie in Ticket #904 beschrieben, gesorgt hat. Im Anschluss ließ sich PMP mit der One-Click-Install sogar zum Absturz bringen, so dargelegt in Ticket #905.</p>
 			
 		<h1 id="kommentare">Kommentare</h1>
 			<p>In diesem Kapitel finden sich Kommentare über Sachverhalte, die nach Fertigstellung des Protokolls festgestellt wurden.</p>
