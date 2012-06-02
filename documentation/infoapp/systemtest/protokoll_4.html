@@ -56,7 +56,7 @@
 				<tr><td>NFT-2</td><td>Patrick Strobel</td><td>?</td></tr>
 				<tr><td>NFT-3</td><td>Thorsten Berberich</td><td>?</td></tr>
 				<tr><td>NFT-4</td><td>Thorsten Berberich</td><td>?</td></tr>
-				<tr><td>NFT-5</td><td>Tobias Kuhn</td><td>?</td></tr>
+				<tr><td>NFT-5</td><td>Tobias Kuhn</td><td class="fail">Nicht Bestanden</td></tr>
 			</table>
 			<h2 id="protokolluit">Tests der Benutzeroberfläche</h2>
 
@@ -78,7 +78,16 @@
 			<p>?</p>
 			
 			<h2 id="tester3">Tobias Kuhn</h2>
-			<p>?</p>
+			<p>Die Einschätzung "Nicht Bestanden" bei NFT-5 ergibt sich aus der Kombination mehrerer Einschätzungen:
+			<ul>
+				<li>Die Info-App selbst wirkt solide kommentiert, die Qualität der einzelnen Kommentare und des Codes lässt teilweise zu wünschen übrig. Der Code verstößt gegen die PMP-Formatter/Cleanup-Style.</li>
+				<li>Die Info-App-Communication-Lib scheint vorbildlich kommentiert.</li>
+				<li>Dem Info-App-Filler-Projekt fehlen Kopfkommentare, insbesondere Autorenangaben. Die Einbindung von JSON.org-Bibliotheken als Code ohne entsprechende Dokumentation warum erscheint fragwürdig. Im Code sind Zeilen einfach auskommentiert (z.B. eine tote Methode in der Main-Klasse) oder vorgenerierte TODO-Kommentare enthalten.</li>
+				<li>Das Info-App-Pager-Indicator-Projekt ist eher spartanisch kommentiert und bindet bei Deklaration und Benutzung undokumentierten Code ein, der mit dem Copyright von Drittparteien versehen ist.</li>
+				<li>Die Connection-RG wirkt ausreichend dokumentiert, allerdings qualitativ eher mittelmäßig.</li>
+				<li>Die Energy-RG wirkt unzureichend dokumentiert. Auffällig waren neben generell fehlenden (Kopf-)Kommentaren auch Zeilen wie "// TODO: Clear database" oder undokumentierte, leere Catch-Blöcke. Der Code verstößt gegen die PMP-Formatter/Cleanup-Style.
+			</ul>
+			Insgesamt führt dies zu einem insbesondere lizenzrechtlich unzureichenden Eindruck, obwohl eine breite Palette an Qualitäten vorhanden ist.</p>
 			
 		<h1 id="kommentare">Kommentare</h1>
 			<p>In diesem Kapitel finden sich Kommentare über Sachverhalte, die nach Fertigstellung des Protokolls festgestellt wurden.</p>
