@@ -76,13 +76,17 @@ if ($deviceIdValid) {
     foreach ($events as $event) {
 
         // City
-        switch ($event->getDirection()) {
-            case ProfileEvent::INCOMING:
-                $cityTooltip = $event->getCity();
-                break;
-            case ProfileEvent::OUTGOING:
-                $cityTooltip = $event->getCity();
-                break;
+        if ($event->getCity() != null) {
+            switch ($event->getDirection()) {
+                case ProfileEvent::INCOMING:
+                    $cityTooltip = $event->getCity();
+                    break;
+                case ProfileEvent::OUTGOING:
+                    $cityTooltip = $event->getCity();
+                    break;
+            }
+        } else {
+            $cityTooltip = "No city given";
         }
         $cityTooltip .= "\\n" . Chart::timeMillisToString("Y/m/d, H:m:s", $event->getTimestamp());
 
@@ -109,7 +113,7 @@ if ($deviceIdValid) {
             } else {
                 $callRow->addCell(new Cell("null"));
                 $callRow->addCell(new Cell("null"));
-               $callRow->addCell(new Cell(1));
+                $callRow->addCell(new Cell(1));
                 $callRow->addCell(new Cell($cityTooltip));
             }
             $callData->addRow($callRow);

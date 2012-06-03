@@ -30,7 +30,7 @@ if (!defined("INCLUDE")) {
  * A DataTable represents the data that should be visualized in a chart
  *
  * @author Patrick Strobel
- * @version 4.1.0
+ * @version 4.1.1
  * @package infoapp
  * @subpackage googlecharttools
  */
@@ -66,7 +66,11 @@ class DataTable {
     public function addRowsAssocArray($array) {
         foreach ($array as $key => $value) {
             $row = new Row();
-            $row->addCell(new Cell($key));
+            if ($key != null) {
+                $row->addCell(new Cell($key));
+            } else {
+                $row->addCell(new Cell("Unknown"));
+            }
             $row->addCell(new Cell($value));
             $this->rows[] = $row;
         }

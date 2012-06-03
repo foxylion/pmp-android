@@ -93,8 +93,13 @@ if ($deviceIdValid) {
                 $levelRow->addCell(new Cell((int) $event->isEnabled()));
                 $levelRow->addCell(new Cell((int) $event->isConnected()));
                 if ($chart->showAnnotations()) {
-                    $levelRow->addCell(new Cell("i"));
-                    $levelRow->addCell(new Cell($event->getCity()));
+                    if ($city != null) {
+                        $levelRow->addCell(new Cell("i"));
+                        $levelRow->addCell(new Cell($city));
+                    } else {
+                        $levelRow->addCell(new Cell(null));
+                        $levelRow->addCell(new Cell(null));
+                    }
                 }
 
                 $bluetoothAdapterData->addRow($levelRow);
@@ -118,8 +123,13 @@ if ($deviceIdValid) {
                 $levelRow->addCell(new Cell((int) $event->isEnabled()));
                 $levelRow->addCell(new Cell((int) $event->isConnected()));
                 if ($chart->showAnnotations()) {
-                    $levelRow->addCell(new Cell("i"));
-                    $levelRow->addCell(new Cell($event->getCity()));
+                    if ($city != null) {
+                        $levelRow->addCell(new Cell("i"));
+                        $levelRow->addCell(new Cell($city));
+                    } else {
+                        $levelRow->addCell(new Cell(null));
+                        $levelRow->addCell(new Cell(null));
+                    }
                 }
 
                 $wifiAdapterData->addRow($levelRow);
