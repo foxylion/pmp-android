@@ -29,6 +29,11 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.BatteryEvent.Adapter;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.BatteryEvent.Status;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
+/**
+ * Generates battery-events and commits them to the upload_battery_events-webservice.
+ * 
+ * @author Patrick Strobel
+ */
 public class Battery extends Filler {
     
     public Battery(Service service, long fromMillis, long toMillis) {
@@ -120,8 +125,8 @@ public class Battery extends Filler {
             this.lastTemp = -100;
         }
         
-        BatteryEvent event = new BatteryEvent(++this.id, time, this.lastLevel, this.lastVoltage, this.lastPlugged,
-                present, this.lastStatus, this.lastTemp);
+        BatteryEvent event = new BatteryEvent(time, this.lastLevel, this.lastVoltage, this.lastPlugged, present,
+                this.lastStatus, this.lastTemp);
         return event;
     }
     

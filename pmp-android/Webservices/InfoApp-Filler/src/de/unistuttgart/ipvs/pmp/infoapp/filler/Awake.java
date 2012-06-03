@@ -27,6 +27,11 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.AwakeEventManage
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.AwakeEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
+/**
+ * Generates awake-events and commits them to the upload_awake_events-webservice.
+ * 
+ * @author Patrick Strobel
+ */
 public class Awake extends Filler {
     
     public Awake(Service service, long fromMillis, long toMillis) {
@@ -49,7 +54,7 @@ public class Awake extends Filler {
             awake = true;
         }
         
-        AwakeEvent event = new AwakeEvent(++this.id, time, awake);
+        AwakeEvent event = new AwakeEvent(time, awake);
         return event;
     }
     

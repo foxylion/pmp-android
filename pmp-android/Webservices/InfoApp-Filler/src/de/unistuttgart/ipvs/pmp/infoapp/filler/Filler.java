@@ -28,11 +28,20 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 public abstract class Filler {
     
     protected Service service;
-    protected int id = 0;
     private long fromMillis;
     private long toMillis;
     
     
+    /**
+     * Prepares the filler
+     * 
+     * @param service
+     *            Service used for communicating with the webservices
+     * @param fromMillis
+     *            The timestamp of the event generated first
+     * @param toMillis
+     *            The timestamp of the event generated last
+     */
     public Filler(Service service, long fromMillis, long toMillis) {
         this.service = service;
         this.fromMillis = fromMillis;
@@ -40,6 +49,9 @@ public abstract class Filler {
     }
     
     
+    /**
+     * Generates all events and uploads them to the webservice
+     */
     public void fill() {
         System.out.print("Generating... ");
         List<Event> events = new LinkedList<Event>();
@@ -71,9 +83,22 @@ public abstract class Filler {
     protected abstract int maxSpreading();
     
     
+    /**
+     * Generates a single event of the proper event-type
+     * 
+     * @param time
+     *            The events timestamp
+     * @return The generated event
+     */
     public abstract Event generateEvent(long time);
     
     
+    /**
+     * Uploads the generated evetns to the proper webservice
+     * 
+     * @param events
+     *            The generated events
+     */
     public abstract void uploadEvents(List<Event> events);
     
 }

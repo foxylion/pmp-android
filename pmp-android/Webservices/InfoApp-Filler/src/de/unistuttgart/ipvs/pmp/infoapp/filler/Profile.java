@@ -27,6 +27,11 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ProfileEventMana
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ProfileEvent;
 
+/**
+ * Generates profile-events and commits them to the upload_profile_events-webservice.
+ * 
+ * @author Patrick Strobel
+ */
 public class Profile extends Filler {
     
     public Profile(Service service, long fromMillis, long toMillis) {

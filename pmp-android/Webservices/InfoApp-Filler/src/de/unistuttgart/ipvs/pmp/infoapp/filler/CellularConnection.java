@@ -27,6 +27,11 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.CellularConnecti
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.CellularConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
+/**
+ * Generates cellular-connection-events and commits them to the upload_cellularconnection_events-webservice.
+ * 
+ * @author Patrick Strobel
+ */
 public class CellularConnection extends Filler {
     
     public CellularConnection(Service service, long fromMillis, long toMillis) {
@@ -48,7 +53,7 @@ public class CellularConnection extends Filler {
         if (Math.random() < 0.2) {
             airplane = true;
         }
-        CellularConnectionEvent event = new CellularConnectionEvent(++this.id, time, airplane);
+        CellularConnectionEvent event = new CellularConnectionEvent(time, airplane);
         return event;
     }
     
