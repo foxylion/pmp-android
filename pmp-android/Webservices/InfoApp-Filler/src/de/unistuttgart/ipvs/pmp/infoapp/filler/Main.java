@@ -19,26 +19,29 @@
  */
 package de.unistuttgart.ipvs.pmp.infoapp.filler;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.Service;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventManager;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.EventProperty;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InternalDatabaseException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.exceptions.InvalidParameterException;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.DeviceOem;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.Display;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.DeviceProperties.Memory;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ProfileProperties;
-import de.unistuttgart.ipvs.pmp.infoapp.webservice.properties.ProfileProperties.Rings;
 
+/**
+ * The InfoApp-Filler project is used to fill the webservice' database with randomly generated data.
+ * 
+ * This had to be done to be able to create the PHP-scripts that visualizes the data, since no data
+ * had been available when the scripts where implemented.
+ * 
+ * This project serves as an example of the usage of the InfoApp-CommunicationLib (for the team-members responsible for
+ * the implementation of InfoApp's resource groups)
+ * 
+ * @author Patrick Strobel
+ */
 public class Main {
     
+    /**
+     * Generates and sends data for/to the different upload-webservices.
+     * 
+     * @param s
+     *            Service, used to commit the data
+     */
     public static void doFill(Service s) {
         // Create range
         Calendar from = Calendar.getInstance();
@@ -80,15 +83,23 @@ public class Main {
         // Create service
         Service s = new Service(Service.DEFAULT_URL, "f2305a2fbef51bd82008c7cf3788250f");
         
-        //doFill(s);
+        doFill(s);
         
+        /**
+         * The code bellow is used for testing some aspects of the webservice and as an example of the ComLib usage.
+         * Thus, it's commended-out
+         */
+        /*
         // Setup service url and device ID
         //Service s = new Service("http://localhost/infoapp/src/json", "b7c2e4787e7f950c89909795907208da");
         //Service s = new Service(Service.DEFAULT_URL, "b7c2e4787e7f950c89909795907208d3");
-        
-        ProfileProperties ccp = new ProfileProperties(s, Rings.BOTH, (short) 30, (byte) 60);
+        CellularConnectionProperties ccp = new CellularConnectionProperties(s, "O2", false, NetworkTypes.HSPAP);
         try {
             ccp.commit();
+            ConnectionEventManager cem = new ConnectionEventManager(s);
+            EventProperty ep = cem.getLastEventProperty();
+            System.out.println("Last ID: " + ep.getId());
+            System.out.println("Last Timestamp: " + ep.getTimestamp());
         } catch (InternalDatabaseException e3) {
             // TODO Auto-generated catch block
             e3.printStackTrace();
@@ -141,6 +152,6 @@ public class Main {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        */
     }
-    
 }

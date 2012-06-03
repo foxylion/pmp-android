@@ -27,6 +27,11 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ConnectionEventM
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ConnectionEvent;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 
+/**
+ * Generates connection-events and commits them to the upload_connection_events-webservice.
+ * 
+ * @author Patrick Strobel
+ */
 public class Connection extends Filler {
     
     public Connection(Service service, long fromMillis, long toMillis) {
@@ -62,7 +67,7 @@ public class Connection extends Filler {
         
         int cityNum = (int) (Math.random() * this.cities.length);
         
-        ConnectionEvent event = new ConnectionEvent(++this.id, time, medium, connected, enabled, this.cities[cityNum]);
+        ConnectionEvent event = new ConnectionEvent(time, medium, connected, enabled, this.cities[cityNum]);
         return event;
     }
     

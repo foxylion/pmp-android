@@ -27,6 +27,11 @@ import de.unistuttgart.ipvs.pmp.infoapp.webservice.eventmanager.ScreenEventManag
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.Event;
 import de.unistuttgart.ipvs.pmp.infoapp.webservice.events.ScreenEvent;
 
+/**
+ * Generates screen-events and commits them to the upload_screen_events-webservice.
+ * 
+ * @author Patrick Strobel
+ */
 public class Screen extends Filler {
     
     public Screen(Service service, long fromMillis, long toMillis) {
@@ -49,7 +54,7 @@ public class Screen extends Filler {
             screen = true;
         }
         
-        ScreenEvent event = new ScreenEvent(++this.id, time, screen);
+        ScreenEvent event = new ScreenEvent(time, screen);
         return event;
     }
     
