@@ -86,6 +86,15 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
     }
     
     
+    @Override
+    protected void onResume() {
+        
+        super.onResume();
+        
+        vHikeService.getInstance().updateServiceFeatures();
+    }
+    
+    
     private void validator() {
         this.et_password.addTextChangedListener(new TextWatcher() {
             

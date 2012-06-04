@@ -17,6 +17,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.TripSearchResultAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripSearchResult;
 
@@ -111,6 +112,8 @@ public class TripSearchActivity extends Activity implements OnClickListener, OnI
     @Override
     protected void onResume() {
         super.onResume();
+        
+        vHikeService.getInstance().updateServiceFeatures();
     }
     
     
