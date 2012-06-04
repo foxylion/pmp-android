@@ -66,11 +66,11 @@
 				<tr><td>FT-20</td><td>Anton Makarov</td><td>?</td></tr>
 				<tr><td>FT-21</td><td>Anton Makarov</td><td>?</td></tr>
 				<tr><td>FT-22</td><td>Anton Makarov</td><td>?</td></tr>
-				<tr><td>FT-23</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>FT-24</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>FT-25</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>FT-26</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>FT-27</td><td>Frieder Schüler</td><td>?</td></tr>
+				<tr><td>FT-23</td><td>Frieder Schüler</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-24</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
+				<tr><td>FT-25</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
+				<tr><td>FT-26</td><td>Frieder Schüler</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>FT-27</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
 			</table>
 
 			<h2 id="protokollnfr">Nicht-funktionale Anforderungstests</h2>
@@ -78,12 +78,12 @@
 			<table>
 				<tr><th>ID</th><th>Tester</th><th>Ergebnis</th></tr>
 				<tr><td>NFT-1</td><td>Marcus Vetter</td><td>?</td></tr>
-				<tr><td>NFT-2</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>NFT-3</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>NFT-4</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>NFT-5</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>NFT-6</td><td>Frieder Schüler</td><td>?</td></tr>
-				<tr><td>NFT-7</td><td>Frieder Schüler</td><td>?</td></tr>
+				<tr><td>NFT-2</td><td>Frieder Schüler</td><td class="fail">NICHT BESTANDEN</td></tr>
+				<tr><td>NFT-3</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
+				<tr><td>NFT-4</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
+				<tr><td>NFT-5</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
+				<tr><td>NFT-6</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
+				<tr><td>NFT-7</td><td>Frieder Schüler</td><td class="success">OK</td></tr>
 			</table>
 
 		<h1 id="bericht">Bericht</h1>
@@ -96,8 +96,31 @@
 			<p>?</p>
 			
 			<h2 id="tester3">Frieder Schüler</h2>
-			<p>?</p>
-      
+			<p>FT-23: PMP hält sich weitestgehend an die User Interface Guidelines, es gibt jedoch einige Abweichungen. Auf Grund der Testdefinition muss bei 
+Abweichungen der Test grundsätzlich als "nicht bestanden" gewertet werden. Zu den Abweichungen gehören insbesondere:</p>
+<ul><li>Die Verwendung von nicht standardisierten Buttons</li>
+<li>Die Verwendung von zu viel und zu langen Texten</li>
+<li>Die erhebliche und teilweise verschachtelte Verwendung von Dialogen bzw. Pop-Ups</li>
+<li>Die Anordnung von OK/Cancel Buttons in Dialogen</li>
+<li>Die Verwendung eines eigenen Themes, anstatt eines Standardthemes.</li>
+<li>Die Verwendung von nicht standardisierten Pickers</li>
+</ul>
+<p>Grundsätzlich ist anzumerken, dass Google die User Interface Guidelines inzwischen auf Android 3.0+ ausgelegt hat und somit frühere Design Guidelines ungültig geworden 
+sind, oder sich zum Teil erheblich geändert haben.</p>
+			<p>FT-24: Anmerkung: Bei der Verwendung von Kontexten werden die Werte von Privacy Settings in der Übersicht nicht korrekt angezeigt (nicht Teil 
+des Tests). Es werden alle Aktionen korrekt geloggt.</p>
+			<p>FT-25: Alles in Ordnung.</p>
+			<p>FT-26: Keine Funktionalität bei der Bestätigung beim Entfernen von Ressourcengruppen. Unendliche Rekursion bei Presets/App 
+möglich, entspricht jedoch dem spezifizierten Verhalten.</p>
+<p>FT-27: Funktioniert wie gewünscht, jedoch war die Detailübersicht der deinstallierten App geöffnet und so ist PMP beim erneuten Aufrufen abgestürzt. Desweiteren 
+treten beim installieren der InfoApp sehr viele PrivacySettingValueExceptions auf.</p>
+			
+			<p>NFT-2: Es lassen sich im einfachen Modus keine Service Features deaktivieren. Im Experten-Modus funktioniert alles wie gewünscht.</p>
+			<p>NFT-3: Alles in Ordnung.</p>
+			<p>NFT-4: Alles in Ordnung.</p>
+			<p>NFT-5: Alles in Ordnung.</p>
+			<p>NFT-6: Alles in Ordnung.</p>
+			<p>NFT-7: Großteils vorbildlich Kommentiert, teilweise nur ausreichend, Testkriterien werden aber erfüllt.</p>
 			<h2 id="tester4">Marcus Vetter</h2>
 			<p>?</p>
 
