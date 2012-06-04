@@ -13,7 +13,7 @@ public class BluetoothCloakImpl extends IBluetooth.Stub {
 
 	@Override
 	public void enableBluetooth(boolean state) throws RemoteException {
-		// TODO Auto-generated method stub
+		// TODO  Auto-generated method stub
 		
 	}
 

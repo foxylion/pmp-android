@@ -22,6 +22,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.IDBConnector;
 
 /**
+ * This is the handler for uploading data to the webserver
  * 
  * @author Marcus Vetter
  * 
@@ -64,7 +65,7 @@ public class UploadHandler {
     public boolean upload() {
         List<BatteryEvent> eventList = new ArrayList<BatteryEvent>();
         
-        ResultSetUpload rsu = dbc.getUploadValues();
+        ResultSetUpload rsu = this.dbc.getUploadValues();
         
         for (de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.BatteryEvent be : rsu.getBatteryEvents()) {
             
@@ -117,7 +118,8 @@ public class UploadHandler {
         try {
             bem.commitEvents(eventList);
             
-            // TODO: Clear database
+            // Clear the database
+            this.dbc.clearDatabase();
             
             return true;
         } catch (InternalDatabaseException e) {

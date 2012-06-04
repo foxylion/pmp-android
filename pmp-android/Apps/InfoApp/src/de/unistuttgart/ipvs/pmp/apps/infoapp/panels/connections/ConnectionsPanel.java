@@ -94,7 +94,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     public ConnectionsPanel(Context context, InfoAppActivity activity) {
         this.context = context;
         this.activity = activity;
-        handler = new Handler();
+        this.handler = new Handler();
         
         // load the layout from the xml file
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -102,9 +102,9 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         
         // Create the list and the adapter
         ExpandableListView listView = (ExpandableListView) this.view.findViewById(R.id.expandable_list_view_connection);
-        adapter = new ListViewAdapater(context, new ArrayList<String>(), new ArrayList<String>(),
+        this.adapter = new ListViewAdapater(context, new ArrayList<String>(), new ArrayList<String>(),
                 new ArrayList<String>(), new ArrayList<String>());
-        listView.setAdapter(adapter);
+        listView.setAdapter(this.adapter);
         listView.setOnChildClickListener(this);
         
         updateLists();
@@ -128,7 +128,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
     
     
     private void updateLists() {
-        PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, new PMPRequestResourceHandler() {
+        PMP.get(this.activity.getApplication()).getResource(this.RG_IDENTIFIER, new PMPRequestResourceHandler() {
             
             @Override
             public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
@@ -152,7 +152,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                ConnectionsPanel.this.handler.post(new Runnable() {
                     
                     public void run() {
                         // New lists
@@ -162,121 +162,149 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                         ArrayList<String> cellPhoneList = new ArrayList<String>();
                         
                         // Fill the wifi list
-                        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_WIFI_INFO)) {
+                        if (PMP.get(ConnectionsPanel.this.activity.getApplication()).isServiceFeatureEnabled(
+                                Constants.CONNECTION_WIFI_INFO)) {
                             try {
                                 //State
-                                wifiList.add("<b>" + context.getString(R.string.connection_panel_state) + "</b> "
-                                        + booleanToStringConnection(connectionStub.getWifiConnectionStatus()));
+                                wifiList.add("<b>"
+                                        + ConnectionsPanel.this.context.getString(R.string.connection_panel_state)
+                                        + "</b> " + booleanToStringConnection(connectionStub.getWifiConnectionStatus()));
                                 
                                 // Configured networks
                                 wifiList.add("<b>"
-                                        + context.getString(R.string.connection_panel_wifi_configured_networks)
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_wifi_configured_networks)
                                         + "</b> " + connectionStub.getConfigureddWifiNetworks().size());
                                 
                                 // Connected time
                                 wifiList.add("<b>"
-                                        + context.getString(R.string.connection_panel_connected_twentyfour)
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_connected_twentyfour)
                                         + "</b> "
                                         + convertMillsecondsToString(connectionStub
                                                 .getWifiConnectionLastTwentyFourHours()));
-                                wifiList.add("<b>" + context.getString(R.string.connection_panel_connected_thirty_days)
-                                        + "</b> "
+                                wifiList.add("<b>"
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_connected_thirty_days) + "</b> "
                                         + convertMillsecondsToString(connectionStub.getWifiConnectionLastMonth()));
                                 
                                 // Connected cities
-                                wifiList.add("<b>" + context.getString(R.string.connection_panel_connected_cities)
-                                        + "</b>");
+                                wifiList.add("<b>"
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_connected_cities) + "</b>");
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            wifiList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
+                            wifiList.add("<b>" + ConnectionsPanel.this.context.getString(R.string.sf_insufficient)
+                                    + "</b>");
                         }
                         
                         // Fill the bluetooth list
-                        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_BT_INFO)) {
+                        if (PMP.get(ConnectionsPanel.this.activity.getApplication()).isServiceFeatureEnabled(
+                                Constants.CONNECTION_BT_INFO)) {
                             try {
                                 //State
-                                btList.add("<b>" + context.getString(R.string.connection_panel_state) + "</b> "
-                                        + booleanToString(connectionStub.getBluetoothStatus()));
+                                btList.add("<b>"
+                                        + ConnectionsPanel.this.context.getString(R.string.connection_panel_state)
+                                        + "</b> " + booleanToString(connectionStub.getBluetoothStatus()));
                                 
                                 //Paired devices
-                                btList.add("<b>" + context.getString(R.string.connection_panel_paired_devices)
-                                        + "</b> " + connectionStub.getPairedBluetoothDevices().size());
+                                btList.add("<b>"
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_paired_devices) + "</b> "
+                                        + connectionStub.getPairedBluetoothDevices().size());
                                 
                                 //Active time
                                 btList.add("<b>"
-                                        + context.getString(R.string.connection_panel_active_twentyfour)
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_active_twentyfour)
                                         + "</b> "
                                         + convertMillsecondsToString(connectionStub
                                                 .getBTConnectionLastTwentyFourHours()));
-                                btList.add("<b>" + context.getString(R.string.connection_panel_active_thirty_days)
-                                        + "</b> "
+                                btList.add("<b>"
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_active_thirty_days) + "</b> "
                                         + convertMillsecondsToString(connectionStub.getBTConnectionLastMonth()));
                                 
                                 // Cities
-                                btList.add("<b>" + context.getString(R.string.connection_panel_connected_cities)
-                                        + "</b>");
+                                btList.add("<b>"
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_connected_cities) + "</b>");
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            btList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
+                            btList.add("<b>" + ConnectionsPanel.this.context.getString(R.string.sf_insufficient)
+                                    + "</b>");
                         }
                         
                         // Fill the cell phone list
-                        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_CELL_INFO)) {
+                        if (PMP.get(ConnectionsPanel.this.activity.getApplication()).isServiceFeatureEnabled(
+                                Constants.CONNECTION_CELL_INFO)) {
                             try {
                                 // Provider
-                                cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_provider)
+                                cellPhoneList.add("<b>"
+                                        + ConnectionsPanel.this.context.getString(R.string.connection_panel_provider)
                                         + "</b> " + connectionStub.getProvider());
                                 
                                 // Network type
                                 String type = connectionStub.getNetworkType();
                                 if (type.equals("unknown")) {
-                                    cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_network_type)
+                                    cellPhoneList.add("<b>"
+                                            + ConnectionsPanel.this.context
+                                                    .getString(R.string.connection_panel_network_type)
                                             + "</b> "
-                                            + context.getString(R.string.connection_panel_network_type_unknown));
+                                            + ConnectionsPanel.this.context
+                                                    .getString(R.string.connection_panel_network_type_unknown));
                                 } else {
-                                    cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_network_type)
-                                            + "</b> " + type);
+                                    cellPhoneList.add("<b>"
+                                            + ConnectionsPanel.this.context
+                                                    .getString(R.string.connection_panel_network_type) + "</b> " + type);
                                 }
                                 
                                 // Roaming status
-                                cellPhoneList.add("<b>" + context.getString(R.string.connection_panel_roaming)
+                                cellPhoneList.add("<b>"
+                                        + ConnectionsPanel.this.context.getString(R.string.connection_panel_roaming)
                                         + "</b> " + booleanToString(connectionStub.getRoamingStatus()));
                                 
                                 // Connection time
                                 cellPhoneList.add("<b>"
-                                        + context.getString(R.string.connection_panel_active_twentyfour_flight_mode)
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_active_twentyfour_flight_mode)
                                         + "</b> "
                                         + convertMillsecondsToString(connectionStub
                                                 .getAirplaneModeLastTwentyFourHours()));
                                 cellPhoneList.add("<b>"
-                                        + context.getString(R.string.connection_panel_active_thirty_days_flight_mode)
+                                        + ConnectionsPanel.this.context
+                                                .getString(R.string.connection_panel_active_thirty_days_flight_mode)
                                         + "</b> "
                                         + convertMillsecondsToString(connectionStub.getAirplaneModeLastMonth()));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            cellPhoneList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
+                            cellPhoneList.add("<b>" + ConnectionsPanel.this.context.getString(R.string.sf_insufficient)
+                                    + "</b>");
                         }
                         
                         // Fill the data connection info
-                        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_DATA_INFO)) {
+                        if (PMP.get(ConnectionsPanel.this.activity.getApplication()).isServiceFeatureEnabled(
+                                Constants.CONNECTION_DATA_INFO)) {
                             try {
                                 // Status
-                                dataList.add("<b>" + context.getString(R.string.connection_panel_state) + "</b> "
-                                        + booleanToString(connectionStub.getDataConnectionStatus()));
+                                dataList.add("<b>"
+                                        + ConnectionsPanel.this.context.getString(R.string.connection_panel_state)
+                                        + "</b> " + booleanToString(connectionStub.getDataConnectionStatus()));
                             } catch (RemoteException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            dataList.add("<b>" + context.getString(R.string.sf_insufficient) + "</b>");
+                            dataList.add("<b>" + ConnectionsPanel.this.context.getString(R.string.sf_insufficient)
+                                    + "</b>");
                         }
                         // Update the view
-                        adapter.updateLists(wifiList, btList, dataList, cellPhoneList);
+                        ConnectionsPanel.this.adapter.updateLists(wifiList, btList, dataList, cellPhoneList);
                     }
                 });
             }
@@ -293,9 +321,9 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      */
     private String booleanToString(boolean convert) {
         if (convert) {
-            return context.getString(R.string.connection_panel_active);
+            return this.context.getString(R.string.connection_panel_active);
         } else {
-            return context.getString(R.string.connection_panel_not_active);
+            return this.context.getString(R.string.connection_panel_not_active);
         }
     }
     
@@ -309,9 +337,9 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      */
     private String booleanToStringConnection(boolean convert) {
         if (convert) {
-            return context.getString(R.string.connection_panel_connected);
+            return this.context.getString(R.string.connection_panel_connected);
         } else {
-            return context.getString(R.string.connection_panel_not_connected);
+            return this.context.getString(R.string.connection_panel_not_connected);
         }
     }
     
@@ -373,14 +401,14 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         
         // Try to get clicked object, should be a string
         try {
-            clicked = (String) adapter.getChild(groupPosition, childPosition);
+            clicked = (String) this.adapter.getChild(groupPosition, childPosition);
         } catch (ClassCastException e) {
             System.out.println("Something went wrong :(:" + e.getMessage());
         }
         
         // A city child was clicked
-        if (clicked.contains(context.getString(R.string.connection_panel_connected_cities))) {
-            PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, new PMPRequestResourceHandler() {
+        if (clicked.contains(this.context.getString(R.string.connection_panel_connected_cities))) {
+            PMP.get(this.activity.getApplication()).getResource(this.RG_IDENTIFIER, new PMPRequestResourceHandler() {
                 
                 @Override
                 public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
@@ -391,14 +419,16 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                             try {
                                 cities = connectionStub.getConnectedWifiCities();
                             } catch (RemoteException e) {
-                                cities.add(context.getString(R.string.connection_panel_connected_cities_error));
+                                cities.add(ConnectionsPanel.this.context
+                                        .getString(R.string.connection_panel_connected_cities_error));
                             }
                             break;
                         case 1:
                             try {
                                 cities = connectionStub.getConnectedBTCities();
                             } catch (RemoteException e) {
-                                cities.add(context.getString(R.string.connection_panel_connected_cities_error));
+                                cities.add(ConnectionsPanel.this.context
+                                        .getString(R.string.connection_panel_connected_cities_error));
                             }
                             break;
                         case 2:
@@ -409,14 +439,16 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                     
                     // No cities found
                     if (cities.size() == 0) {
-                        cities.add(context.getString(R.string.connection_panel_connected_cities_not_found));
+                        cities.add(ConnectionsPanel.this.context
+                                .getString(R.string.connection_panel_connected_cities_not_found));
                     }
                     CharSequence[] items = cities.toArray(new CharSequence[cities.size()]);
                     
                     Looper.prepare();
                     // Create the dialog
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.connection_panel_connected_cities_dialog));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ConnectionsPanel.this.context);
+                    builder.setTitle(ConnectionsPanel.this.context
+                            .getString(R.string.connection_panel_connected_cities_dialog));
                     builder.setItems(items, null);
                     AlertDialog alert = builder.create();
                     
@@ -427,7 +459,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         }
         
         // Insufficient service features was clicked
-        if (clicked.contains(context.getString(R.string.sf_insufficient))) {
+        if (clicked.contains(this.context.getString(R.string.sf_insufficient))) {
             List<String> sfs = new ArrayList<String>();
             switch (groupPosition) {
                 case 0:
@@ -443,7 +475,7 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
                     sfs.add(Constants.CONNECTION_CELL_INFO);
                     break;
             }
-            PMP.get(activity.getApplication()).requestServiceFeatures(activity, sfs);
+            PMP.get(this.activity.getApplication()).requestServiceFeatures(this.activity, sfs);
         }
         return true;
     }
@@ -461,9 +493,9 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
      * Upload the data to the evaluation server
      */
     public void upload(ProgressDialog dialog) {
-        if (PMP.get(activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
+        if (PMP.get(this.activity.getApplication()).isServiceFeatureEnabled(Constants.CONNECTION_STATISTICS)) {
             ConnectionUploadResourceHandler handler = new ConnectionUploadResourceHandler(dialog, this.activity);
-            PMP.get(activity.getApplication()).getResource(RG_IDENTIFIER, handler);
+            PMP.get(this.activity.getApplication()).getResource(this.RG_IDENTIFIER, handler);
         } else {
             dialog.dismiss();
             List<String> sfs = new ArrayList<String>();

@@ -46,7 +46,7 @@ public class EneryUploadResourceHandler extends AbstractRequestRessourceHandler 
     public void onReceiveResource(PMPResourceIdentifier resource, IBinder binder, boolean isMocked) {
         IEnergy energyRG = IEnergy.Stub.asInterface(binder);
         try {
-            this.setURL(energyRG.uploadData());
+            setURL(energyRG.uploadData());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

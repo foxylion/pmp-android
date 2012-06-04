@@ -15,6 +15,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultS
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver.UploadHandler;
 
 /**
+ * This is the AIDL-Implementation for the energy resource
  * 
  * @author Marcus Vetter
  * 
@@ -246,17 +247,17 @@ public class EnergyImpl extends IEnergy.Stub {
     
     
     private ResultSetCurrentValues getResultSetCV() {
-        return dbc.getCurrentValues();
+        return this.dbc.getCurrentValues();
     }
     
     
     private ResultSetLastBootValues getResultSetLBV() {
-        return dbc.getLastBootValues();
+        return this.dbc.getLastBootValues();
     }
     
     
     private ResultSetTotalValues getResultSetTV() {
-        return dbc.getTotalValues();
+        return this.dbc.getTotalValues();
     }
     
 }

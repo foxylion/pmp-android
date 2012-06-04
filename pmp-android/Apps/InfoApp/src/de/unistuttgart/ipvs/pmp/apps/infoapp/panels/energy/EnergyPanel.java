@@ -78,7 +78,7 @@ public class EnergyPanel implements IPanel {
         listView.setAdapter(this.adapter);
         
         // Get the data
-        this.update();
+        update();
     }
     
     

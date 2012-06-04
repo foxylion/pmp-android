@@ -156,20 +156,20 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     
                     // Disable the plugged label, if non plugged text is set
                     if (tvPlugged.getText().equals("")) {
-                        tvPlugged.setVisibility(TextView.GONE);
-                        entryView.findViewById(R.id.energyCVPluggedLabel).setVisibility(TextView.GONE);
+                        tvPlugged.setVisibility(View.GONE);
+                        entryView.findViewById(R.id.energyCVPluggedLabel).setVisibility(View.GONE);
                     } else {
-                        tvPlugged.setVisibility(TextView.VISIBLE);
-                        entryView.findViewById(R.id.energyCVPluggedLabel).setVisibility(TextView.VISIBLE);
+                        tvPlugged.setVisibility(View.VISIBLE);
+                        entryView.findViewById(R.id.energyCVPluggedLabel).setVisibility(View.VISIBLE);
                     }
                     
                     // Enable the table
                     TableLayout tlCV = (TableLayout) entryView.findViewById(R.id.energyCVtableLayout);
-                    tlCV.setVisibility(TableLayout.VISIBLE);
+                    tlCV.setVisibility(View.VISIBLE);
                     
                     // Disable the "not available" text view
                     TextView tvCVnotAvailable = (TextView) entryView.findViewById(R.id.energyCVNotAvailable);
-                    tvCVnotAvailable.setVisibility(TextView.GONE);
+                    tvCVnotAvailable.setVisibility(View.GONE);
                     
                 } else {
                     // Add on click listener
@@ -185,11 +185,11 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     
                     // Disable the table
                     TableLayout tlCV = (TableLayout) entryView.findViewById(R.id.energyCVtableLayout);
-                    tlCV.setVisibility(TableLayout.GONE);
+                    tlCV.setVisibility(View.GONE);
                     
                     // Enable the "not available" text view
                     TextView tvCVnotAvailable = (TextView) entryView.findViewById(R.id.energyCVNotAvailable);
-                    tvCVnotAvailable.setVisibility(TextView.VISIBLE);
+                    tvCVnotAvailable.setVisibility(View.VISIBLE);
                 }
                 
                 return entryView;
@@ -230,11 +230,11 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     
                     // Enable the table
                     TableLayout tlLBV = (TableLayout) entryView.findViewById(R.id.energyLBVtableLayout);
-                    tlLBV.setVisibility(TableLayout.VISIBLE);
+                    tlLBV.setVisibility(View.VISIBLE);
                     
                     // Disable the "not available" text view
                     TextView tvLBVnotAvailable = (TextView) entryView.findViewById(R.id.energyLBVNotAvailable);
-                    tvLBVnotAvailable.setVisibility(TextView.GONE);
+                    tvLBVnotAvailable.setVisibility(View.GONE);
                     
                 } else {
                     // Add on click listener
@@ -250,11 +250,11 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     
                     // Disable the table
                     TableLayout tlLBV = (TableLayout) entryView.findViewById(R.id.energyLBVtableLayout);
-                    tlLBV.setVisibility(TableLayout.GONE);
+                    tlLBV.setVisibility(View.GONE);
                     
                     // Enable the "not available" text view
                     TextView tvLBVnotAvailable = (TextView) entryView.findViewById(R.id.energyLBVNotAvailable);
-                    tvLBVnotAvailable.setVisibility(TextView.VISIBLE);
+                    tvLBVnotAvailable.setVisibility(View.VISIBLE);
                 }
                 
                 return entryView;
@@ -295,11 +295,11 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     
                     // Enable the table
                     TableLayout tlTV = (TableLayout) entryView.findViewById(R.id.energyTVtableLayout);
-                    tlTV.setVisibility(TableLayout.VISIBLE);
+                    tlTV.setVisibility(View.VISIBLE);
                     
                     // Disable the "not available" text view
                     TextView tvTVnotAvailable = (TextView) entryView.findViewById(R.id.energyTVNotAvailable);
-                    tvTVnotAvailable.setVisibility(TextView.GONE);
+                    tvTVnotAvailable.setVisibility(View.GONE);
                     
                 } else {
                     // Add on click listener
@@ -315,11 +315,11 @@ public class EnergyExtListViewAdapter extends BaseExpandableListAdapter {
                     
                     // Disable the table
                     TableLayout tlTV = (TableLayout) entryView.findViewById(R.id.energyTVtableLayout);
-                    tlTV.setVisibility(TableLayout.GONE);
+                    tlTV.setVisibility(View.GONE);
                     
                     // Enable the "not available" text view
                     TextView tvTVnotAvailable = (TextView) entryView.findViewById(R.id.energyTVNotAvailable);
-                    tvTVnotAvailable.setVisibility(TextView.VISIBLE);
+                    tvTVnotAvailable.setVisibility(View.VISIBLE);
                 }
                 
                 return entryView;

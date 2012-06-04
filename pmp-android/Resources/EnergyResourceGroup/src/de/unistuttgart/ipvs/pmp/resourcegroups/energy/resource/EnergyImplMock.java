@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
 
 /**
+ * This is the AIDL implementation for mock data
  * 
  * @author Marcus Vetter
  * 

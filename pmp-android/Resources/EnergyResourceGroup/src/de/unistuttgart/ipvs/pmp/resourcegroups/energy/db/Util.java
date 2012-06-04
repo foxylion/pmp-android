@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 
 /**
+ * An utility class for converting milliseconds into a string representation of d, h, m, s
  * 
  * @author Marcus Vetter
  * 
@@ -25,12 +26,15 @@ public class Util {
         long secs = givenSecs - daysInSec - hoursInSec - minsInSec;
         
         StringBuilder sb = new StringBuilder();
-        if (days > 0)
+        if (days > 0) {
             sb.append(String.valueOf(days) + "d ");
-        if (hours > 0)
+        }
+        if (hours > 0) {
             sb.append(String.valueOf(hours) + "h ");
-        if (mins > 0)
+        }
+        if (mins > 0) {
             sb.append(String.valueOf(mins) + "m ");
+        }
         sb.append(String.valueOf(secs) + "s");
         
         return sb.toString();

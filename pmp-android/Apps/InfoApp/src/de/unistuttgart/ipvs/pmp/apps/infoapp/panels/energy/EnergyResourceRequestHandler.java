@@ -42,7 +42,7 @@ public class EnergyResourceRequestHandler extends PMPRequestResourceHandler {
             
             @Override
             public void run() {
-                handler.post(new Runnable() {
+                EnergyResourceRequestHandler.this.handler.post(new Runnable() {
                     
                     public void run() {
                         IEnergy energyRG = IEnergy.Stub.asInterface(EnergyResourceRequestHandler.this.binder);

@@ -98,7 +98,7 @@ public class ViewPagerAdapter extends PagerAdapter implements TitleProvider {
      * @return the {@link IPanel} at the position
      */
     public IPanel getPanel(int position) {
-        return panels.get(position);
+        return this.panels.get(position);
     }
     
     

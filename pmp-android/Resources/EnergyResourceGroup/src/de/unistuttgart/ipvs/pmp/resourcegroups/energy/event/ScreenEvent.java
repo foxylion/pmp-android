@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.event;
 
 /**
+ * This is a concrete implementation of the {@link AbstractEvent}, the screen event
  * 
  * @author Marcus Vetter
  * 

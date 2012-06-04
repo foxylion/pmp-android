@@ -5,6 +5,12 @@ import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.AbstractPrivacySetting;
 import de.unistuttgart.ipvs.pmp.resource.privacysetting.PrivacySettingValueException;
 
+/**
+ * This is the validator for all privacy settings of the resource
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public class PSValidator {
     
     private ResourceGroup rg;

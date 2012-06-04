@@ -5,6 +5,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.DeviceBootEvent;
 
 /**
+ * This is the handler for all device boot events. It is called, if an intent happened.
  * 
  * @author Marcus Vetter
  * 

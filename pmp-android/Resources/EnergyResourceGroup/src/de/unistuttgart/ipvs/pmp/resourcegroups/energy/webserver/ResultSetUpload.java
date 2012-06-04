@@ -19,7 +19,7 @@ public class ResultSetUpload {
      * @return the batteryEvents
      */
     public List<BatteryEvent> getBatteryEvents() {
-        return batteryEvents;
+        return this.batteryEvents;
     }
     
     

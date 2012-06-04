@@ -227,30 +227,30 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         switch (group) {
             case 0:
                 item = this.wifiList.get(index);
-                if (item.contains(context.getString(R.string.connection_panel_connected_cities))) {
+                if (item.contains(this.context.getString(R.string.connection_panel_connected_cities))) {
                     result = true;
                 }
                 
-                if (item.contains(context.getString(R.string.sf_insufficient))) {
+                if (item.contains(this.context.getString(R.string.sf_insufficient))) {
                     result = true;
                 }
                 return result;
             case 1:
                 item = this.btList.get(index);
-                if (item.contains(context.getString(R.string.connection_panel_connected_cities))) {
+                if (item.contains(this.context.getString(R.string.connection_panel_connected_cities))) {
                     result = true;
                 }
                 
-                if (item.contains(context.getString(R.string.sf_insufficient))) {
+                if (item.contains(this.context.getString(R.string.sf_insufficient))) {
                     result = true;
                 }
                 return result;
             case 2:
                 item = this.dataList.get(index);
-                return item.contains(context.getString(R.string.sf_insufficient));
+                return item.contains(this.context.getString(R.string.sf_insufficient));
             case 3:
                 item = this.cellPhoneList.get(index);
-                return item.contains(context.getString(R.string.sf_insufficient));
+                return item.contains(this.context.getString(R.string.sf_insufficient));
         }
         return false;
     }
@@ -274,7 +274,7 @@ public class ListViewAdapater extends BaseExpandableListAdapter {
         this.btList = btList;
         this.dataList = dataList;
         this.cellPhoneList = cellPhoneList;
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
     
 }

@@ -10,6 +10,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 
+/**
+ * This is the sqlite helper class for creating tables for battery events and device data
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public class SQLiteHelper extends SQLiteOpenHelper {
     
     /**

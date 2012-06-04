@@ -25,7 +25,7 @@ public class AbstractEnergyValues {
      * @return the date
      */
     public String getDate() {
-        return date;
+        return this.date;
     }
     
     
@@ -42,7 +42,7 @@ public class AbstractEnergyValues {
      * @return the uptime
      */
     public String getUptime() {
-        return uptime;
+        return this.uptime;
     }
     
     
@@ -59,7 +59,7 @@ public class AbstractEnergyValues {
      * @return the uptimeBattery
      */
     public String getUptimeBattery() {
-        return uptimeBattery;
+        return this.uptimeBattery;
     }
     
     
@@ -76,7 +76,7 @@ public class AbstractEnergyValues {
      * @return the durationOfCharging
      */
     public String getDurationOfCharging() {
-        return durationOfCharging;
+        return this.durationOfCharging;
     }
     
     
@@ -93,7 +93,7 @@ public class AbstractEnergyValues {
      * @return the ratio
      */
     public String getRatio() {
-        return ratio;
+        return this.ratio;
     }
     
     
@@ -110,7 +110,7 @@ public class AbstractEnergyValues {
      * @return the temperaturePeak
      */
     public String getTemperaturePeak() {
-        return temperaturePeak;
+        return this.temperaturePeak;
     }
     
     
@@ -127,7 +127,7 @@ public class AbstractEnergyValues {
      * @return the temperatureAverage
      */
     public String getTemperatureAverage() {
-        return temperatureAverage;
+        return this.temperatureAverage;
     }
     
     
@@ -144,7 +144,7 @@ public class AbstractEnergyValues {
      * @return the countOfCharging
      */
     public String getCountOfCharging() {
-        return countOfCharging;
+        return this.countOfCharging;
     }
     
     
@@ -161,7 +161,7 @@ public class AbstractEnergyValues {
      * @return the screenOn
      */
     public String getScreenOn() {
-        return screenOn;
+        return this.screenOn;
     }
     
     

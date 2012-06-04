@@ -4,6 +4,12 @@ import android.os.IBinder;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
 import de.unistuttgart.ipvs.pmp.resource.ResourceGroup;
 
+/**
+ * This is the energy resource
+ * 
+ * @author Marcus Vetter
+ * 
+ */
 public class EnergyResource extends Resource {
     
     private ResourceGroup rg;

@@ -10,6 +10,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.DeviceBootHa
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.EnergyResource;
 
 /**
+ * This is the energy resource group
  * 
  * @author Marcus Vetter
  * 
@@ -28,7 +29,6 @@ public class EnergyResourceGroup extends ResourceGroup {
         
         // Boot-Event received
         // Deprecated: Work-around, but works
-        
         if (pmpci.getContext(null) instanceof Context) {
             DeviceBootHandler.handle(pmpci.getContext(null), true);
         }

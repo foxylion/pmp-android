@@ -66,7 +66,7 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      * @return the uRL
      */
     public String getURL() {
-        return URL;
+        return this.URL;
     }
     
     
@@ -75,7 +75,7 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
      *            the uRL to set
      */
     public void setURL(String url) {
-        URL = url;
+        this.URL = url;
     }
     
     
@@ -86,13 +86,13 @@ public abstract class AbstractRequestRessourceHandler extends PMPRequestResource
         Log.d(this, "The returned URL was: " + this.URL);
         if (this.URL == null || this.URL.equals("")) {
             Looper.prepare();
-            Toast.makeText(activity, this.activity.getString(R.string.upload_error) + "\"" + this.URL + "\"",
+            Toast.makeText(this.activity, this.activity.getString(R.string.upload_error) + "\"" + this.URL + "\"",
                     Toast.LENGTH_LONG).show();
             Looper.loop();
         } else {
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(this.URL));
-            activity.startActivity(i);
+            this.activity.startActivity(i);
             Log.d(this, "Started browser");
         }
         

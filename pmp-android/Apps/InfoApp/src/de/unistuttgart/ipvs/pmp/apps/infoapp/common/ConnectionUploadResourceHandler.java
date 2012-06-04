@@ -47,7 +47,7 @@ public class ConnectionUploadResourceHandler extends AbstractRequestRessourceHan
         IConnection connectionRG = IConnection.Stub.asInterface(binder);
         try {
             String url = connectionRG.uploadData();
-            this.setURL(url);
+            setURL(url);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

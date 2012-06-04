@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultS
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver.ResultSetUpload;
 
 /**
+ * This is the interface for an database connection for storing and loading energy and device data events
  * 
  * @author Marcus Vetter
  * 
@@ -72,5 +73,11 @@ public interface IDBConnector {
      * @return a object of {@link ResultSetUpload}
      */
     public ResultSetUpload getUploadValues();
+    
+    
+    /**
+     * This will clear the database
+     */
+    public void clearDatabase();
     
 }

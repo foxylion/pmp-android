@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -20,6 +21,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset.ResultS
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.webserver.ResultSetUpload;
 
 /**
+ * This is the connector to the database. Queries (loads) and updates/inserts (stores) can be executed.
  * 
  * @author Marcus Vetter
  * 
@@ -83,7 +85,6 @@ public class DBConnector implements IDBConnector {
      * @throws SQLException
      */
     public void open() throws SQLException {
-        System.out.println(this.dbHelper);
         this.database = this.dbHelper.getWritableDatabase();
     }
     
@@ -136,7 +137,7 @@ public class DBConnector implements IDBConnector {
         if (se.isChangedTo()) {
             
             // Update last screen on date
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE, se.getTimestamp());
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE, se.getTimestamp());
             
             // Log
             Log.i(EnergyConstants.LOG_TAG, "Screen turned on (Timestamp: " + se.getTimestamp() + ")");
@@ -144,14 +145,13 @@ public class DBConnector implements IDBConnector {
         } else {
             
             // Get last screen on date
-            long lastScreenOnDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
+            long lastScreenOnDate = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
             
             // Get current screen on time
-            long currentScreenOnTime = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
+            long currentScreenOnTime = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
             
             // Get current screen on time since last boot
-            long currentScreenOnTimeLastBoot = this
-                    .getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
+            long currentScreenOnTimeLastBoot = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
             
             // New screen on time
             long newScreenOnTime = (se.getTimestamp() - lastScreenOnDate) + currentScreenOnTime;
@@ -160,11 +160,10 @@ public class DBConnector implements IDBConnector {
             long newScreenOnTimeLastBoot = (se.getTimestamp() - lastScreenOnDate) + currentScreenOnTimeLastBoot;
             
             // Update screen on time
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME, newScreenOnTime);
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME, newScreenOnTime);
             
             // Update screen on time since last boot
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME,
-                    newScreenOnTimeLastBoot);
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME, newScreenOnTimeLastBoot);
             
             // Log
             Log.i(EnergyConstants.LOG_TAG, "Screen turned off (New screen-on time: " + newScreenOnTime
@@ -178,7 +177,7 @@ public class DBConnector implements IDBConnector {
      */
     public synchronized void storeDeviceBootEvent(DeviceBootEvent dbe) {
         // Check, if deviceOnFlag = 0 or = 1
-        long deviceOn = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG);
+        long deviceOn = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG);
         boolean deviceOnFlag = false;
         if (deviceOn == 1) {
             deviceOnFlag = true;
@@ -186,30 +185,30 @@ public class DBConnector implements IDBConnector {
         
         if (dbe.isChangedTo() && !deviceOnFlag) {
             // Set the deviceOn flag to 1
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG, 1);
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG, 1);
             
             // Update the last boot date
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE, dbe.getTimestamp());
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE, dbe.getTimestamp());
             
             // Reset the screen on time since last boot
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME, 0);
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME, 0);
             
             // Log
             Log.i(EnergyConstants.LOG_TAG, "Device turned on (New last boot date: " + dbe.getTimestamp() + ")");
             
         } else if (!dbe.isChangedTo() && deviceOnFlag) {
             // Set the deviceOn flag to 0
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG, 0);
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_DEVICE_ON_FLAG, 0);
             
             // Get the current total uptime
-            long currentTotalUptime = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME);
+            long currentTotalUptime = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME);
             
             // Get the last boot date
-            long lastBootDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
+            long lastBootDate = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
             
             // Update the total uptime
             long newTotalUptime = currentTotalUptime + (dbe.getTimestamp() - lastBootDate);
-            this.updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME, newTotalUptime);
+            updateDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME, newTotalUptime);
             
             // Log
             Log.i(EnergyConstants.LOG_TAG, "Device turned off (New total uptime: " + newTotalUptime + ")");
@@ -224,36 +223,40 @@ public class DBConnector implements IDBConnector {
         ResultSetCurrentValues rs = new ResultSetCurrentValues();
         
         open();
-        Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS, null, null, null,
-                null, null);
-        if (cursor.moveToLast()) {
-            BatteryEvent lastBE = cursorToBatteryEvent(cursor);
-            rs.setLevel(String.valueOf(lastBE.getLevel()) + " %");
-            rs.setHealth(lastBE.getHealth());
-            rs.setStatus(lastBE.getStatus());
-            if (!lastBE.getPlugged().equals(EnergyConstants.PLUGGED_NOT_PLUGGED)) {
-                rs.setPlugged(lastBE.getPlugged());
-            }
-            rs.setTemperature(String.valueOf(lastBE.getTemperature()) + " °C");
-            // Calculate the time
-            long pluggedTime = System.currentTimeMillis();
-            while (!cursor.isBeforeFirst()) {
-                pluggedTime = cursor.getLong(1);
-                if (cursor.moveToPrevious()) {
-                    if (!cursor.getString(4).equals(rs.getStatus())) {
-                        break;
-                    }
+        try {
+            Cursor cursor = this.database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS, null,
+                    null, null, null, null);
+            if (cursor.moveToLast()) {
+                BatteryEvent lastBE = cursorToBatteryEvent(cursor);
+                rs.setLevel(String.valueOf(lastBE.getLevel()) + " %");
+                rs.setHealth(lastBE.getHealth());
+                rs.setStatus(lastBE.getStatus());
+                if (!lastBE.getPlugged().equals(EnergyConstants.PLUGGED_NOT_PLUGGED)) {
+                    rs.setPlugged(lastBE.getPlugged());
                 }
-                
+                rs.setTemperature(String.valueOf(lastBE.getTemperature()) + " °C");
+                // Calculate the time
+                long pluggedTime = System.currentTimeMillis();
+                while (!cursor.isBeforeFirst()) {
+                    pluggedTime = cursor.getLong(1);
+                    if (cursor.moveToPrevious()) {
+                        if (!cursor.getString(4).equals(rs.getStatus())) {
+                            break;
+                        }
+                    }
+                    
+                }
+                // pretty print
+                try {
+                    rs.setStatusTime(Util.convertMillisecondsToString(System.currentTimeMillis() - pluggedTime));
+                } catch (Exception e) {
+                    rs.setStatusTime(String.valueOf(System.currentTimeMillis() - pluggedTime) + " ms");
+                }
             }
-            // pretty print
-            try {
-                rs.setStatusTime(Util.convertMillisecondsToString(System.currentTimeMillis() - pluggedTime));
-            } catch (Exception e) {
-                rs.setStatusTime(String.valueOf(System.currentTimeMillis() - pluggedTime) + " ms");
-            }
+            cursor.close();
+        } catch (CursorIndexOutOfBoundsException cioobe) {
+            // The database was empty, exception can be ignored.
         }
-        cursor.close();
         close();
         
         return rs;
@@ -266,10 +269,10 @@ public class DBConnector implements IDBConnector {
     public synchronized ResultSetLastBootValues getLastBootValues() {
         
         // Get the last boot date
-        long lastBootDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
+        long lastBootDate = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
         
         // Return the result set
-        return (ResultSetLastBootValues) createResultSet(this.getAllBatteryEvents(lastBootDate),
+        return (ResultSetLastBootValues) createResultSet(getAllBatteryEvents(lastBootDate),
                 new ResultSetLastBootValues(), lastBootDate);
         
     }
@@ -281,7 +284,7 @@ public class DBConnector implements IDBConnector {
     public synchronized ResultSetTotalValues getTotalValues() {
         
         // Get the date of first measurement
-        long dateOfFirstMeasurement = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_FIRST_MEASUREMENT_DATE);
+        long dateOfFirstMeasurement = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_FIRST_MEASUREMENT_DATE);
         
         // Return the result set
         return (ResultSetTotalValues) createResultSet(getAllBatteryEvents(dateOfFirstMeasurement),
@@ -320,13 +323,13 @@ public class DBConnector implements IDBConnector {
         /*
          * Set the uptime
          */
-        long lastBootDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
+        long lastBootDate = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_DATE);
         long lastBootUptime = System.currentTimeMillis() - lastBootDate;
         long uptime = 0;
         if (rs instanceof ResultSetLastBootValues) {
             uptime = lastBootUptime;
         } else if (rs instanceof ResultSetTotalValues) {
-            uptime = lastBootUptime + this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME);
+            uptime = lastBootUptime + getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_TOTAL_UPTIME);
         }
         // Pretty format
         try {
@@ -436,10 +439,9 @@ public class DBConnector implements IDBConnector {
         /*
          * Set the screen on time
          */
-        long screenOnTimeStored = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
-        long screenOnLastBootTimeStored = this
-                .getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
-        long lastScreenOnDate = this.getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
+        long screenOnTimeStored = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_SCREEN_ON_TIME);
+        long screenOnLastBootTimeStored = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_BOOT_SCREEN_ON_TIME);
+        long lastScreenOnDate = getDeviceDataValue(DBConstants.TABLE_DEVICE_DATA_KEY_LAST_SCREEN_ON_DATE);
         
         // Add the current screen on time
         long screenOnTime = System.currentTimeMillis() - lastScreenOnDate;
@@ -471,15 +473,20 @@ public class DBConnector implements IDBConnector {
     private synchronized List<BatteryEvent> getAllBatteryEvents(long since) {
         List<BatteryEvent> beList = new ArrayList<BatteryEvent>();
         open();
-        Cursor cursor = database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS,
-                DBConstants.TABLE_BATTERY_COL_TIMESTAMP + " >= " + since, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            beList.add(cursorToBatteryEvent(cursor));
-            cursor.moveToNext();
+        try {
+            Cursor cursor = this.database.query(DBConstants.TABLE_BATTERY, DBConstants.TABLE_BATTERY_ALL_COLS,
+                    DBConstants.TABLE_BATTERY_COL_TIMESTAMP + " >= " + since, null, null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                beList.add(cursorToBatteryEvent(cursor));
+                cursor.moveToNext();
+            }
+            
+            cursor.close();
+            
+        } catch (CursorIndexOutOfBoundsException cioobe) {
+            // The database was empty, exception can be ignored.
         }
-        
-        cursor.close();
         close();
         
         return beList;
@@ -512,6 +519,14 @@ public class DBConnector implements IDBConnector {
     }
     
     
+    public void clearDatabase() {
+        open();
+        this.database.delete(DBConstants.TABLE_BATTERY, null, null);
+        this.database.delete(DBConstants.TABLE_DEVICE_DATA, null, null);
+        close();
+    }
+    
+    
     /**
      * INTERNAL USE ONLY!
      * 
@@ -521,14 +536,18 @@ public class DBConnector implements IDBConnector {
      */
     private synchronized long getDeviceDataValue(String key) {
         open();
-        
-        String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + "='" + key + "'";
-        Cursor cursor = this.database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
-                whereClause, null, null, null, null);
-        cursor.moveToFirst();
-        long returnValue = cursor.getLong(1);
-        
-        cursor.close();
+        long returnValue = 0;
+        try {
+            String whereClause = DBConstants.TABLE_DEVICE_DATA_COL_KEY + "='" + key + "'";
+            Cursor cursor = this.database.query(DBConstants.TABLE_DEVICE_DATA, DBConstants.TABLE_DEVICE_DATA_ALL_COLS,
+                    whereClause, null, null, null, null);
+            cursor.moveToFirst();
+            returnValue = cursor.getLong(1);
+            
+            cursor.close();
+        } catch (CursorIndexOutOfBoundsException cioobe) {
+            // The database was empty, exception can be ignored.
+        }
         close();
         
         return returnValue;

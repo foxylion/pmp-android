@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.event;
 
 /**
+ * This is a concrete implementation of the {@link AbstractEvent}, the device boot event
  * 
  * @author Marcus Vetter
  * 
@@ -31,7 +32,7 @@ public class DeviceBootEvent extends AbstractEvent {
      * @return the changedTo
      */
     public boolean isChangedTo() {
-        return changedTo;
+        return this.changedTo;
     }
     
     

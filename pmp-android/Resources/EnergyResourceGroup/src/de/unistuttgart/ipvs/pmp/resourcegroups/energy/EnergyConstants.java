@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.BatteryManager;
 
 /**
+ * This are the constants for the energy resource. E.g. the identifier of the privacy settings
  * 
  * @author Marcus Vetter
  * 

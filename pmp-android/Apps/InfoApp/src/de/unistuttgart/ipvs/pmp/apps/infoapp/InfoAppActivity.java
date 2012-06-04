@@ -82,8 +82,8 @@ public class InfoAppActivity extends Activity {
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int displayed = mPager.getCurrentItem();
-        IPanel panel = mAdapter.getPanel(displayed);
+        int displayed = this.mPager.getCurrentItem();
+        IPanel panel = this.mAdapter.getPanel(displayed);
         ProgressDialog dialog;
         switch (item.getItemId()) {
             case R.id.menu_refresh:

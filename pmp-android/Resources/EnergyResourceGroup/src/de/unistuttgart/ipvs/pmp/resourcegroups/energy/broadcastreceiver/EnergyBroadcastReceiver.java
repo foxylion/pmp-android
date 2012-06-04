@@ -9,6 +9,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.DeviceBootHa
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.intenthandler.ScreenHandler;
 
 /**
+ * This is the broadcast receiver for all intents of interest
  * 
  * @author Marcus Vetter
  * 

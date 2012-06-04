@@ -19,7 +19,7 @@ public class EnergyCurrentValues {
      * @return the level
      */
     public String getLevel() {
-        return level;
+        return this.level;
     }
     
     
@@ -36,7 +36,7 @@ public class EnergyCurrentValues {
      * @return the health
      */
     public String getHealth() {
-        return health;
+        return this.health;
     }
     
     
@@ -53,7 +53,7 @@ public class EnergyCurrentValues {
      * @return the status
      */
     public String getStatus() {
-        return status;
+        return this.status;
     }
     
     
@@ -70,7 +70,7 @@ public class EnergyCurrentValues {
      * @return the plugged
      */
     public String getPlugged() {
-        return plugged;
+        return this.plugged;
     }
     
     
@@ -87,7 +87,7 @@ public class EnergyCurrentValues {
      * @return the statusTime
      */
     public String getStatusTime() {
-        return statusTime;
+        return this.statusTime;
     }
     
     
@@ -104,7 +104,7 @@ public class EnergyCurrentValues {
      * @return the temperature
      */
     public String getTemperature() {
-        return temperature;
+        return this.temperature;
     }
     
     

@@ -6,6 +6,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.EnergyConstants;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.aidl.IEnergy;
 
 /**
+ * This is the AIDL implementation for cloak data
  * 
  * @author Marcus Vetter
  * 

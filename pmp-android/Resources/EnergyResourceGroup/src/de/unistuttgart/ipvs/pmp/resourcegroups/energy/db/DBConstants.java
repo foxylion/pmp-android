@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.db;
 
 /**
+ * This are the constants of the database (tables, rows, etc.)
  * 
  * @author Marcus Vetter
  * 

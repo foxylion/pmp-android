@@ -1,6 +1,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.energy.resource.resultset;
 
 /**
+ * This is an abstract implementation of a result set for the energy resource
  * 
  * @author Marcus Vetter
  * 
@@ -25,7 +26,7 @@ public abstract class AbstractResultSet {
      * @return the date
      */
     public String getDate() {
-        return date;
+        return this.date;
     }
     
     
@@ -42,7 +43,7 @@ public abstract class AbstractResultSet {
      * @return the uptime
      */
     public String getUptime() {
-        return uptime;
+        return this.uptime;
     }
     
     
@@ -59,7 +60,7 @@ public abstract class AbstractResultSet {
      * @return the uptimeBattery
      */
     public String getUptimeBattery() {
-        return uptimeBattery;
+        return this.uptimeBattery;
     }
     
     
@@ -76,7 +77,7 @@ public abstract class AbstractResultSet {
      * @return the durationOfCharging
      */
     public String getDurationOfCharging() {
-        return durationOfCharging;
+        return this.durationOfCharging;
     }
     
     
@@ -93,7 +94,7 @@ public abstract class AbstractResultSet {
      * @return the ratio
      */
     public String getRatio() {
-        return ratio;
+        return this.ratio;
     }
     
     
@@ -110,7 +111,7 @@ public abstract class AbstractResultSet {
      * @return the temperaturePeak
      */
     public String getTemperaturePeak() {
-        return temperaturePeak;
+        return this.temperaturePeak;
     }
     
     
@@ -127,7 +128,7 @@ public abstract class AbstractResultSet {
      * @return the temperatureAverage
      */
     public String getTemperatureAverage() {
-        return temperatureAverage;
+        return this.temperatureAverage;
     }
     
     
@@ -144,7 +145,7 @@ public abstract class AbstractResultSet {
      * @return the countOfCharging
      */
     public String getCountOfCharging() {
-        return countOfCharging;
+        return this.countOfCharging;
     }
     
     
@@ -161,7 +162,7 @@ public abstract class AbstractResultSet {
      * @return the screenOn
      */
     public String getScreenOn() {
-        return screenOn;
+        return this.screenOn;
     }
     
     

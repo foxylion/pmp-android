@@ -5,6 +5,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.energy.db.DBConnector;
 import de.unistuttgart.ipvs.pmp.resourcegroups.energy.event.ScreenEvent;
 
 /**
+ * This is the handler for all screen events. It is called, if an intent happened.
  * 
  * @author Marcus Vetter
  * 
