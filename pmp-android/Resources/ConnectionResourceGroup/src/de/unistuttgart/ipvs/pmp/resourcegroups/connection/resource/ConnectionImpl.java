@@ -520,17 +520,10 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @SuppressWarnings("unused")
     private void printCellularConnectionEvents(List<CellularConnectionEvent> events) {
-        Long lastTimeStamp = 0L;
         for (CellularConnectionEvent event : events) {
             System.out.println("ID: \t" + event.getId());
             System.out.println("Time: \t" + event.getTimestamp());
             System.out.println("Airplane: \t" + event.isAirplane());
-            if (lastTimeStamp - event.getTimestamp() < 0) {
-                System.out.println("Smaller: true");
-            } else {
-                System.out.println("Smaller: false");
-            }
-            lastTimeStamp = event.getTimestamp();
             System.out.println("-----------------------------------------");
         }
     }
@@ -543,22 +536,17 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @SuppressWarnings("unused")
     private void printConectionEvents(List<ConnectionEvent> events) {
-        Long lastTimeStamp = 0L;
         for (ConnectionEvent event : events) {
             System.out.println("ID: \t" + event.getId());
             System.out.println("Time: \t" + event.getTimestamp());
             System.out.println("Medium: \t" + event.getMedium());
+            System.out.println("Connected: \t" + event.isConnected());
+            System.out.println("Enabled: \t" + event.isEnabled());
             if (event.getCity() != null) {
                 System.out.println("City: \t" + event.getCity());
             } else {
                 System.out.println("City: \t" + "null");
             }
-            if (lastTimeStamp - event.getTimestamp() < 0) {
-                System.out.println("Smaller: true");
-            } else {
-                System.out.println("Smaller: false");
-            }
-            lastTimeStamp = event.getTimestamp();
             System.out.println("-----------------------------------------");
         }
     }

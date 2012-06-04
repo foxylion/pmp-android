@@ -316,9 +316,8 @@ public class DBConnector implements IDBConnector {
     public synchronized List<ConnectionEvent> getWifiEvents() {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
-        List<Long> timestamps = new ArrayList<Long>();
         
-        String orderBy = DBConstants.COLUMN_ID + " ASC";
+        String orderBy = DBConstants.COLUMN_TIMESTAMP + " ASC";
         
         // Get everything
         String columns[] = new String[4];
@@ -334,24 +333,21 @@ public class DBConnector implements IDBConnector {
             do {
                 long timeStamp = cursor.getLong(0);
                 
-                if (!timestamps.contains(timeStamp)) {
-                    String eventString = cursor.getString(1);
-                    boolean event = false;
-                    if (eventString.equals(Events.ON)) {
-                        event = true;
-                    }
-                    String city = null;
-                    if (cursor.getString(2) != null) {
-                        city = cursor.getString(2);
-                    }
-                    String stateString = cursor.getString(3);
-                    boolean state = false;
-                    if (stateString.equals(Events.ON)) {
-                        state = true;
-                    }
-                    result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, state, city));
-                    timestamps.add(timeStamp);
+                String eventString = cursor.getString(1);
+                boolean event = false;
+                if (eventString.equals(Events.ON.toString())) {
+                    event = true;
                 }
+                String city = null;
+                if (cursor.getString(2) != null) {
+                    city = cursor.getString(2);
+                }
+                String stateString = cursor.getString(3);
+                boolean state = false;
+                if (stateString.equals(Events.ON.toString())) {
+                    state = true;
+                }
+                result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, event, state, city));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -367,7 +363,8 @@ public class DBConnector implements IDBConnector {
     public synchronized List<ConnectionEvent> getBluetoothEvents() {
         open();
         List<ConnectionEvent> result = new ArrayList<ConnectionEvent>();
-        List<Long> timestamps = new ArrayList<Long>();
+        
+        String orderBy = DBConstants.COLUMN_TIMESTAMP + " ASC";
         
         // Get everything
         String columns[] = new String[3];
@@ -375,22 +372,19 @@ public class DBConnector implements IDBConnector {
         columns[1] = DBConstants.COLUMN_EVENT;
         columns[2] = DBConstants.COLUMN_CITY;
         
-        Cursor cursor = this.db.query(DBConstants.TABLE_BT, columns, null, null, null, null, null);
+        Cursor cursor = this.db.query(DBConstants.TABLE_BT, columns, null, null, null, null, orderBy);
         cursor.moveToFirst();
         
         if (cursor.getCount() > 0) {
             do {
                 long timeStamp = cursor.getLong(0);
-                if (!timestamps.contains(timeStamp)) {
-                    String eventString = cursor.getString(1);
-                    boolean event = false;
-                    if (eventString.equals(Events.ON)) {
-                        event = true;
-                    }
-                    String city = cursor.getString(2);
-                    result.add(new ConnectionEvent(timeStamp, Mediums.WIFI, false, event, city));
-                    timestamps.add(timeStamp);
+                String eventString = cursor.getString(1);
+                boolean event = false;
+                if (eventString.equals(Events.ON.toString())) {
+                    event = true;
                 }
+                String city = cursor.getString(2);
+                result.add(new ConnectionEvent(timeStamp, Mediums.BLUETOOTH, false, event, city));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -406,29 +400,27 @@ public class DBConnector implements IDBConnector {
     public synchronized List<CellularConnectionEvent> getCellEvents() {
         open();
         List<CellularConnectionEvent> result = new ArrayList<CellularConnectionEvent>();
-        List<Long> timestamps = new ArrayList<Long>();
+        
+        String orderBy = DBConstants.COLUMN_TIMESTAMP + " ASC";
         
         // Get everything
         String columns[] = new String[2];
         columns[0] = DBConstants.COLUMN_TIMESTAMP;
         columns[1] = DBConstants.COLUMN_EVENT;
         
-        Cursor cursor = this.db.query(DBConstants.TABLE_CELL, columns, null, null, null, null, null);
+        Cursor cursor = this.db.query(DBConstants.TABLE_CELL, columns, null, null, null, null, orderBy);
         cursor.moveToFirst();
         
         if (cursor.getCount() > 0) {
             do {
                 long timeStamp = cursor.getLong(0);
-                if (!timestamps.contains(timeStamp)) {
-                    String eventString = cursor.getString(1);
-                    boolean event = false;
-                    if (eventString.equals(Events.ON)) {
-                        event = true;
-                    }
-                    
-                    result.add(new CellularConnectionEvent(timeStamp, event));
-                    timestamps.add(timeStamp);
+                String eventString = cursor.getString(1);
+                boolean event = false;
+                if (eventString.equals(Events.ON.toString())) {
+                    event = true;
                 }
+                
+                result.add(new CellularConnectionEvent(timeStamp, event));
             } while (cursor.moveToNext());
         }
         cursor.close();
