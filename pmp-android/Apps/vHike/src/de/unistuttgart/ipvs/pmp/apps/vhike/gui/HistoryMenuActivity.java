@@ -38,6 +38,8 @@ public class HistoryMenuActivity extends Activity {
     public void onResume() {
         super.onResume();
         
+        vHikeService.getInstance().updateServiceFeatures();
+        
         Controller ctrl = new Controller(ViewModel.getInstance().getvHikeRG());
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {

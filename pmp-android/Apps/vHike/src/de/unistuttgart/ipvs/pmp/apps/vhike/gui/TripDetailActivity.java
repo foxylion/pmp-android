@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.ViewSwitcher;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MessageAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.FriendlyDateFormatter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactMessage;
@@ -76,7 +77,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        
+        vHikeService.getInstance().updateServiceFeatures();
         //        if (getIntent() != null && getIntent().getExtras() != null)
         //            tripId = getIntent().getExtras().getInt("tripId", 0);
         

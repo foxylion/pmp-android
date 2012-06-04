@@ -80,6 +80,7 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
     @Override
     public void onResume() {
         super.onResume();
+        vHikeService.getInstance().updateServiceFeatures();
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
             ctrl.enableAnonymity(Model.getInstance().getSid());

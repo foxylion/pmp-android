@@ -65,6 +65,8 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
     public void onResume() {
         super.onResume();
         
+        vHikeService.getInstance().updateServiceFeatures();
+        
         ctrl = new Controller(rgvHike);
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {

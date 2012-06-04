@@ -85,6 +85,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     public void onResume() {
         super.onResume();
         
+        vHikeService.getInstance().updateServiceFeatures();
+        
         ctrl = new Controller(rgvHike);
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
