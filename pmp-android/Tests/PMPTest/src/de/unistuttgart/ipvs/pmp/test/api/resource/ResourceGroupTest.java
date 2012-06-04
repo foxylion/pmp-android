@@ -1,6 +1,8 @@
 package de.unistuttgart.ipvs.pmp.test.api.resource;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
@@ -113,6 +115,21 @@ public class ResourceGroupTest extends InstrumentationTestCase {
             
             public Context getContext(String rgPackage) {
                 return mockContext;
+            }
+            
+            
+            public Context getContext(String rgPackage, String appPackage) {
+                throw new UnsupportedOperationException();
+            }
+            
+            
+            public void registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+                throw new UnsupportedOperationException();
+            }
+            
+            
+            public void unregisterReceiver(BroadcastReceiver receiver) {
+                throw new UnsupportedOperationException();
             }
         }) {
         };
