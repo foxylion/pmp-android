@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -441,9 +442,7 @@ public class ConnectionImpl extends IConnection.Stub {
         Service service = new Service(Service.DEFAULT_URL, hashedID);
         try {
             // Upload everything
-            new ConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context).getWifiEvents());
-            new ConnectionEventManager(service)
-                    .commitEvents(DBConnector.getInstance(this.context).getBluetoothEvents());
+            new ConnectionEventManager(service).commitEvents(getConnectionEvents());
             new CellularConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context)
                     .getCellEvents());
             new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getNetworkTypeEnum()).commit();
@@ -513,6 +512,27 @@ public class ConnectionImpl extends IConnection.Stub {
                 return NetworkTypes.RTT;
         }
         return NetworkTypes.UNKNOWN;
+    }
+    
+    
+    /**
+     * Get the connection events of wifi and bluetooth in one list, sorted ascending to the timestamp
+     * 
+     * @return List of {@link ConnectionEvent}s
+     */
+    private List<ConnectionEvent> getConnectionEvents() {
+        // Get all events
+        List<ConnectionEvent> wlan = DBConnector.getInstance(this.context).getWifiEvents();
+        List<ConnectionEvent> bt = DBConnector.getInstance(this.context).getBluetoothEvents();
+        
+        // Join the 2 lists
+        List<ConnectionEvent> join = new ArrayList<ConnectionEvent>();
+        join.addAll(wlan);
+        join.addAll(bt);
+        
+        // Sort the lists
+        Collections.sort(join, new ConnectionEventComparator());
+        return join;
     }
     
     
