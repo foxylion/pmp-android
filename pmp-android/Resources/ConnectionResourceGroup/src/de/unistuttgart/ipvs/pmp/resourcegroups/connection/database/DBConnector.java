@@ -20,6 +20,7 @@
 package de.unistuttgart.ipvs.pmp.resourcegroups.connection.database;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -212,7 +213,7 @@ public class DBConnector implements IDBConnector {
      * @see de.unistuttgart.ipvs.pmp.resourcegroups.connection.database.IDBConnector#getTimeDuration(java.lang.String, long, int)
      */
     @Override
-    public synchronized long getTimeDuration(String tableName, long duration, int id) {
+    public synchronized long getTimeDuration(String tableName, long duration) {
         open();
         long actualTime = new java.util.Date().getTime();
         long result = 0L;
@@ -223,7 +224,8 @@ public class DBConnector implements IDBConnector {
         columns[1] = DBConstants.COLUMN_EVENT;
         
         //Get only the columns that are greater than the id
-        String whereClause = DBConstants.COLUMN_ID + ">" + String.valueOf(id);
+        long time = actualTime - duration;
+        String whereClause = DBConstants.COLUMN_TIMESTAMP + ">" + String.valueOf(time);
         
         // Order the events by the timestamp
         String orderBy = DBConstants.COLUMN_TIMESTAMP + " ASC";
@@ -232,8 +234,8 @@ public class DBConnector implements IDBConnector {
         
         long lastTimeStamp = 0;
         
-        // Check this only if there are 2 events
-        if (cursor.getCount() >= 2) {
+        // Check this only if there are 1 events
+        if (cursor.getCount() > 0) {
             do {
                 try {
                     long timeStamp = cursor.getLong(0);
@@ -248,7 +250,7 @@ public class DBConnector implements IDBConnector {
                         lastTimeStamp = timeStamp;
                     }
                     
-                    //Last time stamp was an on event, calc the result
+                    //Last time stamp was an on event, calculate the result
                     if (event.equals(Events.OFF.toString()) && lastTimeStamp != 0) {
                         result += timeStamp - lastTimeStamp;
                         lastTimeStamp = 0;
@@ -260,7 +262,7 @@ public class DBConnector implements IDBConnector {
         }
         
         if (lastTimeStamp != 0) {
-            result += actualTime - lastTimeStamp;
+            result += new Date().getTime() - lastTimeStamp;
         }
         
         cursor.close();

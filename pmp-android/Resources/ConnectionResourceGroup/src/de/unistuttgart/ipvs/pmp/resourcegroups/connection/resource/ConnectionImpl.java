@@ -131,7 +131,7 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
-                ConnectionConstants.ONE_DAY, 0);
+                ConnectionConstants.ONE_DAY);
         return result;
     }
     
@@ -145,7 +145,7 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_WIFI,
-                ConnectionConstants.ONE_MONTH, 0);
+                ConnectionConstants.ONE_MONTH);
         return result;
     }
     
@@ -254,7 +254,7 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
-                ConnectionConstants.ONE_DAY, 0);
+                ConnectionConstants.ONE_DAY);
         return result;
     }
     
@@ -268,7 +268,7 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_BT,
-                ConnectionConstants.ONE_MONTH, 0);
+                ConnectionConstants.ONE_MONTH);
         return result;
     }
     
@@ -395,7 +395,7 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
-                ConnectionConstants.ONE_DAY, 0);
+                ConnectionConstants.ONE_DAY);
         return result;
     }
     
@@ -409,7 +409,7 @@ public class ConnectionImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
         long result = DBConnector.getInstance(this.context).getTimeDuration(DBConstants.TABLE_CELL,
-                ConnectionConstants.ONE_MONTH, 0);
+                ConnectionConstants.ONE_MONTH);
         return result;
     }
     
@@ -434,6 +434,7 @@ public class ConnectionImpl extends IConnection.Stub {
             digest.update(deviceId.getBytes(), 0, deviceId.length());
             hashedID = new BigInteger(1, digest.digest()).toString(16);
         } catch (NoSuchAlgorithmException e1) {
+            e1.printStackTrace();
         }
         
         // Create service
@@ -475,7 +476,6 @@ public class ConnectionImpl extends IConnection.Stub {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
         return null;
     }
     
@@ -523,10 +523,17 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @SuppressWarnings("unused")
     private void printCellularConnectionEvents(List<CellularConnectionEvent> events) {
+        long lastTimestamp = 0L;
         for (CellularConnectionEvent event : events) {
             System.out.println("ID: \t" + event.getId());
             System.out.println("Time: \t" + event.getTimestamp());
             System.out.println("Airplane: \t" + event.isAirplane());
+            if (event.getTimestamp() - lastTimestamp >= 0) {
+                System.out.println("Greater than last: \t" + "true (" + (event.getTimestamp() - lastTimestamp) + ")");
+            } else {
+                System.out.println("Greater than last: \t" + "false (" + (event.getTimestamp() - lastTimestamp) + ")");
+            }
+            lastTimestamp = event.getTimestamp();
             System.out.println("-----------------------------------------");
         }
     }
@@ -539,6 +546,7 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @SuppressWarnings("unused")
     private void printConectionEvents(List<ConnectionEvent> events) {
+        long lastTimestamp = 0;
         for (ConnectionEvent event : events) {
             System.out.println("ID: \t" + event.getId());
             System.out.println("Time: \t" + event.getTimestamp());
@@ -550,6 +558,12 @@ public class ConnectionImpl extends IConnection.Stub {
             } else {
                 System.out.println("City: \t" + "null");
             }
+            if (event.getTimestamp() - lastTimestamp >= 0) {
+                System.out.println("Greater than last: \t" + "true (" + (event.getTimestamp() - lastTimestamp) + ")");
+            } else {
+                System.out.println("Greater than last: \t" + "false (" + (event.getTimestamp() - lastTimestamp) + ")");
+            }
+            lastTimestamp = event.getTimestamp();
             System.out.println("-----------------------------------------");
         }
     }

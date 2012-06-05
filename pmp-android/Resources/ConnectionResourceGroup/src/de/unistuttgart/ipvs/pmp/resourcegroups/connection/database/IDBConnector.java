@@ -120,11 +120,8 @@ public interface IDBConnector {
      *            table name
      * @param duration
      *            how long you want to search back
-     * @param id
-     *            only entries with a greater id than this will be included </br> insert <b>0</b> if you <b>don't</b>
-     *            want to check a id
      */
-    public long getTimeDuration(String tableName, long duration, int id);
+    public long getTimeDuration(String tableName, long duration);
     
     
     /**
