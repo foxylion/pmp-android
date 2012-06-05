@@ -323,6 +323,9 @@ public class ConnectionImpl extends IConnection.Stub {
         // Get the telephony manager
         TelephonyManager manager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
         if (manager != null) {
+            if (manager.getNetworkOperatorName().equals("")) {
+                return "-";
+            }
             return manager.getNetworkOperatorName();
         }
         return "-";
