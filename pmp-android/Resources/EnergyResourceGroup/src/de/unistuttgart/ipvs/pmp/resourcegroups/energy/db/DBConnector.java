@@ -519,10 +519,9 @@ public class DBConnector implements IDBConnector {
     }
     
     
-    public void clearDatabase() {
+    public synchronized void clearDatabase() {
         open();
         this.database.delete(DBConstants.TABLE_BATTERY, null, null);
-        this.database.delete(DBConstants.TABLE_DEVICE_DATA, null, null);
         close();
     }
     
