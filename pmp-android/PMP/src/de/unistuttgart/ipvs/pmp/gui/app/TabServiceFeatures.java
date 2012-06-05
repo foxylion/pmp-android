@@ -75,7 +75,12 @@ public class TabServiceFeatures extends Activity {
         
         addListener();
         
-        checkExtendedIntentActions();
+        try {
+            checkExtendedIntentActions();
+        } catch (IllegalArgumentException iae) {
+            // The intent was illegal, close the activity
+            this.finish();
+        }
         
         /* Switch between Expert Mode and Normal Mode */
         TextView tvDescriptionNormalMode = (TextView) findViewById(R.id.TextView_Description_Normal);
