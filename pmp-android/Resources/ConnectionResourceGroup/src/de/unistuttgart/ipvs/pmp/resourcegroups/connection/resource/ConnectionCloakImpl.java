@@ -48,6 +48,11 @@ public class ConnectionCloakImpl extends IConnection.Stub {
      */
     private ArrayList<String> cities;
     
+    /**
+     * Random generator
+     */
+    private Random rand = new Random();
+    
     
     /**
      * Constructor to get a context
@@ -75,7 +80,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        return new Random().nextBoolean();
+        return this.rand.nextBoolean();
     }
     
     
@@ -87,7 +92,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         
-        return new Random().nextInt(86400001);
+        return this.rand.nextInt(86400001);
     }
     
     
@@ -99,7 +104,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_WIFI_STATUS, "true");
         while (true) {
-            Long random = new Random().nextLong();
+            Long random = this.rand.nextLong();
             if (random < ConnectionConstants.ONE_MONTH + 1) {
                 return random;
             }
@@ -118,8 +123,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         List<String> result = new ArrayList<String>();
         int numbers = new Random().nextInt(15);
         for (int itr = 0; itr < numbers; itr++) {
-            Random r = new Random();
-            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            String token = Integer.toString(Math.abs(this.rand.nextInt(Integer.MAX_VALUE)), 36);
             result.add(token);
         }
         return result;
@@ -146,7 +150,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        return new Random().nextBoolean();
+        return this.rand.nextBoolean();
     }
     
     
@@ -159,10 +163,9 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_DEVICES, "true");
         
         List<String> result = new ArrayList<String>();
-        int numbers = new Random().nextInt(15);
+        int numbers = this.rand.nextInt(15);
         for (int itr = 0; itr < numbers; itr++) {
-            Random r = new Random();
-            String token = Long.toString(Math.abs(r.nextLong()), 36);
+            String token = Integer.toString(Math.abs(this.rand.nextInt(Integer.MAX_VALUE)), 36);
             result.add(token);
         }
         return result;
@@ -177,7 +180,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         
-        return new Random().nextInt(86400001);
+        return this.rand.nextInt(86400001);
     }
     
     
@@ -189,7 +192,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_BLUETOOTH_STATUS, "true");
         while (true) {
-            Long random = new Random().nextLong();
+            Long random = this.rand.nextLong();
             if (random < ConnectionConstants.ONE_MONTH + 1) {
                 return random;
             }
@@ -217,7 +220,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_DATA_STATUS, "true");
         
-        return new Random().nextBoolean();
+        return this.rand.nextBoolean();
     }
     
     
@@ -229,8 +232,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        Random r = new Random();
-        String token = Long.toString(Math.abs(r.nextLong()), 36);
+        String token = Integer.toString(Math.abs(this.rand.nextInt(Integer.MAX_VALUE)), 36);
         return token;
     }
     
@@ -243,7 +245,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        return new Random().nextBoolean();
+        return this.rand.nextBoolean();
     }
     
     
@@ -255,7 +257,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         
-        return new Random().nextInt(86400001);
+        return this.rand.nextInt(86400001);
     }
     
     
@@ -267,7 +269,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_CELL_STATUS, "true");
         while (true) {
-            Long random = new Random().nextLong();
+            Long random = this.rand.nextLong();
             if (random < ConnectionConstants.ONE_MONTH + 1) {
                 return random;
             }
@@ -292,7 +294,7 @@ public class ConnectionCloakImpl extends IConnection.Stub {
         // Check the privacy setting
         this.validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
-        String mockLink = "http://" + Long.toString(Math.abs(new Random().nextLong()), 36) + ".com";
+        String mockLink = "http://" + Integer.toString(Math.abs(this.rand.nextInt(Integer.MAX_VALUE)), 36) + ".com";
         return mockLink;
     }
     

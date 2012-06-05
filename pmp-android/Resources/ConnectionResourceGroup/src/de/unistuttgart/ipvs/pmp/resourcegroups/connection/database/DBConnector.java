@@ -43,7 +43,7 @@ public class DBConnector implements IDBConnector {
     /**
      * Only instance of this class
      */
-    private static DBConnector instance = null;
+    private static volatile DBConnector instance = null;
     
     /**
      * Context of the rg
@@ -51,9 +51,9 @@ public class DBConnector implements IDBConnector {
     private Context context;
     
     /**
-     * {@link SQLiteOpenHelper}
+     * {@link DBOpenHelper}
      */
-    private SQLiteOpenHelper dbHelper;
+    private DBOpenHelper dbHelper;
     
     /**
      * Opened database
@@ -87,11 +87,10 @@ public class DBConnector implements IDBConnector {
     
     
     /**
-     * Initialize the {@link SQLiteOpenHelper}
+     * Initialize the {@link DBOpenHelper}
      */
     private void initialize() {
-        this.dbHelper = new SQLiteOpenHelper(this.context, DBConstants.DATABASE_NAME, null,
-                DBConstants.DATABASE_VERSION);
+        this.dbHelper = new DBOpenHelper(this.context, DBConstants.DATABASE_NAME, null, DBConstants.DATABASE_VERSION);
     }
     
     
@@ -432,13 +431,22 @@ public class DBConnector implements IDBConnector {
     
     
     /**
-     * Clears all lists
+     * Clears the wifi and bluetooth list
      */
-    public synchronized void clearLists() {
+    public synchronized void clearWifiAndBTLists() {
         open();
         this.db.delete(DBConstants.TABLE_BT, null, null);
-        this.db.delete(DBConstants.TABLE_CELL, null, null);
         this.db.delete(DBConstants.TABLE_WIFI, null, null);
+        close();
+    }
+    
+    
+    /**
+     * Clears the cellular connection list
+     */
+    public synchronized void clearCellList() {
+        open();
+        this.db.delete(DBConstants.TABLE_CELL, null, null);
         close();
     }
 }

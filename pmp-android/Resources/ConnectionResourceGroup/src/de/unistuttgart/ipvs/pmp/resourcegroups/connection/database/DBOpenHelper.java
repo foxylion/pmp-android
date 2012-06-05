@@ -26,12 +26,12 @@ import android.util.Log;
 import de.unistuttgart.ipvs.pmp.resourcegroups.connection.ConnectionConstants;
 
 /**
- * {@link SQLiteOpenHelper} for the connection RG
+ * {@link DBOpenHelper} for the connection RG
  * 
  * @author Thorsten Berberich
  * 
  */
-public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
+public class DBOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     
     /**
      * Create statement for the wifi table with the columns id, timestamp, event and city
@@ -67,7 +67,7 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
      * @param version
      *            Database version
      */
-    public SQLiteOpenHelper(Context context, String name, CursorFactory factory, int version) {
+    public DBOpenHelper(Context context, String name, CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
     

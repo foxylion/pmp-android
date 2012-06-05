@@ -441,41 +441,78 @@ public class ConnectionImpl extends IConnection.Stub {
         // Create service
         Service service = new Service(Service.DEFAULT_URL, hashedID);
         try {
-            // Upload everything
+            // Try to upload the wifi and bluetooth events
             new ConnectionEventManager(service).commitEvents(getConnectionEvents());
+            DBConnector.getInstance(this.context).clearWifiAndBTLists();
+        } catch (InternalDatabaseException e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (InvalidParameterException e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (InvalidEventOrderException e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+        
+        try {
+            // Upload the cellular connection events
             new CellularConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context)
                     .getCellEvents());
-            new CellularConnectionProperties(service, getProvider(), getRoamingStatus(), getNetworkTypeEnum()).commit();
+            DBConnector.getInstance(this.context).clearCellList();
+        } catch (InternalDatabaseException e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (InvalidParameterException e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (InvalidEventOrderException e1) {
+            e1.printStackTrace();
+            return null;
+        } catch (IOException e1) {
+            e1.printStackTrace();
+            return null;
+        }
+        
+        try {
+            // The cellular and connection properties
+            String provider = getProvider();
+            if (provider.equals("-")) {
+                provider = "unknown";
+            }
+            new CellularConnectionProperties(service, provider, getRoamingStatus(), getNetworkTypeEnum()).commit();
             
             Integer configNetworks = getConfigureddWifiNetworks().size();
             Integer pairedDevices = getPairedBluetoothDevices().size();
             new ConnectionProperties(service, configNetworks.shortValue(), pairedDevices.shortValue()).commit();
-            
-            DBConnector.getInstance(this.context).clearLists();
-            
-            // Get the api level to check if svg is support by the browser
-            int apiLevel = Integer.valueOf(android.os.Build.VERSION.SDK);
-            
-            if (apiLevel >= 11) {
-                UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
-                urlB.setView(Views.DYNAMIC);
-                return urlB.getConnectionGraphUrl();
-            } else {
-                UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
-                urlB.setView(Views.STATIC);
-                return urlB.getConnectionGraphUrl();
-            }
-            
         } catch (InternalDatabaseException e) {
             e.printStackTrace();
+            return null;
         } catch (InvalidParameterException e) {
             e.printStackTrace();
+            return null;
         } catch (InvalidEventOrderException e) {
             e.printStackTrace();
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
+        
+        // Get the api level to check if svg is support by the browser
+        int apiLevel = Integer.valueOf(android.os.Build.VERSION.SDK);
+        if (apiLevel >= 11) {
+            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
+            urlB.setView(Views.DYNAMIC);
+            return urlB.getConnectionGraphUrl();
+        } else {
+            UrlBuilder urlB = new UrlBuilder(UrlBuilder.DEFAULT_URL, hashedID);
+            urlB.setView(Views.STATIC);
+            return urlB.getConnectionGraphUrl();
+        }
     }
     
     
