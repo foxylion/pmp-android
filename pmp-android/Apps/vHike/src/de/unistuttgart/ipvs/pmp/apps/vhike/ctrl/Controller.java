@@ -1237,6 +1237,8 @@ public class Controller {
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
         }
         
         JsonObject object = this.parser.parse(ret).getAsJsonObject();
