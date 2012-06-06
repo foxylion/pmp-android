@@ -78,8 +78,8 @@ if ($deviceIdValid) {
         switch ($event->getMedium()) {
             case ConnectionEvent::BLUETOOTH:
 
-                // Count cities if a connection has been established
-                if ($event->isConnected()) {
+                // Count cities if a adapter is turned on
+                if ($event->isEnabled()) {
                     if (key_exists($city, $citiesBluetooth)) {
                         $citiesBluetooth[$city]++;
                     } else {
