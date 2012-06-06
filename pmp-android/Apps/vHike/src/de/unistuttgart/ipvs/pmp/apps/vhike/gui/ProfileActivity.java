@@ -71,8 +71,15 @@ public class ProfileActivity extends ResourceGroupReadyActivity {
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
             ctrl.enableAnonymity(Model.getInstance().getSid());
+            boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), Model.getInstance()
+                    .getOwnProfile().getID());
+            if (anonymous) {
+                Log.i(this, "Anonymous: " + anonymous);
+                anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous);
+            }
         } else {
             ctrl.disableAnonymity(Model.getInstance().getSid());
+            anonymous_btn.setBackgroundResource(R.drawable.btn_anonymous_disabled);
         }
         Log.i(this, "");
     }
