@@ -149,6 +149,10 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
         } catch (NullPointerException e) {
             e.printStackTrace();
             ViewModel.getInstance().getDriverOverlayList(mv).clear();
+            ViewModel.getInstance().clearRoutes();
+            ViewModel.getInstance().setBtnInfoVisibility(false);
+            ViewModel.getInstance().setEtInfoVisibility(false);
+            
         }
     }
 }
