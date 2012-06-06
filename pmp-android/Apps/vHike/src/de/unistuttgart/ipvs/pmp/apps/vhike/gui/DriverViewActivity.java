@@ -312,7 +312,11 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearHitchPassengers();
                 ViewModel.getInstance().clearDriverNotificationAdapter();
-                ViewModel.getInstance().clearRoutes();
+                try {
+                    ViewModel.getInstance().clearRoutes();
+                } catch (NullPointerException e) {
+                    
+                }
                 ViewModel.getInstance().resetRoadInfo();
                 stopContinousLookup();
                 

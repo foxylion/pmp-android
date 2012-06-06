@@ -515,8 +515,10 @@ public class ViewModel {
     
     
     public void clearRoutes() {
-        getDrawnRoutes.clear();
-        getAddedRoutes.clear();
+        if (getDrawnRoutes != null)
+            getDrawnRoutes.clear();
+        if (getAddedRoutes != null)
+            getAddedRoutes.clear();
         this.getDrawnRoutes = null;
         this.getAddedRoutes = null;
     }
