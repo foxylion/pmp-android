@@ -21,6 +21,7 @@
  */
 
 use infoapp\Database;
+use infoapp\events\ConnectionEvent;
 use infoapp\googlecharttools\Cell;
 use infoapp\googlecharttools\Column;
 use infoapp\googlecharttools\DataTable;
@@ -52,7 +53,58 @@ $networkData->addColumn(new Column("number", "c", "Count"));
 
 foreach ($stat->getNetworkDist() as $network => $count) {
     $row = new Row();
-    $row->addCell(new Cell($network));
+    switch ($network) {
+        case ConnectionProperties::NETWORK_TYPE_GPRS:
+            $type = "GPRS";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_EDGE:
+            $type = "EDGE";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_UMTS:
+            $type = "UMTS";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_HSDPA:
+            $type = "HSDPA";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_HSUPA:
+            $type = "HSUPA";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_HSPA:
+            $type = "HSPA";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_CDMA:
+            $type = "CDMA";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_EVDO_0:
+            $type = "EVDO 0";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_EVDO_A:
+            $type = "EVDO A";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_EVDO_B:
+            $type = "EVDO B";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_1xRTT:
+            $type = "1xRTT";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_IDEN:
+            $type = "IDEN";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_LTE:
+            $type = "LTE";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_EHRPD:
+            $type = "EHRPD";
+            break;
+        case ConnectionProperties::NETWORK_TYPE_HSPAP:
+            $type = "HSPAP";
+            break;
+        default:
+            $type = "Unknown";
+            break;
+    }
+
+    $row->addCell(new Cell($type));
     $row->addCell(new Cell($count));
     $networkData->addRow($row);
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.R;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
 
@@ -15,6 +16,9 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
  * 
  */
 public class SpinnerDialog extends Dialog {
+    
+    int sNumber;
+    
     
     public SpinnerDialog(Context context) {
         super(context);
@@ -29,9 +33,20 @@ public class SpinnerDialog extends Dialog {
                 
                 if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
                     
-                    int sNumber = ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition();
+                    //                    int sNumber = ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition();
+                    for (int i = 0; i < ViewModel.getInstance().getDestinationSpinners().size(); i++) {
+                        if (ViewModel.getInstance().getClickedSpinner() == ViewModel.getInstance()
+                                .getDestinationSpinners().get(i)) {
+                            sNumber = i;
+                        }
+                    }
+                    Log.i(this, "Selcted Item Pos: "
+                            + ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition());
                     ViewModel.getInstance().getDestinationSpinners().remove(sNumber);
                     ViewModel.getInstance().getClickedSpinner().setVisibility(View.GONE);
+                    Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size()
+                            + ", Clicked ");
+                    v.getParent().requestLayout();
                 } else {
                     Toast.makeText(v.getContext(), "At least one destination must be given", Toast.LENGTH_SHORT).show();
                 }

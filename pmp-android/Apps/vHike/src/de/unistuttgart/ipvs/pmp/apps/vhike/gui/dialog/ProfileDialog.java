@@ -224,15 +224,21 @@ public class ProfileDialog extends Dialog {
     
     private String parseDestination(String destination) {
         String[] temp;
-        if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
-            String dest = destination.replaceAll(";", "-");
-            return dest;
+        
+        if (isDriver) {
+            if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
+                String dest = destination.replaceAll(";", "-");
+                return dest;
+            } else {
+                
+                temp = destination.split(";");
+                temp = temp[1].split(";");
+                return temp[0];
+            }
         } else {
-            
-            temp = destination.split(";");
-            temp = temp[1].split(";");
-            return temp[0];
+            return destination;
         }
+        
     }
     
     Handler mHandler = new Handler() {
