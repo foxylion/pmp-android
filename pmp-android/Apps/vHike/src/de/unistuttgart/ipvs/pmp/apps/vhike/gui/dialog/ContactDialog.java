@@ -183,18 +183,23 @@ public class ContactDialog extends Dialog {
                             
                             @Override
                             public void run() {
-                                PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
-                                        .getInstance().getOwnProfile().getID());
-                                PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
-                                        foundUser.getID());
-                                //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
-                                double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
-                                        .getLon();
+                                try {
+                                    PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
+                                            .getInstance().getOwnProfile().getID());
+                                    PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
+                                            foundUser.getID());
+                                    //                            double fromLat = 37.402283, fromLon = -122.073524, toLat = 37.422, toLon = -122.084;
+                                    double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos
+                                            .getLat(), toLon = foundPos.getLon();
+                                    
+                                    String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
+                                    InputStream is = ViewModel.getInstance().getConnection(url);
+                                    mRoad = RoadProvider.getRoute(is);
+                                    mHandler.sendEmptyMessage(0);
+                                } catch (IllegalStateException e) {
+                                    e.printStackTrace();
+                                }
                                 
-                                String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
-                                InputStream is = ViewModel.getInstance().getConnection(url);
-                                mRoad = RoadProvider.getRoute(is);
-                                mHandler.sendEmptyMessage(0);
                             }
                         }.start();
                         

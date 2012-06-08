@@ -274,7 +274,12 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
-                //                this.locationManager.removeUpdates(this.luh);
+                try {
+                    ViewModel.getInstance().clearRoutes();
+                } catch (NullPointerException e) {
+                    
+                }
+                ViewModel.getInstance().resetRoadInfo();
                 this.timer.cancel();
                 this.locationTimer.cancel();
                 stopContinousLookup();
@@ -312,7 +317,12 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
                 ViewModel.getInstance().getHitchDrivers().clear();
                 ViewModel.getInstance().clearViewModel();
                 ViewModel.getInstance().clearPassengerNotificationAdapter();
-                //                this.locationManager.removeUpdates(this.luh);
+                try {
+                    ViewModel.getInstance().clearRoutes();
+                } catch (NullPointerException e) {
+                    
+                }
+                ViewModel.getInstance().resetRoadInfo();
                 this.timer.cancel();
                 this.locationTimer.cancel();
                 ViewModel.getInstance().clearViewModel();
