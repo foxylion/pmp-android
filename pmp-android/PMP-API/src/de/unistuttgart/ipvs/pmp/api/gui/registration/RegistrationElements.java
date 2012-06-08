@@ -77,7 +77,7 @@ class RegistrationElements {
      * Create a new {@link RegistrationElements} instance.
      * 
      * @param parentUi
-     *            The UI which uses the layout componentes described here.
+     *            The UI which uses the layout components described here.
      */
     public RegistrationElements(IRegistrationUI parentUi) {
         this.parentUi = parentUi;

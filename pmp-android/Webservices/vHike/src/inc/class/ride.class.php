@@ -8,37 +8,40 @@ if (!defined("INCLUDE")) {
  * @author  Dang Huynh, Patrick Strobel
  * @version 1.0.1
  */
-class Ride {
+class Ride
+{
 	const CAN_RATE = 0;
 	const ALREADY_RATED = 1;
 	const NOT_ENDED = 2;
 	const NO_CONNECTION = 3;
 
 	/** @var User  */
-	private $driver = null;
+	private $driver = NULL;
 
 	/** @var boolean  */
-	private $driverRated = false;
+	private $driverRated = FALSE;
 
 	/** @var User[]  */
 	private $passengers = array();
 
 	/** @var Trip */
-	private $trip = null;
+	private $trip = NULL;
 
-	private function __construct() {
+	private function __construct()
+	{
 
 	}
 
 	/**
 	 * Loads a ride for a given trip
 	 *
-	 * @param Trip $trip	Trip to load the ride for
+	 * @param Trip $trip    Trip to load the ride for
 	 *
 	 * @return Ride Loaded ride or null, if there are no rides for the given trip
 	 * @throws  InvalidArgumentException If the given trip is not an object of class Trip
 	 */
-	public static function getRideByTrip($trip) {
+	public static function getRideByTrip($trip)
+	{
 		if (!($trip instanceof Trip)) {
 			throw new InvalidArgumentException("Trip has to be an object of class Trip");
 		}
@@ -54,10 +57,10 @@ class Ride {
                              AND r.`passenger` = pax.`id`");
 
 		// Build passenger array
-		$ride = null;
+		$ride = NULL;
 
-		while (($row = $db->fetch($query)) != null) {
-			if ($ride == null) {
+		while (($row = $db->fetch($query)) != NULL) {
+			if ($ride == NULL) {
 				$ride = new Ride();
 				$ride->driver = $trip->getDriver();
 				$ride->trip = $trip;
@@ -66,8 +69,8 @@ class Ride {
 			$ride->passengers[] = User::loadUserBySqlResult($row, "paxId");
 		}
 
-		if ($ride == null) {
-			return null;
+		if ($ride == NULL) {
+			return NULL;
 		} else {
 			return $ride;
 		}
@@ -81,7 +84,8 @@ class Ride {
 	 * @return Ride[]  Array storing all rides that have been done by the given user
 	 * @throws  InvalidArgumentException If the given driver is not an object of class User
 	 */
-	public static function getRidesAsDriver($driver) {
+	public static function getRidesAsDriver($driver)
+	{
 		if (!($driver instanceof User)) {
 			throw new InvalidArgumentException("Driver has to be an object of class User");
 		}
@@ -102,12 +106,12 @@ class Ride {
 		// Stores all ride using the trip-id as index/key
 		$rides = array();
 
-		while (($row = $db->fetch($query)) != null) {
+		while (($row = $db->fetch($query)) != NULL) {
 			// If this is a new ride -> create new ride-object
 			if (!array_key_exists($row["tid"], $rides)) {
 				$ride = new Ride();
 				$ride->driver = $driver;
-				$ride->driverRated = false;
+				$ride->driverRated = FALSE;
 				$ride->trip = Trip::loadTripBySqlResult($row, "tid", "paxId");
 
 				$rides[(int)$row["tid"]] = $ride;
@@ -131,7 +135,8 @@ class Ride {
 	 * @return Ride[]  Array storing all rides that have been done by the given user
 	 * @throws  InvalidArgumentException If the given passenger is not an object of class User
 	 */
-	public static function getRidesAsPassenger($passenger) {
+	public static function getRidesAsPassenger($passenger)
+	{
 		if (!($passenger instanceof User)) {
 			throw new InvalidArgumentException("Driver has to be an object of class User");
 		}
@@ -156,7 +161,7 @@ class Ride {
 		$rides = array();
 
 		// As there is only one ride per passenger, we can a ride-object per row
-		while (($row = $db->fetch($query)) != null) {
+		while (($row = $db->fetch($query)) != NULL) {
 			// If this is a new ride -> create new ride-object
 			if (!array_key_exists($row["tid"], $rides)) {
 				$ride = new Ride();
@@ -185,10 +190,11 @@ class Ride {
 	 *
 	 * @return array|null List of the eligible drivers
 	 */
-	public static function getRidesByDistance($passenger_id, $distance) {
+	public static function getRidesByDistance($passenger_id, $distance)
+	{
 		$db = Database::getInstance();
 		$query = $db->query("CALL list_driver($passenger_id, $distance);");
-		$arr = null;
+		$arr = NULL;
 		$i = 0;
 		while ($row = $db->fetch($query)) {
 			$arr[$i++] = $row;
@@ -201,14 +207,15 @@ class Ride {
 	 *
 	 * @param User $passenger
 	 */
-	public function isPassenger($passenger) {
+	public function isPassenger($passenger)
+	{
 		if (!($passenger instanceof User)) {
 			throw new InvalidArgumentException("Passenger has to be an object of class User");
 		}
 
 		foreach ($this->passengers as $passengerToCheck) {
 			if ($passenger->isEqual($passengerToCheck)) {
-				return true;
+				return TRUE;
 			}
 		}
 	}
@@ -217,7 +224,8 @@ class Ride {
 	 * Returns the user that has been the driver on this ride
 	 * @return User The driver
 	 */
-	public function getDriver() {
+	public function getDriver()
+	{
 		return $this->driver;
 	}
 
@@ -225,15 +233,17 @@ class Ride {
 	 * Return the trip this ride belongs to
 	 * @return Trip The trip
 	 */
-	public function getTrip() {
+	public function getTrip()
+	{
 		return $this->trip;
 	}
 
 	/**
 	 * Returns all users that have been passengers on this ride
-	 * @return Passenger[]	The passenger
+	 * @return Passenger[]    The passenger
 	 */
-	public function getPassengers() {
+	public function getPassengers()
+	{
 		return $this->passengers;
 	}
 
@@ -241,13 +251,14 @@ class Ride {
 	 * Mark an user as picked up
 	 * @return true if succeed, false otherwise
 	 */
-	static function pick_up($user_id, $trip_id) {
+	static function pick_up($user_id, $trip_id)
+	{
 		$db = Database::getInstance();
 		$query = $db->query("UPDATE `" . DB_PREFIX . "_ride` SET `picked_up`=1 where passenger =$user_id and trip=$trip_id");
 		if ($db->getAffectedRows() > 0) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 
 	}
@@ -256,16 +267,17 @@ class Ride {
 	 * Checks whether user is picked up or not
 	 * @return true if picked up, false otherwise
 	 */
-	static function is_picked($user_id) {
+	static function is_picked($user_id)
+	{
 		$db = Database::getInstance();
 		$query = $db->query("SELECT picked_up FROM " . DB_PREFIX . "_ride WHERE passenger= $user_id");
 
 		if ($query) {
 			while ($row = $db->fetch($query)) {
 				if ($row["picked_up"] == 0) {
-					return false;
+					return FALSE;
 				} else {
-					return true;
+					return TRUE;
 				}
 			}
 		}

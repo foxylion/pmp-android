@@ -8,22 +8,24 @@ if (!defined("INCLUDE")) {
  * @author  Patrick Strobel
  * @version 1.0.0
  */
-class Json {
+class Json
+{
 
 	/**
 	 * Prints a default JSON-error-message
 	 *
-	 * @param String   $error	 Typ of the error. Has to be one of the values
+	 * @param String   $error     Typ of the error. Has to be one of the values
 	 *                            defined in the design document (e.g. "NOT_LOGGED_IN")
-	 * @param String   $msg	   Message to describe the error in more detail
-	 * @param bool     $exit	  If set to true, this function will close the database
+	 * @param String   $msg       Message to describe the error in more detail
+	 * @param bool     $exit      If set to true, this function will close the database
 	 *                            connection and stops the execution of the script
 	 *                            after the message has been printed
 	 */
-	public static function printError($error, $msg, $exit = true) {
-		$json = array('successful' => false,
-					  'error'	  => $error,
-					  'msg'		=> $msg);
+	public static function printError($error, $msg, $exit = TRUE)
+	{
+		$json = array('successful' => FALSE,
+		              'error'      => $error,
+		              'msg'        => $msg);
 		echo self::arrayToJson($json);
 
 		// Exit script if required
@@ -37,18 +39,21 @@ class Json {
 	 * Prints a JSON-error-message for given DatabaseException
 	 *
 	 * @param DatabaseException $exception
-	 * @param boolean		   $exit When set to true, the script will be stopped
+	 * @param boolean           $exit When set to true, the script will be stopped
 	 */
-	public static function printDatabaseError($exception, $exit = true) {
+	public static function printDatabaseError($exception, $exit = TRUE)
+	{
 		self::printError('invalid_database-query', $exception->__toString(), $exit);
 	}
 
 	/**
 	 * Prints a JSON-error-message showing that a input-data is invalid
 	 *
+	 * @param string $message
 	 * @param boolean $exit When set to true, the script will be stopped
 	 */
-	public static function printInvalidInputError($message = '', $exit = true) {
+	public static function printInvalidInputError($message = '', $exit = TRUE)
+	{
 		if ($message == '') {
 			self::printError("invalid_input", "At least one POST-Parameter is invalid", $exit);
 		} else {
@@ -61,7 +66,8 @@ class Json {
 	 * is not logged in, it will print a error-message and stop the execution
 	 * of the script
 	 */
-	public static function printErrorIfNotLoggedIn() {
+	public static function printErrorIfNotLoggedIn()
+	{
 		if (!Session::getInstance()->isLoggedIn()) {
 			self::printError("not_logged_in", "This service is only available for logged in users.");
 		}
@@ -74,7 +80,8 @@ class Json {
 	 *
 	 * @return string Generated JSON string
 	 */
-	public static function arrayToJson($array) {
+	public static function arrayToJson($array)
+	{
 		$json = json_encode($array);
 
 		// Format JSON string if formation is enabled
@@ -93,7 +100,8 @@ class Json {
 	 *
 	 * @return string Indented version of the original JSON string.
 	 */
-	private static function indent($json) {
+	private static function indent($json)
+	{
 
 		$result = '';
 		$pos = 0;
@@ -101,7 +109,7 @@ class Json {
 		$indentStr = '  ';
 		$newLine = "\n";
 		$prevChar = '';
-		$outOfQuotes = true;
+		$outOfQuotes = TRUE;
 
 		for ($i = 0; $i <= $strLen; $i++) {
 

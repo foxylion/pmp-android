@@ -2,7 +2,7 @@
 /**
  * This service is used by the driver to search for ride requests
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -24,18 +24,18 @@ try {
 		// TODO update coordination
 		$result = $query->searchQuery($user->getId(), $_POST['distance']);
 		if ($result) {
-			$output = array('successful' => true,
-							'status'	 => 'result',
-							'queries'	=> $result);
+			$output = array('successful' => TRUE,
+			                'status'     => 'result',
+			                'queries'    => $result);
 			echo Json::arrayToJson($output);
 		} else {
-			$output = array('successful' => true,
-							'status'	 => 'no_query_found');
+			$output = array('successful' => TRUE,
+			                'status'     => 'no_query_found');
 			echo Json::arrayToJson($output);
 		}
 	} else {
-		$output = array('successful' => true,
-						'status'	 => 'no_trip');
+		$output = array('successful' => TRUE,
+		                'status'     => 'no_trip');
 		echo Json::arrayToJson($output);
 	}
 

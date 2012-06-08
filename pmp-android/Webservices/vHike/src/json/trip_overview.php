@@ -1,19 +1,17 @@
 <?php
 /**
- * This service is used to get the open trip by the logged in user if it's available.
+ * This service provides an overview over one trip
  *
  * GET  Parameters:
  * - sid Session ID
+ * POST Parameters:
+ * - tripId Trip's ID
  *
- * @return string A JSON response
+ * @return string A JSON response.
+ *
  * - <b>error</b> Error string if available
  * - <b>msg</b> Error message if available
  *
- * If the user has an open trip, these information will be included:
- * - <b>trip_id</b>
- * - <b>avail_seats</b>
- * - <b>destination</b>
- * - <b>creation</b> (long) millisecond
  *
  * @author  Dang Huynh
  * @version 1.0
@@ -33,18 +31,18 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 	$user = Session::getInstance()->getLoggedInUser();
-	$trip = Trip::get_open_trip($user->getId());
-	if ($trip) {
-		$output = array('id'         => $trip['id'],
-		                'avail_seats'=> $trip['avail_seats'],
-		                'destination'=> $trip['destination'],
-		                'creation'   => $trip['creation']);
-	} else {
-		$output = array('status'=> 'no_trip');
+
+	if (!General::validateId('tripId')) {
+		throw new InputException('tripId');
 	}
+
+	$output = Trip::get_trip_overview($user->getId(), $_POST['tripId']);
+
 	echo Json::arrayToJson($output);
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
+} catch (InputException $ie) {
+	Json::printInvalidInputError($ie->getMessage());
 }
 Database::getInstance()->disconnect();
 

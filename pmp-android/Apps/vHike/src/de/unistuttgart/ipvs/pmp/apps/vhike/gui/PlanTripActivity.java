@@ -166,7 +166,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         
         // Number of Seats spinner
         this.spinnerSeats = (Spinner) findViewById(R.id.spinner_numSeats);
-        adapter = ArrayAdapter.createFromResource(this, R.array.array_numSeats, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.array_numSeats,
+                android.R.layout.simple_spinner_item);
         this.spinnerSeats.setAdapter(adapter);
         
         this.now = (RadioButton) findViewById(R.id.radio_now);
@@ -193,14 +194,16 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         switch (PlanTripActivity.this.ctrl.getOpenTrip(PlanTripActivity.this.sid)) {
                             case Constants.STATUS_ERROR:
                                 // TODO ERROR
-                                Toast.makeText(PlanTripActivity.this, "Cannot check for open trip", Toast.LENGTH_LONG)
+                                Toast.makeText(PlanTripActivity.this, "Cannot check for open trip",
+                                        Toast.LENGTH_LONG)
                                         .show();
                                 return;
                             case Constants.TRUE:
                                 // Confirm end trip
                                 vhikeDialogs.getConfirmationDialog(PlanTripActivity.this,
                                         R.string.confirm_end_trip_title, R.string.confirm_end_trip,
-                                        R.string.default_yes, R.string.default_no, PlanTripActivity.CONFIRM_END_TRIP);
+                                        R.string.default_yes, R.string.default_no,
+                                        PlanTripActivity.CONFIRM_END_TRIP);
                                 
                             case Constants.FALSE:
                                 PlanTripActivity.this.announceTrip();
@@ -210,12 +213,12 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         //                    vhikeDialogs.getInstance().getChangeSF(PlanTripActivity.this).show();
                     } else {
                         PlanTripActivity.this.announceTrip();
-                        Intent intent = new Intent(PlanTripActivity.this, MyTripsActivity.class);
-                        startActivity(intent);
+                        PlanTripActivity.this.finish();
                     }
                 } else {
                     Log.v(this, "disable");
-                    vHikeService.requestServiceFeature(PlanTripActivity.this, Constants.SF_USE_ABSOLUTE_LOCATION);
+                    vHikeService.requestServiceFeature(PlanTripActivity.this,
+                            Constants.SF_USE_ABSOLUTE_LOCATION);
                 }
                 
                 // TODO IF NOTNOW
@@ -245,7 +248,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                     }
                 } else {
                     Log.v(this, "disable");
-                    vHikeService.requestServiceFeature(PlanTripActivity.this, Constants.SF_USE_ABSOLUTE_LOCATION);
+                    vHikeService.requestServiceFeature(PlanTripActivity.this,
+                            Constants.SF_USE_ABSOLUTE_LOCATION);
                 }
                 
             }
@@ -281,7 +285,6 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                     TimePicker t = (TimePicker) getDialog(dialogId).findViewById(R.id.tpicker);
                     if (this.plannedDate == null) {
                         this.plannedDate = Calendar.getInstance();
-                        Log.i(this, "Planned :" + this.plannedDate.toString());
                     }
                     this.plannedDate.set(d.getYear(), d.getMonth(), d.getDayOfMonth(), t.getCurrentHour(),
                             t.getCurrentMinute(), 0);
@@ -336,9 +339,13 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             date = this.plannedDate.getTime();
         }
         
-        switch (this.ctrl
-                .announceTrip(this.sid, ViewModel.getInstance().getDestination(), Constants.COORDINATE_INVALID,
-                        Constants.COORDINATE_INVALID, ViewModel.getInstance().getNumSeats(), date)) {
+        switch (this.ctrl.announceTrip(
+                this.sid,
+                ViewModel.getInstance().getDestination(),
+                Constants.COORDINATE_INVALID,
+                Constants.COORDINATE_INVALID,
+                ViewModel.getInstance().getNumSeats(),
+                date)) {
         
             case Constants.STATUS_SUCCESS:
                 // TODO inform
@@ -363,7 +370,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             
             case Constants.STATUS_ERROR:
                 // TODO get error message
-                Toast.makeText(PlanTripActivity.this, R.string.error_announcing_trip, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlanTripActivity.this, R.string.error_announcing_trip, Toast.LENGTH_SHORT)
+                        .show();
                 break;
         } // end switch
     } // end announce trip

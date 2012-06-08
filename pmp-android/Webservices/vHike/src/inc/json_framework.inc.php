@@ -1,37 +1,38 @@
 <?php
 /**
  * This file includes files and classes used by all pages.
- * It also sets the HTTP header to the valid JSON-header, connects to the database-server and 
+ * It also sets the HTTP header to the valid JSON-header, connects to the database-server and
  * opens the database.
  */
-if (!defined("INCLUDE")) {
-    exit;
+if (!defined('INCLUDE')) {
+	exit;
 }
 
 // Set JSON-Header
-header("Content-type: application/json");
-
+header('Content-type: application/json');
 // Load config file
-require ('./../inc/config.inc.php');
+require ('config.inc.php');
 
 // Load class-files
-require ('./../inc/class/database.class.php');
-require ('./../inc/class/general.class.php');
-require ('./../inc/class/json.class.php');
-require ('./../inc/class/offer.class.php');
-require ('./../inc/class/query.class.php');
-require ('./../inc/class/rating.class.php');
-require ('./../inc/class/ride.class.php');
-require ('./../inc/class/session.class.php');
-require ('./../inc/class/trip.class.php');
-require ('./../inc/class/user.class.php');
-require ('./../inc/class/observation.class.php');
+require ('class/database.class.php');
+require ('class/general.class.php');
+require ('class/json.class.php');
+require ('class/offer.class.php');
+require ('class/query.class.php');
+require ('class/rating.class.php');
+require ('class/ride.class.php');
+require ('class/session.class.php');
+require ('class/trip.class.php');
+require ('class/user.class.php');
+require ('class/observation.class.php');
 
 // Connect to database
 try {
-    Database::getInstance()->connect();
+	Database::getInstance()->connect();
 } catch (DatabaseException $de) {
-    Json::printError("cannot_connect_to_database", $de->__toString());
+	Json::printError("cannot_connect_to_database", $de->__toString());
+} catch (Exception $e) {
+	echo $e->getTraceAsString();
 }
 
 // EOF

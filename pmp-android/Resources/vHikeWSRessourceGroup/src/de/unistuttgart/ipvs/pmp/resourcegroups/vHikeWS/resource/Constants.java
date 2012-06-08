@@ -14,8 +14,8 @@ public class Constants {
     /**
      * Test logins
      */
-    public static final String USER = "demo";
-    public static final String PW = "test";
+    //    public static final String USER = "demo";
+    //    public static final String PW = "test";
     
     public static final int STATUS_ERROR = 0;
     public static final int STATUS_SUCCESS = 1;

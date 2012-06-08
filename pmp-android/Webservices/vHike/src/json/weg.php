@@ -5,7 +5,7 @@
  * Time: 16:25
  * To change this template use File | Settings | File Templates.
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 $db = Database::getInstance();

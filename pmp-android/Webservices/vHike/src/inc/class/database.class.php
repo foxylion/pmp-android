@@ -1,9 +1,10 @@
 <?php
-if (!defined("INCLUDE")) {
-	exit;
+if (!defined('INCLUDE')) {
+	die ('Unauthorized Access');
 }
 
-class DatabaseException extends Exception {
+class DatabaseException extends Exception
+{
 
 }
 
@@ -12,18 +13,20 @@ class DatabaseException extends Exception {
  * @author  Dang Huynh, Patrick Strobel
  * @version 1.0.1
  */
-class Database {
+class Database
+{
 
 	const DATE_TIME_FORMAT = "Y-m-d H:i:s";
 	const DATA_NULL = "0000-00-00 00:00:00";
 
 	/** @var Database */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/** @var boolean */
-	private $handler = null;
+	private $handler = NULL;
 
-	private function __construct() {
+	private function __construct()
+	{
 
 	}
 
@@ -31,8 +34,9 @@ class Database {
 	 *
 	 * @return Database Instance
 	 */
-	public static function getInstance() {
-		if (self::$instance == null) {
+	public static function getInstance()
+	{
+		if (self::$instance == NULL) {
 			self::$instance = new Database();
 		}
 		return self::$instance;
@@ -43,14 +47,15 @@ class Database {
 	 * and opens the actual database
 	 * @throws DatabaseException Thrown, if unable to connect to database server
 	 */
-	public function connect() {
+	public function connect()
+	{
 		// Cancel if connection is already established
-		if ($this->handler != null) {
+		if ($this->handler != NULL) {
 			return;
 		}
 
 		// Connect to server
-		$handler = mysql_connect(DB_HOST, DB_USER, DB_PASSW, false, 65536);
+		$handler = mysql_connect(DB_HOST, DB_USER, DB_PASSW, FALSE, 65536);
 
 		if (!$handler) {
 			throw new DatabaseException("Cannot connect to database");
@@ -69,17 +74,18 @@ class Database {
 	/**
 	 * Executes a database query
 	 * @throws DatabaseException Thrown, if database connection hasn't been established
-	 *			  before or if the query-string is invalid
+	 *              before or if the query-string is invalid
 	 *
 	 * @param String $query Query to send to the database server
 	 *
 	 * @return MySql_result Query's result
 	 */
-	public function query($query) {
+	public function query($query)
+	{
 		if (defined('ECHO'))
 			echo $query . "\n";
 
-		if ($this->handler == null || !$this->handler) {
+		if ($this->handler == NULL || !$this->handler) {
 			throw new DatabaseException("Not connected to database");
 		}
 
@@ -96,9 +102,10 @@ class Database {
 	 *
 	 * @param MySQL_result $result SQL result handler
 	 *
-	 * @return array	Associated array. Key's are the column's names
+	 * @return array    Associated array. Key's are the column's names
 	 */
-	public function fetch($result) {
+	public function fetch($result)
+	{
 		return mysql_fetch_assoc($result);
 	}
 
@@ -106,7 +113,8 @@ class Database {
 	 * Returns the auto-increment value of the new dataset
 	 * @return int Auto-increment value
 	 */
-	public function getId() {
+	public function getId()
+	{
 		return mysql_insert_id();
 	}
 
@@ -115,7 +123,8 @@ class Database {
 	 *
 	 * @return int  Number of rows
 	 */
-	public function getAffectedRows() {
+	public function getAffectedRows()
+	{
 		return mysql_affected_rows();
 	}
 
@@ -127,7 +136,8 @@ class Database {
 	 *
 	 * @return int  Number of rows
 	 */
-	public function getNumRows($result) {
+	public function getNumRows($result)
+	{
 		return mysql_num_rows($result);
 	}
 
@@ -138,19 +148,21 @@ class Database {
 	 *
 	 * @return type
 	 */
-	public function secureInput($input) {
+	public function secureInput($input)
+	{
 		return mysql_real_escape_string($input);
 	}
 
 	/**
 	 * Disconnects from the database if connection has been established before
 	 */
-	public function disconnect() {
-		if ($this->handler != null) {
+	public function disconnect()
+	{
+		if ($this->handler != NULL) {
 			mysql_close($this->handler);
 		}
 	}
 
 }
 
-?>
+// EOF

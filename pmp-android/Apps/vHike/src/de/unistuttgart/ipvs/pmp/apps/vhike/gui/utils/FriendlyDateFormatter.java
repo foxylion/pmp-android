@@ -18,10 +18,13 @@ public class FriendlyDateFormatter {
     
     
     public String format(Calendar date) {
+        System.out.println(SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT,
+                SimpleDateFormat.SHORT).format(date.getTime()));
         
         Calendar d1 = Calendar.getInstance(); // Today at 0:0:00
         d1.clear(Calendar.HOUR);
         d1.clear(Calendar.MINUTE);
+        d1.clear(Calendar.SECOND);
         d1.clear(Calendar.MILLISECOND);
         
         Calendar d2 = Calendar.getInstance(); // Tomorrow
@@ -32,10 +35,11 @@ public class FriendlyDateFormatter {
         
         String result = "";
         
-        if (date.compareTo(d3) >= 0 || date.before(d1)) {
+        if (date.compareTo(d3) > 0 || date.before(d1)) {
             result = DateFormat.format("E", date).toString() + " ";
-            result += SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT).format(
-                    date.getTime());
+            result += SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
+                    .format(
+                            date.getTime());
         } else if (date.after(d1) && date.before(Calendar.getInstance())) {
             result = context.getString(R.string.now);
         } else {

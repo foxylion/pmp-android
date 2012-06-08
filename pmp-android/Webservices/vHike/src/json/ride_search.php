@@ -2,7 +2,7 @@
 /**
  * This service is used by the hiker to search for available rides
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require ("./../inc/json_framework.inc.php");
 
 // Stop execution of script and print error message if user is not logged in
@@ -25,18 +25,18 @@ try {
 	if ($queryIds != NULL) {
 		$result = Ride::getRidesByDistance($user->getId(), $_POST["distance"]);
 		if ($result) {
-			$output = array("successful" => true,
-							"status"     => "result",
-							"trips"      => $result);
+			$output = array("successful" => TRUE,
+			                "status"     => "result",
+			                "trips"      => $result);
 			echo Json::arrayToJson($output);
 		} else {
-			$output = array("successful" => true,
-							"status"     => "no_trip_found");
+			$output = array("successful" => TRUE,
+			                "status"     => "no_trip_found");
 			echo Json::arrayToJson($output);
 		}
 	} else {
-		$output = array("successful" => true,
-						"status"     => "no_query");
+		$output = array("successful" => TRUE,
+		                "status"     => "no_query");
 		echo Json::arrayToJson($output);
 	}
 

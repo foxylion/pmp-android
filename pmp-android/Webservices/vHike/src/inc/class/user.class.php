@@ -32,25 +32,25 @@ class user {
     // 10000000
 
     private $id = -1;
-    private $username = null;
-    private $passwordHash = null;
-    private $email = null;
-    private $firstname = null;
-    private $lastname = null;
-    private $tel = null;
-    private $description = null;
-    private $regdate = null;
-    private $emailPublic = false;
-    private $firstnamePublic = false;
-    private $lastnamePublic = false;
-    private $telPublic = false;
-    private $activated = false;
+    private $username = NULL;
+    private $passwordHash = NULL;
+    private $email = NULL;
+    private $firstname = NULL;
+    private $lastname = NULL;
+    private $tel = NULL;
+    private $description = NULL;
+    private $regdate = NULL;
+    private $emailPublic = FALSE;
+    private $firstnamePublic = FALSE;
+    private $lastnamePublic = FALSE;
+    private $telPublic = FALSE;
+    private $activated = FALSE;
 
     /** @var Rating */
-    private $rating = null;
+    private $rating = NULL;
 
     /** @var Position */
-    private $position = null;
+    private $position = NULL;
 
     private function __construct() {
 
@@ -75,7 +75,7 @@ class user {
         $row = $db->fetch($db->query("SELECT * FROM `" . DB_PREFIX . "_user` as u WHERE u.`id` = $id"));
 
         if ($db->getAffectedRows() <= 0) {
-            return null;
+            return NULL;
         }
 
         return self::loadUserBySqlResult($row);
@@ -96,7 +96,7 @@ class user {
      * @throws InvalidArgumentException Thrown, if on of the arguments is invalid
      */
     public static function loadUserBySqlResult($result, $idFieldName = "id") {
-        if (!is_array($result) || $idFieldName == null || $idFieldName == "" || $result[$idFieldName] == null) {
+        if (!is_array($result) || $idFieldName == NULL || $idFieldName == "" || $result[$idFieldName] == NULL) {
             throw new InvalidArgumentException("Result or idFieldName (" . $idFieldName . ") is invalid");
         }
 
@@ -137,7 +137,7 @@ class user {
                         "FROM `" . DB_PREFIX . "_user` u " .
                         "WHERE `username` = \"$name\""));
         if ($db->getAffectedRows() <= 0) {
-            return null;
+            return NULL;
         }
 
         return self::loadUserBySqlResult($row);
@@ -158,7 +158,7 @@ class user {
      */
     private static function isNameValid($name) {
         if (!General::validLength($name)) {
-            return false;
+            return FALSE;
         }
 
         $char = General::REG_INTCHARS;
@@ -194,7 +194,7 @@ class user {
      */
     private static function isTelValid($tel) {
         if (!General::validLength($tel)) {
-            return false;
+            return FALSE;
         }
 
         $match = preg_match("/^\+?[0-9]+(-?[0-9])+$/", $tel);
@@ -336,7 +336,7 @@ class user {
                 "WHERE `user` = " . $this->id);
         $row = $db->fetch($result);
 
-        $key = null;
+        $key = NULL;
 
         // If key is in database, use it. Otherwise generate new one
         if ($row) {
@@ -440,9 +440,9 @@ class user {
         $this->telPublic = $telPublic;
 
         if ($db->getAffectedRows() > 0) {
-            return true;
+            return TRUE;
         } else {
-            return false;
+            return FALSE;
         }
     }
 
@@ -456,52 +456,49 @@ class user {
      */
     public function enableAnonymity() {
 
-        $lastnamePublic = (bool) $lastnamePublic;
-        $firstnamePublic = (bool) $firstnamePublic;
-        $emailPublic = (bool) $emailPublic;
-        $telPublic = (bool) $telPublic;
+//        $lastnamePublic = (bool) $this->lastnamePublic;
+//        $firstnamePublic = (bool) $this->firstnamePublic;
+//        $emailPublic = (bool) $this->emailPublic;
+//        $telPublic = (bool) $this->telPublic;
 
         $db = Database::getInstance();
 
         // Write new data into database
         $db->query("UPDATE `" . DB_PREFIX . "_user` SET `email_public` = 0, `firstname_public` = 0, `lastname_public` = 0, `tel_public` = 0 WHERE `id` = " . $this->id);
 
-        $this->emailPublic = $emailPublic;
-        $this->firstnamePublic = $firstnamePublic;
-        $this->lastnamePublic = $lastnamePublic;
-        $this->telPublic = $telPublic;
+//        $this->emailPublic = $emailPublic;
+//        $this->firstnamePublic = $firstnamePublic;
+//        $this->lastnamePublic = $lastnamePublic;
+//        $this->telPublic = $telPublic;
     }
 
-    /**
-     * Disables a profiles anonymity.
-     *
-     * @param boolean $emailPublic
-     * @param boolean $firstnamePublic
-     * @param boolean $lastnamePublic
-     * @param boolean $telPublic
-     */
+	/**
+	 * Disables a profiles anonymity.
+	 *
+	 */
     public function disableAnonymity() {
 
-        $lastnamePublic = (bool) $lastnamePublic;
-        $firstnamePublic = (bool) $firstnamePublic;
-        $emailPublic = (bool) $emailPublic;
-        $telPublic = (bool) $telPublic;
+//        $lastnamePublic = (bool) $lastnamePublic;
+//        $firstnamePublic = (bool) $firstnamePublic;
+//        $emailPublic = (bool) $emailPublic;
+//        $telPublic = (bool) $telPublic;
 
         $db = Database::getInstance();
 
         // Write new data into database
         $db->query("UPDATE `" . DB_PREFIX . "_user` SET `email_public` = 1, `firstname_public` = 1, `lastname_public` = 1, `tel_public` = 1 WHERE `id` = " . $this->id);
 
-        $this->emailPublic = $emailPublic;
-        $this->firstnamePublic = $firstnamePublic;
-        $this->lastnamePublic = $lastnamePublic;
-        $this->telPublic = $telPublic;
+//        $this->emailPublic = $emailPublic;
+//        $this->firstnamePublic = $firstnamePublic;
+//        $this->lastnamePublic = $lastnamePublic;
+//        $this->telPublic = $telPublic;
     }
 
-    /**
-     * Checks whether users profile is set to anonymous or not
-     * @return true if profile is anonymous, false otherwise
-     */
+	/**
+	 * Checks whether users profile is set to anonymous or not
+	 * @param $user_id
+	 * @return true if profile is anonymous, false otherwise
+	 */
     static function isProfileAnonymous($user_id) {
 
 		$db = Database::getInstance();
@@ -511,9 +508,9 @@ class user {
 		if ($query) {
 			while ($row = $db->fetch($query)) {
 				if ($row["email_public"] == 0) {
-					return true;
+					return TRUE;
 				} else {
-					return false;
+					return FALSE;
 				}
 			}
 		}
@@ -532,14 +529,14 @@ class user {
 		$db = Database::getInstance();
 
         $db = Database::getInstance();
-        $query = $db->query("SELECT email_public FROM dev_user WHERE id= $user_id");
+        $query = $db->query("SELECT email_public FROM dev_user WHERE id= $id");
 
         if ($query) {
             while ($row = $db->fetch($query)) {
                 if ($row["email_public"] == 0) {
-                    return true;
+                    return TRUE;
                 } else {
-                    return false;
+                    return FALSE;
                 }
             }
         }
@@ -554,29 +551,29 @@ class user {
      *
      * @return boolean  True, if id and key matched and user has been activated, otherwise false
      */
-    public static function verifyUser($id, $key) {
-        $db = Database::getInstance();
-
-        $db->query("SELECT `key` FROM `" . DB_PREFIX . "_verification`
-                    WHERE `user` = $id
-                    AND `key` = \"" . $key . "\"");
-
-        // If the verification key is valid, activate user account
-        if ($db->getAffectedRows() > 0) {
-            // Activate account
-            $db->query("UPDATE `" . DB_PREFIX . "_user`
-                        SET `activated` = 1
-                        WHERE `id` = $id");
-
-            // Remove key
-            $db->query("DELETE FROM `" . DB_PREFIX . "_verification`
-                        WHERE `user` = $id");
-
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    public static function verifyUser($id, $key) {
+//        $db = Database::getInstance();
+//
+//        $db->query("SELECT `key` FROM `" . DB_PREFIX . "_verification`
+//                    WHERE `user` = $id
+//                    AND `key` = \"" . $key . "\"");
+//
+//        // If the verification key is valid, activate user account
+//        if ($db->getAffectedRows() > 0) {
+//            // Activate account
+//            $db->query("UPDATE `" . DB_PREFIX . "_user`
+//                        SET `activated` = 1
+//                        WHERE `id` = $id");
+//
+//            // Remove key
+//            $db->query("DELETE FROM `" . DB_PREFIX . "_verification`
+//                        WHERE `user` = $id");
+//
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     /**
      * Returns the status of an offer
@@ -643,7 +640,7 @@ class user {
     public function getCurrentQueryIds() {
         $db = Database::getInstance();
         $query = $db->query("SELECT `id` FROM `" . DB_PREFIX . "_query` WHERE `passenger`=$this->id");
-        $arr = null;
+        $arr = NULL;
         $i = 0;
         while ($row = $db->fetch($query)) {
             $arr[$i++] = $row["id"];
@@ -744,8 +741,8 @@ class user {
      *
      * @return null|array DB row
      */
-    public function get_pos($user_id = null) {
-        if ($user_id == null)
+    public function get_pos($user_id = NULL) {
+        if ($user_id == NULL)
             $uid = $this->id;
         else
             $uid = $user_id;
@@ -755,7 +752,7 @@ class user {
         if ($db->getNumRows($result) > 0) {
             return $db->fetch($result);
         }
-        return null;
+        return NULL;
     }
 
     public function getFirstname() {
@@ -807,7 +804,7 @@ class user {
         $result = $db->query('SELECT `latitude`, `longitude`, UNIX_TIMESTAMP(`last_update`) as last_update ' .
                 'FROM ' . DB_PREFIX . '_position WHERE `user`=' . $this->getId());
         if ($db->getNumRows($result) <= 0) {
-            return null;
+            return NULL;
         }
         $row = $db->fetch($result);
         $pos = array("latitude" => (float) $row["latitude"],
@@ -817,14 +814,14 @@ class user {
     }
 
     public function getRatingAvg() {
-        if ($this->rating == null) {
+        if ($this->rating == NULL) {
             $this->rating = Rating::loadRating($this);
         }
         return $this->rating->getAverage();
     }
 
     public function getRatingNum() {
-        if ($this->rating == null) {
+        if ($this->rating == NULL) {
             $this->rating = Rating::loadRating($this);
         }
         return $this->rating->getNumber();
@@ -871,7 +868,7 @@ class user {
      * @return boolean True, if user exists
      */
     public static function usernameExists($username) {
-        return self::getUserId($username) < 0 ? false : true;
+        return self::getUserId($username) < 0 ? FALSE : TRUE;
     }
 
     /**
@@ -892,7 +889,7 @@ class user {
         $row = $row = $db->fetch($result);
 
         // Return -1 if there's no user with this name
-        return $row == null ? -1 : $row['id'];
+        return $row == NULL ? -1 : $row['id'];
     }
 
     /**
@@ -910,7 +907,7 @@ class user {
         $result = $db->query("SELECT count(*) AS count FROM `" . DB_PREFIX . "_user` WHERE `email` = \"$email\"");
         $row = $db->fetch($result);
 
-        return $row['count'] > 0 ? true : false;
+        return $row['count'] > 0 ? TRUE : FALSE;
     }
 
     public static function hashPassword($password) {
@@ -928,7 +925,7 @@ class user {
         if ($user instanceof User) {
             return ($this->id == $user->id);
         } else {
-            return false;
+            return FALSE;
         }
     }
 

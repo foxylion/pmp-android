@@ -2,7 +2,7 @@
 /**
  * This service is used to announce a new ride request
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -25,14 +25,14 @@ try {
 	}
 
 	if ($user->isQueryExisted($query->getDestination()) OR $user->isRideExisted($query->getDestination())) {
-		$output = array('successful'=> true,
-						'status'	=> 'query_or_ride_existed');
+		$output = array('successful'=> TRUE,
+		                'status'    => 'query_or_ride_existed');
 	} else {
 		$query->setPassenger($user->getId());
 		$id = $query->create();
-		$output = array('successful' => true,
-						'status'	 => 'announced',
-						'id'		 => $id);
+		$output = array('successful' => TRUE,
+		                'status'     => 'announced',
+		                'id'         => $id);
 	}
 
 	echo Json::arrayToJson($output);

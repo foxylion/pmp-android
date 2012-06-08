@@ -4,7 +4,7 @@
  * It also connects to the database-server and opens the database.
  */
 if (!defined('INCLUDE')) {
-    exit;
+	exit;
 }
 
 // Load config file
@@ -25,9 +25,9 @@ require ('./../inc/class/observation.class.php');
 
 // Connect to database
 try {
-    Database::getInstance()->connect();
+	Database::getInstance()->connect();
 } catch (DatabaseException $de) {
-    Json::printError('cannot_connect_to_database', $de->__toString());
+	Json::printError('cannot_connect_to_database', $de->__toString());
 }
 
 // EOF

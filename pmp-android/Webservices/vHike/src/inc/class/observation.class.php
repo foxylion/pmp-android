@@ -3,7 +3,8 @@ if (!defined('INCLUDE')) {
 	exit;
 }
 
-class Observation {
+class Observation
+{
 	/**
 	 * Makes the observation mode accessible.
 	 *
@@ -11,7 +12,8 @@ class Observation {
 	 *
 	 * @return Random Observation_nr
 	 */
-	public static function enableObservation($user_id) {
+	public static function enableObservation($user_id)
+	{
 		// TODO: Check if the user already has an observation number
 		$db = Database::getInstance();
 		$hash = mt_rand();
@@ -24,7 +26,8 @@ class Observation {
 	 *
 	 * @param int $user_id Id of an user
 	 */
-	public static function disableObservation($user_id) {
+	public static function disableObservation($user_id)
+	{
 		$db = Database::getInstance();
 		$query = $db->query("DELETE FROM dev_observation WHERE user_id=$user_id");
 	}
@@ -36,14 +39,15 @@ class Observation {
 	 * @param int $user_id Id of an user
 	 * @return bool True if observation mode is active, false otherwise
 	 */
-	public static function isObserved($user_id) {
+	public static function isObserved($user_id)
+	{
 		$db = Database::getInstance();
 		$query = $db->query("SELECT user_id FROM dev_observation WHERE user_id=$user_id");
 
 		if ($db->getNumRows($query) > 0) {
-			return true;
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 	}
 }

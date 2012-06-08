@@ -2,29 +2,29 @@
 /**
  * This service is used to retrieve a information from a offer
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require("./../inc/json_framework.inc.php");
 
 // Stop execution of script and print error message if user is not logged in
 Json::printErrorIfNotLoggedIn();
 
-$user = Session::getInstance() -> getLoggedInUser();
+$user = Session::getInstance()->getLoggedInUser();
 
 try {
-	
+
 	$res = Offer::getOfferReply($_POST["tripid"], $_POST["uid"]);
-	
+
 	if ($res) {
-		$output = array('successful'	=> true,
-						'status'		=> 'result',
-						'offers'		=> $res);
+		$output = array('successful'    => TRUE,
+		                'status'        => 'result',
+		                'offers'        => $res);
 		echo Json::arrayToJson($output);
 	} else {
-		$output = array('successful'	=> true,
-						'status'		=> 'no_offer_found');
+		$output = array('successful'    => TRUE,
+		                'status'        => 'no_offer_found');
 		echo Json::arrayToJson($output);
 	}
-	
+
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
 } catch (Exception $e) {

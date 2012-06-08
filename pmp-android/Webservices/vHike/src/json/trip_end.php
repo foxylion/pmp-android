@@ -27,7 +27,7 @@
 /**
  * @ignore
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 /**
  * @ignore
  */
@@ -48,7 +48,7 @@ try {
 		$status = Trip::endTrip($user->getId());
 	}
 
-	echo Json::arrayToJson($output = array("status"	 => $status));
+	echo Json::arrayToJson($output = array("status"     => $status));
 } catch (InvalidArgumentException $iae) {
 	Json::printInvalidInputError();
 } catch (DatabaseException $de) {

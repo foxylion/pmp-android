@@ -2,18 +2,18 @@
 /**
  * This service is used to register a new user to the system
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require("./../inc/json_framework.inc.php");
 
 try {
 	$user = User::register($_POST["username"], $_POST["password"], $_POST["email"],
-						   $_POST["firstname"], $_POST["lastname"], $_POST["tel"],
-						   $_POST["description"], $_POST["email_public"], $_POST["firstname_public"],
-						   $_POST["lastname_public"], $_POST["tel_public"]);
+		$_POST["firstname"], $_POST["lastname"], $_POST["tel"],
+		$_POST["description"], $_POST["email_public"], $_POST["firstname_public"],
+		$_POST["lastname_public"], $_POST["tel_public"]);
 
 	$user->sendVerificationKey();
-	echo Json::arrayToJson(array("successful" => true,
-								 "status"     => "registered"));
+	echo Json::arrayToJson(array("successful" => TRUE,
+	                             "status"     => "registered"));
 } catch (InvalidArgumentException $iae) {
 	$code = $iae->getCode();
 
@@ -47,8 +47,8 @@ try {
 	// Remove last ","
 	$status = substr($status, 0, strlen($status) - 1);
 
-	echo Json::arrayToJson(array("successful" => true,
-								 "status"     => $status));
+	echo Json::arrayToJson(array("successful" => TRUE,
+	                             "status"     => $status));
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
 }

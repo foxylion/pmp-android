@@ -3,7 +3,7 @@
  * This service is used to rate a driver or a passenger that have participated
  * on an ended trip.
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require ("./../inc/json_framework.inc.php");
 
 
@@ -35,8 +35,8 @@ try {
 			$status = "no_connection";
 	}
 
-	$output = array("successful" => true,
-					"status"     => $status);
+	$output = array("successful" => TRUE,
+	                "status"     => $status);
 	echo Json::arrayToJson($output);
 
 } catch (InvalidArgumentException $iae) {

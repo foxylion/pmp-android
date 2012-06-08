@@ -3,7 +3,7 @@
 /**
  * This service is used by a driver to send an offer for a given query
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -13,20 +13,20 @@ try {
 	// Load data for the given parameters^^
 	$trip = Trip::loadTrip($_POST['trip']);
 	$query = Query::loadQuery($_POST['query']);
-	$driver = Session::getInstance()->getLoggedInUser();
+	$user = Session::getInstance()->getLoggedInUser();
 
 	// Show message if there's no data for the given values
-	if ($trip == null) {
+	if ($trip == NULL) {
 		$status = 'invalid_trip';
-	} elseif ($query == null) {
+	} elseif ($query == NULL) {
 		$status = 'invalid_query';
 	} else {
-		$id = Offer::make($query, $trip, $driver, $_POST['message']);
+		$id = Offer::make($query, $trip, $user, $_POST['message']);
 		$status = 'sent';
 	}
 
-	$output = array('successful' => true,
-					'status'	 => $status);
+	$output = array('successful' => TRUE,
+	                'status'     => $status);
 	if (isset($id)) {
 		$output['offer_id'] = $id;
 	}
@@ -43,8 +43,9 @@ try {
 			$status = 'already_sent';
 			break;
 	}
-	$output = array('successful' => true,
-					'status'	 => $status);
+	$output = array('successful' => TRUE,
+	                'status'     => $status,
+	                'message'    => $oe->getMessage());
 	echo Json::arrayToJson($output);
 } catch (InvalidArgumentException $iae) {
 	Json::printInvalidInputError();

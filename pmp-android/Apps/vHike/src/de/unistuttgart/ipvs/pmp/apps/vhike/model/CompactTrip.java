@@ -33,10 +33,16 @@ public class CompactTrip {
      */
     public CompactTrip(int id, String destination, long startTime, int passengerNo, int offerNo, int messageNo) {
         this.id = id;
-        this.destination = destination;
+        String s = destination.trim().replaceAll("\\s*;\\s*", ";").replaceAll("(^;|;$)", "")
+                .replaceAll(";.*", "");
+        this.destination = s;
         this.startTime = startTime;
         numberOfPassengers = passengerNo;
         numberOfOffers = offerNo;
         numberOfNewMessages = messageNo;
+    }
+    
+    
+    public CompactTrip() {
     }
 }

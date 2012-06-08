@@ -2,7 +2,7 @@
 /**
  * This service is used to edit a users profile
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require("./../inc/json_framework.inc.php");
 
 // Stop execution of script and print error message if user is not logged in
@@ -11,8 +11,8 @@ Json::printErrorIfNotLoggedIn();
 try {
 	$user = Session::getInstance()->getLoggedInUser();
 	$user->updateProfile($_POST["firstname"], $_POST["lastname"], $_POST["tel"], $_POST["description"]);
-	echo Json::arrayToJson(array("successful" => true,
-								 "status"     => "updated"));
+	echo Json::arrayToJson(array("successful" => TRUE,
+	                             "status"     => "updated"));
 } catch (InvalidArgumentException $iae) {
 	$code = $iae->getCode();
 
@@ -31,8 +31,8 @@ try {
 	// Remove last ","
 	$status = substr($status, 0, strlen($status) - 1);
 
-	echo Json::arrayToJson(array("successful" => true,
-								 "status"     => $status));
+	echo Json::arrayToJson(array("successful" => TRUE,
+	                             "status"     => $status));
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
 }

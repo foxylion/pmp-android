@@ -34,7 +34,8 @@ public class vHikeService extends Service {
     
     private static vHikeService instance;
     private static final String TAG = "vHikeService";
-    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation", "anonymousProfile",
+    private static final String[] serviceFeatures = { "useAbsoluteLocation", "hideExactLocation",
+            "anonymousProfile",
             "contactPremium", "notification", "vhikeWebService" };
     private static final PMPResourceIdentifier RGLocationID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.location", "absoluteLocationResource");
@@ -46,7 +47,8 @@ public class vHikeService extends Service {
             "de.unistuttgart.ipvs.pmp.resourcegroups.contact", "contactResource");
     private static final PMPResourceIdentifier RGBluetoothID = PMPResourceIdentifier.make(
             "de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth", "bluetoothResource");
-    private static final PMPResourceIdentifier[] resourceGroupIDs = { RGLocationID, RGVHikeID, RGNotificationID,
+    private static final PMPResourceIdentifier[] resourceGroupIDs = { RGLocationID, RGVHikeID,
+            RGNotificationID,
             RGContactID, RGBluetoothID };
     
     
@@ -233,7 +235,7 @@ public class vHikeService extends Service {
                 act.onResourceGroupReady(this.loc, resourceGroupId);
                 break;
             case Constants.RG_VHIKE_WEBSERVICE:
-                Log.i(this, "Cached " + resourceGroupId);
+                Log.i(this, "Cached vHikeWebservice");
                 this.ws = IvHikeWebservice.Stub.asInterface(this.binder);
                 act.onResourceGroupReady(this.ws, resourceGroupId);
                 break;

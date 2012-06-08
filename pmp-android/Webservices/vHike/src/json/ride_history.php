@@ -3,22 +3,23 @@
  * This service is returns all rides that have been done by a driver
  * or a passenger
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 /**
  * Utility function for creating the json output-frame
  *
- * @param Trip	 $trip
+ * @param Trip     $trip
  *
  * @return String[]
  */
-function createJsonRide($trip) {
-	return array('trip'		  => $trip->getId(),
-				 'avail_seats'   => $trip->getAvailSeats(),
-				 'destination'   => $trip->getDestination(),
-				 'creation'	  => $trip->getCreation(),
-				 'ending'		=> $trip->getEnding());
+function createJsonRide($trip)
+{
+	return array('trip'          => $trip->getId(),
+	             'avail_seats'   => $trip->getAvailSeats(),
+	             'destination'   => $trip->getDestination(),
+	             'creation'      => $trip->getCreation(),
+	             'ending'        => $trip->getEnding());
 }
 
 
@@ -40,11 +41,11 @@ try {
 		foreach ($rides as $key => $ride) {
 			$jsonPassengers = array();
 			foreach ($ride->getPassengers() as $user) {
-				$jsonPassengers[] = array('userid'	=> $user->getId(),
-										  'username'  => $user->getUsername(),
-										  'rating'	=> $user->getRatingAvg(),
-										  'rating_num'=> $user->getRatingNum(),
-										  'rated'	 => Rating::hasRated($driver, $user, $ride->getTrip()));
+				$jsonPassengers[] = array('userid'    => $user->getId(),
+				                          'username'  => $user->getUsername(),
+				                          'rating'    => $user->getRatingAvg(),
+				                          'rating_num'=> $user->getRatingNum(),
+				                          'rated'     => Rating::hasRated($driver, $user, $ride->getTrip()));
 			}
 
 			$jsonRide = createJsonRide($ride->getTrip());
@@ -63,20 +64,20 @@ try {
 
 		foreach ($rides as $ride) {
 			$driver = $ride->getDriver();
-			$jsonDriver = array('userid'	=> $driver->getId(),
-								'username'  => $driver->getUsername(),
-								'rating'	=> $driver->getRatingAvg(),
-								'rating_num'=> $driver->getRatingNum(),
-								'rated'	 => Rating::hasRated($passenger, $driver, $ride->getTrip()));
+			$jsonDriver = array('userid'    => $driver->getId(),
+			                    'username'  => $driver->getUsername(),
+			                    'rating'    => $driver->getRatingAvg(),
+			                    'rating_num'=> $driver->getRatingNum(),
+			                    'rated'     => Rating::hasRated($passenger, $driver, $ride->getTrip()));
 
 			$jsonPassengers = array();
 			foreach ($ride->getPassengers() as $user) {
 				if ($user->getId() != $passenger->getId()) {
-					$jsonPassengers[] = array('userid'	=> $user->getId(),
-											  'username'  => $user->getUsername(),
-											  'rating'	=> $user->getRatingAvg(),
-											  'rating_num'=> $user->getRatingNum(),
-											  'rated'	 => Rating::hasRated($passenger, $user, $ride->getTrip()));
+					$jsonPassengers[] = array('userid'    => $user->getId(),
+					                          'username'  => $user->getUsername(),
+					                          'rating'    => $user->getRatingAvg(),
+					                          'rating_num'=> $user->getRatingNum(),
+					                          'rated'     => Rating::hasRated($passenger, $user, $ride->getTrip()));
 				}
 			}
 
@@ -91,8 +92,8 @@ try {
 		throw new InvalidArgumentException('POST parameter missing or invalid.');
 	}
 
-	$output = array('successful'=> true,
-					'rides'	 => $jsonRides);
+	$output = array('successful'=> TRUE,
+	                'rides'     => $jsonRides);
 	echo Json::arrayToJson($output);
 
 } catch (InvalidArgumentException $iae) {

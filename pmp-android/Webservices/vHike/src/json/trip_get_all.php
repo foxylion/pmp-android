@@ -32,7 +32,7 @@
 /**
  * @ignore
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 /**
  * @ignore
  */
@@ -44,11 +44,21 @@ Json::printErrorIfNotLoggedIn();
 try {
 	$user = Session::getInstance()->getLoggedInUser();
 
-	if (isset($_POST['all'])) {
+	if (isset($_GET['all'])) {
 		$trips = Trip::get_trips($user->getId(), TRUE);
+	} elseif (isset($_GET['compact'])) {
+		$trips = Trip::get_trips($user->getId());
+
+		for ($i = 0; $i < count($trips); $i++) {
+			$trip = $trips[$i];
+			$info = Trip::get_trip_stats($trip['id']);
+			$trips[$i] = array_merge($trip, $info);
+		}
 	} else {
 		$trips = Trip::get_trips($user->getId());
 	}
+
+	// Result
 	if ($trips == NULL) {
 		$output = array('status'=> 'no_trip');
 	} else {

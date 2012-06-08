@@ -37,7 +37,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 
 /**
  * The DriverViewActivity is responsible for the representation of the drivers actions. Also, partly handling the
- * interaction and therby controlling the GUI
+ * interaction and thereby controlling the GUI
  * 
  * @author Andre Nguyen
  * 
@@ -200,7 +200,8 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         this.locationTimer = new Timer();
         this.queryTimer = new Timer();
         
-        this.c4l = new Check4Location(rgvHike, rgLocation, this.mapView, this.context, this.locationHandler, 0);
+        this.c4l = new Check4Location(rgvHike, rgLocation, this.mapView, this.context, this.locationHandler,
+                0);
         this.locationTimer.schedule(this.c4l, 10000, 10000);
         Log.i(this, "Location started");
         

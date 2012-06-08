@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.FriendlyDateFormatter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
 
 public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
@@ -33,7 +33,8 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         
         if (itemView == null) {
             // Inflate layout
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             itemView = inflater.inflate(R.layout.list_item_my_trip, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.destination = (TextView) itemView.findViewById(R.id.myTrip_destination);
@@ -50,8 +51,9 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         holder.destination.setText(trips.get(position).destination);
         
         Calendar c = GregorianCalendar.getInstance();
-        holder.date.setText(SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
-                .format(c.getTime()));
+        c.setTimeInMillis(trips.get(position).startTime);
+        FriendlyDateFormatter df = new FriendlyDateFormatter(this.getContext());
+        holder.date.setText(df.format(c));
         
         int i = 0;
         i = trips.get(position).numberOfPassengers;
@@ -59,7 +61,7 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         if (i > 0) {
             holder.no1.setBackgroundResource(R.drawable.bg_round_blue);
         } else {
-            holder.no1.setBackgroundColor(R.drawable.bg_round_gray);
+            holder.no1.setBackgroundResource(R.drawable.bg_round_gray);
         }
         
         i = trips.get(position).numberOfOffers;
@@ -67,7 +69,7 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         if (i > 0) {
             holder.no2.setBackgroundResource(R.drawable.bg_round_green);
         } else {
-            holder.no2.setBackgroundColor(R.drawable.bg_round_gray);
+            holder.no2.setBackgroundResource(R.drawable.bg_round_gray);
         }
         
         i = trips.get(position).numberOfNewMessages;
@@ -75,7 +77,7 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         if (i > 0) {
             holder.no3.setBackgroundResource(R.drawable.bg_round_red);
         } else {
-            holder.no3.setBackgroundColor(R.drawable.bg_round_gray);
+            holder.no3.setBackgroundResource(R.drawable.bg_round_gray);
         }
         
         return itemView;

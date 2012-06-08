@@ -52,7 +52,7 @@
 	</table>
 </form>
 
-<h2>Announce trip</h2>
+<h2>Announce trip with date and time</h2>
 
 <form action="../trip_announce.php" method="post" target="r">
 	<table>
@@ -74,8 +74,10 @@
 		</tr>
 		<tr>
 			<td>Date:</td>
-			<td><input name="avail_seats" type="text" value="<?php echo time() + 2000; ?>"/> (<?php echo strftime("%c",
-																												  time() + 2000); ?>
+			<td><input name="date" type="text" value="<?php echo (time() + 3600) * 1000; ?>"/> (<?php
+				date_default_timezone_set("Europe/Berlin");
+				echo strftime("%c",
+					time() + 3600); ?>
 				)
 			</td>
 		</tr>
@@ -87,32 +89,7 @@
 	</table>
 </form>
 
-<h2 class="auto-style1">Update position</h2>
 
-<div>Deprecated.
-	<a href="user.html#updatepos">Use this instead</a>!
-</div>
-<form action="../trip_update_pos.php" method="post" target="r">
-	<table>
-		<tr>
-			<td>Trip-ID:</td>
-			<td><input name="id" type="text" value="0"/></td>
-		</tr>
-		<tr>
-			<td>Current lat.:</td>
-			<td><input name="current_lat" type="text" value="48.782409"/></td>
-		</tr>
-		<tr>
-			<td>Current lon.:</td>
-			<td><input name="current_lon" type="text" value="9.183648"/></td>
-		</tr>
-		<tr>
-			<td>Buttons:</td>
-			<td colspan="2"><input type="submit"/>
-				<input type="reset"/></td>
-		</tr>
-	</table>
-</form>
 <h2>Update data</h2>
 
 <form action="../trip_update_data.php" method="post" target="r">
@@ -133,21 +110,30 @@
 	</table>
 </form>
 
-<h2><a href="../trip_get_open.php" target="r">Get current trip</a></h2>
+<h2>Get trip's overview</h2>
 
-
-<h2><a href="../trip_get_all.php" target="r">Get current and future trips</a></h2>
-
-<form action="../trip_get_all.php" method="post" target="r">
+<form action="../trip_overview.php" method="post" target="r">
 	<table>
 		<tr>
-			<td><h2>Get all trips</h2></td>
-			<td><input type="hidden" name="all" value="1"/>
-				<input type="submit"/></td>
+			<td>Trip-ID:</td>
+			<td><input name="tripId" type="text" value="0"/></td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td><input type="submit"/>
+				<input type="reset"/></td>
 		</tr>
 	</table>
 </form>
 
+
+<h2><a href="../trip_get_open.php" target="r">Get current trip</a></h2>
+
+<h2><a href="../trip_get_all.php" target="r">Get current and future trips</a></h2>
+
+<h2><a href="../trip_get_all.php?compact" target="r">Get current and future trips (compact)</a></h2>
+
+<h2><a href="../trip_get_all.php?all" target="r">Get all trips</a></h2>
 
 <h2>End/Close trip</h2>
 
@@ -165,16 +151,9 @@
 	</table>
 </form>
 
-<h2>End/Close trip without ID</h2>
 
-<form action="../trip_end.php" method="post" target="r">
-	<table>
-		<tr>
-			<td>Buttons:</td>
-			<td colspan="2"><input type="submit"/></td>
-		</tr>
-	</table>
-</form>
+<h2><a href="../trip_end.php" target="r">End/Close trip without ID</a></h2>
+
 
 <h2>Search for requests</h2>
 
@@ -217,6 +196,7 @@
 </form>
 
 <h2>Get my lifts</h2>
+
 <form action="../load_my_lifts.php" method="post" target="r">
 	<table>
 		<tr>
@@ -231,5 +211,32 @@
 	</table>
 </form>
 
+
+<h2 class="auto-style1">Update position</h2>
+
+<div>Deprecated.
+	<a href="user.html#updatepos">Use this instead</a>!
+</div>
+<form action="../trip_update_pos.php" method="post" target="r">
+	<table>
+		<tr>
+			<td>Trip-ID:</td>
+			<td><input name="id" type="text" value="0"/></td>
+		</tr>
+		<tr>
+			<td>Current lat.:</td>
+			<td><input name="current_lat" type="text" value="48.782409"/></td>
+		</tr>
+		<tr>
+			<td>Current lon.:</td>
+			<td><input name="current_lon" type="text" value="9.183648"/></td>
+		</tr>
+		<tr>
+			<td>Buttons:</td>
+			<td colspan="2"><input type="submit"/>
+				<input type="reset"/></td>
+		</tr>
+	</table>
+</form>
 </body>
 </html>

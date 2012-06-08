@@ -1,9 +1,14 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.RemoteException;
 
@@ -14,6 +19,8 @@ import com.google.gson.JsonParser;
 
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
+import de.unistuttgart.ipvs.pmp.apps.vhike.exception.QueryException;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
@@ -24,7 +31,6 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PassengerObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PositionObject;
-import de.unistuttgart.ipvs.pmp.apps.vhike.tools.PrePlannedTrip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.QueryObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.RideObject;
 import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
@@ -62,12 +68,14 @@ public class Controller {
      */
     public int announceTrip(final String session_id, final String destination, final float current_lat,
             final float current_lon, final int avail_seats, Date date) {
-        Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", " + avail_seats);
+        Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", "
+                + avail_seats);
         String ret = "";
         try {
             if (date == null) {
                 ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, 0);
             } else {
+                System.out.println("DATE: " + SimpleDateFormat.getDateTimeInstance().format(date.getTime()));
                 ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats,
                         date.getTime());
             }
@@ -137,8 +145,10 @@ public class Controller {
         String status = "";
         if (json != null && json.get(ERROR) == null) {
             if (json.get("trip_id") != null) {
-                Trip trip = new Trip(json.get("trip_id").getAsInt(), Model.getInstance().getUserId(), json.get(
-                        "avail_seats").getAsInt(), json.get("destination").getAsString(), json.get("creation")
+                Trip trip = new Trip(json.get("trip_id").getAsInt(), Model.getInstance().getUserId(), json
+                        .get(
+                                "avail_seats").getAsInt(), json.get("destination").getAsString(), json.get(
+                        "creation")
                         .getAsLong(), 0);
                 Model.getInstance().setOpenTrip(trip);
                 status = "TRUE";
@@ -239,7 +249,8 @@ public class Controller {
                             int rating_num = passObjects.get("rating_num").getAsInt();
                             boolean rated = passObjects.get("rated").getAsBoolean();
                             
-                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating,
+                                    rating_num,
                                     rated);
                             historyPersons.add(person);
                         }
@@ -254,7 +265,8 @@ public class Controller {
                             int rating_num = passObjects.get("rating_num").getAsInt();
                             boolean rated = passObjects.get("rated").getAsBoolean();
                             
-                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating,
+                                    rating_num,
                                     rated);
                             historyPersons.add(person);
                         }
@@ -266,12 +278,14 @@ public class Controller {
                         int rating_num = driver.get("rating_num").getAsInt();
                         boolean rated = driver.get("rated").getAsBoolean();
                         
-                        HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                        HistoryPersonObject person = new HistoryPersonObject(userid, username, rating,
+                                rating_num,
                                 rated);
                         historyPersons.add(person);
                     }
                     Log.d(null, "IN READER HISTORYPERSONS" + historyPersons.size());
-                    HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination,
+                    HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending,
+                            destination,
                             historyPersons);
                     historyObjects.add(ride);
                 }
@@ -349,7 +363,8 @@ public class Controller {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date,
+                    email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -383,7 +398,8 @@ public class Controller {
             Log.i(this, "Public Lastname: " + Boolean.parseBoolean(list.get("lastname_public")));
             Log.i(this, "Public Firstname: " + Boolean.parseBoolean(list.get("firstname_public")));
             ret = this.ws.setProfileVisibility(sid, Boolean.parseBoolean(list.get("lastname_public")),
-                    Boolean.parseBoolean(list.get("firstname_public")), Boolean.parseBoolean(list.get("email_public")),
+                    Boolean.parseBoolean(list.get("firstname_public")),
+                    Boolean.parseBoolean(list.get("email_public")),
                     Boolean.parseBoolean(list.get("tel_public")));
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -645,7 +661,8 @@ public class Controller {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(id, username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(id, username, email, firstname, lastname, tel, description, date,
+                    email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -681,14 +698,16 @@ public class Controller {
     }
     
     
-    public List<SliderObject> mergeQOLwithFU(final List<QueryObject> qobjs, final List<FoundProfilePos> foundList) {
+    public List<SliderObject> mergeQOLwithFU(final List<QueryObject> qobjs,
+            final List<FoundProfilePos> foundList) {
         final List<SliderObject> sliderList = new ArrayList<SliderObject>();
         for (final FoundProfilePos foundProfile : foundList) {
             sliderList.add(new SliderObject(foundProfile));
         }
         for (final QueryObject objects : qobjs) {
-            sliderList.add(new SliderObject(new FoundProfilePos(objects.getUserid(), objects.getCur_lat(), objects
-                    .getCur_lon(), objects.getQueryid())));
+            sliderList.add(new SliderObject(new FoundProfilePos(objects.getUserid(), objects.getCur_lat(),
+                    objects
+                            .getCur_lon(), objects.getQueryid())));
         }
         return sliderList;
     }
@@ -801,8 +820,10 @@ public class Controller {
         try {
             ret = this.ws.register(list.get("username"), list.get("password"), list.get("email"),
                     list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
-                    Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
-                    Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
+                    Boolean.parseBoolean(list.get("email_public")),
+                    Boolean.parseBoolean(list.get("firstname_public")),
+                    Boolean.parseBoolean(list.get("lastname_public")),
+                    Boolean.parseBoolean(list.get("tel_public")));
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -850,7 +871,8 @@ public class Controller {
      * @param perimeter
      * @return List if QueryObjects otherwise, null
      */
-    public List<QueryObject> searchQuery(final String sid, final float lat, final float lon, final int perimeter) {
+    public List<QueryObject> searchQuery(final String sid, final float lat, final float lon,
+            final int perimeter) {
         String ret = "";
         List<QueryObject> queryObjects = null;
         try {
@@ -887,7 +909,8 @@ public class Controller {
                             int seats = Iobject.get("seats").getAsInt();
                             float distance = Iobject.get("distance").getAsFloat();
                             
-                            QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat, cur_lon, seats,
+                            QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat,
+                                    cur_lon, seats,
                                     distance);
                             queryObjects.add(qObject);
                         }
@@ -922,7 +945,8 @@ public class Controller {
      * @param perimeter
      * @return List if QueryObjects otherwise, null
      */
-    public List<RideObject> searchRides(final String sid, final float lat, final float lon, final int perimeter) {
+    public List<RideObject> searchRides(final String sid, final float lat, final float lon,
+            final int perimeter) {
         String ret = "";
         
         try {
@@ -959,7 +983,8 @@ public class Controller {
                     
                     float distance = Iobject.get("distance").getAsFloat();
                     
-                    RideObject qObject = new RideObject(tripid, seats, cur_lat, cur_lon, destination, driverid,
+                    RideObject qObject = new RideObject(tripid, seats, cur_lat, cur_lon, destination,
+                            driverid,
                             username, rating, distance);
                     rideObjects.add(qObject);
                 }
@@ -1032,7 +1057,8 @@ public class Controller {
      * @param avail_seats
      * @return QUERY_ID_ERROR || queryId
      */
-    public int startQuery(final String sid, final String destination, final float current_lat, final float current_lon,
+    public int startQuery(final String sid, final String destination, final float current_lat,
+            final float current_lon,
             final int avail_seats) {
         
         String ret = "";
@@ -1259,7 +1285,8 @@ public class Controller {
                         float lat = Iobject.get("lat").getAsFloat();
                         float lon = Iobject.get("lon").getAsFloat();
                         
-                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
+                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating,
+                                rating_num, lat, lon);
                         offerObjects.add(oObject);
                     }
                     Model.getInstance().setOfferHolder(offerObjects);
@@ -1311,7 +1338,7 @@ public class Controller {
         
         JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
-        int obs_nr = 0;
+        //        int obs_nr = 0;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
             
@@ -1336,48 +1363,86 @@ public class Controller {
     }
     
     
-    public List<PrePlannedTrip> getMyTrips(int uid) {
-        String ret = "";
+    public ArrayList<CompactTrip> getTrips(String sid) throws QueryException {
         try {
-            ret = this.ws.getMyTrips(uid);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        JsonObject object = this.parser.parse(ret).getAsJsonObject();
-        boolean suc = false;
-        List<PrePlannedTrip> prePlannedTrips = null;
-        if (object != null) {
-            suc = object.get("successful").getAsBoolean();
-            if (suc) {
-                JsonArray array;
-                try {
-                    array = object.get("my_trips").getAsJsonArray();
-                    prePlannedTrips = new ArrayList<PrePlannedTrip>();
-                    for (int i = 0; i < array.size(); i++) {
-                        JsonArray jArray = array.get(i).getAsJsonArray();
-                        for (int j = 0; j < jArray.size(); j++) {
-                            JsonObject Iobject = jArray.get(j).getAsJsonObject();
-                            int tid = Iobject.get("TripID").getAsInt();
-                            String destination = Iobject.get("Destination").getAsString();
-                            String date = Iobject.get("Time").getAsString();
-                            int passengers = Iobject.get("Passengers").getAsInt();
-                            int invites = Iobject.get("Invites").getAsInt();
-                            PrePlannedTrip pObject = new PrePlannedTrip(tid, destination, date, passengers, invites);
-                            prePlannedTrips.add(pObject);
-                        }
-                    }
-                    Model.getInstance().setMyTrips(prePlannedTrips);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    prePlannedTrips = new ArrayList<PrePlannedTrip>();
+            
+            // Get data from server
+            JSONObject root = new JSONObject(ws.getMyTrips(1));
+            
+            if (root.has("error")) {
+                throw new QueryException(root.getString("error") + (
+                        root.has("message") ? ": " + root.getString("message") : ""));
+            } else if (root.has("trips") && root.get("trips") != null) {
+                
+                JSONArray trips = root.getJSONArray("trips");
+                ArrayList<CompactTrip> listTrips = new ArrayList<CompactTrip>(trips.length());
+                
+                // Add trips to list
+                for (int i = 0; i < trips.length(); i++) {
+                    JSONObject o = trips.getJSONObject(i);
+                    listTrips.add(new CompactTrip(
+                            o.getInt("id"),
+                            o.getString("destination"),
+                            o.getLong("creation"),
+                            o.getInt("passenger_count"),
+                            o.getInt("offer_count"),
+                            o.getInt("message_count")));
                 }
-                return prePlannedTrips;
+                
+                return listTrips;
             }
             
-        } else {
-            Log.i(this, "Parsing Object null");
+        } catch (RemoteException re) {
+            System.err.println(re);
+        } catch (JSONException je) {
+            //            throw je;
+            je.printStackTrace();
         }
-        Model.getInstance().setMyTrips(prePlannedTrips);
-        return prePlannedTrips;
+        return null;
     }
+    
+    //    public ArrayList<CompactTrip> getMyTrips(int uid) {
+    //        String ret = "";
+    //        try {
+    //            ret = this.ws.getMyTrips(uid);
+    //        } catch (RemoteException e) {
+    //            throw e;
+    //        }
+    //        JsonObject object = this.parser.parse(ret).getAsJsonObject();
+    //        boolean suc = false;
+    //        ArrayList<CompactTrip> trips = null;
+    //        if (object != null) {
+    //            suc = object.get("successful").getAsBoolean();
+    //            if (suc) {
+    //                JsonArray array;
+    //                try {
+    //                    array = object.get("my_trips").getAsJsonArray();
+    //                    trips = new ArrayList<CompactTrip>();
+    //                    for (int i = 0; i < array.size(); i++) {
+    //                        JsonArray jArray = array.get(i).getAsJsonArray();
+    //                        for (int j = 0; j < jArray.size(); j++) {
+    //                            JsonObject Iobject = jArray.get(j).getAsJsonObject();
+    //                            int tid = Iobject.get("TripID").getAsInt();
+    //                            String destination = Iobject.get("Destination").getAsString();
+    //                            String date = Iobject.get("Time").getAsString();
+    //                            int passengers = Iobject.get("Passengers").getAsInt();
+    //                            int invites = Iobject.get("Invites").getAsInt();
+    //                            PrePlannedTrip pObject = new PrePlannedTrip(tid, destination, date, passengers, invites);
+    //                            trips.add(pObject);
+    //                        }
+    //                    }
+    //                    Model.getInstance().setMyTrips(trips);
+    //                } catch (Exception ex) {
+    //                    ex.printStackTrace();
+    //                    trips = new ArrayList<CompactTrip>();
+    //                }
+    //                return trips;
+    //            }
+    //            
+    //        } else {
+    //            Log.i(this, "Parsing Object null");
+    //        }
+    //        Model.getInstance().setMyTrips(trips);
+    //        return trips;
+    //    }
 }

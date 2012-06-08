@@ -705,12 +705,31 @@ public class vHikeWebserviceResource extends Resource {
     }
     
     
-    public String getMyTrips(int uid) {
+    /**
+     * List all my trips
+     * 
+     * @param format
+     *            format of the result
+     * 
+     * @return depend on the 'format'
+     *         0 - returns all trips
+     *         1 - return current and started trips with count of new offers, messages and passengers
+     *         other values - returns only current and not started trips
+     */
+    public String getMyTrips(int format) {
         listToParse.clear();
-        listToParse.add(new ParamObject("uid", String.valueOf(uid), true));
+        
+        switch (format) {
+            case 0:
+                listToParse.add(new ParamObject("all", "", false));
+                break;
+            case 1:
+                listToParse.add(new ParamObject("compact", "", false));
+                break;
+        }
         String ret = "";
         try {
-            ret = JSonRequestProvider.doRequest(listToParse, "load_my_lifts.php").toString();
+            ret = JSonRequestProvider.doRequest(listToParse, "trip_get_all.php").toString();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

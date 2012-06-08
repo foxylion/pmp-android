@@ -28,7 +28,7 @@
 /**
  * @ignore
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -36,7 +36,7 @@ Json::printErrorIfNotLoggedIn();
 
 try {
 	$user = Session::getInstance()->getLoggedInUser();
-	$user_id = null;
+	$user_id = NULL;
 	if (isset ($_POST['user_id'])) {
 		if (General::validateId('user_id')) {
 			$user_id = $_POST['user_id'];
@@ -44,22 +44,22 @@ try {
 			throw new InputException('user_id');
 		}
 	}
-		// TODO: Check relationship
+	// TODO: Check relationship
 
-		$user_id = $_POST['user_id'];
+	$user_id = $_POST['user_id'];
 
-		$ret = $user -> get_pos($user_id);
-		if ($ret) {
-			$output = array('successful' => true,
-							'position'   => $ret);
-		} else {
-			$output = array('successful' => false,
-							'error'      => 'no_user_found',
-							'msg'        => 'No users were found');
-		}
-		echo Json::arrayToJson($output);
+	$ret = $user->get_pos($user_id);
+	if ($ret) {
+		$output = array('successful' => TRUE,
+		                'position'   => $ret);
+	} else {
+		$output = array('successful' => FALSE,
+		                'error'      => 'no_user_found',
+		                'msg'        => 'No users were found');
+	}
+	echo Json::arrayToJson($output);
 } catch (InputException $ie) {
-	Json::printInvalidInputError($ie -> getMessage());
+	Json::printInvalidInputError($ie->getMessage());
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
 }

@@ -35,6 +35,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+<!--   -->
 
             <meta-data
                 android:name="mainActivity"
@@ -51,7 +52,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
             -->
         </activity>
         <activity
@@ -138,20 +139,20 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".gui.MyTripsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".gui.TripDetailActivity"
-            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
 
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
             -->
+        </activity>
+        <activity
+            android:name=".gui.TripDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
         <activity
             android:name=".gui.MessageActivity"
@@ -165,7 +166,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>
             -->
         </activity>
         <!--
@@ -178,7 +179,7 @@
 		Exported services (services which either set exported=true or contain an
 		intent-filter and do not specify exported=false) should define a permission
 		that an entity must have in order to launch the service or bind to it. Without
-		this, any application can use this service.
+		this, any application can use this service.
         -->
         <service
             android:name="de.unistuttgart.ipvs.pmp.service.app.AppService"

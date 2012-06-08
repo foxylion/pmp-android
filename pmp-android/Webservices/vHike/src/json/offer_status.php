@@ -3,7 +3,7 @@
  * This service is used to rate a driver or a passenger that have participated
  * on an ended trip.
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -43,9 +43,9 @@ try {
 		}
 	}
 
-	echo Json::arrayToJson(array('successful' => true,
-								 'status'     => $status,
-								 'last_action'=> $result['time']));
+	echo Json::arrayToJson(array('successful' => TRUE,
+	                             'status'     => $status,
+	                             'last_action'=> $result['time']));
 
 } catch (InvalidArgumentException $iae) {
 	Json::printInvalidInputError();

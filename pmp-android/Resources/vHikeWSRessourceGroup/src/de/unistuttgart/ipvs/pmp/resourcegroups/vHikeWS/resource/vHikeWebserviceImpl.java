@@ -272,9 +272,9 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
     
     
     @Override
-    public String getMyTrips(int uid) throws RemoteException {
+    public String getMyTrips(int format) throws RemoteException {
         this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
-        return this.vHikeRes.getMyTrips(uid);
+        return this.vHikeRes.getMyTrips(format);
     }
     
     

@@ -2,7 +2,7 @@
 /**
  * This service is used to to update the information about a trip
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require("./../inc/json_framework.inc.php");
 
 // Stop execution of script and print error message if user is not logged in
@@ -13,7 +13,7 @@ try {
 	$trip = Trip::loadTrip($_POST["id"]);
 
 	// Make sure that this trip exists and belongs to the logged in user
-	if ($trip == null) {
+	if ($trip == NULL) {
 		$status = "no_trip";
 	} elseif (!$trip->getDriver()->isEqual(Session::getInstance()->getLoggedInUser())) {
 		$status = "invalid_user";
@@ -25,8 +25,8 @@ try {
 		$status = "already_uptodate";
 	}
 
-	echo Json::arrayToJson($output = array("successful" => true,
-										   "status"     => $status));
+	echo Json::arrayToJson($output = array("successful" => TRUE,
+	                                       "status"     => $status));
 
 
 } catch (InvalidArgumentException $iae) {

@@ -127,6 +127,18 @@ interface IvHikeWebservice{
 	String enableObservation(String sessionID, String user_id);
 	String disableObservation(String sessionID, String user_id); 
 	String isObservationEnabled(int uid);
-	String getMyTrips(int uid);
+	
+	/**
+     * List all my trips
+     * 
+     * @param format
+     *            format of the result
+     * 
+     * @return depend on the 'format'<br>
+     *         <li>0 - returns all trips</li>
+     *         <li>1 - return current and started trips with count of new offers, messages and passengers</li>
+     *         <li>other values - returns only current and not started trips</li>
+     */
+	String getMyTrips(int format);
 	
 }

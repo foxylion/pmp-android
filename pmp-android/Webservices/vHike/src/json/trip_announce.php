@@ -28,7 +28,7 @@
 /**
  * @ignore
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 /**
  * @ignore
  */
@@ -46,24 +46,31 @@ try {
 	if (!General::validateId('avail_seats')) {
 		throw new InputException('avail_seats');
 	}
-	$date = null;
+	$date = NULL;
 	if (isset($_POST['date']) && is_numeric($_POST['date'])) {
 		$date = $_POST['date'];
+		if ($date / 1000 < time())
+			throw new InputException('date');
 	}
 	$trip = Trip::create($driver, $_POST['avail_seats'], $_POST['destination'], $date);
 
 	$output = array('status' => 'announced',
-					'id'	 => $trip->getId());
+	                'id'     => $trip->getId());
 	echo Json::arrayToJson($output);
 
 } catch (InvalidArgumentException $iae) {
 	if ($iae->getCode() == Trip::OPEN_TRIP_EXISTS) {
 		echo Json::arrayToJson(array('status' => 'open_trip_exists'));
 	} else {
+		echo $iae->getTraceAsString();
 		Json::printInvalidInputError();
 	}
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
+} catch (InputException $ie) {
+	Json::printInvalidInputError($ie->getMessage() . ' cannot be in the past');
+} catch (Exception $e) {
+	echo $e->getTraceAsString();
 }
 Database::getInstance()->disconnect();
 

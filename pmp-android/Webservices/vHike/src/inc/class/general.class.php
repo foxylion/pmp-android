@@ -3,7 +3,8 @@ if (!defined("INCLUDE")) {
 	exit;
 }
 
-class InputException extends Exception {
+class InputException extends Exception
+{
 }
 
 /**
@@ -11,7 +12,8 @@ class InputException extends Exception {
  * @author  Dang Huynh, Patrick Strobel
  * @version 1.0.1
  */
-class General {
+class General
+{
 
 	/**
 	 * String used inside a regular expression. This matches a single
@@ -26,13 +28,14 @@ class General {
 	 *
 	 * @return boolean  True, if length is valid
 	 */
-	public static function validLength($input) {
+	public static function validLength($input)
+	{
 		$length = strlen($input);
 
-		if ($length > 2 && $length <= 200) {
-			return true;
+		if ($length > 2 && $length <= 500) {
+			return TRUE;
 		} else {
-			return false;
+			return FALSE;
 		}
 
 	}
@@ -41,23 +44,25 @@ class General {
 	 * Checks if the given parameter is a valid id
 	 * NOTICE: If you want to check an ID from $_POST, user validateId($input) instead to avoid PHP warning
 	 *
-	 * @param String $post_key The key of the variable in $_POST that need to be checked
+	 * @param String $input The key of the variable in $_POST that need to be checked
 	 *
 	 * @return boolean True, if parameter is a valid id
 	 */
-	public static function validId($post_key) {
-		return (isset($post_key) && is_numeric($post_key) && $post_key > 0);
+	public static function validId($input)
+	{
+		return (isset($input) && is_numeric($input) && $input > 0);
 	}
 
 	/**
 	 * Checks if the given parameter is a valid id
 	 *
-	 * @param String $input Input
+	 * @param String $post_key Input
 	 *
 	 * @return boolean  True, if parameter is a valid id
 	 */
-	public static function validateId($input) {
-		return (isset($_POST[$input]) && is_numeric($_POST[$input]) && $_POST[$input] > 0);
+	public static function validateId($post_key)
+	{
+		return (isset($_POST[$post_key]) && is_numeric($_POST[$post_key]) && $_POST[$post_key] > 0);
 	}
 
 	/**
@@ -69,7 +74,8 @@ class General {
 	 *
 	 * @return boolean TRUE, if the input string is "true", "false" (case ignored) or "0", "1"
 	 */
-	public static function isBoolean($string) {
+	public static function isBoolean($string)
+	{
 		return $string == 0 OR strcasecmp($string, "false") OR strcasecmp($string, "0") OR
 			$string == 1 OR strcasecmp($string, "true") OR strcasecmp($string, "1");
 	}
@@ -92,7 +98,8 @@ class General {
 	 *
 	 * @return boolean  True, if the parameter is a floating-point number and a valid latitude
 	 */
-	public static function validateLatitude($key) {
+	public static function validateLatitude($key)
+	{
 		return (isset($_POST[$key]) && is_numeric($_POST[$key]) && $_POST[$key] >= -90 && $_POST[$key] <= 90);
 	}
 
@@ -114,7 +121,8 @@ class General {
 	 *
 	 * @return boolean  True, if the parameter is a floating-point number and a valid longitude
 	 */
-	public static function validateLongitude($key) {
+	public static function validateLongitude($key)
+	{
 		return (isset($_POST[$key]) && is_numeric($_POST[$key]) && $_POST[$key] >= -180 && $_POST[$key] <= 180);
 	}
 
@@ -122,14 +130,15 @@ class General {
 	 * Generates a random string.
 	 * Useful for creating passwords or activation strings
 	 *
-	 * @param	$length   Length of the generated string
+	 * @param    $length   Length of the generated string
 	 *
 	 * @return   Generated string
 	 */
-	public static function randomString($length) {
+	public static function randomString($length)
+	{
 		$chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 		mt_srand((double)microtime() * 1000000);
-		$string = null;
+		$string = NULL;
 		while (strlen($string) < $length) {
 			$string .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
 		}

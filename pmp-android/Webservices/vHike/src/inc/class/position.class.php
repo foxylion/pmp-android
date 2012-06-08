@@ -11,7 +11,8 @@ if (!defined("INCLUDE")) {
  * @author  Patrick Strobel, Dang Huynh
  * @version 1.0.1
  */
-class Position {
+class Position
+{
 
 	/** @var int */
 	private $id = -1;
@@ -28,12 +29,13 @@ class Position {
 	/**
 	 * Load the positioning data for a given user.
 	 *
-	 * @param User $user	User, for how the position should be loaded
+	 * @param User $user    User, for how the position should be loaded
 	 *
 	 * @return Position The positioning data of the user"
 	 * @throws  InvalidArgumentException Thrown, if user is not a object of class "User"
 	 */
-	public static function loadPosition($user) {
+	public static function loadPosition($user)
+	{
 		if (!($user instanceof User)) {
 			throw new InvalidArgumentException("The user-parameter has to be an user-object.");
 		}
@@ -48,7 +50,7 @@ class Position {
                                       WHERE `user` = " . $user->getId()));
 
 		if ($db->getAffectedRows() <= 0) {
-			return null;
+			return NULL;
 		}
 
 		self::loadPositionBySqlResult($row);
@@ -58,21 +60,22 @@ class Position {
 	/**
 	 * Creates a position from a given sql-result array.
 	 *
-	 * @param Array  $result	  Array storing the information of the position.
-	 *							This has to be an array where the key representes
-	 *							the tables name.
+	 * @param Array  $result      Array storing the information of the position.
+	 *                            This has to be an array where the key representes
+	 *                            the tables name.
 	 * @param String $idFieldName Specifies the name of the id-field. Used when
-	 *							the id field name is changed by SQL's "AS" statement
+	 *                            the id field name is changed by SQL's "AS" statement
 	 *
 	 * @return Position Position-object storing the information from the given result-array.
-	 *			  This may return a position with "last_update" set to "0" if theres no
-	 *			  entry loaded from the db.
-	 * @internal	This is for internal use only as this function could be used to
-	 *			  create a position-object from a non existing database entry!
+	 *              This may return a position with "last_update" set to "0" if theres no
+	 *              entry loaded from the db.
+	 * @internal    This is for internal use only as this function could be used to
+	 *              create a position-object from a non existing database entry!
 	 * @throws InvalidArgumentException Thrown, if on of the arguments is invalid
 	 */
-	public static function loadPositionBySqlResult($result, $idFieldName = "pid") {
-		if (!is_array($result) || $idFieldName == null || $idFieldName == "") {
+	public static function loadPositionBySqlResult($result, $idFieldName = "pid")
+	{
+		if (!is_array($result) || $idFieldName == NULL || $idFieldName == "") {
 			throw new InvalidArgumentException("Result or ifFieldName is invalid");
 		}
 
@@ -95,7 +98,8 @@ class Position {
 	 * @return boolean  True, if the dataset was updated successfully
 	 * @throws InvalidArgumentException Thrown, if latitude or longitude has an invalid format
 	 */
-	public function updatePosition($latitude, $longitude) {
+	public function updatePosition($latitude, $longitude)
+	{
 		if (!General::validLatitude($latitude) || !General::validLongitude($longitude)) {
 			throw new InvalidArgumentException("Latitude or longitude has an invalid format or range");
 		}
@@ -118,17 +122,19 @@ class Position {
 
 	/**
 	 * Returns this users latest latitude
-	 * @return float	The latitude
+	 * @return float    The latitude
 	 */
-	public function getLatitude() {
+	public function getLatitude()
+	{
 		return $this->latitude;
 	}
 
 	/**
 	 * Returns this users latest longitude
-	 * @return float	The longitude
+	 * @return float    The longitude
 	 */
-	public function getLongitude() {
+	public function getLongitude()
+	{
 		return $this->longitude;
 	}
 
@@ -137,21 +143,24 @@ class Position {
 	 * updated the last time
 	 * @return int  The unix timesamp
 	 */
-	public function getLastUpdateTimesamp() {
+	public function getLastUpdateTimesamp()
+	{
 		return $this->lastUpdate;
 	}
 
-	public function getLastUpdate() {
+	public function getLastUpdate()
+	{
 		return date(Database::DATE_TIME_FORMAT, $this->lastUpdate);
 	}
 
-	public static function getPosition($userid) {
+	public static function getPosition($userid)
+	{
 		$db = Database::getInstance();
 		$result = $db->query("SELECT `latitude`,`longitude` FROM `" . DB_PREFIX . "_position` WHERE user=$userid LIMIT 1");
 		if ($db->getNumRows($result) == 1) {
 			return $db->fetch($result);
 		}
-		return null;
+		return NULL;
 	}
 }
 

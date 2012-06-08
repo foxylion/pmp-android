@@ -5,7 +5,7 @@
  * @author  Dang Huynh, Patrick Strobel
  * @version 1.0.1
  */
-define("INCLUDE", true);
+define("INCLUDE", TRUE);
 require("./../inc/json_framework.inc.php");
 
 // Stop execution of script and print error message if user is not logged in
@@ -16,15 +16,15 @@ $user = Session::getInstance()->getLoggedInUser();
 try {
 
 	if (!$user->getCurrentTripId() && !$user->getCurrentQueryIds()) {
-		echo Json::arrayToJson(array("successful" => true,
-									 "status"	 => "no_trip_or_query"));
+		echo Json::arrayToJson(array("successful" => TRUE,
+		                             "status"     => "no_trip_or_query"));
 	} else {
 		if (!General::validateLatitude("lat") || !General::validateLongitude("lon")) {
 			Json::printInvalidInputError();
 		}
 		$user->updatePosition($_POST["lat"], $_POST["lon"]);
-		echo Json::arrayToJson(array("successful" => true,
-									 "status"	 => "updated"));
+		echo Json::arrayToJson(array("successful" => TRUE,
+		                             "status"     => "updated"));
 	}
 
 } catch (InvalidArgumentException $iae) {

@@ -3,7 +3,7 @@
  * This service is used to rate a driver or a passenger that have participated
  * on an ended trip.
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -21,13 +21,13 @@ try {
 				$output = array('successful' => TRUE);
 			} else {
 				$output = array('successful' => FALSE,
-								'error'      => 'not_picked_up',
-								'msg'        => 'Not able to pick up the user');
+				                'error'      => 'not_picked_up',
+				                'msg'        => 'Not able to pick up the user');
 			}
 		} else {
 			$output = array('successful' => FALSE,
-							'error'      => 'no_trip',
-							'msg'        => 'No trip found');
+			                'error'      => 'no_trip',
+			                'msg'        => 'No trip found');
 		}
 		echo Json::arrayToJson($output);
 	}

@@ -2,7 +2,7 @@
 /**
  * This service is used to delete ride request(s) of a logged in user
  */
-define('INCLUDE', true);
+define('INCLUDE', TRUE);
 require ('./../inc/json_framework.inc.php');
 
 // Stop execution of script and print error message if user is not logged in
@@ -22,7 +22,8 @@ try {
 	}
 
 
-	echo Json::arrayToJson(array('successful'=> true, 'num_query_deleted' => $result));
+	echo Json::arrayToJson(array('successful'        => TRUE,
+	                             'num_query_deleted' => $result));
 
 } catch (DatabaseException $de) {
 	Json::printDatabaseError($de);
