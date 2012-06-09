@@ -265,6 +265,8 @@ public class DialogContextChange extends Dialog {
                             public void result(boolean changed, String newValue) {
                                 if (changed) {
                                     DialogContextChange.this.overrideValue = newValue;
+                                    DialogContextChange.this.contextCondition = DialogContextChange.this.usedView
+                                            .getViewCondition();
                                     refresh();
                                 }
                             }
