@@ -60,8 +60,9 @@ public class Controllerstable {
             sliderList.add(new SliderObject(foundProfile));
         }
         for (QueryObject objects : qobjs) {
-            sliderList.add(new SliderObject(new FoundProfilePos(objects.getUserid(), objects.getCur_lat(), objects
-                    .getCur_lon(), objects.getQueryid())));
+            sliderList.add(new SliderObject(new FoundProfilePos(objects.getUserid(), objects.getCur_lat(),
+                    objects
+                            .getCur_lon(), objects.getQueryid())));
         }
         return sliderList;
     }
@@ -90,10 +91,13 @@ public class Controllerstable {
      */
     public int register(Map<String, String> list) {
         
-        String status = JSonRequestReader.register(list.get("username"), list.get("password"), list.get("email"),
+        String status = JSonRequestReader.register(list.get("username"), list.get("password"),
+                list.get("email"),
                 list.get("firstname"), list.get("lastname"), list.get("tel"), list.get("description"),
-                Boolean.parseBoolean(list.get("email_public")), Boolean.parseBoolean(list.get("firstname_public")),
-                Boolean.parseBoolean(list.get("lastname_public")), Boolean.parseBoolean(list.get("tel_public")));
+                Boolean.parseBoolean(list.get("email_public")),
+                Boolean.parseBoolean(list.get("firstname_public")),
+                Boolean.parseBoolean(list.get("lastname_public")),
+                Boolean.parseBoolean(list.get("tel_public")));
         
         if (status.equals("registered")) {
             return Constants.STATUS_SUCCESS;
@@ -139,9 +143,11 @@ public class Controllerstable {
      */
     public int announceTrip(String session_id, String destination, float current_lat, float current_lon,
             int avail_seats, Date date) {
-        Log.v(this, "announceTrip: " + session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", "
+        Log.v(this, "announceTrip: " + session_id + ", " + destination + ", " + current_lat + ", "
+                + current_lat + ", "
                 + avail_seats);
-        String status = JSonRequestReader.announceTrip(session_id, destination, current_lat, current_lon, avail_seats,
+        String status = JSonRequestReader.announceTrip(session_id, destination, current_lat, current_lon,
+                avail_seats,
                 date);
         
         if (status.equals("announced")) {
@@ -293,7 +299,8 @@ public class Controllerstable {
      * @param avail_seats
      * @return QUERY_ID_ERROR || queryId
      */
-    public int startQuery(String sid, String destination, float current_lat, float current_lon, int avail_seats) {
+    public int startQuery(String sid, String destination, float current_lat, float current_lon,
+            int avail_seats) {
         int queryId = JSonRequestReader.startQuery(sid, destination, current_lat, current_lon, avail_seats);
         if (queryId != Constants.QUERY_ID_ERROR) {
             Model.getInstance().setQueryId(queryId);

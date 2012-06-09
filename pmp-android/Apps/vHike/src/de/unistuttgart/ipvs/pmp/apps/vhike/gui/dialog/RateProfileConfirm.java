@@ -52,7 +52,8 @@ public class RateProfileConfirm extends Dialog {
                 // rate
                 String rate = ctrl.rateUser(Model.getInstance().getSid(), profileID, tripID, rating);
                 if (rate.equals("rated")) {
-                    Toast.makeText(v.getContext(), "Rated with " + rating + " stars", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "Rated with " + rating + " stars", Toast.LENGTH_LONG)
+                            .show();
                 } else if (rate.equals("already_rated")) {
                     Toast.makeText(v.getContext(), "You already rated this user!", Toast.LENGTH_LONG).show();
                 } else if (rate.equals("not_ended")) {

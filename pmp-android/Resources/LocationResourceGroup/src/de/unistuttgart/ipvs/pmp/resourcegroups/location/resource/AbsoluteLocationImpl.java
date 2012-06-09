@@ -102,6 +102,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public void startLocationLookup(long minTime, float minDistance) throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         
@@ -110,6 +111,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public void endLocationLookup() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         
@@ -118,6 +120,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public boolean isGpsEnabled() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         updateLastRequest();
@@ -126,6 +129,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public boolean isActive() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         updateLastRequest();
@@ -134,6 +138,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public boolean isFixed() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         updateLastRequest();
@@ -142,6 +147,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public boolean isUpdateAvailable() {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         updateLastRequest();
@@ -173,6 +179,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public double getLongitude() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(LocationResourceGroup.PS_USE_COORDINATES, "true");
@@ -183,6 +190,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public double getLatitude() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(LocationResourceGroup.PS_USE_COORDINATES, "true");
@@ -193,6 +201,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public float getAccuracy() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(LocationResourceGroup.PS_USE_ACCURACY, "true");
@@ -206,6 +215,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public float getSpeed() throws RemoteException {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(LocationResourceGroup.PS_USE_SPEED, "true");
@@ -215,6 +225,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public String getCountryCode() {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(UseLocationDescriptionEnum.COUNTRY);
@@ -229,6 +240,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public String getCountryName() {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(UseLocationDescriptionEnum.COUNTRY);
@@ -243,6 +255,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public String getLocality() {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(UseLocationDescriptionEnum.CITY);
@@ -257,6 +270,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public String getPostalCode() {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(UseLocationDescriptionEnum.CITY);
@@ -271,6 +285,7 @@ public class AbsoluteLocationImpl extends IAbsoluteLocation.Stub {
     }
     
     
+    @Override
     public String getAddress() {
         this.psv.validate(LocationResourceGroup.PS_USE_ABSOLUTE_LOCATION, "true");
         this.psv.validate(UseLocationDescriptionEnum.STREET);

@@ -25,13 +25,15 @@ public class MessageAdapter extends ArrayAdapter<CompactMessage> {
     }
     
     
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         
         View itemView = convertView;
-        CompactMessage msg = messages.get(position);
+        CompactMessage msg = this.messages.get(position);
         if (itemView == null) {
             // Inflate layout
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) this.context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             itemView = inflater.inflate(R.layout.list_item_message, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.text = (TextView) itemView.findViewById(R.id.text);

@@ -44,7 +44,8 @@ public class PassengerOverlay extends ItemizedOverlay {
      * @param defaultMarker
      * @param context
      */
-    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IContact iContact, String name,
+    public PassengerOverlay(Drawable defaultMarker, Context context, MapView mapView, IContact iContact,
+            String name,
             GeoPoint gps, ContactDialog contactDialog, int itsMe) {
         super(boundCenterBottom(defaultMarker));
         this.mContext = context;

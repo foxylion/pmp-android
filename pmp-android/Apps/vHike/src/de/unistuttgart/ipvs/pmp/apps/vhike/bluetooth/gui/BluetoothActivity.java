@@ -49,20 +49,20 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler = new Handler();
-        stopTimerTasks = false;
+        this.handler = new Handler();
+        this.stopTimerTasks = false;
         setContentView(R.layout.activity_bluetooth);
-        timer = new Timer();
-        et = (EditText) findViewById(R.id.edit_text_out);
-        send = (Button) findViewById(R.id.button_send);
+        this.timer = new Timer();
+        this.et = (EditText) findViewById(R.id.edit_text_out);
+        this.send = (Button) findViewById(R.id.button_send);
         
         // Initialize the array adapter for the conversation thread
-        conversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
-        conversationView = (ListView) findViewById(R.id.in);
-        conversationView.setAdapter(conversationArrayAdapter);
+        this.conversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
+        this.conversationView = (ListView) findViewById(R.id.in);
+        this.conversationView.setAdapter(this.conversationArrayAdapter);
         
-        rides = (Button) findViewById(R.id.bluetooth_ride);
-        rides.setOnClickListener(new View.OnClickListener() {
+        this.rides = (Button) findViewById(R.id.bluetooth_ride);
+        this.rides.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View arg0) {
@@ -95,19 +95,21 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        send.setOnClickListener(new View.OnClickListener() {
+        this.send.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View arg0) {
                 try {
                     String role = "";
-                    if (BluetoothModel.getInstance().getRole() == BluetoothModel.ROLE_DRIVER)
+                    if (BluetoothModel.getInstance().getRole() == BluetoothModel.ROLE_DRIVER) {
                         role = "Driver: ";
-                    else
+                    } else {
                         role = "Passenger: ";
-                    if (rgBluetooth != null)
-                        rgBluetooth.sendMessage(role + et.getText().toString());
-                    et.setText("");
+                    }
+                    if (rgBluetooth != null) {
+                        rgBluetooth.sendMessage(role + BluetoothActivity.this.et.getText().toString());
+                    }
+                    BluetoothActivity.this.et.setText("");
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
@@ -120,10 +122,10 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                 if (BluetoothModel.getInstance().getToConnectDevice() != null) {
                     Device device = BluetoothModel.getInstance().getToConnectDevice();
                     rgBluetooth.connect(device.getAddress());
-                    Log.i(TAG, "Connecting to " + device.getAddress());
+                    Log.i(this.TAG, "Connecting to " + device.getAddress());
                 }
                 
-                timer.schedule(new ConnectionChecker(), 3000);
+                this.timer.schedule(new ConnectionChecker(), 3000);
                 
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block
@@ -144,7 +146,7 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                     rgBluetooth.sendMessage("Connection Lost!");
                     
                     rgBluetooth.enableBluetooth(false);
-                    stopTimerTasks = true;
+                    this.stopTimerTasks = true;
                     
                 }
             }
@@ -167,24 +169,26 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
                             MessageArray messageArray = messagesParcelable.getDevices();
                             
                             final List<String> founddevices = messageArray.getMessages();
-                            Log.i(TAG, "Getting messages: " + founddevices.size());
+                            Log.i(BluetoothActivity.this.TAG, "Getting messages: " + founddevices.size());
                             
                             Handler refresh = new Handler(Looper.getMainLooper());
                             refresh.post(new Runnable() {
                                 
+                                @Override
                                 public void run() {
                                     for (String string : founddevices) {
                                         if (!string.equals("")) {
-                                            conversationArrayAdapter.add(string);
-                                            Log.i(TAG, "Adding messages: " + string);
+                                            BluetoothActivity.this.conversationArrayAdapter.add(string);
+                                            Log.i(BluetoothActivity.this.TAG, "Adding messages: " + string);
                                         }
                                         
                                     }
                                 }
                             });
                         }
-                        if (!stopTimerTasks)
-                            timer.schedule(new MessageThread(), 2000);
+                        if (!BluetoothActivity.this.stopTimerTasks) {
+                            BluetoothActivity.this.timer.schedule(new MessageThread(), 2000);
+                        }
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -207,13 +211,15 @@ public class BluetoothActivity extends ResourceGroupReadyActivity {
         public void run() {
             try {
                 if (rgBluetooth.isConnected()) {
-                    if (!stopTimerTasks)
-                        timer.schedule(new MessageThread(), 2000);
-                    Log.i(TAG, "Connected!");
+                    if (!BluetoothActivity.this.stopTimerTasks) {
+                        BluetoothActivity.this.timer.schedule(new MessageThread(), 2000);
+                    }
+                    Log.i(BluetoothActivity.this.TAG, "Connected!");
                 } else {
-                    if (!stopTimerTasks)
-                        timer.schedule(new ConnectionChecker(), 10000);
-                    Log.i(TAG, "Not Connected!");
+                    if (!BluetoothActivity.this.stopTimerTasks) {
+                        BluetoothActivity.this.timer.schedule(new ConnectionChecker(), 10000);
+                    }
+                    Log.i(BluetoothActivity.this.TAG, "Not Connected!");
                 }
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block

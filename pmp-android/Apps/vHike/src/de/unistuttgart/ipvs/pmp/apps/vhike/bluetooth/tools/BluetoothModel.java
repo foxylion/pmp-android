@@ -24,9 +24,9 @@ public class BluetoothModel {
     
     
     private BluetoothModel() {
-        pairedDevices = new ArrayList<DeviceArray>();
-        foundDevices = new ArrayList<DeviceArray>();
-        messages = new ArrayList<MessageArray>();
+        this.pairedDevices = new ArrayList<DeviceArray>();
+        this.foundDevices = new ArrayList<DeviceArray>();
+        this.messages = new ArrayList<MessageArray>();
         
     }
     
@@ -43,12 +43,12 @@ public class BluetoothModel {
     
     
     public int getRole() {
-        return role;
+        return this.role;
     }
     
     
     public int getSeats() {
-        return seats;
+        return this.seats;
     }
     
     
@@ -58,7 +58,7 @@ public class BluetoothModel {
     
     
     public String getDestination() {
-        return destination;
+        return this.destination;
     }
     
     
@@ -68,7 +68,7 @@ public class BluetoothModel {
     
     
     public int getDuration() {
-        return duration;
+        return this.duration;
     }
     
     
@@ -88,31 +88,31 @@ public class BluetoothModel {
     
     
     public void showPD(Context context, String title, String message, boolean bool) {
-        pd = ProgressDialog.show(context, title, message, bool);
+        this.pd = ProgressDialog.show(context, title, message, bool);
     }
     
     
     public void dismissPD() {
-        pd.dismiss();
+        this.pd.dismiss();
     }
     
     
     public void setToConnectDevice(Device device) {
-        toConnectDevice = device;
+        this.toConnectDevice = device;
     }
     
     
     public Device getToConnectDevice() {
-        return toConnectDevice;
+        return this.toConnectDevice;
     }
     
     
     public void setConnected(boolean state) {
-        connected = state;
+        this.connected = state;
     }
     
     
     public boolean isConnected() {
-        return connected;
+        return this.connected;
     }
 }

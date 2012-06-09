@@ -82,8 +82,8 @@ public class DriverOverlay extends ItemizedOverlay {
         OverlayItem item = this.mOverlays.get(i);
         
         // if true passenger, driver otherwise
-        if (itsMe) {
-            contactDialog.show();
+        if (this.itsMe) {
+            this.contactDialog.show();
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this.mContext);
             dialog.setTitle(item.getTitle());

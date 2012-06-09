@@ -11,7 +11,8 @@ public class OfferObject {
     float lon;
     
     
-    public OfferObject(int offer_id, int user_id, String username, float rating, float rating_num, float lat, float lon) {
+    public OfferObject(int offer_id, int user_id, String username, float rating, float rating_num, float lat,
+            float lon) {
         super();
         this.offer_id = offer_id;
         this.user_id = user_id;

@@ -139,17 +139,17 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 this.etPW.setText(this.pw);
             }
             if (settings.getBoolean("Remember", false)) {
-                cbRemember.setChecked(true);
-                etUsername.setEnabled(true);
-                etUsername.setText(username);
-                etPW.setEnabled(true);
-                etPW.setText(pw);
+                this.cbRemember.setChecked(true);
+                this.etUsername.setEnabled(true);
+                this.etUsername.setText(this.username);
+                this.etPW.setEnabled(true);
+                this.etPW.setText(this.pw);
             } else if (!settings.getBoolean("Remember", false)) {
-                cbRemember.setChecked(false);
-                etUsername.setEnabled(true);
-                etUsername.setText("");
-                etPW.setEnabled(true);
-                etPW.setText("");
+                this.cbRemember.setChecked(false);
+                this.etUsername.setEnabled(true);
+                this.etUsername.setText("");
+                this.etPW.setEnabled(true);
+                this.etPW.setText("");
             }
         }
     }
@@ -196,7 +196,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                 LoginActivity.this.pw = LoginActivity.this.etPW.getText().toString();
                 
                 if (LoginActivity.this.username.equals("") || LoginActivity.this.pw.equals("")) {
-                    Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Username or password field empty", Toast.LENGTH_LONG)
+                            .show();
                 } else {
                     
                     LoginActivity.this.isCanceled = false;
@@ -211,7 +212,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                     
                     // Check service feature
                     if (!vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE)) {
-                        vHikeService.requestServiceFeature(LoginActivity.this, Constants.SF_VHIKE_WEB_SERVICE);
+                        vHikeService
+                                .requestServiceFeature(LoginActivity.this, Constants.SF_VHIKE_WEB_SERVICE);
                         return;
                     }
                     
@@ -225,7 +227,7 @@ public class LoginActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void onClick(View v) {
-                if (username.equals("")) {
+                if (LoginActivity.this.username.equals("")) {
                     Toast.makeText(LoginActivity.this, "Username empty", Toast.LENGTH_SHORT).show();
                 }
                 
@@ -284,8 +286,8 @@ public class LoginActivity extends ResourceGroupReadyActivity {
                         prefsEditor.putString("PASSWORD", "");
                         prefsEditor.commit();
                     }
-                    if (cbRemember.isChecked()) {
-                        prefsEditor.putBoolean("Remember", cbRemember.isChecked());
+                    if (this.cbRemember.isChecked()) {
+                        prefsEditor.putBoolean("Remember", this.cbRemember.isChecked());
                         prefsEditor.putString("USERNAME", this.etUsername.getText().toString());
                         prefsEditor.putString("PASSWORD", this.etPW.getText().toString());
                         prefsEditor.commit();

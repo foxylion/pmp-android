@@ -89,26 +89,26 @@ public class DriverViewActivity extends ResourceGroupReadyMapActivity {
         //        vhikeDialogs.getInstance().clearAnnouncPD();
         
         setMapView();
-        ViewModel.getInstance().getDriverOverlayList(mapView).clear();
+        ViewModel.getInstance().getDriverOverlayList(this.mapView).clear();
         
-        road_info = (Button) findViewById(R.id.btn_route_info);
-        et_road_info = (EditText) findViewById(R.id.et_route_info);
-        ViewModel.getInstance().setRoadInfoBtn(road_info);
-        ViewModel.getInstance().setRoadInfoEt(et_road_info);
-        road_info.setOnClickListener(new View.OnClickListener() {
+        this.road_info = (Button) findViewById(R.id.btn_route_info);
+        this.et_road_info = (EditText) findViewById(R.id.et_route_info);
+        ViewModel.getInstance().setRoadInfoBtn(this.road_info);
+        ViewModel.getInstance().setRoadInfoEt(this.et_road_info);
+        this.road_info.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                road_info.setVisibility(View.GONE);
-                et_road_info.setVisibility(View.VISIBLE);
+                DriverViewActivity.this.road_info.setVisibility(View.GONE);
+                DriverViewActivity.this.et_road_info.setVisibility(View.VISIBLE);
             }
         });
-        et_road_info.setOnClickListener(new View.OnClickListener() {
+        this.et_road_info.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                road_info.setVisibility(View.VISIBLE);
-                et_road_info.setVisibility(View.GONE);
+                DriverViewActivity.this.road_info.setVisibility(View.VISIBLE);
+                DriverViewActivity.this.et_road_info.setVisibility(View.GONE);
             }
         });
         

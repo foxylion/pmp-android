@@ -112,7 +112,7 @@ public class ActivityConflictList extends Activity {
         this.conflictAdapter = new ConflictAdapter(this, this.conflictList);
         
         this.conflictListView = (ListView) findViewById(R.id.ListView_PresetConflicts);
-        this.conflictListView.setAdapter(conflictAdapter);
+        this.conflictListView.setAdapter(this.conflictAdapter);
         
         this.conflictListView.setClickable(true);
         this.conflictListView.setLongClickable(false);
@@ -121,7 +121,7 @@ public class ActivityConflictList extends Activity {
             
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
-                openConflict(conflictList.get(pos));
+                openConflict(ActivityConflictList.this.conflictList.get(pos));
             }
             
         });

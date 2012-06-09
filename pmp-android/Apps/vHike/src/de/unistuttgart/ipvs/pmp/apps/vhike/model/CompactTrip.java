@@ -37,9 +37,9 @@ public class CompactTrip {
                 .replaceAll(";.*", "");
         this.destination = s;
         this.startTime = startTime;
-        numberOfPassengers = passengerNo;
-        numberOfOffers = offerNo;
-        numberOfNewMessages = messageNo;
+        this.numberOfPassengers = passengerNo;
+        this.numberOfOffers = offerNo;
+        this.numberOfNewMessages = messageNo;
     }
     
     

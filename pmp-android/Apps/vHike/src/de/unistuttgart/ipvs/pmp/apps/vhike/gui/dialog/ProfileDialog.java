@@ -50,7 +50,8 @@ public class ProfileDialog extends Dialog {
     
     
     @SuppressWarnings("static-access")
-    public ProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView, IContact iContact,
+    public ProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView,
+            IContact iContact,
             Profile foundUser, int driverOrpassenger) {
         super(context);
         requestWindowFeature(getWindow().FEATURE_NO_TITLE);
@@ -63,9 +64,9 @@ public class ProfileDialog extends Dialog {
         this.activity = (Activity) context;
         
         if (driverOrpassenger == 0) {
-            isDriver = true;
+            this.isDriver = true;
         } else {
-            isDriver = false;
+            this.isDriver = false;
         }
         
         setUpProfile();
@@ -81,10 +82,10 @@ public class ProfileDialog extends Dialog {
          */
         
         this.profile = this.ctrl.getProfile(Model.getInstance().getSid(), this.profileID);
-        btn_phone = (Button) findViewById(R.id.btn_phone);
-        btn_sms = (Button) findViewById(R.id.btn_sms);
-        btn_email = (Button) findViewById(R.id.btn_email);
-        btn_route = (Button) findViewById(R.id.btn_route);
+        this.btn_phone = (Button) findViewById(R.id.btn_phone);
+        this.btn_sms = (Button) findViewById(R.id.btn_sms);
+        this.btn_email = (Button) findViewById(R.id.btn_email);
+        this.btn_route = (Button) findViewById(R.id.btn_route);
         
         TextView tv_username = (TextView) findViewById(R.id.tv_username);
         tv_username.setText(this.profile.getUsername());
@@ -107,57 +108,69 @@ public class ProfileDialog extends Dialog {
         TextView tv_rating = (TextView) findViewById(R.id.tv_rating);
         tv_rating.setText(Float.toString((float) this.profile.getRating_avg()));
         
-        btn_phone.setOnClickListener(new View.OnClickListener() {
+        this.btn_phone.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View arg0) {
-                boolean anonymous = ctrl.isProfileAnonymous(Model.getInstance().getSid(), foundUser.getID());
-                Log.i(this, foundUser.getID() + " is " + anonymous);
+                boolean anonymous = ProfileDialog.this.ctrl.isProfileAnonymous(Model.getInstance().getSid(),
+                        ProfileDialog.this.foundUser.getID());
+                Log.i(this, ProfileDialog.this.foundUser.getID() + " is " + anonymous);
                 if (anonymous) {
                     Toast.makeText(
                             getContext(),
-                            "The user has hidden his contact information. Contacting " + foundUser.getUsername()
+                            "The user has hidden his contact information. Contacting "
+                                    + ProfileDialog.this.foundUser.getUsername()
                                     + " is not possible", Toast.LENGTH_LONG).show();
                 } else {
-                    if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
+                    if (PMP.get(ProfileDialog.this.activity.getApplication()).isServiceFeatureEnabled(
+                            "contactResource")) {
                         try {
-                            iContact.call(foundUser.getTel());
+                            ProfileDialog.this.iContact.call(ProfileDialog.this.foundUser.getTel());
                         } catch (RemoteException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                        PMP.get(ProfileDialog.this.activity.getApplication())
+                                .requestServiceFeatures(ProfileDialog.this.activity, "contactResource");
                     }
                 }
                 cancel();
             }
         });
         
-        btn_sms.setOnClickListener(new View.OnClickListener() {
+        this.btn_sms.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                    vhikeDialogs.getInstance()
-                            .getSMSDialog(getContext(), foundUser.getTel(), iContact, ctrl, foundUser).show();
+                if (PMP.get(ProfileDialog.this.activity.getApplication()).isServiceFeatureEnabled(
+                        "contactResource")) {
+                    vhikeDialogs
+                            .getInstance()
+                            .getSMSDialog(getContext(), ProfileDialog.this.foundUser.getTel(),
+                                    ProfileDialog.this.iContact, ProfileDialog.this.ctrl,
+                                    ProfileDialog.this.foundUser).show();
                 } else {
-                    PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                    PMP.get(ProfileDialog.this.activity.getApplication()).requestServiceFeatures(
+                            ProfileDialog.this.activity, "contactResource");
                 }
                 cancel();
             }
         });
         
-        btn_email.setOnClickListener(new View.OnClickListener() {
+        this.btn_email.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 try {
                     String dest = parseDestination(ViewModel.getInstance().getDestination());
-                    if (PMP.get(activity.getApplication()).isServiceFeatureEnabled("contactResource")) {
-                        iContact.email(foundUser.getEmail(), "vHike Trip to " + dest,
-                                "Hello " + foundUser.getUsername() + ",");
+                    if (PMP.get(ProfileDialog.this.activity.getApplication()).isServiceFeatureEnabled(
+                            "contactResource")) {
+                        ProfileDialog.this.iContact.email(ProfileDialog.this.foundUser.getEmail(),
+                                "vHike Trip to " + dest,
+                                "Hello " + ProfileDialog.this.foundUser.getUsername() + ",");
                     } else {
-                        PMP.get(activity.getApplication()).requestServiceFeatures(activity, "contactResource");
+                        PMP.get(ProfileDialog.this.activity.getApplication())
+                                .requestServiceFeatures(ProfileDialog.this.activity, "contactResource");
                     }
                 } catch (RemoteException e) {
                     Toast.makeText(getContext(), "Unable to send email", Toast.LENGTH_SHORT).show();
@@ -167,20 +180,22 @@ public class ProfileDialog extends Dialog {
             }
         });
         
-        if (ViewModel.getInstance().isRouteDrawn(foundUser.getUsername())) {
-            btn_route.setBackgroundResource(R.drawable.btn_route);
+        if (ViewModel.getInstance().isRouteDrawn(this.foundUser.getUsername())) {
+            this.btn_route.setBackgroundResource(R.drawable.btn_route);
         }
-        btn_route.setOnClickListener(new View.OnClickListener() {
+        this.btn_route.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 // if route for user already drawn: remove
-                if (ViewModel.getInstance().isRouteDrawn(foundUser.getUsername())) {
+                if (ViewModel.getInstance().isRouteDrawn(ProfileDialog.this.foundUser.getUsername())) {
                     // TODO
                     ViewModel.getInstance().removeRoute(
-                            ViewModel.getInstance().getRouteOverlay(foundUser.getUsername()), isDriver);
-                    ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), false);
-                    btn_route.setBackgroundResource(R.drawable.btn_route_disabled);
+                            ViewModel.getInstance().getRouteOverlay(
+                                    ProfileDialog.this.foundUser.getUsername()), ProfileDialog.this.isDriver);
+                    ViewModel.getInstance().getDrawnRoutes.put(ProfileDialog.this.foundUser.getUsername(),
+                            false);
+                    ProfileDialog.this.btn_route.setBackgroundResource(R.drawable.btn_route_disabled);
                     ViewModel.getInstance().setBtnInfoVisibility(false);
                     ViewModel.getInstance().setEtInfoVisibility(false);
                     cancel();
@@ -194,21 +209,25 @@ public class ProfileDialog extends Dialog {
                             
                             @Override
                             public void run() {
-                                PositionObject myPos = ctrl.getUserPosition(Model.getInstance().getSid(), Model
-                                        .getInstance().getOwnProfile().getID());
-                                PositionObject foundPos = ctrl.getUserPosition(Model.getInstance().getSid(),
-                                        foundUser.getID());
-                                double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos.getLat(), toLon = foundPos
+                                PositionObject myPos = ProfileDialog.this.ctrl.getUserPosition(Model
+                                        .getInstance().getSid(),
+                                        Model
+                                                .getInstance().getOwnProfile().getID());
+                                PositionObject foundPos = ProfileDialog.this.ctrl.getUserPosition(Model
+                                        .getInstance().getSid(),
+                                        ProfileDialog.this.foundUser.getID());
+                                double fromLat = myPos.getLat(), fromLon = myPos.getLon(), toLat = foundPos
+                                        .getLat(), toLon = foundPos
                                         .getLon();
                                 
                                 String url = RoadProvider.getUrl(fromLat, fromLon, toLat, toLon);
                                 InputStream is = ViewModel.getInstance().getConnection(url);
-                                mRoad = RoadProvider.getRoute(is);
-                                mHandler.sendEmptyMessage(0);
+                                ProfileDialog.this.mRoad = RoadProvider.getRoute(is);
+                                ProfileDialog.this.mHandler.sendEmptyMessage(0);
                             }
                         }.start();
                         
-                        btn_route.setBackgroundResource(R.drawable.btn_route);
+                        ProfileDialog.this.btn_route.setBackgroundResource(R.drawable.btn_route);
                         ViewModel.getInstance().setBtnInfoVisibility(true);
                     } catch (IllegalStateException ise) {
                         Log.i(this, ise.toString());
@@ -225,7 +244,7 @@ public class ProfileDialog extends Dialog {
     private String parseDestination(String destination) {
         String[] temp;
         
-        if (isDriver) {
+        if (this.isDriver) {
             if (ViewModel.getInstance().getDestinationSpinners().size() > 1) {
                 String dest = destination.replaceAll(";", "-");
                 return dest;
@@ -243,19 +262,24 @@ public class ProfileDialog extends Dialog {
     
     Handler mHandler = new Handler() {
         
+        @Override
         public void handleMessage(android.os.Message msg) {
-            Toast.makeText(getContext(), mRoad.mName + " " + mRoad.mDescription, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),
+                    ProfileDialog.this.mRoad.mName + " " + ProfileDialog.this.mRoad.mDescription,
+                    Toast.LENGTH_LONG).show();
             
-            RoadOverlay roadOverlay = new RoadOverlay(mRoad, mapView, true);
-            if (isDriver) {
-                ViewModel.getInstance().getDriverOverlayList(mapView).add(roadOverlay);
+            RoadOverlay roadOverlay = new RoadOverlay(ProfileDialog.this.mRoad, ProfileDialog.this.mapView,
+                    true);
+            if (ProfileDialog.this.isDriver) {
+                ViewModel.getInstance().getDriverOverlayList(ProfileDialog.this.mapView).add(roadOverlay);
             } else {
-                ViewModel.getInstance().getPassengerOverlayList(mapView).add(roadOverlay);
+                ViewModel.getInstance().getPassengerOverlayList(ProfileDialog.this.mapView).add(roadOverlay);
             }
             
-            ViewModel.getInstance().getDrawnRoutes.put(foundUser.getUsername(), true);
-            ViewModel.getInstance().getAddedRoutes.put(foundUser.getUsername(), roadOverlay);
-            mapView.invalidate();
+            ViewModel.getInstance().getDrawnRoutes.put(ProfileDialog.this.foundUser.getUsername(), true);
+            ViewModel.getInstance().getAddedRoutes.put(ProfileDialog.this.foundUser.getUsername(),
+                    roadOverlay);
+            ProfileDialog.this.mapView.invalidate();
         };
     };
     

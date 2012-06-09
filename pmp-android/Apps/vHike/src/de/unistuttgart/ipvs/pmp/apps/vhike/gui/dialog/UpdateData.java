@@ -36,7 +36,7 @@ public class UpdateData extends Dialog {
     public UpdateData(Context context, IvHikeWebservice ws, int tripOrQuery) {
         super(context);
         this.ctrl = new Controller(ws);
-        mContext = context;
+        this.mContext = context;
         this.tripOrQuery = tripOrQuery;
     }
     
@@ -51,7 +51,8 @@ public class UpdateData extends Dialog {
         this.apply = (Button) findViewById(R.id.dialog_update_apply);
         this.cancel = (Button) findViewById(R.id.dialog_update_cancel);
         
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mContext, R.array.array_cities,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.mContext,
+                R.array.array_cities,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         
@@ -65,8 +66,9 @@ public class UpdateData extends Dialog {
             public void onClick(View v) {
                 ViewModel.getInstance().setNumSeats(UpdateData.this.spinner_numSeats);
                 
-                if (tripOrQuery == 0) {
-                    switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
+                if (UpdateData.this.tripOrQuery == 0) {
+                    switch (UpdateData.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model
+                            .getInstance()
                             .getTripId(), ViewModel.getInstance().getNumSeats())) {
                         case (Constants.STATUS_UPDATED):
                             Log.i(this, "Updated");
@@ -89,8 +91,10 @@ public class UpdateData extends Dialog {
                             break;
                     }
                 } else {
-                    ViewModel.getInstance().setNumSeats(spinner_numSeats);
-                    switch (ctrl.queryUpdateData(Model.getInstance().getSid(), Model.getInstance().getQueryId(),
+                    ViewModel.getInstance().setNumSeats(UpdateData.this.spinner_numSeats);
+                    switch (UpdateData.this.ctrl.queryUpdateData(Model.getInstance().getSid(), Model
+                            .getInstance()
+                            .getQueryId(),
                             ViewModel.getInstance().getNumSeats())) {
                         case (Constants.STATUS_UPDATED):
                             

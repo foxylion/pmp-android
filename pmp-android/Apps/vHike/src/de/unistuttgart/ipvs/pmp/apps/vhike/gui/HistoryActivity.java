@@ -83,9 +83,9 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
         vHikeService.getInstance().updateServiceFeatures();
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-            ctrl.enableAnonymity(Model.getInstance().getSid());
+            this.ctrl.enableAnonymity(Model.getInstance().getSid());
         } else {
-            ctrl.disableAnonymity(Model.getInstance().getSid());
+            this.ctrl.disableAnonymity(Model.getInstance().getSid());
         }
         Log.i(this, "");
     }
@@ -98,7 +98,8 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
         
         if (this.historyRides.size() == 0) {
             this.historyRides = new ArrayList<HistoryRideObject>();
-            this.historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
+            this.historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found",
+                    null));
         }
         
         this.adapter = new HistoryAdapter(this, this.historyRides, Constants.ROLE_PASSENGER);
@@ -113,7 +114,8 @@ public class HistoryActivity extends ResourceGroupReadyListActivity {
         
         if (this.historyRides.size() == 0) {
             this.historyRides = new ArrayList<HistoryRideObject>();
-            this.historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found", null));
+            this.historyRides.add(new HistoryRideObject(0, 0, "no entries found", null, "no entries found",
+                    null));
         }
         
         this.adapter = new HistoryAdapter(this, this.historyRides, Constants.ROLE_DRIVER);

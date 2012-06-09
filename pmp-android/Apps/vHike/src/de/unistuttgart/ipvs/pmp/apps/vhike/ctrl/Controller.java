@@ -1,6 +1,6 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +75,7 @@ public class Controller {
             if (date == null) {
                 ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, 0);
             } else {
-                System.out.println("DATE: " + SimpleDateFormat.getDateTimeInstance().format(date.getTime()));
+                System.out.println("DATE: " + DateFormat.getDateTimeInstance().format(date.getTime()));
                 ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats,
                         date.getTime());
             }
@@ -373,10 +373,9 @@ public class Controller {
     
     
     public int editProfile(String sid, String lastname, String firstname, String tel) {
-        String ret = "";
         try {
             Log.i(this, "Last: " + lastname + ", First: " + firstname + ", Tel: " + tel);
-            ret = this.ws.editProfile(sid, lastname, firstname, tel, "");
+            this.ws.editProfile(sid, lastname, firstname, tel, "");
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -392,12 +391,10 @@ public class Controller {
      * @return
      */
     public int setProfileVisibility(String sid, Map<String, String> list) {
-        String ret = "";
-        
         try {
             Log.i(this, "Public Lastname: " + Boolean.parseBoolean(list.get("lastname_public")));
             Log.i(this, "Public Firstname: " + Boolean.parseBoolean(list.get("firstname_public")));
-            ret = this.ws.setProfileVisibility(sid, Boolean.parseBoolean(list.get("lastname_public")),
+            this.ws.setProfileVisibility(sid, Boolean.parseBoolean(list.get("lastname_public")),
                     Boolean.parseBoolean(list.get("firstname_public")),
                     Boolean.parseBoolean(list.get("email_public")),
                     Boolean.parseBoolean(list.get("tel_public")));
@@ -411,10 +408,8 @@ public class Controller {
     
     
     public int enableAnonymity(String sid) {
-        String ret = "";
-        
         try {
-            ret = this.ws.enableAnonymity(sid);
+            this.ws.enableAnonymity(sid);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -424,10 +419,8 @@ public class Controller {
     
     
     public int disableAnonymity(String sid) {
-        String ret = "";
-        
         try {
-            ret = this.ws.disableAnonymity(sid);
+            this.ws.disableAnonymity(sid);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -467,7 +460,6 @@ public class Controller {
         }
         JsonObject object = this.parser.parse(ret).getAsJsonObject();
         boolean suc = false;
-        JsonArray array;
         PositionObject posObj = null;
         if (object != null) {
             suc = object.get("successful").getAsBoolean();
@@ -1369,7 +1361,7 @@ public class Controller {
         try {
             
             // Get data from server
-            JSONObject root = new JSONObject(ws.getMyTrips(1));
+            JSONObject root = new JSONObject(this.ws.getMyTrips(1));
             
             if (root.has("error")) {
                 throw new QueryException(root.getString("error") + (

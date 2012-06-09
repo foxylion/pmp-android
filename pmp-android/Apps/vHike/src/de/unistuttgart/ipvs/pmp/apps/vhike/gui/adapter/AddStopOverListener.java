@@ -39,14 +39,16 @@ public class AddStopOverListener implements OnClickListener {
             this.layout = (LinearLayout) root.findViewById(R.id.layout_dest);
             
             this.spinner = new Spinner(v.getContext());
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(), R.array.array_cities,
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(),
+                    R.array.array_cities,
                     android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             this.spinner.setAdapter(adapter);
             
             // add Spinner to "StopOver-List"/Spinner-List
             ViewModel.getInstance().getDestinationSpinners().add(this.spinner);
-            Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size() + ", Clicked ");
+            Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size()
+                    + ", Clicked ");
             
             this.spinner.setOnLongClickListener(new OnLongClickListener() {
                 

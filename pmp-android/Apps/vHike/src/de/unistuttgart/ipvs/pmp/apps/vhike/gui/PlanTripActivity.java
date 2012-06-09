@@ -87,12 +87,12 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         
         vHikeService.getInstance().updateServiceFeatures();
         
-        ctrl = new Controller(rgvHike);
+        this.ctrl = new Controller(rgvHike);
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-            ctrl.enableAnonymity(Model.getInstance().getSid());
+            this.ctrl.enableAnonymity(Model.getInstance().getSid());
         } else {
-            ctrl.disableAnonymity(Model.getInstance().getSid());
+            this.ctrl.disableAnonymity(Model.getInstance().getSid());
         }
         
         // TODO Check date!
@@ -123,7 +123,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     
     private void registerListener() {
         
-        btnDrive = (Button) findViewById(R.id.Button_Drive);
+        this.btnDrive = (Button) findViewById(R.id.Button_Drive);
         
         // Pick a date
         this.pickDate = (RadioButton) findViewById(R.id.radio_later);
@@ -132,7 +132,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             @Override
             public void onClick(View v) {
                 getDialog(PlanTripActivity.this.DIALOG_DATE_TIME_PICKER).show();
-                btnDrive.setText("Create trip");
+                PlanTripActivity.this.btnDrive.setText("Create trip");
             }
         });
         
@@ -159,7 +159,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         });
         ViewModel.getInstance().getDestinationSpinners().clear();
         ViewModel.getInstance().getDestinationSpinners().add(this.spinner);
-        Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size() + ", Clicked ");
+        Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size()
+                + ", Clicked ");
         
         // Insert the add-Button and set the OnClickListener
         this.addButton = (Button) findViewById(R.id.ib_add);
@@ -172,18 +173,18 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         this.spinnerSeats.setAdapter(adapter);
         
         this.now = (RadioButton) findViewById(R.id.radio_now);
-        if (now.isChecked()) {
-            btnDrive.setText("Drive");
+        if (this.now.isChecked()) {
+            this.btnDrive.setText("Drive");
         }
-        now.setOnClickListener(new View.OnClickListener() {
+        this.now.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View arg0) {
-                btnDrive.setText("Drive");
+                PlanTripActivity.this.btnDrive.setText("Drive");
             }
         });
         
-        btnDrive.setOnClickListener(new OnClickListener() {
+        this.btnDrive.setOnClickListener(new OnClickListener() {
             
             @Override
             public void onClick(final View v) {

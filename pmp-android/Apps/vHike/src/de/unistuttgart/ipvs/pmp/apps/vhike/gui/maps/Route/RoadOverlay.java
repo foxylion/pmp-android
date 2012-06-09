@@ -27,22 +27,26 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
     
     
     public RoadOverlay(Road road, MapView mv, boolean firstDraw) {
-        mRoad = road;
+        this.mRoad = road;
         if (road.mRoute.length > 0) {
-            mPoints = new ArrayList<GeoPoint>();
-            for (int i = 0; i < road.mRoute.length; i++) {
-                mPoints.add(new GeoPoint((int) (road.mRoute[i][1] * 1000000), (int) (road.mRoute[i][0] * 1000000)));
+            this.mPoints = new ArrayList<GeoPoint>();
+            for (double[] element : road.mRoute) {
+                this.mPoints.add(new GeoPoint((int) (element[1] * 1000000),
+                        (int) (element[0] * 1000000)));
             }
-            int moveToLat = (mPoints.get(0).getLatitudeE6() + (mPoints.get(mPoints.size() - 1).getLatitudeE6() - mPoints
+            int moveToLat = (this.mPoints.get(0).getLatitudeE6() + (this.mPoints.get(this.mPoints.size() - 1)
+                    .getLatitudeE6() - this.mPoints
                     .get(0).getLatitudeE6()) / 2);
-            int moveToLong = (mPoints.get(0).getLongitudeE6() + (mPoints.get(mPoints.size() - 1).getLongitudeE6() - mPoints
+            int moveToLong = (this.mPoints.get(0).getLongitudeE6() + (this.mPoints.get(
+                    this.mPoints.size() - 1)
+                    .getLongitudeE6() - this.mPoints
                     .get(0).getLongitudeE6()) / 2);
             GeoPoint moveTo = new GeoPoint(moveToLat, moveToLong);
             
-            String distance = parseDistance(mRoad.mDescription);
-            String time = parseTime(mRoad.mDescription);
-            String from = parseFrom(mRoad.mName);
-            String to = parseTo(mRoad.mName);
+            String distance = parseDistance(this.mRoad.mDescription);
+            String time = parseTime(this.mRoad.mDescription);
+            String from = parseFrom(this.mRoad.mName);
+            String to = parseTo(this.mRoad.mName);
             ViewModel.getInstance().setEtInfoText(from, to, distance + " km", time);
             int zoom = 0;
             try {
@@ -111,10 +115,12 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
         Log.i("Astrology", "result: " + (Math.log(E / distance) / Math.log(2) + 1));
         zoom = (byte) Math.round(Math.log(E / distance) / Math.log(2) + 1);
         // to avoid exeptions
-        if (zoom > 21)
+        if (zoom > 21) {
             zoom = 21;
-        if (zoom < 1)
+        }
+        if (zoom < 1) {
             zoom = 1;
+        }
         
         return zoom;
     }
@@ -135,9 +141,9 @@ public class RoadOverlay extends com.google.android.maps.Overlay {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(3);
         try {
-            for (int i = 0; i < mPoints.size(); i++) {
+            for (int i = 0; i < this.mPoints.size(); i++) {
                 Point point = new Point();
-                mv.getProjection().toPixels(mPoints.get(i), point);
+                mv.getProjection().toPixels(this.mPoints.get(i), point);
                 x2 = point.x;
                 y2 = point.y;
                 if (i > 0) {

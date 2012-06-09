@@ -24,7 +24,7 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
         super(context, layoutResourceId, itemlist);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
-        list = itemlist;
+        this.list = itemlist;
     }
     
     
@@ -33,8 +33,9 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
         View itemView = convertView;
         
         if (itemView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            itemView = inflater.inflate(layoutResourceId, parent, false);
+            LayoutInflater inflater = (LayoutInflater) this.context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            itemView = inflater.inflate(this.layoutResourceId, parent, false);
             ViewHolder v = new ViewHolder();
             
             v.departure = (TextView) itemView.findViewById(R.id.departure);
@@ -49,13 +50,14 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
         }
         
         ViewHolder v = (ViewHolder) itemView.getTag();
-        TripSearchResult o = list.get(position);
+        TripSearchResult o = this.list.get(position);
         
         v.departure.setText(o.departure);
         v.destination.setText(o.destination);
-        v.date.setText((new FriendlyDateFormatter(context)).format(o.date));
-        if (v.stopovers != null)
+        v.date.setText((new FriendlyDateFormatter(this.context)).format(o.date));
+        if (v.stopovers != null) {
             v.stopovers.setText(o.stopovers);
+        }
         v.user.setText(o.username);
         v.seat.setText(String.valueOf(o.seat));
         v.rating.setRating(o.rating);

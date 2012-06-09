@@ -55,7 +55,8 @@ public class JSonRequestProvider {
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public static JsonObject doRequest(List<ParamObject> listToParse, String url) throws ClientProtocolException,
+    public static JsonObject doRequest(List<ParamObject> listToParse, String url)
+            throws ClientProtocolException,
             IOException {
         
         // GET REQUESTS

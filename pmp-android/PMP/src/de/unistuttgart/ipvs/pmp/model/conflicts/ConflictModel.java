@@ -54,7 +54,7 @@ public class ConflictModel implements IConflictModel {
     public boolean isUpToDate() {
         
         for (IPreset preset : ModelProxy.get().getPresets()) {
-            if (!preset.toString().equals(lastUpdatedHashes.get(preset))) {
+            if (!preset.toString().equals(this.lastUpdatedHashes.get(preset))) {
                 return false;
             }
         }
@@ -65,7 +65,7 @@ public class ConflictModel implements IConflictModel {
     
     @Override
     public List<ConflictPair> getConflicts() {
-        return conflictPairs;
+        return this.conflictPairs;
     }
     
     /**
@@ -103,14 +103,14 @@ public class ConflictModel implements IConflictModel {
                 this.callback.progressUpdate(currentCount, totalCount);
                 
                 String presetString = preset.toString();
-                if (!presetString.equals(lastUpdatedHashes.get(preset))) {
+                if (!presetString.equals(ConflictModel.this.lastUpdatedHashes.get(preset))) {
                     updatedPresets.add(preset);
                     
                     /* directly update the stored hash, following execution will update the conflicts */
-                    lastUpdatedHashes.put(preset, presetString);
+                    ConflictModel.this.lastUpdatedHashes.put(preset, presetString);
                     
                     /* Remove all conflict pairs where the updated preset is inside. */
-                    Iterator<ConflictPair> iter = conflictPairs.iterator();
+                    Iterator<ConflictPair> iter = ConflictModel.this.conflictPairs.iterator();
                     while (iter.hasNext()) {
                         if (iter.next().inPair(preset)) {
                             iter.remove();
@@ -134,11 +134,11 @@ public class ConflictModel implements IConflictModel {
                     this.callback.progressUpdate(currentCount, totalCount);
                     
                     /* For optimization skip all already known conflicts. */
-                    if (!conflictPairs.contains(new ConflictPair(preset, comparedPreset))) {
+                    if (!ConflictModel.this.conflictPairs.contains(new ConflictPair(preset, comparedPreset))) {
                         if (preset.getPSPSConflicts(comparedPreset).size() > 0
                                 || preset.getCACAConflicts(comparedPreset).size() > 0
                                 || preset.getCAPSConflicts(comparedPreset).size() > 0) {
-                            conflictPairs.add(new ConflictPair(preset, comparedPreset));
+                            ConflictModel.this.conflictPairs.add(new ConflictPair(preset, comparedPreset));
                         }
                     }
                 }

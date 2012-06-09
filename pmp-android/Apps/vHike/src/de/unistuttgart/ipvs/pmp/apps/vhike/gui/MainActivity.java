@@ -36,7 +36,7 @@ public class MainActivity extends ResourceGroupReadyActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        handler = new Handler();
+        this.handler = new Handler();
         registerListener();
         
         vhikeDialogs.getInstance().getLoginPD(MainActivity.this).dismiss();
@@ -54,7 +54,7 @@ public class MainActivity extends ResourceGroupReadyActivity {
     public void onResume() {
         super.onResume();
         vHikeService.getInstance().updateServiceFeatures();
-        ctrl = new Controller(rgvHike);
+        this.ctrl = new Controller(rgvHike);
         
         Log.i(this, "");
     }

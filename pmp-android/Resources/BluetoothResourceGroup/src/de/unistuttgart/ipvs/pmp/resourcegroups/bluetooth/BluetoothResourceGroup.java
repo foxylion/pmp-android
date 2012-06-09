@@ -18,20 +18,19 @@ public class BluetoothResourceGroup extends ResourceGroup {
 	 * Privacy Setting Identifier
 	 */
 	public static final String PS_USE_BLUETOOTH = "useBluetooth";
+
 	/**
 	 * {@link BluetoothResourceGroup} allows the use of Bluetooth
+	 * 
 	 * @param pmpci
 	 */
 	public BluetoothResourceGroup(IPMPConnectionInterface pmpci) {
 
 		super(PACKAGE_NAME, pmpci);
-		
-		registerResource(R_BLUETOOTH,
-				new BluetoothResource(this));
-		
-		registerPrivacySetting(PS_USE_BLUETOOTH,
-				new BooleanPrivacySetting());
-		
-		
+
+		registerResource(R_BLUETOOTH, new BluetoothResource(this));
+
+		registerPrivacySetting(PS_USE_BLUETOOTH, new BooleanPrivacySetting());
+
 	}
 }

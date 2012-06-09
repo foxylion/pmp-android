@@ -79,7 +79,7 @@ public class TabServiceFeatures extends Activity {
             checkExtendedIntentActions();
         } catch (IllegalArgumentException iae) {
             // The intent was illegal, close the activity
-            this.finish();
+            finish();
         }
         
         /* Switch between Expert Mode and Normal Mode */

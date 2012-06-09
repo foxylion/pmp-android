@@ -100,9 +100,11 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (!RegisterActivity.this.pw_pattern.matcher(RegisterActivity.this.et_password.getText().toString())
+                if (!RegisterActivity.this.pw_pattern.matcher(
+                        RegisterActivity.this.et_password.getText().toString())
                         .matches()) {
-                    RegisterActivity.this.et_password.setError("Password length must be at least 8 characters");
+                    RegisterActivity.this.et_password
+                            .setError("Password length must be at least 8 characters");
                     RegisterActivity.this.correctPw = false;
                 } else {
                     RegisterActivity.this.correctPw = true;
@@ -151,7 +153,8 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void afterTextChanged(Editable arg0) {
-                if (!RegisterActivity.this.email_pattern.matcher(RegisterActivity.this.et_email.getText().toString())
+                if (!RegisterActivity.this.email_pattern.matcher(
+                        RegisterActivity.this.et_email.getText().toString())
                         .matches()) {
                     RegisterActivity.this.et_email.setError("Invalid email");
                     RegisterActivity.this.cEmail = false;
@@ -181,7 +184,8 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
             
             @Override
             public void afterTextChanged(Editable s) {
-                if (!RegisterActivity.this.mobile_pattern.matcher(RegisterActivity.this.et_mobile.getText().toString())
+                if (!RegisterActivity.this.mobile_pattern.matcher(
+                        RegisterActivity.this.et_mobile.getText().toString())
                         .matches()) {
                     RegisterActivity.this.et_mobile.setError("Invalid phone number");
                     RegisterActivity.this.cMobile = false;
@@ -238,11 +242,13 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
                     if (vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE)) {
                         switch (ctrl.register(map)) {
                             case Constants.REG_STAT_USED_USERNAME:
-                                Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT)
+                                Toast.makeText(RegisterActivity.this, "Username already exists",
+                                        Toast.LENGTH_SHORT)
                                         .show();
                                 break;
                             case Constants.REG_STAT_USED_MAIL:
-                                Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT)
+                                Toast.makeText(RegisterActivity.this, "Email already exists",
+                                        Toast.LENGTH_SHORT)
                                         .show();
                                 break;
                             case Constants.STATUS_SUCCESS:
@@ -252,16 +258,19 @@ public class RegisterActivity extends ResourceGroupReadyActivity {
                                 RegisterActivity.this.finish();
                                 break;
                             case Constants.STATUS_ERROR:
-                                Toast.makeText(RegisterActivity.this, "Registration failed. Please check input",
+                                Toast.makeText(RegisterActivity.this,
+                                        "Registration failed. Please check input",
                                         Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     } else {
-                        vHikeService.requestServiceFeature(RegisterActivity.this, Constants.SF_VHIKE_WEB_SERVICE);
+                        vHikeService.requestServiceFeature(RegisterActivity.this,
+                                Constants.SF_VHIKE_WEB_SERVICE);
                     }
                     
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Registration failed. Please check input", Toast.LENGTH_LONG)
+                    Toast.makeText(RegisterActivity.this, "Registration failed. Please check input",
+                            Toast.LENGTH_LONG)
                             .show();
                 }
                 

@@ -58,27 +58,27 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_rides);
-        context = this.getBaseContext();
-        timer = new Timer();
+        this.context = getBaseContext();
+        this.timer = new Timer();
         getBluetoothRG(this);
         registerListener();
         if (rgBluetooth != null) {
             startBluetooth();
         }
-        stopConnectedChecker = false;
+        this.stopConnectedChecker = false;
     }
     
     
     public void registerListener() {
-        drive = (Button) findViewById(R.id.btn_bt_Drive);
-        drive.setEnabled(false);
-        search = (Button) findViewById(R.id.btn_bt_Search);
-        search.setEnabled(false);
-        destination = (Spinner) findViewById(R.id.sp_bt_destination);
-        seats = (Spinner) findViewById(R.id.sp_bt_seats);
+        this.drive = (Button) findViewById(R.id.btn_bt_Drive);
+        this.drive.setEnabled(false);
+        this.search = (Button) findViewById(R.id.btn_bt_Search);
+        this.search.setEnabled(false);
+        this.destination = (Spinner) findViewById(R.id.sp_bt_destination);
+        this.seats = (Spinner) findViewById(R.id.sp_bt_seats);
         
-        duration = (EditText) findViewById(R.id.et_bt_duration);
-        duration.setText("5");
+        this.duration = (EditText) findViewById(R.id.et_bt_duration);
+        this.duration.setText("5");
         
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.array_cities,
                 android.R.layout.simple_spinner_item);
@@ -90,29 +90,30 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.seats.setAdapter(adapter1);
         
-        drive.setOnClickListener(new View.OnClickListener() {
+        this.drive.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                int seat = Integer.valueOf(seats.getSelectedItem().toString());
-                String dest = destination.getSelectedItem().toString();
-                int dur = Integer.valueOf(duration.getText().toString());
+                int seat = Integer.valueOf(BluetoothPlanTripActivity.this.seats.getSelectedItem().toString());
+                String dest = BluetoothPlanTripActivity.this.destination.getSelectedItem().toString();
+                int dur = Integer.valueOf(BluetoothPlanTripActivity.this.duration.getText().toString());
                 
-                Log.i(TAG, "SEAT not NULL: " + seat);
-                Log.i(TAG, "DEST not NULL: " + dest);
-                Log.i(TAG, "DUR not NULL: " + dur);
+                Log.i(BluetoothPlanTripActivity.this.TAG, "SEAT not NULL: " + seat);
+                Log.i(BluetoothPlanTripActivity.this.TAG, "DEST not NULL: " + dest);
+                Log.i(BluetoothPlanTripActivity.this.TAG, "DUR not NULL: " + dur);
                 
                 BluetoothModel.getInstance().setDestination(dest);
                 BluetoothModel.getInstance().setDuration(dur);
                 BluetoothModel.getInstance().setSeats(seat);
                 BluetoothModel.getInstance().setRole(BluetoothModel.ROLE_DRIVER);
-                createCancelProgressDialog("Offer ride", "Offering a ride to nearby passengers!", "Stop offering");
+                createCancelProgressDialog("Offer ride", "Offering a ride to nearby passengers!",
+                        "Stop offering");
                 
-                stopConnectedChecker = false;
-                timer.schedule(new ConnectedChecker(), 2000);
+                BluetoothPlanTripActivity.this.stopConnectedChecker = false;
+                BluetoothPlanTripActivity.this.timer.schedule(new ConnectedChecker(), 2000);
                 try {
                     if (rgBluetooth == null) {
-                        Log.i(TAG, "rgBluetooth is null");
+                        Log.i(BluetoothPlanTripActivity.this.TAG, "rgBluetooth is null");
                     }
                     rgBluetooth.makeDiscoverable("vHike:" + dest + "-" + seat, dur);
                     
@@ -122,24 +123,25 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
             }
         });
         
-        search.setOnClickListener(new View.OnClickListener() {
+        this.search.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                int seat = Integer.valueOf(seats.getSelectedItem().toString());
-                String dest = destination.getSelectedItem().toString();
-                int dur = Integer.valueOf(duration.getText().toString());
+                int seat = Integer.valueOf(BluetoothPlanTripActivity.this.seats.getSelectedItem().toString());
+                String dest = BluetoothPlanTripActivity.this.destination.getSelectedItem().toString();
+                int dur = Integer.valueOf(BluetoothPlanTripActivity.this.duration.getText().toString());
                 
                 BluetoothModel.getInstance().setDestination(dest);
                 BluetoothModel.getInstance().setDuration(dur);
                 BluetoothModel.getInstance().setSeats(seat);
                 BluetoothModel.getInstance().setRole(BluetoothModel.ROLE_PASSENGER);
-                createCancelProgressDialog("Searching", "Searching for offered rides nearby!", "Stop searching");
+                createCancelProgressDialog("Searching", "Searching for offered rides nearby!",
+                        "Stop searching");
                 
                 try {
                     rgBluetooth.discover("vHike:" + dest + "-" + seat, dur);
                     
-                    timer.schedule(new Time(rgBluetooth), 2000);
+                    BluetoothPlanTripActivity.this.timer.schedule(new Time(rgBluetooth), 2000);
                     
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -150,18 +152,19 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
     
     
     private void createCancelProgressDialog(String title, String message, String buttonText) {
-        cancelDialog = new ProgressDialog(this);
-        cancelDialog.setTitle(title);
-        cancelDialog.setMessage(message);
-        cancelDialog.setButton(buttonText, new DialogInterface.OnClickListener() {
+        this.cancelDialog = new ProgressDialog(this);
+        this.cancelDialog.setTitle(title);
+        this.cancelDialog.setMessage(message);
+        this.cancelDialog.setButton(buttonText, new DialogInterface.OnClickListener() {
             
+            @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Use either finish() or return() to either close the activity or just the dialog
-                stopConnectedChecker = true;
+                BluetoothPlanTripActivity.this.stopConnectedChecker = true;
                 return;
             }
         });
-        cancelDialog.show();
+        this.cancelDialog.show();
     }
     
     
@@ -172,6 +175,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         builder.setTitle("Pick a driver");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             
+            @Override
             public void onClick(DialogInterface dialog, int item) {
                 Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
                 BluetoothModel.getInstance().setToConnectDevice(devices.get(item));
@@ -206,7 +210,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
                 
                 Toast.makeText(this, "Starting bluetooth!", Toast.LENGTH_LONG).show();
                 rgBluetooth.enableBluetooth(true);
-                timer.schedule(new EnabledTimer(), 5000);
+                this.timer.schedule(new EnabledTimer(), 5000);
                 
             }
         } catch (RemoteException e) {
@@ -230,42 +234,46 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         
         public Time(IBluetooth rgBluetooth) {
             this.rgBluetooth = rgBluetooth;
-            refresh = new Handler(Looper.getMainLooper());
+            this.refresh = new Handler(Looper.getMainLooper());
         }
         
         
+        @Override
         public void run() {
             try {
-                if (!rgBluetooth.isDiscovering()) {
-                    Log.i(TAG, "Time: adding devices");
-                    DeviceArrayParcelable foundDevices = rgBluetooth.getFoundDevices();
-                    Log.i(TAG, "nach getFoundDevices");
+                if (!this.rgBluetooth.isDiscovering()) {
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "Time: adding devices");
+                    DeviceArrayParcelable foundDevices = this.rgBluetooth.getFoundDevices();
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "nach getFoundDevices");
                     DeviceArray foundDevicesArray = foundDevices.getDevices();
-                    Log.i(TAG, "nach getDevices");
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "nach getDevices");
                     final List<String> founddevices = foundDevicesArray.getDevices();
-                    Log.i(TAG, "nach getDevices");
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "nach getDevices");
                     final List<Device> devices = BluetoothTools.DeviceArrayListToDeviceList(founddevices);
-                    Log.i(TAG, "nach getFoundDevices to list");
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "nach getFoundDevices to list");
                     final List<Device> filteredDevices = BluetoothTools.filterForVHike(devices);
                     
-                    final List<Device> filteredDestination = BluetoothTools.filterForDestination(filteredDevices,
+                    final List<Device> filteredDestination = BluetoothTools.filterForDestination(
+                            filteredDevices,
                             BluetoothModel.getInstance().getDestination());
-                    cancelDialog.dismiss();
-                    Log.i(TAG, "nach dismiss dialog");
-                    refresh.post(new Runnable() {
+                    BluetoothPlanTripActivity.this.cancelDialog.dismiss();
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "nach dismiss dialog");
+                    this.refresh.post(new Runnable() {
                         
+                        @Override
                         public void run() {
                             CharSequence[] items = new CharSequence[filteredDestination.size()];
                             for (int i = 0; i < filteredDestination.size(); i++) {
                                 items[i] = filteredDestination.get(i).getName();
-                                Log.i(TAG, "Added device: " + filteredDestination.get(i).getName() + " "
+                                Log.i(BluetoothPlanTripActivity.this.TAG, "Added device: "
+                                        + filteredDestination.get(i).getName() + " "
                                         + filteredDestination.get(i).getAddress());
                             }
                             createAlertDialog(items, filteredDestination).show();
                         }
                     });
                 } else {
-                    timer.schedule(new Time(rgBluetooth), 2000);
+                    BluetoothPlanTripActivity.this.timer.schedule(new Time(this.rgBluetooth), 2000);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -275,19 +283,21 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
     
     public class ConnectedChecker extends TimerTask {
         
+        @Override
         public void run() {
             try {
                 if (rgBluetooth.isConnected()) {
-                    Log.i(TAG, "ConnectedChecker is Connected");
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "ConnectedChecker is Connected");
                     BluetoothModel.getInstance().setConnected(rgBluetooth.isConnected());
                     
-                    cancelDialog.dismiss();
+                    BluetoothPlanTripActivity.this.cancelDialog.dismiss();
                     
-                    BluetoothPlanTripActivity.this.finish();
+                    finish();
                 } else {
-                    Log.i(TAG, "ConnectedChecker rescheduled");
-                    if (!stopConnectedChecker)
-                        timer.schedule(new ConnectedChecker(), 2000);
+                    Log.i(BluetoothPlanTripActivity.this.TAG, "ConnectedChecker rescheduled");
+                    if (!BluetoothPlanTripActivity.this.stopConnectedChecker) {
+                        BluetoothPlanTripActivity.this.timer.schedule(new ConnectedChecker(), 2000);
+                    }
                 }
                 
             } catch (RemoteException e) {
@@ -303,7 +313,7 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         
         
         public EnabledTimer() {
-            refresh = new Handler(Looper.getMainLooper());
+            this.refresh = new Handler(Looper.getMainLooper());
         }
         
         
@@ -311,16 +321,17 @@ public class BluetoothPlanTripActivity extends ResourceGroupReadyActivity {
         public void run() {
             try {
                 if (rgBluetooth.isEnabled()) {
-                    refresh.post(new Runnable() {
+                    this.refresh.post(new Runnable() {
                         
+                        @Override
                         public void run() {
-                            search.setEnabled(true);
-                            drive.setEnabled(true);
+                            BluetoothPlanTripActivity.this.search.setEnabled(true);
+                            BluetoothPlanTripActivity.this.drive.setEnabled(true);
                         }
                     });
                     
                 } else {
-                    timer.schedule(new EnabledTimer(), 2000);
+                    BluetoothPlanTripActivity.this.timer.schedule(new EnabledTimer(), 2000);
                 }
             } catch (RemoteException e) {
                 // TODO Auto-generated catch block

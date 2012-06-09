@@ -51,7 +51,8 @@ public class HistoryAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         final HistoryRideObject hRideObject = this.historyRides.get(position);
         
-        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.history_layout_list, null);
         
         TextView tv_date = (TextView) entryView.findViewById(R.id.history_date);

@@ -83,26 +83,26 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         //        vhikeDialogs.getInstance().clearSearchPD();
         
         setMapView();
-        ViewModel.getInstance().getPassengerOverlayList(mapView).clear();
+        ViewModel.getInstance().getPassengerOverlayList(this.mapView).clear();
         
-        road_info = (Button) findViewById(R.id.passenger_btn_route_info);
-        et_road_info = (EditText) findViewById(R.id.passenger_et_route_info);
-        ViewModel.getInstance().setRoadInfoBtn(road_info);
-        ViewModel.getInstance().setRoadInfoEt(et_road_info);
-        road_info.setOnClickListener(new View.OnClickListener() {
+        this.road_info = (Button) findViewById(R.id.passenger_btn_route_info);
+        this.et_road_info = (EditText) findViewById(R.id.passenger_et_route_info);
+        ViewModel.getInstance().setRoadInfoBtn(this.road_info);
+        ViewModel.getInstance().setRoadInfoEt(this.et_road_info);
+        this.road_info.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                road_info.setVisibility(View.GONE);
-                et_road_info.setVisibility(View.VISIBLE);
+                PassengerViewActivity.this.road_info.setVisibility(View.GONE);
+                PassengerViewActivity.this.et_road_info.setVisibility(View.VISIBLE);
             }
         });
-        et_road_info.setOnClickListener(new View.OnClickListener() {
+        this.et_road_info.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
-                road_info.setVisibility(View.VISIBLE);
-                et_road_info.setVisibility(View.GONE);
+                PassengerViewActivity.this.road_info.setVisibility(View.VISIBLE);
+                PassengerViewActivity.this.et_road_info.setVisibility(View.GONE);
             }
         });
         
@@ -181,16 +181,19 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
             
             @Override
             public void onClick(View v) {
-                List<OfferObject> loo = PassengerViewActivity.this.ctrl.viewOffers(Model.getInstance().getSid());
+                List<OfferObject> loo = PassengerViewActivity.this.ctrl.viewOffers(Model.getInstance()
+                        .getSid());
                 if (loo != null && loo.size() > 0) {
                     for (int i = 0; i < loo.size(); i++) {
-                        Profile driver = PassengerViewActivity.this.ctrl.getProfile(Model.getInstance().getSid(), loo
+                        Profile driver = PassengerViewActivity.this.ctrl.getProfile(Model.getInstance()
+                                .getSid(), loo
                                 .get(i).getUser_id());
                         int lat = (int) (loo.get(i).getLat() * 1E6);
                         int lng = (int) (loo.get(i).getLon() * 1E6);
                         GeoPoint gpsDriver = new GeoPoint(lat, lng);
                         
-                        ViewModel.getInstance().add2PassengerOverlay(PassengerViewActivity.this.context, gpsDriver,
+                        ViewModel.getInstance().add2PassengerOverlay(PassengerViewActivity.this.context,
+                                gpsDriver,
                                 driver, PassengerViewActivity.this.mapView, 1, 0);
                         ViewModel.getInstance().getHitchDrivers().add(driver);
                         ViewModel.getInstance().fireNotification(PassengerViewActivity.this.context, driver,
@@ -215,8 +218,10 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
         //        this.luh = new LocationUpdateHandler(this.context, this.locationManager, this.mapView, this.mapController, 1);
         //        this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this.luh);
         
-        switch (this.ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance().getDestination4Passenger(),
-                ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel.getInstance()
+        switch (this.ctrl.startQuery(Model.getInstance().getSid(), ViewModel.getInstance()
+                .getDestination4Passenger(),
+                ViewModel.getInstance().getMy_lat(), ViewModel.getInstance().getMy_lon(), ViewModel
+                        .getInstance()
                         .getNumSeats())) {
             case (Constants.QUERY_ID_ERROR):
                 Log.i(this, "Query error");
@@ -232,7 +237,8 @@ public class PassengerViewActivity extends ResourceGroupReadyMapActivity {
             e.printStackTrace();
         }
         
-        Check4Location c4l = new Check4Location(rgvHike, rgLocation, this.mapView, this.context, this.locationHandler,
+        Check4Location c4l = new Check4Location(rgvHike, rgLocation, this.mapView, this.context,
+                this.locationHandler,
                 1);
         this.locationTimer.schedule(c4l, 10000, 10000);
         Log.i(this, "Location started");

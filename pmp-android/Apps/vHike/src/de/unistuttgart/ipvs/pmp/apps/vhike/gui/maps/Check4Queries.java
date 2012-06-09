@@ -51,7 +51,8 @@ public class Check4Queries extends TimerTask {
                 
                 if (ViewModel.getInstance().allowStartSearch4Query()) {
                     try {
-                        PositionObject pObject = Check4Queries.this.ctrl.getUserPosition(Model.getInstance().getSid(),
+                        PositionObject pObject = Check4Queries.this.ctrl.getUserPosition(Model.getInstance()
+                                .getSid(),
                                 Check4Queries.this.me.getID());
                         Check4Queries.this.lat = (float) pObject.getLat();
                         Check4Queries.this.lng = (float) pObject.getLon();
@@ -59,7 +60,8 @@ public class Check4Queries extends TimerTask {
                         ex.printStackTrace();
                     }
                     // retrieve all hitchhikers searching for a ride within my perimeter
-                    Check4Queries.this.lqo = Check4Queries.this.ctrl.searchQuery(Model.getInstance().getSid(),
+                    Check4Queries.this.lqo = Check4Queries.this.ctrl.searchQuery(
+                            Model.getInstance().getSid(),
                             Check4Queries.this.lat, Check4Queries.this.lng, Check4Queries.this.perimeter);
                     
                     // send ViewModel new list of hitchhikers

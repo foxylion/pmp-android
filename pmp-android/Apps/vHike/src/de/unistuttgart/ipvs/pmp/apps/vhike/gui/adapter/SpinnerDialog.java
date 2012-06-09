@@ -37,18 +37,20 @@ public class SpinnerDialog extends Dialog {
                     for (int i = 0; i < ViewModel.getInstance().getDestinationSpinners().size(); i++) {
                         if (ViewModel.getInstance().getClickedSpinner() == ViewModel.getInstance()
                                 .getDestinationSpinners().get(i)) {
-                            sNumber = i;
+                            SpinnerDialog.this.sNumber = i;
                         }
                     }
                     Log.i(this, "Selcted Item Pos: "
                             + ViewModel.getInstance().getClickedSpinner().getSelectedItemPosition());
-                    ViewModel.getInstance().getDestinationSpinners().remove(sNumber);
+                    ViewModel.getInstance().getDestinationSpinners().remove(SpinnerDialog.this.sNumber);
                     ViewModel.getInstance().getClickedSpinner().setVisibility(View.GONE);
-                    Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size()
+                    Log.i(this, "Added spinner, Size"
+                            + ViewModel.getInstance().getDestinationSpinners().size()
                             + ", Clicked ");
                     v.getParent().requestLayout();
                 } else {
-                    Toast.makeText(v.getContext(), "At least one destination must be given", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "At least one destination must be given",
+                            Toast.LENGTH_SHORT).show();
                 }
                 cancel();
             }

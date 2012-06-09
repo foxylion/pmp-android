@@ -42,17 +42,17 @@ public class SMSDialog extends Dialog {
         this.profile = profile;
         setTitle("Send SMS");
         
-        et_recipient = (EditText) findViewById(R.id.et_recipient);
-        et_body = (EditText) findViewById(R.id.et_sms_body);
-        et_recipient.setText(String.valueOf(tel));
+        this.et_recipient = (EditText) findViewById(R.id.et_recipient);
+        this.et_body = (EditText) findViewById(R.id.et_sms_body);
+        this.et_recipient.setText(String.valueOf(tel));
         
         setUpButtons();
     }
     
     
     private void setUpButtons() {
-        cancel_btn = (Button) findViewById(R.id.btn_cancel);
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
+        this.cancel_btn = (Button) findViewById(R.id.btn_cancel);
+        this.cancel_btn.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View arg0) {
@@ -60,24 +60,29 @@ public class SMSDialog extends Dialog {
             }
         });
         
-        send_btn = (Button) findViewById(R.id.btn_send);
-        send_btn.setOnClickListener(new View.OnClickListener() {
+        this.send_btn = (Button) findViewById(R.id.btn_send);
+        this.send_btn.setOnClickListener(new View.OnClickListener() {
             
             @Override
             public void onClick(View v) {
                 
                 try {
-                    if (et_recipient.getText().toString().length() > 0 && et_body.getText().toString().length() > 0) {
-                        if (ctrl.isProfileAnonymous(Model.getInstance().getSid(), profile.getID())) {
+                    if (SMSDialog.this.et_recipient.getText().toString().length() > 0
+                            && SMSDialog.this.et_body.getText().toString().length() > 0) {
+                        if (SMSDialog.this.ctrl.isProfileAnonymous(Model.getInstance().getSid(),
+                                SMSDialog.this.profile.getID())) {
                             Toast.makeText(
                                     getContext(),
-                                    "The user has hidden his contact information. Contacting " + profile.getUsername()
+                                    "The user has hidden his contact information. Contacting "
+                                            + SMSDialog.this.profile.getUsername()
                                             + " is not possible", Toast.LENGTH_LONG).show();
                         } else {
-                            contactRG.sms(et_recipient.getText().toString(), et_body.getText().toString());
+                            SMSDialog.this.contactRG.sms(SMSDialog.this.et_recipient.getText().toString(),
+                                    SMSDialog.this.et_body.getText().toString());
                         }
                     } else {
-                        Toast.makeText(getContext(), "Please enter both phone number and message.", Toast.LENGTH_SHORT)
+                        Toast.makeText(getContext(), "Please enter both phone number and message.",
+                                Toast.LENGTH_SHORT)
                                 .show();
                     }
                     

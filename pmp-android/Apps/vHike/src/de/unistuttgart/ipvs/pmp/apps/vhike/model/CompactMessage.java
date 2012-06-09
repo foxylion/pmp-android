@@ -9,7 +9,8 @@ public class CompactMessage {
     public String message;
     
     
-    public CompactMessage(int messageId, CompactUser sender, CompactUser recipient, boolean isOffer, String message) {
+    public CompactMessage(int messageId, CompactUser sender, CompactUser recipient, boolean isOffer,
+            String message) {
         this.id = messageId;
         this.sender = sender;
         this.recipient = recipient;
@@ -19,13 +20,14 @@ public class CompactMessage {
     }
     
     
+    @Override
     public String toString() {
-        return sender.name + (isOffer ? " (Request)" : "");
+        return this.sender.name + (this.isOffer ? " (Request)" : "");
     }
     
     
     public int getId() {
-        return id;
+        return this.id;
     }
     
 }

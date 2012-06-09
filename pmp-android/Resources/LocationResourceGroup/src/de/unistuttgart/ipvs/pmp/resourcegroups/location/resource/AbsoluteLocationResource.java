@@ -169,6 +169,7 @@ public class AbsoluteLocationResource extends Resource {
         /* Start the request for location updates in a handler-thread to prevent exceptions. */
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             
+            @Override
             public void run() {
                 AbsoluteLocationResource.this.locationManager
                         .removeUpdates(AbsoluteLocationResource.this.locationListener);
@@ -335,6 +336,7 @@ public class AbsoluteLocationResource extends Resource {
      */
     class DefaultLocationListener implements LocationListener {
         
+        @Override
         public void onLocationChanged(android.location.Location location) {
             AbsoluteLocationResource.this.longitude = location.getLongitude();
             AbsoluteLocationResource.this.latitude = location.getLatitude();
@@ -344,6 +346,7 @@ public class AbsoluteLocationResource extends Resource {
         }
         
         
+        @Override
         public void onProviderDisabled(String provider) {
             AbsoluteLocationResource.this.gpsEnabled = false;
             AbsoluteLocationResource.this.fixed = false;
@@ -351,12 +354,14 @@ public class AbsoluteLocationResource extends Resource {
         }
         
         
+        @Override
         public void onProviderEnabled(String provider) {
             AbsoluteLocationResource.this.gpsEnabled = true;
             removeNotification();
         }
         
         
+        @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             /* Not required. */
         }

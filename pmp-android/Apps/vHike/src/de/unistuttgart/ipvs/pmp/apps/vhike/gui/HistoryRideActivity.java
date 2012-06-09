@@ -58,9 +58,9 @@ public class HistoryRideActivity extends ResourceGroupReadyListActivity {
         vHikeService.getInstance().updateServiceFeatures();
         
         if (vHikeService.isServiceFeatureEnabled(Constants.SF_HIDE_CONTACT_INFO)) {
-            ctrl.enableAnonymity(Model.getInstance().getSid());
+            this.ctrl.enableAnonymity(Model.getInstance().getSid());
         } else {
-            ctrl.disableAnonymity(Model.getInstance().getSid());
+            this.ctrl.disableAnonymity(Model.getInstance().getSid());
         }
         Log.i(this, "");
     }

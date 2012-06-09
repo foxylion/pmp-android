@@ -54,7 +54,8 @@ public class NotificationAdapter extends BaseAdapter {
     private IContact iContact;
     
     
-    public NotificationAdapter(IvHikeWebservice ws, Context context, List<Profile> hitchhikers, int whichHitcher,
+    public NotificationAdapter(IvHikeWebservice ws, Context context, List<Profile> hitchhikers,
+            int whichHitcher,
             MapView mapView, IContact iContact) {
         this.context = context;
         this.hitchhikers = hitchhikers;
@@ -96,7 +97,8 @@ public class NotificationAdapter extends BaseAdapter {
         this.userID = this.hitchhiker.getID();
         
         /* load the layout from the xml file */
-        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.hitchhiker_list, null);
         
         Button dismiss = (Button) entryView.findViewById(R.id.dismissBtn);
@@ -123,7 +125,9 @@ public class NotificationAdapter extends BaseAdapter {
                 vhikeDialogs
                         .getInstance()
                         .getProfileDialog(NotificationAdapter.this.ws, NotificationAdapter.this.context,
-                                NotificationAdapter.this.userID, mapView, iContact, hitchhiker, driverorpassenger)
+                                NotificationAdapter.this.userID, NotificationAdapter.this.mapView,
+                                NotificationAdapter.this.iContact, NotificationAdapter.this.hitchhiker,
+                                driverorpassenger)
                         .show();
             }
         });
@@ -143,7 +147,8 @@ public class NotificationAdapter extends BaseAdapter {
                     ViewModel.getInstance().updateView(NotificationAdapter.this.mWhichHitcher);
                     if (actObject.getStatus() == Constants.V_OBJ_SATUS_PICKED_UP) {
                         ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats() + 1);
-                        NotificationAdapter.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
+                        NotificationAdapter.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model
+                                .getInstance()
                                 .getTripId(), ViewModel.getInstance().getNumSeats());
                     }
                 }

@@ -52,25 +52,25 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_detail);
         
-        switcher = (ViewSwitcher) findViewById(R.id.trip_detail_view_switcher);
+        this.switcher = (ViewSwitcher) findViewById(R.id.trip_detail_view_switcher);
         
-        menuActive = new TextAppearanceSpan(this, R.style.ActionBarItemActive);
-        btnOverview = (TextView) findViewById(R.id.trip_detail_button_overview);
-        txtOverview = new SpannableString(btnOverview.getText());
-        txtOverview.setSpan(menuActive, 0, txtOverview.length(), 0);
-        btnOverview.setText(txtOverview, BufferType.SPANNABLE);
+        this.menuActive = new TextAppearanceSpan(this, R.style.ActionBarItemActive);
+        this.btnOverview = (TextView) findViewById(R.id.trip_detail_button_overview);
+        this.txtOverview = new SpannableString(this.btnOverview.getText());
+        this.txtOverview.setSpan(this.menuActive, 0, this.txtOverview.length(), 0);
+        this.btnOverview.setText(this.txtOverview, BufferType.SPANNABLE);
         
-        btnAllMessages = (TextView) findViewById(R.id.trip_detail_button_all_messages);
-        txtAllMessages = new SpannableString(btnAllMessages.getText());
-        btnAllMessages.setText(txtAllMessages, BufferType.SPANNABLE);
+        this.btnAllMessages = (TextView) findViewById(R.id.trip_detail_button_all_messages);
+        this.txtAllMessages = new SpannableString(this.btnAllMessages.getText());
+        this.btnAllMessages.setText(this.txtAllMessages, BufferType.SPANNABLE);
         
-        btnSearch = (Button) findViewById(R.id.btnSearch);
+        this.btnSearch = (Button) findViewById(R.id.btnSearch);
         
-        btnAllMessages.setOnClickListener(this);
-        btnOverview.setOnClickListener(this);
-        btnSearch.setOnClickListener(this);
+        this.btnAllMessages.setOnClickListener(this);
+        this.btnOverview.setOnClickListener(this);
+        this.btnSearch.setOnClickListener(this);
         
-        bottomMenu = findViewById(R.id.trip_detail_bottom_menu);
+        this.bottomMenu = findViewById(R.id.trip_detail_bottom_menu);
     }
     
     
@@ -87,37 +87,38 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     
     @Override
     public void onClick(View v) {
-        if (switcher == null)
+        if (this.switcher == null) {
             return;
+        }
         
         switch (v.getId()) {
         
             case R.id.trip_detail_button_overview:
-                if (switcher.getDisplayedChild() == 1) {
-                    switcher.setInAnimation(TripDetailActivity.this, R.anim.in_back);
-                    switcher.setOutAnimation(TripDetailActivity.this, R.anim.out_back);
-                    switcher.showPrevious();
-                    txtOverview.setSpan(menuActive, 0, txtOverview.length(), 0);
-                    txtAllMessages.removeSpan(menuActive);
-                    btnAllMessages.setText(txtAllMessages, BufferType.SPANNABLE);
-                    btnOverview.setText(txtOverview, BufferType.SPANNABLE);
-                    bottomMenu.setVisibility(View.VISIBLE);
+                if (this.switcher.getDisplayedChild() == 1) {
+                    this.switcher.setInAnimation(TripDetailActivity.this, R.anim.in_back);
+                    this.switcher.setOutAnimation(TripDetailActivity.this, R.anim.out_back);
+                    this.switcher.showPrevious();
+                    this.txtOverview.setSpan(this.menuActive, 0, this.txtOverview.length(), 0);
+                    this.txtAllMessages.removeSpan(this.menuActive);
+                    this.btnAllMessages.setText(this.txtAllMessages, BufferType.SPANNABLE);
+                    this.btnOverview.setText(this.txtOverview, BufferType.SPANNABLE);
+                    this.bottomMenu.setVisibility(View.VISIBLE);
                 }
                 break;
             
             case R.id.trip_detail_button_all_messages:
-                if (switcher.getDisplayedChild() == 0) {
+                if (this.switcher.getDisplayedChild() == 0) {
                     
                     initAllMessages();
                     
-                    switcher.setInAnimation(TripDetailActivity.this, R.anim.in_next);
-                    switcher.setOutAnimation(TripDetailActivity.this, R.anim.out_next);
-                    switcher.showNext();
-                    txtAllMessages.setSpan(menuActive, 0, txtAllMessages.length(), 0);
-                    txtOverview.removeSpan(menuActive);
-                    btnAllMessages.setText(txtAllMessages, BufferType.SPANNABLE);
-                    btnOverview.setText(txtOverview, BufferType.SPANNABLE);
-                    bottomMenu.setVisibility(View.GONE);
+                    this.switcher.setInAnimation(TripDetailActivity.this, R.anim.in_next);
+                    this.switcher.setOutAnimation(TripDetailActivity.this, R.anim.out_next);
+                    this.switcher.showNext();
+                    this.txtAllMessages.setSpan(this.menuActive, 0, this.txtAllMessages.length(), 0);
+                    this.txtOverview.removeSpan(this.menuActive);
+                    this.btnAllMessages.setText(this.txtAllMessages, BufferType.SPANNABLE);
+                    this.btnOverview.setText(this.txtOverview, BufferType.SPANNABLE);
+                    this.bottomMenu.setVisibility(View.GONE);
                 }
                 break;
             case R.id.btnSearch:
@@ -127,22 +128,22 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     
     
     private void initAllMessages() {
-        if (listAllMessages == null) {
-            listAllMessages = (ListView) findViewById(R.id.trip_detail_all_messages);
+        if (this.listAllMessages == null) {
+            this.listAllMessages = (ListView) findViewById(R.id.trip_detail_all_messages);
         }
         
-        listAllMessages.setAdapter(new MessageAdapter(this, tripInfo.messages));
+        this.listAllMessages.setAdapter(new MessageAdapter(this, this.tripInfo.messages));
         
         AutoCompleteTextView a = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
         a.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_dropdown_item_1line,
-                tripInfo.messages) {
+                this.tripInfo.messages) {
         });
     }
     
     
     private void prepareViews() {
         
-        if (tripInfo == null) {
+        if (this.tripInfo == null) {
             // TODO Get actual data
             ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
             passengers.add(new CompactUser(1, "Passenger1", 0));
@@ -152,24 +153,25 @@ public class TripDetailActivity extends Activity implements OnClickListener {
             msg.add(new CompactMessage(0, passengers.get(0), passengers.get(1), true, "Hello"));
             msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello 2"));
             msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello 32"));
-            tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;", passengers,
+            this.tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;",
+                    passengers,
                     Calendar.getInstance(), 3, msg);
         }
         
         // Set destination
         TextView txt = (TextView) findViewById(R.id.trip_detail_destination);
-        txt.setText(tripInfo.destination);
+        txt.setText(this.tripInfo.destination);
         
         // Set time
         txt = (TextView) findViewById(R.id.trip_detail_time);
-        txt.setText((new FriendlyDateFormatter(this)).format(tripInfo.startTime));
+        txt.setText((new FriendlyDateFormatter(this)).format(this.tripInfo.startTime));
         
         // Set stop-overs
         TextAppearanceSpan captionSpan = new TextAppearanceSpan(this, R.style.CaptionSpan);
         
         String stopoverLabel = (String) getText(R.string.tripDetails_stopovers);
         SpannableStringBuilder builder = new SpannableStringBuilder(stopoverLabel);
-        builder.append(tripInfo.stopovers);
+        builder.append(this.tripInfo.stopovers);
         builder.setSpan(captionSpan, 0, stopoverLabel.length(), 0);
         
         txt = (TextView) findViewById(R.id.trip_detail_stop_over);
@@ -177,13 +179,14 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         
         // Set free seats
         txt = (TextView) findViewById(R.id.trip_detail_free_seats);
-        txt.setText(String.valueOf(tripInfo.numberOfAvailableSeat));
+        txt.setText(String.valueOf(this.tripInfo.numberOfAvailableSeat));
         
         // TODO hiker or driver?
-        String text = (new Formatter()).format(getText(R.string.tripDetails_search).toString(), "hitchhikers")
+        String text = (new Formatter())
+                .format(getText(R.string.tripDetails_search).toString(), "hitchhikers")
                 .toString();
-        btnSearch.setText(text);
-        btnSearch.setEnabled(tripInfo.numberOfAvailableSeat > 0 ? true : false);
+        this.btnSearch.setText(text);
+        this.btnSearch.setEnabled(this.tripInfo.numberOfAvailableSeat > 0 ? true : false);
         
         // Set passenger list
         String passengerLabel = (String) getText(R.string.tripDetails_passengers);
@@ -193,24 +196,25 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         int end = builder.length();
         builder.setSpan(captionSpan, 0, end, 0);
         
-        for (CompactUser p : tripInfo.passengers) {
+        for (CompactUser p : this.tripInfo.passengers) {
             start = builder.length();
             builder.append(p.name);
             end = builder.length();
             builder.setSpan(new PassengerSpan(p.id), start, end, 0);
             builder.append(", ");
         }
-        if (tripInfo.passengers.size() > 0)
+        if (this.tripInfo.passengers.size() > 0) {
             builder.delete(end, end + 1);
+        }
         
         txt = (TextView) findViewById(R.id.trip_detail_passengers);
         txt.setMovementMethod(LinkMovementMethod.getInstance());
         txt.setText(builder, BufferType.SPANNABLE);
         
         // Set requests and new messages
-        listNewMessages = (ListView) findViewById(R.id.trip_detail_list_new_messages);
-        listNewMessages.setAdapter(new MessageAdapter(this, tripInfo.messages));
-        listNewMessages.setOnItemClickListener(new OnItemClickListener() {
+        this.listNewMessages = (ListView) findViewById(R.id.trip_detail_list_new_messages);
+        this.listNewMessages.setAdapter(new MessageAdapter(this, this.tripInfo.messages));
+        this.listNewMessages.setOnItemClickListener(new OnItemClickListener() {
             
             @Override
             public void onItemClick(AdapterView<?> list, View view, int position, long id) {
@@ -225,7 +229,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
                 }
             }
         });
-        listNewMessages.setOnItemLongClickListener(null);
+        this.listNewMessages.setOnItemLongClickListener(null);
     }
     
     private class PassengerSpan extends ClickableSpan {
@@ -243,9 +247,9 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         public void onClick(View widget) {
             widget.getParent().clearChildFocus(widget);
             Intent intent = new Intent(TripDetailActivity.this, MyTripsActivity.class);
-            intent.putExtra("passengerId", id);
+            intent.putExtra("passengerId", this.id);
             intent.putExtra("tripId", TripDetailActivity.this.tripId);
-            TripDetailActivity.this.startActivity(intent);
+            startActivity(intent);
             // TODO PassengerAction!
         }
         

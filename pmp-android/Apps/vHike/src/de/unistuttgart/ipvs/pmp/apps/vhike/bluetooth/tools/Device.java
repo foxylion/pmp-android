@@ -13,11 +13,11 @@ public class Device {
     
     
     public String getName() {
-        return name;
+        return this.name;
     }
     
     
     public String getAddress() {
-        return address;
+        return this.address;
     }
 }

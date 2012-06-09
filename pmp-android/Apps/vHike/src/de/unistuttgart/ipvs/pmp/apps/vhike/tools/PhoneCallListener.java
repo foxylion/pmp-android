@@ -50,9 +50,9 @@ public class PhoneCallListener extends PhoneStateListener {
                 // restart app
                 //                Intent i = this.activity.getBaseContext().getPackageManager()
                 //                        .getLaunchIntentForPackage(this.activity.getBaseContext().getPackageName());
-                Intent in = new Intent(activity.getBaseContext(), activity.getClass());
+                Intent in = new Intent(this.activity.getBaseContext(), this.activity.getClass());
                 
-                activity.startActivity(in);
+                this.activity.startActivity(in);
                 
                 this.isPhoneCalling = false;
             }

@@ -36,16 +36,16 @@ public class TripSearchActivity extends Activity implements OnClickListener, OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_search);
         
-        slider = (SlidingDrawer) findViewById(R.id.slidingDrawer);
-        txtTolerance = (TextView) findViewById(R.id.txtTolerance);
-        rbRating = (RatingBar) findViewById(R.id.ratingBar);
-        listResult = (ListView) findViewById(R.id.listResult);
+        this.slider = (SlidingDrawer) findViewById(R.id.slidingDrawer);
+        this.txtTolerance = (TextView) findViewById(R.id.txtTolerance);
+        this.rbRating = (RatingBar) findViewById(R.id.ratingBar);
+        this.listResult = (ListView) findViewById(R.id.listResult);
         
         loadData();
-        adapter = new TripSearchResultAdapter(this, R.layout.list_item_search_result_trip, data);
-        listResult.setAdapter(adapter);
+        this.adapter = new TripSearchResultAdapter(this, R.layout.list_item_search_result_trip, this.data);
+        this.listResult.setAdapter(this.adapter);
         
-        listResult.setOnItemClickListener(this);
+        this.listResult.setOnItemClickListener(this);
         
         SeekBar seeker = (SeekBar) findViewById(R.id.seekBarTolerance);
         seeker.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -89,18 +89,19 @@ public class TripSearchActivity extends Activity implements OnClickListener, OnI
         ((Button) findViewById(R.id.btnFilter)).setOnClickListener(this);
         ((Button) findViewById(R.id.btnOpenMap)).setOnClickListener(this);
         ((Button) findViewById(R.id.btnSearch)).setOnClickListener(this);
-        slider.animateOpen();
+        this.slider.animateOpen();
     }
     
     
     private void loadData() {
-        if (data == null) {
-            data = new ArrayList<TripSearchResult>(10);
+        if (this.data == null) {
+            this.data = new ArrayList<TripSearchResult>(10);
             Calendar d = Calendar.getInstance();
             for (int i = 0; i < 10; i++) {
                 Calendar d1 = Calendar.getInstance();
                 d1.setTimeInMillis(d.getTimeInMillis());
-                data.add(new TripSearchResult(32, "Stuttgart", "Berlin", d1, "Ben", 10, (float) (Math.random() * 5f),
+                this.data.add(new TripSearchResult(32, "Stuttgart", "Berlin", d1, "Ben", 10, (float) (Math
+                        .random() * 5f),
                         (int) Math.floor(Math.random() * 10)));
                 d1.add(Calendar.HOUR, (int) Math.floor(Math.random() * 24));
                 d.setTimeInMillis(d1.getTimeInMillis());
@@ -123,10 +124,10 @@ public class TripSearchActivity extends Activity implements OnClickListener, OnI
             case R.id.btnOpenMap:
                 break;
             case R.id.btnFilter:
-                slider.animateClose();
+                this.slider.animateClose();
                 break;
             case R.id.btnSearch:
-                slider.animateClose();
+                this.slider.animateClose();
                 break;
         }
     }

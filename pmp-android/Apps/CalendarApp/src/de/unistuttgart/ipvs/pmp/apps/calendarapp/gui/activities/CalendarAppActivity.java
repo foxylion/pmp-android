@@ -103,11 +103,11 @@ public class CalendarAppActivity extends ListActivity {
         super.onResume();
         
         /* Android made us doing such a piece of shit */
-        if (lastOnResume + 1000 > System.currentTimeMillis()) {
+        if (this.lastOnResume + 1000 > System.currentTimeMillis()) {
             Log.v(this, "Preventing android from doing a second call on onResume()");
             return;
         } else {
-            lastOnResume = System.currentTimeMillis();
+            this.lastOnResume = System.currentTimeMillis();
         }
         
         PMP.get().register(new PMPRegistrationHandler() {

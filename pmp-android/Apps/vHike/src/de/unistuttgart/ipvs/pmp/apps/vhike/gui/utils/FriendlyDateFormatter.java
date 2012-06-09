@@ -1,6 +1,5 @@
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.content.Context;
@@ -18,8 +17,8 @@ public class FriendlyDateFormatter {
     
     
     public String format(Calendar date) {
-        System.out.println(SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT,
-                SimpleDateFormat.SHORT).format(date.getTime()));
+        System.out.println(java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT,
+                java.text.DateFormat.SHORT).format(date.getTime()));
         
         Calendar d1 = Calendar.getInstance(); // Today at 0:0:00
         d1.clear(Calendar.HOUR);
@@ -37,18 +36,20 @@ public class FriendlyDateFormatter {
         
         if (date.compareTo(d3) > 0 || date.before(d1)) {
             result = DateFormat.format("E", date).toString() + " ";
-            result += SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT)
+            result += java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT,
+                    java.text.DateFormat.SHORT)
                     .format(
                             date.getTime());
         } else if (date.after(d1) && date.before(Calendar.getInstance())) {
-            result = context.getString(R.string.now);
+            result = this.context.getString(R.string.now);
         } else {
             if (date.after(d1) && date.before(d2)) {
-                result = context.getString(R.string.Today);
+                result = this.context.getString(R.string.Today);
             } else if (date.after(d2) && date.before(d3)) {
-                result = context.getString(R.string.tomorrow);
+                result = this.context.getString(R.string.tomorrow);
             }
-            result += " " + SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT).format(date.getTime());
+            result += " "
+                    + java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(date.getTime());
         }
         
         return result;

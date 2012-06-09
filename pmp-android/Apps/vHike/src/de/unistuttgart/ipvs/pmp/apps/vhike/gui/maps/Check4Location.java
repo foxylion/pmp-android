@@ -48,15 +48,15 @@ public class Check4Location extends TimerTask {
         this.loc = loc;
         this.whichHitcher = whichHitcher;
         
-        pDialog = ProgressDialog.show(context, "Location", "Getting location...");
-        pDialog.setOnCancelListener(new OnCancelListener() {
+        this.pDialog = ProgressDialog.show(context, "Location", "Getting location...");
+        this.pDialog.setOnCancelListener(new OnCancelListener() {
             
             @Override
             public void onCancel(DialogInterface dialog) {
-                ((Activity) mContext).finish();
+                ((Activity) Check4Location.this.mContext).finish();
             }
         });
-        pDialog.setCancelable(true);
+        this.pDialog.setCancelable(true);
     }
     
     
@@ -130,15 +130,15 @@ public class Check4Location extends TimerTask {
                     
                     if (latitudeD == 0.0 && longitudeD == 0.0) {
                         Log.i(this, "Lat/Lon 0.0");
-                        if (!pDialog.isShowing()) {
-                            pDialog.show();
+                        if (!Check4Location.this.pDialog.isShowing()) {
+                            Check4Location.this.pDialog.show();
                             Log.i(this, "Dialog Show");
                         }
                         ViewModel.getInstance().denyStartSearch4Query();
                     } else {
                         Log.i(this, "Lat/Lon not 0.0");
-                        if (pDialog.isShowing()) {
-                            pDialog.dismiss();
+                        if (Check4Location.this.pDialog.isShowing()) {
+                            Check4Location.this.pDialog.dismiss();
                             Log.i(this, "Dialog Dismiss");
                         }
                         ViewModel.getInstance().setStartSearch4Query();
@@ -168,13 +168,15 @@ public class Check4Location extends TimerTask {
                             //                        Log.i(this, "Latitude: " + Check4Location.this.loc.getLatitude() * 1E6 + ", " + "Longtitude: "
                             //                                + Check4Location.this.loc.getLongitude() * 1E6);
                             
-                            controller.animateTo(new GeoPoint((int) (Check4Location.this.loc.getLatitude() * 1E6),
+                            controller.animateTo(new GeoPoint(
+                                    (int) (Check4Location.this.loc.getLatitude() * 1E6),
                                     (int) (Check4Location.this.loc.getLongitude() * 1E6)));
                             controller.setZoom(14);
                             
                             // display address only once
                             if (Check4Location.this.showAddress == 0) {
-                                Toast.makeText(Check4Location.this.mContext, countryD + ", " + cityD + ", " + addressD,
+                                Toast.makeText(Check4Location.this.mContext,
+                                        countryD + ", " + cityD + ", " + addressD,
                                         Toast.LENGTH_SHORT).show();
                             }
                             Check4Location.this.showAddress++;

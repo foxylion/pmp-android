@@ -76,7 +76,7 @@ public class ScanningProgressDialog extends Dialog {
             
             @Override
             public void finished() {
-                callback.finished();
+                ScanningProgressDialog.this.callback.finished();
                 dismiss();
             }
             

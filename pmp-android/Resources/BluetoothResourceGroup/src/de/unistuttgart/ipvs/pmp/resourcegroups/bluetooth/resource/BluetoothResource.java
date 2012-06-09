@@ -3,13 +3,9 @@ package de.unistuttgart.ipvs.pmp.resourcegroups.bluetooth.resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -22,8 +18,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.Parcel;
-import android.os.ParcelUuid;
 import android.os.RemoteException;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.resource.Resource;
@@ -48,10 +42,9 @@ public class BluetoothResource extends Resource {
 	AcceptThread acceptThread = null;
 	ConnectThread connectThread = null;
 	ConnectedThread connectedThread = null;
-	
+
 	ConnectedThread r;
-	
-	
+
 	boolean stopReading = false;
 	List<String> messages = null;
 	/**
@@ -67,12 +60,12 @@ public class BluetoothResource extends Resource {
 	 * Found Devices
 	 */
 	List<BluetoothDevice> devices;
-	
+
 	/**
 	 * {@link BluetoothResourceGroup}
 	 */
 	private BluetoothResourceGroup blueRG;
-	
+
 	/**
 	 * State of the {@link BluetoothResource}
 	 */
@@ -88,7 +81,7 @@ public class BluetoothResource extends Resource {
 													// device
 
 	int ROLE = 0;
-	
+
 	/**
 	 * True if discovering, false otherwise
 	 */
@@ -97,57 +90,62 @@ public class BluetoothResource extends Resource {
 	public static final int NO_ROLE = 0;
 	public static final int DRIVER_ROLE = 1;
 	public static final int PASSENGER_ROLE = 2;
-	
+
 	/**
 	 * Constructor
+	 * 
 	 * @param blueRG
 	 */
 	public BluetoothResource(BluetoothResourceGroup blueRG) {
 		Looper.prepare();
 		if (D) {
-			Log.i(TAG, "Constructor called");
+			Log.i(this.TAG, "Constructor called");
 		}
 
 		this.blueRG = blueRG;
-		btAdapter = BluetoothAdapter.getDefaultAdapter();
-		devices = new ArrayList<BluetoothDevice>();
-		messages = new ArrayList<String>();
+		this.btAdapter = BluetoothAdapter.getDefaultAdapter();
+		this.devices = new ArrayList<BluetoothDevice>();
+		this.messages = new ArrayList<String>();
 
 	}
+
 	/**
 	 * Setting the Broadcasts for Bluetooth
+	 * 
 	 * @param appIdentifier
 	 */
 	public void setBroadcast(String appIdentifier) {
 		if (D) {
-			Log.i(TAG, "setBroadcast for " + appIdentifier);
+			Log.i(this.TAG, "setBroadcast for " + appIdentifier);
 		}
 		// Register for broadcasts when a device is discovered
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		blueRG.getContext(appIdentifier).registerReceiver(mReceiver, filter);
+		this.blueRG.getContext(appIdentifier).registerReceiver(this.mReceiver,
+				filter);
 
 		// Register for broadcasts when discovery has finished
 		filter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		blueRG.getContext(appIdentifier).registerReceiver(mReceiver, filter);
+		this.blueRG.getContext(appIdentifier).registerReceiver(this.mReceiver,
+				filter);
 	}
 
 	public void sendMessage(String message) throws RemoteException {
 		if (D) {
-			Log.i(TAG, "send Message" + message);
+			Log.i(this.TAG, "send Message" + message);
 		}
 		// Create temporary object
 		// Synchronize a copy of the ConnectedThread
-		r = connectedThread;
+		this.r = this.connectedThread;
 		// Perform the write unsynchronized
 
 		byte[] send = message.getBytes();
-		if (r != null) {
-			r.write(send);
+		if (this.r != null) {
+			this.r.write(send);
 		}
 	}
 
 	private void setState(int state) {
-		mState = state;
+		this.mState = state;
 	}
 
 	@Override
@@ -167,143 +165,145 @@ public class BluetoothResource extends Resource {
 
 	public void enableBluetooth(boolean state) throws RemoteException {
 		if (state) {
-			if (!btAdapter.isEnabled())
+			if (!this.btAdapter.isEnabled()) {
 				if (D) {
-					Log.i(TAG, "Enable BT");
+					Log.i(this.TAG, "Enable BT");
 				}
-			btAdapter.enable();
-			stopReading = false;
+			}
+			this.btAdapter.enable();
+			this.stopReading = false;
 
 		} else {
 			if (D) {
-				Log.i(TAG, "Disable BT");
+				Log.i(this.TAG, "Disable BT");
 			}
-			btAdapter.disable();
-			stopReading = true;
+			this.btAdapter.disable();
+			this.stopReading = true;
 		}
 		setupBluetoothThreads();
 	}
 
 	private void setupBluetoothThreads() {
-		if (acceptThread != null) {
-			acceptThread.cancel();
+		if (this.acceptThread != null) {
+			this.acceptThread.cancel();
 			// acceptThread.start();
-			acceptThread = null;
+			this.acceptThread = null;
 		}
-		if (connectThread != null) {
-			connectThread.cancel();
-			connectThread = null;
+		if (this.connectThread != null) {
+			this.connectThread.cancel();
+			this.connectThread = null;
 		}
-		if (connectedThread != null) {
-			connectedThread.cancel();
-			connectedThread = null;
+		if (this.connectedThread != null) {
+			this.connectedThread.cancel();
+			this.connectedThread = null;
 		}
-		if (r != null) {
-			r.cancel();
-			r = null;
+		if (this.r != null) {
+			this.r.cancel();
+			this.r = null;
 		}
 
-		messages.clear();
+		this.messages.clear();
 
-		discovering = false;
+		this.discovering = false;
 
 		setState(STATE_NONE);
 	}
 
 	public void connect(String address) {
-		BluetoothDevice device = btAdapter.getRemoteDevice(address);
+		BluetoothDevice device = this.btAdapter.getRemoteDevice(address);
 
-		connectThread = new ConnectThread(device);
-		connectThread.start();
+		this.connectThread = new ConnectThread(device);
+		this.connectThread.start();
 
 		setState(STATE_CONNECTING);
 	}
 
 	public boolean isEnabled() throws RemoteException {
 		if (D) {
-			Log.i(TAG, "isEnabled:" + btAdapter.isEnabled());
+			Log.i(this.TAG, "isEnabled:" + this.btAdapter.isEnabled());
 		}
-		return btAdapter.isEnabled();
+		return this.btAdapter.isEnabled();
 	}
 
 	public void makeDiscoverable(String appIdentifier, String name, int time)
 			throws RemoteException {
 		if (D) {
-			Log.i(TAG, "Before setName()");
+			Log.i(this.TAG, "Before setName()");
 		}
 		setName(name);
 
 		setupBluetoothThreads();
 
 		if (D) {
-			Log.i(TAG, "After setupBluetoothThreads()");
+			Log.i(this.TAG, "After setupBluetoothThreads()");
 		}
 		// Waiting for enabled Bluetooth
-		while (!btAdapter.isEnabled()) {
+		while (!this.btAdapter.isEnabled()) {
 		}
 
 		if (D) {
-			Log.i(TAG, "Make Discoverable");
+			Log.i(this.TAG, "Make Discoverable");
 		}
-		if (btAdapter != null) {
-			Log.i(TAG, "BTADAPTER NOT NULL");
+		if (this.btAdapter != null) {
+			Log.i(this.TAG, "BTADAPTER NOT NULL");
 		} else {
-			Log.i(TAG, "BTADAPTER NULL");
+			Log.i(this.TAG, "BTADAPTER NULL");
 		}
-		btAdapter = BluetoothAdapter.getDefaultAdapter();
+		this.btAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		if (D) {
-			Log.i(TAG, "Before btAdapter.getScanMode()");
+			Log.i(this.TAG, "Before btAdapter.getScanMode()");
 		}
 
-		int zahl = btAdapter.getScanMode();
+		this.btAdapter.getScanMode();
 		if (D) {
-			Log.i(TAG, "After btAdapter.getScanMode()");
+			Log.i(this.TAG, "After btAdapter.getScanMode()");
 		}
-		if (btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+		if (this.btAdapter.getScanMode() != BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
 			if (D) {
-				Log.i(TAG, "Before INTENT");
+				Log.i(this.TAG, "Before INTENT");
 			}
 			Intent discoverableIntent = new Intent(
 					BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 			if (D) {
-				Log.i(TAG, "Before PUTEXTRA()");
+				Log.i(this.TAG, "Before PUTEXTRA()");
 			}
 			discoverableIntent.putExtra(
 					BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, time * 60);
 			if (D) {
-				Log.i(TAG, "Before adding Flags");
+				Log.i(this.TAG, "Before adding Flags");
 			}
 			discoverableIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			if (D) {
-				Log.i(TAG, "Starting activity");
+				Log.i(this.TAG, "Starting activity");
 			}
-			blueRG.getContext(appIdentifier).startActivity(discoverableIntent);
+			this.blueRG.getContext(appIdentifier).startActivity(
+					discoverableIntent);
 		}
 		if (D) {
-			Log.i(TAG, "Before AcceptThread");
+			Log.i(this.TAG, "Before AcceptThread");
 		}
-		acceptThread = new AcceptThread();
-		acceptThread.start();
+		this.acceptThread = new AcceptThread();
+		this.acceptThread.start();
 		if (D) {
-			Log.i(TAG, "AcceptThread started!");
+			Log.i(this.TAG, "AcceptThread started!");
 		}
 	}
 
 	public void discover(String appIdentifier, String name, int time)
 			throws RemoteException {
 		if (D) {
-			Log.i(TAG, "Discovering");
+			Log.i(this.TAG, "Discovering");
 		}
-		if (btAdapter.isDiscovering()) {
-			btAdapter.cancelDiscovery();
+		if (this.btAdapter.isDiscovering()) {
+			this.btAdapter.cancelDiscovery();
 		}
 		setName(name);
 
 		setBroadcast(appIdentifier);
-		btAdapter.startDiscovery();
-		devices.clear();
-		discovering = true;
+		this.btAdapter.startDiscovery();
+		this.devices.clear();
+		this.discovering = true;
 	}
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -320,17 +320,16 @@ public class BluetoothResource extends Resource {
 				if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
 					Log.i("BluetoothResource",
 							"Found Device!" + device.getName());
-					devices.add(device);
+					BluetoothResource.this.devices.add(device);
 				}
 				// When discovery is finished, change the Activity title
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
 					.equals(action)) {
 				Log.i("BluetoothResource", "DISCOVERY FINISHED!");
-				discovering = false;
+				BluetoothResource.this.discovering = false;
 
 			} else if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
-				BluetoothDevice device = intent
-						.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
 				// try {
 				// if(ROLE == PASSENGER_ROLE){
@@ -350,13 +349,13 @@ public class BluetoothResource extends Resource {
 
 	public boolean isDiscovering() throws RemoteException {
 		if (D) {
-			Log.i(TAG, "isDiscovering: " + discovering);
+			Log.i(this.TAG, "isDiscovering: " + this.discovering);
 		}
-		return discovering;
+		return this.discovering;
 	}
 
 	public DeviceArrayParcelable getPairedDevices() throws RemoteException {
-		Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
+		Set<BluetoothDevice> pairedDevices = this.btAdapter.getBondedDevices();
 		List<String> pairedDevicesList = new ArrayList<String>();
 
 		for (BluetoothDevice device : pairedDevices) {
@@ -375,7 +374,7 @@ public class BluetoothResource extends Resource {
 
 		List<String> devicesList = new ArrayList<String>();
 
-		for (BluetoothDevice device : devices) {
+		for (BluetoothDevice device : this.devices) {
 			devicesList.add(device.getName());
 			devicesList.add(device.getAddress());
 		}
@@ -386,16 +385,16 @@ public class BluetoothResource extends Resource {
 	}
 
 	public MessageArrayParcelable getReceivedMessages() throws RemoteException {
-		Log.i(TAG, "Messages in queue: " + messages.size());
+		Log.i(this.TAG, "Messages in queue: " + this.messages.size());
 		List<String> copy = new ArrayList<String>();
-		for (String msg : messages) {
+		for (String msg : this.messages) {
 			copy.add(msg);
 		}
 
 		MessageArray array = new MessageArray(copy);
 		MessageArrayParcelable arrayParcelable = new MessageArrayParcelable(
 				array);
-		messages.clear();
+		this.messages.clear();
 
 		return arrayParcelable;
 	}
@@ -418,24 +417,26 @@ public class BluetoothResource extends Resource {
 			// Create a new listening server socket
 			try {
 				if (D) {
-					Log.i(TAG, "listenUsingRfcommWithServiceRecord");
+					Log.i(BluetoothResource.this.TAG,
+							"listenUsingRfcommWithServiceRecord");
 				}
-				tmp = btAdapter.listenUsingRfcommWithServiceRecord(NAME,
-						MY_UUID);
+				tmp = BluetoothResource.this.btAdapter
+						.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			serverSocket = tmp;
+			this.serverSocket = tmp;
 		}
 
+		@Override
 		public void run() {
 			setName("AcceptThread");
 			BluetoothSocket socket = null;
 			try {
 				if (D) {
-					Log.i(TAG, "Accept clients");
+					Log.i(BluetoothResource.this.TAG, "Accept clients");
 				}
-				socket = serverSocket.accept();
+				socket = this.serverSocket.accept();
 
 				connected(socket);
 			} catch (IOException e) {
@@ -447,9 +448,10 @@ public class BluetoothResource extends Resource {
 		public void cancel() {
 			try {
 				if (D) {
-					Log.i(TAG, "Socket close by cancel AcceptThread");
+					Log.i(BluetoothResource.this.TAG,
+							"Socket close by cancel AcceptThread");
 				}
-				serverSocket.close();
+				this.serverSocket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -458,18 +460,16 @@ public class BluetoothResource extends Resource {
 
 	private class ConnectThread extends Thread {
 		BluetoothSocket socket = null;
-		BluetoothDevice device = null;
 
 		public ConnectThread(BluetoothDevice device) {
-			this.device = device;
-
 			BluetoothSocket tmp = null;
 
 			// Get a BluetoothSocket for a connection with the
 			// given BluetoothDevice
 			try {
 				if (D) {
-					Log.i(TAG, "createRfcommSocketToServiceRecord");
+					Log.i(BluetoothResource.this.TAG,
+							"createRfcommSocketToServiceRecord");
 				}
 				tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
 			} catch (SecurityException e) {
@@ -479,21 +479,22 @@ public class BluetoothResource extends Resource {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			socket = tmp;
+			this.socket = tmp;
 		}
 
+		@Override
 		public void run() {
 			setName("ConnectThread");
 
-			btAdapter.cancelDiscovery();
+			BluetoothResource.this.btAdapter.cancelDiscovery();
 
 			try {
 				if (D) {
-					Log.i(TAG, "Connect to socket");
+					Log.i(BluetoothResource.this.TAG, "Connect to socket");
 				}
-				socket.connect();
+				this.socket.connect();
 
-				connected(socket);
+				connected(this.socket);
 			} catch (IOException e) {
 
 			}
@@ -502,23 +503,24 @@ public class BluetoothResource extends Resource {
 		public void cancel() {
 			try {
 				if (D) {
-					Log.i(TAG, "Socket close by cancel ConnectThread");
+					Log.i(BluetoothResource.this.TAG,
+							"Socket close by cancel ConnectThread");
 				}
-				socket.close();
+				this.socket.close();
 			} catch (IOException e) {
 			}
 		}
 	}
 
 	public void connected(BluetoothSocket socket) {
-		Log.i(TAG, "connected");
+		Log.i(this.TAG, "connected");
 
 		// acceptThread.cancel();
 
-		connectedThread = new ConnectedThread(socket);
-		connectedThread.start();
+		this.connectedThread = new ConnectedThread(socket);
+		this.connectedThread.start();
 
-		Log.i(TAG, "set state connected");
+		Log.i(this.TAG, "set state connected");
 
 		setState(STATE_CONNECTED);
 	}
@@ -542,32 +544,33 @@ public class BluetoothResource extends Resource {
 				e.printStackTrace();
 			}
 
-			in = tmpIn;
-			out = tmpOut;
+			this.in = tmpIn;
+			this.out = tmpOut;
 		}
 
+		@Override
 		public void run() {
 			byte[] buffer = new byte[1024];
 			int bytes;
 
 			// Keep listening to the InputStream while connected
-			while (!stopReading) {
+			while (!BluetoothResource.this.stopReading) {
 				try {
 					// Read from the InputStream
-					bytes = in.read(buffer);
+					bytes = this.in.read(buffer);
 
 					String msg = new String(buffer, 0, bytes);
-					synchronized (messages) {
+					synchronized (BluetoothResource.this.messages) {
 						try {
-							messages.add(msg);
+							BluetoothResource.this.messages.add(msg);
 						} catch (Exception e) {
-							Log.i(TAG, "OUTOFMEMORY");
-							in.close();
+							Log.i(BluetoothResource.this.TAG, "OUTOFMEMORY");
+							this.in.close();
 						}
 					}
 
-					Log.i(TAG + " ConnectedThread", "read: Adding message: "
-							+ msg);
+					Log.i(BluetoothResource.this.TAG + " ConnectedThread",
+							"read: Adding message: " + msg);
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -577,13 +580,14 @@ public class BluetoothResource extends Resource {
 
 		public void write(byte[] buffer) {
 			try {
-				out.write(buffer);
+				this.out.write(buffer);
 
 				String msg = new String(buffer);
-				synchronized (messages) {
-					messages.add(msg);
+				synchronized (BluetoothResource.this.messages) {
+					BluetoothResource.this.messages.add(msg);
 				}
-				Log.i(TAG + " ConnectedThread", "write: Adding message: " + msg);
+				Log.i(BluetoothResource.this.TAG + " ConnectedThread",
+						"write: Adding message: " + msg);
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -593,7 +597,7 @@ public class BluetoothResource extends Resource {
 
 		public void cancel() {
 			try {
-				socket.close();
+				this.socket.close();
 				Log.e("BluetoothResource: " + this.getClass(), "Close socket!");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -602,15 +606,16 @@ public class BluetoothResource extends Resource {
 	}
 
 	public boolean isConnected() {
-		if (mState == STATE_CONNECTED)
+		if (this.mState == STATE_CONNECTED) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	public boolean isDeviceBonded(String address) {
-		Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-		List<String> pairedDevicesList = new ArrayList<String>();
+		Set<BluetoothDevice> pairedDevices = this.btAdapter.getBondedDevices();
+		new ArrayList<String>();
 		boolean bonded = false;
 		for (BluetoothDevice device : pairedDevices) {
 			if (device.getAddress().equals(address)) {
@@ -623,13 +628,13 @@ public class BluetoothResource extends Resource {
 
 	public void setName(String name) {
 		if (D) {
-			if (btAdapter != null) {
-				Log.i(TAG, "setName btAdapter not null");
+			if (this.btAdapter != null) {
+				Log.i(this.TAG, "setName btAdapter not null");
 			}
 		}
-		btAdapter.setName(name);
+		this.btAdapter.setName(name);
 
-		Log.i(TAG, "Name gesetzt:" + name);
-		Log.i(TAG, "Tatsächliche Name:" + btAdapter.getName());
+		Log.i(this.TAG, "Name gesetzt:" + name);
+		Log.i(this.TAG, "Tatsächliche Name:" + this.btAdapter.getName());
 	}
 }

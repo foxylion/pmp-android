@@ -53,7 +53,8 @@ public class HistoryRideAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View arg1, ViewGroup arg2) {
         final HistoryPersonObject hPersonObject = this.hPersonObjects.get(position);
-        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) this.context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout entryView = (LinearLayout) inflater.inflate(R.layout.history_profile_item, null);
         this.tv_username = (TextView) entryView.findViewById(R.id.tv_username);
         this.rating_bar = (RatingBar) entryView.findViewById(R.id.ratingbar);

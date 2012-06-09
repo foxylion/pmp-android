@@ -28,7 +28,8 @@ public class TripSearchResult {
      * @param rating
      * @param availableSeat
      */
-    public TripSearchResult(long tripId, String departure, String destination, Calendar date, String stopovers,
+    public TripSearchResult(long tripId, String departure, String destination, Calendar date,
+            String stopovers,
             String username, long userId, float rating, int availableSeat) {
         this.tripId = tripId;
         this.departure = departure;
@@ -54,7 +55,8 @@ public class TripSearchResult {
      * @param rating
      * @param neededSeat
      */
-    public TripSearchResult(long tripId, String departure, String destination, Calendar date, String username,
+    public TripSearchResult(long tripId, String departure, String destination, Calendar date,
+            String username,
             long userId, float rating, int neededSeat) {
         this.tripId = tripId;
         this.departure = departure;

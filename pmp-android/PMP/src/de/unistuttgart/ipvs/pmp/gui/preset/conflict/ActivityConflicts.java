@@ -46,13 +46,13 @@ public class ActivityConflicts extends Activity {
     private void init() {
         // Set the title
         TextView title = (TextView) findViewById(R.id.tv_conflicts_between);
-        title.setText(p1.getName() + " and " + p2.getName());
+        title.setText(this.p1.getName() + " and " + this.p2.getName());
         
         // Instantiate the list
         List<String> conflictList = new ArrayList<String>();
         
         // Create the CACA conflict description
-        for (IContextAnnotation ca : p1.getCACAConflicts(p2)) {
+        for (IContextAnnotation ca : this.p1.getCACAConflicts(this.p2)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Conflict between Context Annotations: \n");
             sb.append("Resourcegroup: " + ca.getPrivacySetting().getResourceGroup().getName() + "\n");
@@ -66,7 +66,7 @@ public class ActivityConflicts extends Activity {
         }
         
         // Create the CAPS conflict description
-        for (IPrivacySetting ps : p1.getCAPSConflicts(p2)) {
+        for (IPrivacySetting ps : this.p1.getCAPSConflicts(this.p2)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Conflict between a Context Annotation and a Privacy Setting: \n");
             sb.append("Resourcegroup: " + ps.getResourceGroup().getName() + "\n");
@@ -75,7 +75,7 @@ public class ActivityConflicts extends Activity {
         }
         
         // Create the CAPS conflict description
-        for (IPrivacySetting ps : p1.getPSPSConflicts(p2)) {
+        for (IPrivacySetting ps : this.p1.getPSPSConflicts(this.p2)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Conflict between Privacy Settings: \n");
             sb.append("Resourcegroup: " + ps.getResourceGroup().getName() + "\n");

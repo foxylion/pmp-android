@@ -126,12 +126,12 @@ public class DialogPresetEdit extends Dialog {
         
         setContentView(R.layout.dialog_preset_add);
         
-        if (preset == null) {
-            ((LinearLayout) findViewById(R.id.Title_add_preset)).setVisibility(LinearLayout.VISIBLE);
-            ((LinearLayout) findViewById(R.id.Title_edit_preset)).setVisibility(LinearLayout.GONE);
+        if (this.preset == null) {
+            ((LinearLayout) findViewById(R.id.Title_add_preset)).setVisibility(View.VISIBLE);
+            ((LinearLayout) findViewById(R.id.Title_edit_preset)).setVisibility(View.GONE);
         } else {
-            ((LinearLayout) findViewById(R.id.Title_add_preset)).setVisibility(LinearLayout.GONE);
-            ((LinearLayout) findViewById(R.id.Title_edit_preset)).setVisibility(LinearLayout.VISIBLE);
+            ((LinearLayout) findViewById(R.id.Title_add_preset)).setVisibility(View.GONE);
+            ((LinearLayout) findViewById(R.id.Title_edit_preset)).setVisibility(View.VISIBLE);
         }
         
         this.name = (TextView) findViewById(R.id.presets_dialog_name_textfield);

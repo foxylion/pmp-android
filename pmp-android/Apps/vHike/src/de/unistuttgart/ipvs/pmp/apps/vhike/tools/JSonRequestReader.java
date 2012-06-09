@@ -48,8 +48,10 @@ public class JSonRequestReader {
      * @param tel_public
      * @return status (see vHike/webservice/design.html)
      */
-    public static String register(String username, String password, String email, String firstname, String lastname,
-            String tel, String description, boolean email_public, boolean firstname_public, boolean lastname_public,
+    public static String register(String username, String password, String email, String firstname,
+            String lastname,
+            String tel, String description, boolean email_public, boolean firstname_public,
+            boolean lastname_public,
             boolean tel_public) {
         
         listToParse.clear();
@@ -216,7 +218,8 @@ public class JSonRequestReader {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(id, username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(id, username, email, firstname, lastname, tel, description, date,
+                    email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -297,7 +300,8 @@ public class JSonRequestReader {
         
         Date date = new Date();
         if (suc) {
-            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date, email_public,
+            profile = new Profile(userid, username, email, firstname, lastname, tel, description, date,
+                    email_public,
                     firstname_public, lastname_public, tel_public, rating_avg, rating_num);
             return profile;
         }
@@ -310,7 +314,8 @@ public class JSonRequestReader {
      * 
      * @return true if succeeded
      */
-    public static String announceTrip(String session_id, String destination, float current_lat, float current_lon,
+    public static String announceTrip(String session_id, String destination, float current_lat,
+            float current_lon,
             int avail_seats, Date date) {
         listToParse.clear();
         listToParse.add(new ParamObject("sid", session_id, false));
@@ -546,7 +551,8 @@ public class JSonRequestReader {
      * @param seats
      * @return ID of the query
      */
-    public static int startQuery(String sid, String destination, float current_lat, float current_lon, int seats) {
+    public static int startQuery(String sid, String destination, float current_lat, float current_lon,
+            int seats) {
         Log.d(TAG, sid);
         Log.d(TAG, destination);
         Log.d(TAG, String.valueOf(current_lat));
@@ -679,7 +685,8 @@ public class JSonRequestReader {
                         int seats = Iobject.get("seats").getAsInt();
                         float distance = Iobject.get("distance").getAsFloat();
                         
-                        QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat, cur_lon, seats,
+                        QueryObject qObject = new QueryObject(queryid, userid, username, cur_lat, cur_lon,
+                                seats,
                                 distance);
                         queryObjects.add(qObject);
                     }
@@ -749,7 +756,8 @@ public class JSonRequestReader {
                     
                     float distance = Iobject.get("distance").getAsFloat();
                     
-                    RideObject qObject = new RideObject(tripid, seats, cur_lat, cur_lon, destination, driverid,
+                    RideObject qObject = new RideObject(tripid, seats, cur_lat, cur_lon, destination,
+                            driverid,
                             username, rating, distance);
                     rideObjects.add(qObject);
                 }
@@ -844,7 +852,8 @@ public class JSonRequestReader {
                         float lat = Iobject.get("lat").getAsFloat();
                         float lon = Iobject.get("lon").getAsFloat();
                         
-                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating, rating_num, lat, lon);
+                        OfferObject oObject = new OfferObject(offer_id, user_id, username, rating,
+                                rating_num, lat, lon);
                         offerObjects.add(oObject);
                     }
                     Model.getInstance().setOfferHolder(offerObjects);
@@ -1042,7 +1051,8 @@ public class JSonRequestReader {
                             int rating_num = passObjects.get("rating_num").getAsInt();
                             boolean rated = passObjects.get("rated").getAsBoolean();
                             
-                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating,
+                                    rating_num,
                                     rated);
                             historyPersons.add(person);
                         }
@@ -1057,7 +1067,8 @@ public class JSonRequestReader {
                             int rating_num = passObjects.get("rating_num").getAsInt();
                             boolean rated = passObjects.get("rated").getAsBoolean();
                             
-                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                            HistoryPersonObject person = new HistoryPersonObject(userid, username, rating,
+                                    rating_num,
                                     rated);
                             historyPersons.add(person);
                         }
@@ -1069,12 +1080,14 @@ public class JSonRequestReader {
                         int rating_num = driver.get("rating_num").getAsInt();
                         boolean rated = driver.get("rated").getAsBoolean();
                         
-                        HistoryPersonObject person = new HistoryPersonObject(userid, username, rating, rating_num,
+                        HistoryPersonObject person = new HistoryPersonObject(userid, username, rating,
+                                rating_num,
                                 rated);
                         historyPersons.add(person);
                     }
                     Log.d(null, "IN READER HISTORYPERSONS" + historyPersons.size());
-                    HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending, destination,
+                    HistoryRideObject ride = new HistoryRideObject(tripid, avail_seats, creation, ending,
+                            destination,
                             historyPersons);
                     historyObjects.add(ride);
                 }
@@ -1159,9 +1172,11 @@ public class JSonRequestReader {
             json = JSonRequestProvider.doRequest(listToParse, "trip_get_open.php");
             if (json != null && json.get(ERROR) == null) {
                 if (json.get("trip_id") != null) {
-                    Trip trip = new Trip(json.get("trip_id").getAsInt(), Model.getInstance().getUserId(), json.get(
-                            "avail_seats").getAsInt(), json.get("destination").getAsString(), json.get("creation")
-                            .getAsLong(), 0);
+                    Trip trip = new Trip(json.get("trip_id").getAsInt(), Model.getInstance().getUserId(),
+                            json.get(
+                                    "avail_seats").getAsInt(), json.get("destination").getAsString(), json
+                                    .get("creation")
+                                    .getAsLong(), 0);
                     Model.getInstance().setOpenTrip(trip);
                     return "TRUE";
                 } else {

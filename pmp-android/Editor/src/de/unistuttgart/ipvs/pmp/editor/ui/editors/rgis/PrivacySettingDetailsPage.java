@@ -173,7 +173,8 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
             @Override
             public void widgetSelected(SelectionEvent arg0) {
                 PrivacySettingDetailsPage.this.block.setDirty(true);
-                privacySetting.setRequestable(requestable.getSelection());
+                PrivacySettingDetailsPage.this.privacySetting.setRequestable(PrivacySettingDetailsPage.this.requestable
+                        .getSelection());
             }
             
             
@@ -236,7 +237,7 @@ public class PrivacySettingDetailsPage implements IDetailsPage {
         this.identifier.setText(this.privacySetting.getIdentifier());
         this.values.setText(this.privacySetting.getValidValueDescription());
         
-        requestable.setSelection(privacySetting.isRequestable());
+        this.requestable.setSelection(this.privacySetting.isRequestable());
         validate();
     }
     

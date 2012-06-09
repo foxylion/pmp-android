@@ -71,7 +71,7 @@ public class ContactResource extends Resource {
     public void sms(String appIdentifier, String tel, String message) throws RemoteException {
         Looper.prepare();
         
-        TelephonyManager telMgr = (TelephonyManager) contactRG.getContext(appIdentifier).getSystemService(
+        TelephonyManager telMgr = (TelephonyManager) this.contactRG.getContext(appIdentifier).getSystemService(
                 Context.TELEPHONY_SERVICE);
         int simState = telMgr.getSimState();
         switch (simState) {
@@ -105,16 +105,17 @@ public class ContactResource extends Resource {
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, message);
         emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.contactRG.getContext(appIdentifier).startActivity(emailIntent);
-//        ((Activity) this.contactRG.getContext(appIdentifier)).startActivityForResult(emailIntent, 0);
+        //        ((Activity) this.contactRG.getContext(appIdentifier)).startActivityForResult(emailIntent, 0);
     }
     
     
     private void displayAlert(String appIdentifier) {
-        new AlertDialog.Builder(contactRG.getContext(appIdentifier)).setMessage("Sim card not available")
+        new AlertDialog.Builder(this.contactRG.getContext(appIdentifier)).setMessage("Sim card not available")
                 .setCancelable(false)
                 // .setIcon(R.drawable.alert)
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Log.i(this, "Sim card inserted");
                         dialog.cancel();
@@ -127,33 +128,38 @@ public class ContactResource extends Resource {
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
         
-        PendingIntent sentPI = PendingIntent.getBroadcast(contactRG.getContext(appIdentifier), 0, new Intent(SENT), 0);
+        PendingIntent sentPI = PendingIntent.getBroadcast(this.contactRG.getContext(appIdentifier), 0,
+                new Intent(SENT), 0);
         
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(contactRG.getContext(appIdentifier), 0, new Intent(
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(this.contactRG.getContext(appIdentifier), 0, new Intent(
                 DELIVERED), 0);
         
         // when the SMS has been sent
-        contactRG.getContext(appIdentifier).registerReceiver(new BroadcastReceiver() {
+        this.contactRG.getContext(appIdentifier).registerReceiver(new BroadcastReceiver() {
             
             @Override
             public void onReceive(Context arg0, Intent arg1) {
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "SMS sent", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "SMS sent",
+                                Toast.LENGTH_SHORT).show();
                         Log.i(this, "Sent sms to: " + phoneNumber + ", " + message);
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "Generic failure", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "Generic failure",
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "No service", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "No service",
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "Null PDU", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "Null PDU",
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "Radio off", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "Radio off",
+                                Toast.LENGTH_SHORT).show();
                         break;
                 
                 }
@@ -161,17 +167,18 @@ public class ContactResource extends Resource {
         }, new IntentFilter(SENT));
         
         // when the SMS has been delivered
-        contactRG.getContext(appIdentifier).registerReceiver(new BroadcastReceiver() {
+        this.contactRG.getContext(appIdentifier).registerReceiver(new BroadcastReceiver() {
             
             @Override
             public void onReceive(Context arg0, Intent arg1) {
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "SMS delivered", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "SMS delivered",
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case Activity.RESULT_CANCELED:
-                        Toast.makeText(contactRG.getContext(appIdentifier), "SMS not delivered", Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(ContactResource.this.contactRG.getContext(appIdentifier), "SMS not delivered",
+                                Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

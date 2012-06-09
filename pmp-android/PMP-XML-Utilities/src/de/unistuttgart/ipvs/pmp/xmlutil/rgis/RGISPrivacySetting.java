@@ -149,7 +149,7 @@ public class RGISPrivacySetting extends BasicIS implements IRGISPrivacySetting {
     
     @Override
     public boolean isRequestable() {
-        return requestable;
+        return this.requestable;
     }
     
     

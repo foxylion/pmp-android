@@ -2,7 +2,6 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -27,19 +26,20 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
     }
     
     
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         
         View itemView = convertView;
         
         if (itemView == null) {
             // Inflate layout
-            LayoutInflater inflater = (LayoutInflater) context
+            LayoutInflater inflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             itemView = inflater.inflate(R.layout.list_item_my_trip, parent, false);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.destination = (TextView) itemView.findViewById(R.id.myTrip_destination);
             viewHolder.date = (TextView) itemView.findViewById(R.id.myTrip_date);
-            viewHolder.no1 = (TextView) (TextView) itemView.findViewById(R.id.myTrip_passengers);
+            viewHolder.no1 = (TextView) itemView.findViewById(R.id.myTrip_passengers);
             viewHolder.no2 = (TextView) itemView.findViewById(R.id.myTrip_requests);
             viewHolder.no3 = (TextView) itemView.findViewById(R.id.myTrip_messages);
             itemView.setTag(viewHolder);
@@ -48,15 +48,15 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
         ViewHolder holder = (ViewHolder) itemView.getTag();
         
         // set views
-        holder.destination.setText(trips.get(position).destination);
+        holder.destination.setText(this.trips.get(position).destination);
         
-        Calendar c = GregorianCalendar.getInstance();
-        c.setTimeInMillis(trips.get(position).startTime);
-        FriendlyDateFormatter df = new FriendlyDateFormatter(this.getContext());
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(this.trips.get(position).startTime);
+        FriendlyDateFormatter df = new FriendlyDateFormatter(getContext());
         holder.date.setText(df.format(c));
         
         int i = 0;
-        i = trips.get(position).numberOfPassengers;
+        i = this.trips.get(position).numberOfPassengers;
         holder.no1.setText(String.valueOf(i));
         if (i > 0) {
             holder.no1.setBackgroundResource(R.drawable.bg_round_blue);
@@ -64,7 +64,7 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
             holder.no1.setBackgroundResource(R.drawable.bg_round_gray);
         }
         
-        i = trips.get(position).numberOfOffers;
+        i = this.trips.get(position).numberOfOffers;
         holder.no2.setText(String.valueOf(i));
         if (i > 0) {
             holder.no2.setBackgroundResource(R.drawable.bg_round_green);
@@ -72,7 +72,7 @@ public class MyTripAdapter extends ArrayAdapter<CompactTrip> {
             holder.no2.setBackgroundResource(R.drawable.bg_round_gray);
         }
         
-        i = trips.get(position).numberOfNewMessages;
+        i = this.trips.get(position).numberOfNewMessages;
         holder.no3.setText(String.valueOf(i));
         if (i > 0) {
             holder.no3.setBackgroundResource(R.drawable.bg_round_red);

@@ -42,13 +42,13 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
         System.out.println("Oncreate");
         
         Intent i = getIntent();
-        userId = i.getLongExtra("userId", -1);
-        tripId = i.getLongExtra("tripId", -1);
-        userName = i.getStringExtra("userName");
-        System.out.println(userId + "/" + tripId);
+        this.userId = i.getLongExtra("userId", -1);
+        this.tripId = i.getLongExtra("tripId", -1);
+        this.userName = i.getStringExtra("userName");
+        System.out.println(this.userId + "/" + this.tripId);
         
-        listMessages = (ListView) findViewById(R.id.message_list_messages);
-        txtMessage = (EditText) findViewById(R.id.txtMessage);
+        this.listMessages = (ListView) findViewById(R.id.message_list_messages);
+        this.txtMessage = (EditText) findViewById(R.id.txtMessage);
         
         findViewById(R.id.btnSend).setOnClickListener(this);
         findViewById(R.id.message_username).setOnClickListener(this);
@@ -65,7 +65,7 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
         checkForNewMessage();
         
         TextView t = (TextView) findViewById(R.id.message_username);
-        t.setText(userName);
+        t.setText(this.userName);
     }
     
     
@@ -73,23 +73,23 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     protected void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        listMessages.removeCallbacks(checkMessages);
+        this.listMessages.removeCallbacks(this.checkMessages);
     }
     
     int i = 0;
     
     
     private void checkForNewMessage() {
-        if (adapter == null) {
+        if (this.adapter == null) {
             ArrayList<String> a = new ArrayList<String>();
             a.add("Hallo!");
             a.add("just type something");
-            adapter = new ArrayAdapter<String>(this, R.layout.list_item_chat_message, R.id.chat, a);
-            listMessages.setAdapter(adapter);
+            this.adapter = new ArrayAdapter<String>(this, R.layout.list_item_chat_message, R.id.chat, a);
+            this.listMessages.setAdapter(this.adapter);
             
-            offerNotification = findViewById(R.id.message_offer_notification);
+            this.offerNotification = findViewById(R.id.message_offer_notification);
             // TODO AsyncTask
-            checkMessages = new Runnable() {
+            this.checkMessages = new Runnable() {
                 
                 @Override
                 public void run() {
@@ -97,18 +97,18 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 }
             };
         } else {
-            adapter.add("Halahlahla: " + i++);
-            adapter.notifyDataSetChanged();
-            listMessages.setSelection(adapter.getCount() - 1);
-            isInvitation = !isInvitation;
+            this.adapter.add("Halahlahla: " + this.i++);
+            this.adapter.notifyDataSetChanged();
+            this.listMessages.setSelection(this.adapter.getCount() - 1);
+            this.isInvitation = !this.isInvitation;
         }
-        listMessages.postDelayed(checkMessages, refreshInterval);
+        this.listMessages.postDelayed(this.checkMessages, this.refreshInterval);
         
-        if (isOffer) {
-            offerType = isInvitation ? getText(R.string.invitation) : getText(R.string.request);
-            offerNotification.setVisibility(View.VISIBLE);
+        if (this.isOffer) {
+            this.offerType = this.isInvitation ? getText(R.string.invitation) : getText(R.string.request);
+            this.offerNotification.setVisibility(View.VISIBLE);
             ((TextView) findViewById(R.id.txtNewOffer)).setText((new Formatter()).format(
-                    (String) getText(R.string.message_new_offer), offerType).toString());
+                    (String) getText(R.string.message_new_offer), this.offerType).toString());
         } else {
             findViewById(R.id.message_offer_notification).setVisibility(View.GONE);
         }
@@ -119,29 +119,33 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSend:
-                adapter.add(txtMessage.getText().toString());
-                adapter.notifyDataSetChanged();
-                listMessages.setSelection(adapter.getCount() - 1);
-                txtMessage.getText().clear();
+                this.adapter.add(this.txtMessage.getText().toString());
+                this.adapter.notifyDataSetChanged();
+                this.listMessages.setSelection(this.adapter.getCount() - 1);
+                this.txtMessage.getText().clear();
                 break;
             case R.id.message_username:
                 // TODO Open profile
                 break;
             case R.id.btnAccept:
-                CharSequence title = (new Formatter()).format((String) getText(R.string.message_accept_title),
-                        offerType).toString();
-                CharSequence msg = (new Formatter()).format((String) getText(R.string.message_accept_confirm),
-                        offerType).toString();
+                CharSequence title = (new Formatter()).format(
+                        (String) getText(R.string.message_accept_title),
+                        this.offerType).toString();
+                CharSequence msg = (new Formatter()).format(
+                        (String) getText(R.string.message_accept_confirm),
+                        this.offerType).toString();
                 vhikeDialogs.getConfirmationDialog(this, title, msg, getText(android.R.string.ok),
-                        getText(android.R.string.cancel), idConfirmAccept).show();
+                        getText(android.R.string.cancel), this.idConfirmAccept).show();
                 break;
             case R.id.btnDecline:
-                title = (new Formatter()).format((String) getText(R.string.message_decline_title), offerType)
+                title = (new Formatter()).format((String) getText(R.string.message_decline_title),
+                        this.offerType)
                         .toString();
-                msg = (new Formatter()).format((String) getText(R.string.message_decline_confirm), offerType)
+                msg = (new Formatter()).format((String) getText(R.string.message_decline_confirm),
+                        this.offerType)
                         .toString();
                 vhikeDialogs.getConfirmationDialog(this, title, msg, getText(android.R.string.ok),
-                        getText(android.R.string.cancel), idConfirmDecline).show();
+                        getText(android.R.string.cancel), this.idConfirmDecline).show();
                 break;
         }
         
@@ -152,12 +156,12 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     public void confirmDialogPositive(int callbackFunctionID) {
         switch (callbackFunctionID) {
             case idConfirmAccept:
-                isOffer = false;
-                offerNotification.setVisibility(View.GONE);
+                this.isOffer = false;
+                this.offerNotification.setVisibility(View.GONE);
                 break;
             case idConfirmDecline:
-                isOffer = false;
-                offerNotification.setVisibility(View.GONE);
+                this.isOffer = false;
+                this.offerNotification.setVisibility(View.GONE);
                 break;
         }
     }

@@ -75,13 +75,15 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
         switch (resourceGroupId) {
             case Constants.RG_LOCATION:
                 if (rgLocation == null) {
-                    rgLocation = (IAbsoluteLocation) vHikeService.getInstance().requestResourceGroup(activity,
+                    rgLocation = (IAbsoluteLocation) vHikeService.getInstance().requestResourceGroup(
+                            activity,
                             resourceGroupId);
                 }
                 return rgLocation;
             case Constants.RG_NOTIFICATION:
                 if (rgNotification == null) {
-                    rgNotification = (INotification) vHikeService.getInstance().requestResourceGroup(activity,
+                    rgNotification = (INotification) vHikeService.getInstance().requestResourceGroup(
+                            activity,
                             resourceGroupId);
                 }
                 return rgNotification;
@@ -93,7 +95,8 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
                 return rgvHike;
             case Constants.RG_CONTACT:
                 if (rgContact == null) {
-                    rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, resourceGroupId);
+                    rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity,
+                            resourceGroupId);
                 }
                 return rgContact;
             case Constants.RG_BLUETOOTH:
@@ -169,7 +172,8 @@ public class ResourceGroupReadyActivity extends Activity implements IResourceGro
     
     protected IContact getContactRG(ResourceGroupReadyActivity activity) {
         if (rgContact == null) {
-            rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity, Constants.RG_CONTACT);
+            rgContact = (IContact) vHikeService.getInstance().requestResourceGroup(activity,
+                    Constants.RG_CONTACT);
         }
         return rgContact;
     }

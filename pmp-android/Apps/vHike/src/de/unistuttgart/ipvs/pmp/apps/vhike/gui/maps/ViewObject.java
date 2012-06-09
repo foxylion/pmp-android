@@ -108,7 +108,8 @@ public class ViewObject {
             
             @Override
             public void onClick(View v) {
-                ViewObject.this.ctrl.handleOffer(Model.getInstance().getSid(), ViewObject.this.oObject.getOffer_id(),
+                ViewObject.this.ctrl.handleOffer(Model.getInstance().getSid(),
+                        ViewObject.this.oObject.getOffer_id(),
                         false);
                 ViewObject.this.status = Constants.V_OBJ_SATUS_BANNED;
                 ViewModel.getInstance().addToBanned(ViewObject.this.me);
@@ -142,8 +143,10 @@ public class ViewObject {
                     public void listenerForDriver() {
                         
                         //STATUS_SENT, STATUS_INVALID_TRIP, STATUS_INVALID_QUERY, STATUS_ALREADY_SENT
-                        int result = ViewObject.this.ctrl.sendOffer(Model.getInstance().getSid(), Model.getInstance()
-                                .getTripId(), ViewObject.this.qObject.getQueryid(), "I WANT TO TAKE YOU WITH ME!");
+                        int result = ViewObject.this.ctrl.sendOffer(Model.getInstance().getSid(), Model
+                                .getInstance()
+                                .getTripId(), ViewObject.this.qObject.getQueryid(),
+                                "I WANT TO TAKE YOU WITH ME!");
                         switch (result) {
                             case Constants.STATUS_INVALID_TRIP:
                                 Log.i(this, "Invalid trip_id in sendOffer()");
@@ -178,12 +181,15 @@ public class ViewObject {
                         //                            STATUS_HANDLED, STATUS_INVALID_OFFER, STATUS_INVALID_USER, STATUS_ERROR
                             case Constants.STATUS_HANDLED:
                                 ViewObject.this.status = Constants.V_OBJ_SATUS_ACCEPTED;
-                                final AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
+                                final AlertDialog alertDialog = new AlertDialog.Builder(v.getContext())
+                                        .create();
                                 alertDialog.setTitle("Exit");
-                                alertDialog.setMessage("Please wait. The driver is on his way to pick you up...");
+                                alertDialog
+                                        .setMessage("Please wait. The driver is on his way to pick you up...");
                                 alertDialog.setIcon(R.drawable.waiting4driver);
                                 alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                                     
+                                    @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         ViewModel.getInstance().cancelLocation();
                                         ViewModel.getInstance().cancelQuery();
@@ -232,13 +238,15 @@ public class ViewObject {
                     
                     @Override
                     public void onClick(View v) {
-                        if (ViewObject.this.ctrl.pick_up(Model.getInstance().getSid(), ViewObject.this.profile.getID())) {
+                        if (ViewObject.this.ctrl.pick_up(Model.getInstance().getSid(),
+                                ViewObject.this.profile.getID())) {
                             Log.i(this, "Picked up user: " + ViewObject.this.profile.getID());
                             ViewObject.this.status = Constants.V_OBJ_SATUS_PICKED_UP;
                             
                             // count down one available seats
                             ViewModel.getInstance().setNewNumSeats(ViewModel.getInstance().getNumSeats() - 1);
-                            ViewObject.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model.getInstance()
+                            ViewObject.this.ctrl.tripUpdateData(Model.getInstance().getSid(), Model
+                                    .getInstance()
                                     .getTripId(), ViewModel.getInstance().getNumSeats());
                         } else {
                             Log.i(this, "Not picked up user: " + ViewObject.this.profile.getID());

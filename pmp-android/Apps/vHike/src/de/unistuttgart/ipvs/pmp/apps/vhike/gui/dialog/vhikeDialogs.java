@@ -148,7 +148,8 @@ public class vhikeDialogs extends Activity {
     }
     
     
-    public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID, MapView mapView,
+    public ProfileDialog getProfileDialog(IvHikeWebservice ws, Context context, int profileID,
+            MapView mapView,
             IContact iContact, Profile foundUser, int driverOrpassenger) {
         return new ProfileDialog(ws, context, profileID, mapView, iContact, foundUser, driverOrpassenger);
     }
@@ -188,20 +189,22 @@ public class vhikeDialogs extends Activity {
         tPicker.setCurrentMinute(cal.get(Calendar.MINUTE));
         tPicker.setIs24HourView(DateFormat.is24HourFormat(mContext));
         
-        builder.setView(layout).setTitle(R.string.dialog_pick_date_and_time)
-                .setPositiveButton(mContext.getString(R.string.default_OK), new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            IDialogFinishedCallBack d = (IDialogFinishedCallBack) inActivity;
-                            d.dialogFinished(ID, IDialogFinishedCallBack.POSITIVE_BUTTON);
-                        } catch (Exception e) {
-                            Toast.makeText(mContext, "ERROR", Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    }
-                });
+        builder.setView(layout)
+                .setTitle(R.string.dialog_pick_date_and_time)
+                .setPositiveButton(mContext.getString(R.string.default_OK),
+                        new DialogInterface.OnClickListener() {
+                            
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    IDialogFinishedCallBack d = (IDialogFinishedCallBack) inActivity;
+                                    d.dialogFinished(ID, IDialogFinishedCallBack.POSITIVE_BUTTON);
+                                } catch (Exception e) {
+                                    Toast.makeText(mContext, "ERROR", Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
         
         return builder.create();
     }
@@ -228,7 +231,8 @@ public class vhikeDialogs extends Activity {
     
     
     public static AlertDialog getConfirmationDialog(final Activity inActivity, CharSequence title,
-            CharSequence message, CharSequence positiveText, CharSequence negativeText, final int callBackFunctionID) {
+            CharSequence message, CharSequence positiveText, CharSequence negativeText,
+            final int callBackFunctionID) {
         final Context mContext = inActivity;
         
         if (confirm == null) {
@@ -237,28 +241,31 @@ public class vhikeDialogs extends Activity {
         }
         confirm.setTitle(title);
         confirm.setMessage(message);
-        confirm.setButton(DialogInterface.BUTTON_POSITIVE, positiveText, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
-                callback.confirmDialogPositive(callBackFunctionID);
-            }
-        });
-        confirm.setButton(DialogInterface.BUTTON_NEGATIVE, negativeText, new DialogInterface.OnClickListener() {
-            
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
-                callback.confirmDialogNegative(callBackFunctionID);
-            }
-        });
+        confirm.setButton(DialogInterface.BUTTON_POSITIVE, positiveText,
+                new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
+                        callback.confirmDialogPositive(callBackFunctionID);
+                    }
+                });
+        confirm.setButton(DialogInterface.BUTTON_NEGATIVE, negativeText,
+                new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        OnConfirmationDialogFinished callback = (OnConfirmationDialogFinished) inActivity;
+                        callback.confirmDialogNegative(callBackFunctionID);
+                    }
+                });
         
         return confirm;
     }
     
     
-    public SMSDialog getSMSDialog(Context context, String tel, IContact contactRG, Controller ctrl, Profile profile) {
+    public SMSDialog getSMSDialog(Context context, String tel, IContact contactRG, Controller ctrl,
+            Profile profile) {
         return new SMSDialog(context, tel, contactRG, ctrl, profile);
     }
     
