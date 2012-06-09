@@ -179,7 +179,7 @@ public class SqlConnector {
                             long result = idc.insert(SqlConnector.DB_TABLE_NAME, null, values);
                             Log.v(this, "Return value of insert: " + result);
                             if (result != -1) {
-                                idc.query(SqlConnector.DB_TABLE_NAME, null, null, null, null, null, SqlConnector.DATE);
+                                //idc.query(SqlConnector.DB_TABLE_NAME, null, null, null, null, null, SqlConnector.DATE);
                                 
                                 Log.v(this, "Storing new appointment: id: " + String.valueOf(id) + " date: " + date
                                         + " description: " + description);

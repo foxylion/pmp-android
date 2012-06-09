@@ -69,7 +69,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     @Override
     public void open(String databaseName) throws RemoteException {
         /* Database should be at least allowed to be read and database name should be allowed. */
-        if (!isDatabaseAllowed(databaseName) || !isRead()) {
+        if (!isDatabaseAllowed(databaseName) || (!isRead() && !isModify())) {
             throw new SecurityException("The Database is not allowed to be accessed.");
         }
         
@@ -102,7 +102,7 @@ public class DatabaseConnectionImpl extends IDatabaseConnection.Stub {
     
     @Override
     public boolean isTableExisted(String tableName) throws RemoteException {
-        if (isRead()) {
+        if (isRead() || isModify()) {
             String[] args = new String[1];
             args[0] = strip(tableName);
             closeCursor();
