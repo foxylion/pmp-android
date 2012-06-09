@@ -1,7 +1,9 @@
 /*
- * Copyright (C) 2011 Jake Wharton
- * Copyright (C) 2011 Patrik Akerfeldt
- * Copyright (C) 2011 Francisco Figueiredo Jr.
+ * Copyright 2012 pmp-android development team
+ * Project: InfoAppViewPagerIndicator
+ * Project-Site: http://code.google.com/p/pmp-android/
+ *
+ * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
