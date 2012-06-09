@@ -46,8 +46,6 @@ import de.unistuttgart.ipvs.pmp.model.element.resourcegroup.IResourceGroup;
 public class SecurityContextAdapter extends Context {
     
     private final Context adaptee;
-    private final IResourceGroup rg;
-    private final IApp app;
     
     
     /**
@@ -61,8 +59,6 @@ public class SecurityContextAdapter extends Context {
      */
     public SecurityContextAdapter(Context adaptee, IResourceGroup rg, IApp app) {
         this.adaptee = adaptee;
-        this.rg = rg;
-        this.app = app;
     }
     
     
