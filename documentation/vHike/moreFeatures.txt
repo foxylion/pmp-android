@@ -1,4 +1,0 @@
-Nachfolgend einige Funktionen, die in späteren Iterationen hinzugefügt werden könnten
- - Nachrichten/PMP System mit Buddy-Liste
- - Spracherkennung in der App, über die der Fahrer das Nachrichten-Feld
-   beim Antworten auf eine Mitfahranfrage ausfüllen kann
