@@ -356,11 +356,13 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
         final long oneDay = 86400000L;
         final long oneHour = 3600000L;
         final long oneMinute = 60000L;
+        final long oneSec = 1000L;
         
         // Calculate everything
         long days = ms / oneDay;
         long hours = ms / oneHour;
         long minutes = ms / oneMinute;
+        long seconds = ms / oneSec;
         
         // Add the days to the string
         if (days != 0) {
@@ -383,6 +385,15 @@ public class ConnectionsPanel implements IPanel, OnChildClickListener {
             }
             result += minutes % 60 + " "
                     + this.context.getResources().getQuantityString(R.plurals.minutes, (int) minutes % 60);
+        }
+        
+        // Add the seconds
+        if (seconds != 0 || minutes != 0 || days != 0 || hours != 0) {
+            if (!result.equals("")) {
+                result += " ";
+            }
+            result += seconds % 60 + " "
+                    + this.context.getResources().getQuantityString(R.plurals.seconds, (int) seconds % 60);
         }
         
         // If the string is still empty, then it wasn't used yet
