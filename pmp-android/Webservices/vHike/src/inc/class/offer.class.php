@@ -189,7 +189,6 @@ class Offer
 		$sender = $user->getId();
 		if ($user->isEqual($trip->getDriver())) {
 			$recipient = $query->getPassengerId();
-			echo "me";
 		} else {
 			$recipient = $trip->getDriver()->getId();
 		}

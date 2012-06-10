@@ -12,7 +12,7 @@
         android:id="@+id/passengerMapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:apiKey="04AhZI3pRNAhYcjxrQFVW4c2z084MgppmbcVUDQ"
+        android:apiKey="0g5_Yo4upMXHp418DjgjGjIy5irKbA2Evkp-3TA"
         android:clickable="true" />
 
         <EditText

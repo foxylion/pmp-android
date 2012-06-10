@@ -1024,15 +1024,17 @@ public class Controller {
      */
     public int sendOffer(final String sid, final int trip_id, final int query_id, final String message) {
         String ret = "";
+        JsonObject object = null;
         
         try {
             ret = this.ws.sendOffer(sid, trip_id, query_id, message);
+            object = this.parser.parse(ret).getAsJsonObject();
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-        
-        JsonObject object = this.parser.parse(ret).getAsJsonObject();
         
         boolean suc = false;
         String status = "";
