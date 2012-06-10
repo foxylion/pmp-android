@@ -420,11 +420,12 @@ public class ConnectionImpl extends IConnection.Stub {
      */
     @Override
     public String uploadData() throws RemoteException {
-        // Check the privacy setting
+        // Check the privacy setting 
         this.validator.validate(ConnectionConstants.PS_UPLOAD_DATA, "true");
         
         // Get the device id
         TelephonyManager tManager = (TelephonyManager) this.context.getSystemService(Context.TELEPHONY_SERVICE);
+        
         String deviceId = tManager.getDeviceId();
         MessageDigest digest;
         String hashedID = "";
@@ -442,8 +443,12 @@ public class ConnectionImpl extends IConnection.Stub {
         Service service = new Service(Service.DEFAULT_URL, hashedID);
         try {
             // Try to upload the wifi and bluetooth events
-            new ConnectionEventManager(service).commitEvents(getConnectionEvents());
-            DBConnector.getInstance(this.context).clearWifiAndBTLists();
+            List<ConnectionEvent> events = getConnectionEvents();
+            
+            if (events.size() > 0) {
+                new ConnectionEventManager(service).commitEvents(events);
+                DBConnector.getInstance(this.context).clearWifiAndBTLists();
+            }
         } catch (InternalDatabaseException e1) {
             e1.printStackTrace();
             return null;
@@ -460,9 +465,12 @@ public class ConnectionImpl extends IConnection.Stub {
         
         try {
             // Upload the cellular connection events
-            new CellularConnectionEventManager(service).commitEvents(DBConnector.getInstance(this.context)
-                    .getCellEvents());
-            DBConnector.getInstance(this.context).clearCellList();
+            List<CellularConnectionEvent> events = DBConnector.getInstance(this.context).getCellEvents();
+            
+            if (events.size() > 0) {
+                new CellularConnectionEventManager(service).commitEvents(events);
+                DBConnector.getInstance(this.context).clearCellList();
+            }
         } catch (InternalDatabaseException e1) {
             e1.printStackTrace();
             return null;
