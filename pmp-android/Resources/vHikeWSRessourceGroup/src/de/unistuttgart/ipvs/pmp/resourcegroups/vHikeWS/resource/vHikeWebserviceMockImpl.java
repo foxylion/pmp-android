@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeWSRessourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -277,6 +277,13 @@ public class vHikeWebserviceMockImpl extends IvHikeWebservice.Stub {
     @Override
     public String editProfile(String sid, String lastname, String firstname, String tel, String description)
             throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String getTripOverview(String sid, int tripId) throws RemoteException {
         // TODO Auto-generated method stub
         return null;
     }

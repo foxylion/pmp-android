@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,8 +48,8 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     private final int idConfirmAccept = 246; // Random number
     private final int idConfirmDecline = 142;
     private CharSequence offerType;
-    private boolean isOffer = true;
-    private boolean isInvitation = true;
+    private boolean isOffer = false;
+    private boolean isInvitation = false;
     private View offerNotification;
     
     
@@ -58,13 +58,17 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
         
-        System.out.println("Oncreate");
-        
         Intent i = getIntent();
         this.userId = i.getLongExtra("userId", -1);
         this.tripId = i.getLongExtra("tripId", -1);
         this.userName = i.getStringExtra("userName");
-        System.out.println(this.userId + "/" + this.tripId);
+        
+        if (i.hasExtra("isOffer")) {
+            isOffer = true;
+            ((TextView) findViewById(R.id.message_offer)).setText("Hi, may I please join your trip?");
+        }
+        if (i.hasExtra("isInvitation"))
+            isInvitation = true;
         
         this.listMessages = (ListView) findViewById(R.id.message_list_messages);
         this.txtMessage = (EditText) findViewById(R.id.txtMessage);
@@ -79,7 +83,6 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("on resume");
         
         checkForNewMessage();
         
@@ -96,6 +99,9 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
     }
     
     int i = 0;
+    
+    private String[] msg = "Sed cursus turpis vitae tortor. Donec posuere vulputate arcu. Phasellus accumsan cursus velit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed aliquam, nisi quis porttitor congue, elit erat euismod orci, ac placerat dolor lectus quis orci. Phasellus consectetuer vestibulum elit. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Vestibulum fringilla pede sit amet augue. In turpis. Pellentesque posuere. Praesent turpis. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Donec elit libero, sodales nec, volutpat a, suscipit non, turpis. Nullam sagittis. Suspendisse pulvinar, augue ac venenatis condimentum, sem libero volutpat nibh, nec pellentesque velit pede quis nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut varius tincidunt libero. Phasellus dolor. Maecenas vestibulum mollis diam. Pellentesque ut neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. In ac felis quis tortor malesuada pretium. Pellentesque auctor neque nec urna. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Aenean viverra rhoncus pede. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut non enim eleifend felis pretium feugiat. Vivamus quis mi. Phasellus a est. Phasellus magna. In hac habitasse platea dictumst. Curabitur at lacus ac velit ornare lobortis. Curabitur a felis in nunc fringilla tristique. Morbi mattis ullamcorper velit. Phasellus gravida semper nisi. Nullam vel sem. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Sed hendrerit. Morbi ac felis."
+            .split("\\.");
     
     
     private void checkForNewMessage() {
@@ -116,10 +122,9 @@ public class MessageActivity extends Activity implements OnClickListener, OnConf
                 }
             };
         } else {
-            this.adapter.add("Halahlahla: " + this.i++);
+            this.adapter.add(msg[this.i++]);
             this.adapter.notifyDataSetChanged();
             this.listMessages.setSelection(this.adapter.getCount() - 1);
-            this.isInvitation = !this.isInvitation;
         }
         this.listMessages.postDelayed(this.checkMessages, this.refreshInterval);
         

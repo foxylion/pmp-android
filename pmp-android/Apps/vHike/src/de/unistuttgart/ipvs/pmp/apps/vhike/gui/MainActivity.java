@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,11 +44,12 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  * @author Andre Nguyen, Dang Huynh
  * 
  */
-public class MainActivity extends ResourceGroupReadyActivity {
+public class MainActivity extends ResourceGroupReadyActivity implements OnClickListener {
     
     private Handler handler;
-    private Controller ctrl;
     
+    
+    //    private Controller ctrl;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MainActivity extends ResourceGroupReadyActivity {
     public void onResume() {
         super.onResume();
         vHikeService.getInstance().updateServiceFeatures();
-        this.ctrl = new Controller(rgvHike);
+        //        ctrl = new Controller(rgvHike);
         
         Log.i(this, "");
     }
@@ -103,8 +104,9 @@ public class MainActivity extends ResourceGroupReadyActivity {
         Button btnProfile = (Button) findViewById(R.id.Button_Profile);
         Button btnHistory = (Button) findViewById(R.id.Button_History);
         Button btnMyTrips = (Button) findViewById(R.id.Button_MyTrips);
-        findViewById(R.id.Button_Message);
         Button btnLogout = (Button) findViewById(R.id.Button_Logout);
+        
+        findViewById(R.id.btnMySearches).setOnClickListener(this);
         
         btnRide.setOnClickListener(new OnClickListener() {
             
@@ -192,4 +194,15 @@ public class MainActivity extends ResourceGroupReadyActivity {
             }
         }
     };
+    
+    
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnMySearches:
+                Intent intent = new Intent(this, TripSearchActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 }

@@ -78,14 +78,14 @@
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+
             <Button
-                android:id="@+id/Button_Message"
+                android:id="@+id/btnMySearches"
                 android:layout_width="0dip"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:paddingTop="25sp"
-                android:text="@string/main_messages" />
+                android:text="@string/My_searches" />
 
             <Button
                 android:id="@+id/Button_Logout"

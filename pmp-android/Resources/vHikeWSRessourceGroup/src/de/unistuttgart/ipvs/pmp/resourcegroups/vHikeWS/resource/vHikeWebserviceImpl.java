@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeWSRessourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -302,6 +302,13 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
             throws RemoteException {
         this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
         return this.vHikeRes.editProfile(sid, lastname, firstname, tel, description);
+    }
+    
+    
+    @Override
+    public String getTripOverview(String sid, int tripId) throws RemoteException {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.getTripOverview(sid, tripId);
     }
     
 }

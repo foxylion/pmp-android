@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,7 +68,7 @@ public class MessageAdapter extends ArrayAdapter<CompactMessage> {
         } else {
             holder.offer.setVisibility(View.VISIBLE);
         }
-        holder.rating.setRating(msg.sender.rating);
+        holder.rating.setRating(Float.valueOf(Double.toString(msg.sender.rating)));
         return itemView;
     }
     

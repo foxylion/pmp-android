@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.model;
+
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.StringUtils;
 
 /**
  * This class contains brief information of a trip and is used for display in the My Trips activity.
@@ -52,8 +54,7 @@ public class CompactTrip {
      */
     public CompactTrip(int id, String destination, long startTime, int passengerNo, int offerNo, int messageNo) {
         this.id = id;
-        String s = destination.trim().replaceAll("\\s*;\\s*", ";").replaceAll("(^;|;$)", "")
-                .replaceAll(";.*", "");
+        String s = StringUtils.cleanUpDestionationAndStopoversString(destination).replaceAll(";.*", "");
         this.destination = s;
         this.startTime = startTime;
         this.numberOfPassengers = passengerNo;

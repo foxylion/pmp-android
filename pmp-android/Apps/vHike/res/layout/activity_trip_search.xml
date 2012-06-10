@@ -12,19 +12,12 @@
         android:drawableBottom="@color/dark_gray" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dip"
-            android:text="Trip search"
+            android:text="@string/Trip_search_title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/trip_detail_button_overview"
-            style="@style/ActionBarItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tripDetails_overview" />
     </LinearLayout>
 
     <FrameLayout
@@ -50,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Handle" />
+                android:text="Options" />
 
             <include
                 android:id="@+id/content"

@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,13 +19,14 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Formatter;
 
-import android.app.Activity;
+import org.json.JSONException;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IInterface;
+import android.os.RemoteException;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -42,28 +43,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.ViewSwitcher;
+import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
+import de.unistuttgart.ipvs.pmp.apps.vhike.exception.QueryException;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.MessageAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.FriendlyDateFormatter;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactMessage;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactUser;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripOverview;
 
-public class TripDetailActivity extends Activity implements OnClickListener {
+public class TripDetailActivity extends ResourceGroupReadyActivity implements OnClickListener {
     
     private TextView btnOverview;
     private TextView btnAllMessages;
     private ViewSwitcher switcher;
     private ListView listAllMessages;
     private ListView listNewMessages;
-    private long tripId;
+    private int tripId;
     private TripOverview tripInfo;
     private TextAppearanceSpan menuActive;
     private SpannableString txtOverview;
     private SpannableString txtAllMessages;
     private View bottomMenu;
     private Button btnSearch;
+    private Controller ctrl;
     
     
     @Override
@@ -90,17 +97,36 @@ public class TripDetailActivity extends Activity implements OnClickListener {
         this.btnSearch.setOnClickListener(this);
         
         this.bottomMenu = findViewById(R.id.trip_detail_bottom_menu);
+        
+        tripId = getIntent().getIntExtra("tripId", 0);
     }
     
     
     @Override
     protected void onResume() {
         super.onResume();
-        vHikeService.getInstance().updateServiceFeatures();
-        //        if (getIntent() != null && getIntent().getExtras() != null)
-        //            tripId = getIntent().getExtras().getInt("tripId", 0);
         
-        prepareViews();
+        if (rgvHike != null) {
+            vHikeService.getInstance().updateServiceFeatures();
+            if (this.ctrl == null) {
+                this.ctrl = new Controller(rgvHike);
+            }
+            prepareViews();
+        } else
+            getvHikeRG(this);
+    }
+    
+    
+    @Override
+    public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) {
+        super.onResourceGroupReady(resourceGroup, resourceGroupId);
+        if (resourceGroupId == Constants.RG_VHIKE_WEBSERVICE) {
+            
+            if (this.ctrl == null) {
+                this.ctrl = new Controller(rgvHike);
+            }
+            prepareViews();
+        }
     }
     
     
@@ -141,6 +167,9 @@ public class TripDetailActivity extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.btnSearch:
+                Intent intent = new Intent(this, TripSearchActivity.class);
+                intent.putExtra("tripId", tripId);
+                this.startActivity(intent);
                 break;
         }
     }
@@ -163,19 +192,39 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     private void prepareViews() {
         
         if (this.tripInfo == null) {
-            // TODO Get actual data
-            ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
-            passengers.add(new CompactUser(1, "Passenger1", 0));
-            passengers.add(new CompactUser(2, "Passenger2", 5));
-            passengers.add(new CompactUser(3, "Passenger3", 3));
-            ArrayList<CompactMessage> msg = new ArrayList<CompactMessage>(3);
-            msg.add(new CompactMessage(0, passengers.get(0), passengers.get(1), true, "Hello"));
-            msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello 2"));
-            msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello 32"));
-            this.tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;",
-                    passengers,
-                    Calendar.getInstance(), 3, msg);
+            try {
+                if (rgvHike == null) {
+                    getvHikeRG(this);
+                    return;
+                }
+                if (ctrl == null)
+                    ctrl = new Controller(rgvHike);
+                tripInfo = ctrl.getTripOverview(Model.getInstance().getSid(), tripId);
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (QueryException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+            //            ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
+            //            passengers.add(new CompactUser(1, "Passenger1", 0));
+            //            passengers.add(new CompactUser(2, "Passenger2", 5));
+            //            passengers.add(new CompactUser(3, "Passenger3", 3));
+            //            ArrayList<CompactMessage> msg = new ArrayList<CompactMessage>(3);
+            //            msg.add(new CompactMessage(0, passengers.get(0), passengers.get(1), true, "Hello"));
+            //            msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello 2"));
+            //            msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello 32"));
+            //            this.tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;",
+            //                    passengers,
+            //                    Calendar.getInstance(), 3, msg);
         }
+        
+        // TODO Still null?
         
         // Set destination
         TextView txt = (TextView) findViewById(R.id.trip_detail_destination);
@@ -219,7 +268,7 @@ public class TripDetailActivity extends Activity implements OnClickListener {
             start = builder.length();
             builder.append(p.name);
             end = builder.length();
-            builder.setSpan(new PassengerSpan(p.id), start, end, 0);
+            builder.setSpan(new PassengerSpan(p.id, p.name), start, end, 0);
             builder.append(", ");
         }
         if (this.tripInfo.passengers.size() > 0) {
@@ -242,6 +291,8 @@ public class TripDetailActivity extends Activity implements OnClickListener {
                     intent.putExtra("tripId", TripDetailActivity.this.tripId);
                     intent.putExtra("userId", list.getAdapter().getItemId(position));
                     intent.putExtra("userName", list.getAdapter().getItem(position).toString());
+                    if (((CompactMessage) list.getAdapter().getItem(position)).isOffer)
+                        intent.putExtra("isOffer", true);
                     TripDetailActivity.this.startActivity(intent);
                 } catch (Exception e) {
                     // do nothing
@@ -254,23 +305,24 @@ public class TripDetailActivity extends Activity implements OnClickListener {
     private class PassengerSpan extends ClickableSpan {
         
         private int id;
+        private String name;
         
         
-        public PassengerSpan(int id) {
+        public PassengerSpan(int id, String name) {
             super();
             this.id = id;
+            this.name = name;
         }
         
         
         @Override
         public void onClick(View widget) {
             widget.getParent().clearChildFocus(widget);
-            Intent intent = new Intent(TripDetailActivity.this, MyTripsActivity.class);
+            Intent intent = new Intent(TripDetailActivity.this, MessageActivity.class);
             intent.putExtra("passengerId", this.id);
+            intent.putExtra("username", this.name);
             intent.putExtra("tripId", TripDetailActivity.this.tripId);
             startActivity(intent);
-            // TODO PassengerAction!
         }
-        
     }
 }

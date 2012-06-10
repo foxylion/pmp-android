@@ -17,24 +17,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.unistuttgart.ipvs.pmp.apps.vhike.model;
+package de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils;
 
-public class CompactUser {
+public class StringUtils {
     
-    public int id;
-    public String name;
-    public double rating;
+    public static String cleanUpDestionationAndStopoversString(String s) {
+        return s.trim().replaceAll("\\s*;\\s*", ";").replaceAll("(^;|;$)", "");
+    }
     
     
-    public CompactUser(int id, String name, double d) {
-        if (id < 0) {
-            throw new IllegalArgumentException("ID cannot be negative");
-        }
-        this.id = id;
-        this.name = name;
-        if (d < 0 || d > 5) {
-            throw new IllegalArgumentException("Rating must be between 0 and 5");
-        }
-        this.rating = d;
+    public static String getDestination(String destinationAndStopovers) {
+        return destinationAndStopovers.split(";")[0];
+    }
+    
+    
+    public static String getStopovers(String destinationAndStopovers) {
+        return destinationAndStopovers.substring(destinationAndStopovers.indexOf(";"));
     }
 }

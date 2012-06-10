@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,12 +39,16 @@ import com.google.gson.JsonParser;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.Constants;
 import de.unistuttgart.ipvs.pmp.apps.vhike.exception.QueryException;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.StringUtils;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactMessage;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactTrip;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.CompactUser;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.FoundProfilePos;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Trip;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripOverview;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -57,7 +61,7 @@ import de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS.aidl.IvHikeWebservice;
 /**
  * Controls the behavior of vHike
  * 
- * @author Alexander Wassiljew
+ * @author Alexander Wassiljew, Dang Huynh
  * 
  */
 public class Controller {
@@ -1376,7 +1380,7 @@ public class Controller {
     }
     
     
-    public ArrayList<CompactTrip> getTrips(String sid) throws QueryException {
+    public ArrayList<CompactTrip> getTrips(final String sid) throws QueryException {
         try {
             
             // Get data from server
@@ -1414,6 +1418,78 @@ public class Controller {
         return null;
     }
     
+    
+    public TripOverview getTripOverview(final String sid, int tripId) throws RemoteException, JSONException,
+            QueryException {
+        // Get data from server
+        JSONObject root = new JSONObject(ws.getTripOverview(sid, tripId));
+        
+        if (root.has("error")) {
+            throw new QueryException(root.getString("error") + (
+                    root.has("message") ? ": " + root.getString("message") : ""));
+        } else {
+            
+            // parse passengers
+            ArrayList<CompactUser> passengers = null;
+            if (root.has("passengers")) {
+                JSONArray jPassengers = root.getJSONArray("passengers");
+                passengers = new ArrayList<CompactUser>(jPassengers.length());
+                for (int i = 0; i < jPassengers.length(); i++) {
+                    JSONObject o = jPassengers.getJSONObject(i);
+                    passengers.add(new CompactUser(o.getInt("pid"), o.getString("username"), 0.0f));
+                }
+            }
+            
+            // parse offers
+            ArrayList<CompactMessage> newMsgs = null;
+            JSONArray jMessages = root.has("messages") ? root.getJSONArray("messages") : null;
+            if (root.has("offers")) {
+                JSONArray jOffers = root.getJSONArray("offers");
+                newMsgs = new ArrayList<CompactMessage>(jOffers.length() +
+                        (jMessages != null ? jMessages.length() : 0));
+                for (int i = 0; i < jOffers.length(); i++) {
+                    JSONObject o = jOffers.getJSONObject(i);
+                    newMsgs.add(new CompactMessage(
+                            o.getInt("id"),
+                            new CompactUser(
+                                    o.getInt("sender"), o.getString("username"), o.getDouble("rating_avg")),
+                            null,
+                            true,
+                            o.has("message") ? o.getString("message") : ""));
+                }
+            }
+            
+            // parse messages
+            if (jMessages != null) {
+                if (newMsgs == null)
+                    newMsgs = new ArrayList<CompactMessage>(jMessages.length());
+                for (int i = 0; i < jMessages.length(); i++) {
+                    JSONObject o = jMessages.getJSONObject(i);
+                    newMsgs.add(new CompactMessage(
+                            -1,
+                            new CompactUser(o.getInt("sender"), o.getString("username"), o
+                                    .getDouble("rating_avg")),
+                            null,
+                            false,
+                            o.has("message") ? o.getString("message") : ""));
+                }
+            }
+            
+            String destinationStopovers = StringUtils.cleanUpDestionationAndStopoversString(root
+                    .getString("destination"));
+            
+            TripOverview trip = new TripOverview(
+                    tripId,
+                    root.has("destination") ? StringUtils.getDestination(destinationStopovers) : "",
+                    StringUtils.getStopovers(destinationStopovers),
+                    passengers,
+                    root.getLong("creation"),
+                    root.getInt("avail_seats"),
+                    newMsgs);
+            Log.v(this, String.valueOf(root.getLong("creation")));
+            return trip;
+        }
+    }
     //    public ArrayList<CompactTrip> getMyTrips(int uid) {
     //        String ret = "";
     //        try {

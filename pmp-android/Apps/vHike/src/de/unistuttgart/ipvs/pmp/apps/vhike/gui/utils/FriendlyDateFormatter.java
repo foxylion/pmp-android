@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,8 +36,10 @@ public class FriendlyDateFormatter {
     
     
     public String format(Calendar date) {
-        System.out.println(java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT,
-                java.text.DateFormat.SHORT).format(date.getTime()));
+        de.unistuttgart.ipvs.pmp.Log.d(this,
+                java.text.DateFormat.getDateTimeInstance(
+                        java.text.DateFormat.SHORT,
+                        java.text.DateFormat.SHORT).format(date.getTime()));
         
         Calendar d1 = Calendar.getInstance(); // Today at 0:0:00
         d1.clear(Calendar.HOUR);

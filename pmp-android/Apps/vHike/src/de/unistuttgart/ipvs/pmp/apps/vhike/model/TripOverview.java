@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,14 +37,16 @@ public class TripOverview {
     
     
     public TripOverview(int id, String destination, String stopovers, ArrayList<CompactUser> passengers,
-            Calendar startTime, int numberOfAvailableSeat, ArrayList<CompactMessage> newMessages) {
+            long startTime, int numberOfAvailableSeat, ArrayList<CompactMessage> newMessages) {
         
         if (id < 0) {
             throw new IllegalArgumentException("Invalid Trip ID");
         }
         this.id = id;
         this.destination = destination;
-        this.startTime = startTime;
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(startTime);
+        this.startTime = c;
         this.messages = newMessages;
         this.passengers = passengers;
         this.numberOfAvailableSeat = numberOfAvailableSeat;

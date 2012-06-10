@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeWSRessourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -757,4 +759,39 @@ public class vHikeWebserviceResource extends Resource {
         return ret;
     }
     
+    
+    /**
+     * Return an overview about a trip
+     * 
+     * @param sid
+     *            Session ID
+     * @param tripId
+     *            The trip's ID
+     * @return JSON result string
+     */
+    public String getTripOverview(String sid, int tripId) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("tripId", String.valueOf(tripId), true));
+        
+        String result = "{}";
+        Log.d(this, listToParse.toArray().toString());
+        try {
+            result = JSonRequestProvider.doRequest(listToParse, "trip_overview.php").toString();
+            //        } catch {ClientProtocolException cpe) {
+            //            
+            //        } catch (IOException ioe) {
+        } catch (Exception e) {
+            JSONObject o = new JSONObject();
+            try {
+                o.put("successful", false);
+                o.put("error", "Exception");
+                o.put("message", e.getMessage());
+                e.printStackTrace();
+                return o.toString();
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return result;
+    }
 }

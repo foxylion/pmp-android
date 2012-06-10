@@ -140,5 +140,13 @@ interface IvHikeWebservice{
      *         <li>other values - returns only current and not started trips</li>
      */
 	String getMyTrips(int format);
-	
+
+    /**
+     * Return an overview about a trip
+     * 
+     * @param sid   Session ID
+     * @param tripId    The trip's ID
+     * @return  JSON result string
+     */
+    String getTripOverview(String sid, int tripId);
 }

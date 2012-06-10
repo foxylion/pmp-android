@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +49,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 public class MyTripsActivity extends ResourceGroupReadyActivity implements OnItemClickListener,
         OnClickListener {
     
-    private ArrayList<CompactTrip> t;
+    private ArrayList<CompactTrip> trips;
     private ListView listView;
     private MyTripAdapter adaper;
     private Controller ctrl;
@@ -66,15 +66,6 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
         
         findViewById(R.id.btnNewTrip).setOnClickListener(this);
         
-        // TODO Remove this line
-        //        PMP.get(getApplication()).register(new PMPRegistrationHandler());
-        //        vHikeService.getInstance().updateServiceFeatures();
-        //        if (vHikeService.isServiceFeatureEnabled(Constants.SF_VHIKE_WEB_SERVICE))
-        //            getvHikeRG(this);
-        //        else {
-        //            System.out.println("NO!");
-        //            PMP.get().requestServiceFeatures(this, "de.unistuttgart.ipvs.pmp.resourcegroups.vHikeWS");
-        //        }
         this.handler = new Handler();
     }
     
@@ -87,11 +78,6 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
             if (this.ctrl == null) {
                 this.ctrl = new Controller(rgvHike);
             }
-            
-            // TODO Test code
-            //            if (Model.getInstance().getSid().equals("")) {
-            //                ctrl.login("driver", "test12345");
-            //            }
             
             loadData();
         }
@@ -114,23 +100,11 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
     
     private void loadData() {
         try {
-            this.t = this.ctrl.getTrips(Model.getInstance().getSid());
+            this.trips = this.ctrl.getTrips(Model.getInstance().getSid());
         } catch (QueryException e) {
             Toast.makeText(this, e.getMessage(), 2000);
             e.printStackTrace();
         }
-        
-        //        t = new ArrayList<CompactTrip>(10);
-        //        t.add(new CompactTrip(1, "Berlin", 1000000000, 2, 3, 1));
-        //        t.add(new CompactTrip(2, "Stuttgart", 1000000000, 0, 3, 1));
-        //        t.add(new CompactTrip(3, "Muenchen", 1000000000, 2, 0, 1));
-        //        t.add(new CompactTrip(4, "Koeln", 1000000000, 2, 3, 0));
-        //        t.add(new CompactTrip(5, "Duesseldorf", 1000000000, 2, 3, 1));
-        //        t.add(new CompactTrip(6, "Hamburg", 1000000000, 0, 0, 0));
-        //        t.add(new CompactTrip(7, "Dortmund", 1000000000, 2, 3, 1));
-        //        t.add(new CompactTrip(8, "Bremen", 1000000000, 2, 3, 1));
-        //        t.add(new CompactTrip(9, "Hanover", 1000000000, 2, 3, 1));
-        //        t.add(new CompactTrip(10, "Leipzig", 1000000000, 2, 3, 1));
         
         // update the GUI
         this.handler.post(new Runnable() {
@@ -138,17 +112,15 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
             @Override
             public void run() {
                 MyTripsActivity activity = MyTripsActivity.this;
-                if (MyTripsActivity.this.adaper == null) {
-                    MyTripsActivity.this.adaper = new MyTripAdapter(
-                            MyTripsActivity.this,
-                            MyTripsActivity.this.t == null ? MyTripsActivity.this.t = new ArrayList<CompactTrip>(
-                                    0) : MyTripsActivity.this.t);
-                    MyTripsActivity.this.listView.setAdapter(MyTripsActivity.this.adaper);
+                if (activity.adaper == null) {
+                    activity.adaper = new MyTripAdapter(
+                            activity, // context
+                            activity.trips == null ? activity.trips = new ArrayList<CompactTrip>(0)
+                                    : activity.trips);
+                    activity.listView.setAdapter(activity.adaper);
                 } else {
-                    MyTripsActivity.this.adaper.notifyDataSetChanged();
+                    activity.adaper.notifyDataSetChanged();
                 }
-                System.out.println(activity.adaper.getCount());
-                Toast.makeText(activity, String.valueOf(activity.adaper.getCount()), 2000);
             }
         });
     }
@@ -159,7 +131,7 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
         switch (parent.getId()) {
             case R.id.listView:
                 Intent intent = new Intent(this, TripDetailActivity.class);
-                intent.putExtra("tripId", this.t.get(position).id);
+                intent.putExtra("tripId", this.trips.get(position).id);
                 startActivity(intent);
                 break;
             
