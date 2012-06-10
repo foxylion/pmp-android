@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: EnergyResourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -126,8 +126,6 @@ public class UploadHandler {
             
             // Voltage
             int voltage = be.getVoltage();
-            
-            System.out.println("Voltage = " + voltage + " (Data-Type: " + ((Object) voltage).getClass() + ")");
             
             // Add the data to the list
             eventList.add(new BatteryEvent(timestamp, level, voltage, plugged, present, status, temperature));
