@@ -29,17 +29,22 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
 import de.unistuttgart.ipvs.pmp.apps.vhike.R;
+import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.Controller;
 import de.unistuttgart.ipvs.pmp.apps.vhike.ctrl.vHikeService;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.adapter.TripSearchResultAdapter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripSearchResult;
 
 public class TripSearchActivity extends ResourceGroupReadyActivity implements OnClickListener,
@@ -49,10 +54,24 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
     private RatingBar rbRating;
     private SlidingDrawer slider;
     private ListView listResult;
+    private EditText etDestination;
+    private EditText etDeparture;
+    private EditText etUsername;
+    private DatePicker datepicker;
+    private SeekBar seekbarTolerance;
+    private SeekBar seekbarRating;
+    
     private TripSearchResultAdapter adapter;
     private ArrayList<TripSearchResult> data;
     private boolean isTripSearch = false;
     private int tripId;
+    private String destination;
+    private String departure;
+    private String username;
+    private int seatNo;
+    private Calendar date;
+    private int tolerance = 0;
+    private float minRating = 0f;
     
     
     @Override
@@ -68,13 +87,31 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
         Intent i = getIntent();
         TextView txt = (TextView) findViewById(R.id.title);
         Button btnOpenMap = (Button) findViewById(R.id.btnOpenMap);
+        destination = i.hasExtra("destination") ? i.getStringExtra("destination") : "";
+        seatNo = i.getIntExtra("seat", 0);
+        
+        if (i.hasExtra("dateInMilli")) {
+            date = Calendar.getInstance();
+            date.setTimeInMillis(i.getLongExtra("dateInMilli", System.currentTimeMillis()));
+        }
+        
+        // Prepare search filter
+        etDestination = (EditText) slider.findViewById(R.id.editTextDestination);
+        etDestination.setText(destination);
+        etDeparture = (EditText) slider.findViewById(R.id.editTextDeparture);
+        etUsername = (EditText) slider.findViewById(R.id.editTextUsername);
+        datepicker = (DatePicker) slider.findViewById(R.id.datePicker);
+        if (date != null)
+            datepicker.updateDate(
+                    date.get(Calendar.YEAR), date.get(Calendar.MONDAY), date.get(Calendar.DAY_OF_MONTH));
+        
         if (i.hasExtra("tripId")) {
             tripId = i.getIntExtra("tripId", -1);
             txt.setText("Hitchhiker search");
             btnOpenMap.setText("Show live hikers on map");
-            //            txt.setText((new Formatter()).format((String) getText(R.string.Trip_search_title), "Trip")
+            //            txt.setText(String.format((String) getText(R.string.Trip_search_title), "Trip")
             //                    .toString());
-            //            btnOpenMap.setText((new Formatter()).format((String) getText(R.string.Show_live_trips), "trips")
+            //            btnOpenMap.setText(String.format((String) getText(R.string.Show_live_trips), "trips")
             //                    .toString());
         } else {
             isTripSearch = true;
@@ -87,8 +124,8 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
             this.slider.animateOpen();
         }
         
-        SeekBar seeker = (SeekBar) findViewById(R.id.seekBarTolerance);
-        seeker.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        seekbarTolerance = (SeekBar) findViewById(R.id.seekBarTolerance);
+        seekbarTolerance.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -106,8 +143,8 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
                 TripSearchActivity.this.txtTolerance.setText(String.valueOf(progress));
             }
         });
-        seeker = (SeekBar) findViewById(R.id.seekBarRating);
-        seeker.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        seekbarRating = (SeekBar) findViewById(R.id.seekBarRating);
+        seekbarRating.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -134,24 +171,35 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
     
     
     private void loadData() {
-        if (this.data == null) {
+        if (getvHikeRG(this) == null)
+            return;
+        
+        // Load data from server
+        try {
+            Controller ctrl = new Controller(rgvHike);
             
-            // TODO load real data here
+            destination = etDestination.getText().toString().trim();
+            departure = etDeparture.getText().toString().trim();
+            username = etUsername.getText().toString().trim().replaceAll(" ", "");
+            tolerance = seekbarTolerance.getProgress();
+            minRating = (float) seekbarRating.getProgress() / (float) seekbarRating.getMax() * 5f;
+            date.clear();
+            date.set(datepicker.getYear(), datepicker.getMonth(), datepicker.getDayOfMonth());
+            Calendar date1 = Calendar.getInstance();
+            Calendar date2 = Calendar.getInstance();
+            date1.setTimeInMillis(date.getTimeInMillis() - tolerance * 86400000);
+            date2.setTimeInMillis(date.getTimeInMillis() + tolerance * 86400000 + 86399000); // @ 23:59:59
             
-            this.data = new ArrayList<TripSearchResult>(10);
-            Calendar d = Calendar.getInstance();
-            String[] names = "eyepatch1 twittered facebook google yahoo hiker42 netter999 eight nine ten jdskl djwe fjks fjlk"
-                    .split(" ");
-            for (int i = 0; i < 10; i++) {
-                Calendar d1 = Calendar.getInstance();
-                d1.setTimeInMillis(d.getTimeInMillis());
-                this.data.add(new TripSearchResult(32, "Stuttgart", "Berlin", d1, names[i], 10,
-                        (float) (Math.random() * 5f),
-                        (int) Math.floor(Math.random() * 10)));
-                d1.add(Calendar.HOUR, (int) Math.floor(Math.random() * 24));
-                d.setTimeInMillis(d1.getTimeInMillis());
-            }
+            this.data = ctrl.searchTrip(Model.getInstance().getSid(), departure, destination, seatNo,
+                    date1, date2, minRating, username, isTripSearch);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+        
+        if (data == null)
+            data = new ArrayList<TripSearchResult>(0);
+        else if (data.size() == 0)
+            Toast.makeText(this, isTripSearch ? "No trip found" : "No hiker found", Toast.LENGTH_LONG).show();
         this.adapter = new TripSearchResultAdapter(
                 this,
                 isTripSearch ? R.layout.list_item_search_result_trip : R.layout.list_item_search_result_hiker,
@@ -184,6 +232,7 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
                 break;
             case R.id.btnSearch:
                 this.slider.animateClose();
+                loadData();
                 break;
         }
     }
@@ -195,4 +244,5 @@ public class TripSearchActivity extends ResourceGroupReadyActivity implements On
         Intent intent = new Intent(this, MessageActivity.class);
         startActivity(intent);
     }
+    
 }

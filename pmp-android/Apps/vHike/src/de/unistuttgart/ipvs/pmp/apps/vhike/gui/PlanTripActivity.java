@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@
  */
 package de.unistuttgart.ipvs.pmp.apps.vhike.gui;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,6 +27,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IInterface;
+import android.os.RemoteException;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +37,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import de.unistuttgart.ipvs.pmp.Log;
@@ -49,6 +50,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.IDialogFinishedCallBack;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.OnConfirmationDialogFinished;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.dialog.vhikeDialogs;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.maps.ViewModel;
+import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.FriendlyDateFormatter;
 import de.unistuttgart.ipvs.pmp.apps.vhike.gui.utils.ResourceGroupReadyActivity;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
 
@@ -61,7 +63,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Model;
  * 
  */
 public class PlanTripActivity extends ResourceGroupReadyActivity implements IDialogFinishedCallBack,
-        OnConfirmationDialogFinished {
+        OnConfirmationDialogFinished, OnClickListener {
     
     // Function call back ID(s)
     private static final byte CONFIRM_END_TRIP = 0;
@@ -73,10 +75,13 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     
     private RadioButton pickDate;
     private RadioButton now;
-    private Spinner spinner;
+    private Spinner spinnerDestionation;
+    private Spinner spinnerDeparture;
     private Spinner spinnerSeats;
     private Button addButton;
     private Button btnDrive;
+    private Button btnCurrentPos;
+    private String departure = "";
     
     private Calendar plannedDate;
     
@@ -114,8 +119,9 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             this.ctrl.disableAnonymity(Model.getInstance().getSid());
         }
         
-        // TODO Check date!
-        Log.i(this, "OnResume Plantrip");
+        // check planned date
+        if (plannedDate == null || plannedDate.before(Calendar.getInstance()))
+            now.setChecked(true);
     }
     
     
@@ -123,7 +129,6 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     public void onResourceGroupReady(IInterface resourceGroup, int resourceGroupId) throws SecurityException {
         super.onResourceGroupReady(resourceGroup, resourceGroupId);
         
-        Log.i(this, "RG ready: " + resourceGroup);
         if (rgvHike != null) {
             this.handler.post(new Runnable() {
                 
@@ -133,8 +138,14 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                     Log.i(this, "OnRGReady: Controller");
                 }
             });
-        } else {
-            Log.i(this, "OnRGReady: NULL");
+        } else if (rgLocation != null) {
+            handler.post(new Runnable() {
+                
+                @Override
+                public void run() {
+                    setDepature();
+                }
+            });
         }
         
     }
@@ -143,6 +154,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     private void registerListener() {
         
         this.btnDrive = (Button) findViewById(R.id.Button_Drive);
+        btnCurrentPos = (Button) findViewById(R.id.btnGetCurrentPos);
+        btnCurrentPos.setOnClickListener(this);
         
         // Pick a date
         this.pickDate = (RadioButton) findViewById(R.id.radio_later);
@@ -156,13 +169,13 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         });
         
         // Destination Spinner
-        this.spinner = (Spinner) findViewById(R.id.spinner);
+        this.spinnerDestionation = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.array_cities,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.spinner.setAdapter(adapter);
+        this.spinnerDestionation.setAdapter(adapter);
         
-        this.spinner.setOnLongClickListener(new OnLongClickListener() {
+        this.spinnerDestionation.setOnLongClickListener(new OnLongClickListener() {
             
             @Override
             public boolean onLongClick(View v) {
@@ -176,8 +189,9 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             }
             
         });
+        
         ViewModel.getInstance().getDestinationSpinners().clear();
-        ViewModel.getInstance().getDestinationSpinners().add(this.spinner);
+        ViewModel.getInstance().getDestinationSpinners().add(this.spinnerDestionation);
         Log.i(this, "Added spinner, Size" + ViewModel.getInstance().getDestinationSpinners().size()
                 + ", Clicked ");
         
@@ -195,13 +209,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         if (this.now.isChecked()) {
             this.btnDrive.setText("Drive");
         }
-        this.now.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View arg0) {
-                PlanTripActivity.this.btnDrive.setText("Drive");
-            }
-        });
+        this.now.setOnClickListener(this);
         
         this.btnDrive.setOnClickListener(new OnClickListener() {
             
@@ -260,7 +268,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         Toast.makeText(PlanTripActivity.this, "Only one destination allowed for passenger",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        ViewModel.getInstance().setDestination4Passenger(PlanTripActivity.this.spinner);
+                        ViewModel.getInstance().setDestination4Passenger(
+                                PlanTripActivity.this.spinnerDestionation);
                         ViewModel.getInstance().setNumSeats(PlanTripActivity.this.spinnerSeats);
                         
                         //                        vhikeDialogs.getInstance().getSearchPD(PlanTripActivity.this).show();
@@ -314,11 +323,35 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                         r.toggle();
                         r = (RadioButton) findViewById(R.id.radio_later);
                         r.setText(R.string.dialog_choose_date);
+                        PlanTripActivity.this.btnDrive.setText(R.string.start_trip);
+                        findViewById(R.id.rowDepartureText).setVisibility(View.GONE);
+                        findViewById(R.id.rowDepartureSpinner).setVisibility(View.GONE);
                         Toast.makeText(this, R.string.date_in_past, Toast.LENGTH_LONG).show();
                     } else {
                         RadioButton r = (RadioButton) findViewById(R.id.radio_later);
-                        r.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(
-                                this.plannedDate.getTime()));
+                        r.setText((new FriendlyDateFormatter(this)).format(plannedDate));
+                        
+                        // Set up spinner departure
+                        if (departure.equals("")) {
+                            if (spinnerDeparture == null) {
+                                spinnerDeparture = (Spinner) findViewById(R.id.spinner1);
+                                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                                        R.array.array_cities,
+                                        android.R.layout.simple_spinner_item);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                this.spinnerDeparture.setAdapter(adapter);
+                            }
+                        } else {
+                            (spinnerDeparture == null ? findViewById(R.id.spinner1) : spinnerDeparture)
+                                    .setVisibility(View.GONE);
+                            if (txtDeparture == null)
+                                txtDeparture = (TextView) findViewById(R.id.txtDeparture);
+                            txtDeparture.setVisibility(View.VISIBLE);
+                            txtDeparture.setText(departure);
+                            
+                        }
+                        findViewById(R.id.rowDepartureText).setVisibility(View.VISIBLE);
+                        findViewById(R.id.rowDepartureSpinner).setVisibility(View.VISIBLE);
                     }
                 } catch (Exception e) {
                     RadioButton r = (RadioButton) findViewById(R.id.radio_now);
@@ -350,10 +383,8 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     
     
     private void announceTrip() {
-        ViewModel.getInstance().setDestination(this.spinner);
+        ViewModel.getInstance().setDestination(this.spinnerDestionation);
         ViewModel.getInstance().setNumSeats(this.spinnerSeats);
-        
-        Log.d(this, "Destination and StopOvers: " + ViewModel.getInstance().getDestination());
         
         Date date = null;
         if (!this.now.isChecked()) {
@@ -362,6 +393,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
         
         switch (this.ctrl.announceTrip(
                 this.sid,
+                spinnerDeparture == null ? null : spinnerDeparture.getSelectedItem().toString(),
                 ViewModel.getInstance().getDestination(),
                 Constants.COORDINATE_INVALID,
                 Constants.COORDINATE_INVALID,
@@ -369,7 +401,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                 date)) {
         
             case Constants.STATUS_SUCCESS:
-                // TODO inform
+                // TODO inform and ask if user want to open map
                 Log.d(this, "Trip announced succesfully");
                 
                 if (this.now.isChecked()) {
@@ -379,7 +411,9 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
                     final Intent intent = new Intent(PlanTripActivity.this, DriverViewActivity.class);
                     PlanTripActivity.this.startActivity(intent);
                 } else {
-                    
+                    Toast.makeText(this, "Trip created", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(PlanTripActivity.this, MyTripsActivity.class);
+                    PlanTripActivity.this.startActivity(intent);
                 }
                 break;
             
@@ -391,7 +425,7 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
             
             case Constants.STATUS_ERROR:
                 // TODO get error message
-                Toast.makeText(PlanTripActivity.this, R.string.error_announcing_trip, Toast.LENGTH_SHORT)
+                Toast.makeText(PlanTripActivity.this, R.string.error_announcing_trip, Toast.LENGTH_LONG)
                         .show();
                 break;
         } // end switch
@@ -419,5 +453,63 @@ public class PlanTripActivity extends ResourceGroupReadyActivity implements IDia
     @Override
     public void confirmDialogNegative(int callbackFunctionID) {
         // Do nothing for now
+    }
+    
+    
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnGetCurrentPos:
+                if (departure.equals("")) {
+                    if (!vHikeService.isServiceFeatureEnabled(Constants.SF_USE_ABSOLUTE_LOCATION)) {
+                        vHikeService.requestServiceFeature(this, Constants.SF_USE_ABSOLUTE_LOCATION);
+                    } else {
+                        if (getLocationRG(this) != null) {
+                            setDepature();
+                        }
+                    }
+                } else {
+                    spinnerDeparture.setVisibility(View.VISIBLE);
+                    departure = "";
+                    txtDeparture.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.radio_now:
+                PlanTripActivity.this.btnDrive.setText(R.string.start_trip);
+                findViewById(R.id.rowDepartureText).setVisibility(View.GONE);
+                findViewById(R.id.rowDepartureSpinner).setVisibility(View.GONE);
+                break;
+        }
+        
+    }
+    
+    private TextView txtDeparture;
+    
+    
+    private void setDepature() {
+        if (rgLocation == null)
+            getLocationRG(this);
+        else {
+            if (txtDeparture == null)
+                txtDeparture = (TextView) findViewById(R.id.txtDeparture);
+            if (spinnerDeparture == null)
+                spinnerDeparture = (Spinner) findViewById(R.id.spinner1);
+            try {
+                departure = rgLocation.getLocality();
+                if (departure == null)
+                    departure = "";
+                if (!departure.equals("")) {
+                    txtDeparture.setText(departure);
+                    btnCurrentPos.setText("Choose from list");
+                    spinnerDeparture.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(this, "Location resource returned an invalid locality", Toast.LENGTH_LONG)
+                            .show();
+                }
+            } catch (RemoteException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 }

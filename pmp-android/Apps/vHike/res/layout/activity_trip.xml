@@ -58,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_choose_date"
                     android:textColor="@color/black" />
+
             </RadioGroup>
 
             <TableLayout
@@ -66,11 +67,12 @@
                 android:layout_height="wrap_content"
                 android:shrinkColumns="2"
                 android:stretchColumns="0" >
-
+
                 <TableRow
-                    android:id="@+id/tableRow3"
+                    android:id="@+id/rowDepartureText"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -82,16 +84,40 @@
                         android:textStyle="bold" />
 
                 </TableRow>
-
+
                 <TableRow
-                    android:id="@+id/tableRow4"
+                    android:id="@+id/rowDepartureSpinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" >
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <Spinner
+                            android:id="@+id/spinner1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/txtDeparture"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="3dip"
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                    <Spinner
-                        android:id="@+id/spinner1"
+                    </FrameLayout>
+
+                    <Button
+                        android:id="@+id/btnGetCurrentPos"
+                        style="?android:attr/buttonStyleSmall"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_span="2"
+                        android:text="@string/Current_position" />
 
                 </TableRow>
 
@@ -181,7 +207,7 @@
                     android:drawablePadding="10dp"
                     android:drawableTop="@drawable/map_driver"
                     android:paddingTop="25sp"
-                    android:text="@string/main_drive" />
+                    android:text="@string/start_trip" />
 
                 <Button
                     android:id="@+id/Button_Search"

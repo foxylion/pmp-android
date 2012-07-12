@@ -196,8 +196,8 @@ public class vHikeWebserviceCloakImpl extends IvHikeWebservice.Stub {
     
     
     @Override
-    public String announceTrip(String session_id, String destination, float current_lat, float current_lon,
-            int avail_seats, long date) throws RemoteException {
+    public String announceTrip(String session_id, String departure, String destination, float current_lat,
+            float current_lon, int avail_seats, long date) throws RemoteException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -284,6 +284,14 @@ public class vHikeWebserviceCloakImpl extends IvHikeWebservice.Stub {
     
     @Override
     public String getTripOverview(String sid, int tripId) throws RemoteException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    
+    @Override
+    public String searchTrip(String sid, String departure, String destination, int seat, long unix_timestamp1,
+            long unix_timestamp2, float minRating, String username, boolean searchForTrips) throws RemoteException {
         // TODO Auto-generated method stub
         return null;
     }

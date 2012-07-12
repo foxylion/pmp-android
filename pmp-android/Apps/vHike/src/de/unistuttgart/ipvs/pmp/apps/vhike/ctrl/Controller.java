@@ -21,6 +21,7 @@ package de.unistuttgart.ipvs.pmp.apps.vhike.ctrl;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,7 @@ import de.unistuttgart.ipvs.pmp.apps.vhike.model.Profile;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.SliderObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.Trip;
 import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripOverview;
+import de.unistuttgart.ipvs.pmp.apps.vhike.model.TripSearchResult;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryPersonObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.HistoryRideObject;
 import de.unistuttgart.ipvs.pmp.apps.vhike.tools.OfferObject;
@@ -89,17 +91,19 @@ public class Controller {
      * @param destination
      * @return TRIP_STATUS_ANNOUNCED, TRIP_STATUS_OPEN_TRIP,STATUS_ERROR
      */
-    public int announceTrip(final String session_id, final String destination, final float current_lat,
-            final float current_lon, final int avail_seats, Date date) {
+    public int announceTrip(final String session_id, final String departure, final String destination,
+            final float current_lat, final float current_lon, final int avail_seats, Date date) {
         Log.i(this, session_id + ", " + destination + ", " + current_lat + ", " + current_lat + ", "
                 + avail_seats);
         String ret = "";
         try {
             if (date == null) {
-                ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, 0);
+                ret = this.ws.announceTrip(session_id, departure, destination, current_lat, current_lon,
+                        avail_seats, 0);
             } else {
-                System.out.println("DATE: " + DateFormat.getDateTimeInstance().format(date.getTime()));
-                ret = this.ws.announceTrip(session_id, destination, current_lat, current_lon, avail_seats,
+                Log.d(this, "DATE: " + DateFormat.getDateTimeInstance().format(date.getTime()));
+                ret = this.ws.announceTrip(session_id, departure, destination, current_lat, current_lon,
+                        avail_seats,
                         date.getTime());
             }
         } catch (RemoteException e) {
@@ -1491,6 +1495,46 @@ public class Controller {
             Log.v(this, String.valueOf(root.getLong("creation")));
             return trip;
         }
+    }
+    
+    
+    public ArrayList<TripSearchResult> searchTrip(final String sid, final String departure,
+            final String destination, final int seat, final Calendar date1, final Calendar date2,
+            final float minRating, final String username, final boolean searchForTrips)
+            throws QueryException, JSONException, RemoteException {
+        
+        // Get data from server
+        JSONObject root = new JSONObject(ws.searchTrip(sid, departure, destination, seat,
+                date1.getTimeInMillis() / 1000L, date2.getTimeInMillis() / 1000L, minRating, username,
+                searchForTrips));
+        
+        if (root.has("error")) {
+            throw new QueryException(root.getString("error") + (
+                    root.has("message") ? ": " + root.getString("message") : ""));
+        }
+        
+        // Parse trips
+        ArrayList<TripSearchResult> trips = null;
+        if (root.has("trips")) {
+            JSONArray jTrips = root.getJSONArray("trips");
+            trips = new ArrayList<TripSearchResult>(jTrips.length());
+            for (int i = 0; i < jTrips.length(); i++) {
+                try {
+                    JSONObject o = jTrips.getJSONObject(i);
+                    Calendar date = Calendar.getInstance();
+                    date.setTimeInMillis(o.getLong("date"));
+                    String destinationAndStops = o.getString("destination");
+                    trips.add(new TripSearchResult(o.getInt("id"), o.getString("departure"),
+                            StringUtils.getDestination(destinationAndStops), date,
+                            StringUtils.getStopovers(destinationAndStops),
+                            o.getString("username"), o.getInt("userid"), (float) o.getDouble("rating"),
+                            o.getInt("seat")));
+                } catch (JSONException e) {
+                    // Skip object in case of exception
+                }
+            }
+        }
+        return trips;
     }
     //    public ArrayList<CompactTrip> getMyTrips(int uid) {
     //        String ret = "";

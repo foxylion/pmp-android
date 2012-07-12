@@ -102,7 +102,7 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
         try {
             this.trips = this.ctrl.getTrips(Model.getInstance().getSid());
         } catch (QueryException e) {
-            Toast.makeText(this, e.getMessage(), 2000);
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         
@@ -112,14 +112,19 @@ public class MyTripsActivity extends ResourceGroupReadyActivity implements OnIte
             @Override
             public void run() {
                 MyTripsActivity activity = MyTripsActivity.this;
+                if (activity.trips == null)
+                    activity.trips = new ArrayList<CompactTrip>(0);
                 if (activity.adaper == null) {
                     activity.adaper = new MyTripAdapter(
                             activity, // context
-                            activity.trips == null ? activity.trips = new ArrayList<CompactTrip>(0)
-                                    : activity.trips);
+                            activity.trips);
                     activity.listView.setAdapter(activity.adaper);
                 } else {
+                    activity.adaper.clear();
+                    for (CompactTrip t : activity.trips)
+                        activity.adaper.add(t);
                     activity.adaper.notifyDataSetChanged();
+                    activity.listView.refreshDrawableState();
                 }
             }
         });

@@ -120,8 +120,8 @@ interface IvHikeWebservice{
      * Returns:
      * true if succeeded
      **/
-	String announceTrip(String session_id, String destination, float current_lat,
-	float current_lon, int avail_seats, long date);
+	String announceTrip(String session_id, String departure, String destination, float current_lat,
+            float current_lon, int avail_seats, long date);
 	
 	String getOpenTrip(String sessionID);
 	String enableObservation(String sessionID, String user_id);
@@ -149,4 +149,23 @@ interface IvHikeWebservice{
      * @return  JSON result string
      */
     String getTripOverview(String sid, int tripId);
+    
+    /**
+     * Search for trips or queries with specific criteria. Except for Destination, unix_timestamp1 and 2 are required,
+     * other parameters might be set to null.
+     * 
+     * @param sid
+     * @param departure
+     * @param destination
+     * @param seat
+     * @param unix_timestamp1
+     * @param unix_timestamp2
+     * @param minRating
+     * @param username
+     *            can use max 3 * wildcard characters
+     * @param searchForTrips
+     * @return JSON response from server
+     */
+    String searchTrip(String sid, String departure, String destination, int seat, long unix_timestamp1,
+            long unix_timestamp2, float minRating, String username, boolean searchForTrips);
 }

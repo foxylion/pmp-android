@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,8 +48,7 @@ public class TripSearchResult {
      * @param availableSeat
      */
     public TripSearchResult(long tripId, String departure, String destination, Calendar date,
-            String stopovers,
-            String username, long userId, float rating, int availableSeat) {
+            String stopovers, String username, long userId, float rating, int availableSeat) {
         this.tripId = tripId;
         this.departure = departure;
         this.destination = destination;

@@ -27,11 +27,15 @@ public class StringUtils {
     
     
     public static String getDestination(String destinationAndStopovers) {
-        return destinationAndStopovers.split(";")[0];
+        return cleanUpDestionationAndStopoversString(destinationAndStopovers).split(";")[0];
     }
     
     
     public static String getStopovers(String destinationAndStopovers) {
-        return destinationAndStopovers.substring(destinationAndStopovers.indexOf(";"));
+        String s = cleanUpDestionationAndStopoversString(destinationAndStopovers);
+        if (s.indexOf(";") <= 0)
+            return "";
+        else
+            return s.substring(s.indexOf(";"));
     }
 }

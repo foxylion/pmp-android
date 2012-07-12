@@ -218,8 +218,8 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
     
     
     @Override
-    public String announceTrip(String session_id, String destination, float current_lat, float current_lon,
-            int avail_seats, long date) throws RemoteException {
+    public String announceTrip(String session_id, String departure, String destination, float current_lat,
+            float current_lon, int avail_seats, long date) throws RemoteException {
         this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
         return this.vHikeRes.announceTrip(session_id, destination, current_lat, current_lon, avail_seats, date);
     }
@@ -309,6 +309,15 @@ public class vHikeWebserviceImpl extends IvHikeWebservice.Stub {
     public String getTripOverview(String sid, int tripId) throws RemoteException {
         this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
         return this.vHikeRes.getTripOverview(sid, tripId);
+    }
+    
+    
+    @Override
+    public String searchTrip(String sid, String departure, String destination, int seat, long unix_timestamp1,
+            long unix_timestamp2, float minRating, String username, boolean searchForTrips) {
+        this.psv.validate(vHikeWSResourceGroup.PS_USE_vHIKE_WEBSERVICE, "true");
+        return this.vHikeRes.searchTrip(sid, departure, destination, seat, unix_timestamp1, unix_timestamp2, minRating,
+                username, searchForTrips);
     }
     
 }

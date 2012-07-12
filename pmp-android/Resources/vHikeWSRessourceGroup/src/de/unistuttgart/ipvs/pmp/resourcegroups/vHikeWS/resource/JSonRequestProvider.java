@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeWSRessourceGroup
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -125,9 +125,9 @@ public class JSonRequestProvider {
         if (response != null) {
             InputStream is = response.getEntity().getContent();
             BufferedReader r = new BufferedReader(new InputStreamReader(is));
+            StringBuffer sb = new StringBuffer();
+            String s = null;
             try {
-                StringBuffer sb = new StringBuffer();
-                String s = null;
                 while ((s = r.readLine()) != null) {
                     sb.append(s).append(System.getProperty("line.separator"));
                 }
@@ -139,6 +139,7 @@ public class JSonRequestProvider {
                 Log.d(TAG, "======DEBUG=====");
             } catch (Exception e) {
                 Log.d(TAG, e.getMessage());
+                Log.d(TAG, s);
             }
         } else {
             Log.d(TAG, "No Response");

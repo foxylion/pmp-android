@@ -2,7 +2,7 @@
  * Copyright 2012 pmp-android development team
  * Project: vHikeApp
  * Project-Site: http://code.google.com/p/pmp-android/
- *
+ * 
  * ---------------------------------------------------------------------
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,12 +38,16 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
     private Context context;
     private ArrayList<TripSearchResult> list;
     
+    private boolean isTrip = true; // determine whether the item is a trip or a query 
+    
     
     public TripSearchResultAdapter(Context context, int layoutResourceId, ArrayList<TripSearchResult> itemlist) {
         super(context, layoutResourceId, itemlist);
         this.context = context;
         this.layoutResourceId = layoutResourceId;
         this.list = itemlist;
+        if (layoutResourceId == R.layout.list_item_search_result_hiker)
+            isTrip = false;
     }
     
     
@@ -57,10 +61,14 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
             itemView = inflater.inflate(this.layoutResourceId, parent, false);
             ViewHolder v = new ViewHolder();
             
+            v.rowDeparture = itemView.findViewById(R.id.rowDeparture);
             v.departure = (TextView) itemView.findViewById(R.id.departure);
             v.destination = (TextView) itemView.findViewById(R.id.destination);
             v.date = (TextView) itemView.findViewById(R.id.datetime);
-            v.stopovers = (TextView) itemView.findViewById(R.id.stopovers);
+            if (isTrip) {
+                v.stopovers = (TextView) itemView.findViewById(R.id.stopovers);
+                v.rowStopovers = itemView.findViewById(R.id.rowStops);
+            }
             v.user = (TextView) itemView.findViewById(R.id.username);
             v.seat = (TextView) itemView.findViewById(R.id.noOfSeats);
             v.rating = (RatingBar) itemView.findViewById(R.id.rating);
@@ -71,11 +79,18 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
         ViewHolder v = (ViewHolder) itemView.getTag();
         TripSearchResult o = this.list.get(position);
         
-        v.departure.setText(o.departure);
+        if (o.departure != null && !o.departure.equals(""))
+            v.departure.setText(o.departure);
+        else
+            v.rowDeparture.setVisibility(View.GONE);
+        
         v.destination.setText(o.destination);
         v.date.setText((new FriendlyDateFormatter(this.context)).format(o.date));
+        
         if (v.stopovers != null) {
             v.stopovers.setText(o.stopovers);
+        } else {
+            v.rowDeparture.setVisibility(View.GONE);
         }
         v.user.setText(o.username);
         v.seat.setText(String.valueOf(o.seat));
@@ -86,6 +101,8 @@ public class TripSearchResultAdapter extends ArrayAdapter<TripSearchResult> {
     
     private static class ViewHolder {
         
+        public View rowDeparture;
+        public View rowStopovers;
         public TextView departure;
         public TextView destination;
         public TextView date;

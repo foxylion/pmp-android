@@ -8,3 +8,6 @@ gen/
 /pmp-android/Webservices/vHike/nbproject/
 /pmp-android/Webservices/InfoApp/nbproject/private/
 .DS_Store
+.idea/
+pmp-android/Webservices/vHike/src/stats/src
+*.php~

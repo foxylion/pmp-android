@@ -166,10 +166,14 @@ public class TripDetailActivity extends ResourceGroupReadyActivity implements On
                     this.bottomMenu.setVisibility(View.GONE);
                 }
                 break;
+            
             case R.id.btnSearch:
                 Intent intent = new Intent(this, TripSearchActivity.class);
                 intent.putExtra("tripId", tripId);
-                this.startActivity(intent);
+                intent.putExtra("destination", tripInfo.destination);
+                intent.putExtra("seat", tripInfo.numberOfAvailableSeat);
+                intent.putExtra("dateInMilli", tripInfo.startTime.getTimeInMillis());
+                startActivity(intent);
                 break;
         }
     }
@@ -180,12 +184,14 @@ public class TripDetailActivity extends ResourceGroupReadyActivity implements On
             this.listAllMessages = (ListView) findViewById(R.id.trip_detail_all_messages);
         }
         
-        this.listAllMessages.setAdapter(new MessageAdapter(this, this.tripInfo.messages));
-        
-        AutoCompleteTextView a = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-        a.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_dropdown_item_1line,
-                this.tripInfo.messages) {
-        });
+        if (tripInfo.messages != null) {
+            this.listAllMessages.setAdapter(new MessageAdapter(this, this.tripInfo.messages));
+            
+            AutoCompleteTextView a = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+            a.setAdapter(new ArrayAdapter<CompactMessage>(this, android.R.layout.simple_dropdown_item_1line,
+                    this.tripInfo.messages) {
+            });
+        }
     }
     
     
@@ -210,21 +216,11 @@ public class TripDetailActivity extends ResourceGroupReadyActivity implements On
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
-            //            ArrayList<CompactUser> passengers = new ArrayList<CompactUser>(3);
-            //            passengers.add(new CompactUser(1, "Passenger1", 0));
-            //            passengers.add(new CompactUser(2, "Passenger2", 5));
-            //            passengers.add(new CompactUser(3, "Passenger3", 3));
-            //            ArrayList<CompactMessage> msg = new ArrayList<CompactMessage>(3);
-            //            msg.add(new CompactMessage(0, passengers.get(0), passengers.get(1), true, "Hello"));
-            //            msg.add(new CompactMessage(2, passengers.get(1), passengers.get(2), false, "Hello 2"));
-            //            msg.add(new CompactMessage(3, passengers.get(2), passengers.get(1), true, "Hello 32"));
-            //            this.tripInfo = new TripOverview(10, "Berlin", ";Stuttgart;Frankfurt;Leipzig;Dortmund;Bremen;",
-            //                    passengers,
-            //                    Calendar.getInstance(), 3, msg);
         }
         
         // TODO Still null?
+        if (this.tripInfo == null)
+            return;
         
         // Set destination
         TextView txt = (TextView) findViewById(R.id.trip_detail_destination);
@@ -235,15 +231,20 @@ public class TripDetailActivity extends ResourceGroupReadyActivity implements On
         txt.setText((new FriendlyDateFormatter(this)).format(this.tripInfo.startTime));
         
         // Set stop-overs
+        SpannableStringBuilder builder;
         TextAppearanceSpan captionSpan = new TextAppearanceSpan(this, R.style.CaptionSpan);
-        
-        String stopoverLabel = (String) getText(R.string.tripDetails_stopovers);
-        SpannableStringBuilder builder = new SpannableStringBuilder(stopoverLabel);
-        builder.append(this.tripInfo.stopovers);
-        builder.setSpan(captionSpan, 0, stopoverLabel.length(), 0);
-        
-        txt = (TextView) findViewById(R.id.trip_detail_stop_over);
-        txt.setText(builder, BufferType.SPANNABLE);
+        if (tripInfo.stopovers.length() == 0) {
+            findViewById(R.id.trip_detail_stop_over).setVisibility(View.GONE);
+        } else {
+            
+            String stopoverLabel = (String) getText(R.string.tripDetails_stopovers);
+            builder = new SpannableStringBuilder(stopoverLabel);
+            builder.append(this.tripInfo.stopovers);
+            builder.setSpan(captionSpan, 0, stopoverLabel.length(), 0);
+            
+            txt = (TextView) findViewById(R.id.trip_detail_stop_over);
+            txt.setText(builder, BufferType.SPANNABLE);
+        }
         
         // Set free seats
         txt = (TextView) findViewById(R.id.trip_detail_free_seats);
@@ -257,51 +258,63 @@ public class TripDetailActivity extends ResourceGroupReadyActivity implements On
         this.btnSearch.setEnabled(this.tripInfo.numberOfAvailableSeat > 0 ? true : false);
         
         // Set passenger list
-        String passengerLabel = (String) getText(R.string.tripDetails_passengers);
-        builder = new SpannableStringBuilder(passengerLabel);
-        
-        int start;
-        int end = builder.length();
-        builder.setSpan(captionSpan, 0, end, 0);
-        
-        for (CompactUser p : this.tripInfo.passengers) {
-            start = builder.length();
-            builder.append(p.name);
-            end = builder.length();
-            builder.setSpan(new PassengerSpan(p.id, p.name), start, end, 0);
-            builder.append(", ");
+        if (this.tripInfo.passengers == null) {
+            findViewById(R.id.trip_detail_passengers).setVisibility(View.GONE);
+        } else {
+            String passengerLabel = (String) getText(R.string.tripDetails_passengers);
+            builder = new SpannableStringBuilder(passengerLabel);
+            
+            int start;
+            int end = builder.length();
+            builder.setSpan(captionSpan, 0, end, 0);
+            
+            for (CompactUser p : this.tripInfo.passengers) {
+                start = builder.length();
+                builder.append(p.name);
+                end = builder.length();
+                builder.setSpan(new PassengerSpan(p.id, p.name), start, end, 0);
+                builder.append(", ");
+            }
+            if (this.tripInfo.passengers.size() > 0) {
+                builder.delete(end, end + 1);
+            }
+            
+            txt = (TextView) findViewById(R.id.trip_detail_passengers);
+            txt.setMovementMethod(LinkMovementMethod.getInstance());
+            txt.setText(builder, BufferType.SPANNABLE);
+            txt.setVisibility(View.VISIBLE);
         }
-        if (this.tripInfo.passengers.size() > 0) {
-            builder.delete(end, end + 1);
-        }
-        
-        txt = (TextView) findViewById(R.id.trip_detail_passengers);
-        txt.setMovementMethod(LinkMovementMethod.getInstance());
-        txt.setText(builder, BufferType.SPANNABLE);
         
         // Set requests and new messages
         this.listNewMessages = (ListView) findViewById(R.id.trip_detail_list_new_messages);
-        this.listNewMessages.setAdapter(new MessageAdapter(this, this.tripInfo.messages));
-        this.listNewMessages.setOnItemClickListener(new OnItemClickListener() {
-            
-            @Override
-            public void onItemClick(AdapterView<?> list, View view, int position, long id) {
-                try {
-                    Intent intent = new Intent(TripDetailActivity.this, MessageActivity.class);
-                    intent.putExtra("tripId", TripDetailActivity.this.tripId);
-                    intent.putExtra("userId", list.getAdapter().getItemId(position));
-                    intent.putExtra("userName", list.getAdapter().getItem(position).toString());
-                    if (((CompactMessage) list.getAdapter().getItem(position)).isOffer)
-                        intent.putExtra("isOffer", true);
-                    TripDetailActivity.this.startActivity(intent);
-                } catch (Exception e) {
-                    // do nothing
+        if (tripInfo.messages != null) {
+            this.listNewMessages.setAdapter(new MessageAdapter(this, this.tripInfo.messages));
+            this.listNewMessages.setOnItemClickListener(new OnItemClickListener() {
+                
+                @Override
+                public void onItemClick(AdapterView<?> list, View view, int position, long id) {
+                    try {
+                        Intent intent = new Intent(TripDetailActivity.this, MessageActivity.class);
+                        intent.putExtra("tripId", TripDetailActivity.this.tripId);
+                        intent.putExtra("userId", list.getAdapter().getItemId(position));
+                        intent.putExtra("userName", list.getAdapter().getItem(position).toString());
+                        if (((CompactMessage) list.getAdapter().getItem(position)).isOffer)
+                            intent.putExtra("isOffer", true);
+                        TripDetailActivity.this.startActivity(intent);
+                    } catch (Exception e) {
+                        // do nothing
+                    }
                 }
-            }
-        });
-        this.listNewMessages.setOnItemLongClickListener(null);
+            });
+            this.listNewMessages.setOnItemLongClickListener(null);
+        } else {
+            findViewById(R.id.trip_detail_no_new_messages).setVisibility(View.VISIBLE);
+        }
     }
     
+    /*
+     * Handle click event on passenger user names
+     */
     private class PassengerSpan extends ClickableSpan {
         
         private int id;

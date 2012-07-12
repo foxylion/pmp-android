@@ -634,6 +634,8 @@ public class vHikeWebserviceResource extends Resource {
         if (date != 0) {
             listToParse.add(new ParamObject("date", String.valueOf(date), true));
         }
+        if (destination.length() > 0)
+            listToParse.add(new ParamObject("departure", destination, true));
         listToParse.add(new ParamObject("destination", destination, true));
         listToParse.add(new ParamObject("avail_seats", String.valueOf(avail_seats), true));
         
@@ -780,6 +782,59 @@ public class vHikeWebserviceResource extends Resource {
             //        } catch {ClientProtocolException cpe) {
             //            
             //        } catch (IOException ioe) {
+        } catch (Exception e) {
+            JSONObject o = new JSONObject();
+            try {
+                o.put("successful", false);
+                o.put("error", "Exception");
+                o.put("message", e.getMessage());
+                e.printStackTrace();
+                return o.toString();
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Search for trips or queries with specific criteria. Except for Destination, unix_timestamp1 and 2 are required,
+     * other parameters might be set to null.
+     * 
+     * @param sid
+     * @param departure
+     * @param destination
+     * @param seat
+     * @param unix_timestamp1
+     * @param unix_timestamp2
+     * @param minRating
+     * @param username
+     *            can use max 3 * wildcard characters
+     * @param searchForTrips
+     * @return JSON response from server
+     */
+    public String searchTrip(String sid, String departure, String destination, int seat, long unix_timestamp1,
+            long unix_timestamp2, float minRating, String username, boolean searchForTrips) {
+        listToParse.clear();
+        listToParse.add(new ParamObject("sid", sid, true));
+        listToParse.add(new ParamObject("destination", destination, true));
+        if (!(departure == null || departure.trim().equals("")))
+            listToParse.add(new ParamObject("departure", departure, true));
+        if (seat > 0)
+            listToParse.add(new ParamObject("seat", String.valueOf(seat), true));
+        listToParse.add(new ParamObject("unix_date_1", String.valueOf(unix_timestamp1), true));
+        listToParse.add(new ParamObject("unix_date_2", String.valueOf(unix_timestamp2), true));
+        if (!(minRating < 0f) && !(minRating > 5f))
+            listToParse.add(new ParamObject("min_rating", String.valueOf(minRating), true));
+        if (!(username == null || username.trim().equals("")))
+            listToParse.add(new ParamObject("username", username, true));
+        if (!searchForTrips)
+            listToParse.add(new ParamObject("search_request", "TRUE", true));
+        
+        String result = "{}";
+        try {
+            result = JSonRequestProvider.doRequest(listToParse, "trip_search.php").toString();
         } catch (Exception e) {
             JSONObject o = new JSONObject();
             try {

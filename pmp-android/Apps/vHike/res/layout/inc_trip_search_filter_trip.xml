@@ -20,9 +20,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Departure" />
-
+
             <EditText
-                android:id="@+id/editText1"
+                android:id="@+id/editTextDeparture"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -43,13 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Destination" />
-
+
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/editTextDestination"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:inputType="textPostalAddress" />
+
         </TableRow>
 
         <TableRow
@@ -101,9 +102,9 @@
                     android:text="@string/day" />
             </LinearLayout>
         </TableRow>
-
+
         <DatePicker
-            android:id="@+id/datePicker1"
+            android:id="@+id/datePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dip"
@@ -119,14 +120,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Username" />
-
+
             <EditText
-                android:id="@+id/EditText01"
+                android:id="@+id/editTextUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPostalAddress" />
+
         </TableRow>
 
         <TableRow

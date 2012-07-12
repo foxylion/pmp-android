@@ -36,16 +36,12 @@ public class FriendlyDateFormatter {
     
     
     public String format(Calendar date) {
-        de.unistuttgart.ipvs.pmp.Log.d(this,
-                java.text.DateFormat.getDateTimeInstance(
-                        java.text.DateFormat.SHORT,
-                        java.text.DateFormat.SHORT).format(date.getTime()));
         
         Calendar d1 = Calendar.getInstance(); // Today at 0:0:00
-        d1.clear(Calendar.HOUR);
-        d1.clear(Calendar.MINUTE);
-        d1.clear(Calendar.SECOND);
-        d1.clear(Calendar.MILLISECOND);
+        d1.set(Calendar.HOUR, 0);
+        d1.set(Calendar.MINUTE, 0);
+        d1.set(Calendar.SECOND, 0);
+        d1.set(Calendar.MILLISECOND, 0);
         
         Calendar d2 = Calendar.getInstance(); // Tomorrow
         d2.setTimeInMillis(d1.getTimeInMillis() + 86400000);
@@ -58,9 +54,7 @@ public class FriendlyDateFormatter {
         if (date.compareTo(d3) > 0 || date.before(d1)) {
             result = DateFormat.format("E", date).toString() + " ";
             result += java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.SHORT,
-                    java.text.DateFormat.SHORT)
-                    .format(
-                            date.getTime());
+                    java.text.DateFormat.SHORT).format(date.getTime());
         } else if (date.after(d1) && date.before(Calendar.getInstance())) {
             result = this.context.getString(R.string.now);
         } else {
